@@ -1,0 +1,19 @@
+<changelist name="Uncommitted_changes_before_Checkout_at_11_25_2020_9_10_PM_[Default_Changelist]" date="1606309860619" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_25_2020_9_10_PM_[Default_Changelist]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 11/25/2020 9:10 PM [Default Changelist]" />
+  <binary>
+    <option name="BEFORE_PATH" />
+    <option name="AFTER_PATH" value="bin/Utils$Pair.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_25_2020_9_10_PM_[Default_Changelist]/Utils$Pair.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" />
+    <option name="AFTER_PATH" value="bin/mndoparam/mndo/MNDOSolution$TwoElectronIntegralMap.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_25_2020_9_10_PM_[Default_Changelist]/MNDOSolution$TwoElectronIntegralMap.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" />
+    <option name="AFTER_PATH" value="bin/Utils.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_25_2020_9_10_PM_[Default_Changelist]/Utils.class" />
+  </binary>
+</changelist>
