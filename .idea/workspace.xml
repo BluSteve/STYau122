@@ -5,11 +5,64 @@
       <artifact name="SMP2020:jar" />
     </artifacts-to-build>
   </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="BRANCH:master" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </select>
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="" />
-    <ignored path="$PROJECT_DIR$/out/" />
-    <ignored path="$PROJECT_DIR$/bin/" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/bin/ComputationRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/ComputationRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/datum/DipoleData.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/datum/DipoleData.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/datum/GeometricalData.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/datum/GeometricalData.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/datum/HeatData.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/datum/HeatData.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/datum/IonizationData.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/datum/IonizationData.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/datum/ReferenceData.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/datum/ReferenceData.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDO6G.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDO6G.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOAtom.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOAtom.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDODerivative.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDODerivative.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOGeometryOptimization.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOGeometryOptimization.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOGeometryOptimizationUnrestricted.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOGeometryOptimizationUnrestricted.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOSolution.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOSolution.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOSolutionUnrestricted.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOSolutionUnrestricted.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/mndoparam/param/MNDOParamErrorFunction.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mndoparam/param/MNDOParamErrorFunction.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/mndoparam/param/MNDOParamErrorFunctionUnrestricted.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mndoparam/param/MNDOParamErrorFunctionUnrestricted.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/mndoparam/param/MNDOParamGradient.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mndoparam/param/MNDOParamGradient.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/mndoparam/param/MNDOParamGradientUnrestricted.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mndoparam/param/MNDOParamGradientUnrestricted.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/mndoparam/param/MNDOParamHessian.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mndoparam/param/MNDOParamHessian.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/mndoparam/param/MNDOParamHessianUnrestricted.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mndoparam/param/MNDOParamHessianUnrestricted.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/optimize/ParamOptimizer.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/optimize/ParamOptimizer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/runcycle/AbstractMoleculeRun.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/runcycle/AbstractMoleculeRun.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/runcycle/MoleculeRun.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/runcycle/MoleculeRun.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/runcycle/MoleculeRunUnrestricted.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/runcycle/MoleculeRunUnrestricted.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/scf/Atom.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/scf/Atom.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/scf/GTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/scf/GTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/scf/LCGTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/scf/LCGTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/scf/STO6G.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/scf/STO6G.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/scf/SpecialFunctions.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/scf/SpecialFunctions.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mndooutput.txt" beforeDir="false" afterPath="$PROJECT_DIR$/mndooutput.txt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -19,147 +72,40 @@
     <option name="testRunner" value="GRADLE" />
     <option name="delegatedBuild" value="true" />
   </component>
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Main.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="338">
-              <caret line="29" column="32" selection-start-line="29" selection-start-column="32" selection-end-line="29" selection-end-column="32" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/mndoparam/mndo/MNDOGeometryOptimizationUnrestricted.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/mndoparam/mndo/MNDOSolutionUnrestricted.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6600">
-              <caret line="444" column="21" selection-start-line="444" selection-start-column="21" selection-end-line="444" selection-end-column="21" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/mndoparam/mndo/MNDOSolution.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4950">
-              <caret line="334" column="32" selection-start-line="334" selection-start-column="32" selection-end-line="334" selection-end-column="32" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="jar://$USER_HOME$/Downloads/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.base/java/util/function/Function.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="48" column="6" selection-start-line="48" selection-start-column="6" selection-end-line="48" selection-end-column="6" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="jar://$USER_HOME$/Downloads/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.base/java/util/concurrent/Callable.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="64" column="6" selection-start-line="64" selection-start-column="6" selection-end-line="64" selection-end-column="6" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/SMP2020.iml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="26" column="9" selection-start-line="26" selection-start-column="9" selection-end-line="26" selection-end-column="9" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
-  </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
       <list>
-        <option value="$PROJECT_DIR$/src/mndoparam/mndo/MNDOSolution.java" />
-        <option value="$PROJECT_DIR$/src/mndoparam/mndo/MNDOSolutionUnrestricted.java" />
-        <option value="$PROJECT_DIR$/src/Main.java" />
+        <option value="Class" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="670" />
-    <option name="y" value="478" />
-    <option name="width" value="1612" />
-    <option name="height" value="876" />
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectView">
-    <navigator proportions="" version="1">
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="PackagesPane" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="MNDOPARAM" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MNDOPARAM" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="MNDOPARAM" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MNDOPARAM" type="462c0819:PsiDirectoryNode" />
-              <item name="out" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="MNDOPARAM" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MNDOPARAM" type="462c0819:PsiDirectoryNode" />
-              <item name="out" type="462c0819:PsiDirectoryNode" />
-              <item name="artifacts" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="MNDOPARAM" type="b2602c69:ProjectViewProjectNode" />
-              <item name="MNDOPARAM" type="462c0819:PsiDirectoryNode" />
-              <item name="out" type="462c0819:PsiDirectoryNode" />
-              <item name="artifacts" type="462c0819:PsiDirectoryNode" />
-              <item name="SMP2020_jar" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scope" />
-    </panes>
+  <component name="ProjectId" id="1kgdG8KOTuIREMMRo1158GFxbQV" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -173,13 +119,21 @@
       <option name="JAR_PATH" value="$PROJECT_DIR$/out/artifacts/SMP2020_jar/SMP2020.jar" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Application.Main" />
+      <item itemvalue="JAR Application.SMP2020.jar" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
         <item itemvalue="JAR Application.SMP2020.jar" />
+        <item itemvalue="JAR Application.SMP2020.jar" />
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -190,170 +144,135 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1601105170170</updated>
+      <workItem from="1606126073550" duration="1349000" />
+      <workItem from="1606288097143" duration="15033000" />
     </task>
+    <task id="LOCAL-00001" summary="Convert integralarray to integralMap, implement getKey() in MNDOSolution.java">
+      <created>1606298586134</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1606298586134</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Create TwoElectronIntegralMap class">
+      <created>1606299621192</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1606299621192</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Implement in-place calculation (with memoization) of G matrix">
+      <created>1606301017865</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1606301017865</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Optimize .gitignore">
+      <created>1606301141810</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1606301141810</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Optimize .gitignore further">
+      <created>1606301422462</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1606301422462</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
-  <component name="ToolWindowManager">
-    <frame x="670" y="478" width="1612" height="876" extended-state="0" />
-    <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25923568" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Image Layers" order="2" />
-      <window_info id="Designer" order="3" />
-      <window_info id="UI Designer" order="4" />
-      <window_info id="Capture Tool" order="5" />
-      <window_info id="Favorites" order="6" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.1875" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info anchor="bottom" id="Messages" order="10" visible="true" weight="0.32908162" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Palette" order="3" />
-      <window_info anchor="right" id="Maven" order="4" />
-      <window_info anchor="right" id="Theme Preview" order="5" />
-      <window_info anchor="right" id="Capture Analysis" order="6" />
-      <window_info anchor="right" id="Palette&#9;" order="7" />
-    </layout>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/ParallelKt.kt" />
-    <entry file="file://$PROJECT_DIR$/src/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="338">
-          <caret line="29" column="32" selection-start-line="29" selection-start-column="32" selection-end-line="29" selection-end-column="32" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mndoparam/mndo/MNDOGeometryOptimizationUnrestricted.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mndoparam/mndo/MNDOSolutionUnrestricted.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6600">
-          <caret line="444" column="21" selection-start-line="444" selection-start-column="21" selection-end-line="444" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mndoparam/mndo/MNDOSolution.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4950">
-          <caret line="334" column="32" selection-start-line="334" selection-start-column="32" selection-end-line="334" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/Downloads/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.base/java/util/function/Function.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="48" column="6" selection-start-line="48" selection-start-column="6" selection-end-line="48" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/Downloads/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.base/java/util/concurrent/Callable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="64" column="6" selection-start-line="64" selection-start-column="6" selection-end-line="64" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SMP2020.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" column="9" selection-start-line="26" selection-start-column="9" selection-end-line="26" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
-  <component name="masterDetails">
-    <states>
-      <state key="ArtifactsStructureConfigurable.UI">
-        <settings>
-          <artifact-editor />
-          <last-edited>SMP2020:jar</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="FacetStructureConfigurable.UI">
-        <settings>
-          <last-edited>No facets are configured</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="GlobalLibrariesConfigurable.UI">
-        <settings>
-          <last-edited>javafx11</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="JdkListConfigurable.UI">
-        <settings>
-          <last-edited>11</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ModuleStructureConfigurable.UI">
-        <settings>
-          <last-edited>SMP2020</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ProjectLibrariesConfigurable.UI">
-        <settings>
-          <last-edited>javafx11</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-    </states>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
+    <MESSAGE value="Convert integralarray to integralMap, implement getKey() in MNDOSolution.java" />
+    <MESSAGE value="Create TwoElectronIntegralMap class" />
+    <MESSAGE value="Implement in-place calculation (with memoization) of G matrix" />
+    <MESSAGE value="Optimize .gitignore" />
+    <MESSAGE value="Optimize .gitignore further" />
+    <option name="LAST_COMMIT_MESSAGE" value="Optimize .gitignore further" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="726" y="345" width="1147" height="819" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1606308647663">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state x="726" y="345" width="1147" height="819" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606308647663" />
+    <state x="3551" y="295" key="#com.intellij.ide.util.MemberChooser" timestamp="1606298865090">
+      <screen x="2560" y="0" width="2560" height="1440" />
+    </state>
+    <state x="3551" y="295" key="#com.intellij.ide.util.MemberChooser/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606298865090" />
+    <state x="672" y="127" key="CommitChangelistDialog2" timestamp="1606301422155">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state x="672" y="127" key="CommitChangelistDialog2/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606301422155" />
+    <state width="2493" height="874" key="GridCell.Tab.0.bottom" timestamp="1606309144518">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state width="2493" height="874" key="GridCell.Tab.0.bottom/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606309144518" />
+    <state width="2493" height="874" key="GridCell.Tab.0.center" timestamp="1606309144518">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state width="2493" height="874" key="GridCell.Tab.0.center/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606309144518" />
+    <state width="2493" height="874" key="GridCell.Tab.0.left" timestamp="1606309144518">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state width="2493" height="874" key="GridCell.Tab.0.left/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606309144518" />
+    <state width="2493" height="874" key="GridCell.Tab.0.right" timestamp="1606309144518">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state width="2493" height="874" key="GridCell.Tab.0.right/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606309144518" />
+    <state x="538" y="167" key="SettingsEditor" timestamp="1606308833944">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state x="538" y="167" key="SettingsEditor/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606308833944" />
+    <state x="672" y="321" key="Vcs.Push.Dialog.v2" timestamp="1606301429529">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state x="672" y="321" key="Vcs.Push.Dialog.v2/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606301429529" />
+    <state x="1146" y="654" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1606126699132">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state x="1146" y="654" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606126699132" />
+    <state x="3568" y="594" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1606300955167">
+      <screen x="2560" y="0" width="2560" height="1440" />
+    </state>
+    <state x="3568" y="594" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606300955167" />
+    <state x="2573" y="0" width="1262" height="1402" maximized="true" key="dock-window-1" timestamp="1606298061080">
+      <screen x="2560" y="0" width="2560" height="1440" />
+    </state>
+    <state x="2573" y="0" width="1262" height="1402" maximized="true" key="dock-window-1/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606298061080" />
+    <state x="2779" y="0" width="1262" height="1260" maximized="true" key="dock-window-2" timestamp="1606299108260">
+      <screen x="2560" y="0" width="2560" height="1440" />
+    </state>
+    <state x="2779" y="0" width="1262" height="1260" maximized="true" key="dock-window-2/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606299108260" />
   </component>
 </project>
