@@ -209,7 +209,7 @@ public class MNDOSolution {
 					
 					for (int l: index[atomnumber[j]]) {
 						if (l > -1) {
-							integralArray[integralcount]=(MNDO6G.getG(orbitals[j], orbitals[j], orbitals[l], orbitals[l]) - 0.5 * MNDO6G.getG(orbitals[j], orbitals[l], orbitals[j], orbitals[l]));
+							integralArray[integralcount]=(MNDO6G.OneCenterERI(orbitals[j], orbitals[j], orbitals[l], orbitals[l]) - 0.5 * MNDO6G.OneCenterERI(orbitals[j], orbitals[l], orbitals[j], orbitals[l]));
 							integralcount++;
 						}
 					}
@@ -230,7 +230,7 @@ public class MNDOSolution {
 				}
 				
 				else if (atomnumber[j] == atomnumber[k]) {
-					integralArray[integralcount]=(1.5 * MNDO6G.getG(orbitals[j], orbitals[k], orbitals[j], orbitals[k]) - 0.5 * MNDO6G.getG(orbitals[j], orbitals[j], orbitals[k], orbitals[k]));
+					integralArray[integralcount]=(1.5 * MNDO6G.OneCenterERI(orbitals[j], orbitals[k], orbitals[j], orbitals[k]) - 0.5 * MNDO6G.OneCenterERI(orbitals[j], orbitals[j], orbitals[k], orbitals[k]));
 					integralcount++;
 					for (int l: missingindex[atomnumber[j]]) {
 						if (l > -1) {

@@ -31,14 +31,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_25_2020_9_05_PM__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_25_2020_9_05_PM__Default_Changelist_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_25_2020_9_10_PM__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_25_2020_9_10_PM__Default_Changelist_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_25_2020_9_12_PM__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_25_2020_9_12_PM__Default_Changelist_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SMP2020.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SMP2020.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDO6G.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDO6G.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOSolution.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOSolution.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOSolutionUnrestricted.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOSolutionUnrestricted.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mndooutput.txt" beforeDir="false" afterPath="$PROJECT_DIR$/mndooutput.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mndoparam/mndo/MNDO6G.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mndoparam/mndo/MNDO6G.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/mndoparam/mndo/MNDOSolution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mndoparam/mndo/MNDOSolution.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mndoparam/mndo/MNDOSolutionUnrestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mndoparam/mndo/MNDOSolutionUnrestricted.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testoutput.txt" beforeDir="false" afterPath="$PROJECT_DIR$/testoutput.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +62,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="testing" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -212,30 +215,30 @@
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state x="672" y="127" key="CommitChangelistDialog2/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606301422155" />
-    <state width="2493" height="874" key="GridCell.Tab.0.bottom" timestamp="1606309144518">
+    <state width="2493" height="382" key="GridCell.Tab.0.bottom" timestamp="1606466616548">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="2493" height="874" key="GridCell.Tab.0.bottom/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606309144518" />
-    <state width="2493" height="874" key="GridCell.Tab.0.center" timestamp="1606309144518">
+    <state width="2493" height="382" key="GridCell.Tab.0.bottom/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606466616548" />
+    <state width="2493" height="382" key="GridCell.Tab.0.center" timestamp="1606466616548">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="2493" height="874" key="GridCell.Tab.0.center/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606309144518" />
-    <state width="2493" height="874" key="GridCell.Tab.0.left" timestamp="1606309144518">
+    <state width="2493" height="382" key="GridCell.Tab.0.center/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606466616548" />
+    <state width="2493" height="382" key="GridCell.Tab.0.left" timestamp="1606466616547">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="2493" height="874" key="GridCell.Tab.0.left/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606309144518" />
-    <state width="2493" height="874" key="GridCell.Tab.0.right" timestamp="1606309144518">
+    <state width="2493" height="382" key="GridCell.Tab.0.left/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606466616547" />
+    <state width="2493" height="382" key="GridCell.Tab.0.right" timestamp="1606466616548">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="2493" height="874" key="GridCell.Tab.0.right/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606309144518" />
+    <state width="2493" height="382" key="GridCell.Tab.0.right/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606466616548" />
     <state x="538" y="167" key="SettingsEditor" timestamp="1606464385161">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state x="538" y="167" key="SettingsEditor/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606464385161" />
-    <state x="672" y="321" key="Vcs.Push.Dialog.v2" timestamp="1606301429529">
+    <state x="672" y="321" key="Vcs.Push.Dialog.v2" timestamp="1606466888062">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state x="672" y="321" key="Vcs.Push.Dialog.v2/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606301429529" />
+    <state x="672" y="321" key="Vcs.Push.Dialog.v2/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606466888062" />
     <state x="1146" y="654" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1606126699132">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>

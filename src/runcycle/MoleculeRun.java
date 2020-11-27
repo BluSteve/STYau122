@@ -25,7 +25,7 @@ public class MoleculeRun extends AbstractMoleculeRun {
 		
 		super.newgeomcoords = "RHF\n" + "CHARGE=" + charge + "\nMULT=1\n";
 		
-		for (int i = 0; i < atoms.length; i++) {
+		for (int i = 0; i < atoms.length; i++) { // TODO put this in MNDOAtom
 			String atmname = "";
 			switch (atoms[i].getZ()) {
 			case 1:

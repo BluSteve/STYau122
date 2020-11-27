@@ -175,7 +175,7 @@ public class MNDOSolutionUnrestricted {
 					
 					for (int l: index[atomnumber[j]]) {
 						if (l > -1) {
-							integralarraycoulomb.add(MNDO6G.getG(orbitals[j], orbitals[j], orbitals[l], orbitals[l]));
+							integralarraycoulomb.add(MNDO6G.OneCenterERI(orbitals[j], orbitals[j], orbitals[l], orbitals[l]));
 						}
 					}
 					
@@ -194,7 +194,7 @@ public class MNDOSolutionUnrestricted {
 				}
 				
 				else if (atomnumber[j] == atomnumber[k]) {
-					integralarraycoulomb.add(2 * MNDO6G.getG(orbitals[j], orbitals[k], orbitals[j], orbitals[k]));
+					integralarraycoulomb.add(2 * MNDO6G.OneCenterERI(orbitals[j], orbitals[k], orbitals[j], orbitals[k]));
 					
 					for (int l: missingindex[atomnumber[j]]) {
 						if (l > -1) {
@@ -223,14 +223,14 @@ public class MNDOSolutionUnrestricted {
 					
 					for (int l: index[atomnumber[j]]) {
 						if (l > -1) {
-							integralarrayexchange.add(- 1 * MNDO6G.getG(orbitals[j], orbitals[l], orbitals[j], orbitals[l]));
+							integralarrayexchange.add(- 1 * MNDO6G.OneCenterERI(orbitals[j], orbitals[l], orbitals[j], orbitals[l]));
 						}
 					}
 				}
 				
 				else if (atomnumber[j] == atomnumber[k]) {
 					//System.err.println ("1.5[" + j + k + "|" + j + k + "] - 0.5[" + j + j + "|" + k + k + "]");
-					integralarrayexchange.add(-1 * MNDO6G.getG(orbitals[j], orbitals[k], orbitals[j], orbitals[k]) - 1 * MNDO6G.getG(orbitals[j], orbitals[j], orbitals[k], orbitals[k]));
+					integralarrayexchange.add(-1 * MNDO6G.OneCenterERI(orbitals[j], orbitals[k], orbitals[j], orbitals[k]) - 1 * MNDO6G.OneCenterERI(orbitals[j], orbitals[j], orbitals[k], orbitals[k]));
 				}
 				
 				else {

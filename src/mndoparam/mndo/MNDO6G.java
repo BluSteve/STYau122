@@ -73,7 +73,7 @@ public class MNDO6G extends STO6G{
 		return this.a;
 	}
 	
-	private static double OneCenterERI (MNDO6G a, MNDO6G b, MNDO6G c, MNDO6G d) {
+	public static double OneCenterERI (MNDO6G a, MNDO6G b, MNDO6G c, MNDO6G d) {
 		if (a.getL() == b.getL() && a.getL() == 0) {//(ss|??)
 			if (c.getL() == d.getL() & c.getL() == 0) {//(gss
 				//System.err.println ("gss");
@@ -896,10 +896,7 @@ public class MNDO6G extends STO6G{
 	
 	public static double getG (MNDO6G a, MNDO6G b, MNDO6G c, MNDO6G d) {
 		
-		
-		if (Arrays.equals(a.getCoords(),  b.getCoords()) && Arrays.equals(a.getCoords(),  c.getCoords()) && Arrays.equals(a.getCoords(),  d.getCoords())) {
-			return OneCenterERI (a, b, c, d);
-		}
+
 		
 		double[] coeffA = a.decomposition(a.coordinates, c.coordinates);
 		double[] coeffB = b.decomposition(a.coordinates, c.coordinates);
