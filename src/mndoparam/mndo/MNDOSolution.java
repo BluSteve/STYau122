@@ -30,7 +30,7 @@ public class MNDOSolution {
 	
 	public int charge;
 	
-	private ArrayList<Double> integralarray;//my lazy implementation of integral storage
+	//private ArrayList<Double> integralarray;//my lazy implementation of integral storage
 	
 	public MNDOSolution (MNDOAtom[] atoms, int charge) {
 		
@@ -143,19 +143,74 @@ public class MNDOSolution {
 			//}
 			//System.out.println ("");
 		//}
-		
-		System.out.println ("1-electron matrix elements evaluated - moving on to two-electron matrix");
+		int size =0;
+		for (int j = 0; j < orbitals.length; j++) {
+			for (int k = j; k < orbitals.length; k++) {
+				if (j == k) {
 
+					for (int l: index[atomnumber[j]]) {
+						if (l > -1) {
+							size++;
+						}
+					}
+
+					for (int l: missingindex[atomnumber[j]]) {
+						if (l > -1) {
+							for (int m: missingindex[atomnumber[j]]) {
+								if (m > -1) {
+									if (atomnumber[l] == atomnumber[m]) {
+										size++;
+									}
+								}
+
+							}
+						}
+					}
+				}
+
+				else if (atomnumber[j] == atomnumber[k]) {
+					size++;
+
+					for (int l: missingindex[atomnumber[j]]) {
+						if (l > -1) {
+							for (int m: missingindex[atomnumber[j]]) {
+								if (m > -1) {
+									if (atomnumber[l] == atomnumber[m]) {
+										size++;
+									}
+								}
+
+							}
+						}
+					}
+				}
+
+				else {
+					for (int l: index[atomnumber[j]]) {
+						if (l > -1) {
+							for (int m: index[atomnumber[k]]) {
+								if (m > -1) {
+									size++;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		System.out.println ("1-electron matrix elements evaluated - moving on to two-electron matrix");
+		double[] integralArray = new double[size];
 		//The idea of the integralarray is to simply store all the integrals in order they are called. It's basically my way of avoiding having to perform a Yoshemine sort.
-		
+
+		int integralcount=0;
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
 				if (j == k) {
 					
 					for (int l: index[atomnumber[j]]) {
 						if (l > -1) {
-							MoleculeRun.
-							integralarray.add(MNDO6G.getG(orbitals[j], orbitals[j], orbitals[l], orbitals[l]) - 0.5 * MNDO6G.getG(orbitals[j], orbitals[l], orbitals[j], orbitals[l]));
+							integralArray[integralcount]=(MNDO6G.getG(orbitals[j], orbitals[j], orbitals[l], orbitals[l]) - 0.5 * MNDO6G.getG(orbitals[j], orbitals[l], orbitals[j], orbitals[l]));
+							integralcount++;
 						}
 					}
 					
@@ -164,7 +219,8 @@ public class MNDOSolution {
 							for (int m: missingindex[atomnumber[j]]) {
 								if (m > -1) {
 									if (atomnumber[l] == atomnumber[m]) {
-										integralarray.add(MNDO6G.getG(orbitals[j], orbitals[j], orbitals[l], orbitals[m]));
+										integralArray[integralcount]=(MNDO6G.getG(orbitals[j], orbitals[j], orbitals[l], orbitals[m]));
+										integralcount++;
 									}
 								}
 								
@@ -174,14 +230,15 @@ public class MNDOSolution {
 				}
 				
 				else if (atomnumber[j] == atomnumber[k]) {
-					integralarray.add(1.5 * MNDO6G.getG(orbitals[j], orbitals[k], orbitals[j], orbitals[k]) - 0.5 * MNDO6G.getG(orbitals[j], orbitals[j], orbitals[k], orbitals[k]));
-					
+					integralArray[integralcount]=(1.5 * MNDO6G.getG(orbitals[j], orbitals[k], orbitals[j], orbitals[k]) - 0.5 * MNDO6G.getG(orbitals[j], orbitals[j], orbitals[k], orbitals[k]));
+					integralcount++;
 					for (int l: missingindex[atomnumber[j]]) {
 						if (l > -1) {
 							for (int m: missingindex[atomnumber[j]]) {
 								if (m > -1) {
 									if (atomnumber[l] == atomnumber[m]) {
-										integralarray.add(MNDO6G.getG(orbitals[j], orbitals[k], orbitals[l], orbitals[m]));
+										integralArray[integralcount]=(MNDO6G.getG(orbitals[j], orbitals[k], orbitals[l], orbitals[m]));
+										integralcount++;
 									}
 								}
 								
@@ -195,7 +252,8 @@ public class MNDOSolution {
 						if (l > -1) {
 							for (int m: index[atomnumber[k]]) {
 								if (m > -1) {
-									integralarray.add(-0.5 * MNDO6G.getG(orbitals[j], orbitals[l], orbitals[k], orbitals[m]));
+									integralArray[integralcount]=(-0.5 * MNDO6G.getG(orbitals[j], orbitals[l], orbitals[k], orbitals[m]));
+									integralcount++;
 								}
 							}
 						}
@@ -220,8 +278,7 @@ public class MNDOSolution {
 		DoubleMatrix olddensity = DoubleMatrix.zeros (C.rows, C.columns);
 		
 		F = H.dup();
-		
-		int integralcount;
+
 		
 		int numIt = 0;
 		
@@ -241,7 +298,7 @@ public class MNDOSolution {
 						
 						for (int l: index[atomnumber[j]]) {
 							if (l > -1) {
-								val += densitymatrix.get(l,  l) * integralarray.get(integralcount);
+								val += densitymatrix.get(l,  l) * integralArray[integralcount];
 								integralcount++;
 							}
 						}
@@ -251,7 +308,7 @@ public class MNDOSolution {
 								for (int m: missingindex[atomnumber[j]]) {
 									if (m > -1) {
 										if (atomnumber[l] == atomnumber[m]) {
-											val += densitymatrix.get(l,  m) * integralarray.get(integralcount);
+											val += densitymatrix.get(l,  m) * integralArray[integralcount];
 											integralcount++;
 										}
 									}
@@ -262,7 +319,7 @@ public class MNDOSolution {
 					}
 					
 					else if (atomnumber[j] == atomnumber[k]) {
-						val += densitymatrix.get(j,  k) * integralarray.get(integralcount);
+						val += densitymatrix.get(j,  k) * integralArray[integralcount];
 						integralcount++;
 						
 						for (int l: missingindex[atomnumber[j]]) {
@@ -270,7 +327,7 @@ public class MNDOSolution {
 								for (int m: missingindex[atomnumber[j]]) {
 									if (m > -1) {
 										if (atomnumber[l] == atomnumber[m]) {
-											val += densitymatrix.get(l,  m) * integralarray.get(integralcount);
+											val += densitymatrix.get(l,  m) * integralArray[integralcount];
 											integralcount++;
 										}
 									}
@@ -285,7 +342,7 @@ public class MNDOSolution {
 							if (l > -1) {
 								for (int m: index[atomnumber[k]]) {
 									if (m > -1) {
-										val += densitymatrix.get(l,  m) * integralarray.get(integralcount);  
+										val += densitymatrix.get(l,  m) * integralArray[integralcount];
 										integralcount++;
 									}
 								}

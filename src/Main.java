@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 import org.jblas.DoubleMatrix;
 import org.jblas.Eigen;
+import org.apache.commons.lang.time.StopWatch;
 
 import datum.DipoleData;
 import datum.GeometricalData;
@@ -24,7 +25,8 @@ public class Main {
   static String trainingset = "CHN";
 
   public static void main(String[] args) {
-	  
+	  StopWatch sw = new StopWatch();
+	  sw.start();
 	  System.err.println ("MNDO Parameterization, updated 27 October. CHN training set (PM7)");
 	  
 	  boolean useHessian = false;
@@ -271,7 +273,7 @@ public class Main {
           }
           
           
-          List <ComputationRequest> ParallelComputationRequests = computationRequests.subList(0, computationRequests.size()-5);
+          List <ComputationRequest> ParallelComputationRequests = computationRequests.subList(0, 1);
          
           
           int cores = Runtime.getRuntime().availableProcessors();
@@ -323,7 +325,7 @@ public class Main {
           List<String> hessianValues = results.stream().map(result -> result.hessianstr).collect(Collectors.toList());
           List<String> optgeoms = results.stream().map(result -> result.newgeomcoords).collect(Collectors.toList());
           
-          for (ComputationRequest request : computationRequests.subList(computationRequests.size() - 5, computationRequests.size())) {
+          for (ComputationRequest request : computationRequests.subList(1, computationRequests.size())) {
               System.out.println("Computation started: " + request.index);
               AbstractMoleculeRun result = request.restricted ? new MoleculeRun(request.atoms, request.charge,
                       request.expgeom, request.datum, request.hasHessian) : new MoleculeRunUnrestricted(request.atoms,
@@ -655,7 +657,8 @@ public class Main {
     		
           
           
-          
+          sw.stop();
+          System.out.println("Time " + sw.getTime());
 
 
         } catch (Exception e) {
