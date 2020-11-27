@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import org.jblas.DoubleMatrix;
 import org.jblas.Eigen;
+import runcycle.MoleculeRun;
 
 
 public class MNDOSolution {
@@ -144,8 +145,7 @@ public class MNDOSolution {
 		//}
 		
 		System.out.println ("1-electron matrix elements evaluated - moving on to two-electron matrix");
-		
-		integralarray = new ArrayList<Double>();
+
 		//The idea of the integralarray is to simply store all the integrals in order they are called. It's basically my way of avoiding having to perform a Yoshemine sort.
 		
 		for (int j = 0; j < orbitals.length; j++) {
@@ -154,6 +154,7 @@ public class MNDOSolution {
 					
 					for (int l: index[atomnumber[j]]) {
 						if (l > -1) {
+							MoleculeRun.
 							integralarray.add(MNDO6G.getG(orbitals[j], orbitals[j], orbitals[l], orbitals[l]) - 0.5 * MNDO6G.getG(orbitals[j], orbitals[l], orbitals[j], orbitals[l]));
 						}
 					}

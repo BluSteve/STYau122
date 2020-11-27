@@ -7,6 +7,7 @@ import mndoparam.param.*;
 
 public class MoleculeRun extends AbstractMoleculeRun {
 
+	public Double[] integralArray = new Double[1000][1000][1000;
 	private MNDOAtom[] atoms;
 	private MNDOAtom[] expgeom;
 	private MNDOParamGradient g;
