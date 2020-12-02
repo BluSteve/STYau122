@@ -5,5 +5,5 @@ public abstract class AbstractMoleculeRun {
 
   public String hessianstr;
   
-  public String newgeomcoords;
+  public String newGeomCoords;
 }

@@ -1,8 +1,5 @@
 package mndoparam.mndo;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.jblas.DoubleMatrix;
 
 import scf.GTO;
@@ -881,7 +878,7 @@ public class MNDODerivative {
 
 	
 	public static double crfderivfinite (MNDOAtom a, MNDOAtom b, int tau) {
-		return MNDOAtom.crfderiv(a, b, tau);
+		return MNDOAtom.crfDeriv(a, b, tau);
 	}
 	
 	public static double gradient (MNDOAtom[] atoms, DoubleMatrix densitymatrix, int atomnum, int tau) {

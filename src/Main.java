@@ -1,3 +1,4 @@
+import mndoparam.mndo.AtomHandler;
 import mndoparam.mndo.MNDOAtom;
 import optimize.ParamOptimizer;
 import runcycle.AbstractMoleculeRun;
@@ -21,652 +22,467 @@ import datum.HeatData;
 import datum.IonizationData;
 
 public class Main {
-	
-  static String trainingset = "CHN";
 
-  public static void main(String[] args) {
-	  StopWatch sw = new StopWatch();
-	  sw.start();
-	  System.err.println ("MNDO Parameterization, updated 27 October. CHN training set (PM7)");
-	  
-	  boolean useHessian = false;
+    static String trainingSet = "CHN";
 
-    for (int numRuns = 0; numRuns < 1; numRuns++) {
-    	
-    	if (numRuns % 2 == 0) {
-    		useHessian = true;
-    	}
-    	else {
-    		useHessian = false;
-    	}
-    	
-    	File input = new File("input.txt");
+    public static void main(String[] args) {
+        StopWatch sw = new StopWatch();
+        sw.start();
+        System.err.println("MNDO Parameterization, updated 27 October. CHN training set (PM7)");
 
-        File measurements = new File("measurements.txt");
-        
-        if (useHessian) {
-        	measurements = new File("measurementshessian.txt");
-        }
+        boolean useHessian;
 
-        File reference = new File("reference.txt");
+        for (int numRuns = 0; numRuns < 1; numRuns++) { // numRuns < 1 then no Hessian for you
+            // one for hessian, one without. this code is verbose.
+            useHessian = numRuns % 2 == 0;
 
-        File params = new File("mndoparams.txt");
-
-        try {
-
-          Scanner scanparams = new Scanner(params);
-
-          String[] strings = scanparams.nextLine().split(",");
-
-          double[] paramvector = new double[strings.length];
-
-          for (int i = 0; i < strings.length; i++) {
-            paramvector[i] = Double.parseDouble(strings[i]);
-          }
-
-          double[] Hparams = new double[13];
-
-          for (int i = 0; i < 13; i++) {
-            Hparams[i] = paramvector[i];
-          }
-
-          double[] Cparams = new double[13];
-
-          for (int i = 0; i < 13; i++) {
-            Cparams[i] = paramvector[i + 13];
-          }
-          
-          double[] Nparams = new double[13];
-          
-          if (trainingset.contains("N")) {
-
-              for (int i = 0; i < 13; i++) {
-                Nparams[i] = paramvector[i + 26];
-              }
-          }
-
-          File output = new File("mndooutput.txt");
-
-          PrintWriter pw = new PrintWriter(new FileOutputStream(output, true));
-
-          boolean keepgoing = true;
-
-          Scanner sc = new Scanner(input);
-
-          Scanner measurementscan = new Scanner(measurements);
-
-          Scanner referencescan = new Scanner(reference);
-
-          List<ComputationRequest> computationRequests = new ArrayList<>();
-
-          int counter = 0;
-          while (keepgoing) {
-
-            ArrayList<MNDOAtom> array = new ArrayList<MNDOAtom>();
-
-            boolean bool;
-
-            int charge;
-
-            int mult;
-
-            if (sc.nextLine().equals("RHF")) {
-              bool = true;
-              charge = Integer.parseInt(sc.nextLine().substring(7));
-              sc.nextLine();
-              mult = 1;
-            } else {
-              bool = false;
-              charge = Integer.parseInt(sc.nextLine().substring(7));
-              mult = Integer.parseInt(sc.nextLine().substring(5));
+            File input = new File("input.txt");
+            File measurements = new File("measurements.txt");
+            if (useHessian) {
+                measurements = new File("measurementshessian.txt");
             }
+            File reference = new File("reference.txt");
+            File params = new File("mndoparams.txt");
+            AtomHandler.populateAtoms();
 
-            boolean hasGeom = false;
+            try {
+                // this code is ugly. does mndoparams have a fixed size?
+                Scanner paramScan = new Scanner(params);
+                String[] strings = paramScan.nextLine().split(",");
+                double[] paramVector = new double[strings.length];
+                for (int i = 0; i < strings.length; i++) {
+                    paramVector[i] = Double.parseDouble(strings[i]);
+                }
 
-            while (sc.hasNext()) {
+                double[] HParams = new double[13];
+                System.arraycopy(paramVector, 0, HParams, 0, 13);
+                double[] CParams = new double[13];
+                System.arraycopy(paramVector, 13, CParams, 0, 13);
+                double[] NParams = new double[13];
+                if (trainingSet.contains("N")) {
+                    System.arraycopy(paramVector, 26, NParams, 0, 13);
+                }
 
-              String s = sc.nextLine();
-              
-              //System.err.println (s);
+                PrintWriter pw = new PrintWriter(new FileOutputStream(new File("mndooutput.txt"), true));
 
-              if (s.equals("---")) {
-                break;
-              } else if (s.equals("EXPGEOM")) {
-                hasGeom = true;
-                break;
-              }
+                Scanner sc = new Scanner(input);
+                Scanner measurementScan = new Scanner(measurements);
+                Scanner referenceScan = new Scanner(reference);
 
-              StringTokenizer t = new StringTokenizer(s, " ");
-              t.nextToken();
-              String element = t.nextToken();
-              double d1 = Double.parseDouble(t.nextToken()) * 1.88973;
-              double d2 = Double.parseDouble(t.nextToken()) * 1.88973;
-              double d3 = Double.parseDouble(t.nextToken()) * 1.88973;
+                List<ComputationRequest> requests = new ArrayList<>();
 
-              int Z = 0;
+                int counter = 0;
+                while (sc.hasNext()) { // for every molecule separated by ---
+                    ArrayList<MNDOAtom> array = new ArrayList<>();
+                    boolean bool = false;
+                    int charge, mult;
 
-              double[] paramvec = new double[13];
+                    if (sc.nextLine().equals("RHF")) {
+                        bool = true;
+                        charge = Integer.parseInt(sc.nextLine().split("=")[1]);
+                        mult = 1;
+                        sc.nextLine();
+                    } else {
+                        charge = Integer.parseInt(sc.nextLine().split("=")[1]);
+                        mult = Integer.parseInt(sc.nextLine().split("=")[1]);
+                    }
 
-              switch (element) {
-                case "H":
-                  Z = 1;
-                  paramvec = Hparams;
-                  break;
-                case "C":
-                  Z = 6;
-                  paramvec = Cparams;
-                  break;
-                case "N":
-                  Z = 7;
-                  paramvec = Nparams;
-                  break;
-                case "O":
-                  Z = 8;
-                  break;
-                case "F":
-                  Z = 9;
-              }
+                    boolean hasGeom = false;
 
-              MNDOAtom a = new MNDOAtom(new double[]{d1, d2, d3}, Z, paramvec);
+                    while (sc.hasNext()) { // for every line below MULT
+                        String s = sc.nextLine();
 
-              array.add(a);
-            }
+                        if (s.equals("---")) {
+                            break;
+                        } else if (s.equals("EXPGEOM")) {
+                            hasGeom = true;
+                            break;
+                        }
 
-            MNDOAtom[] atoms = new MNDOAtom[array.size()];
+                        parseInput(HParams, CParams, NParams, array, s);
+                    }
 
-            for (int i = 0; i < array.size(); i++) {
-              atoms[i] = array.get(i);
+                    MNDOAtom[] atoms = new MNDOAtom[array.size()];
+                    atoms = array.toArray(atoms);
+                    MNDOAtom[] expGeom = null;
+                    array.clear();
 
-            }
+                    if (hasGeom) { // for every line below EXPGEOM
+                        while (sc.hasNext()) {
+                            String s = sc.nextLine();
+                            if (s.equals("---")) {
+                                break;
+                            }
+                            parseInput(HParams, CParams, NParams, array, s);
+                        }
+                        expGeom = new MNDOAtom[array.size()];
+                        expGeom = array.toArray(expGeom);
+                    }
 
+                    double[] data = new double[3];
+                    // hasHessian has been removed, not sure what's the point considering useHessian makes it redundant.
 
-            MNDOAtom[] expgeom = new MNDOAtom[array.size()];
+                    // uses measurements to check if need dipole, ionization, etc. uses values from reference.
+                    data[0] = Double.parseDouble(referenceScan.nextLine().split(" ")[1]); // I wish we standardized delimiters.
+                    if (measurementScan.nextLine().equals("DIPOLE")) {
+                        data[1] = Double.parseDouble(referenceScan.nextLine().split(" ")[1]);
+                    } else {
+                        referenceScan.nextLine();
+                    }
+                    if (measurementScan.nextLine().equals("IONIZATION")) {
+                        data[2] = Double.parseDouble(referenceScan.nextLine().split(" ")[1]);
+                    } else {
+                        referenceScan.nextLine();
+                    }
 
-            array.clear();
+                    if (referenceScan.hasNext()) {
+                        referenceScan.nextLine();
+                        measurementScan.nextLine();
+                    }
 
-            if (hasGeom) {
-              while (sc.hasNext()) {
-
-                String s = sc.nextLine();
-
-                if (s.equals("---")) {
-                  break;
+                    requests
+                            .add(new ComputationRequest(bool, atoms.clone(), charge, mult, expGeom == null ? null :
+                                    expGeom.clone(), data.clone(), useHessian, counter));
+                    counter++;
                 }
 
 
-                StringTokenizer t = new StringTokenizer(s, " ");
-                t.nextToken();
-                String element = t.nextToken();
-                double d1 = Double.parseDouble(t.nextToken()) * 1.88973;
-                double d2 = Double.parseDouble(t.nextToken()) * 1.88973;
-                double d3 = Double.parseDouble(t.nextToken()) * 1.88973;
+                // requests contains 1 request for every molecule.
+                int cores = Runtime.getRuntime().availableProcessors();
+                pw.println("Running on " + cores + " cores.");
+                int remainingNonParallel = 5;
+                // if requests less than remainingNonParallel then just use parallel computation for one of them
+                int maxParallel = remainingNonParallel < requests.size() ? requests.size() - remainingNonParallel : 1;
+                List<ComputationRequest> ParallelComputationRequests = requests.subList(0, maxParallel);
+                // Parallel part
+                // Run one thread per core (tweakable)
+                ForkJoinPool threadPool = new ForkJoinPool(cores);
+                // Run parallelMap on thread pool
+                List<AbstractMoleculeRun> results = threadPool.submit(() -> ParallelComputationRequests.parallelStream().map(request -> {
+                    AbstractMoleculeRun result = request.restricted ? new MoleculeRun(request.atoms, request.charge,
+                            request.expgeom, request.datum, request.hasHessian) : new MoleculeRunUnrestricted(request.atoms,
+                            request.charge, request.mult, request.expgeom, request.datum, request.hasHessian);
+                    writeOutput(pw, request, result);
+                    return result;
+                })).get().collect(Collectors.toList());
 
-                int Z = 0;
+                // Get output
+                List<String[]> outputValues = results.stream().map(result -> result.output.clone()).collect(Collectors.toList());
+                List<String> hessianValues = results.stream().map(result -> result.hessianstr).collect(Collectors.toList());
+                List<String> outputGeoms = results.stream().map(result -> result.newGeomCoords).collect(Collectors.toList());
 
-                double[] paramvec = new double[13];
+                for (ComputationRequest request : requests.subList(maxParallel, requests.size())) {
+                    AbstractMoleculeRun result = request.restricted ? new MoleculeRun(request.atoms, request.charge,
+                            request.expgeom, request.datum, request.hasHessian) : new MoleculeRunUnrestricted(request.atoms,
+                            request.charge, request.mult, request.expgeom, request.datum, request.hasHessian);
+                    hessianValues.add(result.hessianstr);
+                    outputValues.add(result.output.clone());
+                    outputGeoms.add(result.newGeomCoords);
 
-                switch (element) {
-                  case "H":
-                    Z = 1;
-                    paramvec = Hparams;
-                    break;
-                  case "C":
-                    Z = 6;
-                    paramvec = Cparams;
-                    break;
-                  case "N":
-                    Z = 7;
-                    paramvec = Nparams;
-                    break;
-                  case "O":
-                    Z = 8;
-                    break;
-                  case "F":
-                    Z = 9;
+                    writeOutput(pw, request, result);
+                }
+
+                PrintWriter pw2 = new PrintWriter(new File("testoutput.txt"));
+
+                for (int i = 0; i < outputGeoms.size(); i++) {
+                    if (i != outputGeoms.size() - 1) {
+                        pw2.println(outputGeoms.get(i) + "---");
+                    } else {
+                        pw2.println(outputGeoms.get(i));
+                    }
+                }
+                pw2.close();
+
+                pw.print("TOTAL EXCEL STRING:\n");
+                for (String[] i : outputValues) {
+                    pw.print(i[0]);
+                }
+
+                pw.print("TOTAL HESSIAN STRING:\n");
+                for (String i : hessianValues) {
+                    pw.print(i);
+                }
+
+                pw.print("TOTAL HEAT STRING:\n");
+                for (String[] i : outputValues) {
+                    pw.print(i[1]);
+                }
+
+                pw.print("TOTAL DIPOLE STRING:\n");
+                for (String[] i : outputValues) {
+                    pw.print(i[2]);
+                }
+
+                pw.print("TOTAL IONIZATION STRING:\n");
+                for (String[] i : outputValues) {
+                    pw.print(i[3]);
+                }
+
+                pw.print("TOTAL GEOMETRY STRING:\n");
+                for (String[] i : outputValues) {
+                    pw.print(i[4]);
+                }
+
+                pw.flush();
+
+                pw.println("-----------");
+
+                int size = trainingSet.equals("CHN") ? 21 : 13; // TODO hardcoding, perhaps put in text file reference values for various atoms
+                int maxIndex = ((size + 1) * size) / 2;
+
+                double[] sum = new double[size + 1];
+                for (String[] i : outputValues) {
+                    String[] excelstrsplit = i[0].split(",");
+                    for (int num = 0; num < size + 1; num++) {
+                        sum[num] += Double.parseDouble(excelstrsplit[num]);
+                    }
+                }
+                String processedexcelstr = Arrays.toString(Arrays.copyOfRange(sum, 1, size + 1)).substring(1, Arrays.toString(Arrays.copyOfRange(sum, 1, size + 1)).length() - 1);
+
+                pw.println("SUM OF ERROR FUNCTION: " + sum[0]);
+                pw.println("GRADIENT SUM: " + processedexcelstr);
+                pw.flush();
+
+                Scanner scan = new Scanner(new File("MNDOHessianUpdateData.txt"));
+
+                double[] nums = getHessianUpdateData(scan);
+                DoubleMatrix hessian = new DoubleMatrix(size, size);
+                int count = 1;
+                int index = 0;
+                while (index < maxIndex) {
+                    for (int i = count - 1; i < size; i++) {
+                        hessian.put(count - 1, i, nums[index]);
+                        hessian.put(i, count - 1, nums[index]);
+                        index++;
+                    }
+                    count++;
                 }
 
 
-                MNDOAtom a = new MNDOAtom(new double[]{d1, d2, d3}, Z, paramvec);
+                double[] grad = getHessianUpdateData(scan);
+                DoubleMatrix oldGradient = new DoubleMatrix(grad);
 
-                array.add(a);
-              }
-              for (int i = 0; i < array.size(); i++) {
-                expgeom[i] = array.get(i);
+                grad = new double[grad.length];
+                System.arraycopy(sum, 1, grad, 0, grad.length);
+                DoubleMatrix newGradient = new DoubleMatrix(grad);
 
-              }
+                double[] dir = getHessianUpdateData(scan);
+                DoubleMatrix s = new DoubleMatrix(dir);
+
+                DoubleMatrix y = newGradient.sub(oldGradient);
+
+                double b = y.transpose().mmul(s).get(0);
 
 
-            } else { expgeom = null;}
+                DoubleMatrix A = y.mmul(y.transpose()).mmul(1 / b);
 
-            double[] datum = new double[3];
+                double a = s.transpose().mmul(hessian).mmul(s).get(0);
 
-            boolean hasHessian = false;
+                DoubleMatrix C = hessian.mmul(s).mmul(s.transpose()).mmul(hessian.transpose()).mmul(1 / a);
 
-            if (measurementscan.nextLine().equals("HEAT HESSIAN")) {
-              hasHessian = true;
+                DoubleMatrix B = hessian.add(A).sub(C);
+
+                if (useHessian) {
+                    double[] hessianSum = new double[maxIndex];
+                    for (String hessianStr : hessianValues) {
+                        String[] hessianStrs = hessianStr.split(", ");
+                        for (int i = 0; i < maxIndex; i++) {
+                            hessianSum[i] += Double.parseDouble(hessianStrs[i]);
+                        }
+                    }
+
+                    index = 0;
+                    count = 1;
+                    while (index < maxIndex) {
+                        for (int i = count - 1; i < size; i++) {
+                            B.put(count - 1, i, hessianSum[index]);
+                            B.put(i, count - 1, hessianSum[index]);
+                            index++;
+                        }
+                        count++;
+                    }
+                }
+
+                StringBuilder string = new StringBuilder();
+                for (int i = 0; i < B.rows; i++) {
+                    for (int j = i; j < B.rows; j++) {
+                        string.append(B.get(i, j)).append(",");
+                    }
+                }
+                pw.println("NEW HESSIAN: " + string.toString());
+                pw.println("HESSIAN EIGENVALUES: " + Eigen.symmetricEigenvalues(B));
+                pw.flush();
+
+
+                ParamOptimizer o = new ParamOptimizer();
+                for (String[] j : outputValues) {
+                    String[] strs = j[1].split(",");
+
+                    double[] derivs = new double[strs.length - 2];
+
+                    for (int i = 2; i < strs.length; i++) {
+                        derivs[i - 2] = Double.parseDouble(strs[i]);
+                    }
+
+                    o.addData(new HeatData(derivs, Double.parseDouble(strs[0]), Double.parseDouble(strs[1])));
+
+                    if (!j[3].equals("")) {
+                        strs = j[3].split(",");
+
+                        derivs = new double[strs.length - 2];
+
+                        for (int i = 2; i < strs.length; i++) {
+                            derivs[i - 2] = Double.parseDouble(strs[i]);
+                        }
+
+                        o.addData(new IonizationData(derivs, Double.parseDouble(strs[0]), Double.parseDouble(strs[1])));
+                    }
+
+                    if (!j[2].equals("")) {
+                        strs = j[2].split(",");
+
+                        derivs = new double[strs.length - 2];
+
+                        for (int i = 2; i < strs.length; i++) {
+                            derivs[i - 2] = Double.parseDouble(strs[i]);
+                        }
+
+                        o.addData(new DipoleData(derivs, Double.parseDouble(strs[0]), Double.parseDouble(strs[1])));
+                    }
+
+                    if (!j[4].equals("")) {
+                        strs = j[4].split(",");
+
+                        derivs = new double[strs.length - 2];
+
+                        for (int i = 2; i < strs.length; i++) {
+                            derivs[i - 2] = Double.parseDouble(strs[i]);
+                        }
+
+                        o.addData(new GeometricalData(derivs, Double.parseDouble(strs[0]), Double.parseDouble(strs[1])));
+                    }
+                }
+                o.optimize(B, newGradient);
+
+                //PrintWriter write = new PrintWriter(new FileOutputStream(new File("MNDOHessianUpdateData.txt")));
+
+                //write.println("OLD HESSIAN:   " + string);
+                //write.println("OLD GRADIENT:  " + processedexcelstr);
+                //write.println("SEARCH VECTOR: " + Arrays.toString(o.changes).substring(1,  Arrays.toString(o.changes).length()-1));
+
+                //write.close();
+
+                double[] paramChange = new double[paramVector.length];
+                paramChange[0] = o.changes[0];//hardcoded sorry. steve: what in the world is this
+                paramChange[1] = o.changes[1];
+                paramChange[3] = o.changes[2];
+                paramChange[5] = o.changes[3];
+                paramChange[7] = o.changes[4];
+                paramChange[13] = o.changes[5];
+                paramChange[14] = o.changes[6];
+                paramChange[15] = o.changes[7];
+                paramChange[16] = o.changes[8];
+                paramChange[17] = o.changes[9];
+                paramChange[18] = o.changes[10];
+                paramChange[19] = o.changes[11];
+                paramChange[20] = o.changes[12];
+
+                if (trainingSet.contains("N")) {
+                    paramChange[26] = o.changes[13];
+                    paramChange[27] = o.changes[14];
+                    paramChange[28] = o.changes[15];
+                    paramChange[29] = o.changes[16];
+                    paramChange[30] = o.changes[17];
+                    paramChange[31] = o.changes[18];
+                    paramChange[32] = o.changes[19];
+                    paramChange[33] = o.changes[20];
+                }
+                for (int num = 0; num < paramVector.length; num++) {
+                    paramVector[num] = paramVector[num] + paramChange[num];
+                }
+
+                // used to be "write", which is exactly the same as pw
+                pw.println(Arrays.toString(paramVector).substring(1, Arrays.toString(paramVector).length() - 1));
+                pw.close();
+
+                sw.stop();
+                System.out.println("Time taken: " + sw.getTime());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-            datum[0] = Double.parseDouble(referencescan.nextLine().substring(5));
-
-            if (measurementscan.nextLine().equals("DIPOLE")) {
-              datum[1] = Double.parseDouble(referencescan.nextLine().substring(7));
-            } else {
-              referencescan.nextLine();
-            }
-
-            if (measurementscan.nextLine().equals("IONIZATION")) {
-              datum[2] = Double.parseDouble(referencescan.nextLine().substring(11));
-            } else {
-              referencescan.nextLine();
-            }
-
-            if (referencescan.hasNext()) {
-              referencescan.nextLine();
-              measurementscan.nextLine();
-            }
-
-            computationRequests
-                    .add(new ComputationRequest(bool, atoms.clone(), charge, mult, expgeom == null ? null : expgeom
-                            .clone(), datum.clone(), hasHessian, counter));
-            counter++;
-            keepgoing = sc.hasNext();
-          }
-          
-          
-          List <ComputationRequest> ParallelComputationRequests = computationRequests.subList(0, 1);
-         
-          
-          int cores = Runtime.getRuntime().availableProcessors();
-          pw.println("Running on " + cores + " cores.");
-          // Parallel part
-          // Run one thread per core (tweakable)
-          ForkJoinPool threadPool = new ForkJoinPool(cores);
-          // Run parallelMap on thread pool
-          List<AbstractMoleculeRun> results = threadPool.submit(() -> ParallelComputationRequests.parallelStream().map(request -> {
-            System.out.println("Computation started:" + request.index);
-            AbstractMoleculeRun result = request.restricted ? new MoleculeRun(request.atoms, request.charge,
-                    request.expgeom, request.datum, request.hasHessian) : new MoleculeRunUnrestricted(request.atoms,
-                    request.charge, request.mult, request.expgeom, request.datum, request.hasHessian);
-
-            pw.println("Computation number: " + request.index);
-            pw.print("Hessian string: " + result.hessianstr);
-            if (result.hessianstr.equals("")) {
-              pw.print("\n");
-            }
-            pw.print("Excel string: " + result.output[0]);
-            if (result.output[0].equals("")) {
-              pw.print("\n");
-            }
-            pw.print("HoF string: " + result.output[1]);
-            if (result.output[1].equals("")) {
-              pw.print("\n");
-            }
-            pw.print("Dipole string: " + result.output[2]);
-            if (result.output[2].equals("")) {
-              pw.print("\n");
-            }
-            pw.print("Ionization string: " + result.output[3]);
-            if (result.output[3].equals("")) {
-              pw.print("\n");
-            }
-            pw.print("Geometry string: " + result.output[4]);
-            if (result.output[4].equals("")) {
-              pw.print("\n");
-            }
-            pw.print("---------\n");
-            // Save to file
-            pw.flush();
-            System.out.println("Computation complete:" + request.index);
-            return result;
-          })).get().collect(Collectors.toList());
-
-          // Get output
-          List<String[]> outputValues = results.stream().map(result -> result.output.clone()).collect(Collectors.toList());
-          List<String> hessianValues = results.stream().map(result -> result.hessianstr).collect(Collectors.toList());
-          List<String> optgeoms = results.stream().map(result -> result.newgeomcoords).collect(Collectors.toList());
-          
-          for (ComputationRequest request : computationRequests.subList(1, computationRequests.size())) {
-              System.out.println("Computation started: " + request.index);
-              AbstractMoleculeRun result = request.restricted ? new MoleculeRun(request.atoms, request.charge,
-                      request.expgeom, request.datum, request.hasHessian) : new MoleculeRunUnrestricted(request.atoms,
-                      request.charge, request.mult, request.expgeom, request.datum, request.hasHessian);
-              hessianValues.add(result.hessianstr);
-              outputValues.add(result.output.clone());
-              optgeoms.add (result.newgeomcoords);
-              
-              pw.println("Computation number: " + request.index);
-              pw.print("Hessian string: " + result.hessianstr);
-              if (result.hessianstr.equals("")) {
-                pw.print("\n");
-              }
-              pw.print("Excel string: " + result.output[0]);
-              if (result.output[0].equals("")) {
-                pw.print("\n");
-              }
-              pw.print("HoF string: " + result.output[1]);
-              if (result.output[1].equals("")) {
-                pw.print("\n");
-              }
-              pw.print("Dipole string: " + result.output[2]);
-              if (result.output[2].equals("")) {
-                pw.print("\n");
-              }
-              pw.print("Ionization string: " + result.output[3]);
-              if (result.output[3].equals("")) {
-                pw.print("\n");
-              }
-              pw.print("Geometry string: " + result.output[4]);
-              if (result.output[4].equals("")) {
-                pw.print("\n");
-              }
-              pw.print("---------\n");
-              // Save to file
-              pw.flush();
-              System.out.println("Computation complete:" + request.index);
-          }
-          
-          PrintWriter pw2 = new PrintWriter (new File ("testoutput.txt"));
-          
-          
-          for (int i = 0; i < optgeoms.size(); i++) {
-        	  if (i != optgeoms.size() -1) {
-        		  pw2.println(optgeoms.get(i) + "---");
-        	  }
-        	  else {
-        		  pw2.print(optgeoms.get(i));
-        	  }
-          }
-          pw2.close();
-
-          pw.print("TOTAL EXCEL STRING:\n");
-          for (String[] i : outputValues) {
-              pw.print(i[0]);
-          }
-
-          pw.print("TOTAL HESSIAN STRING:\n");
-          for (String i : hessianValues) {
-            pw.print(i);
-          }
-
-          pw.print("TOTAL HEAT STRING:\n");
-          for (String[] i : outputValues) {
-            pw.print(i[1]);
-          }
-
-          pw.print("TOTAL DIPOLE STRING:\n");
-          for (String[] i : outputValues) {
-            pw.print(i[2]);
-          }
-
-          pw.print("TOTAL IONIZATION STRING:\n");
-          for (String[] i : outputValues) {
-            pw.print(i[3]);
-          }
-
-          pw.print("TOTAL GEOMETRY STRING:\n");
-          for (String[] i : outputValues) {
-            pw.print(i[4]);
-          }
-          
-          pw.flush();
-          
-          
-          pw.println("-----------");
-          
-          int size = 13;
-    	  
-    	  if (trainingset.equals("CHN")) {
-    		  size = 21;
-    	  }
-          
-          double[] sum = new double[size + 1];
-          
-          for (String[] i: outputValues) {
-        	  String[] excelstrsplit = i[0].split(",");
-        	  
-        	  for (int num = 0; num < size + 1; num++) {
-        		  sum[num] += Double.parseDouble(excelstrsplit[num]);
-        	  }
-          }
-          
-          
-          
-          String processedexcelstr = Arrays.toString(Arrays.copyOfRange(sum, 1, size + 1)).substring(1, Arrays.toString(Arrays.copyOfRange(sum, 1, size + 1)).length()-1);
-          
-          pw.println ("SUM OF ERROR FUNCTION: " + sum[0]);
-          pw.println ("GRADIENT SUM: " + processedexcelstr);
-          
-          pw.flush();
-          
-          Scanner scan = new Scanner (new File ("MNDOHessianUpdateData.txt"));
-          
-          String[] strs = null;
-    		
-          strs = scan.nextLine().substring(15).split(",");
-    		
-    	  double[] nums = new double[strs.length];
-    		
-    	  for (int i = 0; i < strs.length; i++) {
-    		  nums[i] = Double.parseDouble(strs[i]);
-    	  }
-    		
-    	  int count = 1;
-    		
-    	  int index = 0;
-    	  
-    	  
-    		
-    	  DoubleMatrix hessian = new DoubleMatrix (size, size);
-    		
-    	  while (index < ((size + 1) * size) / 2) {
-    		  for (int i = count - 1; i < size; i++) {
-    			  hessian.put(count - 1, i, nums[index]);
-    			  hessian.put(i, count - 1, nums[index]);
-    			  index++;
-    		  }
-    		  count++;
-    	  }
-    		
-    		
-    	  strs = scan.nextLine().substring(15).split(",");
-    	
-    	  double[] grad = new double[strs.length];
-    		
-    	  for (int i = 0; i < strs.length; i++) {
-    		  grad[i] = Double.parseDouble(strs[i]);
-    	  }
-    		
-    	  DoubleMatrix oldgradient = new DoubleMatrix (grad);
-    		
-    		
-    	  grad = new double[strs.length];
-    		
-    	  for (int i = 0; i < strs.length; i++) {
-    		  grad[i] = sum[i + 1];
-    	  }
-    		
-    	  DoubleMatrix newgradient = new DoubleMatrix (grad);
-    		
-    	  strs = scan.nextLine().substring(15).split(",");
-    		
-    	  double[] dir = new double[strs.length];
-    		
-    	  for (int i = 0; i < strs.length; i++) {
-    		  dir[i] = Double.parseDouble(strs[i]);
-    	  }
-    		
-    	  DoubleMatrix s = new DoubleMatrix (dir);
-    	
-    	  DoubleMatrix y = newgradient.sub (oldgradient);
-    		
-    	  double b = y.transpose().mmul(s).get(0);
-    		
-    		
-    	  DoubleMatrix A = y.mmul(y.transpose()).mmul(1/b);
-    		
-    	  double a = s.transpose().mmul(hessian).mmul(s).get(0);
-    		
-          DoubleMatrix C = hessian.mmul(s).mmul(s.transpose()).mmul(hessian.transpose()).mmul(1/a);
-    		
-    	  DoubleMatrix B = hessian.add(A).sub(C);
-    	  
-    	  if (useHessian) {
-    		  double[] hessiansum = new double[(size * (size + 1)) / 2];
-    		  for (String hessianstr: hessianValues) {
-    			  String[] hessianstrs = hessianstr.split(", ");
-    			  for (int i = 0; i < (size * (size + 1)) / 2; i++) {
-    				  hessiansum[i] += Double.parseDouble(hessianstrs[i]);
-    			  }
-    		  }
-    		  
-    		  index = 0;
-    		  count = 1;
-    		  while (index < (size * (size + 1)) / 2) {
-        		  for (int i = count - 1; i < size; i++) {
-        			  B.put(count - 1, i, hessiansum[index]);
-        			  B.put(i, count - 1, hessiansum[index]);
-        			  index++;
-        		  }
-        		  count++;
-        	  }
-    		  
-    	  }
-    		
-    	  String string = "";
-    		
-          for (int i = 0; i < B.rows; i++) {
-    		  for (int j = i; j < B.rows; j++) {
-    			  string += B.get(i, j) + ",";
-    		  }
-    	  }
-    	  pw.println ("NEW HESSIAN: " + string);
-    	  
-    	  pw.println ("HESSIAN EIGENVALUES: " + Eigen.symmetricEigenvalues(B));
-    	  
-    	  pw.flush();
-    	  
-    	  pw.close();
-    	  
-    	 
-    	  
-    	  ParamOptimizer o = new ParamOptimizer();
-    		
-    		
-    	  for (String[] j: outputValues) {
-    		  strs = j[1].split(",");
-    			
-    		  double[] derivs = new double[strs.length - 2];
-    			
-    		  for (int i = 2; i < strs.length; i++) {
-    			  derivs[i - 2] = Double.parseDouble(strs[i]);
-    		  }
-    			
-    		  o.addData(new HeatData(derivs, Double.parseDouble (strs[0]), Double.parseDouble (strs[1])));
-    		  
-    		  if (!j[3].equals("")) {
-    			  strs = j[3].split(",");
-    				
-    			  derivs = new double[strs.length - 2];
-    				
-    			  for (int i = 2; i < strs.length; i++) {
-    				  derivs[i - 2] = Double.parseDouble(strs[i]);
-    			  }
-    				
-    			  o.addData(new IonizationData(derivs, Double.parseDouble (strs[0]), Double.parseDouble (strs[1])));
-    		  }
-    		  
-    		  if (!j[2].equals("")) {
-    			  strs = j[2].split(",");
-    				
-    			  derivs = new double[strs.length - 2];
-    				
-    			  for (int i = 2; i < strs.length; i++) {
-    				  derivs[i - 2] = Double.parseDouble(strs[i]);
-    			  }
-    				
-    			  o.addData(new DipoleData(derivs, Double.parseDouble (strs[0]), Double.parseDouble (strs[1])));
-    		  }
-    		  
-    		  if (!j[4].equals("")) {
-    			  strs = j[4].split(",");
-    				
-    			  derivs = new double[strs.length - 2];
-    				
-    			  for (int i = 2; i < strs.length; i++) {
-    				  derivs[i - 2] = Double.parseDouble(strs[i]);
-    			  }
-    				
-    			  o.addData(new GeometricalData(derivs, Double.parseDouble (strs[0]), Double.parseDouble (strs[1])));
-    		  }
-    		  
-    		  
-    	  }
-    		
-    		
-    		
-    	  o.optimize(B, newgradient);
-    	  
-    	  PrintWriter write = new PrintWriter(new FileOutputStream(new File("MNDOHessianUpdateData.txt")));
-    	  
-    	  //write.println("OLD HESSIAN:   " + string);
-    	  //write.println("OLD GRADIENT:  " + processedexcelstr);
-    	  //write.println("SEARCH VECTOR: " + Arrays.toString(o.changes).substring(1,  Arrays.toString(o.changes).length()-1));
-    	  
-    	  write.close();
-    	  
-    	  double[] paramchange = new double[paramvector.length];
-          paramchange[0] = o.changes[0];//hardcoded sorry
-          paramchange[1] = o.changes[1];
-          paramchange[3] = o.changes[2];
-          paramchange[5] = o.changes[3];
-          paramchange[7] = o.changes[4];
-          paramchange[13] = o.changes[5];
-          paramchange[14] = o.changes[6];
-          paramchange[15] = o.changes[7];
-          paramchange[16] = o.changes[8];
-          paramchange[17] = o.changes[9];
-          paramchange[18] = o.changes[10];
-          paramchange[19] = o.changes[11];
-          paramchange[20] = o.changes[12];
-          
-          if (trainingset.contains("N")) {
-        	  paramchange[26] = o.changes[13];
-              paramchange[27] = o.changes[14];
-              paramchange[28] = o.changes[15];
-              paramchange[29] = o.changes[16];
-              paramchange[30] = o.changes[17];
-              paramchange[31] = o.changes[18];
-              paramchange[32] = o.changes[19];
-              paramchange[33] = o.changes[20];
-          }
-          for (int num = 0; num < paramvector.length; num++) {
-              paramvector[num] = paramvector[num] + paramchange[num];
-          }
-          
-         // write = new PrintWriter(new FileOutputStream(new File("mndoparams.txt")));
-
-          //write.println(Arrays.toString(paramvector).substring(1,  Arrays.toString(paramvector).length()-1));
-
-          //write.close();
-          
-          write = new PrintWriter(new FileOutputStream(new File("mndooutput.txt"),true));
-
-          write.println(Arrays.toString(paramvector).substring(1,  Arrays.toString(paramvector).length()-1));
-
-          write.close();
-    		
-          
-          
-          sw.stop();
-          System.out.println("Time " + sw.getTime());
-
-
-        } catch (Exception e) {
-          e.printStackTrace();
         }
     }
 
-  }
+    private static void parseInput(double[] hparams, double[] cparams, double[] nparams, ArrayList<MNDOAtom> array, String s) {
+        final double C = 1.88973;
+        StringTokenizer t = new StringTokenizer(s, " ");
+        t.nextToken();
+        String element = t.nextToken();
+        double d1 = Double.parseDouble(t.nextToken()) * C;
+        double d2 = Double.parseDouble(t.nextToken()) * C;
+        double d3 = Double.parseDouble(t.nextToken()) * C;
 
+        int Z = 0;
+
+        double[] paramvec = new double[13];
+
+        switch (element) {
+            case "H":
+                Z = 1;
+                paramvec = hparams;
+                break;
+            case "C":
+                Z = 6;
+                paramvec = cparams;
+                break;
+            case "N":
+                Z = 7;
+                paramvec = nparams;
+                break;
+            case "O":
+                Z = 8;
+                break;
+            case "F":
+                Z = 9;
+        }
+
+        array.add(new MNDOAtom(new double[]{d1, d2, d3}, Z, paramvec));
+    }
+
+    private static void writeOutput(PrintWriter pw, ComputationRequest request, AbstractMoleculeRun result) {
+        System.out.println("Computation started: " + request.index);
+        pw.println("Computation number: " + request.index);
+        pw.print("Hessian string: " + result.hessianstr);
+        if (result.hessianstr.equals("")) {
+            pw.print("\n");
+        }
+        pw.print("Excel string: " + result.output[0]);
+        if (result.output[0].equals("")) {
+            pw.print("\n");
+        }
+        pw.print("HoF string: " + result.output[1]);
+        if (result.output[1].equals("")) {
+            pw.print("\n");
+        }
+        pw.print("Dipole string: " + result.output[2]);
+        if (result.output[2].equals("")) {
+            pw.print("\n");
+        }
+        pw.print("Ionization string: " + result.output[3]);
+        if (result.output[3].equals("")) {
+            pw.print("\n");
+        }
+        pw.print("Geometry string: " + result.output[4]);
+        if (result.output[4].equals("")) {
+            pw.print("\n");
+        }
+        pw.print("---------\n");
+        // Save to file
+        pw.flush();
+        System.out.println("Computation complete: " + request.index);
+    }
+
+    private static double[] getHessianUpdateData(Scanner scan) {
+        return Utils.toDoubles(scan.nextLine().split(":")[1].split(","));
+    }
 }
-
