@@ -19,8 +19,8 @@ public class MoleculeRunUnrestricted extends AbstractMoleculeRun {
 
     private static String trainingset = "CHN";
 
-    public MoleculeRunUnrestricted(MNDOAtom[] atoms, int charge, int mult, MNDOAtom[] expgeom, double[] datum, boolean runHessian) {
-        this.atoms = atoms.clone();
+    public MoleculeRunUnrestricted(MNDOAtom[] atms, int charge, int mult, MNDOAtom[] expgeom, double[] datum, boolean runHessian) {
+        this.atoms = atms.clone();
 
         opt = new MNDOGeometryOptimizationUnrestricted(atoms, charge, mult);
 

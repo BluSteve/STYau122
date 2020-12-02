@@ -6,7 +6,6 @@ import scf.LCGTO;
 
 public class MNDOAtom extends Atom {
     protected double alpha, betas, betap, Uss, Upp, zetas, zetap, eisol, gss, gsp, hsp, gpp, gp2, p0, p1, p2, D1, D2;
-
     private MNDO6G[] orbitals;
 
     public MNDOAtom(double[] coordinates, int Z, double alpha, double betas, double betap, double Uss, double Upp, double zetas, double zetap, double eisol, double gss, double gsp, double hsp, double gpp, double gp2) {
@@ -53,6 +52,9 @@ public class MNDOAtom extends Atom {
         this(a.getCoordinates().clone(), a.getZ(), params[0], params[1], params[2], params[3], params[4], params[5], params[6], params[7], params[8], params[9], params[10], params[11], params[12]);
     }
 
+    public MNDO6G[] getOrbitals() {
+        return this.orbitals;
+    }
 
     public MNDO6G[] getOrbitals(double[] coordinates, int Z) {//initialises OM2-3G basis functions
         switch (Z) {
@@ -88,16 +90,11 @@ public class MNDOAtom extends Atom {
         return new double[]{alpha, betas, betap, Uss, Upp, zetas, zetap, eisol, gss, gsp, hsp, gpp, gp2}.clone();
     }
 
-    public MNDO6G[] getOrbitals() {
-        return this.orbitals;
-    }
-
     public MNDO6G s() {
         return this.orbitals[0];
     }
 
     public double V(MNDO6G a, MNDO6G b) {
-
         return -this.getQ() * MNDO6G.getG(a, b, this.s(), this.s());
     }
 
