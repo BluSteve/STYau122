@@ -168,14 +168,14 @@ public class Main {
 
                 // Get output
                 List<String[]> outputValues = results.stream().map(result -> result.output.clone()).collect(Collectors.toList());
-                List<String> hessianValues = results.stream().map(result -> result.hessianstr).collect(Collectors.toList());
+                List<String> hessianValues = results.stream().map(result -> result.hessianStr).collect(Collectors.toList());
                 List<String> outputGeoms = results.stream().map(result -> result.newGeomCoords).collect(Collectors.toList());
 
                 for (ComputationRequest request : requests.subList(maxParallel, requests.size())) {
                     AbstractMoleculeRun result = request.restricted ? new MoleculeRun(request.atoms, request.charge,
                             request.expgeom, request.datum, request.hasHessian) : new MoleculeRunUnrestricted(request.atoms,
                             request.charge, request.mult, request.expgeom, request.datum, request.hasHessian);
-                    hessianValues.add(result.hessianstr);
+                    hessianValues.add(result.hessianStr);
                     outputValues.add(result.output.clone());
                     outputGeoms.add(result.newGeomCoords);
 
@@ -452,8 +452,8 @@ public class Main {
     private static void writeOutput(PrintWriter pw, ComputationRequest request, AbstractMoleculeRun result) {
         System.out.println("Computation started: " + request.index);
         pw.println("Computation number: " + request.index);
-        pw.print("Hessian string: " + result.hessianstr);
-        if (result.hessianstr.equals("")) {
+        pw.print("Hessian string: " + result.hessianStr);
+        if (result.hessianStr.equals("")) {
             pw.print("\n");
         }
         pw.print("Excel string: " + result.output[0]);

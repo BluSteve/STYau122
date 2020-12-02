@@ -19,6 +19,7 @@ public class MoleculeRun extends AbstractMoleculeRun {
 
     public MoleculeRun(MNDOAtom[] atms, int charge, MNDOAtom[] expGeom, double[] datum, boolean runHessian) {
         this.atoms = atms.clone();
+        // for some reason adding this.expGeom = expGeom makes it really slow.
 
         opt = new MNDOGeometryOptimization(atoms, charge);
 
@@ -27,7 +28,16 @@ public class MoleculeRun extends AbstractMoleculeRun {
         for (int i = 0; i < atoms.length; i++) {
             String s = (i + 1) + "    " + atoms[i].getName() + "    " + String.format("%.9f", atoms[i].getCoordinates()[0] / 1.88973) + "    " + String.format("%.9f", atoms[i].getCoordinates()[1] / 1.88973) + "    " + String.format("%.9f", atoms[i].getCoordinates()[2] / 1.88973) + "\n";
             super.newGeomCoords = super.newGeomCoords + s;
+
         }
+
+//        if (expGeom != null) {
+//            super.newGeomCoords += "EXPGEOM\n";
+//            for (int i = 0; i < expGeom.length; i++) {
+//                String s = (i + 1) + "    " + expGeom[i].getName() + "    " + String.format("%.9f", expGeom[i].getCoordinates()[0] / 1.88973) + "    " + String.format("%.9f", expGeom[i].getCoordinates()[1] / 1.88973) + "    " + String.format("%.9f", expGeom[i].getCoordinates()[2] / 1.88973) + "\n";
+//                super.newGeomCoords = super.newGeomCoords + s;
+//            }
+//        }
 
         String totalheatderiv = "";
         String totalionizationderiv = "";
@@ -76,7 +86,7 @@ public class MoleculeRun extends AbstractMoleculeRun {
                 }
             }
 
-            hessianstr = "";
+            hessianStr = "";
 
             for (int I = 0; I < size; I++) {
                 for (int j = I; j < size; j++) {
@@ -107,16 +117,16 @@ public class MoleculeRun extends AbstractMoleculeRun {
 
                     }
 
-                    hessianstr += h.hessian() + ", ";
+                    hessianStr += h.hessian() + ", ";
 
                 }
             }
 
-            hessianstr += "\n";
+            hessianStr += "\n";
 
 
         } else {
-            hessianstr = "";
+            hessianStr = "";
         }
 
 

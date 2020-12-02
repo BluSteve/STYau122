@@ -32,21 +32,23 @@
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOAtom.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOAtom.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDODerivative.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDODerivative.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOSolution.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOSolution.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOSolutionUnrestricted.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOSolutionUnrestricted.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/runcycle/AbstractMoleculeRun.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/runcycle/AbstractMoleculeRun.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/runcycle/MoleculeRun.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/runcycle/MoleculeRun.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/runcycle/MoleculeRunUnrestricted.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/runcycle/MoleculeRunUnrestricted.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/scf/Atom.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/scf/Atom.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/scf/GTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/scf/GTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/scf/LCGTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/scf/LCGTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/scf/STO6G.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/scf/STO6G.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/scf/SpecialFunctions.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/scf/SpecialFunctions.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mndooutput.txt" beforeDir="false" afterPath="$PROJECT_DIR$/mndooutput.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mndoparam/mndo/MNDOAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mndoparam/mndo/MNDOAtom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/AbstractMoleculeRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/AbstractMoleculeRun.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRunUnrestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRunUnrestricted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scf/Atom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/Atom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scf/STO6G.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/STO6G.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scf/SpecialFunctions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/SpecialFunctions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testoutput.txt" beforeDir="false" afterPath="$PROJECT_DIR$/testoutput.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,19 +99,6 @@
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="SMP2020" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -256,22 +245,22 @@
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state x="672" y="127" key="CommitChangelistDialog2/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606906494143" />
-    <state width="2493" height="268" key="GridCell.Tab.0.bottom" timestamp="1606916664494">
+    <state width="2493" height="274" key="GridCell.Tab.0.bottom" timestamp="1606920956973">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="2493" height="268" key="GridCell.Tab.0.bottom/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606916664494" />
-    <state width="2493" height="268" key="GridCell.Tab.0.center" timestamp="1606916664493">
+    <state width="2493" height="274" key="GridCell.Tab.0.bottom/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606920956973" />
+    <state width="2493" height="274" key="GridCell.Tab.0.center" timestamp="1606920956973">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="2493" height="268" key="GridCell.Tab.0.center/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606916664493" />
-    <state width="2493" height="268" key="GridCell.Tab.0.left" timestamp="1606916664493">
+    <state width="2493" height="274" key="GridCell.Tab.0.center/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606920956973" />
+    <state width="2493" height="274" key="GridCell.Tab.0.left" timestamp="1606920956973">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="2493" height="268" key="GridCell.Tab.0.left/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606916664493" />
-    <state width="2493" height="268" key="GridCell.Tab.0.right" timestamp="1606916664494">
+    <state width="2493" height="274" key="GridCell.Tab.0.left/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606920956973" />
+    <state width="2493" height="274" key="GridCell.Tab.0.right" timestamp="1606920956973">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="2493" height="268" key="GridCell.Tab.0.right/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606916664494" />
+    <state width="2493" height="274" key="GridCell.Tab.0.right/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606920956973" />
     <state x="538" y="167" key="SettingsEditor" timestamp="1606464385161">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>

@@ -90,7 +90,7 @@ public class MoleculeRunUnrestricted extends AbstractMoleculeRun {
                 }
             }
 
-            hessianstr = "";
+            hessianStr = "";
 
             for (int I = 0; I < size; I++) {
                 for (int j = I; j < size; j++) {
@@ -121,16 +121,16 @@ public class MoleculeRunUnrestricted extends AbstractMoleculeRun {
 
                     }
 
-                    hessianstr += h.hessian() + ", ";
+                    hessianStr += h.hessian() + ", ";
 
                 }
             }
 
-            hessianstr += "\n";
+            hessianStr += "\n";
 
 
         } else {
-            hessianstr = "";
+            hessianStr = "";
         }
 
 

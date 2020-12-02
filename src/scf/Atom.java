@@ -30,7 +30,7 @@ public abstract class Atom {//abstract class. Consists of an array of LCGTO obje
 
     public double[] getCoordinates() {
         return this.coordinates;
-    }
+    } // only non constant thing
 
     public int getZ() {
         return this.Z;
