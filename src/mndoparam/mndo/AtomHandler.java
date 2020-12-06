@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class AtomHandler {
-    public static AtomProperty[] atoms = new AtomProperty[119];
+    public static Atom[] atoms = new Atom[119];
 
     public static void populateAtoms() {
         try {
@@ -14,7 +14,7 @@ public class AtomHandler {
             s.nextLine(); // skips over header
             while (s.hasNext()) {
                 String[] strs = s.nextLine().split(",");
-                atoms[Integer.parseInt(strs[0])] = new AtomProperty(strs[1], Double.parseDouble(strs[2]), Double.parseDouble(strs[3]));
+                atoms[Integer.parseInt(strs[0])] = new Atom(strs[1], Double.parseDouble(strs[2]), Double.parseDouble(strs[3]));
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

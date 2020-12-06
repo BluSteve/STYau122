@@ -18,9 +18,9 @@ public class LCGTO {
     protected double zeta;
     private double[] gaussexponents;
     protected double[] coeffarray;
-    protected Atom atom;
+    protected AtomFixed atom;
 
-    public LCGTO(double[] e, double[] c, int i, int j, int k, double[] coords, int shell, int Z, Atom atom) {// e = exponent array, c = coeffecient array
+    public LCGTO(double[] e, double[] c, int i, int j, int k, double[] coords, int shell, int Z, AtomFixed atom) {// e = exponent array, c = coeffecient array
         this.coeffarray = c;
         this.setGaussExponents(e);
         this.n = c.length;
@@ -69,7 +69,7 @@ public class LCGTO {
         return this.Z;
     }
 
-    public Atom getAtom() {
+    public AtomFixed getAtom() {
         return this.atom;
     }
 

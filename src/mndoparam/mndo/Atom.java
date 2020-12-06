@@ -1,11 +1,11 @@
 package mndoparam.mndo;
 
-public class AtomProperty {
+public class Atom {
     private static final double HEATCONV = 4.3363E-2;
     private String name;
     private double mass, heat;
 
-    public AtomProperty(String name, double mass, double heat) {
+    public Atom(String name, double mass, double heat) {
         this.name = name;
         this.mass = mass;
         this.heat = heat;

@@ -17,9 +17,10 @@ public class MoleculeRun extends AbstractMoleculeRun {
     private static final double LAMBDA = 1E-7;
     private static String trainingSet = "CHN";
 
-    public MoleculeRun(MNDOAtom[] atms, int charge, MNDOAtom[] expGeom, double[] datum, boolean runHessian) {
-        this.atoms = atms.clone();
-        // for some reason adding this.expGeom = expGeom makes it really slow.
+    public MoleculeRun(MNDOAtom[] atoms2, int charge, MNDOAtom[] expGeom, double[] datum, boolean runHessian) {
+        this.atoms = atoms2.clone();
+        // for some reason adding this makes it really slow.
+        //this.expGeom = expGeom;
 
         opt = new MNDOGeometryOptimization(atoms, charge);
 

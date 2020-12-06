@@ -1,10 +1,9 @@
 package mndoparam.mndo;
 
-import scf.Atom;
+import scf.AtomFixed;
 import scf.GTO;
-import scf.LCGTO;
 
-public class MNDOAtom extends Atom {
+public class MNDOAtom extends AtomFixed {
     protected double alpha, betas, betap, Uss, Upp, zetas, zetap, eisol, gss, gsp, hsp, gpp, gp2, p0, p1, p2, D1, D2;
     private MNDO6G[] orbitals;
 

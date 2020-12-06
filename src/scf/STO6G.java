@@ -12,7 +12,7 @@ public class STO6G extends LCGTO {
 
     private final static double[] coeff2p = new double[]{1.01708E-1, 4.25860E-1, 4.18036E-1, 1.73897E-1, 3.76794E-2, 3.75970E-3};
 
-    public STO6G(int i, int j, int k, double[] coordinates, int shell, int Z, Atom a, double zeta) {
+    public STO6G(int i, int j, int k, double[] coordinates, int shell, int Z, AtomFixed a, double zeta) {
         super(exp(shell, zeta), coeff(shell, (i + j + k)), i, j, k, coordinates, shell, Z, a);
     }
 

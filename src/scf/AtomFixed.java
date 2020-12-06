@@ -1,18 +1,15 @@
 package scf;
 
-public abstract class Atom {//abstract class. Consists of an array of LCGTO objects (ie. the valence orbitals), a coordinate array, an atomic charge Z and a core charge Q.
+public abstract class AtomFixed {//abstract class. Consists of an array of LCGTO objects (ie. the valence orbitals), a coordinate array, an atomic charge Z and a core charge Q.
     protected LCGTO[] orbitals;
     private double[] coordinates;
     protected int shell;
     private int Z, Q;
 
 
-    public Atom(LCGTO[] orbitals, double[] coordinates, int Z) {
-
+    public AtomFixed(LCGTO[] orbitals, double[] coordinates, int Z) {
         this.orbitals = orbitals;
-
         this.coordinates = coordinates;
-
         this.Z = Z;
 
         if (Z > 2) {
@@ -39,6 +36,4 @@ public abstract class Atom {//abstract class. Consists of an array of LCGTO obje
     public int getQ() {
         return this.Q;
     }
-
-
 }

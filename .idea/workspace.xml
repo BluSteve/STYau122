@@ -25,30 +25,23 @@
       <path>
         <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
         <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="BRANCH:integralmap" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="BRANCH:integralarray" type="e8cecc67:BranchNodeDescriptor" />
       </path>
     </select>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOSolution.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOSolution.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/runcycle/AbstractMoleculeRun.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/runcycle/AbstractMoleculeRun.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/runcycle/MoleculeRun.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/runcycle/MoleculeRun.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/runcycle/MoleculeRunUnrestricted.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/runcycle/MoleculeRunUnrestricted.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/scf/STO6G.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/scf/STO6G.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/scf/SpecialFunctions.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/scf/SpecialFunctions.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mndooutput.txt" beforeDir="false" afterPath="$PROJECT_DIR$/mndooutput.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/AbstractMoleculeRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/AbstractMoleculeRun.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mndoparam/mndo/AtomHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mndoparam/mndo/AtomHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mndoparam/mndo/AtomProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mndoparam/mndo/Atom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mndoparam/mndo/MNDOAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mndoparam/mndo/MNDOAtom.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRunUnrestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRunUnrestricted.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scf/Atom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/Atom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scf/Atom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/AtomFixed.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scf/LCGTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/LCGTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/scf/STO6G.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/STO6G.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scf/SpecialFunctions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/SpecialFunctions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testoutput.txt" beforeDir="false" afterPath="$PROJECT_DIR$/testoutput.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,6 +60,19 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="REMOTE">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="origin/testing" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
         <entry key="$PROJECT_DIR$" value="testing" />
@@ -136,6 +142,10 @@
       <workItem from="1606288097143" duration="15033000" />
       <workItem from="1606833437412" duration="5295000" />
       <workItem from="1606887714066" duration="15289000" />
+      <workItem from="1606922671340" duration="222000" />
+      <workItem from="1607059340314" duration="3092000" />
+      <workItem from="1607133705894" duration="3014000" />
+      <workItem from="1607231106615" duration="471000" />
     </task>
     <task id="LOCAL-00001" summary="Convert integralarray to integralMap, implement getKey() in MNDOSolution.java">
       <created>1606298586134</created>
@@ -186,7 +196,14 @@
       <option name="project" value="LOCAL" />
       <updated>1606906494710</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Minor reformatting.">
+      <created>1606922736048</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1606922736048</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -203,7 +220,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/master" />
+                        <option value="integralarray" />
                       </list>
                     </value>
                   </entry>
@@ -226,7 +243,8 @@
     <MESSAGE value="Optimize .gitignore further" />
     <MESSAGE value="Use OneCenterERI when applicable" />
     <MESSAGE value="Refactor Main.java, generalize atom properties, minor reformatting." />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor Main.java, generalize atom properties, minor reformatting." />
+    <MESSAGE value="Minor reformatting." />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor reformatting." />
   </component>
   <component name="WindowStateProjectService">
     <state x="726" y="345" width="1147" height="819" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1606308647663">
@@ -237,38 +255,38 @@
       <screen x="2560" y="0" width="2560" height="1440" />
     </state>
     <state x="3551" y="295" key="#com.intellij.ide.util.MemberChooser/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606901018099" />
-    <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1606901691542">
+    <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1607231360126">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606901691542" />
-    <state x="672" y="127" key="CommitChangelistDialog2" timestamp="1606906494143">
+    <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607231360126" />
+    <state x="672" y="127" key="CommitChangelistDialog2" timestamp="1606922735496">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state x="672" y="127" key="CommitChangelistDialog2/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606906494143" />
-    <state width="2493" height="274" key="GridCell.Tab.0.bottom" timestamp="1606920956973">
+    <state x="672" y="127" key="CommitChangelistDialog2/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606922735496" />
+    <state width="2493" height="274" key="GridCell.Tab.0.bottom" timestamp="1607231157784">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="2493" height="274" key="GridCell.Tab.0.bottom/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606920956973" />
-    <state width="2493" height="274" key="GridCell.Tab.0.center" timestamp="1606920956973">
+    <state width="2493" height="274" key="GridCell.Tab.0.bottom/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607231157784" />
+    <state width="2493" height="274" key="GridCell.Tab.0.center" timestamp="1607231157783">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="2493" height="274" key="GridCell.Tab.0.center/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606920956973" />
-    <state width="2493" height="274" key="GridCell.Tab.0.left" timestamp="1606920956973">
+    <state width="2493" height="274" key="GridCell.Tab.0.center/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607231157783" />
+    <state width="2493" height="274" key="GridCell.Tab.0.left" timestamp="1607231157783">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="2493" height="274" key="GridCell.Tab.0.left/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606920956973" />
-    <state width="2493" height="274" key="GridCell.Tab.0.right" timestamp="1606920956973">
+    <state width="2493" height="274" key="GridCell.Tab.0.left/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607231157783" />
+    <state width="2493" height="274" key="GridCell.Tab.0.right" timestamp="1607231157784">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="2493" height="274" key="GridCell.Tab.0.right/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606920956973" />
+    <state width="2493" height="274" key="GridCell.Tab.0.right/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607231157784" />
     <state x="538" y="167" key="SettingsEditor" timestamp="1606464385161">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state x="538" y="167" key="SettingsEditor/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606464385161" />
-    <state x="672" y="321" key="Vcs.Push.Dialog.v2" timestamp="1606466888062">
+    <state x="672" y="321" key="Vcs.Push.Dialog.v2" timestamp="1607231581257">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state x="672" y="321" key="Vcs.Push.Dialog.v2/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606466888062" />
+    <state x="672" y="321" key="Vcs.Push.Dialog.v2/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607231581257" />
     <state x="1146" y="654" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1606836466647">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
