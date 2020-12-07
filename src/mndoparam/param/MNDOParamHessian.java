@@ -3,6 +3,7 @@ package mndoparam.param;
 import java.util.Arrays;
 
 import mndoparam.mndo.MNDOAtom;
+import mndoparam.mndo.MNDOParams;
 import mndoparam.mndo.MNDOSolution;
 
 public class MNDOParamHessian {
@@ -33,16 +34,12 @@ public class MNDOParamHessian {
 			
 			perturbed[i] = new MNDOAtom (atoms[i]);
 			
-			if (atoms[i].getZ() == Z1) {
-				double[] params = atoms[i].getParams();
-				
-				//System.err.println(Arrays.toString(params));
-				
-				params[paramnum1] = params[paramnum1] + lambda;
-				
-				//System.err.println(Arrays.toString(params));
-				
-				perturbed[i] = new MNDOAtom (atoms[i].getCoordinates(), Z1, params);
+			if (atoms[i].getAtomProperties().getZ() == Z1) {
+				MNDOParams params = atoms[i].getParams();
+
+				params.modifyParam(paramnum1, lambda);
+
+				perturbed[i] = new MNDOAtom (atoms[i], params);
 			}
 		}
 		
@@ -170,16 +167,10 @@ public class MNDOParamHessian {
 			
 			perturbed[i] = new MNDOAtom (expatoms[i]);
 			
-			if (expatoms[i].getZ() == Z1) {
-				double[] params = expatoms[i].getParams();
-				
-				//System.err.println(Arrays.toString(params));
-				
-				params[paramnum1] = params[paramnum1] + lambda;
-				
-				//System.err.println(Arrays.toString(params));
-				
-				perturbed[i] = new MNDOAtom (expatoms[i].getCoordinates(), Z1, params);
+			if (expatoms[i].getAtomProperties().getZ() == Z1) {
+				MNDOParams params = expatoms[i].getParams();
+				params.modifyParam(paramnum1, lambda);
+				perturbed[i] = new MNDOAtom (expatoms[i],params);
 			}
 		}
 		gprime.createExpGeom(perturbed, new MNDOSolution(perturbed, expsoln.charge));

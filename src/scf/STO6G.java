@@ -12,8 +12,8 @@ public class STO6G extends LCGTO {
 
     private final static double[] coeff2p = new double[]{1.01708E-1, 4.25860E-1, 4.18036E-1, 1.73897E-1, 3.76794E-2, 3.75970E-3};
 
-    public STO6G(int i, int j, int k, double[] coordinates, int shell, int Z, AtomFixed a, double zeta) {
-        super(exp(shell, zeta), coeff(shell, (i + j + k)), i, j, k, coordinates, shell, Z, a);
+    public STO6G(double zeta, AtomFixed atom, OrbitalProperties orbital) {
+        super(exp(orbital.getShell(), zeta), coeff(orbital.getShell(), orbital.getL()), atom, orbital);
     }
 
     public STO6G() {
@@ -53,7 +53,7 @@ public class STO6G extends LCGTO {
                 }
         }
 
-        System.err.println("illegal atom");
+        System.err.println("illegal atom" + shell + L);
         return null;
     }
 

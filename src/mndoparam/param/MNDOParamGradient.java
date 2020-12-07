@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import mndoparam.mndo.MNDOAtom;
 import mndoparam.mndo.MNDOGeometryOptimization;
+import mndoparam.mndo.MNDOParams;
 import mndoparam.mndo.MNDOSolution;
 
 public class MNDOParamGradient {
@@ -24,94 +25,8 @@ public class MNDOParamGradient {
 	
 	public String str;
 	
-	public MNDOParamGradient (MNDOAtom[] atoms, int charge, int Z, int paramnum) {
-		
-		this.Z = Z;
-		this.paramnum = paramnum;
-		str = "";
-		
-		switch (Z) {
-		case 1:
-			System.err.print ("H ");
-			str += "H ";
-			break;
-		case 6:
-			System.err.print ("C ");
-			str += "C ";
-			break;
-		case 7:
-			System.err.print ("N ");
-			str += "N ";
-			break;
-		}
-		
-		switch (paramnum) {
-		case 0:
-			System.err.println ("ALPHA");
-			str += "ALPHA: ";
-			break;
-		case 1:
-			System.err.println ("BETAS");
-			str += "BETAS: ";
-			break;
-		case 2:
-			System.err.println ("BETAP");
-			str += "BETAP: ";
-			break;
-		case 3:
-			System.err.println ("USS");
-			str += "USS: ";
-			break;
-		case 4:
-			System.err.println ("UPP");
-			str += "UPP: ";
-			break;
-		case 5:
-			System.err.println ("ZETAS");
-			str += "ZETAS: ";
-			break;
-		case 6:
-			System.err.println ("ZETAP");
-			str += "ZETAP: ";
-			break;
-		case 7:
-			System.err.println ("EISOL");
-			str += "EISOL: ";
-			break;
-		default:
-			System.err.println ("DO NOT TOUCH");
-			System.exit(0);
-			
-		}
-		
-		this.atoms = atoms;
-		
-		s = new MNDOGeometryOptimization(atoms, charge).s;
-		
-		perturbed = new MNDOAtom [atoms.length];
-		
-		for (int i = 0; i < atoms.length; i++) {
-			
-			perturbed[i] = new MNDOAtom (atoms[i]);
-			
-			if (atoms[i].getZ() == Z) {
-				double[] params = atoms[i].getParams();
-				
-				//System.err.println(Arrays.toString(params));
-				
-				params[paramnum] = params[paramnum] + lambda;
-				
-				//System.err.println(Arrays.toString(params));
-				
-				perturbed[i] = new MNDOAtom (atoms[i].getCoordinates(), Z, params);
-			}
-		}
-		
-		sprime = new MNDOGeometryOptimization(perturbed, charge).s;
-		
-		
-	}
-	
+
+	// TODO reduce number of constructors
 	public MNDOParamGradient (MNDOAtom[] atoms, int charge, int Z, int paramnum, MNDOGeometryOptimization s) {
 		this.Z = Z;
 		this.paramnum = paramnum;
@@ -181,16 +96,12 @@ public class MNDOParamGradient {
 			
 			perturbed[i] = new MNDOAtom (atoms[i]);
 			
-			if (atoms[i].getZ() == Z) {
-				double[] params = atoms[i].getParams();
-				
-				//System.err.println(Arrays.toString(params));
-				
-				params[paramnum] = params[paramnum] + lambda;
-				
-				//System.err.println(Arrays.toString(params));
-				
-				perturbed[i] = new MNDOAtom (atoms[i].getCoordinates(), Z, params);
+			if (atoms[i].getAtomProperties().getZ() == Z) {
+				MNDOParams params = atoms[i].getParams();
+
+				params.modifyParam(paramnum, lambda);
+
+				perturbed[i] = new MNDOAtom (atoms[i], params);
 			}
 		}
 		
@@ -268,16 +179,12 @@ public class MNDOParamGradient {
 			
 			perturbed[i] = new MNDOAtom (atoms[i]);
 			
-			if (atoms[i].getZ() == Z) {
-				double[] params = atoms[i].getParams();
-				
-				//System.err.println(Arrays.toString(params));
-				
-				params[paramnum] = params[paramnum] + lambda;
-				
-				//System.err.println(Arrays.toString(params));
-				
-				perturbed[i] = new MNDOAtom (atoms[i].getCoordinates(), Z, params);
+			if (atoms[i].getAtomProperties().getZ() == Z) {
+				MNDOParams params = atoms[i].getParams();
+
+				params.modifyParam(paramnum, lambda);
+
+				perturbed[i] = new MNDOAtom (atoms[i], params);
 			}
 		}
 		
@@ -313,15 +220,9 @@ public class MNDOParamGradient {
 			
 			//System.err.println (Z);
 			
-			if (expatoms[i].getZ() == Z) {
-				double[] params = expatoms[i].getParams();
-				
-				//System.err.println(Arrays.toString(params));
-				
-				params[paramnum] = params[paramnum] + lambda;
-				
-				//System.err.println(Arrays.toString(params));
-				
+			if (expatoms[i].getAtomProperties().getZ() == Z) {
+				MNDOParams params = expatoms[i].getParams();
+				params.modifyParam(paramnum, lambda);
 				perturbed[i] = new MNDOAtom (expatoms[i], params);
 			}
 		}

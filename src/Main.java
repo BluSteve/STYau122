@@ -1,4 +1,5 @@
-import mndoparam.mndo.AtomHandler;
+import mndoparam.mndo.MNDOParams;
+import scf.AtomHandler;
 import mndoparam.mndo.MNDOAtom;
 import optimize.ParamOptimizer;
 import runcycle.AbstractMoleculeRun;
@@ -46,7 +47,7 @@ public class Main {
             AtomHandler.populateAtoms();
 
             try {
-                // this code is ugly. does mndoparams have a fixed size?
+                // this code is ugly. does mndoparams have a fixed size? TODO a lot of things here
                 Scanner paramScan = new Scanner(params);
                 String[] strings = paramScan.nextLine().split(",");
                 double[] paramVector = new double[strings.length];
@@ -54,13 +55,11 @@ public class Main {
                     paramVector[i] = Double.parseDouble(strings[i]);
                 }
 
-                double[] HParams = new double[13];
-                System.arraycopy(paramVector, 0, HParams, 0, 13);
-                double[] CParams = new double[13];
-                System.arraycopy(paramVector, 13, CParams, 0, 13);
-                double[] NParams = new double[13];
+                MNDOParams HParams = new MNDOParams(Arrays.copyOfRange(paramVector, 0, 13));
+                MNDOParams CParams = new MNDOParams(Arrays.copyOfRange(paramVector, 13, 26));
+                MNDOParams NParams = null;
                 if (trainingSet.contains("N")) {
-                    System.arraycopy(paramVector, 26, NParams, 0, 13);
+                    NParams = new MNDOParams(Arrays.copyOfRange(paramVector, 26, 39));
                 }
 
                 PrintWriter pw = new PrintWriter(new FileOutputStream(new File("mndooutput.txt"), true));
@@ -413,7 +412,7 @@ public class Main {
         }
     }
 
-    private static void parseInput(double[] hparams, double[] cparams, double[] nparams, ArrayList<MNDOAtom> array, String s) {
+    private static void parseInput(MNDOParams hparams, MNDOParams cparams, MNDOParams nparams, ArrayList<MNDOAtom> array, String s) {
         final double C = 1.88973;
         StringTokenizer t = new StringTokenizer(s, " ");
         t.nextToken();
@@ -422,31 +421,25 @@ public class Main {
         double d2 = Double.parseDouble(t.nextToken()) * C;
         double d3 = Double.parseDouble(t.nextToken()) * C;
 
-        int Z = 0;
-
-        double[] paramvec = new double[13];
+        MNDOParams paramvec = new MNDOParams();
 
         switch (element) {
             case "H":
-                Z = 1;
                 paramvec = hparams;
                 break;
             case "C":
-                Z = 6;
                 paramvec = cparams;
                 break;
             case "N":
-                Z = 7;
                 paramvec = nparams;
                 break;
             case "O":
-                Z = 8;
                 break;
             case "F":
-                Z = 9;
         }
+        AtomHandler.atomsMap.get(element);
 
-        array.add(new MNDOAtom(new double[]{d1, d2, d3}, Z, paramvec));
+        array.add(new MNDOAtom(AtomHandler.atomsMap.get(element), new double[]{d1, d2, d3}, paramvec));
     }
 
     private static void writeOutput(PrintWriter pw, ComputationRequest request, AbstractMoleculeRun result) {

@@ -19,29 +19,18 @@ public class MoleculeRunUnrestricted extends AbstractMoleculeRun {
 
     private static String trainingset = "CHN";
 
-    public MoleculeRunUnrestricted(MNDOAtom[] atms, int charge, int mult, MNDOAtom[] expgeom, double[] datum, boolean runHessian) {
+    public MoleculeRunUnrestricted(MNDOAtom[] atms, int charge, int mult, MNDOAtom[] expGeom, double[] datum, boolean runHessian) {
         this.atoms = atms.clone();
-        this.expgeom = expgeom.clone();
+        //this.expgeom = expGeom.clone();
 
         opt = new MNDOGeometryOptimizationUnrestricted(atoms, charge, mult);
 
         super.newGeomCoords = "UHF\n" + "CHARGE=" + charge + "\nMULT=" + mult + "\n";
 
         for (int i = 0; i < atoms.length; i++) {
-            String atmname = "";
-            switch (atoms[i].getZ()) {
-                case 1:
-                    atmname = "H";
-                    break;
-                case 6:
-                    atmname = "C";
-                    break;
-                case 7:
-                    atmname = "N";
-                    break;
-            }
-            String s = (i + 1) + "    " + atmname + "    " + String.format("%.9f", atoms[i].getCoordinates()[0] / 1.88973) + "    " + String.format("%.9f", atoms[i].getCoordinates()[1] / 1.88973) + "    " + String.format("%.9f", atoms[i].getCoordinates()[2] / 1.88973) + "\n";
+            String s = (i + 1) + "    " + atoms[i].getName() + "    " + String.format("%.9f", atoms[i].getCoordinates()[0] / 1.88973) + "    " + String.format("%.9f", atoms[i].getCoordinates()[1] / 1.88973) + "    " + String.format("%.9f", atoms[i].getCoordinates()[2] / 1.88973) + "\n";
             super.newGeomCoords = super.newGeomCoords + s;
+
         }
 
         String totalheatderiv = "";
@@ -52,8 +41,13 @@ public class MoleculeRunUnrestricted extends AbstractMoleculeRun {
         String excelstr = "";
         String excelstr2 = "";
 
-        if (expgeom != null) {
-            expsoln = new MNDOSolutionUnrestricted(expgeom, charge, mult);
+        if (expGeom != null) {
+            super.newGeomCoords += "EXPGEOM\n";
+            for (int i = 0; i < expGeom.length; i++) {
+                String s = (i + 1) + "    " + expGeom[i].getName() + "    " + String.format("%.9f", expGeom[i].getCoordinates()[0] / 1.88973) + "    " + String.format("%.9f", expGeom[i].getCoordinates()[1] / 1.88973) + "    " + String.format("%.9f", expGeom[i].getCoordinates()[2] / 1.88973) + "\n";
+                super.newGeomCoords = super.newGeomCoords + s;
+            }
+            expsoln = new MNDOSolutionUnrestricted(expGeom, charge, mult);
         }
 
         int size = 13;
@@ -106,8 +100,8 @@ public class MoleculeRunUnrestricted extends AbstractMoleculeRun {
 
                     h.constructErrors(datum[0]);
 
-                    if (expgeom != null) {
-                        h.createExpGeom(expgeom, expsoln);
+                    if (expGeom != null) {
+                        h.createExpGeom(expGeom, expsoln);
                         h.addGeomError();
                     }
 
@@ -149,8 +143,8 @@ public class MoleculeRunUnrestricted extends AbstractMoleculeRun {
 
                 g.constructErrors(datum[0]);
 
-                if (expgeom != null) {
-                    g.createExpGeom(expgeom, expsoln);
+                if (expGeom != null) {
+                    g.createExpGeom(expGeom, expsoln);
                     g.addGeomError();
                 }
 
@@ -172,7 +166,7 @@ public class MoleculeRunUnrestricted extends AbstractMoleculeRun {
                     totalionizationderiv += 1 / lambda * (-g.eprime.soln.homo + g.e.soln.homo) + ", ";
                 }
 
-                if (expgeom != null) {
+                if (expGeom != null) {
 
 
                     if (numit == 0) {
@@ -205,8 +199,8 @@ public class MoleculeRunUnrestricted extends AbstractMoleculeRun {
 
             g.constructErrors(datum[0]);
 
-            if (expgeom != null) {
-                g.createExpGeom(expgeom, expsoln);
+            if (expGeom != null) {
+                g.createExpGeom(expGeom, expsoln);
                 g.addGeomError();
             }
 
@@ -238,7 +232,7 @@ public class MoleculeRunUnrestricted extends AbstractMoleculeRun {
                 excelstr2 += ",,,";
             }
 
-            if (expgeom != null) {
+            if (expGeom != null) {
                 excelstr2 += "," + 0 + "," + g.e.gradient + ",";
                 if (numit == 7 && trainingset.equals("CH")) {
                     totalgeomderiv += 1 / lambda * (g.eprime.gradient - g.e.gradient) + "\n";
@@ -269,8 +263,8 @@ public class MoleculeRunUnrestricted extends AbstractMoleculeRun {
 
                 g.constructErrors(datum[0]);
 
-                if (expgeom != null) {
-                    g.createExpGeom(expgeom, expsoln);
+                if (expGeom != null) {
+                    g.createExpGeom(expGeom, expsoln);
                     g.addGeomError();
                 }
 
@@ -302,7 +296,7 @@ public class MoleculeRunUnrestricted extends AbstractMoleculeRun {
                     excelstr2 += ",,,";
                 }
 
-                if (expgeom != null) {
+                if (expGeom != null) {
                     excelstr2 += "," + 0 + "," + g.e.gradient + ",";
                     if (numit == 7) {
                         totalgeomderiv += 1 / lambda * (g.eprime.gradient - g.e.gradient) + "\n";

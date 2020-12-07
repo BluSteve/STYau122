@@ -47,7 +47,7 @@ public class MNDOSolutionUnrestricted {
         int n = 0;
 
         for (MNDOAtom a : atoms) {
-            n += a.getQ();
+            n += a.getAtomProperties().getQ();
         }
 
         n -= charge;
@@ -91,7 +91,7 @@ public class MNDOSolutionUnrestricted {
             }
 
 
-            if (a.getZ() == 1) {
+            if (a.getAtomProperties().getZ() == 1) {
                 index[count][1] = -1;
                 index[count][2] = -1;
                 index[count][3] = -1;
@@ -425,7 +425,7 @@ public class MNDOSolutionUnrestricted {
                     System.err.println("Damping Coefficient Cannot Be Increased Further. Exiting program...");
 
                     for (MNDOAtom a : atoms) {
-                        System.out.println(a.getZ() + "; " + Arrays.toString(a.getCoordinates()));
+                        System.out.println(a.getAtomProperties().getZ() + "; " + Arrays.toString(a.getCoordinates()));
                     }
                     System.exit(0);
 
@@ -490,7 +490,7 @@ public class MNDOSolutionUnrestricted {
                 }
             }
 
-            populations[j] = atoms[j].getQ() - sum;
+            populations[j] = atoms[j].getAtomProperties().getQ() - sum;
         }
 
 

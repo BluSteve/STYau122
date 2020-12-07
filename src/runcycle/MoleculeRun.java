@@ -32,13 +32,13 @@ public class MoleculeRun extends AbstractMoleculeRun {
 
         }
 
-//        if (expGeom != null) {
-//            super.newGeomCoords += "EXPGEOM\n";
-//            for (int i = 0; i < expGeom.length; i++) {
-//                String s = (i + 1) + "    " + expGeom[i].getName() + "    " + String.format("%.9f", expGeom[i].getCoordinates()[0] / 1.88973) + "    " + String.format("%.9f", expGeom[i].getCoordinates()[1] / 1.88973) + "    " + String.format("%.9f", expGeom[i].getCoordinates()[2] / 1.88973) + "\n";
-//                super.newGeomCoords = super.newGeomCoords + s;
-//            }
-//        }
+        if (expGeom != null) {
+            super.newGeomCoords += "EXPGEOM\n";
+            for (int i = 0; i < expGeom.length; i++) {
+                String s = (i + 1) + "    " + expGeom[i].getName() + "    " + String.format("%.9f", expGeom[i].getCoordinates()[0] / 1.88973) + "    " + String.format("%.9f", expGeom[i].getCoordinates()[1] / 1.88973) + "    " + String.format("%.9f", expGeom[i].getCoordinates()[2] / 1.88973) + "\n";
+                super.newGeomCoords = super.newGeomCoords + s;
+            }
+        }
 
         String totalheatderiv = "";
         String totalionizationderiv = "";
