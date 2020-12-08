@@ -3,7 +3,7 @@ package mndoparam.mndo;
 import scf.*;
 
 public class MNDOAtom extends AtomFixed {
-//    protected double mp.alpha, mp.betas, mp.betap, mp.Uss, mp.Upp, mp.zetas, mp.zetap, mp.eisol, mp.gss, mp.gsp, mp.hsp, mp.gpp, mp.gp2
+    //    protected double mp.alpha, mp.betas, mp.betap, mp.Uss, mp.Upp, mp.zetas, mp.zetap, mp.eisol, mp.gss, mp.gsp, mp.hsp, mp.gpp, mp.gp2
     protected double p0, p1, p2, D1, D2;
     private MNDO6G[] orbitals;
     private MNDOParams mp;
@@ -45,8 +45,10 @@ public class MNDOAtom extends AtomFixed {
             switch (orbitalProperties[x].getType()) {
                 case "s":
                     mndoOrbitals[x] = new MNDO6G(this, orbitalProperties[x], mp.getZetas(), mp.getBetas(), mp.getUss(), p0, p1, p2, D1, D2, mp.getGss(), mp.getGsp(), mp.getHsp(), mp.getGpp(), mp.getGp2());
+                    break;
                 case "p":
                     mndoOrbitals[x] = new MNDO6G(this, orbitalProperties[x], mp.getZetap(), mp.getBetap(), mp.getUpp(), p0, p1, p2, D1, D2, mp.getGss(), mp.getGsp(), mp.getHsp(), mp.getGpp(), mp.getGp2());
+                    break;
             }
         }
         return mndoOrbitals;
