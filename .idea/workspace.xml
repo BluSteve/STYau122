@@ -32,11 +32,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/mndoparam/mndo/AbstractMNDOSolution.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mndoparam/param/MNDOParamErrorFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mndoparam/param/MNDOParamErrorFunction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mndoparam/param/MNDOParamGradient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mndoparam/param/MNDOParamGradient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mndoparam/param/MNDOParamHessian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mndoparam/param/MNDOParamHessian.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scf/SpecialFunctions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/SpecialFunctions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOSolution.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOSolution.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOSolutionUnrestricted.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOSolutionUnrestricted.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mndooutput.txt" beforeDir="false" afterPath="$PROJECT_DIR$/mndooutput.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mndoparam/mndo/MNDOSolution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mndoparam/mndo/MNDOSolution.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mndoparam/mndo/MNDOSolutionUnrestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mndoparam/mndo/MNDOSolutionUnrestricted.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,6 +104,9 @@
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="Utils" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\billi\Documents\Gitted CS Projects\scf" />
     </key>
@@ -177,7 +183,7 @@
       <workItem from="1607231106615" duration="13458000" />
       <workItem from="1607263101392" duration="1188000" />
       <workItem from="1607324239315" duration="6873000" />
-      <workItem from="1607496936853" duration="3405000" />
+      <workItem from="1607496936853" duration="6485000" />
     </task>
     <task id="LOCAL-00001" summary="Convert integralarray to integralMap, implement getKey() in MNDOSolution.java">
       <created>1606298586134</created>
@@ -256,7 +262,14 @@
       <option name="project" value="LOCAL" />
       <updated>1607500548389</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Finish optimization of various special functions">
+      <created>1607501813088</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1607501813088</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -300,7 +313,8 @@
     <MESSAGE value="Minor changes" />
     <MESSAGE value="Successfully implement MNDOParams" />
     <MESSAGE value="Fix MNDO6G.java and reformat" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix MNDO6G.java and reformat" />
+    <MESSAGE value="Finish optimization of various special functions" />
+    <option name="LAST_COMMIT_MESSAGE" value="Finish optimization of various special functions" />
   </component>
   <component name="WindowStateProjectService">
     <state x="3232" y="232" key="#Template" timestamp="1607329099673">
@@ -319,38 +333,42 @@
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state x="830" y="229" key="#com.intellij.refactoring.encapsulateFields.EncalpsulateFieldsDialog/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607329482961" />
+    <state x="860" y="451" key="#com.intellij.refactoring.move.moveMembers.MoveMembersDialog" timestamp="1607501644973">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state x="860" y="451" key="#com.intellij.refactoring.move.moveMembers.MoveMembersDialog/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607501644973" />
     <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1607500761834">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607500761834" />
-    <state x="672" y="127" key="CommitChangelistDialog2" timestamp="1607500547641">
+    <state x="672" y="127" key="CommitChangelistDialog2" timestamp="1607501812522">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state x="672" y="127" key="CommitChangelistDialog2/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607500547641" />
-    <state width="2493" height="182" key="GridCell.Tab.0.bottom" timestamp="1607500638009">
+    <state x="672" y="127" key="CommitChangelistDialog2/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607501812522" />
+    <state width="2493" height="186" key="GridCell.Tab.0.bottom" timestamp="1607504595640">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="2493" height="182" key="GridCell.Tab.0.bottom/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607500638009" />
-    <state width="2493" height="182" key="GridCell.Tab.0.center" timestamp="1607500638009">
+    <state width="2493" height="186" key="GridCell.Tab.0.bottom/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607504595640" />
+    <state width="2493" height="186" key="GridCell.Tab.0.center" timestamp="1607504595640">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="2493" height="182" key="GridCell.Tab.0.center/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607500638009" />
-    <state width="2493" height="182" key="GridCell.Tab.0.left" timestamp="1607500638009">
+    <state width="2493" height="186" key="GridCell.Tab.0.center/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607504595640" />
+    <state width="2493" height="186" key="GridCell.Tab.0.left" timestamp="1607504595640">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="2493" height="182" key="GridCell.Tab.0.left/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607500638009" />
-    <state width="2493" height="182" key="GridCell.Tab.0.right" timestamp="1607500638009">
+    <state width="2493" height="186" key="GridCell.Tab.0.left/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607504595640" />
+    <state width="2493" height="186" key="GridCell.Tab.0.right" timestamp="1607504595640">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="2493" height="182" key="GridCell.Tab.0.right/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607500638009" />
+    <state width="2493" height="186" key="GridCell.Tab.0.right/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607504595640" />
     <state x="538" y="167" key="SettingsEditor" timestamp="1607501230704">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state x="538" y="167" key="SettingsEditor/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607501230704" />
-    <state x="672" y="321" key="Vcs.Push.Dialog.v2" timestamp="1607500549707">
+    <state x="672" y="321" key="Vcs.Push.Dialog.v2" timestamp="1607501814917">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state x="672" y="321" key="Vcs.Push.Dialog.v2/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607500549707" />
+    <state x="672" y="321" key="Vcs.Push.Dialog.v2/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607501814917" />
     <state x="1146" y="654" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1607233611149">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
@@ -371,10 +389,10 @@
       <screen x="2560" y="0" width="2560" height="1440" />
     </state>
     <state x="2560" y="0" width="2035" height="978" maximized="true" key="dock-window-2/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607242470608" />
-    <state x="879" y="370" key="extract.method.dialog" timestamp="1606835291822">
+    <state x="879" y="370" key="extract.method.dialog" timestamp="1607502786751">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state x="879" y="370" key="extract.method.dialog/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1606835291822" />
+    <state x="879" y="370" key="extract.method.dialog/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607502786751" />
     <state x="864" y="111" width="832" height="1218" key="find.popup" timestamp="1607238219427">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>

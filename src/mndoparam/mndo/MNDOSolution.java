@@ -6,153 +6,29 @@ import org.jblas.Eigen;
 import java.util.Arrays;
 
 
-public class MNDOSolution {
+public class MNDOSolution extends AbstractMNDOSolution {
 
-    private MNDO6G[] orbitals;
+    private DoubleMatrix densityMatrix;
 
-    private MNDOAtom[] atoms;
-
-    public double energy;
-
-    private DoubleMatrix densitymatrix;
-
-    public DoubleMatrix H, C, F, G, E;//H - core matrix, G = 2-electron matrix, F = fock matrix, C = coeffecient matrix (transposed for easier reading), E = eigenvalues
-
-    private int NElectrons;
-
-    public double hf, homo, lumo;
-
-    public double[] chargedip, hybridip, dipoletot;
-
-    public double dipole;
-
-    public int charge;
-
-    //private ArrayList<Double> integralarray;//my lazy implementation of integral storage
-
+    public DoubleMatrix C, F, G, E;//H - core matrix, G = 2-electron matrix, F = fock matrix, C = coeffecient matrix (transposed for easier reading), E = eigenvalues
     public MNDOSolution(MNDOAtom[] atoms, int charge) {
-
-        this.charge = charge;
-
-        double damp = 0.8;
-
-        int n = 0;
-
-        for (MNDOAtom a : atoms) {
-            n += a.getAtomProperties().getQ();
-        }
-
-        n -= charge;
-
-        this.NElectrons = n;
-        this.atoms = atoms;
-
-        int i = 0;
-
-        for (MNDOAtom a : atoms) {
-            i += a.getOrbitals().length;
-        }
-
-        orbitals = new MNDO6G[i];
-
-        i = 0;
-
-        int[][] index = new int[atoms.length][4];
-        int[] atomnumber = new int[orbitals.length];
-        int count = 0;
-        int count2 = 0;
-        for (MNDOAtom a : atoms) {
-            count2 = 0;
-            for (MNDO6G orbital : a.getOrbitals()) {
-                orbitals[i] = orbital;
-                index[count][count2] = i;
-                atomnumber[i] = count;
-                i++;
-                count2++;
-            }
-
-
-            if (a.getAtomProperties().getZ() == 1) {
-                index[count][1] = -1;
-                index[count][2] = -1;
-                index[count][3] = -1;
-
-            }
-            count++;
-        }
-
-        int[][] missingindex = new int[atoms.length][4 * atoms.length - 4];
-
-        for (int j = 0; j < atoms.length; j++) {
-            for (int k = 0; k < 4 * atoms.length - 4; k++) {
-                missingindex[j][k] = -1;
-            }
-        }
-
-        for (int j = 0; j < atoms.length; j++) {
-            int[] nums = new int[]{index[j][0], index[j][1], index[j][2], index[j][3]};
-            int counter = 0;
-            for (int k = 0; k < orbitals.length; k++) {
-                if (nums[0] != k && nums[1] != k && nums[2] != k && nums[3] != k) {
-                    missingindex[j][counter] = k;
-                    counter++;
-                }
-            }
-        }
-
-        H = new DoubleMatrix(orbitals.length, orbitals.length);
-
-        //filling up the core matrix in accordance with MNDO formalism
-
-        for (int j = 0; j < orbitals.length; j++) {
-            for (int k = j; k < orbitals.length; k++) {
-                if (k == j) {
-                    double Huu = orbitals[j].U();
-                    for (MNDOAtom a : atoms) {
-                        if (!Arrays.equals(a.getCoordinates(), orbitals[j].getCoords())) {
-                            Huu += a.V(orbitals[j], orbitals[k]);
-                        }
-                    }
-                    H.put(j, k, Huu);
-                } else if (Arrays.equals(orbitals[j].getCoords(), orbitals[k].getCoords())) {
-                    double Huv = 0;
-                    for (MNDOAtom a : atoms) {
-                        if (!Arrays.equals(a.getCoordinates(), orbitals[j].getCoords())) {
-                            Huv += a.V(orbitals[j], orbitals[k]);
-                        }
-                    }
-                    H.put(j, k, Huv);
-                    H.put(k, j, Huv);
-                } else {
-                    double Huk = MNDO6G.beta(orbitals[j], orbitals[k]);
-                    H.put(j, k, Huk);
-                    H.put(k, j, Huk);
-                }
-            }
-        }
-
-        //for (int j = 0; j < orbitals.length; j++) {
-        //for (int k = 0; k < j + 1; k++) {
-        //System.out.printf ("%-15f", H.get(j, k));
-        //}
-        //System.out.println ("");
-        //}
+        super(atoms, charge);
         int size = 0;
         for (int j = 0; j < orbitals.length; j++) {
             for (int k = j; k < orbitals.length; k++) {
                 if (j == k) {
 
-                    for (int l : index[atomnumber[j]]) {
+                    for (int l : index[atomNumber[j]]) {
                         if (l > -1) {
                             size++;
                         }
                     }
 
-                    for (int l : missingindex[atomnumber[j]]) {
+                    for (int l : missingIndex[atomNumber[j]]) {
                         if (l > -1) {
-                            for (int m : missingindex[atomnumber[j]]) {
+                            for (int m : missingIndex[atomNumber[j]]) {
                                 if (m > -1) {
-                                    if (atomnumber[l] == atomnumber[m]) {
+                                    if (atomNumber[l] == atomNumber[m]) {
                                         size++;
                                     }
                                 }
@@ -160,14 +36,14 @@ public class MNDOSolution {
                             }
                         }
                     }
-                } else if (atomnumber[j] == atomnumber[k]) {
+                } else if (atomNumber[j] == atomNumber[k]) {
                     size++;
 
-                    for (int l : missingindex[atomnumber[j]]) {
+                    for (int l : missingIndex[atomNumber[j]]) {
                         if (l > -1) {
-                            for (int m : missingindex[atomnumber[j]]) {
+                            for (int m : missingIndex[atomNumber[j]]) {
                                 if (m > -1) {
-                                    if (atomnumber[l] == atomnumber[m]) {
+                                    if (atomNumber[l] == atomNumber[m]) {
                                         size++;
                                     }
                                 }
@@ -176,9 +52,9 @@ public class MNDOSolution {
                         }
                     }
                 } else {
-                    for (int l : index[atomnumber[j]]) {
+                    for (int l : index[atomNumber[j]]) {
                         if (l > -1) {
-                            for (int m : index[atomnumber[k]]) {
+                            for (int m : index[atomNumber[k]]) {
                                 if (m > -1) {
                                     size++;
                                 }
@@ -197,18 +73,18 @@ public class MNDOSolution {
             for (int k = j; k < orbitals.length; k++) {
                 if (j == k) {
 
-                    for (int l : index[atomnumber[j]]) {
+                    for (int l : index[atomNumber[j]]) {
                         if (l > -1) {
                             integralArray[integralcount] = (MNDO6G.OneCenterERI(orbitals[j], orbitals[j], orbitals[l], orbitals[l]) - 0.5 * MNDO6G.OneCenterERI(orbitals[j], orbitals[l], orbitals[j], orbitals[l]));
                             integralcount++;
                         }
                     }
 
-                    for (int l : missingindex[atomnumber[j]]) {
+                    for (int l : missingIndex[atomNumber[j]]) {
                         if (l > -1) {
-                            for (int m : missingindex[atomnumber[j]]) {
+                            for (int m : missingIndex[atomNumber[j]]) {
                                 if (m > -1) {
-                                    if (atomnumber[l] == atomnumber[m]) {
+                                    if (atomNumber[l] == atomNumber[m]) {
                                         integralArray[integralcount] = (MNDO6G.getG(orbitals[j], orbitals[j], orbitals[l], orbitals[m]));
                                         integralcount++;
                                     }
@@ -217,14 +93,14 @@ public class MNDOSolution {
                             }
                         }
                     }
-                } else if (atomnumber[j] == atomnumber[k]) {
+                } else if (atomNumber[j] == atomNumber[k]) {
                     integralArray[integralcount] = (1.5 * MNDO6G.OneCenterERI(orbitals[j], orbitals[k], orbitals[j], orbitals[k]) - 0.5 * MNDO6G.OneCenterERI(orbitals[j], orbitals[j], orbitals[k], orbitals[k]));
                     integralcount++;
-                    for (int l : missingindex[atomnumber[j]]) {
+                    for (int l : missingIndex[atomNumber[j]]) {
                         if (l > -1) {
-                            for (int m : missingindex[atomnumber[j]]) {
+                            for (int m : missingIndex[atomNumber[j]]) {
                                 if (m > -1) {
-                                    if (atomnumber[l] == atomnumber[m]) {
+                                    if (atomNumber[l] == atomNumber[m]) {
                                         integralArray[integralcount] = (MNDO6G.getG(orbitals[j], orbitals[k], orbitals[l], orbitals[m]));
                                         integralcount++;
                                     }
@@ -234,9 +110,9 @@ public class MNDOSolution {
                         }
                     }
                 } else {
-                    for (int l : index[atomnumber[j]]) {
+                    for (int l : index[atomNumber[j]]) {
                         if (l > -1) {
-                            for (int m : index[atomnumber[k]]) {
+                            for (int m : index[atomNumber[k]]) {
                                 if (m > -1) {
                                     integralArray[integralcount] = (-0.5 * MNDO6G.getG(orbitals[j], orbitals[l], orbitals[k], orbitals[m]));
                                     integralcount++;
@@ -259,7 +135,7 @@ public class MNDOSolution {
 
         G = DoubleMatrix.zeros(C.rows, C.columns);
 
-        densitymatrix = DensityMatrix(C);
+        densityMatrix = DensityMatrix(C);
 
         DoubleMatrix olddensity = DoubleMatrix.zeros(C.rows, C.columns);
 
@@ -268,10 +144,10 @@ public class MNDOSolution {
 
         int numIt = 0;
 
-        while (!isSimilar(densitymatrix, olddensity, 1E-10)) {//density matrix convergence criteria; since each iteration takes place within a fraction of a second I figured why not
+        while (!isSimilar(densityMatrix, olddensity, 1E-10)) {//density matrix convergence criteria; since each iteration takes place within a fraction of a second I figured why not
 
             numIt++;
-            olddensity = densitymatrix.dup();
+            olddensity = densityMatrix.dup();
 
             integralcount = 0;
 
@@ -282,19 +158,19 @@ public class MNDOSolution {
                     double val = 0;
                     if (j == k) {
 
-                        for (int l : index[atomnumber[j]]) {
+                        for (int l : index[atomNumber[j]]) {
                             if (l > -1) {
-                                val += densitymatrix.get(l, l) * integralArray[integralcount];
+                                val += densityMatrix.get(l, l) * integralArray[integralcount];
                                 integralcount++;
                             }
                         }
 
-                        for (int l : missingindex[atomnumber[j]]) {
+                        for (int l : missingIndex[atomNumber[j]]) {
                             if (l > -1) {
-                                for (int m : missingindex[atomnumber[j]]) {
+                                for (int m : missingIndex[atomNumber[j]]) {
                                     if (m > -1) {
-                                        if (atomnumber[l] == atomnumber[m]) {
-                                            val += densitymatrix.get(l, m) * integralArray[integralcount];
+                                        if (atomNumber[l] == atomNumber[m]) {
+                                            val += densityMatrix.get(l, m) * integralArray[integralcount];
                                             integralcount++;
                                         }
                                     }
@@ -302,16 +178,16 @@ public class MNDOSolution {
                                 }
                             }
                         }
-                    } else if (atomnumber[j] == atomnumber[k]) {
-                        val += densitymatrix.get(j, k) * integralArray[integralcount];
+                    } else if (atomNumber[j] == atomNumber[k]) {
+                        val += densityMatrix.get(j, k) * integralArray[integralcount];
                         integralcount++;
 
-                        for (int l : missingindex[atomnumber[j]]) {
+                        for (int l : missingIndex[atomNumber[j]]) {
                             if (l > -1) {
-                                for (int m : missingindex[atomnumber[j]]) {
+                                for (int m : missingIndex[atomNumber[j]]) {
                                     if (m > -1) {
-                                        if (atomnumber[l] == atomnumber[m]) {
-                                            val += densitymatrix.get(l, m) * integralArray[integralcount];
+                                        if (atomNumber[l] == atomNumber[m]) {
+                                            val += densityMatrix.get(l, m) * integralArray[integralcount];
                                             integralcount++;
                                         }
                                     }
@@ -320,11 +196,11 @@ public class MNDOSolution {
                             }
                         }
                     } else {
-                        for (int l : index[atomnumber[j]]) {
+                        for (int l : index[atomNumber[j]]) {
                             if (l > -1) {
-                                for (int m : index[atomnumber[k]]) {
+                                for (int m : index[atomNumber[k]]) {
                                     if (m > -1) {
-                                        val += densitymatrix.get(l, m) * integralArray[integralcount];
+                                        val += densityMatrix.get(l, m) * integralArray[integralcount];
                                         integralcount++;
                                     }
                                 }
@@ -348,7 +224,7 @@ public class MNDOSolution {
 
             C = matrices[0].transpose();
 
-            densitymatrix = DensityMatrix(C).mmul(1 - damp).add(olddensity.mmul(damp));
+            densityMatrix = DensityMatrix(C).mmul(1 - damp).add(olddensity.mmul(damp));
 
             //System.out.println (densitymatrix);
 
@@ -368,7 +244,7 @@ public class MNDOSolution {
 
                 G = DoubleMatrix.zeros(C.rows, C.columns);
 
-                densitymatrix = DensityMatrix(C);
+                densityMatrix = DensityMatrix(C);
 
                 numIt = 0;
 
@@ -389,33 +265,27 @@ public class MNDOSolution {
 
         //System.out.println ("Eigenvalues: " + E + "\n\n");
 
-        //System.out.println ("Ionization energy: " + 0.001 * Math.round(E.get(NElectrons / 2 - 1, 0) * 1000) + " eV");
+        //System.out.println ("Ionization energy: " + 0.001 * Math.round(E.get(nElectrons / 2 - 1, 0) * 1000) + " eV");
 
-        //System.out.println ("LUMO energy: " + 0.001 * Math.round(E.get(NElectrons / 2, 0) * 1000) + " eV");
+        //System.out.println ("LUMO energy: " + 0.001 * Math.round(E.get(nElectrons / 2, 0) * 1000) + " eV");
 
         double e = 0;
 
         for (int j = 0; j < orbitals.length; j++) {
             for (int k = 0; k < orbitals.length; k++) {
-                e += 0.5 * densitymatrix.get(j, k) * (H.get(j, k) + F.get(j, k));
+                e += 0.5 * densityMatrix.get(j, k) * (H.get(j, k) + F.get(j, k));
             }
         }
         //System.out.println ("Electronic energy: " + 0.01 * Math.round(e * 100) + " eV");
-
-        double d = 0;
-
         double heat = 0;
 
         for (int j = 0; j < atoms.length; j++) {
             heat += atoms[j].getHeat() - atoms[j].getEisol();
             for (int k = j + 1; k < atoms.length; k++) {
-                d += MNDOAtom.crf(atoms[j], atoms[k]);
                 e += MNDOAtom.crf(atoms[j], atoms[k]);
             }
         }
-
         //System.out.println ("Core repulsion energy: " + 0.01 * Math.round(d * 100) + " eV");
-
         //System.out.println ("Energy: " + 0.01 * Math.round(e * 100) + " eV");
 
         energy = e;
@@ -424,13 +294,13 @@ public class MNDOSolution {
 
         this.hf = heat / 4.3363E-2;
 
-        if (NElectrons > 0) {
-            this.homo = E.get(NElectrons / 2 - 1, 0);
+        if (nElectrons > 0) {
+            this.homo = E.get(nElectrons / 2 - 1, 0);
         } else {
             this.homo = 0;
         }
 
-        this.lumo = E.get(NElectrons / 2, 0);
+        this.lumo = E.get(nElectrons / 2, 0);
 
         //System.out.println ("Heat of Formation: " + 0.01 * Math.round(heat * 100) + " eV = " + 0.01 * Math.round(heat * 100 / 4.3363E-2) + "kcal/mol");
 
@@ -440,7 +310,7 @@ public class MNDOSolution {
             double sum = 0;
             for (int k : index[j]) {
                 if (k > -1) {
-                    sum += densitymatrix.get(k, k);
+                    sum += densityMatrix.get(k, k);
                 }
             }
 
@@ -452,11 +322,11 @@ public class MNDOSolution {
 
         double mass = 0;
 
-        for (int j = 0; j < atoms.length; j++) {
-            com[0] = com[0] + atoms[j].getMass() * atoms[j].getCoordinates()[0];
-            com[1] = com[1] + atoms[j].getMass() * atoms[j].getCoordinates()[1];
-            com[2] = com[2] + atoms[j].getMass() * atoms[j].getCoordinates()[2];
-            mass += atoms[j].getMass();
+        for (MNDOAtom atom : atoms) {
+            com[0] = com[0] + atom.getMass() * atom.getCoordinates()[0];
+            com[1] = com[1] + atom.getMass() * atom.getCoordinates()[1];
+            com[2] = com[2] + atom.getMass() * atom.getCoordinates()[2];
+            mass += atom.getMass();
         }
 
         com[0] = com[0] / mass;
@@ -483,9 +353,9 @@ public class MNDOSolution {
         for (int j = 0; j < atoms.length; j++) {
 
             if (index[j][1] != -1) {//exclude hydrogen
-                hybridip[0] = hybridip[0] - 2.5416 * 2 * atoms[j].D1 * densitymatrix.get(index[j][0], index[j][1]);
-                hybridip[1] = hybridip[1] - 2.5416 * 2 * atoms[j].D1 * densitymatrix.get(index[j][0], index[j][2]);
-                hybridip[2] = hybridip[2] - 2.5416 * 2 * atoms[j].D1 * densitymatrix.get(index[j][0], index[j][3]);
+                hybridip[0] = hybridip[0] - 2.5416 * 2 * atoms[j].D1 * densityMatrix.get(index[j][0], index[j][1]);
+                hybridip[1] = hybridip[1] - 2.5416 * 2 * atoms[j].D1 * densityMatrix.get(index[j][0], index[j][2]);
+                hybridip[2] = hybridip[2] - 2.5416 * 2 * atoms[j].D1 * densityMatrix.get(index[j][0], index[j][3]);
             }
         }
 
@@ -519,7 +389,7 @@ public class MNDOSolution {
         for (int i = 0; i < orbitals.length; i++) {
             for (int j = 0; j < orbitals.length; j++) {
                 double sum = 0;
-                int count = NElectrons;
+                int count = nElectrons;
                 int counter = -1;
 
 
@@ -536,28 +406,12 @@ public class MNDOSolution {
                 densitymatrix.put(i, j, sum);
             }
         }
-
-
         return densitymatrix;
     }
 
-    private static boolean isSimilar(DoubleMatrix x, DoubleMatrix y, double limit) {
 
-        for (int i = 0; i < y.rows; i++) {
-
-            for (int j = 0; j < y.columns; j++) {
-
-                if (Math.abs(x.get(i, j) - y.get(i, j)) > limit) {
-
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
 
     public DoubleMatrix densitymatrix() {
-        return this.densitymatrix;
+        return this.densityMatrix;
     }
 }
