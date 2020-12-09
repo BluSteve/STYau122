@@ -173,7 +173,7 @@ public class GTO {
     }
 
     private static double Boys(int n, double T) {//Boys function Fn(T). Used in the potential energy and two-electron integrals.
-        return SpecialFunctions.confluentHypergeometric1F1(n + 0.5, n + 1.5, -T) / (2 * n + 1);
+        return Utils.confluentHypergeometric1F1(n + 0.5, n + 1.5, -T) / (2 * n + 1);
     }
 
     public static double erf2(double z) {

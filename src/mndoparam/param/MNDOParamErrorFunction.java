@@ -19,11 +19,11 @@ public class MNDOParamErrorFunction {
 
     public double gradient;
 
-    private ArrayList<Double> bonderrors;
+    private ArrayList<Double> bondErrors;
 
-    private ArrayList<Double> angleerrors;
+    private ArrayList<Double> angleErrors;
 
-    public ArrayList<Double> bondderivatives, anglederivatives;
+    public ArrayList<Double> bondDerivatives, angleDerivatives;
 
     public ArrayList<Double> bonds, angles;
 
@@ -31,9 +31,9 @@ public class MNDOParamErrorFunction {
 
     private MNDOAtom[] atoms;
 
-    private MNDOSolution expsoln;
+    private MNDOSolution expSoln;
 
-    public MNDOAtom[] expatoms;
+    public MNDOAtom[] expAtoms;
 
 
     public MNDOParamErrorFunction(MNDOAtom[] atoms, MNDOSolution soln, double refHeat) {
@@ -48,128 +48,85 @@ public class MNDOParamErrorFunction {
 
         this.IEError = 0;
 
-        this.angleerrors = new ArrayList<Double>();
-        this.bonderrors = new ArrayList<Double>();
-        this.bonds = new ArrayList<Double>();
-        this.angles = new ArrayList<Double>();
-        this.bondderivatives = new ArrayList<Double>();
-        this.anglederivatives = new ArrayList<Double>();
-
-        //System.out.println ("Reference heat of formation: " + refHeat);
-        //System.out.println ("Calculated heat of formation: " + soln.hf);
+        this.angleErrors = new ArrayList<>();
+        this.bondErrors = new ArrayList<>();
+        this.bonds = new ArrayList<>();
+        this.angles = new ArrayList<>();
+        this.bondDerivatives = new ArrayList<>();
+        this.angleDerivatives = new ArrayList<>();
     }
 
     public void AddDipoleError(double refDipole) {
-        //System.out.println ("Reference dipole: " + refDipole);
-        //System.out.println ("Calculated dipole: " + soln.dipole);
         this.DipoleError = 400 * (soln.dipole - refDipole) * (soln.dipole - refDipole);
     }
 
     public void AddIEError(double refIE) {
-        //System.out.println ("Reference IE: " + refIE);
-        //System.out.println ("Calculated IE: " + -soln.homo);
         this.IEError = 100 * (refIE + soln.homo) * (refIE + soln.homo);
     }
 
     public void createExpGeom(MNDOAtom[] expatoms, MNDOSolution expsoln) {
-        this.expatoms = expatoms;
-        this.expsoln = expsoln;
+        this.expAtoms = expatoms;
+        this.expSoln = expsoln;
     }
 
     public void AddGeomError() {
-
         double sum = 0;
 
-        for (int i = 0; i < expatoms.length; i++) {
+        for (int i = 0; i < expAtoms.length; i++) {
             for (int j = 0; j < 3; j++) {
-                double d = MNDODerivative.gradient(expatoms, expsoln.densitymatrix(), i, j);
+                double d = MNDODerivative.gradient(expAtoms, expSoln.densitymatrix(), i, j);
                 sum += d * d;
             }
         }
 
         System.err.println("Geometry Obtained");
-
         this.gradient = 627.5 * Math.sqrt(sum);
-
         this.GeomError = 0.000049 * 627.5 * 627.5 * sum;
-
     }
 
     public void AddBondError(int atom1, int atom2, double ref) {
         double length = GTO.R(atoms[atom1].getCoordinates(), atoms[atom2].getCoordinates()) / 1.88973;
-        //System.out.println ("Reference bond length: " + ref);
-        //System.out.println ("Calculated bond length: " + length);
         this.bonds.add(length);
-
-
-        double[] R = new double[]{expatoms[atom2].getCoordinates()[0] - expatoms[atom1].getCoordinates()[0], expatoms[atom2].getCoordinates()[1] - expatoms[atom1].getCoordinates()[1], expatoms[atom2].getCoordinates()[2] - expatoms[atom1].getCoordinates()[2]};
-
-        double dist = GTO.R(expatoms[atom2].getCoordinates(), expatoms[atom1].getCoordinates());
-
-        double deriv = R[0] / dist * MNDODerivative.gradient(expatoms, expsoln.densitymatrix(), atom2, 0)
-                + R[1] / dist * MNDODerivative.gradient(expatoms, expsoln.densitymatrix(), atom2, 1)
-                + R[2] / dist * MNDODerivative.gradient(expatoms, expsoln.densitymatrix(), atom2, 2);
-
+        double[] R = new double[]{expAtoms[atom2].getCoordinates()[0] - expAtoms[atom1].getCoordinates()[0], expAtoms[atom2].getCoordinates()[1] - expAtoms[atom1].getCoordinates()[1], expAtoms[atom2].getCoordinates()[2] - expAtoms[atom1].getCoordinates()[2]};
+        double dist = GTO.R(expAtoms[atom2].getCoordinates(), expAtoms[atom1].getCoordinates());
+        double deriv = R[0] / dist * MNDODerivative.gradient(expAtoms, expSoln.densitymatrix(), atom2, 0)
+                + R[1] / dist * MNDODerivative.gradient(expAtoms, expSoln.densitymatrix(), atom2, 1)
+                + R[2] / dist * MNDODerivative.gradient(expAtoms, expSoln.densitymatrix(), atom2, 2);
         deriv = 627.5 * deriv;
-
-
         deriv = 1E-13 * Math.round(deriv * 1E13);
-
-        int numrow = MNDODerivative.Hderiv(expatoms, expsoln.densitymatrix(), atom2, 0).rows;
-
-        //System.err.println (MNDOParamDerivative.Hderivative(expatoms, expsoln.densitymatrix(), atom2, 0));
-
-        //System.err.println (MNDOParamDerivative.Gderivative(expatoms, expsoln.densitymatrix(), atom2, 0));
-
-
-        for (int num = 0; num < numrow; num++) {
-
-
-            //System.err.println (MNDOParamDerivative.Hderivative(expatoms, expsoln.densitymatrix(), atom2, 1));
-
-            //System.err.println (MNDOParamDerivative.Gderivative(expatoms, expsoln.densitymatrix(), atom2, 1));
-
-            //System.err.println (MNDOParamDerivative.Hderivative(expatoms, expsoln.densitymatrix(), atom2, 2));
-
-            //System.err.println (MNDOParamDerivative.Gderivative(expatoms, expsoln.densitymatrix(), atom2, 2));
-        }
-
-
-        this.bondderivatives.add(deriv);
-
-        this.bonderrors.add(0.49 * (deriv) * (deriv));
-
+        this.bondDerivatives.add(deriv);
+        this.bondErrors.add(0.49 * (deriv) * (deriv));
     }
 
     public void AddAngleError(int atom1, int atom2, int atom3, double ref) {
-        double[] vector1 = new double[]{expatoms[atom1].getCoordinates()[0] - expatoms[atom2].getCoordinates()[0],
-                expatoms[atom1].getCoordinates()[1] - expatoms[atom2].getCoordinates()[1],
-                expatoms[atom1].getCoordinates()[2] - expatoms[atom2].getCoordinates()[2]};
+        double[] vector1 = new double[]{expAtoms[atom1].getCoordinates()[0] - expAtoms[atom2].getCoordinates()[0],
+                expAtoms[atom1].getCoordinates()[1] - expAtoms[atom2].getCoordinates()[1],
+                expAtoms[atom1].getCoordinates()[2] - expAtoms[atom2].getCoordinates()[2]};
 
-        double[] vector2 = new double[]{expatoms[atom3].getCoordinates()[0] - expatoms[atom2].getCoordinates()[0],
-                expatoms[atom3].getCoordinates()[1] - expatoms[atom2].getCoordinates()[1],
-                expatoms[atom3].getCoordinates()[2] - expatoms[atom2].getCoordinates()[2]};
+        double[] vector2 = new double[]{expAtoms[atom3].getCoordinates()[0] - expAtoms[atom2].getCoordinates()[0],
+                expAtoms[atom3].getCoordinates()[1] - expAtoms[atom2].getCoordinates()[1],
+                expAtoms[atom3].getCoordinates()[2] - expAtoms[atom2].getCoordinates()[2]};
 
         double angle = theta(vector1[0], vector1[1], vector1[2], vector2[0], vector2[1], vector2[2]);
 
-        double[] perpendicularvector = normalizedvector(cross(vector1, vector2));
+        double[] perpendicularvector = normalizedVector(cross(vector1, vector2));
 
 
-        double[] coeff = normalizedvector(cross(vector2, perpendicularvector));
+        double[] coeff = normalizedVector(cross(vector2, perpendicularvector));
 
-        double deriv = coeff[0] * MNDODerivative.gradient(expatoms, expsoln.densitymatrix(), atom2, 0)
-                + coeff[1] * MNDODerivative.gradient(expatoms, expsoln.densitymatrix(), atom2, 1)
-                + coeff[2] * MNDODerivative.gradient(expatoms, expsoln.densitymatrix(), atom2, 2);
+        double deriv = coeff[0] * MNDODerivative.gradient(expAtoms, expSoln.densitymatrix(), atom2, 0)
+                + coeff[1] * MNDODerivative.gradient(expAtoms, expSoln.densitymatrix(), atom2, 1)
+                + coeff[2] * MNDODerivative.gradient(expAtoms, expSoln.densitymatrix(), atom2, 2);
 
         deriv = 627.5 * deriv;
 
         deriv = 1E-13 * Math.round(deriv * 1E13);
 
-        this.anglederivatives.add(deriv);
+        this.angleDerivatives.add(deriv);
 
         this.angles.add(angle);
 
-        this.angleerrors.add(0.49 * (deriv) * (deriv));
+        this.angleErrors.add(0.49 * (deriv) * (deriv));
     }
 
     private static double theta(double x1, double y1, double z1, double x2, double y2, double z2) {
@@ -185,7 +142,7 @@ public class MNDOParamErrorFunction {
         return new double[]{a[1] * b[2] - a[1] * b[2], b[0] * a[2] - a[0] * b[2], a[0] * b[1] - b[0] * a[1]};
     }
 
-    private static double[] normalizedvector(double[] v) {
+    private static double[] normalizedVector(double[] v) {
         double val = mag(v);
 
         return new double[]{v[0] / val, v[1] / val, v[2] / val};
@@ -196,11 +153,11 @@ public class MNDOParamErrorFunction {
         double sum = HeatError + DipoleError + IEError + GeomError;
 
 
-        for (Double d : angleerrors) {
+        for (Double d : angleErrors) {
             sum += d;
         }
 
-        for (Double d : bonderrors) {
+        for (Double d : bondErrors) {
             sum += d;
         }
 
