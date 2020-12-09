@@ -1,9 +1,9 @@
 package mndoparam.mndo;
 
-import java.util.Arrays;
-
 import org.jblas.DoubleMatrix;
 import org.jblas.Eigen;
+
+import java.util.Arrays;
 
 
 public class MNDOSolution {

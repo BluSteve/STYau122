@@ -1,9 +1,11 @@
 package runcycle;
 
+import mndoparam.mndo.MNDOAtom;
+import mndoparam.mndo.MNDOGeometryOptimizationUnrestricted;
+import mndoparam.mndo.MNDOSolutionUnrestricted;
+import mndoparam.param.MNDOParamGradientUnrestricted;
+import mndoparam.param.MNDOParamHessianUnrestricted;
 import org.jblas.DoubleMatrix;
-
-import mndoparam.mndo.*;
-import mndoparam.param.*;
 
 public class MoleculeRunUnrestricted extends AbstractMoleculeRun {
 

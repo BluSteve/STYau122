@@ -44,10 +44,10 @@ public class MNDOAtom extends AtomFixed {
         for (int x = 0; x < mndoOrbitals.length; x++) {
             switch (orbitalProperties[x].getType()) {
                 case "s":
-                    mndoOrbitals[x] = new MNDO6G(this, orbitalProperties[x], mp.getZetas(), mp.getBetas(), mp.getUss(), p0, p1, p2, D1, D2, mp.getGss(), mp.getGsp(), mp.getHsp(), mp.getGpp(), mp.getGp2());
+                    mndoOrbitals[x] = new MNDO6G(this, orbitalProperties[x], mp.getZetas(), mp.getBetas(), mp.getUss());
                     break;
                 case "p":
-                    mndoOrbitals[x] = new MNDO6G(this, orbitalProperties[x], mp.getZetap(), mp.getBetap(), mp.getUpp(), p0, p1, p2, D1, D2, mp.getGss(), mp.getGsp(), mp.getHsp(), mp.getGpp(), mp.getGp2());
+                    mndoOrbitals[x] = new MNDO6G(this, orbitalProperties[x], mp.getZetap(), mp.getBetap(), mp.getUpp());
                     break;
             }
         }

@@ -1,7 +1,6 @@
 package mndoparam.mndo;
 
 import org.jblas.DoubleMatrix;
-
 import scf.GTO;
 import scf.LCGTO;
 
@@ -687,16 +686,16 @@ public class MNDODerivative {
         double[] coeffC = c.decomposition(a.getCoords(), c.getCoords());
         double[] coeffD = d.decomposition(a.getCoords(), c.getCoords());
 
-        double[] coeffAderiv = derivativedecomposition(a.getCoords(), c.getCoords(), a, tau);
-        double[] coeffBderiv = derivativedecomposition(a.getCoords(), c.getCoords(), b, tau);
-        double[] coeffCderiv = derivativedecomposition(a.getCoords(), c.getCoords(), c, tau);
-        double[] coeffDderiv = derivativedecomposition(a.getCoords(), c.getCoords(), d, tau);
+        double[] coeffAderiv = derivativeDecomposition(a.getCoords(), c.getCoords(), a, tau);
+        double[] coeffBderiv = derivativeDecomposition(a.getCoords(), c.getCoords(), b, tau);
+        double[] coeffCderiv = derivativeDecomposition(a.getCoords(), c.getCoords(), c, tau);
+        double[] coeffDderiv = derivativeDecomposition(a.getCoords(), c.getCoords(), d, tau);
 
 
-        MNDO6G[] A = a.orbitalarray2();
-        MNDO6G[] B = b.orbitalarray2();
-        MNDO6G[] C = c.orbitalarray2();
-        MNDO6G[] D = d.orbitalarray2();
+        MNDO6G[] A = a.orbitalArray();
+        MNDO6G[] B = b.orbitalArray();
+        MNDO6G[] C = c.orbitalArray();
+        MNDO6G[] D = d.orbitalArray();
 
         double sum = 0;
 
@@ -735,7 +734,7 @@ public class MNDODerivative {
         return sum;
     }
 
-    public static double[] derivativedecompositionfinite(double[] point1, double[] point2, MNDO6G a, int tau) {
+    public static double[] derivativeDecompositionFinite(double[] point1, double[] point2, MNDO6G a, int tau) {
         if (a.getL() == 0) {
             return new double[]{0};
         }
@@ -751,7 +750,7 @@ public class MNDODerivative {
         return new double[]{(perturbed[0] - orig[0]) / 1E-9, (perturbed[1] - orig[1]) / 1E-9, (perturbed[2] - orig[2]) / 1E-9};
     }
 
-    public static double[] derivativedecomposition(double[] point1, double[] point2, MNDO6G a, int tau) {
+    public static double[] derivativeDecomposition(double[] point1, double[] point2, MNDO6G a, int tau) {
 
         if (a.getL() == 0) {
             return new double[]{0};
@@ -1088,381 +1087,7 @@ public class MNDODerivative {
         return H;
     }
 
-
-    public static double Hderivative(MNDOAtom[] atoms, DoubleMatrix densitymatrix, int atomnum, int tau) {
-        int i = 0;
-
-        for (MNDOAtom a : atoms) {
-            i += a.getOrbitals().length;
-        }
-
-        MNDO6G[] orbitals = new MNDO6G[i];
-
-        i = 0;
-
-        int[][] index = new int[atoms.length][4];
-        int[] atomnumber = new int[orbitals.length];
-        int count = 0;
-        int count2 = 0;
-        for (MNDOAtom a : atoms) {
-            count2 = 0;
-            for (MNDO6G orbital : a.getOrbitals()) {
-                orbitals[i] = orbital;
-                index[count][count2] = i;
-                atomnumber[i] = count;
-                i++;
-                count2++;
-            }
-
-
-            if (a.getAtomProperties().getZ() == 1) {
-                index[count][1] = -1;
-                index[count][2] = -1;
-                index[count][3] = -1;
-
-            }
-            count++;
-        }
-
-        int[][] missingindex = new int[atoms.length][4 * atoms.length - 4];
-
-        for (int j = 0; j < atoms.length; j++) {
-            for (int k = 0; k < 4 * atoms.length - 4; k++) {
-                missingindex[j][k] = -1;
-            }
-        }
-
-        for (int j = 0; j < atoms.length; j++) {
-            int[] nums = new int[]{index[j][0], index[j][1], index[j][2], index[j][3]};
-            int counter = 0;
-            for (int k = 0; k < orbitals.length; k++) {
-                if (nums[0] != k && nums[1] != k && nums[2] != k && nums[3] != k) {
-                    missingindex[j][counter] = k;
-                    counter++;
-                }
-            }
-        }
-
-        DoubleMatrix H = DoubleMatrix.zeros(orbitals.length, orbitals.length);
-
-        for (int j = 0; j < orbitals.length; j++) {
-            for (int k = j; k < orbitals.length; k++) {
-                double sum = 0;
-                if (atomnumber[j] == atomnumber[k]) {
-                    if (atomnumber[j] == atomnum) {
-                        for (int a = 0; a < atoms.length; a++) {
-                            if (a != atomnum) {
-
-
-                                sum -= atoms[a].getAtomProperties().getQ() * MNDODerivative.getGderiv(orbitals[j], orbitals[k], atoms[a].s(), atoms[a].s(), tau);
-                            }
-                        }
-                    } else {
-                        sum -= atoms[atomnum].getAtomProperties().getQ() * MNDODerivative.getGderiv(atoms[atomnum].s(), atoms[atomnum].s(), orbitals[j], orbitals[k], tau);
-                    }
-                } else {
-                    if (atomnumber[j] == atomnum) {
-                        sum += 0.5 * (orbitals[j].beta() + orbitals[k].beta()) * LCGTO.getSDeriv(orbitals[j], orbitals[k], tau);
-                    } else if (atomnumber[k] == atomnum) {
-                        sum += 0.5 * (orbitals[k].beta() + orbitals[j].beta()) * LCGTO.getSDeriv(orbitals[k], orbitals[j], tau);
-                    }
-                }
-
-                H.put(j, k, sum);
-                H.put(k, j, sum);
-            }
-        }
-
-        double e = 0;
-
-        for (int j = 0; j < orbitals.length; j++) {
-            for (int k = 0; k < orbitals.length; k++) {
-                e += densitymatrix.get(j, k) * H.get(j, k);
-            }
-        }
-
-        return e;
-    }
-
-    public static DoubleMatrix Gderiv(MNDOAtom[] atoms, DoubleMatrix densitymatrix, int atomnum, int tau) {
-        int i = 0;
-
-        for (MNDOAtom a : atoms) {
-            i += a.getOrbitals().length;
-        }
-
-        MNDO6G[] orbitals = new MNDO6G[i];
-
-        i = 0;
-
-        int[][] index = new int[atoms.length][4];
-        int[] atomnumber = new int[orbitals.length];
-        int count = 0;
-        int count2 = 0;
-        for (MNDOAtom a : atoms) {
-            count2 = 0;
-            for (MNDO6G orbital : a.getOrbitals()) {
-                orbitals[i] = orbital;
-                index[count][count2] = i;
-                atomnumber[i] = count;
-                i++;
-                count2++;
-            }
-
-
-            if (a.getAtomProperties().getZ() == 1) {
-                index[count][1] = -1;
-                index[count][2] = -1;
-                index[count][3] = -1;
-
-            }
-            count++;
-        }
-
-        int[][] missingindex = new int[atoms.length][4 * atoms.length - 4];
-
-        for (int j = 0; j < atoms.length; j++) {
-            for (int k = 0; k < 4 * atoms.length - 4; k++) {
-                missingindex[j][k] = -1;
-            }
-        }
-
-        for (int j = 0; j < atoms.length; j++) {
-            int[] nums = new int[]{index[j][0], index[j][1], index[j][2], index[j][3]};
-            int counter = 0;
-            for (int k = 0; k < orbitals.length; k++) {
-                if (nums[0] != k && nums[1] != k && nums[2] != k && nums[3] != k) {
-                    missingindex[j][counter] = k;
-                    counter++;
-                }
-            }
-        }
-
-        DoubleMatrix G = DoubleMatrix.zeros(orbitals.length, orbitals.length);
-
-        for (int j = 0; j < orbitals.length; j++) {
-            for (int k = j; k < orbitals.length; k++) {
-                double sum = 0;
-                if (atomnumber[j] == atomnumber[k]) {
-                    if (atomnumber[j] == atomnum) {
-                        for (int a = 0; a < atoms.length; a++) {
-                            if (a != atomnum) {
-
-                                for (int l : index[a]) {
-                                    if (l > -1) {
-                                        for (int m : index[a]) {
-                                            if (m > -1) {
-                                                sum += densitymatrix.get(l, m) * MNDODerivative.getGderiv(orbitals[j], orbitals[k], orbitals[l], orbitals[m], tau);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    } else {
-                        for (int l : index[atomnum]) {
-                            if (l > -1) {
-                                for (int m : index[atomnum]) {
-                                    if (m > -1) {
-                                        sum += densitymatrix.get(l, m) * MNDODerivative.getGderiv(orbitals[l], orbitals[m], orbitals[j], orbitals[k], tau);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    if (atomnumber[j] == atomnum) {
-                        for (int l : index[atomnum]) {
-                            if (l > -1) {
-                                for (int m : index[atomnumber[k]]) {
-                                    if (m > -1) {
-                                        sum -= 0.5 * densitymatrix.get(l, m) * MNDODerivative.getGderiv(orbitals[j], orbitals[l], orbitals[k], orbitals[m], tau);
-                                    }
-                                }
-                            }
-                        }
-                    } else if (atomnumber[k] == atomnum) {
-                        for (int l : index[atomnum]) {
-                            if (l > -1) {
-                                for (int m : index[atomnumber[j]]) {
-                                    if (m > -1) {
-                                        sum -= 0.5 * densitymatrix.get(l, m) * MNDODerivative.getGderiv(orbitals[k], orbitals[l], orbitals[j], orbitals[m], tau);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                G.put(j, k, sum);
-                G.put(k, j, sum);
-
-            }
-        }
-
-        return G;
-    }
-
-    public static double Gderivative(MNDOAtom[] atoms, DoubleMatrix densitymatrix, int atomnum, int tau) {
-        int i = 0;
-
-        for (MNDOAtom a : atoms) {
-            i += a.getOrbitals().length;
-        }
-
-        MNDO6G[] orbitals = new MNDO6G[i];
-
-        i = 0;
-
-        int[][] index = new int[atoms.length][4];
-        int[] atomnumber = new int[orbitals.length];
-        int count = 0;
-        int count2 = 0;
-        for (MNDOAtom a : atoms) {
-            count2 = 0;
-            for (MNDO6G orbital : a.getOrbitals()) {
-                orbitals[i] = orbital;
-                index[count][count2] = i;
-                atomnumber[i] = count;
-                i++;
-                count2++;
-            }
-
-
-            if (a.getAtomProperties().getZ() == 1) {
-                index[count][1] = -1;
-                index[count][2] = -1;
-                index[count][3] = -1;
-
-            }
-            count++;
-        }
-
-        int[][] missingindex = new int[atoms.length][4 * atoms.length - 4];
-
-        for (int j = 0; j < atoms.length; j++) {
-            for (int k = 0; k < 4 * atoms.length - 4; k++) {
-                missingindex[j][k] = -1;
-            }
-        }
-
-        for (int j = 0; j < atoms.length; j++) {
-            int[] nums = new int[]{index[j][0], index[j][1], index[j][2], index[j][3]};
-            int counter = 0;
-            for (int k = 0; k < orbitals.length; k++) {
-                if (nums[0] != k && nums[1] != k && nums[2] != k && nums[3] != k) {
-                    missingindex[j][counter] = k;
-                    counter++;
-                }
-            }
-        }
-
-        DoubleMatrix G = DoubleMatrix.zeros(orbitals.length, orbitals.length);
-
-        for (int j = 0; j < orbitals.length; j++) {
-            for (int k = j; k < orbitals.length; k++) {
-                double sum = 0;
-                if (atomnumber[j] == atomnumber[k]) {
-                    if (atomnumber[j] == atomnum) {
-                        for (int a = 0; a < atoms.length; a++) {
-                            if (a != atomnum) {
-
-                                for (int l : index[a]) {
-                                    if (l > -1) {
-                                        for (int m : index[a]) {
-                                            if (m > -1) {
-                                                sum += densitymatrix.get(l, m) * MNDODerivative.getGderiv(orbitals[j], orbitals[k], orbitals[l], orbitals[m], tau);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    } else {
-                        for (int l : index[atomnum]) {
-                            if (l > -1) {
-                                for (int m : index[atomnum]) {
-                                    if (m > -1) {
-                                        sum += densitymatrix.get(l, m) * MNDODerivative.getGderiv(orbitals[l], orbitals[m], orbitals[j], orbitals[k], tau);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    if (atomnumber[j] == atomnum) {
-                        for (int l : index[atomnum]) {
-                            if (l > -1) {
-                                for (int m : index[atomnumber[k]]) {
-                                    if (m > -1) {
-                                        sum -= 0.5 * densitymatrix.get(l, m) * MNDODerivative.getGderiv(orbitals[j], orbitals[l], orbitals[k], orbitals[m], tau);
-                                    }
-                                }
-                            }
-                        }
-                    } else if (atomnumber[k] == atomnum) {
-                        for (int l : index[atomnum]) {
-                            if (l > -1) {
-                                for (int m : index[atomnumber[j]]) {
-                                    if (m > -1) {
-                                        sum -= 0.5 * densitymatrix.get(l, m) * MNDODerivative.getGderiv(orbitals[k], orbitals[l], orbitals[j], orbitals[m], tau);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                G.put(j, k, sum);
-                G.put(k, j, sum);
-
-            }
-        }
-
-        double e = 0;
-
-        for (int j = 0; j < orbitals.length; j++) {
-            for (int k = 0; k < orbitals.length; k++) {
-                e += densitymatrix.get(j, k) * G.get(j, k);
-            }
-        }
-
-        return e;
-    }
-
-    public static double crfderivative(MNDOAtom[] atoms, int atomnum, int tau) {
-
-        double e = 0;
-        for (int j = 0; j < atoms.length; j++) {
-            if (j != atomnum) {
-                e += MNDODerivative.crfderivfinite(atoms[atomnum], atoms[j], tau);
-            }
-        }
-
-        return e;
-
-    }
-
-
-    public static double gradientfinite(MNDOAtom[] atoms, int charge, int atomnum, int tau) {
-        MNDOSolution s = new MNDOSolution(atoms, charge);
-
-        MNDOAtom[] perturbed = new MNDOAtom[atoms.length];
-
-        for (int i = 0; i < atoms.length; i++) {
-            perturbed[i] = new MNDOAtom(atoms[i]);
-
-            if (i == atomnum) {
-                perturbed[i].getCoordinates()[tau] = perturbed[i].getCoordinates()[tau] + 1E-8;
-            }
-        }
-
-        MNDOSolution sprime = new MNDOSolution(perturbed, charge);
-
-        return 1E8 * (sprime.energy - s.energy);
-    }
-
-    public static double gradientunrestricted(MNDOAtom[] atoms, DoubleMatrix alphadensity, DoubleMatrix betadensity, int atomnum, int tau) {
+    public static double gradientUnrestricted(MNDOAtom[] atoms, DoubleMatrix alphadensity, DoubleMatrix betadensity, int atomnum, int tau) {
         int i = 0;
 
         for (MNDOAtom a : atoms) {

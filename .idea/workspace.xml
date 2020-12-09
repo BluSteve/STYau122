@@ -24,63 +24,34 @@
     <select>
       <path>
         <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="BRANCH:integralarray" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="BRANCH:origin/testing" type="e8cecc67:BranchNodeDescriptor" />
       </path>
     </select>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/atom_properties.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/mndoparam/mndo/MNDOParams.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/scf/OrbitalProperties.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SMP2020.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SMP2020.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/ComputationRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/ComputationRequest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/datum/DipoleData.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/datum/DipoleData.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/datum/GeometricalData.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/datum/GeometricalData.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/datum/HeatData.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/datum/HeatData.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/datum/IonizationData.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/datum/IonizationData.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/datum/ReferenceData.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/datum/ReferenceData.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDO6G.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDO6G.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOAtom.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOAtom.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDODerivative.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDODerivative.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOGeometryOptimization.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOGeometryOptimization.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOGeometryOptimizationUnrestricted.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOGeometryOptimizationUnrestricted.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOSolution.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOSolution.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOSolutionUnrestricted.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOSolutionUnrestricted.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/mndoparam/param/MNDOParamErrorFunction.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mndoparam/param/MNDOParamErrorFunction.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/mndoparam/param/MNDOParamErrorFunctionUnrestricted.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mndoparam/param/MNDOParamErrorFunctionUnrestricted.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/mndoparam/param/MNDOParamGradient.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mndoparam/param/MNDOParamGradient.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/mndoparam/param/MNDOParamGradientUnrestricted.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mndoparam/param/MNDOParamGradientUnrestricted.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/mndoparam/param/MNDOParamHessian.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mndoparam/param/MNDOParamHessian.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/mndoparam/param/MNDOParamHessianUnrestricted.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/mndoparam/param/MNDOParamHessianUnrestricted.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/optimize/ParamOptimizer.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/optimize/ParamOptimizer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/runcycle/MoleculeRun.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/runcycle/MoleculeRun.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/runcycle/MoleculeRunUnrestricted.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/runcycle/MoleculeRunUnrestricted.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/scf/Atom.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/scf/LCGTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/scf/LCGTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/scf/STO6G.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/scf/STO6G.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mndooutput.txt" beforeDir="false" afterPath="$PROJECT_DIR$/mndooutput.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mndoparam/mndo/Atom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/AtomProperties.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mndoparam/mndo/AtomHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/AtomHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/mndoparam/mndo/MNDO6G.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mndoparam/mndo/MNDO6G.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/mndoparam/mndo/MNDOAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mndoparam/mndo/MNDOAtom.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/mndoparam/mndo/MNDODerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mndoparam/mndo/MNDODerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mndoparam/mndo/MNDOGeometryOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mndoparam/mndo/MNDOGeometryOptimization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mndoparam/mndo/MNDOGeometryOptimizationUnrestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mndoparam/mndo/MNDOGeometryOptimizationUnrestricted.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/mndoparam/mndo/MNDOSolution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mndoparam/mndo/MNDOSolution.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/mndoparam/mndo/MNDOSolutionUnrestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mndoparam/mndo/MNDOSolutionUnrestricted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mndoparam/param/MNDOParamErrorFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mndoparam/param/MNDOParamErrorFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mndoparam/param/MNDOParamErrorFunctionUnrestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mndoparam/param/MNDOParamErrorFunctionUnrestricted.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/mndoparam/param/MNDOParamGradient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mndoparam/param/MNDOParamGradient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/mndoparam/param/MNDOParamGradientUnrestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mndoparam/param/MNDOParamGradientUnrestricted.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/mndoparam/param/MNDOParamHessian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mndoparam/param/MNDOParamHessian.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mndoparam/param/MNDOParamHessianUnrestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mndoparam/param/MNDOParamHessianUnrestricted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/optimize/ParamOptimizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/optimize/ParamOptimizer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRunUnrestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRunUnrestricted.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scf/AtomFixed.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/AtomFixed.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scf/LCGTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/LCGTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scf/STO6G.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/STO6G.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testoutput.txt" beforeDir="false" afterPath="$PROJECT_DIR$/testoutput.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,7 +85,7 @@
     </favorite-branches>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="testing" />
+        <entry key="$PROJECT_DIR$" value="integralarray" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -170,6 +141,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="SMP2020.jar" type="JarApplication" temporary="true">
       <option name="JAR_PATH" value="$PROJECT_DIR$/out/artifacts/SMP2020_jar/SMP2020.jar" />
       <method v="2" />
@@ -210,6 +192,7 @@
       <workItem from="1607231106615" duration="13458000" />
       <workItem from="1607263101392" duration="1188000" />
       <workItem from="1607324239315" duration="6873000" />
+      <workItem from="1607496936853" duration="2278000" />
     </task>
     <task id="LOCAL-00001" summary="Convert integralarray to integralMap, implement getKey() in MNDOSolution.java">
       <created>1606298586134</created>
@@ -274,7 +257,14 @@
       <option name="project" value="LOCAL" />
       <updated>1607231592405</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Successfully implement MNDOParams">
+      <created>1607434286899</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1607434286899</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -291,7 +281,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="integralarray" />
+                        <option value="origin/testing" />
                       </list>
                     </value>
                   </entry>
@@ -316,7 +306,8 @@
     <MESSAGE value="Refactor Main.java, generalize atom properties, minor reformatting." />
     <MESSAGE value="Minor reformatting." />
     <MESSAGE value="Minor changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Minor changes" />
+    <MESSAGE value="Successfully implement MNDOParams" />
+    <option name="LAST_COMMIT_MESSAGE" value="Successfully implement MNDOParams" />
   </component>
   <component name="WindowStateProjectService">
     <state x="3232" y="232" key="#Template" timestamp="1607329099673">
@@ -339,34 +330,34 @@
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607238715415" />
-    <state x="672" y="127" key="CommitChangelistDialog2" timestamp="1607231591888">
+    <state x="672" y="127" key="CommitChangelistDialog2" timestamp="1607434286382">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state x="672" y="127" key="CommitChangelistDialog2/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607231591888" />
-    <state width="2493" height="274" key="GridCell.Tab.0.bottom" timestamp="1607330973374">
+    <state x="672" y="127" key="CommitChangelistDialog2/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607434286382" />
+    <state width="2493" height="182" key="GridCell.Tab.0.bottom" timestamp="1607500104261">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="2493" height="274" key="GridCell.Tab.0.bottom/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607330973374" />
-    <state width="2493" height="274" key="GridCell.Tab.0.center" timestamp="1607330973374">
+    <state width="2493" height="182" key="GridCell.Tab.0.bottom/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607500104261" />
+    <state width="2493" height="182" key="GridCell.Tab.0.center" timestamp="1607500104260">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="2493" height="274" key="GridCell.Tab.0.center/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607330973374" />
-    <state width="2493" height="274" key="GridCell.Tab.0.left" timestamp="1607330973374">
+    <state width="2493" height="182" key="GridCell.Tab.0.center/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607500104260" />
+    <state width="2493" height="182" key="GridCell.Tab.0.left" timestamp="1607500104260">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="2493" height="274" key="GridCell.Tab.0.left/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607330973374" />
-    <state width="2493" height="274" key="GridCell.Tab.0.right" timestamp="1607330973374">
+    <state width="2493" height="182" key="GridCell.Tab.0.left/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607500104260" />
+    <state width="2493" height="182" key="GridCell.Tab.0.right" timestamp="1607500104260">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state width="2493" height="274" key="GridCell.Tab.0.right/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607330973374" />
+    <state width="2493" height="182" key="GridCell.Tab.0.right/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607500104260" />
     <state x="538" y="167" key="SettingsEditor" timestamp="1607233621031">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state x="538" y="167" key="SettingsEditor/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607233621031" />
-    <state x="672" y="321" key="Vcs.Push.Dialog.v2" timestamp="1607231594236">
+    <state x="672" y="321" key="Vcs.Push.Dialog.v2" timestamp="1607434290744">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
-    <state x="672" y="321" key="Vcs.Push.Dialog.v2/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607231594236" />
+    <state x="672" y="321" key="Vcs.Push.Dialog.v2/0.0.2560.1440/2560.0.2560.1440@0.0.2560.1440" timestamp="1607434290744" />
     <state x="1146" y="654" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1607233611149">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>

@@ -1,7 +1,5 @@
 package mndoparam.mndo;
 
-import java.util.Arrays;
-
 import scf.GTO;
 import scf.LCGTO;
 import scf.OrbitalProperties;
@@ -13,52 +11,39 @@ public class MNDO6G extends STO6G {
     public double zeta, beta, U, p0, p1, p2, D1, D2;
     public double gss, gsp, hsp, gpp, gp2, hp2;
     private MNDOAtom a;
-    private MNDO6G[] orbitalarray;
+    private MNDO6G[] orbitalArray;
 
-    public MNDO6G(MNDOAtom a, OrbitalProperties orbital, double zeta, double beta,
-                  double U, double p0, double p1, double p2, double D1, double D2, double gss, double gsp, double hsp,
-                  double gpp, double gp2) {
-
+    public MNDO6G(MNDOAtom a, OrbitalProperties orbital, double zeta, double beta, double U) {
         super(zeta, a, orbital);
 
         this.a = a;
         this.zeta = zeta;
         this.beta = beta;
         this.U = U;
-        this.p0 = p0;
-        this.p1 = p1;
-        this.p2 = p2;
-        this.D1 = D1;
-        this.D2 = D2;
-        this.gss = gss;
-        this.gsp = gsp;
-        this.hsp = hsp;
-        this.gpp = gpp;
-        this.gp2 = gp2;
+        this.p0 = a.p0;
+        this.p1 = a.p1;
+        this.p2 = a.p2;
+        this.D1 = a.D1;
+        this.D2 = a.D2;
+        this.gss = a.getParams().getGss();
+        this.gsp = a.getParams().getGsp();
+        this.hsp = a.getParams().getHsp();
+        this.gpp = a.getParams().getGpp();
+        this.gp2 = a.getParams().getGp2();
         this.hp2 = 0.5 * (gpp - gp2);
     }
 
-    public MNDO6G(int i, int j, int k, double[] coordinates, double zeta, double beta, double U, double p0, double p1,
-                  double p2, double D1, double D2, double gss, double gsp, double hsp, double gpp, double gp2) {
+    public MNDO6G(int i, int j, int k, MNDO6G mndo6G) {
         super.i = i;
         super.j = j;
         super.k = k;
         super.L = i + j + k;
-        super.coordinates = coordinates;
-        this.zeta = zeta;
-        this.beta = beta;
-        this.U = U;
-        this.p0 = p0;
-        this.p1 = p1;
-        this.p2 = p2;
-        this.D1 = D1;
-        this.D2 = D2;
-        this.gss = gss;
-        this.gsp = gsp;
-        this.hsp = hsp;
-        this.gpp = gpp;
-        this.gp2 = gp2;
-        this.hp2 = 0.5 * (gpp - gp2);
+        super.coordinates = mndo6G.coordinates;
+        this.p0 = mndo6G.p0;
+        this.p1 = mndo6G.p1;
+        this.p2 = mndo6G.p2;
+        this.D1 = mndo6G.D1;
+        this.D2 = mndo6G.D2;
     }
 
     public MNDOAtom getAtom() {
@@ -805,37 +790,33 @@ public class MNDO6G extends STO6G {
     }
 
 
-    public MNDO6G[] orbitalarray2() {
-
-        if (this.orbitalarray == null) {
+    public MNDO6G[] orbitalArray() {
+        if (this.orbitalArray == null) {
             if (this.L == 0) {
-                orbitalarray = new MNDO6G[]{new MNDO6G(0, 0, 0, coordinates, zeta, beta, U, p0, p1, p2, D1, D2, gss, gsp, hsp, gpp, gp2)};
+                orbitalArray = new MNDO6G[]{new MNDO6G(0, 0, 0, this)};
             } else if (this.L == 1) {
-                orbitalarray = new MNDO6G[]{
-                        new MNDO6G(1, 0, 0, coordinates, zeta, beta, U, p0, p1, p2, D1, D2, gss, gsp, hsp, gpp, gp2),
-                        new MNDO6G(0, 1, 0, coordinates, zeta, beta, U, p0, p1, p2, D1, D2, gss, gsp, hsp, gpp, gp2),
-                        new MNDO6G(0, 0, 1, coordinates, zeta, beta, U, p0, p1, p2, D1, D2, gss, gsp, hsp, gpp, gp2)};
+                orbitalArray = new MNDO6G[]{
+                        new MNDO6G(1, 0, 0, this),
+                        new MNDO6G(0, 1, 0, this),
+                        new MNDO6G(0, 0, 1, this)};
             }
         }
 
-        return this.orbitalarray;
+        return this.orbitalArray;
     }
 
     public static double getG(MNDO6G a, MNDO6G b, MNDO6G c, MNDO6G d) {
-
-
         double[] coeffA = a.decomposition(a.coordinates, c.coordinates);
         double[] coeffB = b.decomposition(a.coordinates, c.coordinates);
         double[] coeffC = c.decomposition(a.coordinates, c.coordinates);
         double[] coeffD = d.decomposition(a.coordinates, c.coordinates);
 
-
         double sum2 = 0;
 
-        MNDO6G[] A = a.orbitalarray2();
-        MNDO6G[] B = b.orbitalarray2();
-        MNDO6G[] C = c.orbitalarray2();
-        MNDO6G[] D = d.orbitalarray2();
+        MNDO6G[] A = a.orbitalArray();
+        MNDO6G[] B = b.orbitalArray();
+        MNDO6G[] C = c.orbitalArray();
+        MNDO6G[] D = d.orbitalArray();
 
         for (int i = 0; i < coeffA.length; i++) {
             for (int j = 0; j < coeffB.length; j++) {

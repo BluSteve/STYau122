@@ -1,10 +1,17 @@
-import mndoparam.mndo.MNDOParams;
-import scf.AtomHandler;
+import datum.DipoleData;
+import datum.GeometricalData;
+import datum.HeatData;
+import datum.IonizationData;
 import mndoparam.mndo.MNDOAtom;
+import mndoparam.mndo.MNDOParams;
 import optimize.ParamOptimizer;
+import org.apache.commons.lang.time.StopWatch;
+import org.jblas.DoubleMatrix;
+import org.jblas.Eigen;
 import runcycle.AbstractMoleculeRun;
 import runcycle.MoleculeRun;
 import runcycle.MoleculeRunUnrestricted;
+import scf.AtomHandler;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -12,15 +19,6 @@ import java.io.PrintWriter;
 import java.util.*;
 import java.util.concurrent.ForkJoinPool;
 import java.util.stream.Collectors;
-
-import org.jblas.DoubleMatrix;
-import org.jblas.Eigen;
-import org.apache.commons.lang.time.StopWatch;
-
-import datum.DipoleData;
-import datum.GeometricalData;
-import datum.HeatData;
-import datum.IonizationData;
 
 public class Main {
 
