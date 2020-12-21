@@ -3,38 +3,29 @@ package mndoparam.mndo;
 import org.jblas.DoubleMatrix;
 import org.jblas.Eigen;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 
-public class MNDOSolutionUnrestricted extends AbstractMNDOSolution {
-    private DoubleMatrix J, Ka, Kb, Fa, Fb, Ca, Cb;
-    DoubleMatrix Ea;
-    DoubleMatrix Eb;
-
-    private DoubleMatrix alphaDensity;
-    private DoubleMatrix betaDensity;
-    private int Nalpha, Nbeta;
-
-    private double[] integralArrayCoulomb, integralArrayExchange;
-
-    public int multiplicity;
+public class MNDOSolutionUnrestricted extends MNDOSolution {
+    private DoubleMatrix Fa, Fb;
+    private DoubleMatrix alphaDensity, betaDensity;
+    DoubleMatrix Ea, Eb;
 
     public MNDOSolutionUnrestricted(MNDOAtom[] atoms, int charge, int mult) {
         super(atoms, charge);
         this.multiplicity = mult;
         if (nElectrons % 2 == multiplicity % 2 || multiplicity < 1) {
-            System.err.println("You're high. (Please check multiplicity and charge): " + nElectrons + ", " + multiplicity);
+            System.err.println("Please check multiplicity and charge: " + nElectrons + ", " + multiplicity);
             System.exit(0);
         }
 
         nElectrons -= (multiplicity - 1);
 
-        Nalpha = nElectrons / 2 + (multiplicity - 1);
+        int nalpha = nElectrons / 2 + (multiplicity - 1);
 
-        Nbeta = nElectrons / 2;
+        int nbeta = nElectrons / 2;
 
-        System.out.println("1-electron matrix elements evaluated - moving on to two-electron matrix");
+        //System.out.println("1-electron matrix elements evaluated - moving on to two-electron matrix");
 
 
         int size = 0;
@@ -74,7 +65,7 @@ public class MNDOSolutionUnrestricted extends AbstractMNDOSolution {
                 }
             }
         }
-        integralArrayCoulomb = new double[size];
+        double[] integralArrayCoulomb = new double[size];
         int integralCount = 0;
         for (int j = 0; j < orbitals.length; j++) {
             for (int k = j; k < orbitals.length; k++) {
@@ -116,7 +107,7 @@ public class MNDOSolutionUnrestricted extends AbstractMNDOSolution {
             }
         }
 
-        System.out.println("Coulomb (J) matrix ERIs evaluated - moving on to Exchange (K) matrix ERIs...");
+        //System.out.println("Coulomb (J) matrix ERIs evaluated - moving on to Exchange (K) matrix ERIs...");
 
         size = 0;
         for (int j = 0; j < orbitals.length; j++) {
@@ -145,7 +136,7 @@ public class MNDOSolutionUnrestricted extends AbstractMNDOSolution {
             }
         }
 
-        integralArrayExchange = new double[size];
+        double[] integralArrayExchange = new double[size];
         integralCount = 0;
         for (int j = 0; j < orbitals.length; j++) {
             for (int k = j; k < orbitals.length; k++) {
@@ -179,29 +170,29 @@ public class MNDOSolutionUnrestricted extends AbstractMNDOSolution {
 
         DoubleMatrix[] matrices = Eigen.symmetricEigenvectors(H);
 
-        System.out.println("Exchange (K) matrix ERIs evaluated, beginning SCF iterations...");
+        System.out.println("All ERIs evaluated, beginning SCF iterations...");
 
         Ea = matrices[1].diag();
 
         Eb = matrices[1].diag();
 
-        Ca = matrices[0].transpose();
+        DoubleMatrix ca = matrices[0].transpose();
 
-        Cb = matrices[0].transpose();
+        DoubleMatrix cb = matrices[0].transpose();
 
-        J = new DoubleMatrix(Ca.rows, Ca.columns);
+        DoubleMatrix j1 = new DoubleMatrix(ca.rows, ca.columns);
 
-        Ka = new DoubleMatrix(Ca.rows, Ca.columns);
+        DoubleMatrix ka = new DoubleMatrix(ca.rows, ca.columns);
 
-        Kb = new DoubleMatrix(Ca.rows, Ca.columns);
+        DoubleMatrix kb = new DoubleMatrix(ca.rows, ca.columns);
 
-        alphaDensity = DensityMatrix(Ca, Nalpha);
+        alphaDensity = calculateDensityMatrix(ca, nalpha);
 
-        betaDensity = DensityMatrix(Cb, Nbeta);
+        betaDensity = calculateDensityMatrix(cb, nbeta);
 
-        DoubleMatrix oldalphadensity = DoubleMatrix.zeros(Ca.rows, Ca.columns);
+        DoubleMatrix oldalphadensity = DoubleMatrix.zeros(ca.rows, ca.columns);
 
-        DoubleMatrix oldbetadensity = DoubleMatrix.zeros(Ca.rows, Ca.columns);
+        DoubleMatrix oldbetadensity = DoubleMatrix.zeros(ca.rows, ca.columns);
 
         int Jcount, Kcount;
 
@@ -262,8 +253,8 @@ public class MNDOSolutionUnrestricted extends AbstractMNDOSolution {
                     }
 
 
-                    J.put(j, k, val);
-                    J.put(k, j, val);
+                    j1.put(j, k, val);
+                    j1.put(k, j, val);
                 }
             }
 
@@ -300,15 +291,15 @@ public class MNDOSolutionUnrestricted extends AbstractMNDOSolution {
                         }
                     }
 
-                    Ka.put(j, k, vala);
-                    Ka.put(k, j, vala);
-                    Kb.put(j, k, valb);
-                    Kb.put(k, j, valb);
+                    ka.put(j, k, vala);
+                    ka.put(k, j, vala);
+                    kb.put(j, k, valb);
+                    kb.put(k, j, valb);
                 }
             }
 
-            Fa = H.add(J).add(Ka);
-            Fb = H.add(J).add(Kb);
+            Fa = H.add(j1).add(ka);
+            Fb = H.add(j1).add(kb);
 
             DoubleMatrix[] matrices1 = Eigen.symmetricEigenvectors(Fa);
 
@@ -318,13 +309,13 @@ public class MNDOSolutionUnrestricted extends AbstractMNDOSolution {
 
             Eb = matrices2[1].diag();
 
-            Ca = matrices1[0].transpose();
+            ca = matrices1[0].transpose();
 
-            Cb = matrices2[0].transpose();
+            cb = matrices2[0].transpose();
 
-            alphaDensity = DensityMatrix(Ca, Nalpha).mmul(1 - damp).add(oldalphadensity.mmul(damp));
+            alphaDensity = calculateDensityMatrix(ca, nalpha).mmul(1 - damp).add(oldalphadensity.mmul(damp));
 
-            betaDensity = DensityMatrix(Cb, Nbeta).mmul(1 - damp).add(oldbetadensity.mmul(damp));
+            betaDensity = calculateDensityMatrix(cb, nbeta).mmul(1 - damp).add(oldbetadensity.mmul(damp));
 
             if (numIt >= 100000) {
                 System.err.println("SCF Has Not Converged");
@@ -341,19 +332,19 @@ public class MNDOSolutionUnrestricted extends AbstractMNDOSolution {
 
                 Eb = matrices[1].diag();
 
-                Ca = matrices[0].transpose();
+                ca = matrices[0].transpose();
 
-                Cb = matrices[0].transpose();
+                cb = matrices[0].transpose();
 
-                J = new DoubleMatrix(Ca.rows, Ca.columns);
+                j1 = new DoubleMatrix(ca.rows, ca.columns);
 
-                Ka = new DoubleMatrix(Ca.rows, Ca.columns);
+                ka = new DoubleMatrix(ca.rows, ca.columns);
 
-                Kb = new DoubleMatrix(Ca.rows, Ca.columns);
+                kb = new DoubleMatrix(ca.rows, ca.columns);
 
-                alphaDensity = DensityMatrix(Ca, Nalpha);
+                alphaDensity = calculateDensityMatrix(ca, nalpha);
 
-                betaDensity = DensityMatrix(Cb, Nbeta);
+                betaDensity = calculateDensityMatrix(cb, nbeta);
 
                 numIt = 0;
 
@@ -370,8 +361,6 @@ public class MNDOSolutionUnrestricted extends AbstractMNDOSolution {
 
         }
 
-        //System.out.println ("Alpha eigenvalues: " + Ea);
-        //System.out.println ("Beta eigenvalues: " + Eb);
 
         double e = 0;
 
@@ -381,7 +370,6 @@ public class MNDOSolutionUnrestricted extends AbstractMNDOSolution {
                 e += 0.5 * betaDensity.get(j, k) * (H.get(j, k) + Fb.get(j, k));
             }
         }
-        //System.out.println ("Electronic energy: " + 0.01 * Math.round(e * 100) + " eV");
         double heat = 0;
         for (int j = 0; j < atoms.length; j++) {
             heat += atoms[j].getHeat() - atoms[j].getEisol();
@@ -389,22 +377,15 @@ public class MNDOSolutionUnrestricted extends AbstractMNDOSolution {
                 e += MNDOAtom.crf(atoms[j], atoms[k]);
             }
         }
-        //System.out.println ("Core repulsion energy: " + 0.01 * Math.round(d * 100) + " eV");
-        //System.out.println ("Energy: " + 0.01 * Math.round(e * 100) + " eV");
         energy = e;
 
         heat += e;
 
         this.hf = heat / 4.3363E-2;
 
-        this.homo = Ea.get(Nalpha - 1, 0);
-        this.lumo = 0.001 * Math.round(Eb.get(Nbeta, 0) * 1000);
-
-        //System.out.println ("HOMO energy: " + homo + " eV");
-
-        //System.out.println ("LUMO energy: " + lumo + " eV");
-
-        //System.out.println ("Heat of Formation: " + 0.01 * Math.round(heat * 100) + " eV = " + 0.01 * Math.round(heat * 100 / 4.3363E-2) + "kcal/mol");
+        this.homo = Ea.get(nalpha - 1, 0);
+        this.lumo = 0.001 * Math.round(Eb.get(nbeta, 0) * 1000);
+        System.out.println("SCF completed");
 
         double[] populations = new double[atoms.length];
 
@@ -444,11 +425,6 @@ public class MNDOSolutionUnrestricted extends AbstractMNDOSolution {
             chargedip[2] += 2.5416 * populations[j] * (atoms[j].getCoordinates()[2] - com[2]);
         }
 
-        //chargedip[0] = 0.001 * Math.round(chargedip[0] * 1000);
-        //chargedip[1] = 0.001 * Math.round(chargedip[1] * 1000);
-        //chargedip[2] = 0.001 * Math.round(chargedip[2] * 1000);
-
-        //System.out.println ("point charge dipole contribution: " + Arrays.toString(chargedip));
 
         hybridip = new double[]{0, 0, 0};
 
@@ -461,57 +437,46 @@ public class MNDOSolutionUnrestricted extends AbstractMNDOSolution {
             }
         }
 
-        //hybridip[0] = 0.001 * Math.round(hybridip[0] * 1000);
-        //hybridip[1] = 0.001 * Math.round(hybridip[1] * 1000);
-        //hybridip[2] = 0.001 * Math.round(hybridip[2] * 1000);
-
-        //System.out.println ("hybrid dipole contribution: " + Arrays.toString(hybridip));
 
         dipoletot = new double[]{chargedip[0] + hybridip[0], chargedip[1] + hybridip[1], chargedip[2] + hybridip[2]};
-
-        //System.out.println ("sum: " + Arrays.toString(dipoletot));
 
 
         dipole = Math.sqrt(dipoletot[0] * dipoletot[0] + dipoletot[1] * dipoletot[1] + dipoletot[2] * dipoletot[2]);
 
-        //System.out.println ("dipole moment: " + dipole + " debyes");
     }
 
-    private DoubleMatrix DensityMatrix(DoubleMatrix c, int NElectrons) {//density matrix construction by definition.
-
-
-        DoubleMatrix densitymatrix = new DoubleMatrix(orbitals.length, orbitals.length);
+    private DoubleMatrix calculateDensityMatrix(DoubleMatrix c, int NElectrons) {//density matrix construction by definition.
+        DoubleMatrix densityMatrix = new DoubleMatrix(orbitals.length, orbitals.length);
 
         for (int i = 0; i < orbitals.length; i++) {
             for (int j = 0; j < orbitals.length; j++) {
                 double sum = 0;
                 int count = NElectrons;
                 int counter = -1;
-
-
                 while (count > 0) {
-
                     counter++;
-
                     sum += c.get(counter, i) * c.get(counter, j);
                     count -= 1;
 
                 }
-
-
-                densitymatrix.put(i, j, sum);
+                densityMatrix.put(i, j, sum);
             }
         }
-
-
-        return densitymatrix;
+        return densityMatrix;
     }
 
-    public DoubleMatrix alphadensity() {
+    @Override
+    public DoubleMatrix alphaDensity() {
         return this.alphaDensity;
     }
 
-    public DoubleMatrix betadensity() {
+    @Override
+    public DoubleMatrix betaDensity() {
         return this.betaDensity;
+    }
+
+    @Override
+    public DoubleMatrix densityMatrix() {
+        return this.alphaDensity.add(this.betaDensity);
     }
 }

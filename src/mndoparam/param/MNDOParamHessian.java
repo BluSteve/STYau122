@@ -1,53 +1,20 @@
 package mndoparam.param;
 
 import mndoparam.mndo.MNDOAtom;
-import mndoparam.mndo.MNDOParams;
 import mndoparam.mndo.MNDOSolution;
+import scf.Utils;
 
-public class MNDOParamHessian {
-
-    private static final double lambda = 1E-7;
-
+public abstract class MNDOParamHessian {
+    protected MNDOAtom[] atoms, perturbed;
+    protected int paramNum1, Z1;
     public MNDOParamGradient g, gprime;
 
-    private MNDOAtom[] atoms, perturbed;
-
-    public String str;
-
-    private int paramnum1, Z1;
-
-    public MNDOParamHessian(MNDOAtom[] atoms, int charge, int Z1, int paramnum1, int Z2, int paramnum2, MNDOSolution s) {
-
-        System.err.println("initializing Hessian");
-
-        this.paramnum1 = paramnum1;
-
+    public MNDOParamHessian(MNDOAtom[] atoms, int Z1, int paramNum1) {
+        //System.err.println("initializing Hessian");
         this.Z1 = Z1;
-
+        this.paramNum1 = paramNum1;
         this.atoms = atoms;
-
-        perturbed = new MNDOAtom[atoms.length];
-
-        for (int i = 0; i < atoms.length; i++) {
-
-            perturbed[i] = new MNDOAtom(atoms[i]);
-
-            if (atoms[i].getAtomProperties().getZ() == Z1) {
-                MNDOParams params = atoms[i].getParams();
-
-                params.modifyParam(paramnum1, lambda);
-
-                perturbed[i] = new MNDOAtom(atoms[i], params);
-            }
-        }
-
-        MNDOSolution sprime = new MNDOSolution(perturbed, charge);
-
-        g = new MNDOParamGradient(atoms, charge, Z2, paramnum2, s);
-
-        gprime = new MNDOParamGradient(perturbed, charge, Z2, paramnum2, sprime);
-
-        System.err.println("initialization complete");
+        perturbed = Utils.perturbAtoms(atoms, paramNum1, Z1);
     }
 
     public void constructErrors(double refHeat) {
@@ -56,7 +23,6 @@ public class MNDOParamHessian {
     }
 
     public void addDipoleError(double ref) {
-
         g.addDipoleError(ref);
         gprime.addDipoleError(ref);
     }
@@ -64,29 +30,6 @@ public class MNDOParamHessian {
     public void addIEError(double ref) {
         g.addIEError(ref);
         gprime.addIEError(ref);
-    }
-
-    public void createExpGeom(MNDOAtom[] expatoms, MNDOSolution expsoln) {
-
-        System.err.println("creating expgeom");
-
-        g.createExpGeom(expatoms, expsoln);
-
-        MNDOAtom[] perturbed = new MNDOAtom[expatoms.length];
-
-        for (int i = 0; i < expatoms.length; i++) {
-
-            perturbed[i] = new MNDOAtom(expatoms[i]);
-
-            if (expatoms[i].getAtomProperties().getZ() == Z1) {
-                MNDOParams params = expatoms[i].getParams();
-                params.modifyParam(paramnum1, lambda);
-                perturbed[i] = new MNDOAtom(expatoms[i], params);
-            }
-        }
-        gprime.createExpGeom(perturbed, new MNDOSolution(perturbed, expsoln.charge));
-
-        System.err.println("creation complete");
     }
 
     public void addGeomError() {
@@ -104,8 +47,10 @@ public class MNDOParamHessian {
         gprime.addAngleError(atom1, atom2, atom3, ref);
     }
 
+    public abstract void createExpGeom(MNDOAtom[] expAtoms, MNDOSolution expSoln);
+
     public double hessian() {
-        return (gprime.gradient() - g.gradient()) / lambda;
+        return (gprime.gradient() - g.gradient()) / Utils.lambda;
     }
 
 }

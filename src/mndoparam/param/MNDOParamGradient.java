@@ -1,86 +1,25 @@
 package mndoparam.param;
 
 import mndoparam.mndo.MNDOAtom;
-import mndoparam.mndo.MNDOGeometryOptimization;
-import mndoparam.mndo.MNDOParams;
 import mndoparam.mndo.MNDOSolution;
+import scf.Utils;
 
-public class MNDOParamGradient {
-
-    public static final double lambda = 1E-7;
-
-    public MNDOSolution s;
-
-    private MNDOSolution sprime;
+public abstract class MNDOParamGradient {
+    protected MNDOAtom[] atoms, perturbed;
+    protected int Z, paramNum;
+    public MNDOSolution s, sprime;
 
     public MNDOParamErrorFunction e, eprime;
 
-    private MNDOAtom[] atoms;
-
-    public MNDOAtom[] perturbed;
-
-    private int Z, paramNum;
-
-    // TODO reduce number of constructors
-    public MNDOParamGradient(MNDOAtom[] atoms, int charge, int Z, int paramNum, MNDOGeometryOptimization opt) {
+    // TODO what is charge and Z?
+    public MNDOParamGradient(MNDOAtom[] atoms, int Z, int paramNum) {
         this.Z = Z;
         this.paramNum = paramNum;
-
         this.atoms = atoms;
-
-        this.s = opt.s;
-
-        perturbed = new MNDOAtom[atoms.length];
-
-        for (int i = 0; i < atoms.length; i++) {
-
-            perturbed[i] = new MNDOAtom(atoms[i]);
-
-            if (atoms[i].getAtomProperties().getZ() == Z) {
-                MNDOParams params = atoms[i].getParams();
-
-                params.modifyParam(paramNum, lambda);
-
-                perturbed[i] = new MNDOAtom(atoms[i], params);
-            }
-        }
-
-        sprime = new MNDOSolution(perturbed, charge);
-    }
-
-    public MNDOParamGradient(MNDOAtom[] atoms, int charge, int Z, int paramNum, MNDOSolution s) {
-        this.Z = Z;
-        this.paramNum = paramNum;
-
-        this.atoms = atoms;
-
-        this.s = s;
-
-        perturbed = new MNDOAtom[atoms.length];
-
-        for (int i = 0; i < atoms.length; i++) {
-
-            perturbed[i] = new MNDOAtom(atoms[i]);
-
-            if (atoms[i].getAtomProperties().getZ() == Z) {
-                MNDOParams params = atoms[i].getParams();
-
-                params.modifyParam(paramNum, lambda);
-
-                perturbed[i] = new MNDOAtom(atoms[i], params);
-            }
-        }
-
-        sprime = new MNDOSolution(perturbed, charge);
-    }
-
-    public void constructErrors(double refHeat) {
-        e = new MNDOParamErrorFunction(atoms, s, refHeat);
-        eprime = new MNDOParamErrorFunction(perturbed, sprime, refHeat);
+        perturbed = Utils.perturbAtoms(atoms, paramNum, Z);
     }
 
     public void addDipoleError(double ref) {
-
         e.AddDipoleError(ref);
         eprime.AddDipoleError(ref);
     }
@@ -90,43 +29,26 @@ public class MNDOParamGradient {
         eprime.AddIEError(ref);
     }
 
-    public void createExpGeom(MNDOAtom[] expatoms, MNDOSolution expsoln) {
-        e.createExpGeom(expatoms, expsoln);
-
-        MNDOAtom[] perturbed = new MNDOAtom[expatoms.length];
-
-        for (int i = 0; i < expatoms.length; i++) {
-
-            perturbed[i] = new MNDOAtom(expatoms[i]);
-
-            //System.err.println (Z);
-
-            if (expatoms[i].getAtomProperties().getZ() == Z) {
-                MNDOParams params = expatoms[i].getParams();
-                params.modifyParam(paramNum, lambda);
-                perturbed[i] = new MNDOAtom(expatoms[i], params);
-            }
-        }
-        eprime.createExpGeom(perturbed, new MNDOSolution(perturbed, expsoln.charge));
-    }
-
     public void addGeomError() {
-        e.AddGeomError();
-        eprime.AddGeomError();
+        e.addGeomError();
+        eprime.addGeomError();
     }
 
     public void addBondError(int atom1, int atom2, double ref) {
-        e.AddBondError(atom1, atom2, ref);
-        eprime.AddBondError(atom1, atom2, ref);
+        e.addBondError(atom1, atom2, ref);
+        eprime.addBondError(atom1, atom2, ref);
     }
 
     public void addAngleError(int atom1, int atom2, int atom3, double ref) {
-        e.AddAngleError(atom1, atom2, atom3, ref);
-        eprime.AddAngleError(atom1, atom2, atom3, ref);
+        e.addAngleError(atom1, atom2, atom3, ref);
+        eprime.addAngleError(atom1, atom2, atom3, ref);
     }
 
     public double gradient() {
-        return (eprime.constructErrorFunction() - e.constructErrorFunction()) / lambda;
+        return (eprime.constructErrorFunction() - e.constructErrorFunction()) / Utils.lambda;
     }
 
+    public abstract void constructErrors(double refHeat);
+
+    public abstract void createExpGeom(MNDOAtom[] expAtoms, MNDOSolution expSoln);
 }

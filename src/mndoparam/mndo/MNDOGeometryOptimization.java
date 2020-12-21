@@ -3,50 +3,28 @@ package mndoparam.mndo;
 import org.jblas.DoubleMatrix;
 import org.jblas.Solve;
 
-public class MNDOGeometryOptimization {
-    private MNDOAtom[] atoms;
-
-    private double refEnergy;
-
-    private int counter;
-
-    public double IE, dipole;
-
-    public double heat;
-
-    private DoubleMatrix densitymatrix;
-
+public abstract class MNDOGeometryOptimization {
+    protected MNDOAtom[] atoms;
+    protected double refEnergy;
+    public double IE, dipole, heat;
+    public int charge;
+    protected int counter, mult;
     public MNDOSolution s;
 
-    public MNDOGeometryOptimization(MNDOAtom[] atoms, int charge) {
-
+    public MNDOGeometryOptimization(MNDOAtom[] atoms, int charge, int mult) {
         this.atoms = atoms;
-
-        //System.out.println ("Initial coordinates:\n");
-
-        for (MNDOAtom a : atoms) {
-            //System.out.println (Arrays.toString(a.getCoordinates()));
-        }
-
-
-        //System.out.println ("\nObtaining reference energy...");
-
-        s = new MNDOSolution(atoms, charge);
-
+        this.charge = charge;
+        this.mult = mult;
+        updateMNDOSolution();
+        updateMatrices();
         refEnergy = s.energy;
-
-        densitymatrix = s.densitymatrix();
-
         System.out.println("\nCurrent heat of formation: " + s.hf + "kcal/mol");
         System.out.println("Current HOMO energy: " + s.homo + " eV");
-        //System.out.println ("Current LUMO energy: " + s.lumo + " eV");
-
         System.out.println("-----------------------------------------------");
 
         DoubleMatrix gradient = new DoubleMatrix(atoms.length * 3, 1);
 
         int index = 0;
-
         for (int a = 0; a < atoms.length; a++) {
             for (int i = 0; i < 3; i++) {
                 gradient.put(index, 0, derivative(a, i));
@@ -54,52 +32,34 @@ public class MNDOGeometryOptimization {
             }
         }
 
-        //System.out.println ("gradient: " + gradient);
-
         double sum = 0;
-
         for (int i = 0; i < gradient.length; i++) {
             sum += gradient.get(i) * gradient.get(i);
         }
-
         sum = Math.sqrt(sum);
 
-
         DoubleMatrix B = DoubleMatrix.eye(atoms.length * 3);
-
-        DoubleMatrix searchdir = new DoubleMatrix(atoms.length * 3, 1);
-
-
+        DoubleMatrix searchdir;
         searchdir = gradient.mul(-1 / sum);
-
-        DoubleMatrix oldgrad = DoubleMatrix.zeros(atoms.length * 3, 1);
+        DoubleMatrix oldgrad;
 
         double energy = refEnergy - 1;
-
-
-        double scale = 0.1;
-
-        int count = 0;
-
-
+        double scale;
+        int count;
         counter = 0;
 
         while (mag(gradient) > 0.04) {
 
             System.out.println("Gradient: " + mag(gradient));
 
-            count = 0;
 
             scale = 0.1;
 
-            double summ = 0;
 
             refEnergy = 0;
 
 
             while (Math.abs(energy - refEnergy) > 1E-9) {
-
-
                 refEnergy = energy;
 
                 count = 0;
@@ -111,21 +71,11 @@ public class MNDOGeometryOptimization {
                     }
                 }
 
-                summ += scale;
-                //System.out.println ("New coordinates:");
 
-                for (MNDOAtom a : atoms) {
-                    //System.out.println (Arrays.toString(a.getCoordinates()));
-                }
+                updateMNDOSolution();
 
-                //System.out.println ("\nObtaining reference energy...");
-
-                s = new MNDOSolution(atoms, charge);
-
-                //System.out.println ("Energy: " + s.energy + "eV\n");
                 System.out.println("\nCurrent heat of formation: " + s.hf + "kcal/mol");
                 System.out.println("Current HOMO energy: " + s.homo + " eV");
-                //System.out.println ("Current LUMO energy: " + s.lumo + " eV");
 
                 System.out.println("-----------------------------------------------");
 
@@ -138,7 +88,7 @@ public class MNDOGeometryOptimization {
 
             }
 
-            densitymatrix = s.densitymatrix();
+            updateMatrices();
 
             refEnergy = energy;
 
@@ -177,49 +127,24 @@ public class MNDOGeometryOptimization {
             }
 
             sum = Math.sqrt(sum);
-
             searchdir = searchdir.mmul(0.1 / sum);
-
-
             counter++;
         }
-
         System.out.println("FINAL:");
 
-        for (MNDOAtom a : atoms) {
-            //System.out.println (Arrays.toString(a.getCoordinates()));
-        }
-        //System.out.println();
-
-        s = new MNDOSolution(atoms, charge);
-
-        //System.out.println ("Eigenvalues: " + s.E + "\n");
+        updateMNDOSolution();
 
         System.out.println("\nHeat of formation: " + s.hf + "kcal/mol");
         System.out.println("HOMO energy: " + s.homo + " eV");
-        //System.out.println ("LUMO energy: " + s.lumo + " eV");
-        //System.out.println ("Total energy: " + s.energy + "eV");
-
-        //System.out.println();
-
-        //System.out.println ("===DIPOLE MOMENT EVALUATION===");
-
-        //System.out.println ("point charge dipole contribution: " + Arrays.toString(s.chargedip));
-
-        //System.out.println ("hybrid dipole contribution: " + Arrays.toString(s.hybridip));
-
-        //System.out.println ("sum: " + Arrays.toString(s.dipoletot));
-
-        //System.out.println ("dipole moment: " + s.dipole + " debyes");
-
-        //System.out.println ("===END OF DIPOLE MOMENT DATA===");
-
-        //System.out.println ("\n" + counter + " iterations");
 
         this.dipole = s.dipole;
         this.heat = s.hf;
         this.IE = -s.homo;
     }
+
+    protected abstract void updateMatrices();
+
+    protected abstract void updateMNDOSolution();
 
     private DoubleMatrix getb(DoubleMatrix B, DoubleMatrix y, DoubleMatrix searchdir) {
 
@@ -235,11 +160,6 @@ public class MNDOGeometryOptimization {
         return B.add(m1).sub(m2);
     }
 
-    private double derivative(int i, int j) {
-        //System.out.println ("Evaluating gradient analytically; give us a moment...");
-        return MNDODerivative.gradient(atoms, densitymatrix, i, j);
-    }
-
     private double mag(DoubleMatrix gradient) {
 
         double sum = 0;
@@ -253,4 +173,6 @@ public class MNDOGeometryOptimization {
     public MNDOAtom[] getAtoms() {
         return this.atoms;
     }
+
+    protected abstract double derivative(int i, int j);
 }

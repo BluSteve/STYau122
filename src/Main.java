@@ -8,8 +8,8 @@ import optimize.ParamOptimizer;
 import org.apache.commons.lang.time.StopWatch;
 import org.jblas.DoubleMatrix;
 import org.jblas.Eigen;
-import runcycle.AbstractMoleculeRun;
 import runcycle.MoleculeRun;
+import runcycle.MoleculeRunRestricted;
 import runcycle.MoleculeRunUnrestricted;
 import scf.AtomHandler;
 import scf.Utils;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 public class Main {
 
-    static String trainingSet = "CHN";
+    static String trainingSet;
 
     public static void main(String[] args) {
         StopWatch sw = new StopWatch();
@@ -54,6 +54,14 @@ public class Main {
                     paramVector[i] = Double.parseDouble(strings[i]);
                 }
 
+
+                PrintWriter pw = new PrintWriter(new FileOutputStream("mndooutput.txt", true));
+
+                Scanner sc = new Scanner(input);
+                Scanner measurementScan = new Scanner(measurements);
+                Scanner referenceScan = new Scanner(reference);
+                trainingSet = sc.nextLine().split("=")[1];
+
                 MNDOParams HParams = new MNDOParams(Arrays.copyOfRange(paramVector, 0, 13));
                 MNDOParams CParams = new MNDOParams(Arrays.copyOfRange(paramVector, 13, 26));
                 MNDOParams NParams = null;
@@ -61,14 +69,7 @@ public class Main {
                     NParams = new MNDOParams(Arrays.copyOfRange(paramVector, 26, 39));
                 }
 
-                PrintWriter pw = new PrintWriter(new FileOutputStream(new File("mndooutput.txt"), true));
-
-                Scanner sc = new Scanner(input);
-                Scanner measurementScan = new Scanner(measurements);
-                Scanner referenceScan = new Scanner(reference);
-
                 List<ComputationRequest> requests = new ArrayList<>();
-
                 int counter = 0;
                 while (sc.hasNext()) { // for every molecule separated by ---
                     ArrayList<MNDOAtom> array = new ArrayList<>();
@@ -156,10 +157,10 @@ public class Main {
                 // Run one thread per core (tweakable)
                 ForkJoinPool threadPool = new ForkJoinPool(cores);
                 // Run parallelMap on thread pool
-                List<AbstractMoleculeRun> results = threadPool.submit(() -> ParallelComputationRequests.parallelStream().map(request -> {
-                    AbstractMoleculeRun result = request.restricted ? new MoleculeRun(request.atoms, request.charge,
-                            request.expgeom, request.datum, request.hasHessian) : new MoleculeRunUnrestricted(request.atoms,
-                            request.charge, request.mult, request.expgeom, request.datum, request.hasHessian);
+                List<MoleculeRun> results = threadPool.submit(() -> ParallelComputationRequests.parallelStream().map(request -> {
+                    MoleculeRun result = request.restricted ? new MoleculeRunRestricted(request.atoms, request.charge,
+                            request.expgeom, request.datum, request.hasHessian, trainingSet) : new MoleculeRunUnrestricted(request.atoms,
+                            request.charge, request.mult, request.expgeom, request.datum, request.hasHessian, trainingSet);
                     writeOutput(pw, request, result);
                     return result;
                 })).get().collect(Collectors.toList());
@@ -170,9 +171,9 @@ public class Main {
                 List<String> outputGeoms = results.stream().map(result -> result.newGeomCoords).collect(Collectors.toList());
 
                 for (ComputationRequest request : requests.subList(maxParallel, requests.size())) {
-                    AbstractMoleculeRun result = request.restricted ? new MoleculeRun(request.atoms, request.charge,
-                            request.expgeom, request.datum, request.hasHessian) : new MoleculeRunUnrestricted(request.atoms,
-                            request.charge, request.mult, request.expgeom, request.datum, request.hasHessian);
+                    MoleculeRun result = request.restricted ? new MoleculeRunRestricted(request.atoms, request.charge,
+                            request.expgeom, request.datum, request.hasHessian, trainingSet) : new MoleculeRunUnrestricted(request.atoms,
+                            request.charge, request.mult, request.expgeom, request.datum, request.hasHessian, trainingSet);
                     hessianValues.add(result.hessianStr);
                     outputValues.add(result.output.clone());
                     outputGeoms.add(result.newGeomCoords);
@@ -180,8 +181,8 @@ public class Main {
                     writeOutput(pw, request, result);
                 }
 
-                PrintWriter pw2 = new PrintWriter(new File("testoutput.txt"));
-
+                PrintWriter pw2 = new PrintWriter("input.txt");
+                pw2.println ("TRAININGSET=" + trainingSet);
                 for (int i = 0; i < outputGeoms.size(); i++) {
                     if (i != outputGeoms.size() - 1) {
                         pw2.println(outputGeoms.get(i) + "---");
@@ -441,7 +442,7 @@ public class Main {
         array.add(new MNDOAtom(AtomHandler.atomsMap.get(element), new double[]{d1, d2, d3}, paramvec));
     }
 
-    private static void writeOutput(PrintWriter pw, ComputationRequest request, AbstractMoleculeRun result) {
+    private static void writeOutput(PrintWriter pw, ComputationRequest request, MoleculeRun result) {
         System.out.println("Computation started: " + request.index);
         pw.println("Computation number: " + request.index);
         pw.print("Hessian string: " + result.hessianStr);

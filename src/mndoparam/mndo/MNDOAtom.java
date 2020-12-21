@@ -96,7 +96,7 @@ public class MNDOAtom extends AtomFixed {
         double f;
         double fprime;
         double R = GTO.R(a.getCoordinates(), b.getCoordinates());
-        if ((a.atomProperties.getZ() == 7 || a.atomProperties.getZ() == 8) && b.atomProperties.getZ() == 1) {
+        if ((a.atomProperties.getZ() == 7 || a.atomProperties.getZ() == 8) && b.atomProperties.getZ() == 1) { // TODO duplicate code
             f = 1 + R / 1.88973 * Math.exp(-a.mp.getAlpha() * R / 1.88973) + Math.exp(-b.mp.getAlpha() * R / 1.88973);
 
             fprime = (a.getCoordinates()[tau] - b.getCoordinates()[tau]) / (R * 1.88973) * Math.exp(-a.mp.getAlpha() * R / 1.88973)

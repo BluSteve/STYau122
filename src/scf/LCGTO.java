@@ -191,9 +191,7 @@ public class LCGTO { // HAS AtomFixed, OrbitalProperties, c, e
     public boolean equals(Object b) {
         if (b instanceof LCGTO) {
             LCGTO a = (LCGTO) b;
-            if (this.N == a.N && Arrays.equals(a.coordinates, coordinates) && a.i == i && a.j == j && a.k == k && Arrays.equals(a.coefficientArray, coefficientArray) && Arrays.deepEquals(a.gaussArray, gaussArray) && shell == a.shell) {
-                return true;
-            }
+            return this.N == a.N && Arrays.equals(a.coordinates, coordinates) && a.i == i && a.j == j && a.k == k && Arrays.equals(a.coefficientArray, coefficientArray) && Arrays.deepEquals(a.gaussArray, gaussArray) && shell == a.shell;
 
         }
         return false;

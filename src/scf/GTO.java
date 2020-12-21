@@ -78,9 +78,7 @@ public class GTO {
         if (b instanceof GTO) {
 
             GTO c = (GTO) b;
-            if (this.i == c.i && this.j == c.j && this.k == c.k && this.exponent == c.exponent && Arrays.equals(this.coordinates, c.coordinates)) {
-                return true;
-            }
+            return this.i == c.i && this.j == c.j && this.k == c.k && this.exponent == c.exponent && Arrays.equals(this.coordinates, c.coordinates);
         }
         return false;
     }

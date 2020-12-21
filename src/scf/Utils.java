@@ -1,12 +1,31 @@
 package scf;
 
+import mndoparam.mndo.MNDOAtom;
+import mndoparam.mndo.MNDOParams;
+
 public class Utils {
+    public static final double lambda = 1E-7;
+
     public static double[] toDoubles(String[] strs) {
         double[] doubles = new double[strs.length];
         for (int i = 0; i < strs.length; i++) {
             doubles[i] = Double.parseDouble(strs[i]);
         }
         return doubles;
+    }
+
+    public static MNDOAtom[] perturbAtoms(MNDOAtom[] atoms, int paramNum, int Z) {
+        MNDOAtom[] perturbed = new MNDOAtom[atoms.length];
+
+        for (int i = 0; i < atoms.length; i++) {
+            perturbed[i] = new MNDOAtom(atoms[i]);
+            if (atoms[i].getAtomProperties().getZ() == Z) {
+                MNDOParams params = atoms[i].getParams();
+                params.modifyParam(paramNum, Utils.lambda);
+                perturbed[i] = new MNDOAtom(atoms[i], params);
+            }
+        }
+        return perturbed;
     }
 
     /**
