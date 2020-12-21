@@ -85,21 +85,21 @@ public abstract class MNDOSolution {
                 if (k == j) {
                     double Huu = orbitals[j].U();
                     for (MNDOAtom a : atoms) {
-                        if (!Arrays.equals(a.getCoordinates(), orbitals[j].getCoords())) {
+                        if (!Arrays.equals(a.getCoordinates(), orbitals[j].getCoords())) { // case 1
                             Huu += a.V(orbitals[j], orbitals[k]);
                         }
                     }
                     H.put(j, k, Huu);
-                } else if (Arrays.equals(orbitals[j].getCoords(), orbitals[k].getCoords())) {
+                } else if (atomNumber[j] == atomNumber[k]) { // case 2
                     double Huv = 0;
                     for (MNDOAtom a : atoms) {
-                        if (!Arrays.equals(a.getCoordinates(), orbitals[j].getCoords())) {
+                        if (!Arrays.equals(a.getCoordinates(), orbitals[j].getCoords())) { // TODO remove duplicate code
                             Huv += a.V(orbitals[j], orbitals[k]);
                         }
                     }
                     H.put(j, k, Huv);
                     H.put(k, j, Huv);
-                } else {
+                } else { // case 3
                     double Huk = MNDO6G.beta(orbitals[j], orbitals[k]);
                     H.put(j, k, Huk);
                     H.put(k, j, Huk);

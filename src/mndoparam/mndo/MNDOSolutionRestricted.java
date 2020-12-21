@@ -68,12 +68,11 @@ public class MNDOSolutionRestricted extends MNDOSolution {
         System.out.println("1-electron matrix elements evaluated - moving on to two-electron matrix");
         double[] integralArray = new double[size];
         //The idea of the integralarray is to simply store all the integrals in order they are called. It's basically my way of avoiding having to perform a Yoshemine sort.
-
+        // TODO re-implement HashMap
         int integralcount = 0;
         for (int j = 0; j < orbitals.length; j++) {
             for (int k = j; k < orbitals.length; k++) {
-                if (j == k) {
-
+                if (j == k) { // case 1
                     for (int l : index[atomNumber[j]]) {
                         if (l > -1) {
                             integralArray[integralcount] = (MNDO6G.OneCenterERI(orbitals[j], orbitals[j], orbitals[l], orbitals[l]) - 0.5 * MNDO6G.OneCenterERI(orbitals[j], orbitals[l], orbitals[j], orbitals[l]));
@@ -94,7 +93,7 @@ public class MNDOSolutionRestricted extends MNDOSolution {
                             }
                         }
                     }
-                } else if (atomNumber[j] == atomNumber[k]) {
+                } else if (atomNumber[j] == atomNumber[k]) { // case 2
                     integralArray[integralcount] = (1.5 * MNDO6G.OneCenterERI(orbitals[j], orbitals[k], orbitals[j], orbitals[k]) - 0.5 * MNDO6G.OneCenterERI(orbitals[j], orbitals[j], orbitals[k], orbitals[k]));
                     integralcount++;
                     for (int l : missingIndex[atomNumber[j]]) {
@@ -106,11 +105,10 @@ public class MNDOSolutionRestricted extends MNDOSolution {
                                         integralcount++;
                                     }
                                 }
-
                             }
                         }
                     }
-                } else {
+                } else { // case 3
                     for (int l : index[atomNumber[j]]) {
                         if (l > -1) {
                             for (int m : index[atomNumber[k]]) {
