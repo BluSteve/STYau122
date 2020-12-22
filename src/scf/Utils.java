@@ -1,7 +1,7 @@
 package scf;
 
-import mndoparam.mndo.MNDOAtom;
-import mndoparam.mndo.MNDOParams;
+import nddoparam.mndo.MNDOAtom;
+import nddoparam.mndo.MNDOParams;
 
 public class Utils {
     public static final double lambda = 1E-7;

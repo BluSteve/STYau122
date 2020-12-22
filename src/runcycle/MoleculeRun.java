@@ -1,10 +1,10 @@
 package runcycle;
 
-import mndoparam.mndo.MNDOAtom;
-import mndoparam.mndo.MNDOGeometryOptimization;
-import mndoparam.mndo.MNDOSolution;
-import mndoparam.param.MNDOParamGradient;
-import mndoparam.param.MNDOParamHessian;
+import nddoparam.mndo.MNDOAtom;
+import nddoparam.mndo.MNDOGeometryOptimization;
+import nddoparam.mndo.MNDOSolution;
+import nddoparam.param.MNDOParamGradient;
+import nddoparam.param.MNDOParamHessian;
 import org.jblas.DoubleMatrix;
 
 public abstract class MoleculeRun {

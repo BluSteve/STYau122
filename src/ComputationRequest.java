@@ -1,4 +1,4 @@
-import mndoparam.mndo.MNDOAtom;
+import nddoparam.mndo.MNDOAtom;
 
 import java.util.Arrays;
 

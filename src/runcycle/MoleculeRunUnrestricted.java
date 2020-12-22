@@ -1,10 +1,10 @@
 package runcycle;
 
-import mndoparam.mndo.MNDOAtom;
-import mndoparam.mndo.MNDOGeometryOptimizationUnrestricted;
-import mndoparam.mndo.MNDOSolutionUnrestricted;
-import mndoparam.param.MNDOParamGradientUnrestricted;
-import mndoparam.param.MNDOParamHessianUnrestricted;
+import nddoparam.mndo.MNDOAtom;
+import nddoparam.mndo.MNDOGeometryOptimizationUnrestricted;
+import nddoparam.mndo.MNDOSolutionUnrestricted;
+import nddoparam.param.MNDOParamGradientUnrestricted;
+import nddoparam.param.MNDOParamHessianUnrestricted;
 
 public class MoleculeRunUnrestricted extends MoleculeRun {
     public MoleculeRunUnrestricted(MNDOAtom[] atoms2, int charge, int mult, MNDOAtom[] expGeom, double[] datum, boolean runHessian, String trainingSet) {

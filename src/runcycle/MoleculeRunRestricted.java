@@ -1,10 +1,10 @@
 package runcycle;
 
-import mndoparam.mndo.MNDOAtom;
-import mndoparam.mndo.MNDOGeometryOptimizationRestricted;
-import mndoparam.mndo.MNDOSolutionRestricted;
-import mndoparam.param.MNDOParamGradientRestricted;
-import mndoparam.param.MNDOParamHessianRestricted;
+import nddoparam.mndo.MNDOAtom;
+import nddoparam.mndo.MNDOGeometryOptimizationRestricted;
+import nddoparam.mndo.MNDOSolutionRestricted;
+import nddoparam.param.MNDOParamGradientRestricted;
+import nddoparam.param.MNDOParamHessianRestricted;
 
 public class MoleculeRunRestricted extends MoleculeRun {
     public MoleculeRunRestricted(MNDOAtom[] atoms2, int charge, MNDOAtom[] expGeom, double[] datum, boolean runHessian, String trainingSet) {
