@@ -1,11 +1,11 @@
-package nddoparam.mndo;
+package nddoparam;
 
-import nddoparam.NDDO6G;
 import org.jblas.DoubleMatrix;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
-public abstract class MNDOSolution {
+public abstract class NDDOSolution {
     public double energy, homo, lumo, hf, dipole;
     public double[] chargedip, hybridip, dipoletot;
     public int charge, multiplicity;
@@ -16,17 +16,27 @@ public abstract class MNDOSolution {
     protected int nElectrons;
     protected DoubleMatrix H;
     protected NDDO6G[] orbitals;
+    protected String name;
 
-    public MNDOSolution(MNDOAtom[] atoms, int charge) {
-        for (MNDOAtom a : atoms) {
+    public NDDOSolution(NDDOAtom[] atoms, int charge) {
+        StringBuilder nameBuilder = new StringBuilder();
+        HashMap<String, Integer> nameOccurrences = new HashMap<>();
+        for (NDDOAtom a : atoms) {
             nElectrons += a.getAtomProperties().getQ();
+            if (!nameOccurrences.containsKey(a.getName())) nameOccurrences.put(a.getName(), 1);
+            else nameOccurrences.put(a.getName(), nameOccurrences.get(a.getName()) + 1);
         }
+        for (String key : nameOccurrences.keySet()) {
+            nameBuilder.append(key).append(nameOccurrences.get(key));
+        }
+        name = nameBuilder.toString();
+
         nElectrons -= charge;
 
         this.charge = charge;
         int i = 0;
 
-        for (MNDOAtom a : atoms) {
+        for (NDDOAtom a : atoms) {
             i += a.getOrbitals().length;
         }
 
@@ -38,7 +48,7 @@ public abstract class MNDOSolution {
         atomNumber = new int[orbitals.length];
         int count = 0;
         int count2;
-        for (MNDOAtom a : atoms) {
+        for (NDDOAtom a : atoms) {
             count2 = 0;
             for (NDDO6G orbital : a.getOrbitals()) {
                 orbitals[i] = orbital;
@@ -53,7 +63,6 @@ public abstract class MNDOSolution {
                 index[count][1] = -1;
                 index[count][2] = -1;
                 index[count][3] = -1;
-
             }
             count++;
         }
@@ -79,13 +88,13 @@ public abstract class MNDOSolution {
 
         H = new DoubleMatrix(orbitals.length, orbitals.length);
 
-        //filling up the core matrix in accordance with MNDO formalism
+        //filling up the core matrix in accordance with NDDO formalism
 
         for (int j = 0; j < orbitals.length; j++) {
             for (int k = j; k < orbitals.length; k++) {
                 if (k == j) {
                     double Huu = orbitals[j].U();
-                    for (MNDOAtom a : atoms) {
+                    for (NDDOAtom a : atoms) {
                         if (!Arrays.equals(a.getCoordinates(), orbitals[j].getCoords())) { // case 1
                             Huu += a.V(orbitals[j], orbitals[k]);
                         }
@@ -93,7 +102,7 @@ public abstract class MNDOSolution {
                     H.put(j, k, Huu);
                 } else if (atomNumber[j] == atomNumber[k]) { // case 2
                     double Huv = 0;
-                    for (MNDOAtom a : atoms) {
+                    for (NDDOAtom a : atoms) {
                         if (!Arrays.equals(a.getCoordinates(), orbitals[j].getCoords())) { // TODO remove duplicate code
                             Huv += a.V(orbitals[j], orbitals[k]);
                         }

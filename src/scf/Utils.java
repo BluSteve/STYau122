@@ -1,7 +1,12 @@
 package scf;
 
+import nddoparam.NDDOAtom;
+import nddoparam.NDDOParams;
 import nddoparam.mndo.MNDOAtom;
 import nddoparam.mndo.MNDOParams;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 public class Utils {
     public static final double lambda = 1E-7;
@@ -14,18 +19,40 @@ public class Utils {
         return doubles;
     }
 
-    public static MNDOAtom[] perturbAtoms(MNDOAtom[] atoms, int paramNum, int Z) {
-        MNDOAtom[] perturbed = new MNDOAtom[atoms.length];
-
-        for (int i = 0; i < atoms.length; i++) {
-            perturbed[i] = new MNDOAtom(atoms[i]);
-            if (atoms[i].getAtomProperties().getZ() == Z) {
-                MNDOParams params = atoms[i].getParams();
-                params.modifyParam(paramNum, Utils.lambda);
-                perturbed[i] = new MNDOAtom(atoms[i], params);
+    public static NDDOAtom[] perturbAtoms(NDDOAtom[] atoms, int paramNum, int Z) {
+        NDDOAtom[] perturbed = new NDDOAtom[atoms.length];
+        try {
+            Class<? extends NDDOAtom> c = atoms[0].getClass();
+            Constructor ctor = c.getDeclaredConstructor(c, atoms[0].getParams().getClass());
+            ctor.setAccessible(true);
+            Constructor ctor2 = c.getDeclaredConstructor(c);
+            ctor2.setAccessible(true);
+            for (int i = 0; i < atoms.length; i++) {
+                if (atoms[i].getAtomProperties().getZ() == Z) {
+                    NDDOParams params = atoms[i].getParams();
+                    params.modifyParam(paramNum, Utils.lambda);
+                    perturbed[i] = (NDDOAtom) ctor.newInstance(atoms[i], params);
+                }
+                else {
+                    perturbed[i] = (NDDOAtom) ctor2.newInstance(atoms[i]);
+                }
             }
         }
+        catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
         return perturbed;
+    }
+
+    public static boolean containsZ(NDDOAtom[] atoms, int Z) {
+        boolean result = false;
+        for (NDDOAtom atom: atoms) {
+            if (atom.getAtomProperties().getZ() == Z) {
+                result = true;
+                break;
+            }
+        }
+        return result;
     }
 
     /**

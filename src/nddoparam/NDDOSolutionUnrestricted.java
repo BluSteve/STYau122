@@ -1,18 +1,17 @@
-package nddoparam.mndo;
+package nddoparam;
 
-import nddoparam.NDDO6G;
 import org.jblas.DoubleMatrix;
 import org.jblas.Eigen;
 
 import java.util.Arrays;
 
 
-public class MNDOSolutionUnrestricted extends MNDOSolution {
+public class NDDOSolutionUnrestricted extends NDDOSolution {
     private DoubleMatrix Fa, Fb;
     private DoubleMatrix alphaDensity, betaDensity;
     DoubleMatrix Ea, Eb;
 
-    public MNDOSolutionUnrestricted(MNDOAtom[] atoms, int charge, int mult) {
+    public NDDOSolutionUnrestricted(NDDOAtom[] atoms, int charge, int mult) {
         super(atoms, charge);
         this.multiplicity = mult;
         if (nElectrons % 2 == multiplicity % 2 || multiplicity < 1) {
@@ -171,7 +170,7 @@ public class MNDOSolutionUnrestricted extends MNDOSolution {
 
         DoubleMatrix[] matrices = Eigen.symmetricEigenvectors(H);
 
-        System.out.println("All ERIs evaluated, beginning SCF iterations...");
+        System.out.println(name + " All ERIs evaluated, beginning SCF iterations...");
 
         Ea = matrices[1].diag();
 
@@ -352,7 +351,7 @@ public class MNDOSolutionUnrestricted extends MNDOSolution {
                 if (damp >= 1) {
                     System.err.println("Damping Coefficient Cannot Be Increased Further. Exiting program...");
 
-                    for (MNDOAtom a : atoms) {
+                    for (NDDOAtom a : atoms) {
                         System.out.println(a.getAtomProperties().getZ() + "; " + Arrays.toString(a.getCoordinates()));
                     }
                     System.exit(0);
@@ -375,7 +374,7 @@ public class MNDOSolutionUnrestricted extends MNDOSolution {
         for (int j = 0; j < atoms.length; j++) {
             heat += atoms[j].getHeat() - atoms[j].getEisol();
             for (int k = j + 1; k < atoms.length; k++) {
-                e += MNDOAtom.crf(atoms[j], atoms[k]);
+                e += atoms[j].crf(atoms[k]);
             }
         }
         energy = e;
@@ -386,7 +385,7 @@ public class MNDOSolutionUnrestricted extends MNDOSolution {
 
         this.homo = Ea.get(nalpha - 1, 0);
         this.lumo = 0.001 * Math.round(Eb.get(nbeta, 0) * 1000);
-        System.out.println("SCF completed");
+        System.out.println(name + " SCF completed");
 
         double[] populations = new double[atoms.length];
 
@@ -406,7 +405,7 @@ public class MNDOSolutionUnrestricted extends MNDOSolution {
 
         double mass = 0;
 
-        for (MNDOAtom atom : atoms) {
+        for (NDDOAtom atom : atoms) {
             com[0] = com[0] + atom.getMass() * atom.getCoordinates()[0];
             com[1] = com[1] + atom.getMass() * atom.getCoordinates()[1];
             com[2] = com[2] + atom.getMass() * atom.getCoordinates()[2];

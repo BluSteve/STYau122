@@ -1,15 +1,15 @@
 package nddoparam.param;
 
-import nddoparam.mndo.MNDOAtom;
-import nddoparam.mndo.MNDOSolution;
+import nddoparam.NDDOAtom;
+import nddoparam.NDDOSolution;
 import scf.Utils;
 
-public abstract class MNDOParamHessian {
-    protected MNDOAtom[] atoms, perturbed;
+public abstract class NDDOParamHessian {
+    protected NDDOAtom[] atoms, perturbed;
     protected int paramNum1, Z1;
-    public MNDOParamGradient g, gprime;
+    public NDDOParamGradient g, gprime;
 
-    public MNDOParamHessian(MNDOAtom[] atoms, int Z1, int paramNum1) {
+    public NDDOParamHessian(NDDOAtom[] atoms, int Z1, int paramNum1) {
         //System.err.println("initializing Hessian");
         this.Z1 = Z1;
         this.paramNum1 = paramNum1;
@@ -47,7 +47,7 @@ public abstract class MNDOParamHessian {
         gprime.addAngleError(atom1, atom2, atom3, ref);
     }
 
-    public abstract void createExpGeom(MNDOAtom[] expAtoms, MNDOSolution expSoln);
+    public abstract void createExpGeom(NDDOAtom[] expAtoms, NDDOSolution expSoln);
 
     public double hessian() {
         return (gprime.gradient() - g.gradient()) / Utils.lambda;

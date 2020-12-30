@@ -1,21 +1,21 @@
-package nddoparam.mndo;
+package nddoparam;
 
 import org.jblas.DoubleMatrix;
 import org.jblas.Solve;
 
-public abstract class MNDOGeometryOptimization {
-    protected MNDOAtom[] atoms;
+public abstract class NDDOGeometryOptimization {
+    protected NDDOAtom[] atoms;
     protected double refEnergy;
     public double IE, dipole, heat;
     public int charge;
     protected int counter, mult;
-    public MNDOSolution s;
+    public NDDOSolution s;
 
-    public MNDOGeometryOptimization(MNDOAtom[] atoms, int charge, int mult) {
+    public NDDOGeometryOptimization(NDDOAtom[] atoms, int charge, int mult) {
         this.atoms = atoms;
         this.charge = charge;
         this.mult = mult;
-        updateMNDOSolution();
+        updateNDDOSolution();
         updateMatrices();
         refEnergy = s.energy;
         System.out.println("\nCurrent heat of formation: " + s.hf + "kcal/mol");
@@ -64,7 +64,7 @@ public abstract class MNDOGeometryOptimization {
 
                 count = 0;
 
-                for (MNDOAtom a : atoms) {
+                for (NDDOAtom a : atoms) {
                     for (int i = 0; i < 3; i++) {
                         a.getCoordinates()[i] = Math.round((a.getCoordinates()[i] + scale * searchdir.get(count)) * 1000000000) / 1000000000.0;
                         count++;
@@ -72,7 +72,7 @@ public abstract class MNDOGeometryOptimization {
                 }
 
 
-                updateMNDOSolution();
+                updateNDDOSolution();
 
                 System.out.println("\nCurrent heat of formation: " + s.hf + "kcal/mol");
                 System.out.println("Current HOMO energy: " + s.homo + " eV");
@@ -132,7 +132,7 @@ public abstract class MNDOGeometryOptimization {
         }
         System.out.println("FINAL:");
 
-        updateMNDOSolution();
+        updateNDDOSolution();
 
         System.out.println("\nHeat of formation: " + s.hf + "kcal/mol");
         System.out.println("HOMO energy: " + s.homo + " eV");
@@ -144,7 +144,7 @@ public abstract class MNDOGeometryOptimization {
 
     protected abstract void updateMatrices();
 
-    protected abstract void updateMNDOSolution();
+    protected abstract void updateNDDOSolution();
 
     private DoubleMatrix getb(DoubleMatrix B, DoubleMatrix y, DoubleMatrix searchdir) {
 
@@ -170,7 +170,7 @@ public abstract class MNDOGeometryOptimization {
         return Math.sqrt(sum);
     }
 
-    public MNDOAtom[] getAtoms() {
+    public NDDOAtom[] getAtoms() {
         return this.atoms;
     }
 

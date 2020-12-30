@@ -1,19 +1,19 @@
 package nddoparam.param;
 
-import nddoparam.mndo.MNDOAtom;
-import nddoparam.mndo.MNDOSolution;
+import nddoparam.NDDOAtom;
+import nddoparam.NDDOSolution;
 import scf.GTO;
 
 import java.util.ArrayList;
 
-public abstract class MNDOParamErrorFunction {
+public abstract class NDDOParamErrorFunction {
     protected double HeatError, DipoleError, IEError, GeomError;
     public double gradient;
-    public MNDOSolution soln, expSoln;
-    protected MNDOAtom[] atoms, expAtoms;
+    public NDDOSolution soln, expSoln;
+    protected NDDOAtom[] atoms, expAtoms;
     protected ArrayList<Double> bondErrors, angleErrors, bonds, angles, bondDerivatives, angleDerivatives;
 
-    public MNDOParamErrorFunction(MNDOAtom[] atoms, MNDOSolution soln, double refHeat) {
+    public NDDOParamErrorFunction(NDDOAtom[] atoms, NDDOSolution soln, double refHeat) {
         this.atoms = atoms;
         this.soln = soln;
         this.HeatError = (soln.hf - refHeat) * (soln.hf - refHeat);
@@ -28,20 +28,19 @@ public abstract class MNDOParamErrorFunction {
         this.angleDerivatives = new ArrayList<>();
     }
 
-    public void AddDipoleError(double refDipole) {
+    public void addDipoleError(double refDipole) {
         this.DipoleError = 400 * (soln.dipole - refDipole) * (soln.dipole - refDipole);
     }
 
-    public void AddIEError(double refIE) {
+    public void addIEError(double refIE) {
         this.IEError = 100 * (refIE + soln.homo) * (refIE + soln.homo);
     }
 
-    public void createExpGeom(MNDOAtom[] expAtoms, MNDOSolution expSoln) {
+    public void createExpGeom(NDDOAtom[] expAtoms, NDDOSolution expSoln) {
         this.expAtoms = expAtoms;
         this.expSoln = expSoln;
     }
 
-    // very sketchy
     protected abstract double getDeriv(double[] coeff, int atom2);
 
     protected abstract double getGradient(int i, int j);

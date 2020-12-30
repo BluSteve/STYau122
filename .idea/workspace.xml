@@ -32,51 +32,37 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/nddoparam/NDDO6G.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/nddoparam/NDDOAtom.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/nddoparam/NDDOParams.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/nddoparam/NDDODerivative.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/nddoparam/am1/AM1Atom.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/nddoparam/am1/AM1Params.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/ComputationRequest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDO6G.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOAtom.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDODerivative.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOGeometryOptimization.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOGeometryOptimizationUnrestricted.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOSolution.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/mndoparam/mndo/MNDOSolutionUnrestricted.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/mndoparam/param/MNDOParamErrorFunction.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/mndoparam/param/MNDOParamErrorFunctionUnrestricted.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/mndoparam/param/MNDOParamGradient.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/mndoparam/param/MNDOParamGradientUnrestricted.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/mndoparam/param/MNDOParamHessian.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/mndoparam/param/MNDOParamHessianUnrestricted.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/runcycle/MoleculeRun.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/runcycle/MoleculeRunUnrestricted.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/scf/GTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/scf/GTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/scf/LCGTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/scf/LCGTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/scf/SpecialFunctions.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ComputationRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ComputationRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MNDOHessianUpdateData.txt" beforeDir="false" afterPath="$PROJECT_DIR$/MNDOHessianUpdateData.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/atom_properties.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/measurements.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/measurementshessian.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mndooutput.txt" beforeDir="false" afterPath="$PROJECT_DIR$/mndooutput.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mndoparam/mndo/MNDO6G.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mndoparam/mndo/MNDOAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/mndo/MNDOAtom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mndoparam/mndo/MNDODerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/mndo/MNDODerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mndoparam/mndo/MNDOGeometryOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/mndo/MNDOGeometryOptimization.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mndoparam/mndo/MNDOGeometryOptimizationRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/mndo/MNDOGeometryOptimizationRestricted.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mndoparam/mndo/MNDOGeometryOptimizationUnrestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/mndo/MNDOGeometryOptimizationUnrestricted.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mndoparam/mndo/MNDOParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/mndo/MNDOParams.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mndoparam/mndo/MNDOSolution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/mndo/MNDOSolution.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mndoparam/mndo/MNDOSolutionRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/mndo/MNDOSolutionRestricted.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mndoparam/mndo/MNDOSolutionUnrestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/mndo/MNDOSolutionUnrestricted.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mndoparam/param/MNDOParamErrorFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/MNDOParamErrorFunction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mndoparam/param/MNDOParamErrorFunctionRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/MNDOParamErrorFunctionRestricted.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mndoparam/param/MNDOParamErrorFunctionUnrestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/MNDOParamErrorFunctionUnrestricted.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mndoparam/param/MNDOParamGradient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/MNDOParamGradient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mndoparam/param/MNDOParamGradientRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/MNDOParamGradientRestricted.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mndoparam/param/MNDOParamGradientUnrestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/MNDOParamGradientUnrestricted.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mndoparam/param/MNDOParamHessian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/MNDOParamHessian.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mndoparam/param/MNDOParamHessianRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/MNDOParamHessianRestricted.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mndoparam/param/MNDOParamHessianUnrestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/MNDOParamHessianUnrestricted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDOAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDOAtom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDOParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDOParams.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/mndo/MNDOAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/mndo/MNDOAtom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/mndo/MNDODerivative.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/mndo/MNDOGeometryOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDOGeometryOptimization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/mndo/MNDOGeometryOptimizationRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDOGeometryOptimizationRestricted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/mndo/MNDOGeometryOptimizationUnrestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDOGeometryOptimizationUnrestricted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/mndo/MNDOParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/mndo/MNDOParams.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/mndo/MNDOSolution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDOSolution.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/mndo/MNDOSolutionRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDOSolutionRestricted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/mndo/MNDOSolutionUnrestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDOSolutionUnrestricted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/MNDOParamErrorFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/NDDOParamErrorFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/MNDOParamErrorFunctionRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/NDDOParamErrorFunctionRestricted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/MNDOParamErrorFunctionUnrestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/NDDOParamErrorFunctionUnrestricted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/MNDOParamGradient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/NDDOParamGradient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/MNDOParamGradientRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/NDDOParamGradientRestricted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/MNDOParamGradientUnrestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/NDDOParamGradientUnrestricted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/MNDOParamHessian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/NDDOParamHessian.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/MNDOParamHessianRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/NDDOParamHessianRestricted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/MNDOParamHessianUnrestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/NDDOParamHessianUnrestricted.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRunRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRunRestricted.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRunUnrestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRunUnrestricted.java" afterDir="false" />
@@ -139,18 +125,23 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="create.test.in.the.same.root" value="true" />
     <property name="extract.method.default.visibility" value="private" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/nddoparam/am1" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Documents\Gitted CS Projects\MNDOParam\src\nddoparam\am1" />
+    </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
       <recent name="Utils" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Documents\Gitted CS Projects\MNDOParam\src\nddoparam\am1" />
+      <recent name="D:\Documents\Gitted CS Projects\MNDOParam\src\nddoparam" />
       <recent name="C:\Users\billi\Documents\Gitted CS Projects\scf" />
     </key>
   </component>
@@ -239,6 +230,13 @@
       <workItem from="1608555074262" duration="2811000" />
       <workItem from="1608616919207" duration="52000" />
       <workItem from="1608620698165" duration="3734000" />
+      <workItem from="1608793216765" duration="2798000" />
+      <workItem from="1608879304435" duration="594000" />
+      <workItem from="1608966120669" duration="10287000" />
+      <workItem from="1609052500250" duration="6156000" />
+      <workItem from="1609147275715" duration="6157000" />
+      <workItem from="1609229787843" duration="1695000" />
+      <workItem from="1609312654814" duration="5059000" />
     </task>
     <task id="LOCAL-00001" summary="Convert integralarray to integralMap, implement getKey() in MNDOSolution.java">
       <created>1606298586134</created>
@@ -362,13 +360,28 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/testing" />
+                        <option value="am1" />
                       </list>
                     </value>
                   </entry>
                 </map>
               </option>
             </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="origin/am1" />
+                </option>
+              </RecentGroup>
+            </list>
           </value>
         </entry>
       </map>

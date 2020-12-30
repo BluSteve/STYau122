@@ -3,23 +3,11 @@ package nddoparam;
 import java.io.Serializable;
 
 public class NDDOParams implements Serializable {
-    protected double[] params = new double[13];
+    protected double[] params;
 
     public NDDOParams(double alpha, double betas, double betap, double uss, double upp, double zetas, double zetap,
                       double eisol, double gss, double gsp, double hsp, double gpp, double gp2) {
-        params[0] = alpha;
-        params[1] = betas;
-        params[2] = betap;
-        params[3] = uss;
-        params[4] = upp;
-        params[5] = zetas;
-        params[6] = zetap;
-        params[7] = eisol;
-        params[8] = gss;
-        params[9] = gsp;
-        params[10] = hsp;
-        params[11] = gpp;
-        params[12] = gp2;
+        params = new double[] {alpha, betas, betap, uss, upp, zetas, zetap, eisol, gss, gsp, hsp, gpp, gp2};
     }
 
     public NDDOParams(double[] params) {

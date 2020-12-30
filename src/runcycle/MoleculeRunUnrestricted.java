@@ -1,19 +1,19 @@
 package runcycle;
 
-import nddoparam.mndo.MNDOAtom;
-import nddoparam.mndo.MNDOGeometryOptimizationUnrestricted;
-import nddoparam.mndo.MNDOSolutionUnrestricted;
-import nddoparam.param.MNDOParamGradientUnrestricted;
-import nddoparam.param.MNDOParamHessianUnrestricted;
+import nddoparam.NDDOAtom;
+import nddoparam.NDDOGeometryOptimizationUnrestricted;
+import nddoparam.NDDOSolutionUnrestricted;
+import nddoparam.param.NDDOParamGradientUnrestricted;
+import nddoparam.param.NDDOParamHessianUnrestricted;
 
 public class MoleculeRunUnrestricted extends MoleculeRun {
-    public MoleculeRunUnrestricted(MNDOAtom[] atoms2, int charge, int mult, MNDOAtom[] expGeom, double[] datum, boolean runHessian, String trainingSet) {
+    public MoleculeRunUnrestricted(NDDOAtom[] atoms2, int charge, int mult, NDDOAtom[] expGeom, double[] datum, boolean runHessian, String trainingSet) {
         super(atoms2, charge, expGeom, datum, runHessian, trainingSet, mult);
-        opt = new MNDOGeometryOptimizationUnrestricted(atoms, charge, mult);
+        opt = new NDDOGeometryOptimizationUnrestricted(atoms, charge, mult);
 
         newGeomCoords = "UHF\n" + "CHARGE=" + charge + "\nMULT=" + mult + "\n";
         generateGeomCoords();
-        if (this.expGeom != null) expSolution = new MNDOSolutionUnrestricted(this.expGeom, charge, mult);
+        if (this.expGeom != null) expSolution = new NDDOSolutionUnrestricted(this.expGeom, charge, mult);
 
         if (runHessian) {
             runHessian();
@@ -26,12 +26,12 @@ public class MoleculeRunUnrestricted extends MoleculeRun {
     }
 
     protected void getG(int Z, int numit, int mult) {
-        g = new MNDOParamGradientUnrestricted(atoms, charge, mult, Z, numit, (MNDOSolutionUnrestricted) opt.s);
+        g = new NDDOParamGradientUnrestricted(atoms, charge, mult, Z, numit, (NDDOSolutionUnrestricted) opt.s);
 
     }
 
     protected void getH(int Z1, int param1, int Z2, int param2) {
-        h = new MNDOParamHessianUnrestricted(atoms, charge, mult, Z1, param1, Z2, param2, (MNDOSolutionUnrestricted) opt.s);
+        h = new NDDOParamHessianUnrestricted(atoms, charge, mult, Z1, param1, Z2, param2, (NDDOSolutionUnrestricted) opt.s);
     }
 
 }

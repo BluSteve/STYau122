@@ -1,12 +1,12 @@
 package nddoparam;
 
-import nddoparam.mndo.MNDOAtom;
 import scf.AtomFixed;
 import scf.AtomHandler;
 import scf.AtomProperties;
 import scf.OrbitalProperties;
 
 public abstract class NDDOAtom extends AtomFixed {
+    protected static final double bohr = 1.88973;
     public double p0, p1, p2, D1, D2;
     protected NDDO6G[] orbitals;
     protected NDDOParams np;
@@ -123,4 +123,8 @@ public abstract class NDDOAtom extends AtomFixed {
         }
         return newguess;
     }
+
+    public abstract double crf(NDDOAtom b);
+
+    public abstract double crfDeriv(NDDOAtom b, int tau);
 }

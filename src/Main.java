@@ -37,10 +37,6 @@ public class Main {
             useHessian = numRuns % 2 == 0;
 
             File input = new File("input.txt");
-            File measurements = new File("measurements.txt");
-            if (useHessian) {
-                measurements = new File("measurementshessian.txt");
-            }
             File reference = new File("reference.txt");
             File params = new File("mndoparams.txt");
             AtomHandler.populateAtoms();
@@ -58,10 +54,10 @@ public class Main {
                 PrintWriter pw = new PrintWriter(new FileOutputStream("mndooutput.txt", true));
 
                 Scanner sc = new Scanner(input);
-                Scanner measurementScan = new Scanner(measurements);
                 Scanner referenceScan = new Scanner(reference);
                 trainingSet = sc.nextLine().split("=")[1];
 
+                // TODO to be generalized
                 MNDOParams HParams = new MNDOParams(Arrays.copyOfRange(paramVector, 0, 13));
                 MNDOParams CParams = new MNDOParams(Arrays.copyOfRange(paramVector, 13, 26));
                 MNDOParams NParams = null;
@@ -120,23 +116,18 @@ public class Main {
 
                     double[] data = new double[3];
                     // hasHessian has been removed, not sure what's the point considering useHessian makes it redundant.
-
                     // uses measurements to check if need dipole, ionization, etc. uses values from reference.
                     data[0] = Double.parseDouble(referenceScan.nextLine().split(" ")[1]); // I wish we standardized delimiters.
-                    if (measurementScan.nextLine().equals("DIPOLE")) {
-                        data[1] = Double.parseDouble(referenceScan.nextLine().split(" ")[1]);
-                    } else {
-                        referenceScan.nextLine();
+                    String[] dipoles = referenceScan.nextLine().split(" ");
+                    if (dipoles.length > 1) {
+                        data[1] = Double.parseDouble(dipoles[1]);
                     }
-                    if (measurementScan.nextLine().equals("IONIZATION")) {
-                        data[2] = Double.parseDouble(referenceScan.nextLine().split(" ")[1]);
-                    } else {
-                        referenceScan.nextLine();
+                    String[] ionizations = referenceScan.nextLine().split(" ");
+                    if (ionizations.length > 1) {
+                        data[2] = Double.parseDouble(ionizations[1]);
                     }
-
                     if (referenceScan.hasNext()) {
                         referenceScan.nextLine();
-                        measurementScan.nextLine();
                     }
 
                     requests
@@ -149,7 +140,7 @@ public class Main {
                 // requests contains 1 request for every molecule.
                 int cores = Runtime.getRuntime().availableProcessors();
                 pw.println("Running on " + cores + " cores.");
-                int remainingNonParallel = 5;
+                int remainingNonParallel = 0;
                 // if requests less than remainingNonParallel then just use parallel computation for one of them
                 int maxParallel = remainingNonParallel < requests.size() ? requests.size() - remainingNonParallel : 1;
                 List<ComputationRequest> ParallelComputationRequests = requests.subList(0, maxParallel);

@@ -1,23 +1,23 @@
 package runcycle;
 
-import nddoparam.mndo.MNDOAtom;
-import nddoparam.mndo.MNDOGeometryOptimization;
-import nddoparam.mndo.MNDOSolution;
-import nddoparam.param.MNDOParamGradient;
-import nddoparam.param.MNDOParamHessian;
+import nddoparam.NDDOAtom;
+import nddoparam.NDDOGeometryOptimization;
+import nddoparam.NDDOSolution;
+import nddoparam.param.NDDOParamGradient;
+import nddoparam.param.NDDOParamHessian;
 import org.jblas.DoubleMatrix;
 
 public abstract class MoleculeRun {
     public String[] output;
     public String hessianStr, newGeomCoords, trainingSet;
-    protected MNDOAtom[] atoms, expGeom;
+    protected NDDOAtom[] atoms, expGeom;
     protected int charge, size, mult;
     protected boolean runHessian;
     protected double[] datum;
-    protected MNDOParamGradient g;
-    protected MNDOParamHessian h;
-    protected MNDOGeometryOptimization opt;
-    protected MNDOSolution expSolution;
+    protected NDDOParamGradient g;
+    protected NDDOParamHessian h;
+    protected NDDOGeometryOptimization opt;
+    protected NDDOSolution expSolution;
     protected static double LAMBDA = 1E-7;
     protected String totalHeatDeriv = "";
     protected String totalIonizationDeriv = "";
@@ -28,7 +28,7 @@ public abstract class MoleculeRun {
     protected String excelStr2 = "";
 
 
-    public MoleculeRun(MNDOAtom[] atoms, int charge, MNDOAtom[] expGeom, double[] datum, boolean runHessian, String trainingSet, int mult) {
+    public MoleculeRun(NDDOAtom[] atoms, int charge, NDDOAtom[] expGeom, double[] datum, boolean runHessian, String trainingSet, int mult) {
         this.trainingSet = trainingSet;
         this.atoms = atoms;
         this.expGeom = expGeom;
@@ -116,12 +116,10 @@ public abstract class MoleculeRun {
 
                 if (datum[1] != 0) {
                     h.addDipoleError(datum[1]);
-
                 }
 
                 if (datum[2] != 0) {
                     h.addIEError(datum[2]);
-
                 }
 
                 hessianSB.append(h.hessian()).append(", ");
@@ -144,7 +142,7 @@ public abstract class MoleculeRun {
                 getG(1, numit, mult);
 
                 if (numit == 0) {
-                    totalHeatDerivSB.append(datum[0]).append(", ").append(g.s.hf).append(", ");
+                    totalHeatDerivSB.append(datum[0]).append(", ").append(g.getEHf()).append(", ");
                 }
 
 
@@ -158,37 +156,37 @@ public abstract class MoleculeRun {
 
                 if (datum[1] != 0) {
                     if (numit == 0) {
-                        totalDipoleDerivSB.append(datum[1]).append(", ").append(g.s.dipole).append(", ");
+                        totalDipoleDerivSB.append(datum[1]).append(", ").append(g.getEDipole()).append(", ");
                     }
 
                     g.addDipoleError(datum[1]);
-                    totalDipoleDerivSB.append(1 / LAMBDA * (g.eprime.soln.dipole - g.e.soln.dipole)).append(", ");
+                    totalDipoleDerivSB.append(1 / LAMBDA * (g.getEPrimeDipole() - g.getEDipole())).append(", ");
                 }
 
                 if (datum[2] != 0) {
                     if (numit == 0) {
-                        totalIonizationDerivSB.append(datum[2]).append(", ").append(-g.s.homo).append(", ");
+                        totalIonizationDerivSB.append(datum[2]).append(", ").append(-g.getEHomo()).append(", ");
                     }
                     g.addIEError(datum[1]);
-                    totalIonizationDerivSB.append(1 / LAMBDA * (-g.eprime.soln.homo + g.e.soln.homo)).append(", ");
+                    totalIonizationDerivSB.append(1 / LAMBDA * (-g.getEPrimeHomo() + g.getEHomo())).append(", ");
                 }
 
                 if (this.expGeom != null) {
                     if (numit == 0) {
-                        totalGeomDerivSB.append("0, ").append(g.e.gradient).append(",");
+                        totalGeomDerivSB.append("0, ").append(g.getEGradient()).append(",");
                     }
-                    totalGeomDerivSB.append(1 / LAMBDA * (g.eprime.gradient - g.e.gradient)).append(", ");
+                    totalGeomDerivSB.append(1 / LAMBDA * (g.getEPrimeGradient() - g.getEGradient())).append(", ");
                 }
                 
                 System.out.println(g.gradient());
-                totalHeatDerivSB.append(1 / LAMBDA * (g.eprime.soln.hf - g.e.soln.hf)).append(", ");
+                totalHeatDerivSB.append(1 / LAMBDA * (g.getEPrimeHf() - g.getEHf())).append(", ");
                 excelSB.append(",").append(g.gradient());
             }
         }
         for (int numit = 0; numit < 8; numit++) {
             getG(6, numit, mult);
 
-            excelStr2 = "," + datum[0] + "," + g.s.hf + ",";
+            excelStr2 = "," + datum[0] + "," + g.getEHf() + ",";
 
 
             g.constructErrors(datum[0]);
@@ -201,12 +199,12 @@ public abstract class MoleculeRun {
             if (datum[1] != 0) {
                 g.addDipoleError(datum[1]);
 
-                excelSB2.append(",").append(datum[1]).append(",").append(g.s.dipole).append(",");
+                excelSB2.append(",").append(datum[1]).append(",").append(g.getEDipole()).append(",");
 
                 if (numit == 7 && trainingSet.equals("CH")) {
-                    totalDipoleDerivSB.append(1 / LAMBDA * (g.eprime.soln.dipole - g.e.soln.dipole)).append("\n");
+                    totalDipoleDerivSB.append(1 / LAMBDA * (g.getEPrimeDipole() - g.getEDipole())).append("\n");
                 } else {
-                    totalDipoleDerivSB.append(1 / LAMBDA * (g.eprime.soln.dipole - g.e.soln.dipole)).append(", ");
+                    totalDipoleDerivSB.append(1 / LAMBDA * (g.getEPrimeDipole() - g.getEDipole())).append(", ");
                 }
 
             } else {
@@ -216,29 +214,29 @@ public abstract class MoleculeRun {
             if (datum[2] != 0) {
                 g.addIEError(datum[2]);
 
-                excelSB2.append(",").append(datum[2]).append(",").append(-g.s.homo).append(",");
+                excelSB2.append(",").append(datum[2]).append(",").append(-g.getEHomo()).append(",");
                 if (numit == 7 && trainingSet.equals("CH")) {
-                    totalIonizationDerivSB.append(1 / LAMBDA * (-g.eprime.soln.homo + g.e.soln.homo)).append("\n");
+                    totalIonizationDerivSB.append(1 / LAMBDA * (-g.getEPrimeHomo() + g.getEHomo())).append("\n");
                 } else {
-                    totalIonizationDerivSB.append(1 / LAMBDA * (-g.eprime.soln.homo + g.e.soln.homo)).append(", ");
+                    totalIonizationDerivSB.append(1 / LAMBDA * (-g.getEPrimeHomo() + g.getEHomo())).append(", ");
                 }
             } else {
                 excelSB2.append(",,,");
             }
 
             if (this.expGeom != null) {
-                excelSB2.append("," + 0 + ",").append(g.e.gradient).append(",");
+                excelSB2.append("," + 0 + ",").append(g.getEGradient()).append(",");
                 if (numit == 7 && trainingSet.equals("CH")) {
-                    totalGeomDerivSB.append(1 / LAMBDA * (g.eprime.gradient - g.e.gradient)).append("\n");
+                    totalGeomDerivSB.append(1 / LAMBDA * (g.getEPrimeGradient() - g.getEGradient())).append("\n");
                 } else {
-                    totalGeomDerivSB.append(1 / LAMBDA * (g.eprime.gradient - g.e.gradient)).append(", ");
+                    totalGeomDerivSB.append(1 / LAMBDA * (g.getEPrimeGradient() - g.getEGradient())).append(", ");
                 }
             }
 
             if (numit == 7 && trainingSet.equals("CH")) {
-                totalHeatDerivSB.append(1 / LAMBDA * (g.eprime.soln.hf - g.e.soln.hf)).append("\n");
+                totalHeatDerivSB.append(1 / LAMBDA * (g.getEPrimeHf() - g.getEHf())).append("\n");
             } else {
-                totalHeatDerivSB.append(1 / LAMBDA * (g.eprime.soln.hf - g.e.soln.hf)).append(", ");
+                totalHeatDerivSB.append(1 / LAMBDA * (g.getEPrimeHf() - g.getEHf())).append(", ");
             }
 
             excelSB.append(",").append(g.gradient());
@@ -251,7 +249,7 @@ public abstract class MoleculeRun {
                 getG(7, numit, mult);
 
 
-                excelStr2 = "," + datum[0] + "," + g.s.hf + ",";
+                excelStr2 = "," + datum[0] + "," + g.getEHf() + ",";
 
 
                 g.constructErrors(datum[0]);
@@ -264,12 +262,12 @@ public abstract class MoleculeRun {
                 if (datum[1] != 0) {
                     g.addDipoleError(datum[1]);
 
-                    excelSB2.append(",").append(datum[1]).append(",").append(g.s.dipole).append(",");
+                    excelSB2.append(",").append(datum[1]).append(",").append(g.getEDipole()).append(",");
 
                     if (numit == 7) {
-                        totalDipoleDerivSB.append(1 / LAMBDA * (g.eprime.soln.dipole - g.e.soln.dipole)).append("\n");
+                        totalDipoleDerivSB.append(1 / LAMBDA * (g.getEPrimeDipole() - g.getEDipole())).append("\n");
                     } else {
-                        totalDipoleDerivSB.append(1 / LAMBDA * (g.eprime.soln.dipole - g.e.soln.dipole)).append(", ");
+                        totalDipoleDerivSB.append(1 / LAMBDA * (g.getEPrimeDipole() - g.getEDipole())).append(", ");
                     }
 
                 } else {
@@ -279,30 +277,30 @@ public abstract class MoleculeRun {
                 if (datum[2] != 0) {
                     g.addIEError(datum[2]);
 
-                    excelSB2.append(",").append(datum[2]).append(",").append(-g.s.homo).append(",");
+                    excelSB2.append(",").append(datum[2]).append(",").append(-g.getEHomo()).append(",");
                     if (numit == 7) {
-                        totalIonizationDerivSB.append(1 / LAMBDA * (-g.eprime.soln.homo + g.e.soln.homo)).append("\n");
+                        totalIonizationDerivSB.append(1 / LAMBDA * (-g.getEPrimeHomo() + g.getEHomo())).append("\n");
                     } else {
-                        totalIonizationDerivSB.append(1 / LAMBDA * (-g.eprime.soln.homo + g.e.soln.homo)).append(", ");
+                        totalIonizationDerivSB.append(1 / LAMBDA * (-g.getEPrimeHomo() + g.getEHomo())).append(", ");
                     }
                 } else {
                     excelSB2.append(",,,");
                 }
 
                 if (this.expGeom != null) {
-                    excelSB2.append("," + 0 + ",").append(g.e.gradient).append(",");
+                    excelSB2.append("," + 0 + ",").append(g.getEGradient()).append(",");
                     if (numit == 7) {
-                        totalGeomDerivSB.append(1 / LAMBDA * (g.eprime.gradient - g.e.gradient)).append("\n");
+                        totalGeomDerivSB.append(1 / LAMBDA * (g.getEPrimeGradient() - g.getEGradient())).append("\n");
                     } else {
-                        totalGeomDerivSB.append(1 / LAMBDA * (g.eprime.gradient - g.e.gradient)).append(", ");
+                        totalGeomDerivSB.append(1 / LAMBDA * (g.getEPrimeGradient() - g.getEGradient())).append(", ");
                     }
                 }
 
 
                 if (numit == 7) {
-                    totalHeatDerivSB.append(1 / LAMBDA * (g.eprime.soln.hf - g.e.soln.hf)).append("\n");
+                    totalHeatDerivSB.append(1 / LAMBDA * (g.getEPrimeHf() - g.getEHf())).append("\n");
                 } else {
-                    totalHeatDerivSB.append(1 / LAMBDA * (g.eprime.soln.hf - g.e.soln.hf)).append(", ");
+                    totalHeatDerivSB.append(1 / LAMBDA * (g.getEPrimeHf() - g.getEHf())).append(", ");
                 }
 
                 excelSB.append(",").append(g.gradient());
@@ -317,9 +315,9 @@ public abstract class MoleculeRun {
     }
 
     protected void outputErrorFunction() {
-        System.out.println("Error function: " + g.e.constructErrorFunction());
+        System.out.println("Error function: " + g.getE().constructErrorFunction());
 
-        totalExcelStr += g.e.constructErrorFunction() + excelStr + excelStr2 + "\n";
+        totalExcelStr += g.getE().constructErrorFunction() + excelStr + excelStr2 + "\n";
 
         output = new String[]{totalExcelStr, totalHeatDeriv, totalDipoleDeriv, totalIonizationDeriv, totalGeomDeriv};
     }

@@ -1,19 +1,18 @@
-package nddoparam.mndo;
+package nddoparam;
 
-import nddoparam.NDDO6G;
 import org.jblas.DoubleMatrix;
 import org.jblas.Eigen;
 
 import java.util.Arrays;
 
 
-public class MNDOSolutionRestricted extends MNDOSolution {
+public class NDDOSolutionRestricted extends NDDOSolution {
 
     private DoubleMatrix densityMatrix;
 
     public DoubleMatrix C, F, G, E;//H - core matrix, G = 2-electron matrix, F = fock matrix, C = coeffecient matrix (transposed for easier reading), E = eigenvalues
 
-    public MNDOSolutionRestricted(MNDOAtom[] atoms, int charge) {
+    public NDDOSolutionRestricted(NDDOAtom[] atoms, int charge) {
         super(atoms, charge);
         int size = 0;
         for (int j = 0; j < orbitals.length; j++) {
@@ -66,7 +65,6 @@ public class MNDOSolutionRestricted extends MNDOSolution {
                 }
             }
         }
-        System.out.println("1-electron matrix elements evaluated - moving on to two-electron matrix");
         double[] integralArray = new double[size];
         //The idea of the integralarray is to simply store all the integrals in order they are called. It's basically my way of avoiding having to perform a Yoshemine sort.
         // TODO re-implement HashMap
@@ -123,11 +121,10 @@ public class MNDOSolutionRestricted extends MNDOSolution {
                 }
             }
         }
-        System.out.println("2-electron integrals evaluated");
 
         DoubleMatrix[] matrices = Eigen.symmetricEigenvectors(H);
 
-        System.out.println("initial diagonalization completed, beginning SCF iterations...");
+        System.out.println(name + " Initial diagonalization completed, beginning SCF iterations...");
 
         E = matrices[1].diag();
 
@@ -228,7 +225,7 @@ public class MNDOSolutionRestricted extends MNDOSolution {
 
             //System.out.println (densitymatrix);
 
-            if (numIt >= 10000) {
+            if (numIt >= 100000) {
                 System.err.println("SCF Has Not Converged");
 
                 System.err.println("Damping Coefficient will be Increased, and the run restarted...");
@@ -251,7 +248,7 @@ public class MNDOSolutionRestricted extends MNDOSolution {
                 if (damp >= 1) {
                     System.err.println("Damping Coefficient Cannot Be Increased Further. Exiting program...");
 
-                    for (MNDOAtom a : atoms) {
+                    for (NDDOAtom a : atoms) {
                         System.out.println(a.getAtomProperties().getZ() + "; " + Arrays.toString(a.getCoordinates()));
                     }
                     System.exit(0);
@@ -261,7 +258,7 @@ public class MNDOSolutionRestricted extends MNDOSolution {
 
         }
 
-        System.out.println("SCF completed");
+        System.out.println(name + " SCF completed");
 
         double e = 0;
 
@@ -275,7 +272,7 @@ public class MNDOSolutionRestricted extends MNDOSolution {
         for (int j = 0; j < atoms.length; j++) {
             heat += atoms[j].getHeat() - atoms[j].getEisol();
             for (int k = j + 1; k < atoms.length; k++) {
-                e += MNDOAtom.crf(atoms[j], atoms[k]);
+                e += atoms[j].crf(atoms[k]);
             }
         }
 
@@ -311,7 +308,7 @@ public class MNDOSolutionRestricted extends MNDOSolution {
 
         double mass = 0;
 
-        for (MNDOAtom atom : atoms) {
+        for (NDDOAtom atom : atoms) {
             com[0] = com[0] + atom.getMass() * atom.getCoordinates()[0];
             com[1] = com[1] + atom.getMass() * atom.getCoordinates()[1];
             com[2] = com[2] + atom.getMass() * atom.getCoordinates()[2];
@@ -345,7 +342,6 @@ public class MNDOSolutionRestricted extends MNDOSolution {
 
 
         dipoletot = new double[]{chargedip[0] + hybridip[0], chargedip[1] + hybridip[1], chargedip[2] + hybridip[2]};
-
 
 
         dipole = Math.sqrt(dipoletot[0] * dipoletot[0] + dipoletot[1] * dipoletot[1] + dipoletot[2] * dipoletot[2]);
