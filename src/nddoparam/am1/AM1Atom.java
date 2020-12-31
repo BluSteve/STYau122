@@ -100,17 +100,14 @@ public class AM1Atom extends NDDOAtom {
     }
 
     private static double Fderiv(AM1Atom a, double r, double val) {
-        double R = r / bohr;
-
         return gaussderiv(a.getParams().getK1(), a.getParams().getL1(), a.getParams().getM1(), r, val) + gaussderiv(a.getParams().getK2(), a.getParams().getL2(), a.getParams().getM2(), r, val) + gaussderiv(a.getParams().getK3(), a.getParams().getL3(), a.getParams().getM3(), r, val) + gaussderiv(a.getParams().getK4(), a.getParams().getL4(), a.getParams().getM4(), r, val);
     }
 
-    private static double gaussderiv(double K, double L, double M, double r, double val) {
+    private static double gaussderiv(double K, double L, double M, double R, double val) {
+        double r = R / bohr;
+        double returnval = K * Math.exp(-L * (r - M) * (r - M));
 
-        double R = r / bohr;
-        double returnval = K * Math.exp(-L * (R - M) * (R - M));
-
-        returnval = -returnval * 2 * L * (R - M) * val / (r * bohr);
+        returnval = -returnval * 2 * L * (r - M) * val / (R * bohr);
 
         return returnval;
     }

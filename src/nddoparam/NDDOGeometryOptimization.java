@@ -2,6 +2,7 @@ package nddoparam;
 
 import org.jblas.DoubleMatrix;
 import org.jblas.Solve;
+import scf.Utils;
 
 public abstract class NDDOGeometryOptimization {
     protected NDDOAtom[] atoms;
@@ -18,8 +19,8 @@ public abstract class NDDOGeometryOptimization {
         updateNDDOSolution();
         updateMatrices();
         refEnergy = s.energy;
-        System.out.println("\nCurrent heat of formation: " + s.hf + "kcal/mol");
-        System.out.println("Current HOMO energy: " + s.homo + " eV");
+        System.out.println("\n" + s.getMoleculeName() + " Current heat of formation: " + s.hf + "kcal/mol");
+        System.out.println(s.getMoleculeName() + " Current HOMO energy: " + s.homo + " eV");
         System.out.println("-----------------------------------------------");
 
         DoubleMatrix gradient = new DoubleMatrix(atoms.length * 3, 1);

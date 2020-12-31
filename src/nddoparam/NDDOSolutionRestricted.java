@@ -124,7 +124,7 @@ public class NDDOSolutionRestricted extends NDDOSolution {
 
         DoubleMatrix[] matrices = Eigen.symmetricEigenvectors(H);
 
-        System.out.println(name + " Initial diagonalization completed, beginning SCF iterations...");
+        System.out.println(moleculeName + " Initial diagonalization completed, beginning SCF iterations...");
 
         E = matrices[1].diag();
 
@@ -140,7 +140,7 @@ public class NDDOSolutionRestricted extends NDDOSolution {
 
 
         int numIt = 0;
-
+        boolean unstable = false;
         while (!isSimilar(densityMatrix, olddensity, 1E-10)) {//density matrix convergence criteria; since each iteration takes place within a fraction of a second I figured why not
 
             numIt++;
@@ -217,7 +217,8 @@ public class NDDOSolutionRestricted extends NDDOSolution {
 
             E = matrices[1].diag();
 
-            //System.err.println (E);
+
+            if (unstable) System.err.println (E);
 
             C = matrices[0].transpose();
 
@@ -225,7 +226,8 @@ public class NDDOSolutionRestricted extends NDDOSolution {
 
             //System.out.println (densitymatrix);
 
-            if (numIt >= 100000) {
+            if (numIt >= 1000000) {
+                unstable = true;
                 System.err.println("SCF Has Not Converged");
 
                 System.err.println("Damping Coefficient will be Increased, and the run restarted...");
@@ -258,7 +260,7 @@ public class NDDOSolutionRestricted extends NDDOSolution {
 
         }
 
-        System.out.println(name + " SCF completed");
+        System.out.println(moleculeName + " SCF completed");
 
         double e = 0;
 

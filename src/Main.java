@@ -354,16 +354,16 @@ public class Main {
                 }
                 o.optimize(B, newGradient);
 
-                //PrintWriter write = new PrintWriter(new FileOutputStream(new File("MNDOHessianUpdateData.txt")));
+                PrintWriter write = new PrintWriter(new FileOutputStream(new File("MNDOHessianUpdateData.txt")));
 
-                //write.println("OLD HESSIAN:   " + string);
-                //write.println("OLD GRADIENT:  " + processedexcelstr);
-                //write.println("SEARCH VECTOR: " + Arrays.toString(o.changes).substring(1,  Arrays.toString(o.changes).length()-1));
+                write.println("OLD HESSIAN:   " + string);
+                write.println("OLD GRADIENT:  " + processedexcelstr);
+                write.println("SEARCH VECTOR: " + Arrays.toString(o.changes).substring(1,  Arrays.toString(o.changes).length()-1));
 
-                //write.close();
+                write.close();
 
                 double[] paramChange = new double[paramVector.length];
-                paramChange[0] = o.changes[0];//hardcoded sorry. steve: what in the world is this
+                paramChange[0] = o.changes[0];// TODO hardcoded sorry. steve: what in the world is this
                 paramChange[1] = o.changes[1];
                 paramChange[3] = o.changes[2];
                 paramChange[5] = o.changes[3];

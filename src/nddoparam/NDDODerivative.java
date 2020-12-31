@@ -6,8 +6,7 @@ import scf.LCGTO;
 
 import java.util.Arrays;
 
-public class NDDODerivative
-{
+public class NDDODerivative {
 
     private static double qqderiv(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double[] xA, double[] xB, int tau) {
 
@@ -678,11 +677,10 @@ public class NDDODerivative
 
     public static double getGderiv(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d, int tau) {
 
-        if (a.getCoords()[0] - c.getCoords()[0] == 0 && a.getCoords()[1] - c.getCoords()[1] == 0) {
-            System.err.println (Arrays.toString (a.getCoords()));
-            System.err.println (Arrays.toString (c.getCoords()));
-            System.err.println("oh no");
-            System.exit(0);
+        if (Math.abs(a.getCoords()[0] - c.getCoords()[0]) < 1E-3 && Math.abs(a.getCoords()[1] - c.getCoords()[1]) < 1E-3) {
+
+            System.err.println("reverting to finite difference...");
+            return getGderivfinite(a, b, c, d, tau);
         }
 
         double[] coeffA = a.decomposition(a.getCoords(), c.getCoords());
@@ -734,24 +732,23 @@ public class NDDODerivative
             }
         }
 
-
         return sum;
     }
 
-    public static double[] derivativeDecompositionFinite(double[] point1, double[] point2, NDDO6G a, int tau) {
-        if (a.getL() == 0) {
-            return new double[]{0};
-        }
+    public static double getGderivfinite(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d, int tau) {
 
-        double[] orig = a.decomposition(point1, point2);
+        double orig = NDDO6G.getG(a, b, c, d);
 
-        point1 = point1.clone();
+        double[] newcoords = a.getCoords().clone();
 
-        point1[tau] += 1E-9;
+        newcoords[tau] += 1E-8;
 
-        double[] perturbed = a.decomposition(point1, point2);
+        NDDO6G anew = new NDDO6G(a, newcoords);
+        NDDO6G bnew = new NDDO6G(b, newcoords);
 
-        return new double[]{(perturbed[0] - orig[0]) / 1E-9, (perturbed[1] - orig[1]) / 1E-9, (perturbed[2] - orig[2]) / 1E-9};
+        double perturbed = NDDO6G.getG(anew, bnew, c, d);
+
+        return (perturbed - orig) / 1E-8;
     }
 
     public static double[] derivativeDecomposition(double[] point1, double[] point2, NDDO6G a, int tau) {
@@ -828,6 +825,7 @@ public class NDDODerivative
         }
         return null;
     }
+
     public static double gradient(NDDOAtom[] atoms, DoubleMatrix densitymatrix, int atomnum, int tau) {
         //System.err.println ("Gradient evaluating");
 
@@ -997,6 +995,7 @@ public class NDDODerivative
         return e;
 
     }
+
     // TODO restricted and unrestricted stuff
     public static double gradientUnrestricted(NDDOAtom[] atoms, DoubleMatrix alphadensity, DoubleMatrix betadensity, int atomnum, int tau) {
         int i = 0;

@@ -7,6 +7,7 @@ import nddoparam.mndo.MNDOParams;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 
 public class Utils {
     public static final double lambda = 1E-7;

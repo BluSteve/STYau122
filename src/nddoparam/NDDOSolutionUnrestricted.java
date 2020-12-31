@@ -170,7 +170,7 @@ public class NDDOSolutionUnrestricted extends NDDOSolution {
 
         DoubleMatrix[] matrices = Eigen.symmetricEigenvectors(H);
 
-        System.out.println(name + " All ERIs evaluated, beginning SCF iterations...");
+        System.out.println(moleculeName + " All ERIs evaluated, beginning SCF iterations...");
 
         Ea = matrices[1].diag();
 
@@ -197,6 +197,8 @@ public class NDDOSolutionUnrestricted extends NDDOSolution {
         int Jcount, Kcount;
 
         int numIt = 0;
+        boolean unstable = false;
+
         while (!(isSimilar(alphaDensity, oldalphadensity, 1E-10) && isSimilar(betaDensity, oldbetadensity, 1E-10))) {
 
             numIt++;
@@ -312,12 +314,14 @@ public class NDDOSolutionUnrestricted extends NDDOSolution {
             ca = matrices1[0].transpose();
 
             cb = matrices2[0].transpose();
+            if (unstable) System.err.println (Ea);
 
             alphaDensity = calculateDensityMatrix(ca, nalpha).mmul(1 - damp).add(oldalphadensity.mmul(damp));
 
             betaDensity = calculateDensityMatrix(cb, nbeta).mmul(1 - damp).add(oldbetadensity.mmul(damp));
 
-            if (numIt >= 100000) {
+            if (numIt >= 1000000) {
+                unstable = true;
                 System.err.println("SCF Has Not Converged");
 
                 System.err.println("Damping Coefficient will be Increased, and the run restarted...");
@@ -385,7 +389,7 @@ public class NDDOSolutionUnrestricted extends NDDOSolution {
 
         this.homo = Ea.get(nalpha - 1, 0);
         this.lumo = 0.001 * Math.round(Eb.get(nbeta, 0) * 1000);
-        System.out.println(name + " SCF completed");
+        System.out.println(moleculeName + " SCF completed");
 
         double[] populations = new double[atoms.length];
 

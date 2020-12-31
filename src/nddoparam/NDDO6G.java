@@ -44,6 +44,11 @@ public class NDDO6G extends STO6G {
         this.D2 = nddo6G.D2;
     }
 
+    public NDDO6G(NDDO6G nddo6G, double[] coordinates) {
+        this( nddo6G.i, nddo6G.j, nddo6G.k, nddo6G);
+        super.coordinates = coordinates;
+    }
+
     public NDDOAtom getAtom() {
         return this.a;
     }

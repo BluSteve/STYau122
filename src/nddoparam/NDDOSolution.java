@@ -1,6 +1,7 @@
 package nddoparam;
 
 import org.jblas.DoubleMatrix;
+import scf.Utils;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -16,7 +17,7 @@ public abstract class NDDOSolution {
     protected int nElectrons;
     protected DoubleMatrix H;
     protected NDDO6G[] orbitals;
-    protected String name;
+    protected String moleculeName;
 
     public NDDOSolution(NDDOAtom[] atoms, int charge) {
         StringBuilder nameBuilder = new StringBuilder();
@@ -29,7 +30,7 @@ public abstract class NDDOSolution {
         for (String key : nameOccurrences.keySet()) {
             nameBuilder.append(key).append(nameOccurrences.get(key));
         }
-        name = nameBuilder.toString();
+        moleculeName =  nameBuilder.toString();
 
         nElectrons -= charge;
 
@@ -135,4 +136,7 @@ public abstract class NDDOSolution {
 
     public abstract DoubleMatrix densityMatrix();
 
+    public String getMoleculeName() {
+        return moleculeName;
+    }
 }
