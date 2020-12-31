@@ -13,7 +13,7 @@ public abstract class NDDOAtom extends AtomFixed {
 
     public NDDOAtom(AtomProperties atomProperties, double[] coordinates, NDDOParams np) {
         super(atomProperties, coordinates);
-        this.np = np;
+        this.np = np.clone();
         this.p0 = p0();
         this.D1 = D1();
         this.D2 = D2();
@@ -23,7 +23,7 @@ public abstract class NDDOAtom extends AtomFixed {
     }
 
     public NDDOAtom(NDDOAtom a, double[] coords) {
-        this(a.atomProperties, coords.clone(), a.np);
+        this(a.atomProperties, coords.clone(), a.np.clone());
     }
 
     public NDDOAtom(NDDOAtom a) {
@@ -38,7 +38,7 @@ public abstract class NDDOAtom extends AtomFixed {
         return this.orbitals;
     }
 
-    protected NDDO6G[] setOrbitals() {//initialises OM2-3G basis functions
+    protected NDDO6G[] setOrbitals() {//initialises basis functions
         OrbitalProperties[] orbitalProperties = super.atomProperties.getOrbitals();
         NDDO6G[] nddoOrbitals = new NDDO6G[orbitalProperties.length];
         for (int x = 0; x < nddoOrbitals.length; x++) {

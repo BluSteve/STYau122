@@ -6,6 +6,7 @@ import nddoparam.NDDOSolution;
 import nddoparam.param.NDDOParamGradient;
 import nddoparam.param.NDDOParamHessian;
 import org.jblas.DoubleMatrix;
+import scf.Utils;
 
 public abstract class MoleculeRun {
     public String[] output;
@@ -35,20 +36,11 @@ public abstract class MoleculeRun {
         this.charge = charge;
         this.runHessian = runHessian;
         this.datum = datum;
-        this.size = getSize(trainingSet);
+        this.size = Utils.getTrainingSetSize(trainingSet);
         this.mult = mult;
     }
 
-    private int getSize(String trainingSet) {
-        int result = 0;
-        int removeH = 0;
-        if (trainingSet.contains("H")) {
-            result += 5;
-            removeH = 1;
-        }
-        result += (trainingSet.length() - removeH) * 8;
-        return result;
-    }
+
 
     protected void generateGeomCoords() {
         StringBuilder sb = new StringBuilder(newGeomCoords);
@@ -77,6 +69,10 @@ public abstract class MoleculeRun {
                 paramIndexes.put(i, 0, 6);
             } else if (i < 21) {
                 paramIndexes.put(i, 0, 7);
+            } else if (i < 29) {
+                paramIndexes.put(i, 0, 8);
+            } else if (i < 37) {
+                paramIndexes.put(i, 0, 9);
             }
         }
 

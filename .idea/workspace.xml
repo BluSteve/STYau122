@@ -35,13 +35,10 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDO6G.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDO6G.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDODerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDODerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDOGeometryOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDOGeometryOptimization.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDOSolution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDOSolution.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDOSolutionRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDOSolutionRestricted.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDOSolutionUnrestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDOSolutionUnrestricted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDOAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDOAtom.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/am1/AM1Atom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/am1/AM1Atom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/mndo/MNDOAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/mndo/MNDOAtom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/scf/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/Utils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -204,7 +201,7 @@
       <workItem from="1609312654814" duration="6590000" />
       <workItem from="1609331685916" duration="2123000" />
       <workItem from="1609396746215" duration="312000" />
-      <workItem from="1609400134409" duration="1214000" />
+      <workItem from="1609400134409" duration="5090000" />
     </task>
     <task id="LOCAL-00001" summary="Convert integralarray to integralMap, implement getKey() in MNDOSolution.java">
       <created>1606298586134</created>
@@ -318,7 +315,14 @@
       <option name="project" value="LOCAL" />
       <updated>1609318234150</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Re-implement getGDerivFinite">
+      <created>1609401468221</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1609401468221</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -382,6 +386,7 @@
     <MESSAGE value="Finish optimizing MNDOParam" />
     <MESSAGE value="Minor improvements in MNDOSolution" />
     <MESSAGE value="Working implementation of everything including AM1 classes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Working implementation of everything including AM1 classes" />
+    <MESSAGE value="Re-implement getGDerivFinite" />
+    <option name="LAST_COMMIT_MESSAGE" value="Re-implement getGDerivFinite" />
   </component>
 </project>

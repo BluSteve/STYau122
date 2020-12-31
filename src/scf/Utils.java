@@ -2,15 +2,13 @@ package scf;
 
 import nddoparam.NDDOAtom;
 import nddoparam.NDDOParams;
-import nddoparam.mndo.MNDOAtom;
-import nddoparam.mndo.MNDOParams;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
 
 public class Utils {
     public static final double lambda = 1E-7;
+    public static final double bohr = 1.88973;
 
     public static double[] toDoubles(String[] strs) {
         double[] doubles = new double[strs.length];
@@ -55,7 +53,16 @@ public class Utils {
         }
         return result;
     }
-
+    public static int getTrainingSetSize(String trainingSet) {
+        int result = 0;
+        int removeH = 0;
+        if (trainingSet.contains("H")) {
+            result += 5;
+            removeH = 1;
+        }
+        result += (trainingSet.length() - removeH) * 8;
+        return result;
+    }
     /**
      * The confluent hypergeometric function, usually given the symbol 1F1.
      * For information about the function and use of parameters consult the link:

@@ -12,12 +12,12 @@ public class MNDOAtom extends NDDOAtom {
 
     public MNDOAtom(AtomProperties atomProperties, double[] coordinates, MNDOParams mp) {
         super(atomProperties, coordinates, mp);
-        this.mp = mp;
+        this.mp = mp.clone();
     }
 
     // assign new coords
     public MNDOAtom(MNDOAtom a, double[] coords) {
-        this(a.atomProperties, coords.clone(), a.mp);
+        this(a.atomProperties, coords.clone(), a.mp.clone());
     }
 
     public MNDOAtom(MNDOAtom a) { // copy constructor

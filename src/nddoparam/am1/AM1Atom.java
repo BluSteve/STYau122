@@ -13,12 +13,12 @@ public class AM1Atom extends NDDOAtom {
 
     public AM1Atom(AtomProperties atomProperties, double[] coordinates, AM1Params mp) {
         super(atomProperties, coordinates, mp);
-        this.mp = mp;
+        this.mp = mp.clone();
     }
 
     // assign new coords
     public AM1Atom(AM1Atom a, double[] coords) {
-        this(a.atomProperties, coords.clone(), a.mp);
+        this(a.atomProperties, coords.clone(), a.mp.clone());
     }
 
     public AM1Atom(AM1Atom a) { // copy constructor

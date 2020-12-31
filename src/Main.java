@@ -21,9 +21,12 @@ import java.util.*;
 import java.util.concurrent.ForkJoinPool;
 import java.util.stream.Collectors;
 
+import static scf.Utils.bohr;
+
 public class Main {
 
     static String trainingSet;
+    static String[] atomTypes;
 
     public static void main(String[] args) {
         StopWatch sw = new StopWatch();
@@ -45,25 +48,25 @@ public class Main {
                 // this code is ugly. does mndoparams have a fixed size? TODO a lot of things here
                 Scanner paramScan = new Scanner(params);
                 String[] strings = paramScan.nextLine().split(",");
-                double[] paramVector = new double[strings.length];
-                for (int i = 0; i < strings.length; i++) {
-                    paramVector[i] = Double.parseDouble(strings[i]);
-                }
-
+                double[] paramVector = Utils.toDoubles(strings);
 
                 PrintWriter pw = new PrintWriter(new FileOutputStream("mndooutput.txt", true));
 
                 Scanner sc = new Scanner(input);
                 Scanner referenceScan = new Scanner(reference);
                 trainingSet = sc.nextLine().split("=")[1];
+                atomTypes = trainingSet.split("");
 
-                // TODO to be generalized
-                MNDOParams HParams = new MNDOParams(Arrays.copyOfRange(paramVector, 0, 13));
-                MNDOParams CParams = new MNDOParams(Arrays.copyOfRange(paramVector, 13, 26));
-                MNDOParams NParams = null;
-                if (trainingSet.contains("N")) {
-                    NParams = new MNDOParams(Arrays.copyOfRange(paramVector, 26, 39));
+                HashMap<String, MNDOParams> mndoParams = new HashMap<>(5);
+                int startingIndex = 0;
+                int paramLength = 13;
+                int atomNumber = 0;
+                while (startingIndex + paramLength < paramVector.length) {
+                    mndoParams.put(atomTypes[atomNumber], new MNDOParams(Arrays.copyOfRange(paramVector, startingIndex, startingIndex + paramLength)));
+                    startingIndex += paramLength;
+                    atomNumber++;
                 }
+
 
                 List<ComputationRequest> requests = new ArrayList<>();
                 int counter = 0;
@@ -94,7 +97,7 @@ public class Main {
                             break;
                         }
 
-                        parseInput(HParams, CParams, NParams, array, s);
+                        parseInput(mndoParams, array, s);
                     }
 
                     MNDOAtom[] atoms = new MNDOAtom[array.size()];
@@ -108,7 +111,7 @@ public class Main {
                             if (s.equals("---")) {
                                 break;
                             }
-                            parseInput(HParams, CParams, NParams, array, s);
+                            parseInput(mndoParams, array, s);
                         }
                         expGeom = new MNDOAtom[array.size()];
                         expGeom = array.toArray(expGeom);
@@ -173,7 +176,7 @@ public class Main {
                 }
 
                 PrintWriter pw2 = new PrintWriter("input.txt");
-                pw2.println ("TRAININGSET=" + trainingSet);
+                pw2.println("TRAININGSET=" + trainingSet);
                 for (int i = 0; i < outputGeoms.size(); i++) {
                     if (i != outputGeoms.size() - 1) {
                         pw2.println(outputGeoms.get(i) + "---");
@@ -217,7 +220,7 @@ public class Main {
 
                 pw.println("-----------");
 
-                int size = trainingSet.equals("CHN") ? 21 : 13; // TODO hardcoding, perhaps put in text file reference values for various atoms
+                int size = Utils.getTrainingSetSize(trainingSet); // TODO hardcoding, perhaps put in text file reference values for various atoms
                 int maxIndex = ((size + 1) * size) / 2;
 
                 double[] sum = new double[size + 1];
@@ -358,35 +361,27 @@ public class Main {
 
                 write.println("OLD HESSIAN:   " + string);
                 write.println("OLD GRADIENT:  " + processedexcelstr);
-                write.println("SEARCH VECTOR: " + Arrays.toString(o.changes).substring(1,  Arrays.toString(o.changes).length()-1));
+                write.println("SEARCH VECTOR: " + Arrays.toString(o.changes).substring(1, Arrays.toString(o.changes).length() - 1));
 
                 write.close();
 
                 double[] paramChange = new double[paramVector.length];
-                paramChange[0] = o.changes[0];// TODO hardcoded sorry. steve: what in the world is this
+                paramChange[0] = o.changes[0];
                 paramChange[1] = o.changes[1];
                 paramChange[3] = o.changes[2];
                 paramChange[5] = o.changes[3];
                 paramChange[7] = o.changes[4];
-                paramChange[13] = o.changes[5];
-                paramChange[14] = o.changes[6];
-                paramChange[15] = o.changes[7];
-                paramChange[16] = o.changes[8];
-                paramChange[17] = o.changes[9];
-                paramChange[18] = o.changes[10];
-                paramChange[19] = o.changes[11];
-                paramChange[20] = o.changes[12];
-
-                if (trainingSet.contains("N")) {
-                    paramChange[26] = o.changes[13];
-                    paramChange[27] = o.changes[14];
-                    paramChange[28] = o.changes[15];
-                    paramChange[29] = o.changes[16];
-                    paramChange[30] = o.changes[17];
-                    paramChange[31] = o.changes[18];
-                    paramChange[32] = o.changes[19];
-                    paramChange[33] = o.changes[20];
+                String trainingSetNoH = trainingSet.replace("H", "");
+                int startingIndex2 = 5;
+                int z = 8;
+                for (int p = 0; p < trainingSetNoH.length(); p++) {
+                    for (int x = startingIndex2; x < startingIndex2 + 8; x++) {
+                        paramChange[x + z] = o.changes[x];
+                    }
+                    z += 5;
+                    startingIndex2 += 8;
                 }
+
                 for (int num = 0; num < paramVector.length; num++) {
                     paramVector[num] = paramVector[num] + paramChange[num];
                 }
@@ -403,34 +398,15 @@ public class Main {
         }
     }
 
-    private static void parseInput(MNDOParams hparams, MNDOParams cparams, MNDOParams nparams, ArrayList<MNDOAtom> array, String s) {
-        final double C = 1.88973;
+    private static void parseInput(HashMap<String, MNDOParams> mndoParams, ArrayList<MNDOAtom> array, String s) {
         StringTokenizer t = new StringTokenizer(s, " ");
         t.nextToken();
         String element = t.nextToken();
-        double d1 = Double.parseDouble(t.nextToken()) * C;
-        double d2 = Double.parseDouble(t.nextToken()) * C;
-        double d3 = Double.parseDouble(t.nextToken()) * C;
+        double x = Double.parseDouble(t.nextToken()) * bohr;
+        double y = Double.parseDouble(t.nextToken()) * bohr;
+        double z = Double.parseDouble(t.nextToken()) * bohr;
 
-        MNDOParams paramvec = new MNDOParams();
-
-        switch (element) {
-            case "H":
-                paramvec = hparams;
-                break;
-            case "C":
-                paramvec = cparams;
-                break;
-            case "N":
-                paramvec = nparams;
-                break;
-            case "O":
-                break;
-            case "F":
-        }
-        AtomHandler.atomsMap.get(element);
-
-        array.add(new MNDOAtom(AtomHandler.atomsMap.get(element), new double[]{d1, d2, d3}, paramvec));
+        array.add(new MNDOAtom(AtomHandler.atomsMap.get(element), new double[]{x, y, z}, mndoParams.get(element)));
     }
 
     private static void writeOutput(PrintWriter pw, ComputationRequest request, MoleculeRun result) {
