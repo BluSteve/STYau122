@@ -309,7 +309,7 @@ public class Main {
 
                 ParamOptimizer o = new ParamOptimizer();
                 for (String[] j : outputValues) {
-                    String[] strs = j[1].split(",");
+                    String[] strs = j[1].strip().split(",");
 
                     double[] derivs = new double[strs.length - 2];
 
@@ -320,7 +320,7 @@ public class Main {
                     o.addData(new HeatData(derivs, Double.parseDouble(strs[0]), Double.parseDouble(strs[1])));
 
                     if (!j[3].equals("")) {
-                        strs = j[3].split(",");
+                        strs = j[3].strip().split(",");
 
                         derivs = new double[strs.length - 2];
 
@@ -332,7 +332,7 @@ public class Main {
                     }
 
                     if (!j[2].equals("")) {
-                        strs = j[2].split(",");
+                        strs = j[2].strip().split(",");
 
                         derivs = new double[strs.length - 2];
 
@@ -344,7 +344,7 @@ public class Main {
                     }
 
                     if (!j[4].equals("")) {
-                        strs = j[4].split(",");
+                        strs = j[4].strip().split(",");
 
                         derivs = new double[strs.length - 2];
 

@@ -3,6 +3,7 @@ package nddoparam.mndo;
 import nddoparam.NDDOParams;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class MNDOParams extends NDDOParams{
 
@@ -19,5 +20,12 @@ public class MNDOParams extends NDDOParams{
     @Override
     public MNDOParams clone() {
         return new MNDOParams(getAlpha(), getBetas(), getBetap(), getUss(), getUpp(), getZetas(), getZetap(), getEisol(), getGss(), getGsp(), getHsp(), getGpp(), getGp2());
+    }
+
+    @Override
+    public String toString() {
+        return "MNDOParams{" +
+                "params=" + Arrays.toString(params) +
+                '}';
     }
 }
