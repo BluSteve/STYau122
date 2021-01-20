@@ -123,7 +123,6 @@ public abstract class MoleculeRun {
             }
         }
         hessianStr = hessianSB.toString();
-        hessianStr += "\n";
     }
 
     protected void runGradient() {
@@ -197,8 +196,8 @@ public abstract class MoleculeRun {
 
                 excelSB2.append(",").append(datum[1]).append(",").append(g.getEDipole()).append(",");
 
-                if (numit == 7 && trainingSet.equals("CH")) {
-                    totalDipoleDerivSB.append(1 / LAMBDA * (g.getEPrimeDipole() - g.getEDipole())).append("\n");
+                if (numit == 7 && trainingSet.equals("HC")) {
+                    totalDipoleDerivSB.append(1 / LAMBDA * (g.getEPrimeDipole() - g.getEDipole()));
                 } else {
                     totalDipoleDerivSB.append(1 / LAMBDA * (g.getEPrimeDipole() - g.getEDipole())).append(", ");
                 }
@@ -211,8 +210,8 @@ public abstract class MoleculeRun {
                 g.addIEError(datum[2]);
 
                 excelSB2.append(",").append(datum[2]).append(",").append(-g.getEHomo()).append(",");
-                if (numit == 7 && trainingSet.equals("CH")) {
-                    totalIonizationDerivSB.append(1 / LAMBDA * (-g.getEPrimeHomo() + g.getEHomo())).append("\n");
+                if (numit == 7 && trainingSet.equals("HC")) {
+                    totalIonizationDerivSB.append(1 / LAMBDA * (-g.getEPrimeHomo() + g.getEHomo()));
                 } else {
                     totalIonizationDerivSB.append(1 / LAMBDA * (-g.getEPrimeHomo() + g.getEHomo())).append(", ");
                 }
@@ -222,15 +221,15 @@ public abstract class MoleculeRun {
 
             if (this.expGeom != null) {
                 excelSB2.append("," + 0 + ",").append(g.getEGradient()).append(",");
-                if (numit == 7 && trainingSet.equals("CH")) {
-                    totalGeomDerivSB.append(1 / LAMBDA * (g.getEPrimeGradient() - g.getEGradient())).append("\n");
+                if (numit == 7 && trainingSet.equals("HC")) {
+                    totalGeomDerivSB.append(1 / LAMBDA * (g.getEPrimeGradient() - g.getEGradient()));
                 } else {
                     totalGeomDerivSB.append(1 / LAMBDA * (g.getEPrimeGradient() - g.getEGradient())).append(", ");
                 }
             }
 
-            if (numit == 7 && trainingSet.equals("CH")) {
-                totalHeatDerivSB.append(1 / LAMBDA * (g.getEPrimeHf() - g.getEHf())).append("\n");
+            if (numit == 7 && trainingSet.equals("HC")) {
+                totalHeatDerivSB.append(1 / LAMBDA * (g.getEPrimeHf() - g.getEHf()));
             } else {
                 totalHeatDerivSB.append(1 / LAMBDA * (g.getEPrimeHf() - g.getEHf())).append(", ");
             }
@@ -261,7 +260,7 @@ public abstract class MoleculeRun {
                     excelSB2.append(",").append(datum[1]).append(",").append(g.getEDipole()).append(",");
 
                     if (numit == 7) {
-                        totalDipoleDerivSB.append(1 / LAMBDA * (g.getEPrimeDipole() - g.getEDipole())).append("\n");
+                        totalDipoleDerivSB.append(1 / LAMBDA * (g.getEPrimeDipole() - g.getEDipole()));
                     } else {
                         totalDipoleDerivSB.append(1 / LAMBDA * (g.getEPrimeDipole() - g.getEDipole())).append(", ");
                     }
@@ -275,7 +274,7 @@ public abstract class MoleculeRun {
 
                     excelSB2.append(",").append(datum[2]).append(",").append(-g.getEHomo()).append(",");
                     if (numit == 7) {
-                        totalIonizationDerivSB.append(1 / LAMBDA * (-g.getEPrimeHomo() + g.getEHomo())).append("\n");
+                        totalIonizationDerivSB.append(1 / LAMBDA * (-g.getEPrimeHomo() + g.getEHomo()));
                     } else {
                         totalIonizationDerivSB.append(1 / LAMBDA * (-g.getEPrimeHomo() + g.getEHomo())).append(", ");
                     }
@@ -286,7 +285,7 @@ public abstract class MoleculeRun {
                 if (this.expGeom != null) {
                     excelSB2.append("," + 0 + ",").append(g.getEGradient()).append(",");
                     if (numit == 7) {
-                        totalGeomDerivSB.append(1 / LAMBDA * (g.getEPrimeGradient() - g.getEGradient())).append("\n");
+                        totalGeomDerivSB.append(1 / LAMBDA * (g.getEPrimeGradient() - g.getEGradient()));
                     } else {
                         totalGeomDerivSB.append(1 / LAMBDA * (g.getEPrimeGradient() - g.getEGradient())).append(", ");
                     }
@@ -294,7 +293,7 @@ public abstract class MoleculeRun {
 
 
                 if (numit == 7) {
-                    totalHeatDerivSB.append(1 / LAMBDA * (g.getEPrimeHf() - g.getEHf())).append("\n");
+                    totalHeatDerivSB.append(1 / LAMBDA * (g.getEPrimeHf() - g.getEHf()));
                 } else {
                     totalHeatDerivSB.append(1 / LAMBDA * (g.getEPrimeHf() - g.getEHf())).append(", ");
                 }
@@ -313,7 +312,7 @@ public abstract class MoleculeRun {
     protected void outputErrorFunction() {
         System.out.println("Error function: " + g.getE().constructErrorFunction());
 
-        totalExcelStr += g.getE().constructErrorFunction() + excelStr + excelStr2 + "\n";
+        totalExcelStr += g.getE().constructErrorFunction() + excelStr + excelStr2;
 
         output = new String[]{totalExcelStr, totalHeatDeriv, totalDipoleDeriv, totalIonizationDeriv, totalGeomDeriv};
     }

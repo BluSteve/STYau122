@@ -49,7 +49,7 @@ public abstract class NDDOGeometryOptimization {
         int count;
         counter = 0;
 
-        while (mag(gradient) > 0.04) {
+        while (mag(gradient) > 0.07) {
 
             System.out.println("Gradient: " + mag(gradient));
 
@@ -60,7 +60,7 @@ public abstract class NDDOGeometryOptimization {
             refEnergy = 0;
 
 
-            while (Math.abs(energy - refEnergy) > 1E-9) {
+            while (Math.abs(energy - refEnergy) > 1E-6) {
                 refEnergy = energy;
 
                 count = 0;

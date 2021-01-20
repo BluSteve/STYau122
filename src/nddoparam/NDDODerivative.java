@@ -679,7 +679,7 @@ public class NDDODerivative {
 
         if (Math.abs(a.getCoords()[0] - c.getCoords()[0]) < 1E-3 && Math.abs(a.getCoords()[1] - c.getCoords()[1]) < 1E-3) {
 
-            System.err.println("reverting to finite difference...");
+//            System.err.println("reverting to finite difference...");
             return getGderivfinite(a, b, c, d, tau);
         }
 

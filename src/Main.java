@@ -27,6 +27,7 @@ public class Main {
 
     static String trainingSet;
     static String[] atomTypes;
+    static ArrayList<String[]> previousOutput = new ArrayList<>(300);
 
     public static void main(String[] args) {
         StopWatch sw = new StopWatch();
@@ -42,10 +43,12 @@ public class Main {
             File input = new File("input.txt");
             File reference = new File("reference.txt");
             File params = new File("mndoparams.txt");
+            File previous = new File("mndooutput.txt");
             AtomHandler.populateAtoms();
 
             try {
                 // this code is ugly. does mndoparams have a fixed size? TODO a lot of things here
+                readOutput(new Scanner(previous));
                 Scanner paramScan = new Scanner(params);
                 String[] strings = paramScan.nextLine().split(",");
                 double[] paramVector = Utils.toDoubles(strings);
@@ -61,16 +64,26 @@ public class Main {
                 int startingIndex = 0;
                 int paramLength = 13;
                 int atomNumber = 0;
-                while (startingIndex + paramLength < paramVector.length) {
+                while (startingIndex + paramLength <= paramVector.length) {
                     mndoParams.put(atomTypes[atomNumber], new MNDOParams(Arrays.copyOfRange(paramVector, startingIndex, startingIndex + paramLength)));
                     startingIndex += paramLength;
                     atomNumber++;
                 }
+                System.out.println(mndoParams);
 
 
                 List<ComputationRequest> requests = new ArrayList<>();
                 int counter = 0;
                 while (sc.hasNext()) { // for every molecule separated by ---
+                    boolean isDoneBefore = false;
+                    for (String[] a : previousOutput) {
+                        if (counter == Integer.parseInt(a[0])) {
+                            isDoneBefore = true;
+                            break;
+                        }
+                    }
+                    if (isDoneBefore) continue;
+
                     ArrayList<MNDOAtom> array = new ArrayList<>();
                     boolean bool = false;
                     int charge, mult;
@@ -143,7 +156,7 @@ public class Main {
                 // requests contains 1 request for every molecule.
                 int cores = Runtime.getRuntime().availableProcessors();
                 pw.println("Running on " + cores + " cores.");
-                int remainingNonParallel = 0;
+                int remainingNonParallel = 5;
                 // if requests less than remainingNonParallel then just use parallel computation for one of them
                 int maxParallel = remainingNonParallel < requests.size() ? requests.size() - remainingNonParallel : 1;
                 List<ComputationRequest> ParallelComputationRequests = requests.subList(0, maxParallel);
@@ -160,9 +173,26 @@ public class Main {
                 })).get().collect(Collectors.toList());
 
                 // Get output
-                List<String[]> outputValues = results.stream().map(result -> result.output.clone()).collect(Collectors.toList());
-                List<String> hessianValues = results.stream().map(result -> result.hessianStr).collect(Collectors.toList());
-                List<String> outputGeoms = results.stream().map(result -> result.newGeomCoords).collect(Collectors.toList());
+
+                List<String[]> outputValues = new ArrayList<>();
+                for (String[] slist : previousOutput) {
+                    outputValues.add(Arrays.copyOfRange(slist, 2, 6));
+                }
+                outputValues.addAll(results.stream().map(result -> result.output.clone()).collect(Collectors.toList()));
+                // TODO sort this
+
+
+                List<String> hessianValues = new ArrayList<>();
+                for (String[] slist : previousOutput) {
+                    hessianValues.add(slist[1]);
+                }
+                hessianValues.addAll(results.stream().map(result -> result.hessianStr).collect(Collectors.toList()));
+
+                List<String> outputGeoms = new ArrayList<>();
+                for (String[] slist : previousOutput) {
+                    outputGeoms.add(slist[6]);
+                }
+                outputGeoms.addAll(results.stream().map(result -> result.newGeomCoords).collect(Collectors.toList()));
 
                 for (ComputationRequest request : requests.subList(maxParallel, requests.size())) {
                     MoleculeRun result = request.restricted ? new MoleculeRunRestricted(request.atoms, request.charge,
@@ -188,32 +218,32 @@ public class Main {
 
                 pw.print("TOTAL EXCEL STRING:\n");
                 for (String[] i : outputValues) {
-                    pw.print(i[0]);
+                    pw.println(i[0]);
                 }
 
                 pw.print("TOTAL HESSIAN STRING:\n");
                 for (String i : hessianValues) {
-                    pw.print(i);
+                    pw.println(i);
                 }
 
                 pw.print("TOTAL HEAT STRING:\n");
                 for (String[] i : outputValues) {
-                    pw.print(i[1]);
+                    pw.println(i[1]);
                 }
 
                 pw.print("TOTAL DIPOLE STRING:\n");
                 for (String[] i : outputValues) {
-                    pw.print(i[2]);
+                    pw.println(i[2]);
                 }
 
                 pw.print("TOTAL IONIZATION STRING:\n");
                 for (String[] i : outputValues) {
-                    pw.print(i[3]);
+                    pw.println(i[3]);
                 }
 
                 pw.print("TOTAL GEOMETRY STRING:\n");
                 for (String[] i : outputValues) {
-                    pw.print(i[4]);
+                    pw.println(i[4]);
                 }
 
                 pw.flush();
@@ -411,35 +441,35 @@ public class Main {
 
     private static void writeOutput(PrintWriter pw, ComputationRequest request, MoleculeRun result) {
         System.out.println("Computation started: " + request.index);
-        pw.println("Computation number: " + request.index);
-        pw.print("Hessian string: " + result.hessianStr);
-        if (result.hessianStr.equals("")) {
-            pw.print("\n");
-        }
-        pw.print("Excel string: " + result.output[0]);
-        if (result.output[0].equals("")) {
-            pw.print("\n");
-        }
-        pw.print("HoF string: " + result.output[1]);
-        if (result.output[1].equals("")) {
-            pw.print("\n");
-        }
-        pw.print("Dipole string: " + result.output[2]);
-        if (result.output[2].equals("")) {
-            pw.print("\n");
-        }
-        pw.print("Ionization string: " + result.output[3]);
-        if (result.output[3].equals("")) {
-            pw.print("\n");
-        }
-        pw.print("Geometry string: " + result.output[4]);
-        if (result.output[4].equals("")) {
-            pw.print("\n");
-        }
-        pw.print("---------\n");
-        // Save to file
+        String output = "";
+        output += "Computation number: " + request.index + "\n";
+        output += "Hessian string: " + result.hessianStr + "\n";
+        output += "Excel string: " + result.output[0] + "\n";
+        output += "HoF string: " + result.output[1] + "\n";
+        output += "Dipole string: " + result.output[2] + "\n";
+        output += "Ionization string: " + result.output[3] + "\n";
+        output += "Geometry string: " + result.output[4] + "\n";
+        output += ("---------\n");
+
+        pw.print(output);
         pw.flush();
         System.out.println("Computation complete: " + request.index);
+    }
+
+    private static void readOutput(Scanner s) {
+        s.nextLine();
+        String[] doubleStrings = new String[7];
+        int count = 0;
+        while (s.hasNext()) {
+            String line = s.nextLine();
+            doubleStrings[count] = s.nextLine().strip().split(": ")[1];
+            count++;
+            if (!line.equals("---------")) {
+                previousOutput.add(doubleStrings);
+                doubleStrings = new String[7];
+                count = 0;
+            }
+        }
     }
 
     private static double[] getHessianUpdateData(Scanner scan) {
