@@ -5,7 +5,7 @@ import datum.IonizationData;
 import nddoparam.mndo.MNDOAtom;
 import nddoparam.mndo.MNDOParams;
 import optimize.ParamOptimizer;
-import org.apache.commons.lang.time.StopWatch;
+import org.apache.commons.lang3.time.StopWatch;
 import org.jblas.DoubleMatrix;
 import org.jblas.Eigen;
 import runcycle.MoleculeRun;
@@ -48,7 +48,7 @@ public class Main {
 
             try {
                 // this code is ugly. does mndoparams have a fixed size? TODO a lot of things here
-                readOutput(new Scanner(previous));
+                //readOutput(new Scanner(previous));
                 Scanner paramScan = new Scanner(params);
                 String[] strings = paramScan.nextLine().split(",");
                 double[] paramVector = Utils.toDoubles(strings);

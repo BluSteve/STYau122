@@ -18,7 +18,7 @@ public class Utils {
         return doubles;
     }
 
-    public static NDDOAtom[] perturbAtoms(NDDOAtom[] atoms, int paramNum, int Z) {
+    public static NDDOAtom[] perturbAtomParams(NDDOAtom[] atoms, int paramNum, int Z) {
         NDDOAtom[] perturbed = new NDDOAtom[atoms.length];
         try {
             Class<? extends NDDOAtom> c = atoms[0].getClass();
@@ -31,6 +31,31 @@ public class Utils {
                     NDDOParams params = atoms[i].getParams();
                     params.modifyParam(paramNum, Utils.lambda);
                     perturbed[i] = (NDDOAtom) ctor.newInstance(atoms[i], params);
+                }
+                else {
+                    perturbed[i] = (NDDOAtom) ctor2.newInstance(atoms[i]);
+                }
+            }
+        }
+        catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return perturbed;
+    }
+
+    public static NDDOAtom[] perturbAtomCoords(NDDOAtom[] atoms, int atomnum, int tau) {
+        NDDOAtom[] perturbed = new NDDOAtom[atoms.length];
+        try {
+            Class<? extends NDDOAtom> c = atoms[0].getClass();
+            Constructor ctor = c.getDeclaredConstructor(c, atoms[0].getCoordinates().getClass());
+            ctor.setAccessible(true);
+            Constructor ctor2 = c.getDeclaredConstructor(c);
+            ctor2.setAccessible(true);
+            for (int i = 0; i < atoms.length; i++) {
+                if (i == atomnum) {
+                    double[] coords = atoms[i].getCoordinates().clone();
+                    coords[tau] = coords[tau] + 1E-7           ;
+                    perturbed[i] = (NDDOAtom) ctor.newInstance(atoms[i], coords);
                 }
                 else {
                     perturbed[i] = (NDDOAtom) ctor2.newInstance(atoms[i]);

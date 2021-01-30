@@ -17,7 +17,7 @@ public class NDDOParamHessianUnrestricted extends NDDOParamHessian {
     public void createExpGeom(NDDOAtom[] expAtoms, NDDOSolution expSolution) {
         g.createExpGeom(expAtoms, expSolution);
         //System.err.println("creating expgeom");
-        NDDOAtom[] perturbed = Utils.perturbAtoms(expAtoms, paramNum1, Z1);
+        NDDOAtom[] perturbed = Utils.perturbAtomParams(expAtoms, paramNum1, Z1);
         gprime.createExpGeom(perturbed, new NDDOSolutionUnrestricted(perturbed, expSolution.charge, expSolution.multiplicity));
         //System.err.println("creation complete");
     }

@@ -3,6 +3,7 @@ package nddoparam;
 import org.jblas.DoubleMatrix;
 import scf.GTO;
 import scf.LCGTO;
+import scf.Utils;
 
 import java.util.Arrays;
 
@@ -240,7 +241,7 @@ public class NDDODerivative {
         return 0.5 * (ppippippippideriv(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, xA, xB, tau) - pxpxpypyderiv(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, xA, xB, tau));
     }
 
-    private static double LocalTwoCenterERIderiv(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d, int tau) {
+    protected static double LocalTwoCenterERIderiv(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d, int tau) {
 
         double[] A = a.getCoords();
         double[] C = c.getCoords();
@@ -732,6 +733,8 @@ public class NDDODerivative {
             }
         }
 
+
+
         return sum;
     }
 
@@ -750,6 +753,8 @@ public class NDDODerivative {
 
         return (perturbed - orig) / 1E-8;
     }
+
+
 
     public static double[] derivativeDecomposition(double[] point1, double[] point2, NDDO6G a, int tau) {
 
@@ -826,8 +831,9 @@ public class NDDODerivative {
         return null;
     }
 
-    public static double gradient(NDDOAtom[] atoms, DoubleMatrix densitymatrix, int atomnum, int tau) {
-        //System.err.println ("Gradient evaluating");
+    public static double gradient(NDDOAtom[] atoms, NDDOSolutionRestricted soln, int atomnum, int tau) {
+
+        DoubleMatrix densitymatrix = soln.densityMatrix();
 
         int i = 0;
 
@@ -939,6 +945,7 @@ public class NDDODerivative {
                                 for (int m : index[atomnum]) {
                                     if (m > -1) {
                                         sum += densitymatrix.get(l, m) * NDDODerivative.getGderiv(orbitals[l], orbitals[m], orbitals[j], orbitals[k], tau);
+
                                     }
                                 }
                             }
@@ -992,12 +999,44 @@ public class NDDODerivative {
             }
         }
 
+
         return e;
 
     }
 
+    public static double gradientfinite (NDDOAtom[] atoms, NDDOSolutionRestricted soln, int atomnum, int tau) {
+
+        double orig = soln.energy;
+
+        double perturbed = new NDDOSolutionRestricted (Utils.perturbAtomCoords(atoms, atomnum, tau), soln.charge).energy;
+
+        return 1E7 * (perturbed - orig);
+
+    }
+
+    public static DoubleMatrix densitymatrixderiv (NDDOAtom[] atoms,NDDOSolutionRestricted soln, int atomnum, int tau) {
+
+        DoubleMatrix orig = soln.densityMatrix();
+
+
+
+        NDDOAtom[] newatoms = Utils.perturbAtomCoords(atoms, atomnum, tau);
+
+        DoubleMatrix perturbed = new NDDOSolutionRestricted (newatoms, soln.charge).densityMatrix();
+
+        return perturbed.sub(orig).mmul(1E7);
+
+
+    }
+
+
+
     // TODO restricted and unrestricted stuff
-    public static double gradientUnrestricted(NDDOAtom[] atoms, DoubleMatrix alphadensity, DoubleMatrix betadensity, int atomnum, int tau) {
+    public static double gradientUnrestricted(NDDOAtom[] atoms, NDDOSolution s, int atomnum, int tau) {
+
+        DoubleMatrix alphadensity = s.alphaDensity();
+
+        DoubleMatrix betadensity = s.betaDensity();
         int i = 0;
 
         for (NDDOAtom a : atoms) {

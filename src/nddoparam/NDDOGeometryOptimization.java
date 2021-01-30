@@ -17,7 +17,6 @@ public abstract class NDDOGeometryOptimization {
         this.charge = charge;
         this.mult = mult;
         updateNDDOSolution();
-        updateMatrices();
         refEnergy = s.energy;
         System.out.println("\n" + s.getMoleculeName() + " Current heat of formation: " + s.hf + "kcal/mol");
         System.out.println(s.getMoleculeName() + " Current HOMO energy: " + s.homo + " eV");
@@ -89,7 +88,6 @@ public abstract class NDDOGeometryOptimization {
 
             }
 
-            updateMatrices();
 
             refEnergy = energy;
 
@@ -143,7 +141,6 @@ public abstract class NDDOGeometryOptimization {
         this.IE = -s.homo;
     }
 
-    protected abstract void updateMatrices();
 
     protected abstract void updateNDDOSolution();
 

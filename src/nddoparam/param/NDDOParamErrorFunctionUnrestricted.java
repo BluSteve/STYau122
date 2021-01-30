@@ -11,14 +11,14 @@ public class NDDOParamErrorFunctionUnrestricted extends NDDOParamErrorFunction {
 
     @Override
     protected double getGradient(int i, int j) {
-        return NDDODerivative.gradientUnrestricted(expAtoms, expSoln.alphaDensity(), expSoln.betaDensity(), i, j);
+        return NDDODerivative.gradientUnrestricted(expAtoms, expSoln, i, j);
     }
 
     @Override
     protected double getDeriv(double[] coeff, int atom2) {
-        double deriv = coeff[0] * NDDODerivative.gradientUnrestricted(expAtoms, expSoln.alphaDensity(), expSoln.betaDensity(), atom2, 0)
-                + coeff[1] * NDDODerivative.gradientUnrestricted(expAtoms, expSoln.alphaDensity(), expSoln.betaDensity(), atom2, 1)
-                + coeff[2] * NDDODerivative.gradientUnrestricted(expAtoms, expSoln.alphaDensity(), expSoln.betaDensity(), atom2, 2);
+        double deriv = coeff[0] * NDDODerivative.gradientUnrestricted(expAtoms, expSoln, atom2, 0)
+                + coeff[1] * NDDODerivative.gradientUnrestricted(expAtoms, expSoln, atom2, 1)
+                + coeff[2] * NDDODerivative.gradientUnrestricted(expAtoms, expSoln, atom2, 2);
         return 1E-13 * Math.round(deriv * 1E13);
     }
 }

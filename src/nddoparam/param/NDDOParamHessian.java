@@ -14,7 +14,7 @@ public abstract class NDDOParamHessian {
         this.Z1 = Z1;
         this.paramNum1 = paramNum1;
         this.atoms = atoms;
-        perturbed = Utils.perturbAtoms(atoms, paramNum1, Z1);
+        perturbed = Utils.perturbAtomParams(atoms, paramNum1, Z1);
     }
 
     public void constructErrors(double refHeat) {
