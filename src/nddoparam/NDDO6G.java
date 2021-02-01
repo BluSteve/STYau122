@@ -117,6 +117,14 @@ public class NDDO6G extends STO6G {
         return 0.5 * (a.beta + b.beta) * LCGTO.getS(a, b);
     }
 
+    public static double betaderiv (NDDO6G a, NDDO6G b, int tau) {
+        return 0.5 * (a.beta + b.beta) * LCGTO.getSDeriv(a, b, tau);
+    }
+
+    public static double betaderiv2 (NDDO6G a, NDDO6G b, int tau1, int tau2) {
+        return 0.5 * (a.beta + b.beta) * LCGTO.getSDeriv2(a, b, tau1, tau2);
+    }
+
     private static double qq(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R) {
         double a00 = p01 + p02;
         return Math.pow(R * R + a00 * a00, -0.5);

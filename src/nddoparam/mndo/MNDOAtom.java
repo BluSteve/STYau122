@@ -88,6 +88,16 @@ public class MNDOAtom extends NDDOAtom {
 
     public double crfDeriv2(NDDOAtom c, int tau1, int tau2) {//TODO
 
-        return 0;
+        double orig = this.crfDeriv(c, tau1);
+
+        double[] coords = this.getCoordinates().clone();
+
+        coords[tau2] = coords[tau2] + 1E-7;
+
+        NDDOAtom perturbed = new MNDOAtom(this, coords);
+
+        double newval = perturbed.crfDeriv(c, tau1);
+
+        return 1E7 * (newval - orig);
     }
 }

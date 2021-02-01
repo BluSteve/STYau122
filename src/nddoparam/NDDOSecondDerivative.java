@@ -1,6 +1,7 @@
 package nddoparam;
 
 import org.jblas.DoubleMatrix;
+import org.jblas.Solve;
 import scf.GTO;
 import scf.LCGTO;
 import scf.Utils;
@@ -1099,36 +1100,44 @@ public class NDDOSecondDerivative {
             for (int j = 0; j < coeffB.length; j++) {
                 for (int k = 0; k < coeffC.length; k++) {
                     for (int l = 0; l < coeffD.length; l++) {
+                        
+                        double eri = NDDO6G.LocalTwoCenterERI(A[i], B[j], C[k], D[l]);
+                        
+                        double erideriv1 = NDDODerivative.LocalTwoCenterERIderiv(A[i], B[j], C[k], D[l], tau1);
+                        
+                        double erideriv2 = NDDODerivative.LocalTwoCenterERIderiv(A[i], B[j], C[k], D[l], tau2);
+                        
+                        double erideriv = LocalTwoCenterERIderiv2(A[i], B[j], C[k], D[l], tau1, tau2);
 
-                        sum += coeffAderiv[i] * coeffB[j] * coeffC[k] * coeffD[l] * NDDO6G.LocalTwoCenterERI(A[i], B[j], C[k], D[l]) * 27.21;
-                        sum += coeffAderiv1[i] * coeffBderiv2[j] * coeffC[k] * coeffD[l] * NDDO6G.LocalTwoCenterERI(A[i], B[j], C[k], D[l]) * 27.21;
-                        sum += coeffAderiv1[i] * coeffB[j] * coeffCderiv2[k] * coeffD[l] * NDDO6G.LocalTwoCenterERI(A[i], B[j], C[k], D[l]) * 27.21;
-                        sum += coeffAderiv1[i] * coeffB[j] * coeffC[k] * coeffDderiv2[l] * NDDO6G.LocalTwoCenterERI(A[i], B[j], C[k], D[l]) * 27.21;
-                        sum += coeffAderiv1[i] * coeffB[j] * coeffC[k] * coeffD[l] * NDDODerivative.LocalTwoCenterERIderiv(A[i], B[j], C[k], D[l], tau2) * 27.21;
+                        sum += coeffAderiv[i] * coeffB[j] * coeffC[k] * coeffD[l] * eri * 27.21;
+                        sum += coeffAderiv1[i] * coeffBderiv2[j] * coeffC[k] * coeffD[l] * eri * 27.21;
+                        sum += coeffAderiv1[i] * coeffB[j] * coeffCderiv2[k] * coeffD[l] * eri * 27.21;
+                        sum += coeffAderiv1[i] * coeffB[j] * coeffC[k] * coeffDderiv2[l] * eri * 27.21;
+                        sum += coeffAderiv1[i] * coeffB[j] * coeffC[k] * coeffD[l] * erideriv2 * 27.21;
 
-                        sum += coeffAderiv2[i] * coeffBderiv1[j] * coeffC[k] * coeffD[l] * NDDO6G.LocalTwoCenterERI(A[i], B[j], C[k], D[l]) * 27.21;
-                        sum += coeffA[i] * coeffBderiv[j] * coeffC[k] * coeffD[l] * NDDO6G.LocalTwoCenterERI(A[i], B[j], C[k], D[l]) * 27.21;
-                        sum += coeffA[i] * coeffBderiv1[j] * coeffCderiv2[k] * coeffD[l] * NDDO6G.LocalTwoCenterERI(A[i], B[j], C[k], D[l]) * 27.21;
-                        sum += coeffA[i] * coeffBderiv1[j] * coeffC[k] * coeffDderiv2[l] * NDDO6G.LocalTwoCenterERI(A[i], B[j], C[k], D[l]) * 27.21;
-                        sum += coeffA[i] * coeffBderiv1[j] * coeffC[k] * coeffD[l] * NDDODerivative.LocalTwoCenterERIderiv(A[i], B[j], C[k], D[l], tau2) * 27.21;
+                        sum += coeffAderiv2[i] * coeffBderiv1[j] * coeffC[k] * coeffD[l] * eri * 27.21;
+                        sum += coeffA[i] * coeffBderiv[j] * coeffC[k] * coeffD[l] * eri * 27.21;
+                        sum += coeffA[i] * coeffBderiv1[j] * coeffCderiv2[k] * coeffD[l] * eri * 27.21;
+                        sum += coeffA[i] * coeffBderiv1[j] * coeffC[k] * coeffDderiv2[l] * eri * 27.21;
+                        sum += coeffA[i] * coeffBderiv1[j] * coeffC[k] * coeffD[l] * erideriv2 * 27.21;
 
-                        sum += coeffAderiv2[i] * coeffB[j] * coeffCderiv1[k] * coeffD[l] * NDDO6G.LocalTwoCenterERI(A[i], B[j], C[k], D[l]) * 27.21;
-                        sum += coeffA[i] * coeffBderiv2[j] * coeffCderiv1[k] * coeffD[l] * NDDO6G.LocalTwoCenterERI(A[i], B[j], C[k], D[l]) * 27.21;
-                        sum += coeffA[i] * coeffB[j] * coeffCderiv[k] * coeffD[l] * NDDO6G.LocalTwoCenterERI(A[i], B[j], C[k], D[l]) * 27.21;
-                        sum += coeffA[i] * coeffB[j] * coeffCderiv1[k] * coeffDderiv2[l] * NDDO6G.LocalTwoCenterERI(A[i], B[j], C[k], D[l]) * 27.21;
-                        sum += coeffA[i] * coeffB[j] * coeffCderiv1[k] * coeffD[l] * NDDODerivative.LocalTwoCenterERIderiv(A[i], B[j], C[k], D[l], tau2) * 27.21;
+                        sum += coeffAderiv2[i] * coeffB[j] * coeffCderiv1[k] * coeffD[l] * eri * 27.21;
+                        sum += coeffA[i] * coeffBderiv2[j] * coeffCderiv1[k] * coeffD[l] * eri * 27.21;
+                        sum += coeffA[i] * coeffB[j] * coeffCderiv[k] * coeffD[l] * eri * 27.21;
+                        sum += coeffA[i] * coeffB[j] * coeffCderiv1[k] * coeffDderiv2[l] * eri * 27.21;
+                        sum += coeffA[i] * coeffB[j] * coeffCderiv1[k] * coeffD[l] * erideriv2 * 27.21;
 
-                        sum += coeffAderiv2[i] * coeffB[j] * coeffC[k] * coeffDderiv1[l] * NDDO6G.LocalTwoCenterERI(A[i], B[j], C[k], D[l]) * 27.21;
-                        sum += coeffA[i] * coeffBderiv2[j] * coeffC[k] * coeffDderiv1[l] * NDDO6G.LocalTwoCenterERI(A[i], B[j], C[k], D[l]) * 27.21;
-                        sum += coeffA[i] * coeffB[j] * coeffCderiv2[k] * coeffDderiv1[l] * NDDO6G.LocalTwoCenterERI(A[i], B[j], C[k], D[l]) * 27.21;
-                        sum += coeffA[i] * coeffB[j] * coeffC[k] * coeffDderiv[l] * NDDO6G.LocalTwoCenterERI(A[i], B[j], C[k], D[l]) * 27.21;
-                        sum += coeffA[i] * coeffB[j] * coeffC[k] * coeffDderiv1[l] * NDDODerivative.LocalTwoCenterERIderiv(A[i], B[j], C[k], D[l], tau2) * 27.21;
+                        sum += coeffAderiv2[i] * coeffB[j] * coeffC[k] * coeffDderiv1[l] * eri * 27.21;
+                        sum += coeffA[i] * coeffBderiv2[j] * coeffC[k] * coeffDderiv1[l] * eri * 27.21;
+                        sum += coeffA[i] * coeffB[j] * coeffCderiv2[k] * coeffDderiv1[l] * eri * 27.21;
+                        sum += coeffA[i] * coeffB[j] * coeffC[k] * coeffDderiv[l] * eri * 27.21;
+                        sum += coeffA[i] * coeffB[j] * coeffC[k] * coeffDderiv1[l] * erideriv2 * 27.21;
 
-                        sum += coeffAderiv2[i] * coeffB[j] * coeffC[k] * coeffD[l] * NDDODerivative.LocalTwoCenterERIderiv(A[i], B[j], C[k], D[l], tau1) * 27.21;
-                        sum += coeffA[i] * coeffBderiv2[j] * coeffC[k] * coeffD[l] * NDDODerivative.LocalTwoCenterERIderiv(A[i], B[j], C[k], D[l], tau1) * 27.21;
-                        sum += coeffA[i] * coeffB[j] * coeffCderiv2[k] * coeffD[l] * NDDODerivative.LocalTwoCenterERIderiv(A[i], B[j], C[k], D[l], tau1) * 27.21;
-                        sum += coeffA[i] * coeffB[j] * coeffC[k] * coeffDderiv2[l] * NDDODerivative.LocalTwoCenterERIderiv(A[i], B[j], C[k], D[l], tau1) * 27.21;
-                        sum += coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] * LocalTwoCenterERIderiv2(A[i], B[j], C[k], D[l], tau1, tau2) * 27.21;
+                        sum += coeffAderiv2[i] * coeffB[j] * coeffC[k] * coeffD[l] * erideriv1 * 27.21;
+                        sum += coeffA[i] * coeffBderiv2[j] * coeffC[k] * coeffD[l] * erideriv1 * 27.21;
+                        sum += coeffA[i] * coeffB[j] * coeffCderiv2[k] * coeffD[l] * erideriv1 * 27.21;
+                        sum += coeffA[i] * coeffB[j] * coeffC[k] * coeffDderiv2[l] * erideriv1 * 27.21;
+                        sum += coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] * erideriv * 27.21;
 
 
                     }
@@ -1137,6 +1146,94 @@ public class NDDOSecondDerivative {
         }
 
         return sum;
+    }
+
+    private static double Ederiv2( int atomnum1, int atomnum2, int[][] index, DoubleMatrix densityMatrix, NDDOAtom[] atoms, NDDO6G[] orbitals, int tau1, int tau2) {
+
+        double e = 0;
+
+        for (int i: index[atomnum1]) {
+            for (int j: index[atomnum1]) {
+                if (i != -1 && j != -1) {
+                    e += densityMatrix.get(i, j) * atoms[atomnum2].Vderiv2(orbitals[i], orbitals[j], tau1, tau2);
+                }
+            }
+        }
+
+        for (int k: index[atomnum2]) {
+            for (int l: index[atomnum2]) {
+                if (k != -1 && l != -1) {
+                    e += densityMatrix.get(k, l) * atoms[atomnum1].Vderiv2(orbitals[k], orbitals[l], tau1, tau2);
+                }
+            }
+        }
+
+        for (int i: index[atomnum1]) {
+            for (int k: index[atomnum2]) {
+                if (i != -1 && k != -1) {
+                    e += 2 * densityMatrix.get(i, k) * NDDO6G.betaderiv2(orbitals[i], orbitals[k], tau1, tau2);
+                }
+            }
+        }
+
+        for (int i: index[atomnum1]) {
+            for (int j: index[atomnum1]) {
+                for (int k: index[atomnum2]) {
+                    for (int l: index[atomnum2]) {
+                        if (i != -1 && j != -1 && k != -1 && l != -1) {
+                            e +=(densityMatrix.get(i, j) * densityMatrix.get(k, l) - densityMatrix.get (i, k) * 0.5 * densityMatrix.get(j, l))
+                                    * NDDOSecondDerivative.getGderiv2(orbitals[i], orbitals[j], orbitals[k], orbitals[l], tau1, tau2);
+                        }
+                    }
+                }
+            }
+        }
+
+        return e;
+
+
+    }
+
+    public static double hessian (NDDOAtom[] atoms,NDDOSolutionRestricted soln, int atomnum1, int tau1, int atomnum2, int tau2) {
+
+        double E = 0;
+
+        if (atomnum1 == atomnum2) {
+            for (int a = 0; a < atoms.length; a++) {
+                if (a != atomnum1) {
+                    E += Ederiv2 (atomnum1, a, soln.index, soln.densityMatrix(), atoms, soln.orbitals, tau1, tau2);
+                    E += atoms[atomnum1].crfDeriv2(atoms[a], tau1, tau2);
+                }
+            }
+        }
+        else {
+            E = - Ederiv2 (atomnum1, atomnum2, soln.index, soln.densityMatrix(), atoms, soln.orbitals, tau1, tau2) - atoms[atomnum1].crfDeriv2(atoms[atomnum2], tau1, tau2);
+
+        }
+
+        DoubleMatrix fockderivstatic = NDDODerivative.staticfockderivative(atoms, soln, atomnum1, tau1);
+        DoubleMatrix densityderiv = NDDODerivative.densitymatrixderivfinite(atoms, soln, atomnum2, tau2);
+
+        DoubleMatrix densityderivcheck = densitymatrixderiv(atoms, soln, NDDODerivative.staticfockderivative(atoms, soln, atomnum2, tau2 ));
+
+        for (int i = 0; i < densityderiv.rows; i++) {
+            for (int j = 0; j < densityderiv.rows; j++) {
+                if (Math.abs(densityderiv.get(i, j) - densityderivcheck.get(i, j)) > 1E-5) {
+                    System.err.println ("oh no");
+                    System.err.println (densityderiv);
+                    System.err.println (densityderivcheck);
+                    System.exit (0);
+                }
+            }
+        }
+
+        for (int i = 0; i < soln.orbitals.length; i++) {
+            for (int j = 0; j < soln.orbitals.length; j++) {
+                E += fockderivstatic.get(i, j) * densityderiv.get (i, j);
+            }
+        }
+
+        return E;
     }
 
     public static double hessianfinite (NDDOAtom[] atoms,NDDOSolutionRestricted soln, int atomnum1, int tau1, int atomnum2, int tau2) {
@@ -1151,6 +1248,116 @@ public class NDDOSecondDerivative {
 
         return 1E7 * (finalval - initval);
 
+
+    }
+
+    public static DoubleMatrix densitymatrixderiv (NDDOAtom[] atoms, NDDOSolutionRestricted soln, DoubleMatrix fockderivstatic) {
+
+        int NOcc = (int) (soln.nElectrons / 2.0);
+
+        int NVirt = soln.orbitals.length - NOcc;
+
+        if (NOcc == 0) {
+            return fockderivstatic;
+        }
+
+        DoubleMatrix A = DoubleMatrix.zeros(NOcc * NVirt, NOcc * NVirt);
+
+        DoubleMatrix F = DoubleMatrix.zeros(NOcc * NVirt, 1);
+
+        int count1 = 0;
+
+        for (int i = 0; i < NOcc; i++) {
+            for (int j = 0; j < NVirt; j++) {
+
+                int count2 = 0;
+
+                double energydiff = soln.E.get(NOcc + j) - soln.E.get(i);
+
+                double element = 0;
+
+                for (int u = 0; u < soln.orbitals.length; u++) {
+                    for (int v = 0; v < soln.orbitals.length; v++) {
+                        element += soln.C.get(i, u) * soln.C.get(j + NOcc, v) * fockderivstatic.get(u, v);
+                    }
+                }
+
+
+                F.put(count1, element);
+
+
+                for (int k = 0; k < NOcc; k++) {
+                    for (int l = 0; l < NVirt; l++) {
+
+                        double coeff = 4 * ERIMOBasis(soln, i, j + NOcc, k, l + NOcc) - ERIMOBasis(soln, i, k, j + NOcc, l + NOcc) - ERIMOBasis(soln, i, l + NOcc, j + NOcc, k);
+
+                        if (i == k && j == l) {
+                            coeff += energydiff;
+                        }
+
+                        A.put(count1, count2, coeff);
+                        count2++;
+                    }
+                }
+
+
+                count1++;
+            }
+        }
+
+        DoubleMatrix sol = Solve.solve(A, F);
+
+        System.err.println (sol);
+
+        System.err.println ("This is how slow it is, you idiot");
+
+        DoubleMatrix  densityderiv = DoubleMatrix.zeros (soln.orbitals.length, soln.orbitals.length);
+
+        for (int u = 0; u < densityderiv.rows; u++) {
+            for (int v = 0; v < densityderiv.columns; v++) {
+                double sum = 0;
+                int count = 0;
+                for (int i = 0; i < NOcc; i++) {
+                    for (int j = 0; j < NVirt; j++) {
+                        sum -= 2 * (soln.C.get(i, u) * soln.C.get(j + NOcc, v) + soln.C.get(j + NOcc, u) * soln.C.get(i, v)) * sol.get(count);
+                        count++;
+                    }
+                }
+
+                densityderiv.put(u, v, sum);
+            }
+        }
+
+        return densityderiv;
+
+    }
+
+    private static double ERIMOBasis (NDDOSolutionRestricted soln, int i, int j, int k, int l) {
+
+        double eri = 0;
+
+        for (int a = 0; a < soln.atoms.length; a++) {
+            for (int b = 0; b < soln.atoms.length; b++) {
+                for (int u: soln.index[a]) {
+                    for (int v: soln.index[a]) {
+                        for (int r: soln.index[b]) {
+                            for (int s: soln.index[b]) {
+                                if (u != -1 && v != -1 && r != -1 && s != -1) {
+                                    if (a == b) {
+                                        eri += soln.C.get(i, u) * soln.C.get(j, v) * soln.C.get(k, r) * soln.C.get(l, s) * NDDO6G.OneCenterERI (soln.orbitals[u], soln.orbitals[v], soln.orbitals[r], soln.orbitals[s]);
+                                    }
+                                    else {
+                                        eri += soln.C.get(i, u) * soln.C.get(j, v) * soln.C.get(k, r) * soln.C.get(l, s) * NDDO6G.getG (soln.orbitals[u], soln.orbitals[v], soln.orbitals[r], soln.orbitals[s]);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return eri;
 
     }
 

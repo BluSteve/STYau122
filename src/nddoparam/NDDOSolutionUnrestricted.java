@@ -374,6 +374,26 @@ public class NDDOSolutionUnrestricted extends NDDOSolution {
                 e += 0.5 * betaDensity.get(j, k) * (H.get(j, k) + Fb.get(j, k));
             }
         }
+        double checksum = 0;
+
+        for (int a = 0; a < atoms.length; a++) {
+            checksum += E(a, index);
+        }
+
+        for (int a = 0; a < atoms.length; a++) {
+            for (int b = a + 1; b < atoms.length; b++) {
+                checksum += E(a, b, index);
+            }
+        }
+
+        if (Math.abs(checksum - e) > 1E-5 || checksum != checksum) {
+            System.err.println ("I knew it!");
+            System.err.println (checksum);
+            System.err.println (e);
+            System.exit(0);
+        }
+
+
         double heat = 0;
         for (int j = 0; j < atoms.length; j++) {
             heat += atoms[j].getHeat() - atoms[j].getEisol();
@@ -446,6 +466,86 @@ public class NDDOSolutionUnrestricted extends NDDOSolution {
 
 
         dipole = Math.sqrt(dipoletot[0] * dipoletot[0] + dipoletot[1] * dipoletot[1] + dipoletot[2] * dipoletot[2]);
+
+    }
+
+
+    private double E (int atomnum, int[][] index) {
+
+        DoubleMatrix densitymatrix = alphaDensity.add(betaDensity);
+
+        double e = 0;
+
+        for (int i: index[atomnum]) {
+            if (i > -1) {
+                e += densitymatrix.get (i, i) * orbitals[i].U();
+            }
+        }
+
+        for (int i: index[atomnum]) {
+            for (int j: index[atomnum]) {
+                for (int k: index[atomnum]) {
+                    for (int l: index[atomnum]) {
+                        if (i != -1 && j != -1 && k != -1 && l != -1) {
+
+                            e += 0.5 * densitymatrix.get(i, j) * densitymatrix.get(k, l) * NDDO6G.OneCenterERI(orbitals[i], orbitals[j], orbitals[k], orbitals[l]);
+                            e -= 0.5 * (alphaDensity.get(i, j) * alphaDensity.get(k, l) + betaDensity.get(i, j) * betaDensity.get(k, l)) * NDDO6G.OneCenterERI(orbitals[i], orbitals[k], orbitals[j], orbitals[l]);
+                        }
+                    }
+                }
+            }
+        }
+
+        return e;
+    }
+
+
+    private double E( int atomnum1, int atomnum2, int[][] index) {
+
+        DoubleMatrix densitymatrix = alphaDensity.add(betaDensity);
+
+        double e = 0;
+
+        for (int i: index[atomnum1]) {
+            for (int j: index[atomnum1]) {
+                if (i != -1 && j != -1) {
+                    e += densitymatrix.get(i, j) * atoms[atomnum2].V(orbitals[i], orbitals[j]);
+                }
+            }
+        }
+
+        for (int k: index[atomnum2]) {
+            for (int l: index[atomnum2]) {
+                if (k != -1 && l != -1) {
+                    e += densitymatrix.get(k, l) * atoms[atomnum1].V(orbitals[k], orbitals[l]);
+                }
+            }
+        }
+
+        for (int i: index[atomnum1]) {
+            for (int k: index[atomnum2]) {
+                if (i != -1 && k != -1) {
+                    e += 2 * densitymatrix.get(i, k) * NDDO6G.beta(orbitals[i], orbitals[k]);
+                }
+            }
+        }
+
+        for (int i: index[atomnum1]) {
+            for (int j: index[atomnum1]) {
+                for (int k: index[atomnum2]) {
+                    for (int l: index[atomnum2]) {
+                        if (i != -1 && j != -1 && k != -1 && l != -1) {
+
+                            e +=(densitymatrix.get(i, j) * densitymatrix.get(k, l) - alphaDensity.get (i, k) * alphaDensity.get(j, l) - betaDensity.get (i, k) * betaDensity.get(j, l))
+                                    * NDDO6G.getG(orbitals[i], orbitals[j], orbitals[k], orbitals[l]);
+                        }
+                    }
+                }
+            }
+        }
+
+        return e;
+
 
     }
 

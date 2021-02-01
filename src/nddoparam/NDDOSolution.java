@@ -12,6 +12,7 @@ public abstract class NDDOSolution {
     public int charge, multiplicity;
 
     protected int[][] missingIndex, index;
+    protected NDDOAtom[] atoms;
     protected int[] atomNumber;
     protected double damp = 0.8;
     protected int nElectrons;
@@ -31,6 +32,8 @@ public abstract class NDDOSolution {
             nameBuilder.append(key).append(nameOccurrences.get(key));
         }
         moleculeName =  nameBuilder.toString();
+
+        this.atoms = atoms;
 
         nElectrons -= charge;
 

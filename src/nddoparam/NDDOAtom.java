@@ -78,6 +78,14 @@ public abstract class NDDOAtom extends AtomFixed {
         return -this.atomProperties.getQ() * NDDO6G.getG(a, b, this.s(), this.s());
     }
 
+    public double Vderiv (NDDO6G a, NDDO6G b, int tau) {
+        return -this.atomProperties.getQ() * NDDODerivative.getGderiv(a, b, this.s(), this.s(), tau);
+    }
+
+    public double Vderiv2 (NDDO6G a, NDDO6G b, int tau1, int tau2) {
+        return -this.atomProperties.getQ() * NDDOSecondDerivative.getGderiv2(a, b, this.s(), this.s(), tau1, tau2);
+    }
+
     public double getEisol() {
         return np.getEisol();
     }

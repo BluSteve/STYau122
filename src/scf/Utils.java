@@ -54,7 +54,7 @@ public class Utils {
             for (int i = 0; i < atoms.length; i++) {
                 if (i == atomnum) {
                     double[] coords = atoms[i].getCoordinates().clone();
-                    coords[tau] = coords[tau] + 1E-7           ;
+                    coords[tau] = coords[tau] + 1E-7;
                     perturbed[i] = (NDDOAtom) ctor.newInstance(atoms[i], coords);
                 }
                 else {
