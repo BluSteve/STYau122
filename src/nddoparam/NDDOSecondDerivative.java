@@ -1257,9 +1257,6 @@ public class NDDOSecondDerivative {
 
         int NVirt = soln.orbitals.length - NOcc;
 
-        if (NOcc == 0) {
-            return fockderivstatic;
-        }
 
         DoubleMatrix A = DoubleMatrix.zeros(NOcc * NVirt, NOcc * NVirt);
 
@@ -1305,13 +1302,19 @@ public class NDDOSecondDerivative {
             }
         }
 
+        DoubleMatrix  densityderiv = DoubleMatrix.zeros (soln.orbitals.length, soln.orbitals.length);
+
+        if (NOcc == 0) {
+            return densityderiv;
+        }
+
         DoubleMatrix sol = Solve.solve(A, F);
 
         System.err.println (sol);
 
         System.err.println ("This is how slow it is, you idiot");
 
-        DoubleMatrix  densityderiv = DoubleMatrix.zeros (soln.orbitals.length, soln.orbitals.length);
+
 
         for (int u = 0; u < densityderiv.rows; u++) {
             for (int v = 0; v < densityderiv.columns; v++) {
@@ -1329,6 +1332,150 @@ public class NDDOSecondDerivative {
         }
 
         return densityderiv;
+
+    }
+
+    public static DoubleMatrix hessianroutine (NDDOAtom[] atoms, NDDOSolutionRestricted soln, DoubleMatrix[] fockderivstatic) {
+        int NOcc = (int) (soln.nElectrons / 2.0);
+
+        int NVirt = soln.orbitals.length - NOcc;
+
+        DoubleMatrix[] densityderivs = new DoubleMatrix [fockderivstatic.length];
+
+        DoubleMatrix A = DoubleMatrix.zeros(NOcc * NVirt, NOcc * NVirt);
+
+        DoubleMatrix F = DoubleMatrix.zeros(NOcc * NVirt, fockderivstatic.length);
+
+        int count1 = 0;
+
+        for (int i = 0; i < NOcc; i++) {
+            for (int j = 0; j < NVirt; j++) {
+
+                int count2 = 0;
+
+                double energydiff = soln.E.get(NOcc + j) - soln.E.get(i);
+
+
+
+                for (int index = 0; index < fockderivstatic.length; index++) {
+
+                    double element = 0;
+
+                    for (int u = 0; u < soln.orbitals.length; u++) {
+                        for (int v = 0; v < soln.orbitals.length; v++) {
+                            element += soln.C.get(i, u) * soln.C.get(j + NOcc, v) * fockderivstatic[index].get(u, v);
+                        }
+                    }
+
+
+                    F.put(count1, index, element);
+                }
+
+
+                for (int k = 0; k < NOcc; k++) {
+                    for (int l = 0; l < NVirt; l++) {
+
+                        double coeff = 4 * ERIMOBasis(soln, i, j + NOcc, k, l + NOcc) - ERIMOBasis(soln, i, k, j + NOcc, l + NOcc) - ERIMOBasis(soln, i, l + NOcc, j + NOcc, k);
+
+                        if (i == k && j == l) {
+                            coeff += energydiff;
+                        }
+
+                        A.put(count1, count2, coeff);
+
+                        count2++;
+                    }
+                    //System.out.println ("A row of A is done");
+                }
+
+
+
+
+                count1++;
+            }
+        }
+
+        //System.out.println ("A is done");
+
+
+        if (NOcc == 0) {
+            for (int index = 0; index < densityderivs.length; index++) {
+                densityderivs[index] = DoubleMatrix.zeros (soln.orbitals.length, soln.orbitals.length);
+            }
+        }
+        else {
+            DoubleMatrix sol = Solve.solve(A, F);
+
+            System.err.println (sol);
+
+            //System.err.println ("This is how slow it is, you idiot");
+
+
+
+            for (int index = 0; index < densityderivs.length; index++) {
+                DoubleMatrix  densityderiv = DoubleMatrix.zeros (soln.orbitals.length, soln.orbitals.length);
+
+                for (int u = 0; u < densityderiv.rows; u++) {
+                    for (int v = 0; v < densityderiv.columns; v++) {
+                        double sum = 0;
+                        int count = 0;
+                        for (int i = 0; i < NOcc; i++) {
+                            for (int j = 0; j < NVirt; j++) {
+                                sum -= 2 * (soln.C.get(i, u) * soln.C.get(j + NOcc, v) + soln.C.get(j + NOcc, u) * soln.C.get(i, v)) * sol.get(count, index);
+                                count++;
+                            }
+                        }
+
+                        densityderiv.put(u, v, sum);
+                    }
+                }
+
+                densityderivs[index] = densityderiv;
+            }
+        }
+
+        DoubleMatrix hessian = new DoubleMatrix (densityderivs.length, densityderivs.length);
+
+        for (int i = 0; i < hessian.rows; i++) {
+            for (int j = i; j < hessian.rows; j++) {
+
+                double E = 0;
+
+                int atomnum1 = i / 3;
+
+                int atomnum2 = j / 3;
+
+                int tau1 = i - 3 * atomnum1;
+
+                int tau2 = j - 3 * atomnum2;
+
+                if (atomnum1 == atomnum2) {
+                    for (int a = 0; a < atoms.length; a++) {
+                        if (a != atomnum1) {
+                            E += Ederiv2 (atomnum1, a, soln.index, soln.densityMatrix(), atoms, soln.orbitals, tau1, tau2);
+                            E += atoms[atomnum1].crfDeriv2(atoms[a], tau1, tau2);
+                        }
+                    }
+                }
+                else {
+                    E = - Ederiv2 (atomnum1, atomnum2, soln.index, soln.densityMatrix(), atoms, soln.orbitals, tau1, tau2) - atoms[atomnum1].crfDeriv2(atoms[atomnum2], tau1, tau2);
+
+                }
+
+
+                for (int I = 0; I < soln.orbitals.length; I++) {
+                    for (int J = 0; J < soln.orbitals.length; J++) {
+                        E += fockderivstatic[i].get(I, J) * densityderivs[j].get (I, J);
+                    }
+                }
+
+                hessian.put (i, j, E);
+                hessian.put(j, i, E);
+            }
+        }
+
+        return hessian;
+
 
     }
 

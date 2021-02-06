@@ -5,6 +5,8 @@ import scf.LCGTO;
 import scf.OrbitalProperties;
 import scf.STO6G;
 
+import java.util.Arrays;
+
 public class NDDO6G extends STO6G {
     public double zeta, beta, U, p0, p1, p2, D1, D2;
     public double gss, gsp, hsp, gpp, gp2, hp2;
@@ -800,6 +802,45 @@ public class NDDO6G extends STO6G {
         return null;
     }
 
+    public double[] decomposition2 (double[] point1, double[] point2) {
+
+        if (this.L == 0) {
+            return new double[] {1};
+        }
+
+        double x = point2[0] - point1[0];
+
+        double y = point2[1] - point1[1];
+
+        double z = point2[2] - point1[2];
+
+        double Rxz = Math.sqrt(x * x + z * z);
+
+        double R = GTO.R(point1, point2);
+
+        if (this.L == 1) {
+            if (this.i == 1 ) {
+                if (Rxz == 0) {
+                    return new double[]{1, 0, 0};
+                }
+                return new double[] { x * y / (R * Rxz), - z / Rxz, x / R};
+            }
+            else if (this.j == 1) {
+                return new double[] {- Rxz / R, 0, y / R};
+            }
+            else {
+                if (Rxz == 0) {
+                    return new double[]{0, 1, 0};
+                }
+                return new double[] { y * z / (R * Rxz), x / Rxz, z / R};
+            }
+        }
+
+        return null;
+
+
+    }
+
 
     public NDDO6G[] orbitalArray() {
         if (this.orbitalArray == null) {
@@ -837,6 +878,7 @@ public class NDDO6G extends STO6G {
                         if (coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] != 0) {
                             sum2 += coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] * LocalTwoCenterERI(A[i], B[j], C[k], D[l]) * 27.21;
                         }
+
 
                     }
                 }

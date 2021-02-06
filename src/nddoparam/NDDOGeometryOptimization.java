@@ -11,6 +11,7 @@ public abstract class NDDOGeometryOptimization {
     public int charge;
     protected int counter, mult;
     public NDDOSolution s;
+    protected DoubleMatrix gradient;
 
     public NDDOGeometryOptimization(NDDOAtom[] atoms, int charge, int mult) {
         this.atoms = atoms;
@@ -22,15 +23,34 @@ public abstract class NDDOGeometryOptimization {
         System.out.println(s.getMoleculeName() + " Current HOMO energy: " + s.homo + " eV");
         System.out.println("-----------------------------------------------");
 
-        DoubleMatrix gradient = new DoubleMatrix(atoms.length * 3, 1);
+        DoubleMatrix B = DoubleMatrix.eye(atoms.length * 3);
 
-        int index = 0;
-        for (int a = 0; a < atoms.length; a++) {
-            for (int i = 0; i < 3; i++) {
-                gradient.put(index, 0, derivative(a, i));
-                index++;
-            }
+        if (mult == 1) {
+
+            DoubleMatrix[] matrices = routine();
+
+            gradient = matrices[0];
+            B = matrices[1];
+
         }
+        else {
+            gradient = new DoubleMatrix(atoms.length * 3, 1);
+
+            int index = 0;
+            for (int a = 0; a < atoms.length; a++) {
+                for (int i = 0; i < 3; i++) {
+                    gradient.put(index, 0, derivative(a, i));
+                    index++;
+                }
+            }
+
+
+
+
+        }
+
+        int index;
+
 
         double sum = 0;
         for (int i = 0; i < gradient.length; i++) {
@@ -38,9 +58,8 @@ public abstract class NDDOGeometryOptimization {
         }
         sum = Math.sqrt(sum);
 
-        DoubleMatrix B = DoubleMatrix.eye(atoms.length * 3);
         DoubleMatrix searchdir;
-        searchdir = gradient.mul(-1 / sum);
+        searchdir = Solve.pinv (B).mmul(gradient).mul(-1 / sum);
         DoubleMatrix oldgrad;
 
         double energy = refEnergy - 1;
@@ -173,4 +192,6 @@ public abstract class NDDOGeometryOptimization {
     }
 
     protected abstract double derivative(int i, int j);
+
+    protected abstract DoubleMatrix[] routine();
 }
