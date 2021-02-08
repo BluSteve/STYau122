@@ -67,7 +67,7 @@ public abstract class NDDOGeometryOptimization {
         int count;
         counter = 0;
 
-        while (mag(gradient) > 0.07) {
+        while (mag(gradient) > 0.005) {
 
             System.out.println("Gradient: " + mag(gradient));
 

@@ -678,64 +678,113 @@ public class NDDODerivative {
 
     public static double getGderiv(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d, int tau) {
 
-        if (Math.abs(a.getCoords()[0] - c.getCoords()[0]) < 1E-3 && Math.abs(a.getCoords()[1] - c.getCoords()[1]) < 1E-3) {
-
-//            System.err.println("reverting to finite difference...");
-            return getGderivfinite(a, b, c, d, tau);
-        }
-
-        double[] coeffA = a.decomposition(a.getCoords(), c.getCoords());
-        double[] coeffB = b.decomposition(a.getCoords(), c.getCoords());
-        double[] coeffC = c.decomposition(a.getCoords(), c.getCoords());
-        double[] coeffD = d.decomposition(a.getCoords(), c.getCoords());
-
-        double[] coeffAderiv = derivativeDecomposition(a.getCoords(), c.getCoords(), a, tau);
-        double[] coeffBderiv = derivativeDecomposition(a.getCoords(), c.getCoords(), b, tau);
-        double[] coeffCderiv = derivativeDecomposition(a.getCoords(), c.getCoords(), c, tau);
-        double[] coeffDderiv = derivativeDecomposition(a.getCoords(), c.getCoords(), d, tau);
-
 
         NDDO6G[] A = a.orbitalArray();
         NDDO6G[] B = b.orbitalArray();
         NDDO6G[] C = c.orbitalArray();
         NDDO6G[] D = d.orbitalArray();
 
-        double sum = 0;
+        if (Math.abs(a.getCoords()[0] - c.getCoords()[0]) < 1E-3 && Math.abs(a.getCoords()[1] - c.getCoords()[1]) < 1E-3) {
 
-        for (int i = 0; i < coeffA.length; i++) {
-            for (int j = 0; j < coeffB.length; j++) {
-                for (int k = 0; k < coeffC.length; k++) {
-                    for (int l = 0; l < coeffD.length; l++) {
+            double[] coeffA2 = a.decomposition2(a.getCoords(), c.getCoords());
+            double[] coeffB2 = b.decomposition2(a.getCoords(), c.getCoords());
+            double[] coeffC2 = c.decomposition2(a.getCoords(), c.getCoords());
+            double[] coeffD2 = d.decomposition2(a.getCoords(), c.getCoords());
+
+            double[] coeffAderiv2 = derivativeDecomposition2(a.getCoords(), c.getCoords(), a, tau);
+            double[] coeffBderiv2 = derivativeDecomposition2(a.getCoords(), c.getCoords(), b, tau);
+            double[] coeffCderiv2 = derivativeDecomposition2(a.getCoords(), c.getCoords(), c, tau);
+            double[] coeffDderiv2 = derivativeDecomposition2(a.getCoords(), c.getCoords(), d, tau);
 
 
-                        if (coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] != 0) {
-                            sum += coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] * LocalTwoCenterERIderiv(A[i], B[j], C[k], D[l], tau) * 27.21;
+
+            double sum2 = 0;
+
+            for (int i = 0; i < coeffA2.length; i++) {
+                for (int j = 0; j < coeffB2.length; j++) {
+                    for (int k = 0; k < coeffC2.length; k++) {
+                        for (int l = 0; l < coeffD2.length; l++) {
+
+
+                            if (coeffA2[i] * coeffB2[j] * coeffC2[k] * coeffD2[l] != 0) {
+                                sum2 += coeffA2[i] * coeffB2[j] * coeffC2[k] * coeffD2[l] * LocalTwoCenterERIderiv(A[i], B[j], C[k], D[l], tau) * 27.21;
+                            }
+                            if (coeffAderiv2[i] * coeffB2[j] * coeffC2[k] * coeffD2[l] != 0) {
+                                sum2 += coeffAderiv2[i] * coeffB2[j] * coeffC2[k] * coeffD2[l] * NDDO6G.LocalTwoCenterERI(A[i], B[j], C[k], D[l]) * 27.21;
+                            }
+
+                            if (coeffA2[i] * coeffBderiv2[j] * coeffC2[k] * coeffD2[l] != 0) {
+                                sum2 += coeffA2[i] * coeffBderiv2[j] * coeffC2[k] * coeffD2[l] * NDDO6G.LocalTwoCenterERI(A[i], B[j], C[k], D[l]) * 27.21;
+                            }
+
+                            if (coeffA2[i] * coeffB2[j] * coeffCderiv2[k] * coeffD2[l] != 0) {
+                                sum2 += coeffA2[i] * coeffB2[j] * coeffCderiv2[k] * coeffD2[l] * NDDO6G.LocalTwoCenterERI(A[i], B[j], C[k], D[l]) * 27.21;
+                            }
+
+                            if (coeffA2[i] * coeffB2[j] * coeffC2[k] * coeffDderiv2[l] != 0) {
+                                sum2 += coeffA2[i] * coeffB2[j] * coeffC2[k] * coeffDderiv2[l] * NDDO6G.LocalTwoCenterERI(A[i], B[j], C[k], D[l]) * 27.21;
+                            }
+
+
                         }
-                        if (coeffAderiv[i] * coeffB[j] * coeffC[k] * coeffD[l] != 0) {
-                            sum += coeffAderiv[i] * coeffB[j] * coeffC[k] * coeffD[l] * NDDO6G.LocalTwoCenterERI(A[i], B[j], C[k], D[l]) * 27.21;
-                        }
-
-                        if (coeffA[i] * coeffBderiv[j] * coeffC[k] * coeffD[l] != 0) {
-                            sum += coeffA[i] * coeffBderiv[j] * coeffC[k] * coeffD[l] * NDDO6G.LocalTwoCenterERI(A[i], B[j], C[k], D[l]) * 27.21;
-                        }
-
-                        if (coeffA[i] * coeffB[j] * coeffCderiv[k] * coeffD[l] != 0) {
-                            sum += coeffA[i] * coeffB[j] * coeffCderiv[k] * coeffD[l] * NDDO6G.LocalTwoCenterERI(A[i], B[j], C[k], D[l]) * 27.21;
-                        }
-
-                        if (coeffA[i] * coeffB[j] * coeffC[k] * coeffDderiv[l] != 0) {
-                            sum += coeffA[i] * coeffB[j] * coeffC[k] * coeffDderiv[l] * NDDO6G.LocalTwoCenterERI(A[i], B[j], C[k], D[l]) * 27.21;
-                        }
-
-
                     }
                 }
             }
+
+            return sum2;
         }
 
+        else {
+            double[] coeffA = a.decomposition(a.getCoords(), c.getCoords());
+            double[] coeffB = b.decomposition(a.getCoords(), c.getCoords());
+            double[] coeffC = c.decomposition(a.getCoords(), c.getCoords());
+            double[] coeffD = d.decomposition(a.getCoords(), c.getCoords());
+
+            double[] coeffAderiv = derivativeDecomposition(a.getCoords(), c.getCoords(), a, tau);
+            double[] coeffBderiv = derivativeDecomposition(a.getCoords(), c.getCoords(), b, tau);
+            double[] coeffCderiv = derivativeDecomposition(a.getCoords(), c.getCoords(), c, tau);
+            double[] coeffDderiv = derivativeDecomposition(a.getCoords(), c.getCoords(), d, tau);
 
 
-        return sum;
+
+            double sum = 0;
+
+            for (int i = 0; i < coeffA.length; i++) {
+                for (int j = 0; j < coeffB.length; j++) {
+                    for (int k = 0; k < coeffC.length; k++) {
+                        for (int l = 0; l < coeffD.length; l++) {
+
+
+                            if (coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] != 0) {
+                                sum += coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] * LocalTwoCenterERIderiv(A[i], B[j], C[k], D[l], tau) * 27.21;
+                            }
+                            if (coeffAderiv[i] * coeffB[j] * coeffC[k] * coeffD[l] != 0) {
+                                sum += coeffAderiv[i] * coeffB[j] * coeffC[k] * coeffD[l] * NDDO6G.LocalTwoCenterERI(A[i], B[j], C[k], D[l]) * 27.21;
+                            }
+
+                            if (coeffA[i] * coeffBderiv[j] * coeffC[k] * coeffD[l] != 0) {
+                                sum += coeffA[i] * coeffBderiv[j] * coeffC[k] * coeffD[l] * NDDO6G.LocalTwoCenterERI(A[i], B[j], C[k], D[l]) * 27.21;
+                            }
+
+                            if (coeffA[i] * coeffB[j] * coeffCderiv[k] * coeffD[l] != 0) {
+                                sum += coeffA[i] * coeffB[j] * coeffCderiv[k] * coeffD[l] * NDDO6G.LocalTwoCenterERI(A[i], B[j], C[k], D[l]) * 27.21;
+                            }
+
+                            if (coeffA[i] * coeffB[j] * coeffC[k] * coeffDderiv[l] != 0) {
+                                sum += coeffA[i] * coeffB[j] * coeffC[k] * coeffDderiv[l] * NDDO6G.LocalTwoCenterERI(A[i], B[j], C[k], D[l]) * 27.21;
+                            }
+
+
+                        }
+                    }
+                }
+            }
+
+
+
+
+            return sum;
+        }
     }
 
     public static double getGderivfinite(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d, int tau) {
@@ -829,6 +878,83 @@ public class NDDODerivative {
                 }
         }
         return null;
+    }
+
+    public static double[] derivativeDecomposition2 (double[] point1, double[] point2, NDDO6G a, int tau) {
+
+        if (a.getL() == 0) {
+            return new double[] {0};
+        }
+
+        double x = point2[0] - point1[0];
+
+        double y = point2[1] - point1[1];
+
+        double z = point2[2] - point1[2];
+
+        double Rxz = Math.sqrt(x * x + z * z);
+
+        double R = GTO.R(point1, point2);
+
+        if (a.getL() == 1) {
+            switch (tau) {
+                case 0:
+                    if (a.geti() == 1) {
+                        double val1 = x * x * y / (R * R * R * Rxz) + x * x * y / (R * Rxz * Rxz * Rxz) - y / (R * Rxz);
+                        double val2 = - x * z / (Rxz * Rxz * Rxz);
+                        double val3 = x * x / (R * R * R) - 1 / R;
+                        return new double[] {val1, val2, val3};
+                    }
+                    else if (a.getj() == 1) {
+                        double val1 = x / (R * Rxz) - x * Rxz / (R * R * R);
+                        double val3 = x * y / (R * R * R);
+                        return new double[] {val1, 0, val3};
+                    }
+                    else if (a.getk() == 1) {
+                        double val1 = x * y * z / (R * R * R * Rxz) + x * y * z / (R * Rxz * Rxz * Rxz);
+                        double val2 = x * x / (Rxz * Rxz * Rxz) - 1 / Rxz;
+                        double val3 = x * z / (R * R * R);
+                        return new double[] {val1, val2, val3};
+                    }
+                case 1:
+                    if (a.geti() == 1) {
+                        double val1 = x * y * y / (R * R * R * Rxz) - x / (R * Rxz);
+                        double val3 = x * y / (R * R * R);
+                        return new double[] {val1, 0, val3};
+                    }
+                    else if (a.getj() == 1) {
+                        double val1 = - y * Rxz / (R * R * R);
+                        double val3 = y * y / (R * R * R) - 1 / R;
+                        return new double[] {val1, 0, val3};
+                    }
+                    else if (a.getk() == 1) {
+                        double val1 = y * y * z / (R * R * R * Rxz) - z / (R * Rxz);
+                        double val3 = y * z / (R * R * R);
+                        return new double[] {val1, 0, val3};
+                    }
+                case 2:
+                    if (a.geti() == 1) {
+                        double val1 = x * y * z / (R * R * R * Rxz) + x * y * z / (R * Rxz * Rxz * Rxz);
+                        double val2 = 1 / Rxz - z * z / (Rxz * Rxz * Rxz);
+                        double val3 = x * z / (R * R * R);
+                        return new double[] {val1, val2, val3};
+                    }
+                    else if (a.getj() == 1) {
+                        double val1 = z / (R * Rxz) - z * Rxz / (R * R * R);
+                        double val3 = z * y / (R * R * R);
+                        return new double[] {val1, 0, val3};
+                    }
+                    else if (a.getk() == 1) {
+                        double val1 = y * z * z / (R * R * R * Rxz) + y * z * z / (R * Rxz * Rxz * Rxz) - y / (R * Rxz);
+                        double val2 = x * z / (Rxz * Rxz * Rxz);
+                        double val3 = z * z / (R * R * R) - 1 / R;
+                        return new double[] {val1, val2, val3};
+                    }
+            }
+        }
+
+        return null;
+
     }
 
     public static double gradient(NDDOAtom[] atoms, NDDOSolutionRestricted soln, int atomnum, int tau) {

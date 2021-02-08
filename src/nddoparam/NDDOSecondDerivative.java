@@ -3,7 +3,6 @@ package nddoparam;
 import org.jblas.DoubleMatrix;
 import org.jblas.Solve;
 import scf.GTO;
-import scf.LCGTO;
 import scf.Utils;
 
 import java.util.Arrays;
@@ -771,7 +770,7 @@ public class NDDOSecondDerivative {
         return (perturbed - orig) / 1E-6;
     }
 
-    public static double[] derivativeDecomposition2finite(double[] point1, double[] point2, NDDO6G a, int tau1, int tau2) {
+    public static double[] secondDerivativeDecompositionfinite(double[] point1, double[] point2, NDDO6G a, int tau1, int tau2) {
         if (a.getL() == 0) {
             return new double[]{0};
         }
@@ -787,7 +786,7 @@ public class NDDOSecondDerivative {
         return new double[]{(perturbed[0] - orig[0]) / 1E-9, (perturbed[1] - orig[1]) / 1E-9, (perturbed[2] - orig[2]) / 1E-9};
     }
 
-    public static double[] derivativeDecomposition2(double[] point1, double[] point2, NDDO6G a, int tau1, int tau2) {
+    public static double[] secondDerivativeDecomposition(double[] point1, double[] point2, NDDO6G a, int tau1, int tau2) {
         if (a.getL() == 0) {
             return new double[]{0};
         }
@@ -804,7 +803,6 @@ public class NDDOSecondDerivative {
 
         double[] returnval = new double[3];
 
-        double[] ref = derivativeDecomposition2finite(point1, point2, a, tau1, tau2);
 
         if (a.geti() == 1 && a.getL() == 1) {
 
@@ -1067,7 +1065,301 @@ public class NDDOSecondDerivative {
 
     }
 
+    public static double[] secondDerivativeDecomposition2finite(double[] point1, double[] point2, NDDO6G a, int tau1, int tau2) {
+        if (a.getL() == 0) {
+            return new double[]{0};
+        }
+
+        double[] orig = NDDODerivative.derivativeDecomposition2(point1, point2, a, tau1);
+
+        point1 = point1.clone();
+
+        point1[tau2] += 1E-9;
+
+        double[] perturbed = NDDODerivative.derivativeDecomposition2(point1, point2, a, tau1);
+
+        return new double[]{(perturbed[0] - orig[0]) / 1E-9, (perturbed[1] - orig[1]) / 1E-9, (perturbed[2] - orig[2]) / 1E-9};
+    }
+
+    public static double[] secondDerivativeDecomposition2 (double[] point1, double[] point2, NDDO6G a, int tau1, int tau2) {
+        if (a.getL() == 0) {
+            return new double[]{0};
+        }
+
+        int A = Math.min(tau1, tau2);
+        int B = Math.max(tau1, tau2);
+
+        double x = point2[0] - point1[0];
+        double y = point2[1] - point1[1];
+        double z = point2[2] - point1[2];
+
+        double R = GTO.R(point1, point2);
+        double Rxz = Math.sqrt(x * x + z * z);
+
+        double[] returnval = new double[3];
+
+        if (a.geti() == 1 && a.getL() == 1) {
+
+            switch (A) {
+                case 0:
+
+                    switch (B) {
+                        case 0://partial wrt x and x
+                            returnval[0] = 3 * x * x * x * y / (R * Rxz * Rxz * Rxz * Rxz * Rxz)
+                                    + 3 * x * x * x * y / (R * R * R * R * R * Rxz)
+                                    + 2 * x * x * x * y / (R * R * R * Rxz * Rxz * Rxz)
+                                    - 3 * x * y / (R * R * R * Rxz)
+                                    - 3 * x * y / (R * Rxz * Rxz * Rxz);
+
+                            returnval[1] = z / (Rxz * Rxz * Rxz) - 3 * x * x * z / (Rxz * Rxz * Rxz * Rxz * Rxz);
+
+                            returnval[2] = 3 * x * x * x / (R * R * R * R * R) - 3 * x / (R * R * R);
+
+
+                            return returnval;
+
+                        case 1://partial wrt x and y
+                            returnval[0] = 1 / (R * Rxz) + 3 * x * x * y * y / (R * R * R * R * R * Rxz)
+                                    + x * x * y * y / (R * R * R * Rxz * Rxz * Rxz)
+                                    - x * x / (R * Rxz * Rxz * Rxz) - x * x / (R * R * R * Rxz)
+                                    - y * y / (R * R * R * Rxz);
+
+                            returnval[1] = 0;
+
+                            returnval[2] = 3 * x * x * y / (R * R * R * R * R) - y / (R * R * R);
+
+
+                            return returnval;
+
+                        case 2://partial wrt x and z
+                            returnval[0] = 3 * x * x * y * z / (R * R * R * R * R * Rxz)
+                                    + 2 * x * x * y * z / (R * R * R * Rxz * Rxz * Rxz)
+                                    + 3 * x * x * y * z / (R * Rxz * Rxz * Rxz * Rxz * Rxz)
+                                    - y * z / (R * R * R * Rxz)
+                                    - y * z / (R * Rxz * Rxz * Rxz);
+
+
+                            returnval[1] = x / (Rxz * Rxz * Rxz) - 3 * x * z * z / (Rxz * Rxz * Rxz * Rxz * Rxz);
+
+                            returnval[2] = 3 * x * x * z / (R * R * R * R * R) - z / (R * R * R);
+
+
+                            return returnval;
+
+                    }
+                    break;
+                case 1:
+
+                    switch (B) {
+
+                        case 1://partial wrt y and y
+                            returnval[0] = 3 * x * y * y * y / (R * R * R * R * R * Rxz)
+                                    - 3 * x * y / (R * R * R * Rxz);
+
+                            returnval[1] = 0;
+
+                            returnval[2] = 3 * x * y * y / (R * R * R * R * R) - x / (R * R * R);
+
+                            return returnval;
+
+                        case 2://partial wrt y and z
+                            returnval[0] = 3 * x * y * y * z / (R * R * R * R * R * Rxz)
+                                    + x * y * y * z / (R * R * R * Rxz * Rxz * Rxz)
+                                    - x * z / (R * Rxz * Rxz * Rxz)
+                                    - x * z / (R * R * R * Rxz);
+
+                            returnval[1] = 0;
+
+                            returnval[2] = 3 * x * y * z / (R * R * R * R * R);
+
+
+                            return returnval;
+
+                    }
+                case 2:
+                    returnval[0] = 3 * x * y * z * z / (R * R * R * R * R * Rxz)
+                            + 3 * x * y * z * z / (R * Rxz * Rxz * Rxz * Rxz * Rxz)
+                            + 2 * x * y * z * z / (R * R * R * Rxz * Rxz * Rxz)
+                            - x * y / (R * Rxz * Rxz * Rxz) - x * y / (R * R * R * Rxz);
+
+                    returnval[1] = 3 * z / (Rxz * Rxz * Rxz) - 3 * z * z * z / (Rxz * Rxz * Rxz * Rxz * Rxz);
+
+                    returnval[2] = 3 * x * z * z / (R * R * R * R * R) - x / (R * R * R);
+
+
+                    return returnval;
+                default:
+            }
+        } else if (a.getj() == 1 && a.getL() == 1) {
+
+            switch (A) {
+                case 0:
+
+                    switch (B) {
+                        case 0: //partial wrt x and x
+                            returnval[0] = 2 * x * x / (R * R * R * Rxz) + x * x / (R * Rxz * Rxz * Rxz)
+                                    + Rxz / (R * R * R) - 1 / (R * Rxz) - 3 * x * x * Rxz / (R * R * R * R * R);
+                            returnval[1] = 0;
+
+                            returnval[2] = 3 * x * x * y / (R * R * R * R * R) - y / (R * R * R);
+
+                            return returnval;
+
+                        case 1://partial wrt x and y
+                            returnval[0] = x * y / (R * R * R * Rxz) - 3 * x * y * Rxz / (R * R * R * R * R);
+
+                            returnval[1] = 0;
+
+                            returnval[2] = 3 * x * y * y / (R * R * R * R * R) - x / (R * R * R);
+
+
+                            return returnval;
+
+                        case 2://partial wrt x and z
+
+                            returnval[0] = 2 * x * z / (R * R * R * Rxz) + x * z / (R * Rxz * Rxz * Rxz)
+                                    - 3 * x * z * Rxz / (R * R * R * R * R);
+
+                            returnval[1] = 0;
+
+                            returnval[2] = 3 * x * y * z / (R * R * R * R * R);
+
+
+                            return returnval;
+
+                    }
+                    break;
+                case 1:
+
+                    switch (B) {
+
+                        case 1: //partial wrt y and y
+                            returnval[0] = Rxz / (R * R * R) - 3 * y * y * Rxz / (R * R * R * R * R);
+
+                            returnval[1] = 0;
+
+                            returnval[2] = 3 * y * y * y / (R * R * R * R * R) - 3 * y / (R * R * R);
+
+                            return returnval;
+
+                        case 2://partial wrt y and z
+                            returnval[0] = y * z / (R * R * R * Rxz) - 3 * y * z * Rxz / (R * R * R * R * R);
+
+                            returnval[1] = 0;
+
+                            returnval[2] = 3 * y * y * z / (R * R * R * R * R) - z / (R * R * R);
+
+
+                            return returnval;
+
+                    }
+                case 2:
+                    returnval[0] = 2 * z * z / (R * R * R * Rxz) + z * z / (R * Rxz * Rxz * Rxz)
+                            + Rxz / (R * R * R) - 1 / (R * Rxz) - 3 * z * z * Rxz / (R * R * R * R * R);
+
+                    returnval[1] = 0;
+
+                    returnval[2] = 3 * y * z * z / (R * R * R * R * R) - y / (R * R * R);
+
+
+                    return returnval;
+                default:
+            }
+        } else if (a.getk() == 1 && a.getL() == 1) {
+
+            switch (A) {
+                case 0:
+
+                    switch (B) {
+
+                        case 0: //partial wrt x and x
+                            returnval[0] = 2 * x * x * y * z / (R * R * R * Rxz * Rxz * Rxz) + 3 * x * x * y * z / (R * R * R * R * R * Rxz)
+                                    + 3 * x * x * y * z / (R * Rxz * Rxz * Rxz * Rxz * Rxz) - y * z / (R * R * R * Rxz) - y * z / (R * Rxz * Rxz * Rxz);
+
+                            returnval[1] = 3 * x * x * x / (Rxz * Rxz * Rxz * Rxz * Rxz) - 3 * x / (Rxz * Rxz * Rxz);
+
+                            returnval[2] = 3 * x * x * z / (R * R * R * R * R) - z / (R * R * R);
+
+                            return returnval;
+
+                        case 1://partial wrt x and y
+                            returnval[0] = 3 * x * y * y * z / (R * R * R * R * R * Rxz)
+                                    + x * y * y * z / (R * R * R * Rxz * Rxz * Rxz)
+                                    - x * z / (R * Rxz * Rxz * Rxz) - x * z / (R * R * R * Rxz);
+
+                            returnval[1] = 0;
+
+                            returnval[2] = 3 * x * y * z / (R * R * R * R * R);
+
+
+
+                            return returnval;
+
+                        case 2://partial wrt x and z
+
+                            returnval[0] = 2 * x * y * z * z / (R * R * R * Rxz * Rxz * Rxz) + 3 * x * y * z * z / (R * R * R * R * R * Rxz)
+                                    + 3 * x * y * z * z / (R * Rxz * Rxz * Rxz * Rxz * Rxz) - x * y / (R * Rxz * Rxz * Rxz) - x * y / (R * R * R * Rxz);
+
+                            returnval[1] = 3 * x * x * z / (Rxz * Rxz * Rxz * Rxz * Rxz) - z / (Rxz * Rxz * Rxz);
+
+                            returnval[2] = 3 * x * z * z / (R * R * R * R * R) - x / (R * R * R);
+
+
+                            return returnval;
+
+                    }
+                    break;
+                case 1:
+
+                    switch (B) {
+
+                        case 1: //partial wrt y and y
+                            returnval[0] = 3 * y * y * y * z / (R * R * R * R * R * Rxz) - 3 * y * z / (R * R * R * Rxz);
+
+                            returnval[1] = 0;
+
+                            returnval[2] = 3 * y * y * z / (R * R * R * R * R) - z / (R * R * R);
+
+                            return returnval;
+
+                        case 2://partial wrt y and z
+
+                            returnval[0] = 1 / (R * Rxz) + 3 * y * y * z * z / (R * R * R * R * R * Rxz)
+                                    + y * y * z * z / (R * R * R * Rxz * Rxz * Rxz) - y * y / (R * R * R * Rxz)
+                                    - z * z / (R * Rxz * Rxz * Rxz) - z * z / (R * R * R * Rxz);
+
+                            returnval[1] = 0;
+
+                            returnval[2] = 3 * y * z * z / (R * R * R * R * R) - y / (R * R * R);
+
+
+                            return returnval;
+
+                    }
+                case 2:
+                    returnval[0] = 3 * y * z * z * z / (R * R * R * R * R * Rxz) + 2 * y * z * z * z / (R * R * R * Rxz * Rxz * Rxz)
+                            + 3 * y * z * z * z / (R * Rxz * Rxz * Rxz * Rxz * Rxz) - 3 * y * z / (R * Rxz * Rxz * Rxz) - 3 * y * z / (R * R * R * Rxz);
+
+                    returnval[1] = 3 * x * z * z / (Rxz * Rxz * Rxz * Rxz * Rxz) - x / (Rxz * Rxz * Rxz);
+
+                    returnval[2] = 3 * z * z * z / (R * R * R * R * R) - 3 * z / (R * R * R);
+
+                    return returnval;
+                default:
+            }
+        }
+
+        System.err.println ("oh no!");
+
+        return new double[] {0, 0, 0};
+
+
+    }
+
     public static double getGderiv2(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d, int tau1, int tau2) {
+
+        
+
         double[] coeffA = a.decomposition(a.getCoords(), c.getCoords());
         double[] coeffB = b.decomposition(a.getCoords(), c.getCoords());
         double[] coeffC = c.decomposition(a.getCoords(), c.getCoords());
@@ -1083,10 +1375,35 @@ public class NDDOSecondDerivative {
         double[] coeffCderiv2 = NDDODerivative.derivativeDecomposition(a.getCoords(), c.getCoords(), c, tau2);
         double[] coeffDderiv2 = NDDODerivative.derivativeDecomposition(a.getCoords(), c.getCoords(), d, tau2);
 
-        double[] coeffAderiv = derivativeDecomposition2(a.getCoords(), c.getCoords(), a, tau1, tau2);
-        double[] coeffBderiv = derivativeDecomposition2(a.getCoords(), c.getCoords(), b, tau1, tau2);
-        double[] coeffCderiv = derivativeDecomposition2(a.getCoords(), c.getCoords(), c, tau1, tau2);
-        double[] coeffDderiv = derivativeDecomposition2(a.getCoords(), c.getCoords(), d, tau1, tau2);
+        double[] coeffAderiv = secondDerivativeDecomposition(a.getCoords(), c.getCoords(), a, tau1, tau2);
+        double[] coeffBderiv = secondDerivativeDecomposition(a.getCoords(), c.getCoords(), b, tau1, tau2);
+        double[] coeffCderiv = secondDerivativeDecomposition(a.getCoords(), c.getCoords(), c, tau1, tau2);
+        double[] coeffDderiv = secondDerivativeDecomposition(a.getCoords(), c.getCoords(), d, tau1, tau2);
+
+        if (Math.abs(a.getCoords()[0] - c.getCoords()[0]) < 1E-3 && Math.abs(a.getCoords()[1] - c.getCoords()[1]) < 1E-3) {
+            
+            coeffAderiv = secondDerivativeDecomposition2(a.getCoords(), c.getCoords(), a, tau1, tau2);
+            coeffBderiv = secondDerivativeDecomposition2(a.getCoords(), c.getCoords(), b, tau1, tau2);
+            coeffCderiv = secondDerivativeDecomposition2(a.getCoords(), c.getCoords(), c, tau1, tau2);
+            coeffDderiv = secondDerivativeDecomposition2(a.getCoords(), c.getCoords(), d, tau1, tau2);
+
+            coeffAderiv2 = NDDODerivative.derivativeDecomposition2(a.getCoords(), c.getCoords(), a, tau2);
+            coeffBderiv2 = NDDODerivative.derivativeDecomposition2(a.getCoords(), c.getCoords(), b, tau2);
+            coeffCderiv2 = NDDODerivative.derivativeDecomposition2(a.getCoords(), c.getCoords(), c, tau2);
+            coeffDderiv2 = NDDODerivative.derivativeDecomposition2(a.getCoords(), c.getCoords(), d, tau2);
+
+            coeffAderiv1 = NDDODerivative.derivativeDecomposition2(a.getCoords(), c.getCoords(), a, tau1);
+            coeffBderiv1 = NDDODerivative.derivativeDecomposition2(a.getCoords(), c.getCoords(), b, tau1);
+            coeffCderiv1 = NDDODerivative.derivativeDecomposition2(a.getCoords(), c.getCoords(), c, tau1);
+            coeffDderiv1 = NDDODerivative.derivativeDecomposition2(a.getCoords(), c.getCoords(), d, tau1);
+
+            coeffA = a.decomposition2(a.getCoords(), c.getCoords());
+            coeffB = b.decomposition2(a.getCoords(), c.getCoords());
+            coeffC = c.decomposition2(a.getCoords(), c.getCoords());
+            coeffD = d.decomposition2(a.getCoords(), c.getCoords());
+            
+
+        }
 
 
         NDDO6G[] A = a.orbitalArray();
@@ -1342,95 +1659,104 @@ public class NDDOSecondDerivative {
 
         DoubleMatrix[] densityderivs = new DoubleMatrix [fockderivstatic.length];
 
-        DoubleMatrix A = DoubleMatrix.zeros(NOcc * NVirt, NOcc * NVirt);
+//        DoubleMatrix A = DoubleMatrix.zeros(NOcc * NVirt, NOcc * NVirt);
+//
+//        DoubleMatrix F = DoubleMatrix.zeros(NOcc * NVirt, fockderivstatic.length);
+//
+//        int count1 = 0;
+//
+//        for (int i = 0; i < NOcc; i++) {
+//            for (int j = 0; j < NVirt; j++) {
+//
+//                int count2 = 0;
+//
+//                double energydiff = soln.E.get(NOcc + j) - soln.E.get(i);
+//
+//
+//
+//                for (int index = 0; index < fockderivstatic.length; index++) {
+//
+//                    double element = 0;
+//
+//                    for (int u = 0; u < soln.orbitals.length; u++) {
+//                        for (int v = 0; v < soln.orbitals.length; v++) {
+//                            element += soln.C.get(i, u) * soln.C.get(j + NOcc, v) * fockderivstatic[index].get(u, v);
+//                        }
+//                    }
+//
+//
+//                    F.put(count1, index, element);
+//                }
+//
+//
+//                for (int k = 0; k < NOcc; k++) {
+//                    for (int l = 0; l < NVirt; l++) {
+//
+//                        double coeff = 4 * ERIMOBasis(soln, i, j + NOcc, k, l + NOcc) - ERIMOBasis(soln, i, k, j + NOcc, l + NOcc) - ERIMOBasis(soln, i, l + NOcc, j + NOcc, k);
+//
+//                        if (i == k && j == l) {
+//                            coeff += energydiff;
+//                        }
+//
+//                        A.put(count1, count2, coeff);
+//
+//                        count2++;
+//                    }
+//                    //System.out.println ("A row of A is done");
+//                }
+//
+//
+//
+//
+//                count1++;
+//            }
+//        }
+//
+//        //System.out.println ("A is done");
+//
+//
+//        if (NOcc == 0) {
+//            for (int index = 0; index < densityderivs.length; index++) {
+//                densityderivs[index] = DoubleMatrix.zeros (soln.orbitals.length, soln.orbitals.length);
+//            }
+//        }
+//        else {
+//            DoubleMatrix sol = Solve.solve(A, F);
+//
+//            System.err.println (sol);
+//
+//            //System.err.println ("This is how slow it is, you idiot");
+//
+//
+//
+//            for (int index = 0; index < densityderivs.length; index++) {
+//                DoubleMatrix  densityderiv = DoubleMatrix.zeros (soln.orbitals.length, soln.orbitals.length);
+//
+//                for (int u = 0; u < densityderiv.rows; u++) {
+//                    for (int v = 0; v < densityderiv.columns; v++) {
+//                        double sum = 0;
+//                        int count = 0;
+//                        for (int i = 0; i < NOcc; i++) {
+//                            for (int j = 0; j < NVirt; j++) {
+//                                sum -= 2 * (soln.C.get(i, u) * soln.C.get(j + NOcc, v) + soln.C.get(j + NOcc, u) * soln.C.get(i, v)) * sol.get(count, index);
+//                                count++;
+//                            }
+//                        }
+//
+//                        densityderiv.put(u, v, sum);
+//                    }
+//                }
+//
+//                densityderivs[index] = densityderiv;
+//            }
+//        }
 
-        DoubleMatrix F = DoubleMatrix.zeros(NOcc * NVirt, fockderivstatic.length);
+        int count = 0;
 
-        int count1 = 0;
-
-        for (int i = 0; i < NOcc; i++) {
-            for (int j = 0; j < NVirt; j++) {
-
-                int count2 = 0;
-
-                double energydiff = soln.E.get(NOcc + j) - soln.E.get(i);
-
-
-
-                for (int index = 0; index < fockderivstatic.length; index++) {
-
-                    double element = 0;
-
-                    for (int u = 0; u < soln.orbitals.length; u++) {
-                        for (int v = 0; v < soln.orbitals.length; v++) {
-                            element += soln.C.get(i, u) * soln.C.get(j + NOcc, v) * fockderivstatic[index].get(u, v);
-                        }
-                    }
-
-
-                    F.put(count1, index, element);
-                }
-
-
-                for (int k = 0; k < NOcc; k++) {
-                    for (int l = 0; l < NVirt; l++) {
-
-                        double coeff = 4 * ERIMOBasis(soln, i, j + NOcc, k, l + NOcc) - ERIMOBasis(soln, i, k, j + NOcc, l + NOcc) - ERIMOBasis(soln, i, l + NOcc, j + NOcc, k);
-
-                        if (i == k && j == l) {
-                            coeff += energydiff;
-                        }
-
-                        A.put(count1, count2, coeff);
-
-                        count2++;
-                    }
-                    //System.out.println ("A row of A is done");
-                }
-
-
-
-
-                count1++;
-            }
-        }
-
-        //System.out.println ("A is done");
-
-
-        if (NOcc == 0) {
-            for (int index = 0; index < densityderivs.length; index++) {
-                densityderivs[index] = DoubleMatrix.zeros (soln.orbitals.length, soln.orbitals.length);
-            }
-        }
-        else {
-            DoubleMatrix sol = Solve.solve(A, F);
-
-            System.err.println (sol);
-
-            //System.err.println ("This is how slow it is, you idiot");
-
-
-
-            for (int index = 0; index < densityderivs.length; index++) {
-                DoubleMatrix  densityderiv = DoubleMatrix.zeros (soln.orbitals.length, soln.orbitals.length);
-
-                for (int u = 0; u < densityderiv.rows; u++) {
-                    for (int v = 0; v < densityderiv.columns; v++) {
-                        double sum = 0;
-                        int count = 0;
-                        for (int i = 0; i < NOcc; i++) {
-                            for (int j = 0; j < NVirt; j++) {
-                                sum -= 2 * (soln.C.get(i, u) * soln.C.get(j + NOcc, v) + soln.C.get(j + NOcc, u) * soln.C.get(i, v)) * sol.get(count, index);
-                                count++;
-                            }
-                        }
-
-                        densityderiv.put(u, v, sum);
-                    }
-                }
-
-                densityderivs[index] = densityderiv;
+        for (int a = 0; a < atoms.length; a++) {
+            for (int tau = 0; tau < 3; tau++) {
+                densityderivs[count] = NDDODerivative.densitymatrixderivfinite(atoms, soln, a, tau);
+                count++;
             }
         }
 
