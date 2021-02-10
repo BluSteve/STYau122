@@ -1511,47 +1511,6 @@ public class NDDOSecondDerivative {
 
     }
 
-    public static double hessian (NDDOAtom[] atoms,NDDOSolutionRestricted soln, int atomnum1, int tau1, int atomnum2, int tau2) {
-
-        double E = 0;
-
-        if (atomnum1 == atomnum2) {
-            for (int a = 0; a < atoms.length; a++) {
-                if (a != atomnum1) {
-                    E += Ederiv2 (atomnum1, a, soln.index, soln.densityMatrix(), atoms, soln.orbitals, tau1, tau2);
-                    E += atoms[atomnum1].crfDeriv2(atoms[a], tau1, tau2);
-                }
-            }
-        }
-        else {
-            E = - Ederiv2 (atomnum1, atomnum2, soln.index, soln.densityMatrix(), atoms, soln.orbitals, tau1, tau2) - atoms[atomnum1].crfDeriv2(atoms[atomnum2], tau1, tau2);
-
-        }
-
-        DoubleMatrix fockderivstatic = NDDODerivative.staticfockderivative(atoms, soln, atomnum1, tau1);
-        DoubleMatrix densityderiv = NDDODerivative.densitymatrixderivfinite(atoms, soln, atomnum2, tau2);
-
-        DoubleMatrix densityderivcheck = densitymatrixderiv(atoms, soln, NDDODerivative.staticfockderivative(atoms, soln, atomnum2, tau2 ));
-
-        for (int i = 0; i < densityderiv.rows; i++) {
-            for (int j = 0; j < densityderiv.rows; j++) {
-                if (Math.abs(densityderiv.get(i, j) - densityderivcheck.get(i, j)) > 1E-5) {
-                    System.err.println ("oh no");
-                    System.err.println (densityderiv);
-                    System.err.println (densityderivcheck);
-                    System.exit (0);
-                }
-            }
-        }
-
-        for (int i = 0; i < soln.orbitals.length; i++) {
-            for (int j = 0; j < soln.orbitals.length; j++) {
-                E += fockderivstatic.get(i, j) * densityderiv.get (i, j);
-            }
-        }
-
-        return E;
-    }
 
     public static double hessianfinite (NDDOAtom[] atoms,NDDOSolutionRestricted soln, int atomnum1, int tau1, int atomnum2, int tau2) {
 

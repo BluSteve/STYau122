@@ -25,9 +25,9 @@ public class NDDOGeometryOptimizationRestricted extends NDDOGeometryOptimization
 
         DoubleMatrix gradient = matrices[0][0];
 
-        DoubleMatrix hessian = NDDOSecondDerivative.hessianroutine(atoms, (NDDOSolutionRestricted) s, matrices[1]);
+        //DoubleMatrix hessian = NDDOSecondDerivative.hessianroutine(atoms, (NDDOSolutionRestricted) s, matrices[1]);
 
-        //DoubleMatrix hessian = DoubleMatrix.eye(gradient.length);
+        DoubleMatrix hessian = DoubleMatrix.eye(gradient.length);
 
         return new DoubleMatrix[] {gradient, hessian};
     }
