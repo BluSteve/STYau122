@@ -1511,6 +1511,52 @@ public class NDDOSecondDerivative {
 
     }
 
+    private static double Ederiv2( int atomnum1, int atomnum2, int[][] index, DoubleMatrix alphaDensity, DoubleMatrix betaDensity, NDDOAtom[] atoms, NDDO6G[] orbitals, int tau1, int tau2) {
+
+        double e = 0;
+
+        for (int i: index[atomnum1]) {
+            for (int j: index[atomnum1]) {
+                if (i != -1 && j != -1) {
+                    e += (alphaDensity.get(i, j) + betaDensity.get(i, j)) * atoms[atomnum2].Vderiv2(orbitals[i], orbitals[j], tau1, tau2);
+                }
+            }
+        }
+
+        for (int k: index[atomnum2]) {
+            for (int l: index[atomnum2]) {
+                if (k != -1 && l != -1) {
+                    e += (alphaDensity.get(k, l) + betaDensity.get(k, l)) * atoms[atomnum1].Vderiv2(orbitals[k], orbitals[l], tau1, tau2);
+                }
+            }
+        }
+
+        for (int i: index[atomnum1]) {
+            for (int k: index[atomnum2]) {
+                if (i != -1 && k != -1) {
+                    e += 2 * (alphaDensity.get(i, k) + betaDensity.get(i, k)) * NDDO6G.betaderiv2(orbitals[i], orbitals[k], tau1, tau2);
+                }
+            }
+        }
+
+        for (int i: index[atomnum1]) {
+            for (int j: index[atomnum1]) {
+                for (int k: index[atomnum2]) {
+                    for (int l: index[atomnum2]) {
+                        if (i != -1 && j != -1 && k != -1 && l != -1) {
+                            e += ((alphaDensity.get(i, j) + betaDensity.get(i, j)) * (alphaDensity.get(k, l) + betaDensity.get(k, l)) - alphaDensity.get (i, k) * alphaDensity.get(j, l) - betaDensity.get (i, k) * betaDensity.get(j, l))
+                                    * NDDOSecondDerivative.getGderiv2(orbitals[i], orbitals[j], orbitals[k], orbitals[l], tau1, tau2);
+                        }
+                    }
+                }
+            }
+        }
+
+        return e;
+
+
+    }
+
 
     public static double hessianfinite (NDDOAtom[] atoms,NDDOSolutionRestricted soln, int atomnum1, int tau1, int atomnum2, int tau2) {
 
@@ -1527,94 +1573,22 @@ public class NDDOSecondDerivative {
 
     }
 
-    public static DoubleMatrix densitymatrixderiv (NDDOAtom[] atoms, NDDOSolutionRestricted soln, DoubleMatrix fockderivstatic) {
+    public static double hessianfinite (NDDOAtom[] atoms,NDDOSolutionUnrestricted soln, int atomnum1, int tau1, int atomnum2, int tau2) {
 
-        int NOcc = (int) (soln.nElectrons / 2.0);
+        double initval = NDDODerivative.gradientUnrestricted(atoms, soln, atomnum1, tau1);
 
-        int NVirt = soln.orbitals.length - NOcc;
+        NDDOAtom[] newatoms = Utils.perturbAtomCoords(atoms, atomnum2, tau2);
 
+        NDDOSolutionUnrestricted newsoln = new NDDOSolutionUnrestricted (newatoms, soln.charge, soln.multiplicity);
 
-        DoubleMatrix A = DoubleMatrix.zeros(NOcc * NVirt, NOcc * NVirt);
+        double finalval = NDDODerivative.gradientUnrestricted(newatoms, newsoln, atomnum1, tau1);
 
-        DoubleMatrix F = DoubleMatrix.zeros(NOcc * NVirt, 1);
+        return 1E7 * (finalval - initval);
 
-        int count1 = 0;
-
-        for (int i = 0; i < NOcc; i++) {
-            for (int j = 0; j < NVirt; j++) {
-
-                int count2 = 0;
-
-                double energydiff = soln.E.get(NOcc + j) - soln.E.get(i);
-
-                double element = 0;
-
-                for (int u = 0; u < soln.orbitals.length; u++) {
-                    for (int v = 0; v < soln.orbitals.length; v++) {
-                        element += soln.C.get(i, u) * soln.C.get(j + NOcc, v) * fockderivstatic.get(u, v);
-                    }
-                }
-
-
-                F.put(count1, element);
-
-
-                for (int k = 0; k < NOcc; k++) {
-                    for (int l = 0; l < NVirt; l++) {
-
-                        double coeff = 4 * ERIMOBasis(soln, i, j + NOcc, k, l + NOcc) - ERIMOBasis(soln, i, k, j + NOcc, l + NOcc) - ERIMOBasis(soln, i, l + NOcc, j + NOcc, k);
-
-                        if (i == k && j == l) {
-                            coeff += energydiff;
-                        }
-
-                        A.put(count1, count2, coeff);
-                        count2++;
-                    }
-                }
-
-
-                count1++;
-            }
-        }
-
-        DoubleMatrix  densityderiv = DoubleMatrix.zeros (soln.orbitals.length, soln.orbitals.length);
-
-        if (NOcc == 0) {
-            return densityderiv;
-        }
-
-        DoubleMatrix sol = Solve.solve(A, F);
-
-        System.err.println (sol);
-
-        System.err.println ("This is how slow it is, you idiot");
-
-
-
-        for (int u = 0; u < densityderiv.rows; u++) {
-            for (int v = 0; v < densityderiv.columns; v++) {
-                double sum = 0;
-                int count = 0;
-                for (int i = 0; i < NOcc; i++) {
-                    for (int j = 0; j < NVirt; j++) {
-                        sum -= 2 * (soln.C.get(i, u) * soln.C.get(j + NOcc, v) + soln.C.get(j + NOcc, u) * soln.C.get(i, v)) * sol.get(count);
-                        count++;
-                    }
-                }
-
-                densityderiv.put(u, v, sum);
-            }
-        }
-
-        return densityderiv;
 
     }
 
     public static DoubleMatrix hessianroutine (NDDOAtom[] atoms, NDDOSolutionRestricted soln, DoubleMatrix[] fockderivstatic) {
-        int NOcc = (int) (soln.nElectrons / 2.0);
-
-        int NVirt = soln.orbitals.length - NOcc;
 
         DoubleMatrix[] densityderivs = new DoubleMatrix [fockderivstatic.length];
 
@@ -1751,6 +1725,71 @@ public class NDDOSecondDerivative {
                 for (int I = 0; I < soln.orbitals.length; I++) {
                     for (int J = 0; J < soln.orbitals.length; J++) {
                         E += fockderivstatic[i].get(I, J) * densityderivs[j].get (I, J);
+                    }
+                }
+
+                hessian.put (i, j, E);
+                hessian.put(j, i, E);
+            }
+        }
+
+        return hessian;
+
+
+    }
+
+    public static DoubleMatrix hessianroutine (NDDOAtom[] atoms, NDDOSolutionUnrestricted soln, DoubleMatrix[] fockderivstaticalpha, DoubleMatrix[] fockderivstaticbeta) {
+
+
+        DoubleMatrix[] densityderivsalpha = new DoubleMatrix [fockderivstaticalpha.length];
+        DoubleMatrix[] densityderivsbeta = new DoubleMatrix [fockderivstaticbeta.length];
+
+
+        int count = 0;
+
+        for (int a = 0; a < atoms.length; a++) {
+            for (int tau = 0; tau < 3; tau++) {
+
+                DoubleMatrix[] matrices = NDDODerivative.densitymatrixderivfinite(atoms, soln, a, tau);
+                densityderivsalpha[count] = matrices[0];
+                densityderivsbeta[count] = matrices[1];
+                count++;
+            }
+        }
+
+        DoubleMatrix hessian = new DoubleMatrix (densityderivsalpha.length, densityderivsalpha.length);
+
+        for (int i = 0; i < hessian.rows; i++) {
+            for (int j = i; j < hessian.rows; j++) {
+
+                double E = 0;
+
+                int atomnum1 = i / 3;
+
+                int atomnum2 = j / 3;
+
+                int tau1 = i - 3 * atomnum1;
+
+                int tau2 = j - 3 * atomnum2;
+
+                if (atomnum1 == atomnum2) {
+                    for (int a = 0; a < atoms.length; a++) {
+                        if (a != atomnum1) {
+                            E += Ederiv2 (atomnum1, a, soln.index, soln.alphaDensity(), soln.betaDensity(), atoms, soln.orbitals, tau1, tau2);
+                            E += atoms[atomnum1].crfDeriv2(atoms[a], tau1, tau2);
+                        }
+                    }
+                }
+                else {
+                    E = - Ederiv2 (atomnum1, atomnum2, soln.index, soln.alphaDensity(), soln.betaDensity(), atoms, soln.orbitals, tau1, tau2) - atoms[atomnum1].crfDeriv2(atoms[atomnum2], tau1, tau2);
+
+                }
+
+
+                for (int I = 0; I < soln.orbitals.length; I++) {
+                    for (int J = 0; J < soln.orbitals.length; J++) {
+                        E += fockderivstaticalpha[i].get(I, J) * densityderivsalpha[j].get (I, J);
+                        E += fockderivstaticbeta[i].get(I, J) * densityderivsbeta[j].get (I, J);
                     }
                 }
 

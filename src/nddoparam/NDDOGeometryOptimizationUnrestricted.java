@@ -14,11 +14,19 @@ public class NDDOGeometryOptimizationUnrestricted extends NDDOGeometryOptimizati
     }
 
     protected double derivative(int i, int j) {
-        return NDDODerivative.gradientUnrestricted(atoms, s, i, j);
+        return NDDODerivative.gradientUnrestricted(atoms, (NDDOSolutionUnrestricted) s, i, j);
     }
 
     protected DoubleMatrix[] routine() {
-        return null;
+        DoubleMatrix[][] matrices = NDDODerivative.gradientroutine(atoms, (NDDOSolutionUnrestricted) s);
+
+        DoubleMatrix gradient = matrices[0][0];
+
+        DoubleMatrix hessian = NDDOSecondDerivative.hessianroutine(atoms, (NDDOSolutionUnrestricted) s, matrices[1], matrices[2]);
+
+        //DoubleMatrix hessian = DoubleMatrix.eye(gradient.length);
+
+        return new DoubleMatrix[] {gradient, hessian};
     }
 
 

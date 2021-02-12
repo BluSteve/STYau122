@@ -23,31 +23,10 @@ public abstract class NDDOGeometryOptimization {
         System.out.println(s.getMoleculeName() + " Current HOMO energy: " + s.homo + " eV");
         System.out.println("-----------------------------------------------");
 
-        DoubleMatrix B = DoubleMatrix.eye(atoms.length * 3);
+        DoubleMatrix[] matrices = routine();
 
-        if (mult == 1) {
-
-            DoubleMatrix[] matrices = routine();
-
-            gradient = matrices[0];
-            B = matrices[1];
-
-        }
-        else {
-            gradient = new DoubleMatrix(atoms.length * 3, 1);
-
-            int index = 0;
-            for (int a = 0; a < atoms.length; a++) {
-                for (int i = 0; i < 3; i++) {
-                    gradient.put(index, 0, derivative(a, i));
-                    index++;
-                }
-            }
-
-
-
-
-        }
+        gradient = matrices[0];
+        DoubleMatrix B = matrices[1];
 
         int index;
 
@@ -78,7 +57,7 @@ public abstract class NDDOGeometryOptimization {
             refEnergy = 0;
 
 
-            while (Math.abs(energy - refEnergy) > 1E-6) {
+            while (Math.abs(energy - refEnergy) > 1E-8) {
                 refEnergy = energy;
 
                 count = 0;
