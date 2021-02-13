@@ -31,19 +31,15 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="Implemented second-derivative methods for UHF. Still no CRF second derivatives.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MNDOHessianUpdateData.txt" beforeDir="false" afterPath="$PROJECT_DIR$/MNDOHessianUpdateData.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mndooutput.txt" beforeDir="false" afterPath="$PROJECT_DIR$/mndooutput.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mndoparams.txt" beforeDir="false" afterPath="$PROJECT_DIR$/mndoparams.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDODerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDODerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDOGeometryOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDOGeometryOptimization.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDOGeometryOptimizationRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDOGeometryOptimizationRestricted.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDOGeometryOptimizationUnrestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDOGeometryOptimizationUnrestricted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDOSecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDOSecondDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/NDDOParamErrorFunctionUnrestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/NDDOParamErrorFunctionUnrestricted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDOSolutionRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDOSolutionRestricted.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -172,6 +168,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="Downloaded.Files.Path.Enabled" value="false" />
     <property name="Repository.Attach.Annotations" value="false" />
     <property name="Repository.Attach.JavaDocs" value="false" />
@@ -459,7 +456,14 @@
       <option name="project" value="LOCAL" />
       <updated>1612823799049</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Implemented second-derivative methods for UHF. Still no CRF second derivatives.">
+      <created>1613146655402</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1613146655402</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -547,7 +551,8 @@
     <MESSAGE value="Working implementation of OF for CHN." />
     <MESSAGE value="Necessary ERI and overlap integral derivatives for 2nd-derivative evaluation. No core-repulsion function." />
     <MESSAGE value="2nd-derivative evaluation (inefficient). No core-repulsion function." />
-    <option name="LAST_COMMIT_MESSAGE" value="2nd-derivative evaluation (inefficient). No core-repulsion function." />
+    <MESSAGE value="Implemented second-derivative methods for UHF. Still no CRF second derivatives." />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented second-derivative methods for UHF. Still no CRF second derivatives." />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/scf/AtomHandler.java">

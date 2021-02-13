@@ -156,7 +156,7 @@ public class Main {
                 // requests contains 1 request for every molecule.
                 int cores = Runtime.getRuntime().availableProcessors();
                 pw.println("Running on " + cores + " cores.");
-                int remainingNonParallel = 5;
+                int remainingNonParallel = 14;
                 // if requests less than remainingNonParallel then just use parallel computation for one of them
                 int maxParallel = remainingNonParallel < requests.size() ? requests.size() - remainingNonParallel : 1;
                 List<ComputationRequest> ParallelComputationRequests = requests.subList(0, maxParallel);

@@ -10,6 +10,8 @@ public class NDDOSolutionRestricted extends NDDOSolution {
 
     private DoubleMatrix densityMatrix;
 
+    protected double[] integralArray;
+
     public DoubleMatrix C, F, G, E;//H - core matrix, G = 2-electron matrix, F = fock matrix, C = coeffecient matrix (transposed for easier reading), E = eigenvalues
 
     public NDDOSolutionRestricted(NDDOAtom[] atoms, int charge) {
@@ -65,7 +67,7 @@ public class NDDOSolutionRestricted extends NDDOSolution {
                 }
             }
         }
-        double[] integralArray = new double[size];
+        integralArray = new double[size];
         //The idea of the integralarray is to simply store all the integrals in order they are called. It's basically my way of avoiding having to perform a Yoshemine sort.
         // TODO re-implement HashMap
         int integralcount = 0;
