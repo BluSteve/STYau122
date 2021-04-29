@@ -45,8 +45,11 @@ public abstract class NDDOGeometryOptimization {
         double scale;
         int count;
         counter = 0;
+        int numIt = 0;
 
         while (mag(gradient) > 0.005) {
+
+            numIt++;
 
             System.out.println("Gradient: " + mag(gradient));
 
@@ -56,8 +59,10 @@ public abstract class NDDOGeometryOptimization {
 
             refEnergy = 0;
 
+            int numSearch = 0;
 
             while (Math.abs(energy - refEnergy) > 1E-8) {
+
                 refEnergy = energy;
 
                 count = 0;
@@ -82,6 +87,15 @@ public abstract class NDDOGeometryOptimization {
 
                 if (energy > refEnergy) {
                     scale *= -0.5;
+                    numSearch = 0;
+                }
+                else {
+                    numSearch++;
+
+                    if (numSearch >= 5) {
+                        scale *= 2;
+                        numSearch = 0;
+                    }
                 }
 
             }
@@ -116,6 +130,17 @@ public abstract class NDDOGeometryOptimization {
                 B = DoubleMatrix.eye(atoms.length * 3);
 
                 searchdir = Solve.pinv(B).mmul(gradient).mmul(-1);
+
+            }
+
+            if (numIt == 5) {
+                numIt = 0;
+
+                matrices = routine();
+
+                B = matrices[1];
+
+                searchdir = Solve.pinv (B).mmul(gradient).mul(-1);
 
             }
 
