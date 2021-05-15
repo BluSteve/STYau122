@@ -15,12 +15,10 @@ public class NDDOGeometryOptimizationRestricted extends NDDOGeometryOptimization
     }
 
     protected double derivative(int i, int j) {
-
         return NDDODerivative.grad(atoms, (NDDOSolutionRestricted) s, i, j);
     }
 
     protected DoubleMatrix[] routine() {
-
         DoubleMatrix[][] matrices = NDDODerivative.gradientroutine(atoms, (NDDOSolutionRestricted) s);
 
         DoubleMatrix gradient = matrices[0][0];

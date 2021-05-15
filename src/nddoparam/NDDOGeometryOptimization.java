@@ -30,15 +30,13 @@ public abstract class NDDOGeometryOptimization {
 
         int index;
 
-
         double sum = 0;
         for (int i = 0; i < gradient.length; i++) {
             sum += gradient.get(i) * gradient.get(i);
         }
         sum = Math.sqrt(sum);
 
-        DoubleMatrix searchdir;
-        searchdir = Solve.pinv (B).mmul(gradient).mul(-1 / sum);
+        DoubleMatrix searchdir = Solve.pinv(B).mmul(gradient).mul(-1 / sum);
         DoubleMatrix oldgrad;
 
         double energy = refEnergy - 1;
@@ -48,42 +46,38 @@ public abstract class NDDOGeometryOptimization {
         int numIt = 0;
 
         while (mag(gradient) > 0.005) {
-
-            numIt++;
-
             System.out.println("Gradient: " + mag(gradient));
 
-
+            numIt++;
             scale = 0.1;
-
-
             refEnergy = 0;
-
+            double refEnergyDiff = 0;
+            double firstEnergyDiff = 1;
+            double energyDiff;
             int numSearch = 0;
 
             while (Math.abs(energy - refEnergy) > 1E-8) {
-
                 refEnergy = energy;
-
+                System.err.println("SCALE" + scale);
                 count = 0;
 
                 for (NDDOAtom a : atoms) {
                     for (int i = 0; i < 3; i++) {
+                        // get x,y,z of a
+                        // positions of atoms are essentially "weights"
                         a.getCoordinates()[i] = Math.round((a.getCoordinates()[i] + scale * searchdir.get(count)) * 1000000000) / 1000000000.0;
                         count++;
                     }
                 }
 
-
                 updateNDDOSolution();
 
                 System.out.println("\nCurrent heat of formation: " + s.hf + "kcal/mol");
                 System.out.println("Current HOMO energy: " + s.homo + " eV");
-
+                System.out.println("Current energy: " + s.energy);
                 System.out.println("-----------------------------------------------");
 
                 energy = s.energy;
-
 
                 if (energy > refEnergy) {
                     scale *= -0.5;
@@ -92,21 +86,30 @@ public abstract class NDDOGeometryOptimization {
                 else {
                     numSearch++;
 
-                    if (numSearch >= 5) {
-                        scale *= 2;
-                        numSearch = 0;
+//                    if (numSearch >= 5) {
+//                        scale *= 2;
+//                        numSearch = 0;
+//                    }
+                    if (refEnergyDiff == 0) {
+                        refEnergyDiff = energy - refEnergy;
+                        firstEnergyDiff = refEnergyDiff;
+                    }
+                    else {
+                        energyDiff = energy - refEnergy; // should be negative if things are going well
+                        double x = refEnergyDiff-energyDiff;
+                        double gamma = energyDiff/firstEnergyDiff;
+                        double sFactor = (1.5/(1+Math.exp(-1+3*Math.abs(x)))+0.2)*Math.min(1,gamma);
+                        scale = scale*sFactor;
+                        System.out.println(gamma + " " + x + " " + sFactor);
+                        refEnergyDiff = energyDiff;
                     }
                 }
-
             }
 
 
             refEnergy = energy;
-
             oldgrad = gradient.dup();
-
             gradient = new DoubleMatrix(atoms.length * 3, 1);
-
             index = 0;
 
             for (int a = 0; a < atoms.length; a++) {
@@ -116,32 +119,23 @@ public abstract class NDDOGeometryOptimization {
                 }
             }
 
-
             sum = 0;
-
-            DoubleMatrix y = gradient.sub(oldgrad);
+            DoubleMatrix y = gradient.sub(oldgrad); // difference of gradients
 
             try {
                 B = getb(B, y, searchdir);
-
-
                 searchdir = Solve.pinv(B).mmul(gradient).mmul(-1);
             } catch (Exception e) {
+                System.err.println("Hessian approximation error");
                 B = DoubleMatrix.eye(atoms.length * 3);
-
                 searchdir = Solve.pinv(B).mmul(gradient).mmul(-1);
-
             }
 
             if (numIt == 5) {
                 numIt = 0;
-
                 matrices = routine();
-
                 B = matrices[1];
-
-                searchdir = Solve.pinv (B).mmul(gradient).mul(-1);
-
+                searchdir = Solve.pinv(B).mmul(gradient).mul(-1); // TODO is mmul the same as mul when it comes to scalars
             }
 
             for (int i = 0; i < gradient.length; i++) {
@@ -168,15 +162,10 @@ public abstract class NDDOGeometryOptimization {
     protected abstract void updateNDDOSolution();
 
     private DoubleMatrix getb(DoubleMatrix B, DoubleMatrix y, DoubleMatrix searchdir) {
-
         double a = 1 / y.transpose().mmul(searchdir).get(0);
-
         double b = searchdir.transpose().mmul(B).mmul(searchdir).get(0);
-
         DoubleMatrix m2 = B.mmul(searchdir).mmul(searchdir.transpose()).mmul(B.transpose()).mmul(b);
-
         DoubleMatrix m1 = y.mmul(y.transpose()).mmul(a);
-
 
         return B.add(m1).sub(m2);
     }
