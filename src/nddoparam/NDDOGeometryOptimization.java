@@ -1,5 +1,6 @@
 package nddoparam;
 
+import org.apache.commons.lang.time.StopWatch;
 import org.jblas.DoubleMatrix;
 import org.jblas.Solve;
 import scf.Utils;
@@ -45,6 +46,9 @@ public abstract class NDDOGeometryOptimization {
         counter = 0;
         int numIt = 0;
 
+        StopWatch sw = new StopWatch();
+        sw.start();
+        sw.suspend();
         while (mag(gradient) > 0.005) {
             System.out.println("Gradient: " + mag(gradient));
 
@@ -52,9 +56,10 @@ public abstract class NDDOGeometryOptimization {
             scale = 0.1;
             refEnergy = 0;
             double refEnergyDiff = 0;
-            double firstEnergyDiff = 1;
+            double largestEnergyDiff = 1;
             double energyDiff;
             int numSearch = 0;
+            sw.resume();
 
             while (Math.abs(energy - refEnergy) > 1E-8) {
                 refEnergy = energy;
@@ -90,21 +95,28 @@ public abstract class NDDOGeometryOptimization {
 //                        scale *= 2;
 //                        numSearch = 0;
 //                    }
+
                     if (refEnergyDiff == 0) {
                         refEnergyDiff = energy - refEnergy;
-                        firstEnergyDiff = refEnergyDiff;
+                        largestEnergyDiff = refEnergyDiff;
                     }
                     else {
                         energyDiff = energy - refEnergy; // should be negative if things are going well
                         double x = refEnergyDiff-energyDiff;
-                        double gamma = energyDiff/firstEnergyDiff;
-                        double sFactor = (1.5/(1+Math.exp(-1+3*Math.abs(x)))+0.2)*Math.min(1,gamma);
+                        double gamma = energyDiff/largestEnergyDiff;
+//                        double sFactor = (1.5/(1+Math.exp(-1+3*Math.abs(x)))+0.2)*Math.min(1,gamma);
+//                        double sFactor = (1.1*Math.exp(-5*x*x)+0.2)*Math.min(1,gamma);
+                        double sFactor = Math.max(-x*x+1.2,0.2)*Math.min(1,gamma);
                         scale = scale*sFactor;
                         System.out.println(gamma + " " + x + " " + sFactor);
                         refEnergyDiff = energyDiff;
+                        if (energyDiff < largestEnergyDiff)
+                            largestEnergyDiff = energyDiff;
                     }
                 }
             }
+            sw.suspend();
+            System.err.println("Time: " + sw.getTime());
 
 
             refEnergy = energy;
