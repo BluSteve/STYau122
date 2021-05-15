@@ -104,11 +104,13 @@ public abstract class NDDOGeometryOptimization {
                         energyDiff = energy - refEnergy; // should be negative
                         double x = refEnergyDiff-energyDiff;
                         double gamma = energyDiff/largestEnergyDiff;
-                        double sFactor = (1.5/(1+Math.exp(-1+3*Math.abs(x)))+0.2)*Math.min(1,gamma);
+//                        double sFactor = (1.5/(1+Math.exp(-1+3*Math.abs(x)))+0.2)*Math.min(1,gamma);
+                        double sFactor = (1.1/(1+Math.exp(-3-x))+0.2)*Math.min(1,gamma);
+//                        if (x > 0) sFactor = 1.2966; // ensure sFactor wouldn't decrease step size once going in the right direction
 //                        double sFactor = (1.1*Math.exp(-5*x*x)+0.2)*Math.min(1,gamma);
 //                        double sFactor = Math.max(-x*x+1.2,0.2)*Math.min(1,gamma);
                         scale = scale*sFactor;
-                        System.out.println(gamma + " " + x + " " + sFactor);
+                        System.out.println(energyDiff + " " + gamma + " " + x + " " + sFactor);
                         refEnergyDiff = energyDiff;
                         if (energyDiff < largestEnergyDiff)
                             largestEnergyDiff = energyDiff;
