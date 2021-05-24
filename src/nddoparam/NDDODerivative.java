@@ -1079,10 +1079,10 @@ public class NDDODerivative {
             }
         }
 
-        if (Math.abs(e - grad(atoms, soln, atomnum, tau)) > 1E-5) {
-            System.err.println ("oh well, you can't say you weren't expecting that...");
-            System.exit(0);
-        }
+//        if (Math.abs(e - grad(atoms, soln, atomnum, tau)) > 1E-5) {
+//            System.err.println ("oh well, you can't say you weren't expecting that...");
+//            System.exit(0);
+//        }
 
 
         return e;
@@ -1262,10 +1262,10 @@ public class NDDODerivative {
             }
         }
 
-        if (Math.abs(e - grad(atoms, soln, atomnum, tau)) > 1E-5) {
-            System.err.println ("oh well, you can't say you weren't expecting that...");
-            System.exit(0);
-        }
+//        if (Math.abs(e - grad(atoms, soln, atomnum, tau)) > 1E-5) {
+//            System.err.println ("oh well, you can't say you weren't expecting that...");
+//            System.exit(0);
+//        }
 
         return e;
     }

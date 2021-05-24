@@ -55,9 +55,9 @@ public abstract class NDDOGeometryOptimization {
             numIt++;
             scale = 0.1;
             refEnergy = 0;
-            double refEnergyDiff = 0;
-            double largestEnergyDiff = 1;
-            double energyDiff;
+            double lastEnergyGrad = 0;
+            double largestEnergyGrad = 1;
+            double energyGrad;
             int numSearch = 0;
             sw.resume();
 
@@ -96,24 +96,22 @@ public abstract class NDDOGeometryOptimization {
 //                        numSearch = 0;
 //                    }
 
-                    if (refEnergyDiff == 0) {
-                        refEnergyDiff = energy - refEnergy;
-                        largestEnergyDiff = refEnergyDiff;
+                    if (lastEnergyGrad == 0) {
+                        lastEnergyGrad = energy - refEnergy;
+                        largestEnergyGrad = lastEnergyGrad;
                     }
                     else {
-                        energyDiff = energy - refEnergy; // should be negative
-                        double x = refEnergyDiff-energyDiff;
-                        double gamma = energyDiff/largestEnergyDiff;
-//                        double sFactor = (1.5/(1+Math.exp(-1+3*Math.abs(x)))+0.2)*Math.min(1,gamma);
+                        energyGrad = energy - refEnergy;
+                        double x = lastEnergyGrad-energyGrad;
+                        double gamma = energyGrad/largestEnergyGrad;
                         double sFactor = (1.1/(1+Math.exp(-3-x))+0.2)*Math.min(1,gamma);
-//                        if (x > 0) sFactor = 1.2966; // ensure sFactor wouldn't decrease step size once going in the right direction
-//                        double sFactor = (1.1*Math.exp(-5*x*x)+0.2)*Math.min(1,gamma);
-//                        double sFactor = Math.max(-x*x+1.2,0.2)*Math.min(1,gamma);
+//                        double sFactor = 1.21/(1+Math.exp(5-10*gamma));
+//                        double sFactor = (1.2/(1+Math.exp(-3-x)))*(1.1/(1+Math.exp(5-10*gamma)));
                         scale = scale*sFactor;
-                        System.out.println(energyDiff + " " + gamma + " " + x + " " + sFactor);
-                        refEnergyDiff = energyDiff;
-                        if (energyDiff < largestEnergyDiff)
-                            largestEnergyDiff = energyDiff;
+                        System.out.println(energyGrad + " " + gamma + " " + x + " " + sFactor);
+                        lastEnergyGrad = energyGrad;
+                        if (energyGrad < largestEnergyGrad)
+                            largestEnergyGrad = energyGrad;
                     }
                 }
             }

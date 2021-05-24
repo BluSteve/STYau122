@@ -272,24 +272,26 @@ public class NDDOSolutionRestricted extends NDDOSolution {
             }
         }
 
-        double checksum = 0;
+//        double checksum = 0;
+//
+//        for (int a = 0; a < atoms.length; a++) {
+//            checksum += E(a, index);
+//        }
+//
+//        for (int a = 0; a < atoms.length; a++) {
+//            for (int b = a + 1; b < atoms.length; b++) {
+//                checksum += E(a, b, index);
+//            }
+//        }
+//
+//        if (Math.abs(checksum - e) > 1E-5 || checksum != checksum) {
+//            System.err.println ("I knew it!");
+//            System.err.println (checksum);
+//            System.err.println (e);
+//            System.exit(0);
+//        }
 
-        for (int a = 0; a < atoms.length; a++) {
-            checksum += E(a, index);
-        }
 
-        for (int a = 0; a < atoms.length; a++) {
-            for (int b = a + 1; b < atoms.length; b++) {
-                checksum += E(a, b, index);
-            }
-        }
-
-        if (Math.abs(checksum - e) > 1E-5 || checksum != checksum) {
-            System.err.println ("I knew it!");
-            System.err.println (checksum);
-            System.err.println (e);
-            System.exit(0);
-        }
         double heat = 0;
 
         for (int j = 0; j < atoms.length; j++) {
