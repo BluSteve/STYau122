@@ -3,6 +3,8 @@ package runcycle;
 import nddoparam.NDDOAtom;
 import nddoparam.NDDOGeometryOptimization;
 import nddoparam.NDDOSolution;
+import nddoparam.NDDOSolutionRestricted;
+import nddoparam.param.NDDOParamDerivative;
 import nddoparam.param.NDDOParamGradient;
 import nddoparam.param.NDDOParamHessian;
 import org.jblas.DoubleMatrix;
@@ -175,6 +177,7 @@ public abstract class MoleculeRun {
                 
                 System.out.println(g.gradient());
                 totalHeatDerivSB.append(1 / LAMBDA * (g.getEPrimeHf() - g.getEHf())).append(", ");
+
                 excelSB.append(",").append(g.gradient());
             }
         }
@@ -232,6 +235,48 @@ public abstract class MoleculeRun {
                 totalHeatDerivSB.append(1 / LAMBDA * (g.getEPrimeHf() - g.getEHf()));
             } else {
                 totalHeatDerivSB.append(1 / LAMBDA * (g.getEPrimeHf() - g.getEHf())).append(", ");
+            }
+
+            if ((numit == 5 || numit == 6) && this.mult == 1) {
+                double Hfderiv = 1 / LAMBDA * (g.getEPrimeHf() - g.getEHf());
+
+                double test = NDDOParamDerivative.zetagradient(atoms, (NDDOSolutionRestricted) g.getE().soln, 6, numit - 5);
+
+                if (Math.abs(Hfderiv - test) > 1E-2) {
+                    System.err.println ("Something broke. Again.");
+                    System.err.println ("yay");
+                    System.err.println (Hfderiv);
+                    System.err.println (test);
+                    System.exit(0);
+                }
+                else {
+                    System.err.println ("this works");
+                    System.err.println (Hfderiv);
+                    System.err.println (test);
+                }
+
+
+            }
+
+            if ((numit == 3 || numit == 4) && this.mult == 1) {
+                double Hfderiv = 1 / LAMBDA * (g.getEPrimeHf() - g.getEHf());
+
+                double test = NDDOParamDerivative.uxxgradient(atoms, (NDDOSolutionRestricted) g.getE().soln, 6, numit - 3);
+
+                if (Math.abs(Hfderiv - test) > 1E-2) {
+                    System.err.println ("Something broke. Again. (New one this time.)");
+                    System.err.println ("yay");
+                    System.err.println (Hfderiv);
+                    System.err.println (test);
+                    System.exit(0);
+                }
+                else {
+                    System.err.println ("this works (new one)");
+                    System.err.println (Hfderiv);
+                    System.err.println (test);
+                }
+
+
             }
 
             excelSB.append(",").append(g.gradient());

@@ -11,14 +11,15 @@ public abstract class NDDOSolution {
     public double[] chargedip, hybridip, dipoletot;
     public int charge, multiplicity;
 
-    protected int[][] missingIndex, index;
-    protected NDDOAtom[] atoms;
-    protected int[] atomNumber;
-    protected double damp = 0.8;
-    protected int nElectrons;
-    protected DoubleMatrix H;
-    protected NDDO6G[] orbitals;
-    protected String moleculeName;
+    public int[][] missingIndex, index;
+    public NDDOAtom[] atoms;
+    public int[] atomNumber;
+    public double damp = 0.8;
+    public int nElectrons;
+    public DoubleMatrix H;
+    public NDDO6G[] orbitals;
+    public String moleculeName;
+    public int[] atomicnumbers;
 
     public NDDOSolution(NDDOAtom[] atoms, int charge) {
         StringBuilder nameBuilder = new StringBuilder();
@@ -35,6 +36,8 @@ public abstract class NDDOSolution {
 
         this.atoms = atoms;
 
+        atomicnumbers = new int[atoms.length];
+
         nElectrons -= charge;
 
         this.charge = charge;
@@ -42,6 +45,11 @@ public abstract class NDDOSolution {
 
         for (NDDOAtom a : atoms) {
             i += a.getOrbitals().length;
+
+        }
+
+        for (int num = 0; num < atoms.length; num++) {
+            atomicnumbers[num] = atoms[num].getAtomProperties().getZ();
         }
 
         orbitals = new NDDO6G[i];
@@ -98,17 +106,19 @@ public abstract class NDDOSolution {
             for (int k = j; k < orbitals.length; k++) {
                 if (k == j) {
                     double Huu = orbitals[j].U();
-                    for (NDDOAtom a : atoms) {
-                        if (!Arrays.equals(a.getCoordinates(), orbitals[j].getCoords())) { // case 1
-                            Huu += a.V(orbitals[j], orbitals[k]);
+
+                    for (int an = 0; an < atoms.length; an++) {
+                        if (atomNumber[j] != an) {
+                            Huu += atoms[an].V(orbitals[j], orbitals[k]);
                         }
                     }
+
                     H.put(j, k, Huu);
                 } else if (atomNumber[j] == atomNumber[k]) { // case 2
                     double Huv = 0;
-                    for (NDDOAtom a : atoms) {
-                        if (!Arrays.equals(a.getCoordinates(), orbitals[j].getCoords())) { // TODO remove duplicate code
-                            Huv += a.V(orbitals[j], orbitals[k]);
+                    for (int an = 0; an < atoms.length; an++) {
+                        if (atomNumber[j] != an) {
+                            Huv += atoms[an].V(orbitals[j], orbitals[k]);
                         }
                     }
                     H.put(j, k, Huv);

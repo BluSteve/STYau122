@@ -110,6 +110,10 @@ public abstract class NDDOParamGradient {
     public NDDOParamErrorFunction getE() {
         return e;
     }
+
+    public NDDOParamErrorFunction getEPrime() {
+        return eprime;
+    }
 }
 
 

@@ -1,5 +1,6 @@
 package nddoparam;
 
+import nddoparam.param.NDDOParamDerivative;
 import scf.AtomFixed;
 import scf.AtomHandler;
 import scf.AtomProperties;
@@ -19,6 +20,15 @@ public abstract class NDDOAtom extends AtomFixed {
         this.D2 = D2();
         this.p1 = p1();
         this.p2 = p2();
+
+
+        if (this.atomProperties.getZ() == 1) {
+            this.p1 = 0;
+            this.p2 = 0;
+            this.D1 = 0;
+            this.D2 = 0;
+        }
+
         this.orbitals = setOrbitals();
     }
 
@@ -84,6 +94,10 @@ public abstract class NDDOAtom extends AtomFixed {
 
     public double Vderiv2 (NDDO6G a, NDDO6G b, int tau1, int tau2) {
         return -this.atomProperties.getQ() * NDDOSecondDerivative.getGderiv2(a, b, this.s(), this.s(), tau1, tau2);
+    }
+
+    public double VParamDeriv (NDDO6G a, NDDO6G b, int num, int type) {
+        return -this.atomProperties.getQ() * NDDOParamDerivative.getGderiv(this.s(), this.s(), a, b, num, type);
     }
 
     public double getEisol() {

@@ -38,7 +38,7 @@ public class Main {
 
         for (int numRuns = 0; numRuns < 1; numRuns++) { // numRuns < 1 then no Hessian for you
             // one for hessian, one without. this code is verbose.
-            useHessian = numRuns % 2 == 0;
+            useHessian = numRuns % 2 == 1;
 
             File input = new File("input.txt");
             File reference = new File("reference.txt");
@@ -417,7 +417,7 @@ public class Main {
                 }
 
                 // used to be "write", which is exactly the same as pw
-                pw.println(Arrays.toString(paramVector).substring(1, Arrays.toString(paramVector).length() - 1));
+                //pw.println(Arrays.toString(paramVector).substring(1, Arrays.toString(paramVector).length() - 1));
                 pw.close();
 
                 sw.stop();

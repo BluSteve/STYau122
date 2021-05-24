@@ -1,5 +1,6 @@
 package nddoparam;
 
+import nddoparam.param.NDDOParamDerivative;
 import scf.GTO;
 import scf.LCGTO;
 import scf.OrbitalProperties;
@@ -121,6 +122,10 @@ public class NDDO6G extends STO6G {
 
     public static double betaderiv (NDDO6G a, NDDO6G b, int tau) {
         return 0.5 * (a.beta + b.beta) * LCGTO.getSDeriv(a, b, tau);
+    }
+
+    public static double betaparamderiv (NDDO6G a, NDDO6G b, int num, int type) {
+        return 0.5 * (a.beta + b.beta) * NDDOParamDerivative.getSderivfinite(a, b, num, type);
     }
 
     public static double betaderiv2 (NDDO6G a, NDDO6G b, int tau1, int tau2) {
