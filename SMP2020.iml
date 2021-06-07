@@ -27,7 +27,7 @@
     <orderEntry type="library" name="org.jblas:jblas:1.2.5" level="project" />
     <orderEntry type="library" name="org.apache.directory.studio:org.apache.commons.lang:2.6" level="project" />
     <orderEntry type="library" name="com.google.code.gson:gson:2.8.6" level="project" />
-    <orderEntry type="library" name="org.apache.commons:commons-lang3:3.3.2" level="project" />
     <orderEntry type="library" name="com.google.code.gson:gson:2.8.5" level="project" />
+    <orderEntry type="library" name="org.apache.commons:commons-lang3:3.12.0" level="project" />
   </component>
 </module>

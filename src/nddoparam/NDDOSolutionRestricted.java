@@ -10,7 +10,7 @@ public class NDDOSolutionRestricted extends NDDOSolution {
 
     private DoubleMatrix densityMatrix;
 
-    protected double[] integralArray;
+    public double[] integralArray;
 
     public DoubleMatrix C, F, G, E;//H - core matrix, G = 2-electron matrix, F = fock matrix, C = coeffecient matrix (transposed for easier reading), E = eigenvalues
 

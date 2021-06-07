@@ -385,28 +385,28 @@ public class Main {
                         o.addData(new GeometricalData(derivs, Double.parseDouble(strs[0]), Double.parseDouble(strs[1])));
                     }
                 }
-                o.optimize(B, newGradient);
+                //o.optimize(B, newGradient);
 
-                PrintWriter write = new PrintWriter(new FileOutputStream(new File("MNDOHessianUpdateData.txt")));
+                //PrintWriter write = new PrintWriter(new FileOutputStream(new File("MNDOHessianUpdateData.txt")));
 
-                write.println("OLD HESSIAN:   " + string);
-                write.println("OLD GRADIENT:  " + processedexcelstr);
-                write.println("SEARCH VECTOR: " + Arrays.toString(o.changes).substring(1, Arrays.toString(o.changes).length() - 1));
+                //write.println("OLD HESSIAN:   " + string);
+                //write.println("OLD GRADIENT:  " + processedexcelstr);
+                //write.println("SEARCH VECTOR: " + Arrays.toString(o.changes).substring(1, Arrays.toString(o.changes).length() - 1));
 
-                write.close();
+                //write.close();
 
                 double[] paramChange = new double[paramVector.length];
-                paramChange[0] = o.changes[0];
-                paramChange[1] = o.changes[1];
-                paramChange[3] = o.changes[2];
-                paramChange[5] = o.changes[3];
-                paramChange[7] = o.changes[4];
+                //paramChange[0] = o.changes[0];
+                //paramChange[1] = o.changes[1];
+                //paramChange[3] = o.changes[2];
+                //paramChange[5] = o.changes[3];
+                //paramChange[7] = o.changes[4];
                 String trainingSetNoH = trainingSet.replace("H", "");
                 int startingIndex2 = 5;
                 int z = 8;
                 for (int p = 0; p < trainingSetNoH.length(); p++) {
                     for (int x = startingIndex2; x < startingIndex2 + 8; x++) {
-                        paramChange[x + z] = o.changes[x];
+                        //paramChange[x + z] = o.changes[x];
                     }
                     z += 5;
                     startingIndex2 += 8;

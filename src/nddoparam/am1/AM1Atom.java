@@ -98,6 +98,11 @@ public class AM1Atom extends NDDOAtom {
         return 0;
     }
 
+    @Override
+    public double crfParamDeriv(NDDOAtom b, int num) {//todo ree
+        return 0;
+    }
+
     private static double F(AM1Atom a, double R) {
         return a.getParams().getK1() * Math.exp(-a.getParams().getL1() * (R - a.getParams().getM1()) * (R - a.getParams().getM1())) + a.getParams().getK2() * Math.exp(-a.getParams().getL2() * (R - a.getParams().getM2()) * (R - a.getParams().getM2())) + a.getParams().getK3() * Math.exp(-a.getParams().getL3() * (R - a.getParams().getM3()) * (R - a.getParams().getM3())) + a.getParams().getK4() * Math.exp(-a.getParams().getL4() * (R - a.getParams().getM4()) * (R - a.getParams().getM4()));
 

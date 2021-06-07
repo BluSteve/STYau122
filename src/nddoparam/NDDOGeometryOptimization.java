@@ -1,6 +1,6 @@
 package nddoparam;
 
-import org.apache.commons.lang.time.StopWatch;
+import org.apache.commons.lang3.time.StopWatch;
 import org.jblas.DoubleMatrix;
 import org.jblas.Solve;
 import scf.Utils;
@@ -91,28 +91,28 @@ public abstract class NDDOGeometryOptimization {
                 else {
                     numSearch++;
 
-//                    if (numSearch >= 5) {
-//                        scale *= 2;
-//                        numSearch = 0;
-//                    }
+                    if (numSearch >= 5) {
+                        scale *= 2;
+                        numSearch = 0;
+                    }
 
-                    if (lastEnergyGrad == 0) {
-                        lastEnergyGrad = energy - refEnergy;
-                        largestEnergyGrad = lastEnergyGrad;
-                    }
-                    else {
-                        energyGrad = energy - refEnergy;
-                        double x = lastEnergyGrad-energyGrad;
-                        double gamma = energyGrad/largestEnergyGrad;
-                        double sFactor = (1.1/(1+Math.exp(-3-x))+0.2)*Math.min(1,gamma);
-//                        double sFactor = 1.21/(1+Math.exp(5-10*gamma));
-//                        double sFactor = (1.2/(1+Math.exp(-3-x)))*(1.1/(1+Math.exp(5-10*gamma)));
-                        scale = scale*sFactor;
-                        System.out.println(energyGrad + " " + gamma + " " + x + " " + sFactor);
-                        lastEnergyGrad = energyGrad;
-                        if (energyGrad < largestEnergyGrad)
-                            largestEnergyGrad = energyGrad;
-                    }
+//                    if (lastEnergyGrad == 0) {
+//                        lastEnergyGrad = energy - refEnergy;
+//                        largestEnergyGrad = lastEnergyGrad;
+//                    }
+//                    else {
+//                        energyGrad = energy - refEnergy;
+//                        double x = lastEnergyGrad-energyGrad;
+//                        double gamma = energyGrad/largestEnergyGrad;
+//                        double sFactor = (1.1/(1+Math.exp(-3-x))+0.2)*Math.min(1,gamma);
+////                        double sFactor = 1.21/(1+Math.exp(5-10*gamma));
+////                        double sFactor = (1.2/(1+Math.exp(-3-x)))*(1.1/(1+Math.exp(5-10*gamma)));
+//                        scale = scale*sFactor;
+//                        System.out.println(energyGrad + " " + gamma + " " + x + " " + sFactor);
+//                        lastEnergyGrad = energyGrad;
+//                        if (energyGrad < largestEnergyGrad)
+//                            largestEnergyGrad = energyGrad;
+//                    }
                 }
             }
             sw.suspend();

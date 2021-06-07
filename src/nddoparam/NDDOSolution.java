@@ -132,7 +132,7 @@ public abstract class NDDOSolution {
         }
     }
 
-    protected static boolean isSimilar(DoubleMatrix x, DoubleMatrix y, double limit) {
+    public static boolean isSimilar(DoubleMatrix x, DoubleMatrix y, double limit) {
         for (int i = 0; i < y.rows; i++) {
             for (int j = 0; j < y.columns; j++) {
                 if (Math.abs(x.get(i, j) - y.get(i, j)) > limit) {

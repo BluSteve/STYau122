@@ -151,4 +151,6 @@ public abstract class NDDOAtom extends AtomFixed {
     public abstract double crfDeriv(NDDOAtom b, int tau);
 
     public abstract double crfDeriv2(NDDOAtom b, int tau1, int tau2);
+
+    public abstract double crfParamDeriv (NDDOAtom b, int num);
 }

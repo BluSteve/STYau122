@@ -100,4 +100,27 @@ public class MNDOAtom extends NDDOAtom {
 
         return 1E7 * (newval - orig);
     }
+
+    @Override
+    public double crfParamDeriv(NDDOAtom b, int num) {
+
+        MNDOAtom c = (MNDOAtom) b;
+
+        double R = GTO.R(this.getCoordinates(), b.getCoordinates());
+
+        double val = this.atomProperties.getQ() * c.atomProperties.getQ() * NDDO6G.getG(this.s(), this.s(), b.s(), b.s());
+
+
+        double returnval = 0;
+
+        if (num == 0 || num == 2) {
+            returnval += val * - R / bohr *  Math.exp(-this.mp.getAlpha() * R / bohr);
+        }
+
+        if (num == 1 || num == 2) {
+            returnval += val * - R / bohr *  Math.exp(-c.mp.getAlpha() * R / bohr);
+        }
+
+        return returnval;
+    }
 }
