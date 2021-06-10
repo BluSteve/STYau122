@@ -195,13 +195,28 @@ public abstract class MoleculeRun {
         DoubleMatrix[] densityderivs = new DoubleMatrix [staticderivs[0].length];
         DoubleMatrix[] coeffderivs = new DoubleMatrix [staticderivs[0].length];
         DoubleMatrix[] responsederivs = new DoubleMatrix [staticderivs[0].length];
+        DoubleMatrix[] fockderivs = new DoubleMatrix [staticderivs[0].length];
 
-        DoubleMatrix[] xarray = NDDOParamDerivative.xarrayincomplete(soln, staticderivs[1]);
+        DoubleMatrix[] xarray = NDDOParamDerivative.xarraylimited(soln, staticderivs[1]);
+
+
 
         for (int i = 0; i < Hfderivs.length; i++) {
             Hfderivs[i] = NDDOParamDerivative.MNDOHfderiv(soln, staticderivs[0][i], staticderivs[1][i]);
-            densityderivs[i] = NDDOParamDerivative.densityDerivativeIncomplete(xarray[i], soln);
+            densityderivs[i] = NDDOParamDerivative.densityDerivativeLimited(xarray[i], soln);
+            responsederivs[i] = NDDOParamDerivative.ResponseMatrix(soln, densityderivs[i]);
             Dipolederivs[i] = NDDOParamDerivative.MNDODipoleDeriv(soln, densityderivs[i], 6, i + 1);
+            fockderivs[i] = staticderivs[1][i].add(responsederivs[i]);
+        }
+
+        DoubleMatrix[] xcomplementary = NDDOParamDerivative.xarraycomplementary(soln, fockderivs);
+
+        DoubleMatrix[] xforIE = new DoubleMatrix[staticderivs[0].length];
+
+        for (int i = 0; i < Hfderivs.length; i++) {
+            xforIE[i] = NDDOParamDerivative.xarrayForIE(soln, xarray[i], xcomplementary[i]);
+            coeffderivs[i] = NDDOParamDerivative.HOMOcoefficientDerivativeComplementary(xforIE[i], soln);
+            IEderivs[i] = NDDOParamDerivative.MNDOIEDeriv(soln, coeffderivs[i], fockderivs[i]);
         }
 
 
@@ -284,26 +299,27 @@ public abstract class MoleculeRun {
 
             }
 
-//            if (this.mult == 1 && numit > 0 && numit < 7) {
-//                double IEderiv = 1 / LAMBDA * (g.getEPrimeHomo() - g.getEHomo());
-//
-//                double test = IEderivs[numit - 1];
-//
-//                if (Math.abs(IEderiv - test) > 1E-2) {
-//                    System.err.println ("Something broke. Again. " + numit);
-//                    System.err.println ("yay");
-//                    System.err.println (IEderiv);
-//                    System.err.println (test);
-//                    System.exit(0);
-//                }
-//                else {
-//                    System.err.println ("the IE derivatives work");
-//                    System.err.println (IEderiv);
-//                    System.err.println (test);
-//                }
-//
-//
-//            }
+            if (this.mult == 1 && numit > 0 && numit < 7) {
+                double IEderiv = 1 / LAMBDA * (g.getEPrimeHomo() - g.getEHomo());
+
+                double test = IEderivs[numit - 1];
+
+                if (Math.abs(IEderiv - test) > 1E-2) {
+                    System.err.println ("Something broke. Again. " + numit);
+                    System.err.println ("yay");
+                    System.err.println (IEderiv);
+                    System.err.println (test);
+                    System.exit(0);
+                }
+                else {
+                    System.err.println ("the IE derivatives work");
+                    System.err.println (IEderiv);
+                    System.err.println (test);
+                }
+
+
+            }
+
 
             if (this.mult == 1 && numit > 0 && numit < 7) {
 

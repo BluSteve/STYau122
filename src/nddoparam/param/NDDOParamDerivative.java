@@ -2452,7 +2452,7 @@ public class NDDOParamDerivative {
 
                     }
 
-                    if (mag(rarray[a]) < 1E-5) {
+                    if (mag(rarray[a]) < 1E-6) {
                         rarray[a] = null;
                     }
                 }
@@ -2532,7 +2532,7 @@ public class NDDOParamDerivative {
                 }
 
 
-                x.put(count1, 0, element / (soln.E.get(NOcc - 1) - soln.E.get(j)));
+                x.put(count1, 0, - element / (soln.E.get(NOcc - 1) - soln.E.get(j)));
 
                 count1++;
             }
@@ -2572,29 +2572,27 @@ public class NDDOParamDerivative {
         return densityMatrixDeriv;
     }
 
-    public static DoubleMatrix densityDerivativeComplete (DoubleMatrix x, NDDOSolutionRestricted soln) {
+    public static DoubleMatrix xarrayForIE (NDDOSolutionRestricted soln, DoubleMatrix xlimited, DoubleMatrix xcomplementary) {
+
         int NOcc = (int) (soln.nElectrons / 2.0);
 
-        DoubleMatrix densityMatrixDeriv = DoubleMatrix.zeros(soln.orbitals.length, soln.orbitals.length);
+        int NVirt = soln.orbitals.length - NOcc;
 
-        for (int u = 0; u < densityMatrixDeriv.rows; u++) {
-            for (int v = 0; v < densityMatrixDeriv.columns; v++) {
-                double sum = 0;
-                int count = 0;
-                for (int i = 0; i < NOcc; i++) {
-                    for (int j = 0; j < soln.orbitals.length; j++) {
-                        if (i != j) {
-                            sum -= 2 * (soln.C.get(i, u) * soln.C.get(j, v) + soln.C.get(j, u) * soln.C.get(i, v)) * x.get(count, 0);
-                            count++;
-                        }
-                    }
-                }
+        DoubleMatrix x = new DoubleMatrix (soln.orbitals.length - 1, 1);
 
-                densityMatrixDeriv.put(u, v, sum);
-            }
+        int count = 0;
+
+        for (int i = xlimited.length - NVirt; i < xlimited.length; i++) {
+            x.put(count, 0, xlimited.get(i, 0));
+            count++;
         }
 
-        return densityMatrixDeriv;
+        for (int i = 0; i < xcomplementary.length; i++) {
+            x.put(count, 0, xcomplementary.get(i, 0));
+            count++;
+        }
+
+        return x;
     }
 
     public static DoubleMatrix densityDerivativeIncomplete (DoubleMatrix x, NDDOSolutionRestricted soln) {
@@ -2637,32 +2635,6 @@ public class NDDOParamDerivative {
         return densityMatrixDeriv;
     }
 
-
-    public static DoubleMatrix HOMOcoefficientDerivativeComplete (DoubleMatrix x, NDDOSolutionRestricted soln) {
-
-        DoubleMatrix CDeriv = DoubleMatrix.zeros(1, soln.orbitals.length);
-
-        int NOcc = (int) (soln.nElectrons / 2.0);
-
-        for (int u = 0; u < soln.orbitals.length; u++) {
-            double sum = 0;
-
-            for (int k = 0; k < soln.orbitals.length; k++) {
-                if (k < NOcc) {
-                    sum -= soln.C.get(k, u) * x.get((soln.orbitals.length - 1) * (NOcc - 1) + k, 0);
-                }
-                else if (k > NOcc) {
-                    sum -= soln.C.get(k, u) * x.get((soln.orbitals.length - 1) * (NOcc - 1) + k - 1, 0);
-                }
-            }
-            System.err.println ("sum: " + sum);
-
-            CDeriv.put(0, u, sum);
-        }
-
-        return CDeriv;
-    }
-
     public static DoubleMatrix HOMOcoefficientDerivativeIncomplete (DoubleMatrix x, NDDOSolutionRestricted soln) {
 
 
@@ -2691,6 +2663,35 @@ public class NDDOParamDerivative {
 
         return CDeriv;
     }
+
+    public static DoubleMatrix HOMOcoefficientDerivativeComplementary (DoubleMatrix x, NDDOSolutionRestricted soln) {
+
+
+
+        DoubleMatrix CDeriv = DoubleMatrix.zeros(1, soln.orbitals.length);
+
+        int NOcc = (int) (soln.nElectrons / 2.0);
+
+        for (int u = 0; u < soln.orbitals.length; u++) {
+            double sum = 0;
+
+            for (int k = 0; k < soln.orbitals.length; k++) {
+
+                if (k < NOcc) {
+                    sum -= soln.C.get(k, u) * x.get(k, 0);
+                }
+                else if (k > NOcc) {
+                    sum -= soln.C.get(k, u) * x.get(k - 1, 0);
+                }
+            }
+
+            CDeriv.put(0, u, sum);
+        }
+
+        return CDeriv;
+    }
+
+
 
     public static double MNDOIEDeriv (NDDOSolutionRestricted soln, DoubleMatrix coeffDeriv, DoubleMatrix Fderiv) {
 

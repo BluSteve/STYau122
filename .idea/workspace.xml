@@ -36,7 +36,6 @@
       <change beforePath="$PROJECT_DIR$/bin/runcycle/MoleculeRun.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/runcycle/MoleculeRun.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mndooutput.txt" beforeDir="false" afterPath="$PROJECT_DIR$/mndooutput.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDOGeometryOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDOGeometryOptimization.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/param/NDDOParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/NDDOParamDerivative.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" afterDir="false" />
     </list>
@@ -66,26 +65,26 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/runcycle/MoleculeRun.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="685">
-              <caret line="196" column="82" lean-forward="true" selection-start-line="196" selection-start-column="82" selection-end-line="196" selection-end-column="82" />
+            <state relative-caret-position="764">
+              <caret line="218" column="95" selection-start-line="218" selection-start-column="95" selection-end-line="218" selection-end-column="95" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/optimize/ParamOptimizer.java">
+        <entry file="file://$PROJECT_DIR$/src/nddoparam/param/NDDOParamErrorFunction.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
+            <state relative-caret-position="-32">
+              <caret line="8" column="22" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mndoparams.txt">
+        <entry file="file://$PROJECT_DIR$/src/nddoparam/NDDO6G.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="32" selection-start-column="32" selection-end-column="32" />
+            <state relative-caret-position="14563">
+              <caret line="824" lean-forward="true" selection-start-line="824" selection-end-line="824" />
             </state>
           </provider>
         </entry>
@@ -93,13 +92,18 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="321">
-              <caret line="59" column="54" selection-start-line="59" selection-start-column="54" selection-end-line="59" selection-end-column="54" />
+            <state relative-caret-position="655">
+              <caret line="335" column="45" lean-forward="true" selection-start-line="335" selection-start-column="45" selection-end-line="335" selection-end-column="45" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mndooutput.txt">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
@@ -117,22 +121,17 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/input.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="684">
-              <caret line="38" column="36" lean-forward="true" selection-start-line="38" selection-start-column="36" selection-end-line="38" selection-end-column="36" />
+            <state relative-caret-position="630">
+              <caret line="35" column="54" selection-start-line="35" selection-start-column="54" selection-end-line="35" selection-end-column="54" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/atom_properties.json">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/nddoparam/param/NDDOParamDerivative.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="589">
-              <caret line="2144" column="78" lean-forward="true" selection-start-line="2144" selection-start-column="78" selection-end-line="2144" selection-end-column="78" />
+            <state relative-caret-position="-1125">
+              <caret line="2584" column="44" selection-start-line="2584" selection-start-column="44" selection-end-line="2584" selection-end-column="44" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -233,11 +232,11 @@
         <option value="$PROJECT_DIR$/src/Main.java" />
         <option value="$PROJECT_DIR$/MNDOHessianUpdateData.txt" />
         <option value="$PROJECT_DIR$/src/nddoparam/NDDOSolutionRestricted.java" />
-        <option value="$PROJECT_DIR$/mndooutput.txt" />
         <option value="$PROJECT_DIR$/src/nddoparam/NDDOSolution.java" />
+        <option value="$PROJECT_DIR$/src/nddoparam/NDDOGeometryOptimization.java" />
         <option value="$PROJECT_DIR$/src/nddoparam/param/NDDOParamDerivative.java" />
         <option value="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" />
-        <option value="$PROJECT_DIR$/src/nddoparam/NDDOGeometryOptimization.java" />
+        <option value="$PROJECT_DIR$/mndooutput.txt" />
         <option value="$PROJECT_DIR$/input.txt" />
       </list>
     </option>
@@ -689,7 +688,21 @@
       <option name="project" value="LOCAL" />
       <updated>1623055687746</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="RFO implementation">
+      <created>1623291688889</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1623291688889</updated>
+    </task>
+    <task id="LOCAL-00033" summary="RFO implementation (updated with mistake correction)">
+      <created>1623294129234</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1623294129234</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -763,8 +776,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Optimize .gitignore" />
-    <MESSAGE value="Optimize .gitignore further" />
     <MESSAGE value="Use OneCenterERI when applicable" />
     <MESSAGE value="Refactor Main.java, generalize atom properties, minor reformatting." />
     <MESSAGE value="Minor reformatting." />
@@ -788,7 +799,9 @@
     <MESSAGE value="Even further S factor geometry optimization" />
     <MESSAGE value="Even even further S factor geometry optimization" />
     <MESSAGE value="parameter derivatives, restricted only (complete-ish)" />
-    <option name="LAST_COMMIT_MESSAGE" value="parameter derivatives, restricted only (complete-ish)" />
+    <MESSAGE value="RFO implementation" />
+    <MESSAGE value="RFO implementation (updated with mistake correction)" />
+    <option name="LAST_COMMIT_MESSAGE" value="RFO implementation (updated with mistake correction)" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/scf/AtomHandler.java">
@@ -911,13 +924,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/NDDO6G.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-441">
-          <caret line="824" lean-forward="true" selection-start-line="824" selection-end-line="824" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/nddoparam/NDDOSolutionUnrestricted.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3750">
@@ -930,13 +936,6 @@
             <element signature="e#21444#21445#0" expanded="true" />
             <element signature="e#21506#21507#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/param/NDDOParamErrorFunction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="8" column="22" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
         </state>
       </provider>
     </entry>
@@ -957,9 +956,6 @@
           </folding>
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mndooutput.txt">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/nddoparam/NDDOSecondDerivative.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -1049,16 +1045,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="321">
-          <caret line="59" column="54" selection-start-line="59" selection-start-column="54" selection-end-line="59" selection-end-column="54" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/atom_properties.json">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -1076,10 +1062,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/runcycle/MoleculeRun.java">
+    <entry file="file://$PROJECT_DIR$/src/nddoparam/NDDO6G.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="685">
-          <caret line="196" column="82" lean-forward="true" selection-start-line="196" selection-start-column="82" selection-end-line="196" selection-end-column="82" />
+        <state relative-caret-position="14563">
+          <caret line="824" lean-forward="true" selection-start-line="824" selection-end-line="824" />
         </state>
       </provider>
     </entry>
@@ -1093,20 +1079,47 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/nddoparam/param/NDDOParamErrorFunction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-32">
+          <caret line="8" column="22" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/nddoparam/param/NDDOParamDerivative.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="589">
-          <caret line="2144" column="78" lean-forward="true" selection-start-line="2144" selection-start-column="78" selection-end-line="2144" selection-end-column="78" />
+        <state relative-caret-position="-1125">
+          <caret line="2584" column="44" selection-start-line="2584" selection-start-column="44" selection-end-line="2584" selection-end-column="44" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/runcycle/MoleculeRun.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="764">
+          <caret line="218" column="95" selection-start-line="218" selection-start-column="95" selection-end-line="218" selection-end-column="95" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="655">
+          <caret line="335" column="45" lean-forward="true" selection-start-line="335" selection-start-column="45" selection-end-line="335" selection-end-column="45" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mndooutput.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/input.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="684">
-          <caret line="38" column="36" lean-forward="true" selection-start-line="38" selection-start-column="36" selection-end-line="38" selection-end-column="36" />
+        <state relative-caret-position="630">
+          <caret line="35" column="54" selection-start-line="35" selection-start-column="54" selection-end-line="35" selection-end-column="54" />
         </state>
       </provider>
     </entry>
