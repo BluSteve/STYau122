@@ -1209,20 +1209,20 @@ public class NDDOParamDerivative {
 
     }
 
-    public static double[] MNDOHfderivs (NDDOAtom[] atoms, NDDOSolutionRestricted soln, int Z) {
+    public static double[] MNDOHfderivs (NDDOSolutionRestricted soln, int Z) {
 
         double[] derivs = new double[8];
 
-        derivs[0] = alphaHfderiv (atoms, soln, Z);
+        derivs[0] = alphaHfderiv (soln.atoms, soln, Z);
         derivs[1] = betaHfderiv(soln, Z, 0);
         derivs[3] = uxxHfderiv(soln, Z, 0);
-        derivs[5] = zetaHfderiv(atoms, soln, Z, 0);
-        derivs[7] = eisolHfderiv(atoms, Z);
+        derivs[5] = zetaHfderiv(soln.atoms, soln, Z, 0);
+        derivs[7] = eisolHfderiv(soln.atoms, Z);
 
         if (Z != 1) {
             derivs[2] = betaHfderiv(soln, Z, 1);
             derivs[4] = uxxHfderiv(soln, Z, 1);
-            derivs[6] = zetaHfderiv(atoms, soln, Z, 1);
+            derivs[6] = zetaHfderiv(soln.atoms, soln, Z, 1);
 
             return derivs;
         }
@@ -1909,136 +1909,6 @@ public class NDDOParamDerivative {
     }
 
 
-    private static DoubleMatrix computeResponseVectorsComplete(DoubleMatrix x, NDDOSolutionRestricted soln) {//todo legacy/deprecated
-
-        int NOcc = (int) (soln.nElectrons / 2.0);
-
-        DoubleMatrix densityMatrixDeriv = DoubleMatrix.zeros(soln.orbitals.length, soln.orbitals.length);
-
-        for (int u = 0; u < densityMatrixDeriv.rows; u++) {
-            for (int v = 0; v < densityMatrixDeriv.columns; v++) {
-                double sum = 0;
-                int count = 0;
-                for (int i = 0; i < NOcc; i++) {
-                    for (int j = 0; j < soln.orbitals.length; j++) {
-                        if (i != j) {
-                            sum -= 2 * (soln.C.get(i, u) * soln.C.get(j, v) + soln.C.get(j, u) * soln.C.get(i, v)) * x.get(count, 0);
-                            count++;
-                        }
-                    }
-                }
-
-                densityMatrixDeriv.put(u, v, sum);
-            }
-        }
-
-        DoubleMatrix responsematrix = DoubleMatrix.zeros(soln.orbitals.length, soln.orbitals.length);
-
-        double[] integralArray = soln.integralArray;
-
-        int integralcount = 0;
-
-        for (int j = 0; j < soln.orbitals.length; j++) {
-            for (int k = j; k < soln.orbitals.length; k++) {
-                double val = 0;
-                if (j == k) {
-
-                    for (int l : soln.index[soln.atomNumber[j]]) {
-                        if (l > -1) {
-                            val += densityMatrixDeriv.get(l, l) * integralArray[integralcount];
-                            integralcount++;
-                        }
-                    }
-
-                    for (int l : soln.missingIndex[soln.atomNumber[j]]) {
-                        if (l > -1) {
-                            for (int m : soln.missingIndex[soln.atomNumber[j]]) {
-                                if (m > -1) {
-                                    if (soln.atomNumber[l] == soln.atomNumber[m]) {
-                                        val += densityMatrixDeriv.get(l, m) * integralArray[integralcount];
-                                        integralcount++;
-                                    }
-                                }
-
-                            }
-                        }
-                    }
-                } else if (soln.atomNumber[j] == soln.atomNumber[k]) {
-                    val += densityMatrixDeriv.get(j, k) * integralArray[integralcount];
-                    integralcount++;
-
-                    for (int l : soln.missingIndex[soln.atomNumber[j]]) {
-                        if (l > -1) {
-                            for (int m : soln.missingIndex[soln.atomNumber[j]]) {
-                                if (m > -1) {
-                                    if (soln.atomNumber[l] == soln.atomNumber[m]) {
-                                        val += densityMatrixDeriv.get(l, m) * integralArray[integralcount];
-                                        integralcount++;
-                                    }
-                                }
-
-                            }
-                        }
-                    }
-                } else {
-                    for (int l : soln.index[soln.atomNumber[j]]) {
-                        if (l > -1) {
-                            for (int m : soln.index[soln.atomNumber[k]]) {
-                                if (m > -1) {
-                                    val += densityMatrixDeriv.get(l, m) * integralArray[integralcount];
-                                    integralcount++;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                responsematrix.put(j, k, val);
-                responsematrix.put(k, j, val);
-            }
-        }
-
-        DoubleMatrix R = DoubleMatrix.zeros(NOcc * soln.orbitals.length - NOcc, 1);
-
-        int count1 = 0;
-
-        for (int i = 0; i < NOcc; i++) {
-            for (int j = 0; j < soln.orbitals.length; j++) {
-
-                if (i != j) {
-                    double element = 0;
-
-                    for (int u = 0; u < soln.orbitals.length; u++) {
-                        for (int v = 0; v < soln.orbitals.length; v++) {
-                            element += soln.C.get(i, u) * soln.C.get(j, v) * responsematrix.get(u, v);
-                        }
-                    }
-
-
-                    R.put(count1, 0, element);
-
-                    count1++;
-                }
-            }
-        }
-
-        DoubleMatrix p = new DoubleMatrix (NOcc * soln.orbitals.length - NOcc, 1);
-
-        int counter = 0;
-
-        for (int i = 0; i < NOcc; i++) {
-            for (int j = 0; j < soln.orbitals.length; j++) {
-                if (i != j) {
-                    p.put (counter, 0, -R.get(counter, 0) + (soln.E.get(j) - soln.E.get(i)) * x.get(counter));
-                    counter++;
-                }
-            }
-        }
-
-
-        return p;
-    }
-
     private static DoubleMatrix computeResponseVectorsIncomplete(DoubleMatrix x, NDDOSolutionRestricted soln) {
 
         int NOcc = (int) (soln.nElectrons / 2.0);
@@ -2415,192 +2285,6 @@ public class NDDOParamDerivative {
 
     }
 
-    public static DoubleMatrix[] xarraycomplete (NDDOSolutionRestricted soln, DoubleMatrix[] fockderivstatic) {
-
-        int NOcc = (int) (soln.nElectrons / 2.0);
-
-
-        DoubleMatrix[] Farray = new DoubleMatrix[fockderivstatic.length];
-
-        DoubleMatrix[] xarray = new DoubleMatrix[fockderivstatic.length];
-
-        DoubleMatrix[] rarray = new DoubleMatrix[fockderivstatic.length];
-
-        DoubleMatrix[] dirs = new DoubleMatrix[fockderivstatic.length];
-
-        for (int a = 0; a < Farray.length; a++) {
-            DoubleMatrix F = DoubleMatrix.zeros(NOcc * soln.orbitals.length - NOcc, 1);
-
-            int count1 = 0;
-
-            for (int i = 0; i < NOcc; i++) {
-                for (int j = 0; j < soln.orbitals.length; j++) {
-
-                    if (i != j) {
-                        double element = 0;
-
-                        for (int u = 0; u < soln.orbitals.length; u++) {
-                            for (int v = 0; v < soln.orbitals.length; v++) {
-                                element += soln.C.get(i, u) * soln.C.get(j, v) * fockderivstatic[a].get(u, v);
-                            }
-                        }
-
-
-                        F.put(count1, 0, element);
-
-                        count1++;
-                    }
-                }
-            }
-
-            Farray[a] = F;
-
-            xarray[a] = DoubleMatrix.zeros(NOcc * soln.orbitals.length - NOcc, 1);
-
-            rarray[a] = F.dup();
-
-            dirs[a] = F.dup();
-        }
-
-
-        if (dirs[0].rows == 0) {
-            DoubleMatrix[] xderivs = new DoubleMatrix[fockderivstatic.length];
-
-            for (int i = 0; i <xderivs.length; i++) {
-                xderivs[i] = DoubleMatrix.zeros (0, 0);
-            }
-
-            return xderivs;
-        }
-
-
-
-
-
-        while (numNotNull(rarray) > 0) {
-
-            System.err.println ("It's still running, don't worry: " + numNotNull(rarray));
-
-            ArrayList<DoubleMatrix> d = new ArrayList<>();
-
-
-            for (int a = 0; a < rarray.length; a++) {
-
-                if (rarray[a] != null) {
-                    DoubleMatrix[] mat = Singular.fullSVD(dirs[a]);
-
-                    for (int i = 0; i < mat[1].columns; i++) {
-
-                        DoubleMatrix vec = mat[0].getColumn(i);
-
-                        if (mat[1].get(i, i) > 0) {
-                            d.add(vec);
-                        }
-                    }
-                }
-            }
-
-            ArrayList<DoubleMatrix> p = new ArrayList<>();
-
-            for (int i = 0; i < d.size(); i++) {
-                p.add (computeResponseVectorsComplete(d.get(i), soln));
-            }
-
-
-            DoubleMatrix solver = new DoubleMatrix (p.size(), p.size());
-
-
-            DoubleMatrix rhsvec = DoubleMatrix.zeros (p.size(), rarray.length);
-
-            for (int a = 0; a < rhsvec.columns; a++) {
-                if (rarray[a] != null) {
-                    DoubleMatrix rhs = new DoubleMatrix (p.size(), 1);
-
-                    for (int i = 0; i < rhs.rows; i++) {
-                        rhs.put(i, 0, 2 * rarray[a].transpose().mmul(d.get(i)).get(0, 0));
-
-                    }
-
-                    rhsvec.putColumn(a, rhs);
-                }
-            }
-
-            for (int i = 0; i < solver.rows; i++) {
-                for (int j = i; j < solver.rows; j++) {
-
-                    double val = p.get(j).transpose().mmul(d.get(i)).get(0, 0) + p.get(i).transpose().mmul(d.get(j)).get(0, 0);
-                    solver.put(i, j, val);
-                    solver.put (j, i, val);
-                }
-            }
-
-            DoubleMatrix alpha = Solve.solve(solver, rhsvec);
-
-            for (int a = 0; a < rhsvec.columns; a++) {
-                if (rarray[a] != null) {
-
-
-                    for (int i = 0; i < alpha.rows; i++) {
-                        xarray[a] = xarray[a].add(d.get(i).mmul(alpha.get(i, a)));
-                        rarray[a] = rarray[a].sub(p.get(i).mmul(alpha.get(i, a)));
-
-                    }
-
-                    if (mag(rarray[a]) < 1E-5) {
-                        rarray[a] = null;
-                    }
-                }
-            }
-
-
-
-            solver = new DoubleMatrix (solver.rows, solver.rows);
-
-            for (int a = 0; a < rhsvec.columns; a++) {
-                if (rarray[a] != null) {
-                    DoubleMatrix rhs = new DoubleMatrix (solver.rows, 1);
-
-                    for (int i = 0; i < rhs.rows; i++) {
-                        rhs.put(i, 0, - rarray[a].transpose().mmul(p.get(i)).get(0, 0));
-
-                    }
-
-                    rhsvec.putColumn(a, rhs);
-                }
-            }
-
-
-
-            for (int i = 0; i < solver.rows; i++) {
-                for (int j = 0; j < solver.rows; j++) {
-                    solver.put(i, j, d.get(j).transpose().mmul(p.get(i)).get(0, 0));
-                }
-            }
-
-            DoubleMatrix beta = Solve.solve(solver, rhsvec);
-
-            for (int a = 0; a < rhsvec.columns; a++) {
-                if (rarray[a] != null) {
-
-
-                    dirs[a] = rarray[a].dup();
-
-                    for (int i = 0; i < beta.rows; i++) {
-                        dirs[a] = dirs[a].add(d.get(i).mmul(beta.get(i, a)));
-                    }
-                }
-            }
-
-
-
-
-        }
-
-
-        return xarray;
-
-
-    }
 
     public static DoubleMatrix[] xarrayincomplete (NDDOSolutionRestricted soln, DoubleMatrix[] fockderivstatic) {
 
@@ -2823,6 +2507,44 @@ public class NDDOParamDerivative {
 
 
     }
+
+    public static DoubleMatrix[] xarraycomplementary (NDDOSolutionRestricted soln, DoubleMatrix[] fockderiv) {
+
+        int NOcc = (int) (soln.nElectrons / 2.0);
+
+
+        DoubleMatrix[] xarray = new DoubleMatrix [fockderiv.length];
+
+        for (int a = 0; a < xarray.length; a++) {
+
+            DoubleMatrix x = DoubleMatrix.zeros(NOcc - 1, 1);
+
+            int count1 = 0;
+
+            for (int j = 0; j < NOcc - 1; j++) {
+
+                double element = 0;
+
+                for (int u = 0; u < soln.orbitals.length; u++) {
+                    for (int v = 0; v < soln.orbitals.length; v++) {
+                        element += soln.C.get(NOcc - 1, u) * soln.C.get(j, v) * fockderiv[a].get(u, v);
+                    }
+                }
+
+
+                x.put(count1, 0, element / (soln.E.get(NOcc - 1) - soln.E.get(j)));
+
+                count1++;
+            }
+
+            xarray[a] = x;
+        }
+
+        return xarray;
+
+    }
+
+
 
     public static DoubleMatrix densityDerivativeLimited (DoubleMatrix x, NDDOSolutionRestricted soln) {
 

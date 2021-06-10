@@ -196,11 +196,11 @@ public abstract class MoleculeRun {
         DoubleMatrix[] coeffderivs = new DoubleMatrix [staticderivs[0].length];
         DoubleMatrix[] responsederivs = new DoubleMatrix [staticderivs[0].length];
 
-        DoubleMatrix[] xarray = NDDOParamDerivative.xarraylimited(soln, staticderivs[1]);
+        DoubleMatrix[] xarray = NDDOParamDerivative.xarrayincomplete(soln, staticderivs[1]);
 
         for (int i = 0; i < Hfderivs.length; i++) {
             Hfderivs[i] = NDDOParamDerivative.MNDOHfderiv(soln, staticderivs[0][i], staticderivs[1][i]);
-            densityderivs[i] = NDDOParamDerivative.densityDerivativeLimited(xarray[i], soln);
+            densityderivs[i] = NDDOParamDerivative.densityDerivativeIncomplete(xarray[i], soln);
             Dipolederivs[i] = NDDOParamDerivative.MNDODipoleDeriv(soln, densityderivs[i], 6, i + 1);
         }
 
