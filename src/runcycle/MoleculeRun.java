@@ -196,14 +196,11 @@ public abstract class MoleculeRun {
         DoubleMatrix[] coeffderivs = new DoubleMatrix [staticderivs[0].length];
         DoubleMatrix[] responsederivs = new DoubleMatrix [staticderivs[0].length];
 
-        DoubleMatrix[] xarray = NDDOParamDerivative.xarrayincomplete(soln, staticderivs[1]);
+        DoubleMatrix[] xarray = NDDOParamDerivative.xarraylimited(soln, staticderivs[1]);
 
         for (int i = 0; i < Hfderivs.length; i++) {
             Hfderivs[i] = NDDOParamDerivative.MNDOHfderiv(soln, staticderivs[0][i], staticderivs[1][i]);
-            densityderivs[i] = NDDOParamDerivative.densityDerivativeIncomplete(xarray[i], soln);
-            coeffderivs[i] = NDDOParamDerivative.HOMOcoefficientDerivativeIncomplete(xarray[i], soln);
-            responsederivs[i] = NDDOParamDerivative.ResponseMatrix(soln, densityderivs[i]);
-            IEderivs[i] = NDDOParamDerivative.MNDOIEDeriv(soln, coeffderivs[i], staticderivs[1][i].add(responsederivs[i]));
+            densityderivs[i] = NDDOParamDerivative.densityDerivativeLimited(xarray[i], soln);
             Dipolederivs[i] = NDDOParamDerivative.MNDODipoleDeriv(soln, densityderivs[i], 6, i + 1);
         }
 
@@ -266,27 +263,27 @@ public abstract class MoleculeRun {
 
 
 
-//            if (this.mult == 1 && numit > 0 && numit < 7) {
-//                double Hfderiv = 1 / LAMBDA * (g.getEPrimeHf() - g.getEHf());
-//
-//                double test = Hfderivs[numit - 1];
-//
-//                if (Math.abs(Hfderiv - test) > 1E-2) {
-//                    System.err.println ("Something broke. Again. " + numit);
-//                    System.err.println ("yay");
-//                    System.err.println (Hfderiv);
-//                    System.err.println (test);
-//                    System.exit(0);
-//                }
-//                else {
-//                    System.err.println ("the Hf derivatives work");
-//                    System.err.println (Hfderiv);
-//                    System.err.println (test);
-//                }
-//
-//
-//            }
-//
+            if (this.mult == 1 && numit > 0 && numit < 7) {
+                double Hfderiv = 1 / LAMBDA * (g.getEPrimeHf() - g.getEHf());
+
+                double test = Hfderivs[numit - 1];
+
+                if (Math.abs(Hfderiv - test) > 1E-2) {
+                    System.err.println ("Something broke. Again. " + numit);
+                    System.err.println ("yay");
+                    System.err.println (Hfderiv);
+                    System.err.println (test);
+                    System.exit(0);
+                }
+                else {
+                    System.err.println ("the Hf derivatives work");
+                    System.err.println (Hfderiv);
+                    System.err.println (test);
+                }
+
+
+            }
+
 //            if (this.mult == 1 && numit > 0 && numit < 7) {
 //                double IEderiv = 1 / LAMBDA * (g.getEPrimeHomo() - g.getEHomo());
 //
@@ -307,74 +304,50 @@ public abstract class MoleculeRun {
 //
 //
 //            }
-//
-//            if (this.mult == 1 && numit > 0 && numit < 7) {
-//
-//                NDDOSolutionRestricted solp = (NDDOSolutionRestricted) g.getEPrime().soln;
-//                NDDOSolutionRestricted sol = (NDDOSolutionRestricted) g.getE().soln;
-//
-//                int index = (int) (soln.nElectrons / 2.0) - 1;
-//
-//                DoubleMatrix HOMOCoeffderiv = (solp.C.getRow(index).sub(sol.C.getRow(index))).mmul (1/ LAMBDA);
-//
-//
-//                if (!NDDOSolution.isSimilar(coeffderivs[numit - 1], HOMOCoeffderiv, 1E-5)) {
-//                    System.err.println ("Something broke. Again. " + numit);
-//                    System.err.println ("yay");
-//                    System.err.println (HOMOCoeffderiv);
-//                    System.err.println (coeffderivs[numit - 1]);
-//                    System.exit(0);
-//                }
-//                else {
-//                    System.err.println ("the coefficient derivatives work");
-//                }
-//
-//
-//            }
-//
-//            if (this.mult == 1 && numit > 0 && numit < 7) {
-//
-//                NDDOSolutionRestricted solp = (NDDOSolutionRestricted) g.getEPrime().soln;
-//                NDDOSolutionRestricted sol = (NDDOSolutionRestricted) g.getE().soln;
-//
-//
-//                DoubleMatrix densityderiv = (solp.densityMatrix().sub(sol.densityMatrix()).mmul (1/ LAMBDA));
-//
-//
-//                if (!NDDOSolution.isSimilar(densityderivs[numit - 1], densityderiv, 1E-5)) {
-//                    System.err.println ("Something broke. Again. " + numit);
-//                    System.err.println ("yay");
-//                    System.err.println (densityderiv);
-//                    System.err.println (densityderivs[numit - 1]);
-//                    System.exit(0);
-//                }
-//                else {
-//                    System.err.println ("the density derivatives work");
-//                }
-//
-//
-//            }
-//
-//            if (this.mult == 1 && numit > 0 && numit < 7) {
-//                double Dipolederiv = 1 / LAMBDA * (g.getEPrimeDipole() - g.getEDipole());
-//
-//                double test = Dipolederivs[numit - 1];
-//
-//                if (Math.abs(Dipolederiv - test) > 1E-2) {
-//                    System.err.println ("Something broke. Again. " + numit);
-//                    System.err.println ("yay");
-//                    System.err.println (Dipolederiv);
-//                    System.err.println (test);
-//                    System.exit(0);
-//                }
-//                else {
-//                    System.err.println ("the dipole derivatives work");
-//                    System.err.println (Dipolederiv);
-//                    System.err.println (test);
-//                }
-//
-//
-//            }
+
+            if (this.mult == 1 && numit > 0 && numit < 7) {
+
+                NDDOSolutionRestricted solp = (NDDOSolutionRestricted) g.getEPrime().soln;
+                NDDOSolutionRestricted sol = (NDDOSolutionRestricted) g.getE().soln;
+
+
+                DoubleMatrix densityderiv = (solp.densityMatrix().sub(sol.densityMatrix()).mmul (1/ LAMBDA));
+
+
+                if (!NDDOSolution.isSimilar(densityderivs[numit - 1], densityderiv, 1E-5)) {
+                    System.err.println ("Something broke. Again. " + numit);
+                    System.err.println ("yay");
+                    System.err.println (densityderiv);
+                    System.err.println (densityderivs[numit - 1]);
+                    System.exit(0);
+                }
+                else {
+                    System.err.println ("the density derivatives work");
+                }
+
+
+            }
+
+            if (this.mult == 1 && numit > 0 && numit < 7) {
+                double Dipolederiv = 1 / LAMBDA * (g.getEPrimeDipole() - g.getEDipole());
+
+                double test = Dipolederivs[numit - 1];
+
+                if (Math.abs(Dipolederiv - test) > 1E-2) {
+                    System.err.println ("Something broke. Again. " + numit);
+                    System.err.println ("yay");
+                    System.err.println (Dipolederiv);
+                    System.err.println (test);
+                    System.exit(0);
+                }
+                else {
+                    System.err.println ("the dipole derivatives work");
+                    System.err.println (Dipolederiv);
+                    System.err.println (test);
+                }
+
+
+            }
 
 
 

@@ -2359,7 +2359,7 @@ public class NDDOParamDerivative {
 
                     }
 
-                    if (mag(rarray[a]) < 1E-6) {
+                    if (mag(rarray[a]) < 1E-5) {
                         rarray[a] = null;
                     }
                 }
@@ -2546,7 +2546,7 @@ public class NDDOParamDerivative {
 
                     }
 
-                    if (mag(rarray[a]) < 1E-6) {
+                    if (mag(rarray[a]) < 1E-5) {
                         rarray[a] = null;
                     }
                 }
@@ -2768,7 +2768,7 @@ public class NDDOParamDerivative {
 
                     }
 
-                    if (mag(rarray[a]) < 1E-6) {
+                    if (mag(rarray[a]) < 1E-5) {
                         rarray[a] = null;
                     }
                 }
