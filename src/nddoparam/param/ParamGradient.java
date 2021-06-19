@@ -4,14 +4,14 @@ import nddoparam.NDDOAtom;
 import nddoparam.NDDOSolution;
 import scf.Utils;
 
-public abstract class NDDOParamGradient {
+public abstract class ParamGradient {
     protected NDDOAtom[] atoms, perturbed;
     protected int Z, paramNum;
     protected NDDOSolution s, sprime;
 
-    protected NDDOParamErrorFunction e, eprime;
+    protected ParamErrorFunction e, eprime;
 
-    public NDDOParamGradient(NDDOAtom[] atoms, int Z, int paramNum) {
+    public ParamGradient(NDDOAtom[] atoms, int Z, int paramNum) {
         this.Z = Z;
         this.paramNum = paramNum;
         this.atoms = atoms;
@@ -55,7 +55,7 @@ public abstract class NDDOParamGradient {
 
     public double gradient() {
         if (eprime != null) {
-            return (eprime.constructErrorFunction() - e.constructErrorFunction()) / Utils.lambda;
+            return (eprime.getTotalError() - e.getTotalError()) / Utils.lambda;
         } else return 0;
     }
 
@@ -107,11 +107,11 @@ public abstract class NDDOParamGradient {
         return s.homo;
     }
 
-    public NDDOParamErrorFunction getE() {
+    public ParamErrorFunction getE() {
         return e;
     }
 
-    public NDDOParamErrorFunction getEPrime() {
+    public ParamErrorFunction getEPrime() {
         return eprime;
     }
 }

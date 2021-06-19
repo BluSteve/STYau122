@@ -11,10 +11,11 @@ public class ComputationRequest {
     public double[] datum;
     public boolean hasHessian;
     public int mult;
+    public String kind;
 
 
     public ComputationRequest(boolean restricted, MNDOAtom[] atoms, int charge, int mult, MNDOAtom[] expgeom, double[] datum,
-                              boolean hasHessian, int index) {
+                              boolean hasHessian, String kind, int index) {
         this.restricted = restricted;
         this.atoms = atoms;
         this.charge = charge;
@@ -23,6 +24,7 @@ public class ComputationRequest {
         this.hasHessian = hasHessian;
         this.mult = mult;
         this.index = index;
+        this.kind = kind;
     }
 
     @Override

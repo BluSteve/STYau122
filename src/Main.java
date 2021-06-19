@@ -5,7 +5,7 @@ import datum.IonizationData;
 import nddoparam.mndo.MNDOAtom;
 import nddoparam.mndo.MNDOParams;
 import optimize.ParamOptimizer;
-import org.apache.commons.lang3.time.StopWatch;
+import org.apache.commons.lang.time.StopWatch;
 import org.jblas.DoubleMatrix;
 import org.jblas.Eigen;
 import runcycle.MoleculeRun;
@@ -130,25 +130,27 @@ public class Main {
                         expGeom = array.toArray(expGeom);
                     }
 
-                    double[] data = new double[3];
-                    // hasHessian has been removed, not sure what's the point considering useHessian makes it redundant.
+
                     // uses measurements to check if need dipole, ionization, etc. uses values from reference.
+                    double[] data = new double[3];
                     data[0] = Double.parseDouble(referenceScan.nextLine().split(" ")[1]); // I wish we standardized delimiters.
                     String[] dipoles = referenceScan.nextLine().split(" ");
+                    String kind = "hf_only";
                     if (dipoles.length > 1) {
                         data[1] = Double.parseDouble(dipoles[1]);
+                        kind = "limited";
                     }
                     String[] ionizations = referenceScan.nextLine().split(" ");
                     if (ionizations.length > 1) {
                         data[2] = Double.parseDouble(ionizations[1]);
+                        kind = "complementary";
                     }
-                    if (referenceScan.hasNext()) {
-                        referenceScan.nextLine();
-                    }
+                    if (referenceScan.hasNext()) referenceScan.nextLine();
+
 
                     requests
                             .add(new ComputationRequest(bool, atoms.clone(), charge, mult, expGeom == null ? null :
-                                    expGeom.clone(), data.clone(), useHessian, counter));
+                                    expGeom.clone(), data.clone(), useHessian, kind, counter));
                     counter++;
                 }
 
@@ -332,13 +334,13 @@ public class Main {
                         string.append(B.get(i, j)).append(",");
                     }
                 }
-                pw.println("NEW HESSIAN: " + string.toString());
+                pw.println("NEW HESSIAN: " + string);
                 pw.println("HESSIAN EIGENVALUES: " + Eigen.symmetricEigenvalues(B));
                 pw.flush();
 
 
                 ParamOptimizer o = new ParamOptimizer();
-                for (String[] j : outputValues) {
+                for (String[] j : outputValues) { // each j is a molecule
                     String[] strs = j[1].strip().split(",");
 
                     double[] derivs = new double[strs.length - 2];

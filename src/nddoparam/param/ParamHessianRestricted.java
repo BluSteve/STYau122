@@ -5,12 +5,12 @@ import nddoparam.NDDOSolution;
 import nddoparam.NDDOSolutionRestricted;
 import scf.Utils;
 
-public class NDDOParamHessianRestricted extends NDDOParamHessian {
-    public NDDOParamHessianRestricted(NDDOAtom[] atoms, int charge, int Z1, int paramNum1, int Z2, int paramNum2, NDDOSolutionRestricted s) {
+public class ParamHessianRestricted extends ParamHessian {
+    public ParamHessianRestricted(NDDOAtom[] atoms, int charge, int Z1, int paramNum1, int Z2, int paramNum2, NDDOSolutionRestricted s) {
         super(atoms, Z1, paramNum1);
         NDDOSolutionRestricted sPrime = new NDDOSolutionRestricted(perturbed, charge);
-        g = new NDDOParamGradientRestricted(atoms, charge, Z2, paramNum2, s);
-        gprime = new NDDOParamGradientRestricted(perturbed, charge, Z2, paramNum2, sPrime);
+        g = new ParamGradientRestricted(atoms, charge, Z2, paramNum2, s);
+        gprime = new ParamGradientRestricted(perturbed, charge, Z2, paramNum2, sPrime);
         //System.err.println("initialization complete");
     }
 

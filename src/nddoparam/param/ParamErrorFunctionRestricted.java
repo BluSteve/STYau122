@@ -1,13 +1,12 @@
 package nddoparam.param;
 
-import nddoparam.NDDOAtom;
 import nddoparam.NDDODerivative;
 import nddoparam.NDDOSolution;
 import nddoparam.NDDOSolutionRestricted;
 
-public class NDDOParamErrorFunctionRestricted extends NDDOParamErrorFunction {
-    public NDDOParamErrorFunctionRestricted(NDDOAtom[] atoms, NDDOSolution soln, double refHeat) {
-        super(atoms, soln, refHeat);
+public class ParamErrorFunctionRestricted extends ParamErrorFunction {
+    public ParamErrorFunctionRestricted(NDDOSolution soln, double refHeat) {
+        super(soln, refHeat);
     }
 
     @Override
@@ -22,5 +21,4 @@ public class NDDOParamErrorFunctionRestricted extends NDDOParamErrorFunction {
                 + coeff[2] * NDDODerivative.grad(expAtoms, (NDDOSolutionRestricted) expSoln, atom2, 2);
         return 1E-13 * Math.round(deriv * 1E13);
     }
-
 }

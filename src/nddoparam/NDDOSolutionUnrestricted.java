@@ -396,7 +396,7 @@ public class NDDOSolutionUnrestricted extends NDDOSolution {
 
         double heat = 0;
         for (int j = 0; j < atoms.length; j++) {
-            heat += atoms[j].getHeat() - atoms[j].getEisol();
+            heat += atoms[j].getHeat() - atoms[j].getParams().getEisol();
             for (int k = j + 1; k < atoms.length; k++) {
                 e += atoms[j].crf(atoms[k]);
             }

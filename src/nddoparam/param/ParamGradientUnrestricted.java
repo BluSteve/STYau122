@@ -5,8 +5,8 @@ import nddoparam.NDDOSolution;
 import nddoparam.NDDOSolutionUnrestricted;
 import scf.Utils;
 
-public class NDDOParamGradientUnrestricted extends NDDOParamGradient {
-    public NDDOParamGradientUnrestricted(NDDOAtom[] atoms, int charge, int mult, int Z, int paramNum, NDDOSolutionUnrestricted s) {
+public class ParamGradientUnrestricted extends ParamGradient {
+    public ParamGradientUnrestricted(NDDOAtom[] atoms, int charge, int mult, int Z, int paramNum, NDDOSolutionUnrestricted s) {
         super(atoms, Z, paramNum);
         this.s = s;
         sprime = new NDDOSolutionUnrestricted(perturbed, charge, mult);
@@ -14,11 +14,11 @@ public class NDDOParamGradientUnrestricted extends NDDOParamGradient {
 
     public void constructErrors(double refHeat) {
         if (Utils.containsZ(atoms, Z)) {
-            e = new NDDOParamErrorFunctionUnrestricted(atoms, s, refHeat);
-            eprime = new NDDOParamErrorFunctionUnrestricted(perturbed, sprime, refHeat);
+            e = new ParamErrorFunctionUnrestricted(atoms, s, refHeat);
+            eprime = new ParamErrorFunctionUnrestricted(perturbed, sprime, refHeat);
         }
         else {
-            e = new NDDOParamErrorFunctionUnrestricted(atoms, s, refHeat);
+            e = new ParamErrorFunctionUnrestricted(atoms, s, refHeat);
         }
     }
 

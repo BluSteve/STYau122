@@ -6,17 +6,17 @@ import scf.GTO;
 
 import java.util.ArrayList;
 
-public abstract class NDDOParamErrorFunction {
+public abstract class ParamErrorFunction {
     protected double HeatError, DipoleError, IEError, GeomError;
     public double gradient;
     public NDDOSolution soln, expSoln;
     protected NDDOAtom[] atoms, expAtoms;
     protected ArrayList<Double> bondErrors, angleErrors, bonds, angles, bondDerivatives, angleDerivatives;
 
-    public NDDOParamErrorFunction(NDDOAtom[] atoms, NDDOSolution soln, double refHeat) {
-        this.atoms = atoms;
+    public ParamErrorFunction(NDDOSolution soln, double refHeat) {
+        this.atoms = soln.atoms;
         this.soln = soln;
-        this.HeatError = (soln.hf - refHeat) * (soln.hf - refHeat);
+        this.HeatError = Math.pow((soln.hf - refHeat), 2);
         this.DipoleError = 0;
         this.IEError = 0;
 
@@ -28,6 +28,10 @@ public abstract class NDDOParamErrorFunction {
         this.angleDerivatives = new ArrayList<>();
     }
 
+    protected abstract double getDeriv(double[] coeff, int atom2);
+
+    protected abstract double getGradient(int i, int j);
+
     public void addDipoleError(double refDipole) {
         this.DipoleError = 400 * (soln.dipole - refDipole) * (soln.dipole - refDipole);
     }
@@ -35,15 +39,6 @@ public abstract class NDDOParamErrorFunction {
     public void addIEError(double refIE) {
         this.IEError = 100 * (refIE + soln.homo) * (refIE + soln.homo);
     }
-
-    public void createExpGeom(NDDOAtom[] expAtoms, NDDOSolution expSoln) {
-        this.expAtoms = expAtoms;
-        this.expSoln = expSoln;
-    }
-
-    protected abstract double getDeriv(double[] coeff, int atom2);
-
-    protected abstract double getGradient(int i, int j);
 
     public void addGeomError() {
         double sum = 0;
@@ -53,7 +48,6 @@ public abstract class NDDOParamErrorFunction {
                 sum += d * d;
             }
         }
-        //System.err.println("Geometry Obtained");
         this.gradient = 627.5 * Math.sqrt(sum);
         this.GeomError = 0.000049 * 627.5 * 627.5 * sum;
     }
@@ -70,6 +64,11 @@ public abstract class NDDOParamErrorFunction {
         double deriv = getDeriv(coeff, atom2);
         this.angleDerivatives.add(deriv);
         this.angleErrors.add(0.49 * deriv * deriv);
+    }
+
+    public void createExpGeom(NDDOAtom[] expAtoms, NDDOSolution expSoln) {
+        this.expAtoms = expAtoms;
+        this.expSoln = expSoln;
     }
 
     protected double[] getR(int atom1, int atom2) {
@@ -100,9 +99,7 @@ public abstract class NDDOParamErrorFunction {
 
     private static double theta(double x1, double y1, double z1, double x2, double y2, double z2) {
         double sum = x1 * x2 + y1 * y2 + z1 * z2;
-
         double summ = mag(new double[]{x1, y1, z1}) * mag(new double[]{x2, y2, z2});
-
         return Math.acos(sum / summ) * 180 / Math.PI;
     }
 
@@ -112,7 +109,6 @@ public abstract class NDDOParamErrorFunction {
 
     private static double[] normalizedVector(double[] v) {
         double val = mag(v);
-
         return new double[]{v[0] / val, v[1] / val, v[2] / val};
     }
 
@@ -121,12 +117,11 @@ public abstract class NDDOParamErrorFunction {
         for (double v : vector) {
             sum += v * v;
         }
-
         return Math.sqrt(sum);
     }
 
 
-    public double constructErrorFunction() {
+    public double getTotalError() {
         double sum = HeatError + DipoleError + IEError + GeomError;
         for (Double d : angleErrors) {
             sum += d;

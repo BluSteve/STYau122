@@ -4,9 +4,9 @@ import nddoparam.NDDOAtom;
 import nddoparam.NDDOGeometryOptimization;
 import nddoparam.NDDOSolution;
 import nddoparam.NDDOSolutionRestricted;
-import nddoparam.param.NDDOParamDerivative;
-import nddoparam.param.NDDOParamGradient;
-import nddoparam.param.NDDOParamHessian;
+import nddoparam.param.ParamDerivative;
+import nddoparam.param.ParamGradient;
+import nddoparam.param.ParamHessian;
 import org.jblas.DoubleMatrix;
 import scf.Utils;
 
@@ -17,8 +17,8 @@ public abstract class MoleculeRun {
     protected int charge, size, mult;
     protected boolean runHessian;
     protected double[] datum;
-    protected NDDOParamGradient g;
-    protected NDDOParamHessian h;
+    protected ParamGradient g;
+    protected ParamHessian h;
     protected NDDOGeometryOptimization opt;
     protected NDDOSolution expSolution;
     protected static double LAMBDA = 1E-7;
@@ -29,19 +29,20 @@ public abstract class MoleculeRun {
     protected String totalExcelStr = "";
     protected String excelStr = "";
     protected String excelStr2 = "";
+    protected String kind;
 
 
-    public MoleculeRun(NDDOAtom[] atoms, int charge, NDDOAtom[] expGeom, double[] datum, boolean runHessian, String trainingSet, int mult) {
+    public MoleculeRun(NDDOAtom[] atoms, int charge, NDDOAtom[] expGeom, double[] datum, boolean runHessian, String kind, String trainingSet, int mult) {
         this.trainingSet = trainingSet;
         this.atoms = atoms;
         this.expGeom = expGeom;
         this.charge = charge;
         this.runHessian = runHessian;
-        this.datum = datum;
+        this.datum = datum; // reference heat + dipole + ionization. size = 1, 2 or 3
         this.size = Utils.getTrainingSetSize(trainingSet);
         this.mult = mult;
+        this.kind = kind;
     }
-
 
 
     protected void generateGeomCoords() {
@@ -129,9 +130,9 @@ public abstract class MoleculeRun {
 
     protected void runGradient() {
         StringBuilder totalHeatDerivSB = new StringBuilder();
-        StringBuilder totalDipoleDerivSB =new StringBuilder();
-        StringBuilder totalIonizationDerivSB=new StringBuilder();
-        StringBuilder totalGeomDerivSB=new StringBuilder();
+        StringBuilder totalDipoleDerivSB = new StringBuilder();
+        StringBuilder totalIonizationDerivSB = new StringBuilder();
+        StringBuilder totalGeomDerivSB = new StringBuilder();
         StringBuilder excelSB = new StringBuilder();
         StringBuilder excelSB2 = new StringBuilder();
         for (int numit = 0; numit < 8; numit++) {
@@ -152,7 +153,7 @@ public abstract class MoleculeRun {
 
 
                 if (datum[1] != 0) {
-                    if (numit == 0) {
+                    if (numit == 0) { // wait why is there no need to compute the finite difference gradient here
                         totalDipoleDerivSB.append(datum[1]).append(", ").append(g.getEDipole()).append(", ");
                     }
 
@@ -174,7 +175,7 @@ public abstract class MoleculeRun {
                     }
                     totalGeomDerivSB.append(1 / LAMBDA * (g.getEPrimeGradient() - g.getEGradient())).append(", ");
                 }
-                
+
                 System.out.println(g.gradient());
                 totalHeatDerivSB.append(1 / LAMBDA * (g.getEPrimeHf() - g.getEHf())).append(", ");
 
@@ -184,39 +185,38 @@ public abstract class MoleculeRun {
 
         NDDOSolutionRestricted soln = (NDDOSolutionRestricted) opt.s;
 
-        DoubleMatrix[][] staticderivs = NDDOParamDerivative.MNDOmatrixderivstatic(soln, 6);
+        DoubleMatrix[][] staticderivs = ParamDerivative.MNDOStaticMatrixDeriv(soln, 6);
 
-        double[] Hfderivs = new double[staticderivs[0].length];
+        double[] Hfderivs = new double[staticderivs[0].length]; // what is staticderivs[0].length??
 
         double[] IEderivs = new double[staticderivs[0].length];
 
         double[] Dipolederivs = new double[staticderivs[0].length];
 
-        DoubleMatrix[] densityderivs = new DoubleMatrix [staticderivs[0].length];
-        DoubleMatrix[] coeffderivs = new DoubleMatrix [staticderivs[0].length];
-        DoubleMatrix[] responsederivs = new DoubleMatrix [staticderivs[0].length];
-        DoubleMatrix[] fockderivs = new DoubleMatrix [staticderivs[0].length];
+        DoubleMatrix[] densityderivs = new DoubleMatrix[staticderivs[0].length];
+        DoubleMatrix[] coeffderivs = new DoubleMatrix[staticderivs[0].length];
+        DoubleMatrix[] responsederivs = new DoubleMatrix[staticderivs[0].length];
+        DoubleMatrix[] fockderivs = new DoubleMatrix[staticderivs[0].length];
 
-        DoubleMatrix[] xarray = NDDOParamDerivative.xarraylimited(soln, staticderivs[1]);
-
+        DoubleMatrix[] xarray = ParamDerivative.xarraylimited(soln, staticderivs[1]);
 
 
         for (int i = 0; i < Hfderivs.length; i++) {
-            Hfderivs[i] = NDDOParamDerivative.MNDOHfderiv(soln, staticderivs[0][i], staticderivs[1][i]);
-            densityderivs[i] = NDDOParamDerivative.densityDerivativeLimited(xarray[i], soln);
-            responsederivs[i] = NDDOParamDerivative.ResponseMatrix(soln, densityderivs[i]);
-            Dipolederivs[i] = NDDOParamDerivative.MNDODipoleDeriv(soln, densityderivs[i], 6, i + 1);
+            Hfderivs[i] = ParamDerivative.MNDOHfDeriv(soln, staticderivs[0][i], staticderivs[1][i]);
+            densityderivs[i] = ParamDerivative.densityDerivativeLimited(soln, xarray[i]);
+            responsederivs[i] = ParamDerivative.responseMatrix(soln, densityderivs[i]);
+            Dipolederivs[i] = ParamDerivative.MNDODipoleDeriv(soln, densityderivs[i], 6, i + 1);
             fockderivs[i] = staticderivs[1][i].add(responsederivs[i]);
         }
 
-        DoubleMatrix[] xcomplementary = NDDOParamDerivative.xarraycomplementary(soln, fockderivs);
+        DoubleMatrix[] xcomplementary = ParamDerivative.xArrayComplementary(soln, fockderivs);
 
         DoubleMatrix[] xforIE = new DoubleMatrix[staticderivs[0].length];
 
         for (int i = 0; i < Hfderivs.length; i++) {
-            xforIE[i] = NDDOParamDerivative.xarrayForIE(soln, xarray[i], xcomplementary[i]);
-            coeffderivs[i] = NDDOParamDerivative.HOMOcoefficientDerivativeComplementary(xforIE[i], soln);
-            IEderivs[i] = NDDOParamDerivative.MNDOIEDeriv(soln, coeffderivs[i], fockderivs[i]);
+            xforIE[i] = ParamDerivative.xarrayForIE(soln, xarray[i], xcomplementary[i]);
+            coeffderivs[i] = ParamDerivative.HOMOcoefficientDerivativeComplementary(xforIE[i], soln);
+            IEderivs[i] = ParamDerivative.MNDOIEDeriv(soln, coeffderivs[i], fockderivs[i]);
         }
 
 
@@ -277,23 +277,21 @@ public abstract class MoleculeRun {
             }
 
 
-
             if (this.mult == 1 && numit > 0 && numit < 7) {
                 double Hfderiv = 1 / LAMBDA * (g.getEPrimeHf() - g.getEHf());
 
                 double test = Hfderivs[numit - 1];
 
                 if (Math.abs(Hfderiv - test) > 1E-2) {
-                    System.err.println ("Something broke. Again. " + numit);
-                    System.err.println ("yay");
-                    System.err.println (Hfderiv);
-                    System.err.println (test);
+                    System.err.println("Something broke. Again. " + numit);
+                    System.err.println("yay");
+                    System.err.println(Hfderiv);
+                    System.err.println(test);
                     System.exit(0);
-                }
-                else {
-                    System.err.println ("the Hf derivatives work");
-                    System.err.println (Hfderiv);
-                    System.err.println (test);
+                } else {
+                    System.err.println("the Hf derivatives work");
+                    System.err.println(Hfderiv);
+                    System.err.println(test);
                 }
 
 
@@ -305,16 +303,15 @@ public abstract class MoleculeRun {
                 double test = IEderivs[numit - 1];
 
                 if (Math.abs(IEderiv - test) > 1E-2) {
-                    System.err.println ("Something broke. Again. " + numit);
-                    System.err.println ("yay");
-                    System.err.println (IEderiv);
-                    System.err.println (test);
+                    System.err.println("Something broke. Again. " + numit);
+                    System.err.println("yay");
+                    System.err.println(IEderiv);
+                    System.err.println(test);
                     System.exit(0);
-                }
-                else {
-                    System.err.println ("the IE derivatives work");
-                    System.err.println (IEderiv);
-                    System.err.println (test);
+                } else {
+                    System.err.println("the IE derivatives work");
+                    System.err.println(IEderiv);
+                    System.err.println(test);
                 }
 
 
@@ -327,18 +324,17 @@ public abstract class MoleculeRun {
                 NDDOSolutionRestricted sol = (NDDOSolutionRestricted) g.getE().soln;
 
 
-                DoubleMatrix densityderiv = (solp.densityMatrix().sub(sol.densityMatrix()).mmul (1/ LAMBDA));
+                DoubleMatrix densityderiv = (solp.densityMatrix().sub(sol.densityMatrix()).mmul(1 / LAMBDA));
 
 
                 if (!NDDOSolution.isSimilar(densityderivs[numit - 1], densityderiv, 1E-5)) {
-                    System.err.println ("Something broke. Again. " + numit);
-                    System.err.println ("yay");
-                    System.err.println (densityderiv);
-                    System.err.println (densityderivs[numit - 1]);
+                    System.err.println("Something broke. Again. " + numit);
+                    System.err.println("yay");
+                    System.err.println(densityderiv);
+                    System.err.println(densityderivs[numit - 1]);
                     System.exit(0);
-                }
-                else {
-                    System.err.println ("the density derivatives work");
+                } else {
+                    System.err.println("the density derivatives work");
                 }
 
 
@@ -350,23 +346,19 @@ public abstract class MoleculeRun {
                 double test = Dipolederivs[numit - 1];
 
                 if (Math.abs(Dipolederiv - test) > 1E-2) {
-                    System.err.println ("Something broke. Again. " + numit);
-                    System.err.println ("yay");
-                    System.err.println (Dipolederiv);
-                    System.err.println (test);
+                    System.err.println("Something broke. Again. " + numit);
+                    System.err.println("yay");
+                    System.err.println(Dipolederiv);
+                    System.err.println(test);
                     System.exit(0);
-                }
-                else {
-                    System.err.println ("the dipole derivatives work");
-                    System.err.println (Dipolederiv);
-                    System.err.println (test);
+                } else {
+                    System.err.println("the dipole derivatives work");
+                    System.err.println(Dipolederiv);
+                    System.err.println(test);
                 }
 
 
             }
-
-
-
 
 
             excelSB.append(",").append(g.gradient());
@@ -445,9 +437,9 @@ public abstract class MoleculeRun {
     }
 
     protected void outputErrorFunction() {
-        System.out.println("Error function: " + g.getE().constructErrorFunction());
+        System.out.println("Error function: " + g.getE().getTotalError());
 
-        totalExcelStr += g.getE().constructErrorFunction() + excelStr + excelStr2;
+        totalExcelStr += g.getE().getTotalError() + excelStr + excelStr2;
 
         output = new String[]{totalExcelStr, totalHeatDeriv, totalDipoleDeriv, totalIonizationDeriv, totalGeomDeriv};
     }

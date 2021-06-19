@@ -1,10 +1,13 @@
 package nddoparam;
 
 import org.jblas.DoubleMatrix;
-import scf.Utils;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+
+import static nddoparam.mndo.MNDOParams.T1ParamNums;
+import static nddoparam.mndo.MNDOParams.T2ParamNums;
 
 public abstract class NDDOSolution {
     public double energy, homo, lumo, hf, dipole;
@@ -19,24 +22,44 @@ public abstract class NDDOSolution {
     public DoubleMatrix H;
     public NDDO6G[] orbitals;
     public String moleculeName;
-    public int[] atomicnumbers;
+    public int[] atomicNumbers;
+
+    // TODO put this in MNDOSolution as AM1 has different param counts
+    private static int[][] neededParams = new int[0][200]; // [Params need for Z][Z]
+    private ArrayList<Integer> uniqueZs = new ArrayList<>(200); // I don't want to use TreeMap due to O(log N) time cost
+    public static final int maxParamNum = 8;
+
+    // Gets the taus that this particular NDDOSolution object requires
+    public int[][] getNeededParams() {
+        return neededParams;
+    }
+
+    public ArrayList<Integer> getUniqueZs() {
+        return uniqueZs;
+    }
 
     public NDDOSolution(NDDOAtom[] atoms, int charge) {
         StringBuilder nameBuilder = new StringBuilder();
         HashMap<String, Integer> nameOccurrences = new HashMap<>();
         for (NDDOAtom a : atoms) {
             nElectrons += a.getAtomProperties().getQ();
+            if (!uniqueZs.contains(a.getAtomProperties().getZ())) {
+                uniqueZs.add(a.getAtomProperties().getZ());
+                if (a.getAtomProperties().getZ() == 1) neededParams[a.getAtomProperties().getZ()] = T1ParamNums;
+                else neededParams[a.getAtomProperties().getZ()] = T2ParamNums;
+            }
             if (!nameOccurrences.containsKey(a.getName())) nameOccurrences.put(a.getName(), 1);
             else nameOccurrences.put(a.getName(), nameOccurrences.get(a.getName()) + 1);
         }
         for (String key : nameOccurrences.keySet()) {
             nameBuilder.append(key).append(nameOccurrences.get(key));
         }
-        moleculeName =  nameBuilder.toString();
+        moleculeName = nameBuilder.toString();
+        Collections.sort(uniqueZs);
 
         this.atoms = atoms;
 
-        atomicnumbers = new int[atoms.length];
+        atomicNumbers = new int[atoms.length];
 
         nElectrons -= charge;
 
@@ -49,7 +72,7 @@ public abstract class NDDOSolution {
         }
 
         for (int num = 0; num < atoms.length; num++) {
-            atomicnumbers[num] = atoms[num].getAtomProperties().getZ();
+            atomicNumbers[num] = atoms[num].getAtomProperties().getZ();
         }
 
         orbitals = new NDDO6G[i];

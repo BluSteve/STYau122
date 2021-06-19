@@ -5,9 +5,9 @@ import nddoparam.NDDODerivative;
 import nddoparam.NDDOSolution;
 import nddoparam.NDDOSolutionUnrestricted;
 
-public class NDDOParamErrorFunctionUnrestricted extends NDDOParamErrorFunction {
-    public NDDOParamErrorFunctionUnrestricted(NDDOAtom[] atoms, NDDOSolution soln, double refHeat) {
-        super(atoms, soln, refHeat);
+public class ParamErrorFunctionUnrestricted extends ParamErrorFunction {
+    public ParamErrorFunctionUnrestricted(NDDOSolution soln, double refHeat) {
+        super(soln, refHeat);
     }
 
     @Override

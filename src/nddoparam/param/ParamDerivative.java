@@ -1,4 +1,5 @@
 package nddoparam.param;
+
 import nddoparam.*;
 import org.jblas.DoubleMatrix;
 import org.jblas.Singular;
@@ -10,37 +11,37 @@ import scf.Utils;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 
-public class NDDOParamDerivative {
+public class ParamDerivative {
 
-    private static double p1Deriv (NDDOAtom a, int type) {
+    private static double p1Deriv(NDDOAtom a, int type) {
 
-        double D1deriv = D1Deriv (a, type);
+        double D1deriv = D1Deriv(a, type);
 
         if (a.getAtomProperties().getZ() == 1) {
             return 0;
         }
 
-        return - a.p1 * a.p1 * a.D1 / (a.p1 * a.p1 * a.p1 - Math.pow(a.D1 * a.D1 + a.p1 * a.p1, 1.5)) * D1deriv;
+        return -a.p1 * a.p1 * a.D1 / (a.p1 * a.p1 * a.p1 - Math.pow(a.D1 * a.D1 + a.p1 * a.p1, 1.5)) * D1deriv;
     }
-    
 
-    private static double p2Deriv (NDDOAtom a, int type) {
+
+    private static double p2Deriv(NDDOAtom a, int type) {
 
         if (type == 0) {
             return 0;
         }
-        
-        double D2deriv = D2Deriv (a, type);
-        
+
+        double D2deriv = D2Deriv(a, type);
+
         double F1 = 2 * a.D2 * (Math.pow(a.D2 * a.D2 + a.p2 * a.p2, -1.5) - Math.pow(2 * a.D2 * a.D2 + a.p2 * a.p2, -1.5));
 
         double F2 = a.p2 * (2 * Math.pow(a.D2 * a.D2 + a.p2 * a.p2, -1.5) - Math.pow(2 * a.D2 * a.D2 + a.p2 * a.p2, -1.5)) - 1 / (a.p2 * a.p2);
 
-        return - F1/F2 * D2deriv;
+        return -F1 / F2 * D2deriv;
 
     }
 
-    private static double D1Deriv (NDDOAtom a, int type) {
+    private static double D1Deriv(NDDOAtom a, int type) {
 
         double zetas = a.getParams().getZetas();
 
@@ -61,19 +62,18 @@ public class NDDOParamDerivative {
         }
 
         return (2 * a.getAtomProperties().getPeriod() + 1) / Math.sqrt(3) *
-               (4 * zeta * (0.5 + a.getAtomProperties().getPeriod()) * Math.pow(4 * zetas * zetap, -0.5 + a.getAtomProperties().getPeriod()) / Math.pow(zetas + zetap, 2 + 2 * a.getAtomProperties().getPeriod())
-               - (2 + 2 * a.getAtomProperties().getPeriod()) * Math.pow(4 * zetas * zetap, 0.5 + a.getAtomProperties().getPeriod()) / Math.pow(zetas + zetap, 3 + 2 * a.getAtomProperties().getPeriod()));
-
+                (4 * zeta * (0.5 + a.getAtomProperties().getPeriod()) * Math.pow(4 * zetas * zetap, -0.5 + a.getAtomProperties().getPeriod()) / Math.pow(zetas + zetap, 2 + 2 * a.getAtomProperties().getPeriod())
+                        - (2 + 2 * a.getAtomProperties().getPeriod()) * Math.pow(4 * zetas * zetap, 0.5 + a.getAtomProperties().getPeriod()) / Math.pow(zetas + zetap, 3 + 2 * a.getAtomProperties().getPeriod()));
 
 
     }
-    
-    private static double D2Deriv (NDDOAtom a, int type) {
+
+    private static double D2Deriv(NDDOAtom a, int type) {
         if (type == 0) {
             return 0;
         }
-        
-        return - 1 / a.getParams().getZetap() * a.D2;
+
+        return -1 / a.getParams().getZetap() * a.D2;
     }
 
     private static double qq(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
@@ -82,17 +82,17 @@ public class NDDOParamDerivative {
 
     private static double quz(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
         double a01 = p01 + p12;
-        
+
         if (num == 0) {
             return 0;
         }
         if (num == 1) {
-            return - 0.5 * ((R + D12) * D1deriv + a01 * p1deriv) * Math.pow((R + D12) * (R + D12) + a01 * a01, -1.5)
-                   + 0.5 * ((D12 - R) * D1deriv + a01 * p1deriv) * Math.pow((R - D12) * (R - D12) + a01 * a01, -1.5);
+            return -0.5 * ((R + D12) * D1deriv + a01 * p1deriv) * Math.pow((R + D12) * (R + D12) + a01 * a01, -1.5)
+                    + 0.5 * ((D12 - R) * D1deriv + a01 * p1deriv) * Math.pow((R - D12) * (R - D12) + a01 * a01, -1.5);
         }
         if (num == 2) {
-            return - 0.5 * ((R + D11) * D1deriv + a01 * p1deriv) * Math.pow((R + D11) * (R + D11) + a01 * a01, -1.5)
-                   + 0.5 * ((D11 - R) * D1deriv + a01 * p1deriv) * Math.pow((R - D11) * (R - D11) + a01 * a01, -1.5);
+            return -0.5 * ((R + D11) * D1deriv + a01 * p1deriv) * Math.pow((R + D11) * (R + D11) + a01 * a01, -1.5)
+                    + 0.5 * ((D11 - R) * D1deriv + a01 * p1deriv) * Math.pow((R - D11) * (R - D11) + a01 * a01, -1.5);
         }
 
         return 0;
@@ -105,16 +105,16 @@ public class NDDOParamDerivative {
             return 0;
         }
         if (num == 1) {
-            return - 0.5 * (4 * D22 * D2deriv + a02 * p2deriv) * Math.pow(R * R + 4 * D22 * D22 + a02 * a02, -1.5)
-                   + 0.5 * a02 * p2deriv * Math.pow(R * R + a02 * a02, -1.5);
+            return -0.5 * (4 * D22 * D2deriv + a02 * p2deriv) * Math.pow(R * R + 4 * D22 * D22 + a02 * a02, -1.5)
+                    + 0.5 * a02 * p2deriv * Math.pow(R * R + a02 * a02, -1.5);
         }
         if (num == 2) {
-            return - 0.5 * (4 * D21 * D2deriv + a02 * p2deriv) * Math.pow(R * R + 4 * D21 * D21 + a02 * a02, -1.5)
-                   + 0.5 * a02 * p2deriv * Math.pow(R * R + a02 * a02, -1.5);
+            return -0.5 * (4 * D21 * D2deriv + a02 * p2deriv) * Math.pow(R * R + 4 * D21 * D21 + a02 * a02, -1.5)
+                    + 0.5 * a02 * p2deriv * Math.pow(R * R + a02 * a02, -1.5);
         }
 
         return 0;
-        
+
     }
 
     private static double qQzz(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
@@ -124,91 +124,91 @@ public class NDDOParamDerivative {
             return 0;
         }
         if (num == 1) {
-            return - 0.25 * (2 * (R + 2 * D22) * D2deriv + a02 * p2deriv) * Math.pow((R + 2 * D22) * (R + 2 * D22) + a02 * a02, -1.5)
-                   - 0.25 * (2 * (2 * D22 - R) * D2deriv + a02 * p2deriv) * Math.pow((R - 2 * D22) * (R - 2 * D22) + a02 * a02, -1.5)
-                   + 0.5 * a02 * p2deriv * Math.pow(R * R + a02 * a02, -1.5);
+            return -0.25 * (2 * (R + 2 * D22) * D2deriv + a02 * p2deriv) * Math.pow((R + 2 * D22) * (R + 2 * D22) + a02 * a02, -1.5)
+                    - 0.25 * (2 * (2 * D22 - R) * D2deriv + a02 * p2deriv) * Math.pow((R - 2 * D22) * (R - 2 * D22) + a02 * a02, -1.5)
+                    + 0.5 * a02 * p2deriv * Math.pow(R * R + a02 * a02, -1.5);
         }
 
         if (num == 2) {
-            return - 0.25 * (2 * (R + 2 * D21) * D2deriv + a02 * p2deriv) * Math.pow((R + 2 * D21) * (R + 2 * D21) + a02 * a02, -1.5)
+            return -0.25 * (2 * (R + 2 * D21) * D2deriv + a02 * p2deriv) * Math.pow((R + 2 * D21) * (R + 2 * D21) + a02 * a02, -1.5)
                     - 0.25 * (2 * (2 * D21 - R) * D2deriv + a02 * p2deriv) * Math.pow((R - 2 * D21) * (R - 2 * D21) + a02 * a02, -1.5)
                     + 0.5 * a02 * p2deriv * Math.pow(R * R + a02 * a02, -1.5);
         }
 
         return 0;
-        
+
     }
 
     private static double upiupi(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
         double a11 = p11 + p12;
         if (num == 0) {
-            return - 0.5 * ((D11 - D12) * D1deriv + a11 * p1deriv) * Math.pow(R * R + (D11 - D12) * (D11 - D12) + a11 * a11, -1.5)
-                   + 0.5 * ((D11 + D12) * D1deriv + a11 * p1deriv) * Math.pow(R * R + (D11 + D12) * (D11 + D12) + a11 * a11, -1.5);
+            return -0.5 * ((D11 - D12) * D1deriv + a11 * p1deriv) * Math.pow(R * R + (D11 - D12) * (D11 - D12) + a11 * a11, -1.5)
+                    + 0.5 * ((D11 + D12) * D1deriv + a11 * p1deriv) * Math.pow(R * R + (D11 + D12) * (D11 + D12) + a11 * a11, -1.5);
         }
         if (num == 1) {
-            return - 0.5 * ((D12 - D11) * D1deriv + a11 * p1deriv) * Math.pow(R * R + (D11 - D12) * (D11 - D12) + a11 * a11, -1.5)
-                   + 0.5 * ((D11 + D12) * D1deriv + a11 * p1deriv) * Math.pow(R * R + (D11 + D12) * (D11 + D12) + a11 * a11, -1.5);
+            return -0.5 * ((D12 - D11) * D1deriv + a11 * p1deriv) * Math.pow(R * R + (D11 - D12) * (D11 - D12) + a11 * a11, -1.5)
+                    + 0.5 * ((D11 + D12) * D1deriv + a11 * p1deriv) * Math.pow(R * R + (D11 + D12) * (D11 + D12) + a11 * a11, -1.5);
         }
         if (num == 2) {
-            return - 0.5 * (2 * a11 * p1deriv) * Math.pow(R * R + a11 * a11, -1.5)
-                   + 0.5 * (4 * D11 * D1deriv + 2 * a11 * p1deriv) * Math.pow(R * R + 4 * D11 * D11 + a11 * a11, -1.5);
+            return -0.5 * (2 * a11 * p1deriv) * Math.pow(R * R + a11 * a11, -1.5)
+                    + 0.5 * (4 * D11 * D1deriv + 2 * a11 * p1deriv) * Math.pow(R * R + 4 * D11 * D11 + a11 * a11, -1.5);
         }
 
         return 0;
-        
+
     }
 
     private static double uzuz(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
         double a11 = p11 + p12;
 
         if (num == 0) {
-            return - 0.25 * ((R + D11 - D12) * D1deriv + a11 * p1deriv) * Math.pow((R + D11 - D12) * (R + D11 - D12) + a11 * a11, -1.5)
-                   + 0.25 * ((R + D11 + D12) * D1deriv + a11 * p1deriv) * Math.pow((R + D11 + D12) * (R + D11 + D12) + a11 * a11, -1.5)
-                   + 0.25 * ((D11 + D12 - R) * D1deriv + a11 * p1deriv) * Math.pow((R - D11 - D12) * (R - D11 - D12) + a11 * a11, -1.5)
-                   - 0.25 * ((D11 - D12 - R) * D1deriv + a11 * p1deriv) * Math.pow((R - D11 + D12) * (R - D11 + D12) + a11 * a11, -1.5);
+            return -0.25 * ((R + D11 - D12) * D1deriv + a11 * p1deriv) * Math.pow((R + D11 - D12) * (R + D11 - D12) + a11 * a11, -1.5)
+                    + 0.25 * ((R + D11 + D12) * D1deriv + a11 * p1deriv) * Math.pow((R + D11 + D12) * (R + D11 + D12) + a11 * a11, -1.5)
+                    + 0.25 * ((D11 + D12 - R) * D1deriv + a11 * p1deriv) * Math.pow((R - D11 - D12) * (R - D11 - D12) + a11 * a11, -1.5)
+                    - 0.25 * ((D11 - D12 - R) * D1deriv + a11 * p1deriv) * Math.pow((R - D11 + D12) * (R - D11 + D12) + a11 * a11, -1.5);
         }
         if (num == 1) {
-            return - 0.25 * ((D12 - D11 - R) * D1deriv + a11 * p1deriv) * Math.pow((R + D11 - D12) * (R + D11 - D12) + a11 * a11, -1.5)
-                   + 0.25 * ((R + D11 + D12) * D1deriv + a11 * p1deriv) * Math.pow((R + D11 + D12) * (R + D11 + D12) + a11 * a11, -1.5)
-                   + 0.25 * ((D11 + D12 - R) * D1deriv + a11 * p1deriv) * Math.pow((R - D11 - D12) * (R - D11 - D12) + a11 * a11, -1.5)
-                   - 0.25 * ((D12 + R - D11) * D1deriv + a11 * p1deriv) * Math.pow((R - D11 + D12) * (R - D11 + D12) + a11 * a11, -1.5);
+            return -0.25 * ((D12 - D11 - R) * D1deriv + a11 * p1deriv) * Math.pow((R + D11 - D12) * (R + D11 - D12) + a11 * a11, -1.5)
+                    + 0.25 * ((R + D11 + D12) * D1deriv + a11 * p1deriv) * Math.pow((R + D11 + D12) * (R + D11 + D12) + a11 * a11, -1.5)
+                    + 0.25 * ((D11 + D12 - R) * D1deriv + a11 * p1deriv) * Math.pow((R - D11 - D12) * (R - D11 - D12) + a11 * a11, -1.5)
+                    - 0.25 * ((D12 + R - D11) * D1deriv + a11 * p1deriv) * Math.pow((R - D11 + D12) * (R - D11 + D12) + a11 * a11, -1.5);
         }
 
         if (num == 2) {
-            return - a11 * p1deriv * Math.pow(R * R + a11 * a11, -1.5)
-                   + 0.25 * (2 * (R + 2 * D11) * D1deriv + 2 * a11 * p1deriv) * Math.pow((R + 2 * D11) * (R + 2 * D11) + a11 * a11, -1.5)
-                   + 0.25 * (2 * (2 * D11 - R) * D1deriv + 2 * a11 * p1deriv) * Math.pow((R - 2 * D11) * (R - 2 * D11) + a11 * a11, -1.5);
+            return -a11 * p1deriv * Math.pow(R * R + a11 * a11, -1.5)
+                    + 0.25 * (2 * (R + 2 * D11) * D1deriv + 2 * a11 * p1deriv) * Math.pow((R + 2 * D11) * (R + 2 * D11) + a11 * a11, -1.5)
+                    + 0.25 * (2 * (2 * D11 - R) * D1deriv + 2 * a11 * p1deriv) * Math.pow((R - 2 * D11) * (R - 2 * D11) + a11 * a11, -1.5);
         }
 
         return 0;
-        
+
     }
 
     private static double upiQpiz(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
         double a12 = p11 + p22;
 
         if (num == 0) {
-            return  0.25 * ((D11 - D22) * D1deriv + a12 * p1deriv) * Math.pow((R - D22) * (R - D22) + (D11 - D22) * (D11 - D22) + a12 * a12, -1.5)
-                  - 0.25 * ((D11 + D22) * D1deriv + a12 * p1deriv) * Math.pow((R - D22) * (R - D22) + (D11 + D22) * (D11 + D22) + a12 * a12, -1.5)
-                  - 0.25 * ((D11 - D22) * D1deriv + a12 * p1deriv) * Math.pow((R + D22) * (R + D22) + (D11 - D22) * (D11 - D22) + a12 * a12, -1.5)
-                  + 0.25 * ((D11 + D22) * D1deriv + a12 * p1deriv) * Math.pow((R + D22) * (R + D22) + (D11 + D22) * (D11 + D22) + a12 * a12, -1.5);
+            return 0.25 * ((D11 - D22) * D1deriv + a12 * p1deriv) * Math.pow((R - D22) * (R - D22) + (D11 - D22) * (D11 - D22) + a12 * a12, -1.5)
+                    - 0.25 * ((D11 + D22) * D1deriv + a12 * p1deriv) * Math.pow((R - D22) * (R - D22) + (D11 + D22) * (D11 + D22) + a12 * a12, -1.5)
+                    - 0.25 * ((D11 - D22) * D1deriv + a12 * p1deriv) * Math.pow((R + D22) * (R + D22) + (D11 - D22) * (D11 - D22) + a12 * a12, -1.5)
+                    + 0.25 * ((D11 + D22) * D1deriv + a12 * p1deriv) * Math.pow((R + D22) * (R + D22) + (D11 + D22) * (D11 + D22) + a12 * a12, -1.5);
         }
         if (num == 1) {
-            return  0.25 * ((2 * D22 - R - D11) * D2deriv + a12 * p2deriv) * Math.pow((R - D22) * (R - D22) + (D11 - D22) * (D11 - D22) + a12 * a12, -1.5)
-                  - 0.25 * ((2 * D22 + D11 - R) * D2deriv + a12 * p2deriv) * Math.pow((R - D22) * (R - D22) + (D11 + D22) * (D11 + D22) + a12 * a12, -1.5)
-                  - 0.25 * ((2 * D22 + R - D11) * D2deriv + a12 * p2deriv) * Math.pow((R + D22) * (R + D22) + (D11 - D22) * (D11 - D22) + a12 * a12, -1.5)
-                  + 0.25 * ((2 * D22 + D11 + R) * D2deriv + a12 * p2deriv) * Math.pow((R + D22) * (R + D22) + (D11 + D22) * (D11 + D22) + a12 * a12, -1.5);
+            return 0.25 * ((2 * D22 - R - D11) * D2deriv + a12 * p2deriv) * Math.pow((R - D22) * (R - D22) + (D11 - D22) * (D11 - D22) + a12 * a12, -1.5)
+                    - 0.25 * ((2 * D22 + D11 - R) * D2deriv + a12 * p2deriv) * Math.pow((R - D22) * (R - D22) + (D11 + D22) * (D11 + D22) + a12 * a12, -1.5)
+                    - 0.25 * ((2 * D22 + R - D11) * D2deriv + a12 * p2deriv) * Math.pow((R + D22) * (R + D22) + (D11 - D22) * (D11 - D22) + a12 * a12, -1.5)
+                    + 0.25 * ((2 * D22 + D11 + R) * D2deriv + a12 * p2deriv) * Math.pow((R + D22) * (R + D22) + (D11 + D22) * (D11 + D22) + a12 * a12, -1.5);
         }
 
         if (num == 2) {
-            return   0.25 * ((D21 - R) * D2deriv + (D11 - D21) * (D1deriv - D2deriv) + a12 * (p1deriv + p2deriv)) * Math.pow((R - D21) * (R - D21) + (D11 - D21) * (D11 - D21) + a12 * a12, -1.5)
-                   - 0.25 * ((D21 - R) * D2deriv + (D11 + D21) * (D1deriv + D2deriv) + a12 * (p1deriv + p2deriv)) * Math.pow((R - D21) * (R - D21) + (D11 + D21) * (D11 + D21) + a12 * a12, -1.5)
-                   - 0.25 * ((D21 + R) * D2deriv + (D11 - D21) * (D1deriv - D2deriv) + a12 * (p1deriv + p2deriv)) * Math.pow((R + D21) * (R + D21) + (D11 - D21) * (D11 - D21) + a12 * a12, -1.5)
-                   + 0.25 * ((D21 + R) * D2deriv + (D11 + D21) * (D1deriv + D2deriv) + a12 * (p1deriv + p2deriv)) * Math.pow((R + D21) * (R + D21) + (D11 + D21) * (D11 + D21) + a12 * a12, -1.5);
+            return 0.25 * ((D21 - R) * D2deriv + (D11 - D21) * (D1deriv - D2deriv) + a12 * (p1deriv + p2deriv)) * Math.pow((R - D21) * (R - D21) + (D11 - D21) * (D11 - D21) + a12 * a12, -1.5)
+                    - 0.25 * ((D21 - R) * D2deriv + (D11 + D21) * (D1deriv + D2deriv) + a12 * (p1deriv + p2deriv)) * Math.pow((R - D21) * (R - D21) + (D11 + D21) * (D11 + D21) + a12 * a12, -1.5)
+                    - 0.25 * ((D21 + R) * D2deriv + (D11 - D21) * (D1deriv - D2deriv) + a12 * (p1deriv + p2deriv)) * Math.pow((R + D21) * (R + D21) + (D11 - D21) * (D11 - D21) + a12 * a12, -1.5)
+                    + 0.25 * ((D21 + R) * D2deriv + (D11 + D21) * (D1deriv + D2deriv) + a12 * (p1deriv + p2deriv)) * Math.pow((R + D21) * (R + D21) + (D11 + D21) * (D11 + D21) + a12 * a12, -1.5);
         }
 
         return 0;
-        
+
     }
 
     private static double uzQpipi(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
@@ -216,50 +216,50 @@ public class NDDOParamDerivative {
 
         if (num == 0) {
             return 0.25 * ((R + D11) * D1deriv + a12 * p1deriv) * Math.pow((R + D11) * (R + D11) + 4 * D22 * D22 + a12 * a12, -1.5)
-                 - 0.25 * ((D11 - R) * D1deriv + a12 * p1deriv) * Math.pow((R - D11) * (R - D11) + 4 * D22 * D22 + a12 * a12, -1.5)
-                 - 0.25 * ((R + D11) * D1deriv + a12 * p1deriv) * Math.pow((R + D11) * (R + D11) + a12 * a12, -1.5)
-                 + 0.25 * ((D11 - R) * D1deriv + a12 * p1deriv) * Math.pow((R - D11) * (R - D11) + a12 * a12, -1.5);
+                    - 0.25 * ((D11 - R) * D1deriv + a12 * p1deriv) * Math.pow((R - D11) * (R - D11) + 4 * D22 * D22 + a12 * a12, -1.5)
+                    - 0.25 * ((R + D11) * D1deriv + a12 * p1deriv) * Math.pow((R + D11) * (R + D11) + a12 * a12, -1.5)
+                    + 0.25 * ((D11 - R) * D1deriv + a12 * p1deriv) * Math.pow((R - D11) * (R - D11) + a12 * a12, -1.5);
         }
         if (num == 1) {
             return 0.25 * (4 * D22 * D2deriv + a12 * p2deriv) * Math.pow((R + D11) * (R + D11) + 4 * D22 * D22 + a12 * a12, -1.5)
-                 - 0.25 * (4 * D22 * D2deriv + a12 * p2deriv) * Math.pow((R - D11) * (R - D11) + 4 * D22 * D22 + a12 * a12, -1.5)
-                 - 0.25 * (a12 * p2deriv) * Math.pow((R + D11) * (R + D11) + a12 * a12, -1.5)
-                 + 0.25 * (a12 * p2deriv) * Math.pow((R - D11) * (R - D11) + a12 * a12, -1.5);
+                    - 0.25 * (4 * D22 * D2deriv + a12 * p2deriv) * Math.pow((R - D11) * (R - D11) + 4 * D22 * D22 + a12 * a12, -1.5)
+                    - 0.25 * (a12 * p2deriv) * Math.pow((R + D11) * (R + D11) + a12 * a12, -1.5)
+                    + 0.25 * (a12 * p2deriv) * Math.pow((R - D11) * (R - D11) + a12 * a12, -1.5);
         }
 
         if (num == 2) {
             return 0.25 * ((R + D11) * D1deriv + 4 * D21 * D2deriv + a12 * (p1deriv + p2deriv)) * Math.pow((R + D11) * (R + D11) + 4 * D21 * D21 + a12 * a12, -1.5)
-                 - 0.25 * ((D11 - R) * D1deriv + 4 * D21 * D2deriv + a12 * (p1deriv + p2deriv)) * Math.pow((R - D11) * (R - D11) + 4 * D21 * D21 + a12 * a12, -1.5)
-                 - 0.25 * ((R + D11) * D1deriv + a12 * (p1deriv + p2deriv)) * Math.pow((R + D11) * (R + D11) + a12 * a12, -1.5)
-                 + 0.25 * ((D11 - R) * D1deriv + a12 * (p1deriv + p2deriv)) * Math.pow((R - D11) * (R - D11) + a12 * a12, -1.5);
+                    - 0.25 * ((D11 - R) * D1deriv + 4 * D21 * D2deriv + a12 * (p1deriv + p2deriv)) * Math.pow((R - D11) * (R - D11) + 4 * D21 * D21 + a12 * a12, -1.5)
+                    - 0.25 * ((R + D11) * D1deriv + a12 * (p1deriv + p2deriv)) * Math.pow((R + D11) * (R + D11) + a12 * a12, -1.5)
+                    + 0.25 * ((D11 - R) * D1deriv + a12 * (p1deriv + p2deriv)) * Math.pow((R - D11) * (R - D11) + a12 * a12, -1.5);
         }
 
         return 0;
-        
+
     }
 
     private static double uzQzz(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
         double a12 = p11 + p22;
 
         if (num == 0) {
-            return + 0.125 * ((R + D11 - 2 * D22) * D1deriv + a12 * p1deriv) * Math.pow((R + D11 - 2 * D22) * (R + D11 - 2 * D22) + a12 * a12, -1.5)
-                   - 0.125 * ((D11 + 2 * D22 - R) * D1deriv + a12 * p1deriv) * Math.pow((R - D11 - 2 * D22) * (R - D11 - 2 * D22) + a12 * a12, -1.5)
-                   + 0.125 * ((R + D11 + 2 * D22) * D1deriv + a12 * p1deriv) * Math.pow((R + D11 + 2 * D22) * (R + D11 + 2 * D22) + a12 * a12, -1.5)
-                   - 0.125 * ((D11 - 2 * D22 - R) * D1deriv + a12 * p1deriv) * Math.pow((R - D11 + 2 * D22) * (R - D11 + 2 * D22) + a12 * a12, -1.5)
-                   - 0.25 * ((R + D11) * D1deriv + a12 * p1deriv) * Math.pow((R + D11) * (R + D11) + a12 * a12, -1.5)
-                   + 0.25 * ((D11 - R) * D1deriv + a12 * p1deriv) * Math.pow((R - D11) * (R - D11) + a12 * a12, -1.5);
+            return +0.125 * ((R + D11 - 2 * D22) * D1deriv + a12 * p1deriv) * Math.pow((R + D11 - 2 * D22) * (R + D11 - 2 * D22) + a12 * a12, -1.5)
+                    - 0.125 * ((D11 + 2 * D22 - R) * D1deriv + a12 * p1deriv) * Math.pow((R - D11 - 2 * D22) * (R - D11 - 2 * D22) + a12 * a12, -1.5)
+                    + 0.125 * ((R + D11 + 2 * D22) * D1deriv + a12 * p1deriv) * Math.pow((R + D11 + 2 * D22) * (R + D11 + 2 * D22) + a12 * a12, -1.5)
+                    - 0.125 * ((D11 - 2 * D22 - R) * D1deriv + a12 * p1deriv) * Math.pow((R - D11 + 2 * D22) * (R - D11 + 2 * D22) + a12 * a12, -1.5)
+                    - 0.25 * ((R + D11) * D1deriv + a12 * p1deriv) * Math.pow((R + D11) * (R + D11) + a12 * a12, -1.5)
+                    + 0.25 * ((D11 - R) * D1deriv + a12 * p1deriv) * Math.pow((R - D11) * (R - D11) + a12 * a12, -1.5);
         }
         if (num == 1) {
-            return + 0.125 * (2 * (2 * D22 - D11 - R) * D2deriv + a12 * p2deriv) * Math.pow((R + D11 - 2 * D22) * (R + D11 - 2 * D22) + a12 * a12, -1.5)
-                   - 0.125 * (2 * (D11 + 2 * D22 - R) * D2deriv + a12 * p2deriv) * Math.pow((R - D11 - 2 * D22) * (R - D11 - 2 * D22) + a12 * a12, -1.5)
-                   + 0.125 * (2 * (R + D11 + 2 * D22) * D2deriv + a12 * p2deriv) * Math.pow((R + D11 + 2 * D22) * (R + D11 + 2 * D22) + a12 * a12, -1.5)
-                   - 0.125 * (2 * (2 * D22 + R - D11) * D2deriv + a12 * p2deriv) * Math.pow((R - D11 + 2 * D22) * (R - D11 + 2 * D22) + a12 * a12, -1.5)
-                   - 0.25 * (a12 * p2deriv) * Math.pow((R + D11) * (R + D11) + a12 * a12, -1.5)
-                   + 0.25 * (a12 * p2deriv) * Math.pow((R - D11) * (R - D11) + a12 * a12, -1.5);
+            return +0.125 * (2 * (2 * D22 - D11 - R) * D2deriv + a12 * p2deriv) * Math.pow((R + D11 - 2 * D22) * (R + D11 - 2 * D22) + a12 * a12, -1.5)
+                    - 0.125 * (2 * (D11 + 2 * D22 - R) * D2deriv + a12 * p2deriv) * Math.pow((R - D11 - 2 * D22) * (R - D11 - 2 * D22) + a12 * a12, -1.5)
+                    + 0.125 * (2 * (R + D11 + 2 * D22) * D2deriv + a12 * p2deriv) * Math.pow((R + D11 + 2 * D22) * (R + D11 + 2 * D22) + a12 * a12, -1.5)
+                    - 0.125 * (2 * (2 * D22 + R - D11) * D2deriv + a12 * p2deriv) * Math.pow((R - D11 + 2 * D22) * (R - D11 + 2 * D22) + a12 * a12, -1.5)
+                    - 0.25 * (a12 * p2deriv) * Math.pow((R + D11) * (R + D11) + a12 * a12, -1.5)
+                    + 0.25 * (a12 * p2deriv) * Math.pow((R - D11) * (R - D11) + a12 * a12, -1.5);
         }
 
         if (num == 2) {
-            return  + 0.125 * ((R + D11 - 2 * D21) * (D1deriv - 2 * D2deriv) + a12 * (p1deriv + p2deriv)) * Math.pow((R + D11 - 2 * D21) * (R + D11 - 2 * D21) + a12 * a12, -1.5)
+            return +0.125 * ((R + D11 - 2 * D21) * (D1deriv - 2 * D2deriv) + a12 * (p1deriv + p2deriv)) * Math.pow((R + D11 - 2 * D21) * (R + D11 - 2 * D21) + a12 * a12, -1.5)
                     - 0.125 * ((D11 + 2 * D21 - R) * (D1deriv + 2 * D2deriv) + a12 * (p1deriv + p2deriv)) * Math.pow((R - D11 - 2 * D21) * (R - D11 - 2 * D21) + a12 * a12, -1.5)
                     + 0.125 * ((R + D11 + 2 * D21) * (D1deriv + 2 * D2deriv) + a12 * (p1deriv + p2deriv)) * Math.pow((R + D11 + 2 * D21) * (R + D11 + 2 * D21) + a12 * a12, -1.5)
                     - 0.125 * ((R - D11 + 2 * D21) * (2 * D2deriv - D1deriv) + a12 * (p1deriv + p2deriv)) * Math.pow((R - D11 + 2 * D21) * (R - D11 + 2 * D21) + a12 * a12, -1.5)
@@ -268,30 +268,30 @@ public class NDDOParamDerivative {
         }
 
         return 0;
-        
+
     }
 
     private static double QpipiQpipi(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
         double a22 = p21 + p22;
         if (num == 0) {
-            return - 0.125 * (4 * (D21 - D22) * D2deriv + a22 * p2deriv) * Math.pow(R * R + 4 * (D21 - D22) * (D21 - D22) + a22 * a22, -1.5)
-                   - 0.125 * (4 * (D21 + D22) * D2deriv + a22 * p2deriv) * Math.pow(R * R + 4 * (D21 + D22) * (D21 + D22) + a22 * a22, -1.5)
+            return -0.125 * (4 * (D21 - D22) * D2deriv + a22 * p2deriv) * Math.pow(R * R + 4 * (D21 - D22) * (D21 - D22) + a22 * a22, -1.5)
+                    - 0.125 * (4 * (D21 + D22) * D2deriv + a22 * p2deriv) * Math.pow(R * R + 4 * (D21 + D22) * (D21 + D22) + a22 * a22, -1.5)
                     + 0.25 * (4 * D21 * D2deriv + a22 * p2deriv) * Math.pow(R * R + 4 * D21 * D21 + a22 * a22, -1.5)
                     + 0.25 * (a22 * p2deriv) * Math.pow(R * R + 4 * D22 * D22 + a22 * a22, -1.5)
                     - 0.25 * (a22 * p2deriv) * Math.pow(R * R + a22 * a22, -1.5);
         }
         if (num == 1) {
-            return - 0.125 * (4 * (D22 - D21) * D2deriv + a22 * p2deriv) * Math.pow(R * R + 4 * (D21 - D22) * (D21 - D22) + a22 * a22, -1.5)
-                   - 0.125 * (4 * (D21 + D22) * D2deriv + a22 * p2deriv) * Math.pow(R * R + 4 * (D21 + D22) * (D21 + D22) + a22 * a22, -1.5)
+            return -0.125 * (4 * (D22 - D21) * D2deriv + a22 * p2deriv) * Math.pow(R * R + 4 * (D21 - D22) * (D21 - D22) + a22 * a22, -1.5)
+                    - 0.125 * (4 * (D21 + D22) * D2deriv + a22 * p2deriv) * Math.pow(R * R + 4 * (D21 + D22) * (D21 + D22) + a22 * a22, -1.5)
                     + 0.25 * (a22 * p2deriv) * Math.pow(R * R + 4 * D21 * D21 + a22 * a22, -1.5)
                     + 0.25 * (4 * D22 * D2deriv + a22 * p2deriv) * Math.pow(R * R + 4 * D22 * D22 + a22 * a22, -1.5)
                     - 0.25 * (a22 * p2deriv) * Math.pow(R * R + a22 * a22, -1.5);
         }
 
         if (num == 2) {
-            return - 0.75 * a22 * p2deriv * Math.pow(R * R + a22 * a22, -1.5)
-                   - 0.125 * (16 * D21 * D2deriv + 2 * a22 * p2deriv) * Math.pow(R * R + 16 * D21 * D21 + a22 * a22, -1.5)
-                   + 0.5 * (4 * D21 * D2deriv + 2 * a22 * p2deriv) * Math.pow(R * R + 4 * D21 * D21 + a22 * a22, -1.5);
+            return -0.75 * a22 * p2deriv * Math.pow(R * R + a22 * a22, -1.5)
+                    - 0.125 * (16 * D21 * D2deriv + 2 * a22 * p2deriv) * Math.pow(R * R + 16 * D21 * D21 + a22 * a22, -1.5)
+                    + 0.5 * (4 * D21 * D2deriv + 2 * a22 * p2deriv) * Math.pow(R * R + 4 * D21 * D21 + a22 * a22, -1.5);
         }
 
         return 0;
@@ -300,22 +300,22 @@ public class NDDOParamDerivative {
     private static double QxxQyy(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
         double a22 = p21 + p22;
         if (num == 0) {
-            return - 0.25 * (4 * D21 * D2deriv + a22 * p2deriv) * Math.pow(R * R + 4 * D21 * D21 + 4 * D22 * D22 + a22 * a22, -1.5)
-                   + 0.25 * (4 * D21 * D2deriv + a22 * p2deriv) * Math.pow(R * R + 4 * D21 * D21 + a22 * a22, -1.5)
-                   + 0.25 * (a22 * p2deriv) * Math.pow(R * R + 4 * D22 * D22 + a22 * a22, -1.5)
-                   - 0.25 * (a22 * p2deriv) * Math.pow(R * R + a22 * a22, -1.5);
+            return -0.25 * (4 * D21 * D2deriv + a22 * p2deriv) * Math.pow(R * R + 4 * D21 * D21 + 4 * D22 * D22 + a22 * a22, -1.5)
+                    + 0.25 * (4 * D21 * D2deriv + a22 * p2deriv) * Math.pow(R * R + 4 * D21 * D21 + a22 * a22, -1.5)
+                    + 0.25 * (a22 * p2deriv) * Math.pow(R * R + 4 * D22 * D22 + a22 * a22, -1.5)
+                    - 0.25 * (a22 * p2deriv) * Math.pow(R * R + a22 * a22, -1.5);
         }
         if (num == 1) {
-            return - 0.25 * (4 * D22 * D2deriv + a22 * p2deriv) * Math.pow(R * R + 4 * D21 * D21 + 4 * D22 * D22 + a22 * a22, -1.5)
-                   + 0.25 * (a22 * p2deriv) * Math.pow(R * R + 4 * D21 * D21 + a22 * a22, -1.5)
-                   + 0.25 * (4 * D22 * D2deriv + a22 * p2deriv) * Math.pow(R * R + 4 * D22 * D22 + a22 * a22, -1.5)
-                   - 0.25 * (a22 * p2deriv) * Math.pow(R * R + a22 * a22, -1.5);
+            return -0.25 * (4 * D22 * D2deriv + a22 * p2deriv) * Math.pow(R * R + 4 * D21 * D21 + 4 * D22 * D22 + a22 * a22, -1.5)
+                    + 0.25 * (a22 * p2deriv) * Math.pow(R * R + 4 * D21 * D21 + a22 * a22, -1.5)
+                    + 0.25 * (4 * D22 * D2deriv + a22 * p2deriv) * Math.pow(R * R + 4 * D22 * D22 + a22 * a22, -1.5)
+                    - 0.25 * (a22 * p2deriv) * Math.pow(R * R + a22 * a22, -1.5);
         }
 
         if (num == 2) {
-            return - 0.25 * (8 * D22 * D2deriv + 2 * a22 * p2deriv) * Math.pow(R * R + 8 * D21 * D21 + a22 * a22, -1.5)
-                   + 0.5 * (4 * D22 * D2deriv + 2 * a22 * p2deriv) * Math.pow(R * R + 4 * D21 * D21 + a22 * a22, -1.5)
-                   - 0.25 * (2 * a22 * p2deriv) * Math.pow(R * R + a22 * a22, -1.5);
+            return -0.25 * (8 * D22 * D2deriv + 2 * a22 * p2deriv) * Math.pow(R * R + 8 * D21 * D21 + a22 * a22, -1.5)
+                    + 0.5 * (4 * D22 * D2deriv + 2 * a22 * p2deriv) * Math.pow(R * R + 4 * D21 * D21 + a22 * a22, -1.5)
+                    - 0.25 * (2 * a22 * p2deriv) * Math.pow(R * R + a22 * a22, -1.5);
         }
 
         return 0;
@@ -325,15 +325,15 @@ public class NDDOParamDerivative {
     private static double QpipiQzz(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
         double a22 = p21 + p22;
         if (num == 0) {
-            return - 0.125 * (4 * D21 * D2deriv + a22 * p2deriv) * Math.pow((R - 2 * D22) * (R - 2 * D22) + 4 * D21 * D21 + a22 * a22, -1.5)
-                   - 0.125 * (4 * D21 * D2deriv + a22 * p2deriv) * Math.pow((R + 2 * D22) * (R + 2 * D22) + 4 * D21 * D21 + a22 * a22, -1.5)
-                   + 0.125 * (a22 * p2deriv) * Math.pow((R - 2 * D22) * (R - 2 * D22) + a22 * a22, -1.5)
-                   + 0.125 * (a22 * p2deriv) * Math.pow((R + 2 * D22) * (R + 2 * D22) + a22 * a22, -1.5)
-                   + 0.25 * (4 * D21 * D2deriv + a22 * p2deriv) * Math.pow(R * R + 4 * D21 * D21 + a22 * a22, -1.5)
-                   - 0.25 * (a22 * p2deriv) * Math.pow(R * R + a22 * a22, -1.5);
+            return -0.125 * (4 * D21 * D2deriv + a22 * p2deriv) * Math.pow((R - 2 * D22) * (R - 2 * D22) + 4 * D21 * D21 + a22 * a22, -1.5)
+                    - 0.125 * (4 * D21 * D2deriv + a22 * p2deriv) * Math.pow((R + 2 * D22) * (R + 2 * D22) + 4 * D21 * D21 + a22 * a22, -1.5)
+                    + 0.125 * (a22 * p2deriv) * Math.pow((R - 2 * D22) * (R - 2 * D22) + a22 * a22, -1.5)
+                    + 0.125 * (a22 * p2deriv) * Math.pow((R + 2 * D22) * (R + 2 * D22) + a22 * a22, -1.5)
+                    + 0.25 * (4 * D21 * D2deriv + a22 * p2deriv) * Math.pow(R * R + 4 * D21 * D21 + a22 * a22, -1.5)
+                    - 0.25 * (a22 * p2deriv) * Math.pow(R * R + a22 * a22, -1.5);
         }
         if (num == 1) {
-            return - 0.125 * (2 * (2 * D22 - R) * D2deriv + a22 * p2deriv) * Math.pow((R - 2 * D22) * (R - 2 * D22) + 4 * D21 * D21 + a22 * a22, -1.5)
+            return -0.125 * (2 * (2 * D22 - R) * D2deriv + a22 * p2deriv) * Math.pow((R - 2 * D22) * (R - 2 * D22) + 4 * D21 * D21 + a22 * a22, -1.5)
                     - 0.125 * (2 * (2 * D22 + R) * D2deriv + a22 * p2deriv) * Math.pow((R + 2 * D22) * (R + 2 * D22) + 4 * D21 * D21 + a22 * a22, -1.5)
                     + 0.125 * (2 * (2 * D22 - R) * D2deriv + a22 * p2deriv) * Math.pow((R - 2 * D22) * (R - 2 * D22) + a22 * a22, -1.5)
                     + 0.125 * (2 * (2 * D22 + R) * D2deriv + a22 * p2deriv) * Math.pow((R + 2 * D22) * (R + 2 * D22) + a22 * a22, -1.5)
@@ -342,26 +342,26 @@ public class NDDOParamDerivative {
         }
 
         if (num == 2) {
-            return - 0.125 * ((2 * (2 * D21 - R) + 4 * D21) * D2deriv + 2 * a22 * p2deriv) * Math.pow((R - 2 * D21) * (R - 2 * D21) + 4 * D21 * D21 + a22 * a22, -1.5)
-                   - 0.125 * ((2 * (2 * D21 + R) + 4 * D21) * D2deriv + 2 * a22 * p2deriv) * Math.pow((R + 2 * D21) * (R + 2 * D21) + 4 * D21 * D21 + a22 * a22, -1.5)
-                   + 0.125 * (2 * (2 * D21 - R) * D2deriv + 2 * a22 * p2deriv) * Math.pow((R - 2 * D21) * (R - 2 * D21) + a22 * a22, -1.5)
-                   + 0.125 * (2 * (2 * D21 + R) * D2deriv + 2 * a22 * p2deriv) * Math.pow((R + 2 * D21) * (R + 2 * D21) + a22 * a22, -1.5)
-                   + 0.25 * (4 * D21 * D2deriv + 2 * a22 * p2deriv) * Math.pow(R * R + 4 * D21 * D21 + a22 * a22, -1.5)
-                   - 0.25 * (2 * a22 * p2deriv) * Math.pow(R * R + a22 * a22, -1.5);
+            return -0.125 * ((2 * (2 * D21 - R) + 4 * D21) * D2deriv + 2 * a22 * p2deriv) * Math.pow((R - 2 * D21) * (R - 2 * D21) + 4 * D21 * D21 + a22 * a22, -1.5)
+                    - 0.125 * ((2 * (2 * D21 + R) + 4 * D21) * D2deriv + 2 * a22 * p2deriv) * Math.pow((R + 2 * D21) * (R + 2 * D21) + 4 * D21 * D21 + a22 * a22, -1.5)
+                    + 0.125 * (2 * (2 * D21 - R) * D2deriv + 2 * a22 * p2deriv) * Math.pow((R - 2 * D21) * (R - 2 * D21) + a22 * a22, -1.5)
+                    + 0.125 * (2 * (2 * D21 + R) * D2deriv + 2 * a22 * p2deriv) * Math.pow((R + 2 * D21) * (R + 2 * D21) + a22 * a22, -1.5)
+                    + 0.25 * (4 * D21 * D2deriv + 2 * a22 * p2deriv) * Math.pow(R * R + 4 * D21 * D21 + a22 * a22, -1.5)
+                    - 0.25 * (2 * a22 * p2deriv) * Math.pow(R * R + a22 * a22, -1.5);
         }
 
         return 0;
-        
+
     }
 
     private static double QzzQzz(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
         double a22 = p21 + p22;
         if (num == 0) {
 
-            return  - 0.0625 * (2 * (R + 2 * D21 - 2 * D22) * D2deriv + a22 * p2deriv) * Math.pow((R + 2 * D21 - 2 * D22) * (R + 2 * D21 - 2 * D22) + a22 * a22, -1.5)
-                    - 0.0625 * (2 * (R + 2 * D21 + 2 * D22) * D2deriv  + a22 * p2deriv) * Math.pow((R + 2 * D21 + 2 * D22) * (R + 2 * D21 + 2 * D22) + a22 * a22, -1.5)
-                    - 0.0625 * (2 * (2 * D21 + 2 * D22 - R) * D2deriv  + a22 * p2deriv) * Math.pow((R - 2 * D21 - 2 * D22) * (R - 2 * D21 - 2 * D22) + a22 * a22, -1.5)
-                    - 0.0625 * (2 * (2 * D21 - R - 2 * D22) * D2deriv  + a22 * p2deriv) * Math.pow((R - 2 * D21 + 2 * D22) * (R - 2 * D21 + 2 * D22) + a22 * a22, -1.5)
+            return -0.0625 * (2 * (R + 2 * D21 - 2 * D22) * D2deriv + a22 * p2deriv) * Math.pow((R + 2 * D21 - 2 * D22) * (R + 2 * D21 - 2 * D22) + a22 * a22, -1.5)
+                    - 0.0625 * (2 * (R + 2 * D21 + 2 * D22) * D2deriv + a22 * p2deriv) * Math.pow((R + 2 * D21 + 2 * D22) * (R + 2 * D21 + 2 * D22) + a22 * a22, -1.5)
+                    - 0.0625 * (2 * (2 * D21 + 2 * D22 - R) * D2deriv + a22 * p2deriv) * Math.pow((R - 2 * D21 - 2 * D22) * (R - 2 * D21 - 2 * D22) + a22 * a22, -1.5)
+                    - 0.0625 * (2 * (2 * D21 - R - 2 * D22) * D2deriv + a22 * p2deriv) * Math.pow((R - 2 * D21 + 2 * D22) * (R - 2 * D21 + 2 * D22) + a22 * a22, -1.5)
                     + 0.125 * (2 * (R + 2 * D21) * D2deriv + a22 * p2deriv) * Math.pow((R + 2 * D21) * (R + 2 * D21) + a22 * a22, -1.5)
                     + 0.125 * (2 * (2 * D21 - R) * D2deriv + a22 * p2deriv) * Math.pow((R - 2 * D21) * (R - 2 * D21) + a22 * a22, -1.5)
                     + 0.125 * (a22 * p2deriv) * Math.pow((R + 2 * D22) * (R + 2 * D22) + a22 * a22, -1.5)
@@ -371,10 +371,10 @@ public class NDDOParamDerivative {
         if (num == 1) {
 
 
-            return  - 0.0625 * (2 * (2 * D22 - R - 2 * D21) * D2deriv  + a22 * p2deriv) * Math.pow((R + 2 * D21 - 2 * D22) * (R + 2 * D21 - 2 * D22) + a22 * a22, -1.5)
-                    - 0.0625 * (2 * (R + 2 * D21 + 2 * D22) * D2deriv  + a22 * p2deriv) * Math.pow((R + 2 * D21 + 2 * D22) * (R + 2 * D21 + 2 * D22) + a22 * a22, -1.5)
-                    - 0.0625 * (2 * (2 * D21 + 2 * D22 - R) * D2deriv  + a22 * p2deriv) * Math.pow((R - 2 * D21 - 2 * D22) * (R - 2 * D21 - 2 * D22) + a22 * a22, -1.5)
-                    - 0.0625 * (2 * (R - 2 * D21 + 2 * D22) * D2deriv  + a22 * p2deriv) * Math.pow((R - 2 * D21 + 2 * D22) * (R - 2 * D21 + 2 * D22) + a22 * a22, -1.5)
+            return -0.0625 * (2 * (2 * D22 - R - 2 * D21) * D2deriv + a22 * p2deriv) * Math.pow((R + 2 * D21 - 2 * D22) * (R + 2 * D21 - 2 * D22) + a22 * a22, -1.5)
+                    - 0.0625 * (2 * (R + 2 * D21 + 2 * D22) * D2deriv + a22 * p2deriv) * Math.pow((R + 2 * D21 + 2 * D22) * (R + 2 * D21 + 2 * D22) + a22 * a22, -1.5)
+                    - 0.0625 * (2 * (2 * D21 + 2 * D22 - R) * D2deriv + a22 * p2deriv) * Math.pow((R - 2 * D21 - 2 * D22) * (R - 2 * D21 - 2 * D22) + a22 * a22, -1.5)
+                    - 0.0625 * (2 * (R - 2 * D21 + 2 * D22) * D2deriv + a22 * p2deriv) * Math.pow((R - 2 * D21 + 2 * D22) * (R - 2 * D21 + 2 * D22) + a22 * a22, -1.5)
                     + 0.125 * (a22 * p2deriv) * Math.pow((R + 2 * D21) * (R + 2 * D21) + a22 * a22, -1.5)
                     + 0.125 * (a22 * p2deriv) * Math.pow((R - 2 * D21) * (R - 2 * D21) + a22 * a22, -1.5)
                     + 0.125 * (2 * (R + 2 * D22) * D2deriv + a22 * p2deriv) * Math.pow((R + 2 * D22) * (R + 2 * D22) + a22 * a22, -1.5)
@@ -383,11 +383,11 @@ public class NDDOParamDerivative {
         }
 
         if (num == 2) {
-            return - 0.0625 * (4 * (R + 4 * D21) * D2deriv  + 2 * a22 * p2deriv) * Math.pow((R + 4 * D21) * (R + 4 * D21) + a22 * a22, -1.5)
-                   - 0.0625 * (4 * (4 * D21 - R) * D2deriv  + 2 * a22 * p2deriv) * Math.pow((R - 4 * D21) * (R - 4 * D21) + a22 * a22, -1.5)
-                   + 0.25 * (2 * (R + 2 * D21) * D2deriv + 2 * a22 * p2deriv) * Math.pow((R + 2 * D21) * (R + 2 * D21) + a22 * a22, -1.5)
-                   + 0.25 * (2 * (2 * D21 - R) * D2deriv + 2 * a22 * p2deriv) * Math.pow((R - 2 * D21) * (R - 2 * D21) + a22 * a22, -1.5)
-                   - 0.75 * (a22 * p2deriv) * Math.pow(R * R + a22 * a22, -1.5);
+            return -0.0625 * (4 * (R + 4 * D21) * D2deriv + 2 * a22 * p2deriv) * Math.pow((R + 4 * D21) * (R + 4 * D21) + a22 * a22, -1.5)
+                    - 0.0625 * (4 * (4 * D21 - R) * D2deriv + 2 * a22 * p2deriv) * Math.pow((R - 4 * D21) * (R - 4 * D21) + a22 * a22, -1.5)
+                    + 0.25 * (2 * (R + 2 * D21) * D2deriv + 2 * a22 * p2deriv) * Math.pow((R + 2 * D21) * (R + 2 * D21) + a22 * a22, -1.5)
+                    + 0.25 * (2 * (2 * D21 - R) * D2deriv + 2 * a22 * p2deriv) * Math.pow((R - 2 * D21) * (R - 2 * D21) + a22 * a22, -1.5)
+                    - 0.75 * (a22 * p2deriv) * Math.pow(R * R + a22 * a22, -1.5);
         }
 
         return 0;
@@ -396,7 +396,7 @@ public class NDDOParamDerivative {
     private static double QpizQpiz(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
         double a22 = p21 + p22;
         if (num == 0) {
-            return  - 0.125 * ((R + 2 * D21 - 2 * D22) * D2deriv + a22 * p2deriv) * Math.pow((R + D21 - D22) * (R + D21 - D22) + (D21 - D22) * (D21 - D22) + a22 * a22, -1.5)
+            return -0.125 * ((R + 2 * D21 - 2 * D22) * D2deriv + a22 * p2deriv) * Math.pow((R + D21 - D22) * (R + D21 - D22) + (D21 - D22) * (D21 - D22) + a22 * a22, -1.5)
                     + 0.125 * ((R + 2 * D21) * D2deriv + a22 * p2deriv) * Math.pow((R + D21 - D22) * (R + D21 - D22) + (D21 + D22) * (D21 + D22) + a22 * a22, -1.5)
                     + 0.125 * ((R + 2 * D21) * D2deriv + a22 * p2deriv) * Math.pow((R + D21 + D22) * (R + D21 + D22) + (D21 - D22) * (D21 - D22) + a22 * a22, -1.5)
                     - 0.125 * ((R + 2 * D21 + 2 * D22) * D2deriv + a22 * p2deriv) * Math.pow((R + D21 + D22) * (R + D21 + D22) + (D21 + D22) * (D21 + D22) + a22 * a22, -1.5)
@@ -406,7 +406,7 @@ public class NDDOParamDerivative {
                     + 0.125 * ((2 * D21 - R) * D2deriv + a22 * p2deriv) * Math.pow((R - D21 + D22) * (R - D21 + D22) + (D21 + D22) * (D21 + D22) + a22 * a22, -1.5);
         }
         if (num == 1) {
-            return  - 0.125 * ((2 * D22 - 2 * D21 - R) * D2deriv + a22 * p2deriv) * Math.pow((R + D21 - D22) * (R + D21 - D22) + (D21 - D22) * (D21 - D22) + a22 * a22, -1.5)
+            return -0.125 * ((2 * D22 - 2 * D21 - R) * D2deriv + a22 * p2deriv) * Math.pow((R + D21 - D22) * (R + D21 - D22) + (D21 - D22) * (D21 - D22) + a22 * a22, -1.5)
                     + 0.125 * ((2 * D22 - R) * D2deriv + a22 * p2deriv) * Math.pow((R + D21 - D22) * (R + D21 - D22) + (D21 + D22) * (D21 + D22) + a22 * a22, -1.5)
                     + 0.125 * ((R + 2 * D22) * D2deriv + a22 * p2deriv) * Math.pow((R + D21 + D22) * (R + D21 + D22) + (D21 - D22) * (D21 - D22) + a22 * a22, -1.5)
                     - 0.125 * ((R + 2 * D21 + 2 * D22) * D2deriv + a22 * p2deriv) * Math.pow((R + D21 + D22) * (R + D21 + D22) + (D21 + D22) * (D21 + D22) + a22 * a22, -1.5)
@@ -417,12 +417,12 @@ public class NDDOParamDerivative {
         }
 
         if (num == 2) {
-            return  - 0.5 * a22 * p2deriv * Math.pow(R * R + a22 * a22, -1.5)
-                    + 0.25 * (4 * D21 * D2deriv + 2 * a22 * p2deriv) * Math.pow (R * R + 4 * D21 * D21 + a22 * a22, -1.5)
+            return -0.5 * a22 * p2deriv * Math.pow(R * R + a22 * a22, -1.5)
+                    + 0.25 * (4 * D21 * D2deriv + 2 * a22 * p2deriv) * Math.pow(R * R + 4 * D21 * D21 + a22 * a22, -1.5)
                     + 0.125 * (2 * (R + 2 * D21) * D2deriv + 2 * a22 * p2deriv) * Math.pow((R + 2 * D21) * (R + 2 * D21) + a22 * a22, -1.5)
                     + 0.125 * (2 * (2 * D21 - R) * D2deriv + 2 * a22 * p2deriv) * Math.pow((R - 2 * D21) * (R - 2 * D21) + a22 * a22, -1.5)
-                    - 0.125 * ((2 * (2 * D21 + R) + 4 * D21) * D2deriv + 2 * a22 * p2deriv)  * Math.pow((R + 2 * D21) * (R + 2 * D21) + 4 * D21 * D21 + a22 * a22, -1.5)
-                    - 0.125 * ((2 * (2 * D21 - R) + 4 * D21) * D2deriv + 2 * a22 * p2deriv)  * Math.pow((R - 2 * D21) * (R - 2 * D21) + 4 * D21 * D21 + a22 * a22, -1.5);
+                    - 0.125 * ((2 * (2 * D21 + R) + 4 * D21) * D2deriv + 2 * a22 * p2deriv) * Math.pow((R + 2 * D21) * (R + 2 * D21) + 4 * D21 * D21 + a22 * a22, -1.5)
+                    - 0.125 * ((2 * (2 * D21 - R) + 4 * D21) * D2deriv + 2 * a22 * p2deriv) * Math.pow((R - 2 * D21) * (R - 2 * D21) + 4 * D21 * D21 + a22 * a22, -1.5);
 
 
         }
@@ -430,100 +430,99 @@ public class NDDOParamDerivative {
         return 0;
     }
 
-    private static double ssssderiv (double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
+    private static double ssssderiv(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
         return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv);
     }
 
-    private static double ssppippideriv (double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
+    private static double ssppippideriv(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
         return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv) + qQpipi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv);
     }
 
-    private static double sspzpzderiv (double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
+    private static double sspzpzderiv(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
         return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv) + qQzz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv);
     }
 
-    private static double ppippissderiv (double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
-        return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv) + qQpipi(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f (num), D1deriv, D2deriv, p1deriv, p2deriv);
+    private static double ppippissderiv(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
+        return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv) + qQpipi(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriv, D2deriv, p1deriv, p2deriv);
     }
 
-    private static double pzpzssderiv (double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
-        return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv) + qQzz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f (num), D1deriv, D2deriv, p1deriv, p2deriv);
+    private static double pzpzssderiv(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
+        return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv) + qQzz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriv, D2deriv, p1deriv, p2deriv);
     }
 
-    private static double ppippippippideriv (double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
-        return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv) + qQpipi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv) + qQpipi(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f (num), D1deriv, D2deriv, p1deriv, p2deriv) + QpipiQpipi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv);
+    private static double ppippippippideriv(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
+        return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv) + qQpipi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv) + qQpipi(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriv, D2deriv, p1deriv, p2deriv) + QpipiQpipi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv);
     }
 
-    private static double pxpxpypyderiv (double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
-        return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv) + qQpipi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv) + qQpipi(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f (num), D1deriv, D2deriv, p1deriv, p2deriv) + QxxQyy(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv);
+    private static double pxpxpypyderiv(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
+        return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv) + qQpipi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv) + qQpipi(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriv, D2deriv, p1deriv, p2deriv) + QxxQyy(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv);
     }
 
-    private static double ppippipzpzderiv (double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
-        return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv) + qQzz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv) + qQpipi(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f (num), D1deriv, D2deriv, p1deriv, p2deriv) + QpipiQzz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv);
+    private static double ppippipzpzderiv(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
+        return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv) + qQzz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv) + qQpipi(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriv, D2deriv, p1deriv, p2deriv) + QpipiQzz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv);
     }
 
-    private static double pzpzppippideriv (double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
-        return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv) + qQpipi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv) + qQzz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f (num), D1deriv, D2deriv, p1deriv, p2deriv) + QpipiQzz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f (num), D1deriv, D2deriv, p1deriv, p2deriv);
+    private static double pzpzppippideriv(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
+        return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv) + qQpipi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv) + qQzz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriv, D2deriv, p1deriv, p2deriv) + QpipiQzz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriv, D2deriv, p1deriv, p2deriv);
     }
 
-    private static double pzpzpzpzderiv (double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
-        return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv) + qQzz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv) + qQzz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f (num), D1deriv, D2deriv, p1deriv, p2deriv) + QzzQzz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv);
+    private static double pzpzpzpzderiv(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
+        return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv) + qQzz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv) + qQzz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriv, D2deriv, p1deriv, p2deriv) + QzzQzz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv);
     }
 
-    private static double spzssderiv (double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
-        return -quz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f (num), D1deriv, D2deriv, p1deriv, p2deriv);
+    private static double spzssderiv(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
+        return -quz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriv, D2deriv, p1deriv, p2deriv);
     }
 
-    private static double spzppippideriv (double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
-        return -quz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f (num), D1deriv, D2deriv, p1deriv, p2deriv) + uzQpipi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv);
+    private static double spzppippideriv(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
+        return -quz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriv, D2deriv, p1deriv, p2deriv) + uzQpipi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv);
     }
 
-    private static double spzpzpzderiv (double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
-        return -quz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f (num), D1deriv, D2deriv, p1deriv, p2deriv) + uzQzz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv);
+    private static double spzpzpzderiv(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
+        return -quz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriv, D2deriv, p1deriv, p2deriv) + uzQzz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv);
     }
 
-    private static double ssspzderiv (double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
+    private static double ssspzderiv(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
         return quz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv);
     }
 
-    private static double ppippispzderiv (double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
-        return quz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv) - uzQpipi(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f (num), D1deriv, D2deriv, p1deriv, p2deriv);
+    private static double ppippispzderiv(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
+        return quz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv) - uzQpipi(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriv, D2deriv, p1deriv, p2deriv);
     }
 
-    private static double pzpzspzderiv (double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
-        return quz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv) - uzQzz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f (num), D1deriv, D2deriv, p1deriv, p2deriv);
+    private static double pzpzspzderiv(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
+        return quz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv) - uzQzz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriv, D2deriv, p1deriv, p2deriv);
     }
 
-    private static double sppisppideriv (double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
+    private static double sppisppideriv(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
         return upiupi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv);
     }
 
-    private static double spzspzderiv (double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
+    private static double spzspzderiv(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
         return uzuz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv);
     }
 
-    private static double sppippipzderiv (double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
+    private static double sppippipzderiv(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
         return upiQpiz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv);
     }
 
-    private static double ppipzsppideriv (double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
-        return -upiQpiz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f (num), D1deriv, D2deriv, p1deriv, p2deriv);
+    private static double ppipzsppideriv(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
+        return -upiQpiz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriv, D2deriv, p1deriv, p2deriv);
     }
 
-    private static double ppipzppipzderiv (double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
+    private static double ppipzppipzderiv(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
         return QpizQpiz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv);
     }
 
-    private static double pxpypxpyderiv (double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
+    private static double pxpypxpyderiv(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
         return 0.5 * (ppippippippideriv(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv) - pxpxpypyderiv(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv));
     }
 
-    private static int f (int num) {
+    private static int f(int num) {
 
         if (num == 0 || num == 1) {
             return 1 - num;
-        }
-        else if (num == 2) {
+        } else if (num == 2) {
             return num;
         }
 
@@ -532,12 +531,11 @@ public class NDDOParamDerivative {
 
 
     protected static double LocalTwoCenterERIderiv(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d, double D1deriv, double D2deriv, double p1deriv, double p2deriv, int num, int type) {
-        
 
 
         double[] A = a.getCoords();
         double[] C = c.getCoords();
-        
+
         double R = GTO.R(A, C);
         //(??|??)
         switch (a.getL()) {
@@ -971,7 +969,6 @@ public class NDDOParamDerivative {
     }
 
 
-
     public static double getGderiv(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d, int num, int type) {
         double[] coeffA = a.decomposition(a.getCoords(), c.getCoords());
         double[] coeffB = b.decomposition(a.getCoords(), c.getCoords());
@@ -999,8 +996,7 @@ public class NDDOParamDerivative {
             p2deriv = p2Deriv(a.getAtom(), type);
             D1deriv = D1Deriv(a.getAtom(), type);
             D2deriv = D2Deriv(a.getAtom(), type);
-        }
-        else if (num == 1) {
+        } else if (num == 1) {
 
             p1deriv = p1Deriv(c.getAtom(), type);
             p2deriv = p2Deriv(c.getAtom(), type);
@@ -1028,16 +1024,15 @@ public class NDDOParamDerivative {
     }
 
 
+    public static double getGderivfinite(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d, int num, int type) {
 
-    public static double getGderivfinite (NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d, int num, int type) {
+        int aindex = index(a);
 
-        int aindex = index (a);
+        int bindex = index(b);
 
-        int bindex = index (b);
+        int cindex = index(c);
 
-        int cindex = index (c);
-
-        int dindex = index (d);
+        int dindex = index(d);
 
         double initial = NDDO6G.getG(a, b, c, d);
 
@@ -1056,8 +1051,7 @@ public class NDDOParamDerivative {
                 ctor.setAccessible(true);
 
                 A = (NDDOAtom) ctor.newInstance(A, params);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 System.exit(0);
             }
@@ -1072,8 +1066,7 @@ public class NDDOParamDerivative {
                 ctor.setAccessible(true);
 
                 C = (NDDOAtom) ctor.newInstance(C, params);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 System.exit(0);
             }
@@ -1086,11 +1079,11 @@ public class NDDOParamDerivative {
 
     }
 
-    public static double getSderivfinite (NDDO6G a, NDDO6G b, int num, int type) {
+    public static double getSderivfinite(NDDO6G a, NDDO6G b, int num, int type) {
 
-        int aindex = index (a);
+        int aindex = index(a);
 
-        int bindex = index (b);
+        int bindex = index(b);
 
         double initial = NDDO6G.getS(a, b);
 
@@ -1109,8 +1102,7 @@ public class NDDOParamDerivative {
                 ctor.setAccessible(true);
 
                 A = (NDDOAtom) ctor.newInstance(A, params);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 System.exit(0);
             }
@@ -1125,8 +1117,7 @@ public class NDDOParamDerivative {
                 ctor.setAccessible(true);
 
                 B = (NDDOAtom) ctor.newInstance(B, params);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 System.exit(0);
             }
@@ -1139,7 +1130,7 @@ public class NDDOParamDerivative {
 
     }
 
-    public static double crfderivfinite (NDDOAtom A, NDDOAtom B, int num) {
+    public static double crfderivfinite(NDDOAtom A, NDDOAtom B, int num) {
 
         double initial = A.crf(B);
 
@@ -1154,8 +1145,7 @@ public class NDDOParamDerivative {
                 ctor.setAccessible(true);
 
                 A = (NDDOAtom) ctor.newInstance(A, params);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 System.exit(0);
             }
@@ -1170,8 +1160,7 @@ public class NDDOParamDerivative {
                 ctor.setAccessible(true);
 
                 B = (NDDOAtom) ctor.newInstance(B, params);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 System.exit(0);
             }
@@ -1184,64 +1173,59 @@ public class NDDOParamDerivative {
 
     }
 
-    public static double Hfderiv (NDDOAtom[] atoms, NDDOSolutionRestricted soln, int Z, int paramnum) {
-
-        if (paramnum == 0) {
-            return alphaHfderiv (atoms, soln, Z);
+    public static double HfDeriv(NDDOSolutionRestricted soln, int Z, int paramNum) {
+        if (paramNum == 0) {
+            return alphaHfderiv(soln, Z);
         }
-        if (paramnum <= 2) {
-            return betaHfderiv(soln, Z, paramnum - 1);
+        if (paramNum <= 2) {
+            return betaHfderiv(soln, Z, paramNum - 1);
         }
-        if (paramnum <= 4) {
-            return uxxHfderiv(soln, Z, paramnum - 3);
+        if (paramNum <= 4) {
+            return uxxHfderiv(soln, Z, paramNum - 3);
         }
-
-        if (paramnum <= 6) {
-            return zetaHfderiv(atoms, soln, Z, paramnum - 5);
+        if (paramNum <= 6) {
+            return zetaHfderiv(soln, Z, paramNum - 5);
         }
-        if (paramnum == 7) {
-            return eisolHfderiv(atoms, Z);
+        if (paramNum == 7) {
+            return eisolHfderiv(soln.atoms, Z);
         }
 
-        System.err.println ("oh no! This isn't MNDO!");
+        System.err.println("Invalid paramNum passed to HfDeriv");
         System.exit(0);
         return 0;
-
     }
 
-    public static double[] MNDOHfderivs (NDDOSolutionRestricted soln, int Z) {
+    public static double[] MNDOHfderivs(NDDOSolutionRestricted soln, int Z) {
 
         double[] derivs = new double[8];
 
-        derivs[0] = alphaHfderiv (soln.atoms, soln, Z);
+        derivs[0] = alphaHfderiv(soln, Z);
         derivs[1] = betaHfderiv(soln, Z, 0);
         derivs[3] = uxxHfderiv(soln, Z, 0);
-        derivs[5] = zetaHfderiv(soln.atoms, soln, Z, 0);
+        derivs[5] = zetaHfderiv(soln, Z, 0);
         derivs[7] = eisolHfderiv(soln.atoms, Z);
 
         if (Z != 1) {
             derivs[2] = betaHfderiv(soln, Z, 1);
             derivs[4] = uxxHfderiv(soln, Z, 1);
-            derivs[6] = zetaHfderiv(soln.atoms, soln, Z, 1);
+            derivs[6] = zetaHfderiv(soln, Z, 1);
 
             return derivs;
-        }
-        else {
-            return new double[] {derivs[0], derivs[1], derivs[3], derivs[5], derivs[7]};
+        } else {
+            return new double[]{derivs[0], derivs[1], derivs[3], derivs[5], derivs[7]};
         }
 
 
     }
 
 
-
-    public static DoubleMatrix[][] MNDOmatrixderivstatic (NDDOSolutionRestricted soln, int Z) {
+    public static DoubleMatrix[][] MNDOStaticMatrixDeriv(NDDOSolutionRestricted soln, int Z) {
 
         NDDOAtom[] atoms = soln.atoms;
 
         DoubleMatrix[] Hderivs = new DoubleMatrix[6];
 
-        DoubleMatrix[] Fderivs = new DoubleMatrix [6];
+        DoubleMatrix[] Fderivs = new DoubleMatrix[6];
 
         Hderivs[0] = betafockderivstatic(soln, Z, 0);
         Fderivs[0] = Hderivs[0].dup();
@@ -1258,17 +1242,17 @@ public class NDDOParamDerivative {
             Hderivs[5] = zetaHderivstatic(atoms, soln, Z, 1);
             Fderivs[5] = Hderivs[5].dup().add(zetaGderivstatic(atoms, soln, Z, 1));
 
-            return new DoubleMatrix[][] {Hderivs, Fderivs};
+            return new DoubleMatrix[][]{Hderivs, Fderivs};
 
-        }
-        else {
-            return new DoubleMatrix[][] {new DoubleMatrix[] {Hderivs[0], Hderivs[2], Hderivs[4]}, new DoubleMatrix[] {Fderivs[0], Fderivs[2], Fderivs[4]}};
+        } else {
+            return new DoubleMatrix[][]{new DoubleMatrix[]{Hderivs[0], Hderivs[2], Hderivs[4]}, new DoubleMatrix[]{Fderivs[0], Fderivs[2], Fderivs[4]}};
         }
 
 
     }
 
-    public static double MNDOHfderiv (NDDOSolutionRestricted soln, DoubleMatrix Hderiv, DoubleMatrix Fderiv) {
+    // calculates heat of formation derivative based on H and F matrix derivatives w.r.t. a particular tau
+    public static double MNDOHfDeriv(NDDOSolutionRestricted soln, DoubleMatrix Hderiv, DoubleMatrix Fderiv) {
 
         double e = 0;
 
@@ -1283,7 +1267,7 @@ public class NDDOParamDerivative {
         return e / 4.3363E-2;
     }
 
-    private static double zetaHfderiv (NDDOAtom[] atoms, NDDOSolutionRestricted soln, int Z, int type) {
+    private static double zetaHfderiv(NDDOSolutionRestricted soln, int Z, int type) {
 
         DoubleMatrix densitymatrix = soln.densityMatrix();
 
@@ -1296,7 +1280,7 @@ public class NDDOParamDerivative {
 
         int[] atomNumber = soln.atomNumber;
 
-        int[] atomicnumbers = soln.atomicnumbers;
+        int[] atomicnumbers = soln.atomicNumbers;
 
         DoubleMatrix H = DoubleMatrix.zeros(orbitals.length, orbitals.length);
 
@@ -1305,15 +1289,15 @@ public class NDDOParamDerivative {
                 if (atomNumber[j] == atomNumber[k]) {
                     double Huv = 0;
 
-                    for (int an = 0; an < atoms.length; an++) {
+                    for (int an = 0; an < soln.atoms.length; an++) {
                         if (atomNumber[j] != an) {
-                            Huv += atoms[an].VParamDeriv(orbitals[j], orbitals[k], getNum (atomicnumbers[an], atomicnumbers[atomNumber[j]], Z), type);
+                            Huv += soln.atoms[an].VParamDeriv(orbitals[j], orbitals[k], getNum(atomicnumbers[an], atomicnumbers[atomNumber[j]], Z), type);
                         }
                     }
                     H.put(j, k, Huv);
                     H.put(k, j, Huv);
                 } else { // case 3
-                    double Huk = NDDO6G.betaparamderiv(orbitals[j], orbitals[k], getNum (atomicnumbers[atomNumber[j]], atomicnumbers[atomNumber[k]], Z), type);
+                    double Huk = NDDO6G.betaparamderiv(orbitals[j], orbitals[k], getNum(atomicnumbers[atomNumber[j]], atomicnumbers[atomNumber[k]], Z), type);
                     H.put(j, k, Huk);
                     H.put(k, j, Huk);
                 }
@@ -1332,7 +1316,7 @@ public class NDDOParamDerivative {
                             for (int m : missingIndex[atomNumber[j]]) {
                                 if (m > -1) {
                                     if (atomNumber[l] == atomNumber[m]) {
-                                        sum += soln.densityMatrix().get(l, m) * (NDDOParamDerivative.getGderiv(orbitals[j], orbitals[k], orbitals[l], orbitals[m], getNum (atomicnumbers[atomNumber[j]], atomicnumbers[atomNumber[l]], Z), type));
+                                        sum += soln.densityMatrix().get(l, m) * (ParamDerivative.getGderiv(orbitals[j], orbitals[k], orbitals[l], orbitals[m], getNum(atomicnumbers[atomNumber[j]], atomicnumbers[atomNumber[l]], Z), type));
 
                                     }
                                 }
@@ -1344,7 +1328,7 @@ public class NDDOParamDerivative {
                         if (l > -1) {
                             for (int m : index[atomNumber[k]]) {
                                 if (m > -1) {
-                                    sum += soln.densityMatrix().get(l, m) * (-0.5 * NDDOParamDerivative.getGderiv(orbitals[j], orbitals[l], orbitals[k], orbitals[m], getNum (atomicnumbers[atomNumber[j]], atomicnumbers[atomNumber[k]], Z), type));
+                                    sum += soln.densityMatrix().get(l, m) * (-0.5 * ParamDerivative.getGderiv(orbitals[j], orbitals[l], orbitals[k], orbitals[m], getNum(atomicnumbers[atomNumber[j]], atomicnumbers[atomNumber[k]], Z), type));
                                 }
                             }
                         }
@@ -1370,7 +1354,7 @@ public class NDDOParamDerivative {
 
     }
 
-    public static DoubleMatrix zetafockderivstatic (NDDOAtom[] atoms, NDDOSolutionRestricted soln, int Z, int type) {
+    public static DoubleMatrix zetafockderivstatic(NDDOAtom[] atoms, NDDOSolutionRestricted soln, int Z, int type) {
 
 
         NDDO6G[] orbitals = soln.orbitals;
@@ -1381,7 +1365,7 @@ public class NDDOParamDerivative {
 
         int[] atomNumber = soln.atomNumber;
 
-        int[] atomicnumbers = soln.atomicnumbers;
+        int[] atomicnumbers = soln.atomicNumbers;
 
         DoubleMatrix H = DoubleMatrix.zeros(orbitals.length, orbitals.length);
 
@@ -1392,13 +1376,13 @@ public class NDDOParamDerivative {
 
                     for (int an = 0; an < atoms.length; an++) {
                         if (atomNumber[j] != an) {
-                            Huv += atoms[an].VParamDeriv(orbitals[j], orbitals[k], getNum (atomicnumbers[an], atomicnumbers[atomNumber[j]], Z), type);
+                            Huv += atoms[an].VParamDeriv(orbitals[j], orbitals[k], getNum(atomicnumbers[an], atomicnumbers[atomNumber[j]], Z), type);
                         }
                     }
                     H.put(j, k, Huv);
                     H.put(k, j, Huv);
                 } else { // case 3
-                    double Huk = NDDO6G.betaparamderiv(orbitals[j], orbitals[k], getNum (atomicnumbers[atomNumber[j]], atomicnumbers[atomNumber[k]], Z), type);
+                    double Huk = NDDO6G.betaparamderiv(orbitals[j], orbitals[k], getNum(atomicnumbers[atomNumber[j]], atomicnumbers[atomNumber[k]], Z), type);
                     H.put(j, k, Huk);
                     H.put(k, j, Huk);
                 }
@@ -1417,7 +1401,7 @@ public class NDDOParamDerivative {
                             for (int m : missingIndex[atomNumber[j]]) {
                                 if (m > -1) {
                                     if (atomNumber[l] == atomNumber[m]) {
-                                        sum += soln.densityMatrix().get(l, m) * (NDDOParamDerivative.getGderiv(orbitals[j], orbitals[k], orbitals[l], orbitals[m], getNum (atomicnumbers[atomNumber[j]], atomicnumbers[atomNumber[l]], Z), type));
+                                        sum += soln.densityMatrix().get(l, m) * (ParamDerivative.getGderiv(orbitals[j], orbitals[k], orbitals[l], orbitals[m], getNum(atomicnumbers[atomNumber[j]], atomicnumbers[atomNumber[l]], Z), type));
 
                                     }
                                 }
@@ -1429,7 +1413,7 @@ public class NDDOParamDerivative {
                         if (l > -1) {
                             for (int m : index[atomNumber[k]]) {
                                 if (m > -1) {
-                                    sum += soln.densityMatrix().get(l, m) * (-0.5 * NDDOParamDerivative.getGderiv(orbitals[j], orbitals[l], orbitals[k], orbitals[m], getNum (atomicnumbers[atomNumber[j]], atomicnumbers[atomNumber[k]], Z), type));
+                                    sum += soln.densityMatrix().get(l, m) * (-0.5 * ParamDerivative.getGderiv(orbitals[j], orbitals[l], orbitals[k], orbitals[m], getNum(atomicnumbers[atomNumber[j]], atomicnumbers[atomNumber[k]], Z), type));
                                 }
                             }
                         }
@@ -1446,14 +1430,14 @@ public class NDDOParamDerivative {
         return F;
     }
 
-    public static DoubleMatrix zetaHderivstatic (NDDOAtom[] atoms, NDDOSolutionRestricted soln, int Z, int type) {
+    public static DoubleMatrix zetaHderivstatic(NDDOAtom[] atoms, NDDOSolutionRestricted soln, int Z, int type) {
 
 
         NDDO6G[] orbitals = soln.orbitals;
 
         int[] atomNumber = soln.atomNumber;
 
-        int[] atomicnumbers = soln.atomicnumbers;
+        int[] atomicnumbers = soln.atomicNumbers;
 
         DoubleMatrix H = DoubleMatrix.zeros(orbitals.length, orbitals.length);
 
@@ -1464,13 +1448,13 @@ public class NDDOParamDerivative {
 
                     for (int an = 0; an < atoms.length; an++) {
                         if (atomNumber[j] != an) {
-                            Huv += atoms[an].VParamDeriv(orbitals[j], orbitals[k], getNum (atomicnumbers[an], atomicnumbers[atomNumber[j]], Z), type);
+                            Huv += atoms[an].VParamDeriv(orbitals[j], orbitals[k], getNum(atomicnumbers[an], atomicnumbers[atomNumber[j]], Z), type);
                         }
                     }
                     H.put(j, k, Huv);
                     H.put(k, j, Huv);
                 } else { // case 3
-                    double Huk = NDDO6G.betaparamderiv(orbitals[j], orbitals[k], getNum (atomicnumbers[atomNumber[j]], atomicnumbers[atomNumber[k]], Z), type);
+                    double Huk = NDDO6G.betaparamderiv(orbitals[j], orbitals[k], getNum(atomicnumbers[atomNumber[j]], atomicnumbers[atomNumber[k]], Z), type);
                     H.put(j, k, Huk);
                     H.put(k, j, Huk);
                 }
@@ -1480,7 +1464,7 @@ public class NDDOParamDerivative {
         return H;
     }
 
-    public static DoubleMatrix zetaGderivstatic (NDDOAtom[] atoms, NDDOSolutionRestricted soln, int Z, int type) {
+    public static DoubleMatrix zetaGderivstatic(NDDOAtom[] atoms, NDDOSolutionRestricted soln, int Z, int type) {
 
 
         NDDO6G[] orbitals = soln.orbitals;
@@ -1491,7 +1475,7 @@ public class NDDOParamDerivative {
 
         int[] atomNumber = soln.atomNumber;
 
-        int[] atomicnumbers = soln.atomicnumbers;
+        int[] atomicnumbers = soln.atomicNumbers;
 
         DoubleMatrix G = DoubleMatrix.zeros(orbitals.length, orbitals.length);
 
@@ -1505,7 +1489,7 @@ public class NDDOParamDerivative {
                             for (int m : missingIndex[atomNumber[j]]) {
                                 if (m > -1) {
                                     if (atomNumber[l] == atomNumber[m]) {
-                                        sum += soln.densityMatrix().get(l, m) * (NDDOParamDerivative.getGderiv(orbitals[j], orbitals[k], orbitals[l], orbitals[m], getNum (atomicnumbers[atomNumber[j]], atomicnumbers[atomNumber[l]], Z), type));
+                                        sum += soln.densityMatrix().get(l, m) * (ParamDerivative.getGderiv(orbitals[j], orbitals[k], orbitals[l], orbitals[m], getNum(atomicnumbers[atomNumber[j]], atomicnumbers[atomNumber[l]], Z), type));
 
                                     }
                                 }
@@ -1517,7 +1501,7 @@ public class NDDOParamDerivative {
                         if (l > -1) {
                             for (int m : index[atomNumber[k]]) {
                                 if (m > -1) {
-                                    sum += soln.densityMatrix().get(l, m) * (-0.5 * NDDOParamDerivative.getGderiv(orbitals[j], orbitals[l], orbitals[k], orbitals[m], getNum (atomicnumbers[atomNumber[j]], atomicnumbers[atomNumber[k]], Z), type));
+                                    sum += soln.densityMatrix().get(l, m) * (-0.5 * ParamDerivative.getGderiv(orbitals[j], orbitals[l], orbitals[k], orbitals[m], getNum(atomicnumbers[atomNumber[j]], atomicnumbers[atomNumber[k]], Z), type));
                                 }
                             }
                         }
@@ -1534,7 +1518,6 @@ public class NDDOParamDerivative {
     }
 
 
-
     private static double uxxHfderiv(NDDOSolutionRestricted soln, int Z, int type) {
 
         DoubleMatrix densitymatrix = soln.densityMatrix();
@@ -1544,13 +1527,13 @@ public class NDDOParamDerivative {
 
         int[] atomNumber = soln.atomNumber;
 
-        int[] atomicnumbers = soln.atomicnumbers;
+        int[] atomicnumbers = soln.atomicNumbers;
 
         double e = 0;
 
         for (int j = 0; j < orbitals.length; j++) {
 
-            if (atomicnumbers[atomNumber[j]]==Z && orbitals[j].getL() == type) {
+            if (atomicnumbers[atomNumber[j]] == Z && orbitals[j].getL() == type) {
                 e += densitymatrix.get(j, j);
             }
         }
@@ -1559,12 +1542,12 @@ public class NDDOParamDerivative {
 
     }
 
-    public static DoubleMatrix uxxfockderivstatic (NDDOSolutionRestricted soln, int Z, int type) {
+    public static DoubleMatrix uxxfockderivstatic(NDDOSolutionRestricted soln, int Z, int type) {
 
         DoubleMatrix F = DoubleMatrix.zeros(soln.orbitals.length, soln.orbitals.length);
 
         for (int j = 0; j < soln.orbitals.length; j++) {
-            if (soln.atomicnumbers[soln.atomNumber[j]]==Z && soln.orbitals[j].getL() == type) {
+            if (soln.atomicNumbers[soln.atomNumber[j]] == Z && soln.orbitals[j].getL() == type) {
                 F.put(j, j, 1);
             }
         }
@@ -1573,7 +1556,7 @@ public class NDDOParamDerivative {
 
     }
 
-    private static double betaHfderiv (NDDOSolutionRestricted soln, int Z, int type) {
+    private static double betaHfderiv(NDDOSolutionRestricted soln, int Z, int type) {
 
         DoubleMatrix densitymatrix = soln.densityMatrix();
 
@@ -1582,7 +1565,7 @@ public class NDDOParamDerivative {
 
         int[] atomNumber = soln.atomNumber;
 
-        int[] atomicnumbers = soln.atomicnumbers;
+        int[] atomicnumbers = soln.atomicNumbers;
 
 
         double e = 0;
@@ -1605,7 +1588,7 @@ public class NDDOParamDerivative {
 
     }
 
-    public static DoubleMatrix betafockderivstatic (NDDOSolutionRestricted soln, int Z, int type) {
+    public static DoubleMatrix betafockderivstatic(NDDOSolutionRestricted soln, int Z, int type) {
 
         DoubleMatrix F = DoubleMatrix.zeros(soln.orbitals.length, soln.orbitals.length);
 
@@ -1613,7 +1596,7 @@ public class NDDOParamDerivative {
 
         int[] atomNumber = soln.atomNumber;
 
-        int[] atomicnumbers = soln.atomicnumbers;
+        int[] atomicnumbers = soln.atomicNumbers;
 
         for (int j = 0; j < orbitals.length; j++) {
             for (int k = j; k < orbitals.length; k++) {
@@ -1635,35 +1618,34 @@ public class NDDOParamDerivative {
     }
 
 
-
-    private static double eisolHfderiv (NDDOAtom[] atoms, int Z) {
+    private static double eisolHfderiv(NDDOAtom[] atoms, int Z) {
 
         int counter = 0;
 
-        for (NDDOAtom a: atoms) {
-            if (a.getAtomProperties().getZ()==Z) {
+        for (NDDOAtom a : atoms) {
+            if (a.getAtomProperties().getZ() == Z) {
                 counter++;
             }
         }
 
-        return - counter / 4.3363E-2;
+        return -counter / 4.3363E-2;
 
     }
 
-    private static double alphaHfderiv (NDDOAtom[] atoms, NDDOSolutionRestricted soln, int Z) {
+    private static double alphaHfderiv(NDDOSolutionRestricted soln, int Z) { // TODO STOP RAW CALLING NDDOAtom[]
 
         double sum = 0;
 
-        for (int i = 0; i < atoms.length; i++) {
-            for (int j = i + 1; j < atoms.length; j++) {
-                sum += atoms[i].crfParamDeriv(atoms[j], getNum(soln.atomicnumbers[i], soln.atomicnumbers[j], Z));
+        for (int i = 0; i < soln.atoms.length; i++) {
+            for (int j = i + 1; j < soln.atoms.length; j++) {
+                sum += soln.atoms[i].crfParamDeriv(soln.atoms[j], getNum(soln.atomicNumbers[i], soln.atomicNumbers[j], Z));
             }
         }
 
         return sum / 4.3363E-2;
     }
 
-    private static double betaderiv (int Z1, int Z2, int Z, int L1, int L2, int type) {
+    private static double betaderiv(int Z1, int Z2, int Z, int L1, int L2, int type) {
 
         double sum = 0;
 
@@ -1677,7 +1659,7 @@ public class NDDOParamDerivative {
         return sum;
     }
 
-    private static int getNum (int Z1, int Z2, int Z) {
+    private static int getNum(int Z1, int Z2, int Z) {
         int num = 0;
 
         if (Z1 == Z) {
@@ -1691,25 +1673,22 @@ public class NDDOParamDerivative {
         return num - 1;
     }
 
-    public static int index (NDDO6G orbital) {
+    public static int index(NDDO6G orbital) {
 
         if (orbital.getL() == 0) {
             return 0;
-        }
-        else if (orbital.geti() == 1) {
+        } else if (orbital.geti() == 1) {
             return 1;
-        }
-        else if (orbital.getj() == 1) {
+        } else if (orbital.getj() == 1) {
             return 2;
-        }
-        else if (orbital.getk() == 1) {
+        } else if (orbital.getk() == 1) {
             return 3;
         }
 
         return -1;
     }
 
-    public static DoubleMatrix ResponseMatrix (NDDOSolutionRestricted soln, DoubleMatrix densityMatrixDeriv) {
+    public static DoubleMatrix responseMatrix(NDDOSolutionRestricted soln, DoubleMatrix densityMatrixDeriv) {
 
         DoubleMatrix responsematrix = DoubleMatrix.zeros(soln.orbitals.length, soln.orbitals.length);
 
@@ -1779,7 +1758,6 @@ public class NDDOParamDerivative {
 
         return responsematrix;
     }
-
 
 
     private static DoubleMatrix computeResponseVectorsLimited(DoubleMatrix x, NDDOSolutionRestricted soln) {//todo duplicate from NDDOSecondDerivative
@@ -1893,13 +1871,13 @@ public class NDDOParamDerivative {
             }
         }
 
-        DoubleMatrix p = new DoubleMatrix (NOcc * NVirt, 1);
+        DoubleMatrix p = new DoubleMatrix(NOcc * NVirt, 1);
 
         int counter = 0;
 
         for (int i = 0; i < NOcc; i++) {
             for (int j = 0; j < NVirt; j++) {
-                p.put (counter, 0, -R.get(counter, 0) + (soln.E.get(j + NOcc) - soln.E.get(i)) * x.get(counter));
+                p.put(counter, 0, -R.get(counter, 0) + (soln.E.get(j + NOcc) - soln.E.get(i)) * x.get(counter));
                 counter++;
             }
         }
@@ -1909,7 +1887,7 @@ public class NDDOParamDerivative {
     }
 
 
-    public static DoubleMatrix[] xarraylimited (NDDOSolutionRestricted soln, DoubleMatrix[] fockderivstatic) {
+    public static DoubleMatrix[] xarraylimited(NDDOSolutionRestricted soln, DoubleMatrix[] fockderivstatic) {
 
         int NOcc = (int) (soln.nElectrons / 2.0);
 
@@ -1960,19 +1938,16 @@ public class NDDOParamDerivative {
             DoubleMatrix[] densityderivs = new DoubleMatrix[fockderivstatic.length];
 
             for (int i = 0; i < densityderivs.length; i++) {
-                densityderivs[i] = DoubleMatrix.zeros (0, 0);
+                densityderivs[i] = DoubleMatrix.zeros(0, 0);
             }
 
             return densityderivs;
         }
 
 
-
-
-
         while (numNotNull(rarray) > 0) {
 
-            System.err.println ("It's still running, don't worry: " + numNotNull(rarray));
+            System.err.println("It's still running, don't worry: " + numNotNull(rarray));
 
             ArrayList<DoubleMatrix> d = new ArrayList<>();
 
@@ -1996,18 +1971,18 @@ public class NDDOParamDerivative {
             ArrayList<DoubleMatrix> p = new ArrayList<>();
 
             for (int i = 0; i < d.size(); i++) {
-                p.add (computeResponseVectorsLimited(d.get(i), soln));
+                p.add(computeResponseVectorsLimited(d.get(i), soln));
             }
 
 
-            DoubleMatrix solver = new DoubleMatrix (p.size(), p.size());
+            DoubleMatrix solver = new DoubleMatrix(p.size(), p.size());
 
 
-            DoubleMatrix rhsvec = DoubleMatrix.zeros (p.size(), rarray.length);
+            DoubleMatrix rhsvec = DoubleMatrix.zeros(p.size(), rarray.length);
 
             for (int a = 0; a < rhsvec.columns; a++) {
                 if (rarray[a] != null) {
-                    DoubleMatrix rhs = new DoubleMatrix (p.size(), 1);
+                    DoubleMatrix rhs = new DoubleMatrix(p.size(), 1);
 
                     for (int i = 0; i < rhs.rows; i++) {
                         rhs.put(i, 0, 2 * rarray[a].transpose().mmul(d.get(i)).get(0, 0));
@@ -2023,7 +1998,7 @@ public class NDDOParamDerivative {
 
                     double val = p.get(j).transpose().mmul(d.get(i)).get(0, 0) + p.get(i).transpose().mmul(d.get(j)).get(0, 0);
                     solver.put(i, j, val);
-                    solver.put (j, i, val);
+                    solver.put(j, i, val);
                 }
             }
 
@@ -2046,22 +2021,20 @@ public class NDDOParamDerivative {
             }
 
 
-
-            solver = new DoubleMatrix (solver.rows, solver.rows);
+            solver = new DoubleMatrix(solver.rows, solver.rows);
 
             for (int a = 0; a < rhsvec.columns; a++) {
                 if (rarray[a] != null) {
-                    DoubleMatrix rhs = new DoubleMatrix (solver.rows, 1);
+                    DoubleMatrix rhs = new DoubleMatrix(solver.rows, 1);
 
                     for (int i = 0; i < rhs.rows; i++) {
-                        rhs.put(i, 0, - rarray[a].transpose().mmul(p.get(i)).get(0, 0));
+                        rhs.put(i, 0, -rarray[a].transpose().mmul(p.get(i)).get(0, 0));
 
                     }
 
                     rhsvec.putColumn(a, rhs);
                 }
             }
-
 
 
             for (int i = 0; i < solver.rows; i++) {
@@ -2085,8 +2058,6 @@ public class NDDOParamDerivative {
             }
 
 
-
-
         }
 
 
@@ -2096,46 +2067,28 @@ public class NDDOParamDerivative {
     }
 
 
-
-    public static DoubleMatrix[] xarraycomplementary (NDDOSolutionRestricted soln, DoubleMatrix[] fockderiv) {
-
+    // TODO isn't this another loop through??
+    public static DoubleMatrix xArrayComplementary(NDDOSolutionRestricted soln, DoubleMatrix fockderiv) {
         int NOcc = (int) (soln.nElectrons / 2.0);
+        DoubleMatrix x = DoubleMatrix.zeros(NOcc - 1, 1);
+        int count1 = 0;
 
+        for (int j = 0; j < NOcc - 1; j++) {
+            double element = 0;
 
-        DoubleMatrix[] xarray = new DoubleMatrix [fockderiv.length];
-
-        for (int a = 0; a < xarray.length; a++) {
-
-            DoubleMatrix x = DoubleMatrix.zeros(NOcc - 1, 1);
-
-            int count1 = 0;
-
-            for (int j = 0; j < NOcc - 1; j++) {
-
-                double element = 0;
-
-                for (int u = 0; u < soln.orbitals.length; u++) {
-                    for (int v = 0; v < soln.orbitals.length; v++) {
-                        element += soln.C.get(NOcc - 1, u) * soln.C.get(j, v) * fockderiv[a].get(u, v);
-                    }
+            for (int u = 0; u < soln.orbitals.length; u++) {
+                for (int v = 0; v < soln.orbitals.length; v++) {
+                    element += soln.C.get(NOcc - 1, u) * soln.C.get(j, v) * fockderiv.get(u, v);
                 }
-
-
-                x.put(count1, 0, - element / (soln.E.get(NOcc - 1) - soln.E.get(j)));
-
-                count1++;
             }
-
-            xarray[a] = x;
+            x.put(count1, 0, -element / (soln.E.get(NOcc - 1) - soln.E.get(j)));
+            count1++;
         }
-
-        return xarray;
-
+        return x;
     }
 
 
-
-    public static DoubleMatrix densityDerivativeLimited (DoubleMatrix x, NDDOSolutionRestricted soln) {
+    public static DoubleMatrix densityDerivativeLimited(NDDOSolutionRestricted soln, DoubleMatrix x) {
 
         int NOcc = (int) (soln.nElectrons / 2.0);
 
@@ -2161,13 +2114,13 @@ public class NDDOParamDerivative {
         return densityMatrixDeriv;
     }
 
-    public static DoubleMatrix xarrayForIE (NDDOSolutionRestricted soln, DoubleMatrix xlimited, DoubleMatrix xcomplementary) {
+    public static DoubleMatrix xarrayForIE(NDDOSolutionRestricted soln, DoubleMatrix xlimited, DoubleMatrix xcomplementary) {
 
         int NOcc = (int) (soln.nElectrons / 2.0);
 
         int NVirt = soln.orbitals.length - NOcc;
 
-        DoubleMatrix x = new DoubleMatrix (soln.orbitals.length - 1, 1);
+        DoubleMatrix x = new DoubleMatrix(soln.orbitals.length - 1, 1);
 
         int count = 0;
 
@@ -2185,9 +2138,7 @@ public class NDDOParamDerivative {
     }
 
 
-
-    public static DoubleMatrix HOMOcoefficientDerivativeComplementary (DoubleMatrix x, NDDOSolutionRestricted soln) {
-
+    public static DoubleMatrix HOMOcoefficientDerivativeComplementary(DoubleMatrix x, NDDOSolutionRestricted soln) {
 
 
         DoubleMatrix CDeriv = DoubleMatrix.zeros(1, soln.orbitals.length);
@@ -2201,8 +2152,7 @@ public class NDDOParamDerivative {
 
                 if (k < NOcc) {
                     sum -= soln.C.get(k, u) * x.get(k, 0);
-                }
-                else if (k > NOcc) {
+                } else if (k > NOcc) {
                     sum -= soln.C.get(k, u) * x.get(k - 1, 0);
                 }
             }
@@ -2214,12 +2164,11 @@ public class NDDOParamDerivative {
     }
 
 
-
-    public static double MNDOIEDeriv (NDDOSolutionRestricted soln, DoubleMatrix coeffDeriv, DoubleMatrix Fderiv) {
+    public static double MNDOIEDeriv(NDDOSolutionRestricted soln, DoubleMatrix coeffDeriv, DoubleMatrix Fderiv) {
 
         int index = (int) (soln.nElectrons / 2.0) - 1;
 
-        DoubleMatrix coeff = soln.C.getRow (index);
+        DoubleMatrix coeff = soln.C.getRow(index);
 
         double sum = 0;
 
@@ -2235,10 +2184,7 @@ public class NDDOParamDerivative {
 
     }
 
-    public static double MNDODipoleDeriv (NDDOSolutionRestricted soln, DoubleMatrix densityderiv, int Z, int paramnum) {
-
-
-
+    public static double MNDODipoleDeriv(NDDOSolutionRestricted soln, DoubleMatrix densityderiv, int Z, int paramnum) {
         NDDOAtom[] atoms = soln.atoms;
 
         double D1deriv = 0;
@@ -2266,7 +2212,7 @@ public class NDDOParamDerivative {
                 }
             }
 
-            populationsderiv [j] = - sum;
+            populationsderiv[j] = -sum;
         }
 
 
@@ -2322,9 +2268,6 @@ public class NDDOParamDerivative {
     }
 
 
-
-
-
     private static double mag(DoubleMatrix gradient) {
 
         double sum = 0;
@@ -2335,10 +2278,10 @@ public class NDDOParamDerivative {
         return Math.sqrt(sum);
     }
 
-    private static double numNotNull (DoubleMatrix[] rarray) {
+    private static double numNotNull(DoubleMatrix[] rarray) {
 
         int count = 0;
-        for (DoubleMatrix r: rarray) {
+        for (DoubleMatrix r : rarray) {
             if (r != null) {
                 count++;
             }
@@ -2347,9 +2290,8 @@ public class NDDOParamDerivative {
         return count;
     }
 
-    
-    
-    private static double D1Derivfinite (NDDOAtom a, int type) throws Exception{
+
+    private static double D1Derivfinite(NDDOAtom a, int type) throws Exception {
 
         double D1 = a.D1;
 
@@ -2369,7 +2311,7 @@ public class NDDOParamDerivative {
 
     }
 
-    private static double D2Derivfinite (NDDOAtom a, int type) throws Exception{
+    private static double D2Derivfinite(NDDOAtom a, int type) throws Exception {
 
         double D2 = a.D2;
 
@@ -2389,7 +2331,7 @@ public class NDDOParamDerivative {
 
     }
 
-    private static double p1Derivfinite (NDDOAtom a, int type) throws Exception {
+    private static double p1Derivfinite(NDDOAtom a, int type) throws Exception {
 
         double p1 = a.p1;
 
@@ -2408,7 +2350,7 @@ public class NDDOParamDerivative {
 
     }
 
-    private static double p2Derivfinite (NDDOAtom a, int type) throws Exception {
+    private static double p2Derivfinite(NDDOAtom a, int type) throws Exception {
 
         double p2 = a.p2;
 
@@ -2426,7 +2368,6 @@ public class NDDOParamDerivative {
         return (p2perturbed - p2) / Utils.lambda;
 
     }
-
 
 
 }
