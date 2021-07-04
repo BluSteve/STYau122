@@ -12,11 +12,9 @@ import java.util.Arrays;
 
 public class ParamOptimizer {
 
-    private ArrayList<ReferenceData> datum;
-
-    private double value;
-
     public double[] changes;
+    private ArrayList<ReferenceData> datum;
+    private double value;
 
     public ParamOptimizer() {
 

@@ -4,18 +4,17 @@ import org.jblas.DoubleMatrix;
 
 public class NDDOGeometryOptimizationRestricted extends NDDOGeometryOptimization {
 
+    public NDDOGeometryOptimizationRestricted(NDDOAtom[] atoms, int charge) {
+        super(atoms, charge, 1);
+    }
+
     @Override
     protected void updateNDDOSolution() {
         s = new NDDOSolutionRestricted(atoms, charge);
     }
 
-
-    public NDDOGeometryOptimizationRestricted(NDDOAtom[] atoms, int charge) {
-        super(atoms, charge, 1);
-    }
-
     protected double derivative(int i, int j) {
-        return NDDODerivative.grad(atoms, (NDDOSolutionRestricted) s, i, j);
+        return NDDODerivative.grad((NDDOSolutionRestricted) s, i, j);
     }
 
     protected DoubleMatrix[] routine() {
@@ -26,11 +25,10 @@ public class NDDOGeometryOptimizationRestricted extends NDDOGeometryOptimization
 
         try {
             hessian = NDDOSecondDerivative.hessianroutine(atoms, (NDDOSolutionRestricted) s, matrices[1]);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             hessian = DoubleMatrix.eye(gradient.length);
         }
 
-        return new DoubleMatrix[] {gradient, hessian};
+        return new DoubleMatrix[]{gradient, hessian};
     }
 }

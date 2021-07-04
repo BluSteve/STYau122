@@ -41,6 +41,24 @@ public class AM1Atom extends NDDOAtom {
                 - b.mp.getAlpha() / bohr * (a.getCoordinates()[tau] - b.getCoordinates()[tau]) / R * Math.exp(-b.mp.getAlpha() * R / bohr);
     }
 
+    private static double F(AM1Atom a, double R) {
+        return a.getParams().getK1() * Math.exp(-a.getParams().getL1() * (R - a.getParams().getM1()) * (R - a.getParams().getM1())) + a.getParams().getK2() * Math.exp(-a.getParams().getL2() * (R - a.getParams().getM2()) * (R - a.getParams().getM2())) + a.getParams().getK3() * Math.exp(-a.getParams().getL3() * (R - a.getParams().getM3()) * (R - a.getParams().getM3())) + a.getParams().getK4() * Math.exp(-a.getParams().getL4() * (R - a.getParams().getM4()) * (R - a.getParams().getM4()));
+
+    }
+
+    private static double Fderiv(AM1Atom a, double r, double val) {
+        return gaussderiv(a.getParams().getK1(), a.getParams().getL1(), a.getParams().getM1(), r, val) + gaussderiv(a.getParams().getK2(), a.getParams().getL2(), a.getParams().getM2(), r, val) + gaussderiv(a.getParams().getK3(), a.getParams().getL3(), a.getParams().getM3(), r, val) + gaussderiv(a.getParams().getK4(), a.getParams().getL4(), a.getParams().getM4(), r, val);
+    }
+
+    private static double gaussderiv(double K, double L, double M, double R, double val) {
+        double r = R / bohr;
+        double returnval = K * Math.exp(-L * (r - M) * (r - M));
+
+        returnval = -returnval * 2 * L * (r - M) * val / (R * bohr);
+
+        return returnval;
+    }
+
     @Override
     public AM1Params getParams() { // TODO this is a workaround
         if (Objects.isNull(mp)) {
@@ -94,30 +112,12 @@ public class AM1Atom extends NDDOAtom {
         return returnval;
     }
 
-    public double crfDeriv2 (NDDOAtom c, int tau1, int tau2) {
+    public double crfDeriv2(NDDOAtom c, int tau1, int tau2) {
         return 0;
     }
 
     @Override
     public double crfParamDeriv(NDDOAtom b, int num) {//todo ree
         return 0;
-    }
-
-    private static double F(AM1Atom a, double R) {
-        return a.getParams().getK1() * Math.exp(-a.getParams().getL1() * (R - a.getParams().getM1()) * (R - a.getParams().getM1())) + a.getParams().getK2() * Math.exp(-a.getParams().getL2() * (R - a.getParams().getM2()) * (R - a.getParams().getM2())) + a.getParams().getK3() * Math.exp(-a.getParams().getL3() * (R - a.getParams().getM3()) * (R - a.getParams().getM3())) + a.getParams().getK4() * Math.exp(-a.getParams().getL4() * (R - a.getParams().getM4()) * (R - a.getParams().getM4()));
-
-    }
-
-    private static double Fderiv(AM1Atom a, double r, double val) {
-        return gaussderiv(a.getParams().getK1(), a.getParams().getL1(), a.getParams().getM1(), r, val) + gaussderiv(a.getParams().getK2(), a.getParams().getL2(), a.getParams().getM2(), r, val) + gaussderiv(a.getParams().getK3(), a.getParams().getL3(), a.getParams().getM3(), r, val) + gaussderiv(a.getParams().getK4(), a.getParams().getL4(), a.getParams().getM4(), r, val);
-    }
-
-    private static double gaussderiv(double K, double L, double M, double R, double val) {
-        double r = R / bohr;
-        double returnval = K * Math.exp(-L * (r - M) * (r - M));
-
-        returnval = -returnval * 2 * L * (r - M) * val / (R * bohr);
-
-        return returnval;
     }
 }

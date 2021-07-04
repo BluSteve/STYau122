@@ -1,59 +1,126 @@
 package nddoparam.param;
 
-import nddoparam.*;
+import nddoparam.NDDOSolution;
 import org.jblas.DoubleMatrix;
+import scf.Utils;
 
-// This should be the only class that calls ParamGradient
 public abstract class ParamGradientAnalytical implements ErrorGettable { // TODO only works for restricted rn
-    protected NDDOSolution s;
+    protected NDDOSolution s, sPrime, sExp;
     protected String kind;
     protected int charge;
+    protected boolean isExpAvail;
+    protected double[] datum;
     protected ParamErrorFunction e;
-    protected double[][] HFDerivs, dipoleDerivs, IEDerivs;
+    protected double[][] HFDerivs, dipoleDerivs, IEDerivs, geomDerivs, totalDerivs;
     protected DoubleMatrix[][] densityDerivs, xLimited, xComplementary, xForIE, coeffDerivs, responseDerivs, fockDerivs;
     protected DoubleMatrix[][][] staticDerivs;
+    protected static final double LAMBDA = 1E-7;
 
     // kind = "hf_only" or "limited" or "complementary"
-    // The purpose of ParamGradientHandler is to return a 1/2/3 x 5/8/13 x 1 ArrayList<DoubleMatrix>
-    public ParamGradientAnalytical(NDDOSolution s, String kind) {
+    public ParamGradientAnalytical(NDDOSolution s, String kind, int charge, double[] datum, NDDOSolution sExp) {
         this.s = s;
         this.kind = kind;
-        this.HFDerivs = new double[NDDOSolution.maxParamNum][200];
-        this.dipoleDerivs = new double[NDDOSolution.maxParamNum][200];
-        this.IEDerivs = new double[NDDOSolution.maxParamNum][200];
-        this.densityDerivs = new DoubleMatrix[NDDOSolution.maxParamNum][200];
-        this.staticDerivs = new DoubleMatrix[NDDOSolution.maxParamNum][2][200];
-        this.xLimited = new DoubleMatrix[NDDOSolution.maxParamNum][200];
+        this.charge = charge;
+        this.datum = datum;
+        this.sExp = sExp;
+    }
 
+    public void computeDerivs() {
+        geomDerivs = new double[Utils.maxAtomNum][NDDOSolution.maxParamNum];
+        totalDerivs = new double[Utils.maxAtomNum][NDDOSolution.maxParamNum];
         switch (kind) {
-            case "hf_only":
-                computeHFDerivs();
+            case "a":
+                HFDerivs = new double[Utils.maxAtomNum][NDDOSolution.maxParamNum];
+
+                computeADerivs();
                 break;
-            case "limited":
-                computeLimitedDerivs();
+            case "b":
+                HFDerivs = new double[Utils.maxAtomNum][NDDOSolution.maxParamNum];
+                dipoleDerivs = new double[Utils.maxAtomNum][NDDOSolution.maxParamNum];
+
+                densityDerivs = new DoubleMatrix[Utils.maxAtomNum][NDDOSolution.maxParamNum];
+                staticDerivs = new DoubleMatrix[Utils.maxAtomNum][NDDOSolution.maxParamNum][2];
+                xLimited = new DoubleMatrix[Utils.maxAtomNum][NDDOSolution.maxParamNum];
+
+                computeBDerivs();
                 break;
-            case "complementary":
-                computeComplementaryDerivs();
+            case "c":
+                HFDerivs = new double[Utils.maxAtomNum][NDDOSolution.maxParamNum];
+                IEDerivs = new double[Utils.maxAtomNum][NDDOSolution.maxParamNum];
+
+                densityDerivs = new DoubleMatrix[Utils.maxAtomNum][NDDOSolution.maxParamNum];
+                staticDerivs = new DoubleMatrix[Utils.maxAtomNum][2][NDDOSolution.maxParamNum];
+                xLimited = new DoubleMatrix[Utils.maxAtomNum][NDDOSolution.maxParamNum];
+
+                xComplementary = new DoubleMatrix[Utils.maxAtomNum][NDDOSolution.maxParamNum];
+                xForIE = new DoubleMatrix[Utils.maxAtomNum][NDDOSolution.maxParamNum];
+                coeffDerivs = new DoubleMatrix[Utils.maxAtomNum][NDDOSolution.maxParamNum];
+                responseDerivs = new DoubleMatrix[Utils.maxAtomNum][NDDOSolution.maxParamNum];
+                fockDerivs = new DoubleMatrix[Utils.maxAtomNum][NDDOSolution.maxParamNum];
+
+                computeCDerivs();
+                break;
+            case "d":
+                HFDerivs = new double[Utils.maxAtomNum][NDDOSolution.maxParamNum];
+                dipoleDerivs = new double[Utils.maxAtomNum][NDDOSolution.maxParamNum];
+                IEDerivs = new double[Utils.maxAtomNum][NDDOSolution.maxParamNum];
+
+                densityDerivs = new DoubleMatrix[Utils.maxAtomNum][NDDOSolution.maxParamNum];
+                staticDerivs = new DoubleMatrix[Utils.maxAtomNum][2][NDDOSolution.maxParamNum];
+                xLimited = new DoubleMatrix[Utils.maxAtomNum][NDDOSolution.maxParamNum];
+
+                xComplementary = new DoubleMatrix[Utils.maxAtomNum][NDDOSolution.maxParamNum];
+                xForIE = new DoubleMatrix[Utils.maxAtomNum][NDDOSolution.maxParamNum];
+                coeffDerivs = new DoubleMatrix[Utils.maxAtomNum][NDDOSolution.maxParamNum];
+                responseDerivs = new DoubleMatrix[Utils.maxAtomNum][NDDOSolution.maxParamNum];
+                fockDerivs = new DoubleMatrix[Utils.maxAtomNum][NDDOSolution.maxParamNum];
+
+                computeDDerivs();
                 break;
         }
     }
 
+    protected abstract void computeGeomDeriv(int Z, int paramNum);
 
-    protected abstract void computeDipoleDeriv(int Z, int paramNum);
+    protected abstract void computeDipoleDeriv(int Z, int paramNum, boolean lite);
 
     protected abstract void computeIEDeriv(int Z, int paramNum);
 
     protected abstract void computeBatchedDerivs(int Z);
 
-    protected abstract void computeHFDerivs();
+    protected abstract void computeADerivs();
 
-    protected abstract void computeLimitedDerivs();
+    protected abstract void computeBDerivs();
 
-    protected abstract void computeComplementaryDerivs();
+    protected abstract void computeCDerivs();
+
+    protected abstract void computeDDerivs();
 
     public ParamErrorFunction getE() {
         return this.e;
     }
 
-    public abstract void constructErrors(double refHeat);
+    public double[][] getHFDerivs() {
+        return HFDerivs;
+    }
+
+    public double[][] getDipoleDerivs() {
+        return dipoleDerivs;
+    }
+
+    public double[][] getIEDerivs() {
+        return IEDerivs;
+    }
+
+    public double[][] getGeomDerivs() {
+        return geomDerivs;
+    }
+
+    public double[][] getTotalDerivs() {
+        return totalDerivs;
+    }
+
+    public NDDOSolution getS() {
+        return s;
+    }
 }

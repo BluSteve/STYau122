@@ -3,25 +3,24 @@ package runcycle;
 import nddoparam.NDDOAtom;
 import nddoparam.NDDOGeometryOptimization;
 import nddoparam.NDDOSolution;
-import nddoparam.NDDOSolutionRestricted;
-import nddoparam.param.ParamDerivative;
-import nddoparam.param.ParamGradient;
+import nddoparam.param.ParamGradientAnalytical;
+import nddoparam.param.ParamGradientRestricted;
 import nddoparam.param.ParamHessian;
 import org.jblas.DoubleMatrix;
-import scf.Utils;
 
 public abstract class MoleculeRun {
+    protected static double LAMBDA = 1E-7;
     public String[] output;
-    public String hessianStr, newGeomCoords, trainingSet;
+    public int[] atomTypes;
+    public String hessianStr, newGeomCoords;
     protected NDDOAtom[] atoms, expGeom;
     protected int charge, size, mult;
     protected boolean runHessian;
     protected double[] datum;
-    protected ParamGradient g;
+    protected ParamGradientAnalytical g;
     protected ParamHessian h;
     protected NDDOGeometryOptimization opt;
     protected NDDOSolution expSolution;
-    protected static double LAMBDA = 1E-7;
     protected String totalHeatDeriv = "";
     protected String totalIonizationDeriv = "";
     protected String totalDipoleDeriv = "";
@@ -32,14 +31,14 @@ public abstract class MoleculeRun {
     protected String kind;
 
 
-    public MoleculeRun(NDDOAtom[] atoms, int charge, NDDOAtom[] expGeom, double[] datum, boolean runHessian, String kind, String trainingSet, int mult) {
-        this.trainingSet = trainingSet;
+    public MoleculeRun(NDDOAtom[] atoms, int charge, NDDOAtom[] expGeom, double[] datum, boolean runHessian, String kind, int[] atomTypes, int mult) {
+        this.atomTypes = atomTypes;
         this.atoms = atoms;
         this.expGeom = expGeom;
         this.charge = charge;
         this.runHessian = runHessian;
         this.datum = datum; // reference heat + dipole + ionization. size = 1, 2 or 3
-        this.size = Utils.getTrainingSetSize(trainingSet);
+        this.size = atomTypes.length;
         this.mult = mult;
         this.kind = kind;
     }
@@ -128,312 +127,314 @@ public abstract class MoleculeRun {
         hessianStr = hessianSB.toString();
     }
 
+    protected void runGradient2() {
+        g = new ParamGradientRestricted(opt.s, kind, charge, datum, expSolution); // time intensive step
+        StringBuilder HFDerivSB = new StringBuilder(datum[0] + "," + g.getS().hf + ",");
+        StringBuilder dipoleDerivSB = new StringBuilder(datum[1] + "," + g.getS().dipole + ",");
+        StringBuilder IEDerivSB = new StringBuilder(datum[2] + "," + g.getS().homo + ",");
+        StringBuilder geomDerivSB = new StringBuilder("0," + g.getE().geomGradient + ",");
+        StringBuilder mainDataSB = new StringBuilder();
+        mainDataSB.append(g.getE().getTotalError());
+
+        for (int atomType : this.atomTypes) {
+            switch (kind) {
+                case "a":
+                    appendToSB(g.getHFDerivs()[atomType], HFDerivSB);
+                    break;
+                case "b":
+                    appendToSB(g.getHFDerivs()[atomType], HFDerivSB);
+                    appendToSB(g.getDipoleDerivs()[atomType], dipoleDerivSB);
+                    break;
+                case "c":
+                    appendToSB(g.getHFDerivs()[atomType], HFDerivSB);
+                    appendToSB(g.getIEDerivs()[atomType], IEDerivSB);
+                    break;
+                case "d":
+                    appendToSB(g.getHFDerivs()[atomType], HFDerivSB);
+                    appendToSB(g.getDipoleDerivs()[atomType], dipoleDerivSB);
+                    appendToSB(g.getIEDerivs()[atomType], IEDerivSB);
+                    break;
+            }
+            if (expSolution != null) appendToSB(g.getGeomDerivs()[atomType], geomDerivSB);
+        }
+        totalHeatDeriv = HFDerivSB.toString();
+        totalDipoleDeriv = dipoleDerivSB.toString();
+        totalIonizationDeriv = IEDerivSB.toString();
+        totalGeomDeriv = geomDerivSB.toString();
+    }
+
+    private static void appendToSB(double[] array, StringBuilder sb) {
+        for (int i = 0; i < array.length - 1; i++) sb.append(array[i]).append(',');
+        sb.append(array[array.length - 1]);
+    }
+
     protected void runGradient() {
-        StringBuilder totalHeatDerivSB = new StringBuilder();
-        StringBuilder totalDipoleDerivSB = new StringBuilder();
-        StringBuilder totalIonizationDerivSB = new StringBuilder();
-        StringBuilder totalGeomDerivSB = new StringBuilder();
-        StringBuilder excelSB = new StringBuilder();
-        StringBuilder excelSB2 = new StringBuilder();
-        for (int numit = 0; numit < 8; numit++) {
-            if (numit != 2 && numit != 4 && numit != 6) {
-                getG(1, numit, mult);
-
-                if (numit == 0) {
-                    totalHeatDerivSB.append(datum[0]).append(", ").append(g.getEHf()).append(", ");
-                }
-
-
-                g.constructErrors(datum[0]);
-
-                if (this.expGeom != null) {
-                    g.createExpGeom(this.expGeom, expSolution);
-                    g.addGeomError();
-                }
-
-
-                if (datum[1] != 0) {
-                    if (numit == 0) { // wait why is there no need to compute the finite difference gradient here
-                        totalDipoleDerivSB.append(datum[1]).append(", ").append(g.getEDipole()).append(", ");
-                    }
-
-                    g.addDipoleError(datum[1]);
-                    totalDipoleDerivSB.append(1 / LAMBDA * (g.getEPrimeDipole() - g.getEDipole())).append(", ");
-                }
-
-                if (datum[2] != 0) {
-                    if (numit == 0) {
-                        totalIonizationDerivSB.append(datum[2]).append(", ").append(-g.getEHomo()).append(", ");
-                    }
-                    g.addIEError(datum[1]);
-                    totalIonizationDerivSB.append(1 / LAMBDA * (-g.getEPrimeHomo() + g.getEHomo())).append(", ");
-                }
-
-                if (this.expGeom != null) {
-                    if (numit == 0) {
-                        totalGeomDerivSB.append("0, ").append(g.getEGradient()).append(",");
-                    }
-                    totalGeomDerivSB.append(1 / LAMBDA * (g.getEPrimeGradient() - g.getEGradient())).append(", ");
-                }
-
-                System.out.println(g.gradient());
-                totalHeatDerivSB.append(1 / LAMBDA * (g.getEPrimeHf() - g.getEHf())).append(", ");
-
-                excelSB.append(",").append(g.gradient());
-            }
-        }
-
-        NDDOSolutionRestricted soln = (NDDOSolutionRestricted) opt.s;
-
-        DoubleMatrix[][] staticderivs = ParamDerivative.MNDOStaticMatrixDeriv(soln, 6);
-
-        double[] Hfderivs = new double[staticderivs[0].length]; // what is staticderivs[0].length??
-
-        double[] IEderivs = new double[staticderivs[0].length];
-
-        double[] Dipolederivs = new double[staticderivs[0].length];
-
-        DoubleMatrix[] densityderivs = new DoubleMatrix[staticderivs[0].length];
-        DoubleMatrix[] coeffderivs = new DoubleMatrix[staticderivs[0].length];
-        DoubleMatrix[] responsederivs = new DoubleMatrix[staticderivs[0].length];
-        DoubleMatrix[] fockderivs = new DoubleMatrix[staticderivs[0].length];
-
-        DoubleMatrix[] xarray = ParamDerivative.xarraylimited(soln, staticderivs[1]);
-
-
-        for (int i = 0; i < Hfderivs.length; i++) {
-            Hfderivs[i] = ParamDerivative.MNDOHfDeriv(soln, staticderivs[0][i], staticderivs[1][i]);
-            densityderivs[i] = ParamDerivative.densityDerivativeLimited(soln, xarray[i]);
-            responsederivs[i] = ParamDerivative.responseMatrix(soln, densityderivs[i]);
-            Dipolederivs[i] = ParamDerivative.MNDODipoleDeriv(soln, densityderivs[i], 6, i + 1);
-            fockderivs[i] = staticderivs[1][i].add(responsederivs[i]);
-        }
-
-        DoubleMatrix[] xcomplementary = ParamDerivative.xArrayComplementary(soln, fockderivs);
-
-        DoubleMatrix[] xforIE = new DoubleMatrix[staticderivs[0].length];
-
-        for (int i = 0; i < Hfderivs.length; i++) {
-            xforIE[i] = ParamDerivative.xarrayForIE(soln, xarray[i], xcomplementary[i]);
-            coeffderivs[i] = ParamDerivative.HOMOcoefficientDerivativeComplementary(xforIE[i], soln);
-            IEderivs[i] = ParamDerivative.MNDOIEDeriv(soln, coeffderivs[i], fockderivs[i]);
-        }
-
-
-        for (int numit = 0; numit < 8; numit++) {
-            getG(6, numit, mult);
-
-            excelStr2 = "," + datum[0] + "," + g.getEHf() + ",";
-
-
-            g.constructErrors(datum[0]);
-
-            if (this.expGeom != null) {
-                g.createExpGeom(this.expGeom, expSolution);
-                g.addGeomError();
-            }
-
-            if (datum[1] != 0) {
-                g.addDipoleError(datum[1]);
-
-                excelSB2.append(",").append(datum[1]).append(",").append(g.getEDipole()).append(",");
-
-                if (numit == 7 && trainingSet.equals("HC")) {
-                    totalDipoleDerivSB.append(1 / LAMBDA * (g.getEPrimeDipole() - g.getEDipole()));
-                } else {
-                    totalDipoleDerivSB.append(1 / LAMBDA * (g.getEPrimeDipole() - g.getEDipole())).append(", ");
-                }
-
-            } else {
-                excelSB2.append(",,,");
-            }
-
-            if (datum[2] != 0) {
-                g.addIEError(datum[2]);
-
-                excelSB2.append(",").append(datum[2]).append(",").append(-g.getEHomo()).append(",");
-                if (numit == 7 && trainingSet.equals("HC")) {
-                    totalIonizationDerivSB.append(1 / LAMBDA * (-g.getEPrimeHomo() + g.getEHomo()));
-                } else {
-                    totalIonizationDerivSB.append(1 / LAMBDA * (-g.getEPrimeHomo() + g.getEHomo())).append(", ");
-                }
-            } else {
-                excelSB2.append(",,,");
-            }
-
-            if (this.expGeom != null) {
-                excelSB2.append("," + 0 + ",").append(g.getEGradient()).append(",");
-                if (numit == 7 && trainingSet.equals("HC")) {
-                    totalGeomDerivSB.append(1 / LAMBDA * (g.getEPrimeGradient() - g.getEGradient()));
-                } else {
-                    totalGeomDerivSB.append(1 / LAMBDA * (g.getEPrimeGradient() - g.getEGradient())).append(", ");
-                }
-            }
-
-            if (numit == 7 && trainingSet.equals("HC")) {
-                totalHeatDerivSB.append(1 / LAMBDA * (g.getEPrimeHf() - g.getEHf()));
-            } else {
-                totalHeatDerivSB.append(1 / LAMBDA * (g.getEPrimeHf() - g.getEHf())).append(", ");
-            }
-
-
-            if (this.mult == 1 && numit > 0 && numit < 7) {
-                double Hfderiv = 1 / LAMBDA * (g.getEPrimeHf() - g.getEHf());
-
-                double test = Hfderivs[numit - 1];
-
-                if (Math.abs(Hfderiv - test) > 1E-2) {
-                    System.err.println("Something broke. Again. " + numit);
-                    System.err.println("yay");
-                    System.err.println(Hfderiv);
-                    System.err.println(test);
-                    System.exit(0);
-                } else {
-                    System.err.println("the Hf derivatives work");
-                    System.err.println(Hfderiv);
-                    System.err.println(test);
-                }
-
-
-            }
-
-            if (this.mult == 1 && numit > 0 && numit < 7) {
-                double IEderiv = 1 / LAMBDA * (g.getEPrimeHomo() - g.getEHomo());
-
-                double test = IEderivs[numit - 1];
-
-                if (Math.abs(IEderiv - test) > 1E-2) {
-                    System.err.println("Something broke. Again. " + numit);
-                    System.err.println("yay");
-                    System.err.println(IEderiv);
-                    System.err.println(test);
-                    System.exit(0);
-                } else {
-                    System.err.println("the IE derivatives work");
-                    System.err.println(IEderiv);
-                    System.err.println(test);
-                }
-
-
-            }
-
-
-            if (this.mult == 1 && numit > 0 && numit < 7) {
-
-                NDDOSolutionRestricted solp = (NDDOSolutionRestricted) g.getEPrime().soln;
-                NDDOSolutionRestricted sol = (NDDOSolutionRestricted) g.getE().soln;
-
-
-                DoubleMatrix densityderiv = (solp.densityMatrix().sub(sol.densityMatrix()).mmul(1 / LAMBDA));
-
-
-                if (!NDDOSolution.isSimilar(densityderivs[numit - 1], densityderiv, 1E-5)) {
-                    System.err.println("Something broke. Again. " + numit);
-                    System.err.println("yay");
-                    System.err.println(densityderiv);
-                    System.err.println(densityderivs[numit - 1]);
-                    System.exit(0);
-                } else {
-                    System.err.println("the density derivatives work");
-                }
-
-
-            }
-
-            if (this.mult == 1 && numit > 0 && numit < 7) {
-                double Dipolederiv = 1 / LAMBDA * (g.getEPrimeDipole() - g.getEDipole());
-
-                double test = Dipolederivs[numit - 1];
-
-                if (Math.abs(Dipolederiv - test) > 1E-2) {
-                    System.err.println("Something broke. Again. " + numit);
-                    System.err.println("yay");
-                    System.err.println(Dipolederiv);
-                    System.err.println(test);
-                    System.exit(0);
-                } else {
-                    System.err.println("the dipole derivatives work");
-                    System.err.println(Dipolederiv);
-                    System.err.println(test);
-                }
-
-
-            }
-
-
-            excelSB.append(",").append(g.gradient());
-
-        }
-
-        if (trainingSet.strip().contains("N")) {
-            for (int numit = 0; numit < 8; numit++) {
-
-                getG(7, numit, mult);
-
-
-                excelStr2 = "," + datum[0] + "," + g.getEHf() + ",";
-
-
-                g.constructErrors(datum[0]);
-
-                if (this.expGeom != null) {
-                    g.createExpGeom(this.expGeom, expSolution);
-                    g.addGeomError();
-                }
-
-                if (datum[1] != 0) {
-                    g.addDipoleError(datum[1]);
-
-                    excelSB2.append(",").append(datum[1]).append(",").append(g.getEDipole()).append(",");
-
-                    if (numit == 7) {
-                        totalDipoleDerivSB.append(1 / LAMBDA * (g.getEPrimeDipole() - g.getEDipole()));
-                    } else {
-                        totalDipoleDerivSB.append(1 / LAMBDA * (g.getEPrimeDipole() - g.getEDipole())).append(", ");
-                    }
-
-                } else {
-                    excelSB2.append(",,,");
-                }
-
-                if (datum[2] != 0) {
-                    g.addIEError(datum[2]);
-
-                    excelSB2.append(",").append(datum[2]).append(",").append(-g.getEHomo()).append(",");
-                    if (numit == 7) {
-                        totalIonizationDerivSB.append(1 / LAMBDA * (-g.getEPrimeHomo() + g.getEHomo()));
-                    } else {
-                        totalIonizationDerivSB.append(1 / LAMBDA * (-g.getEPrimeHomo() + g.getEHomo())).append(", ");
-                    }
-                } else {
-                    excelSB2.append(",,,");
-                }
-
-                if (this.expGeom != null) {
-                    excelSB2.append("," + 0 + ",").append(g.getEGradient()).append(",");
-                    if (numit == 7) {
-                        totalGeomDerivSB.append(1 / LAMBDA * (g.getEPrimeGradient() - g.getEGradient()));
-                    } else {
-                        totalGeomDerivSB.append(1 / LAMBDA * (g.getEPrimeGradient() - g.getEGradient())).append(", ");
-                    }
-                }
-
-
-                if (numit == 7) {
-                    totalHeatDerivSB.append(1 / LAMBDA * (g.getEPrimeHf() - g.getEHf()));
-                } else {
-                    totalHeatDerivSB.append(1 / LAMBDA * (g.getEPrimeHf() - g.getEHf())).append(", ");
-                }
-
-                excelSB.append(",").append(g.gradient());
-            }
-        }
-        totalDipoleDeriv = totalDipoleDerivSB.toString();
-        totalGeomDeriv = totalGeomDerivSB.toString();
-        totalHeatDeriv = totalHeatDerivSB.toString();
-        totalIonizationDeriv = totalIonizationDerivSB.toString();
-        excelStr = excelSB.toString();
-        excelStr2 = excelSB2.toString();
+//        StringBuilder totalHeatDerivSB = new StringBuilder();
+//        StringBuilder totalDipoleDerivSB = new StringBuilder();
+//        StringBuilder totalIonizationDerivSB = new StringBuilder();
+//        StringBuilder totalGeomDerivSB = new StringBuilder();
+//        StringBuilder excelSB = new StringBuilder();
+//        StringBuilder excelSB2 = new StringBuilder();
+//        for (int numit = 0; numit < 8; numit++) {
+//            if (numit != 2 && numit != 4 && numit != 6) {
+//                getG(1, numit, mult); // Z=1, numit is the paramNum. so in this case it would be 0,1,3,5,7
+//                if (numit == 0) {
+//                    totalHeatDerivSB.append(datum[0]).append(", ").append(g.getEHf()).append(", ");
+//                }
+//                g.constructErrors(datum[0]);
+//                if (this.expGeom != null) {
+//                    g.createExpGeom(this.expGeom, expSolution);
+//                    g.addGeomError();
+//                }
+//                if (datum[1] != 0) {
+//                    if (numit == 0) { // wait why is there no need to compute the finite difference gradient here
+//                        totalDipoleDerivSB.append(datum[1]).append(", ").append(g.getEDipole()).append(", ");
+//                    }
+//
+//                    g.addDipoleError(datum[1]);
+//                    totalDipoleDerivSB.append(1 / LAMBDA * (g.getEPrimeDipole() - g.getEDipole())).append(", ");
+//                }
+//
+//                if (datum[2] != 0) {
+//                    if (numit == 0) {
+//                        totalIonizationDerivSB.append(datum[2]).append(", ").append(-g.getEHomo()).append(", ");
+//                    }
+//                    g.addIEError(datum[1]);
+//                    totalIonizationDerivSB.append(1 / LAMBDA * (-g.getEPrimeHomo() + g.getEHomo())).append(", ");
+//                }
+//
+//                if (this.expGeom != null) {
+//                    if (numit == 0) {
+//                        totalGeomDerivSB.append("0, ").append(g.getEGradient()).append(",");
+//                    }
+//                    totalGeomDerivSB.append(1 / LAMBDA * (g.getEPrimeGradient() - g.getEGradient())).append(", ");
+//                }
+//
+//                System.out.println(g.gradient());
+//                totalHeatDerivSB.append(1 / LAMBDA * (g.getEPrimeHf() - g.getEHf())).append(", ");
+//
+//                excelSB.append(",").append(g.gradient());
+//            }
+//        }
+//
+//        NDDOSolutionRestricted soln = (NDDOSolutionRestricted) opt.s;
+//        g = new ParamGradientRestricted(soln, this.kind);
+//
+//
+//        for (int numit = 0; numit < 8; numit++) {
+//            getG(6, numit, mult);
+//
+//            excelStr2 = "," + datum[0] + "," + g.getEHf() + ",";
+//
+//
+//            g.constructErrors(datum[0]);
+//
+//            if (this.expGeom != null) {
+//                g.createExpGeom(this.expGeom, expSolution);
+//                g.addGeomError();
+//            }
+//
+//            if (datum[1] != 0) {
+//                g.addDipoleError(datum[1]);
+//
+//                excelSB2.append(",").append(datum[1]).append(",").append(g.getEDipole()).append(",");
+//
+//                if (numit == 7 && trainingSet.equals("HC")) {
+//                    totalDipoleDerivSB.append(1 / LAMBDA * (g.getEPrimeDipole() - g.getEDipole()));
+//                } else {
+//                    totalDipoleDerivSB.append(1 / LAMBDA * (g.getEPrimeDipole() - g.getEDipole())).append(", ");
+//                }
+//
+//            } else {
+//                excelSB2.append(",,,");
+//            }
+//
+//            if (datum[2] != 0) {
+//                g.addIEError(datum[2]);
+//
+//                excelSB2.append(",").append(datum[2]).append(",").append(-g.getEHomo()).append(",");
+//                if (numit == 7 && trainingSet.equals("HC")) {
+//                    totalIonizationDerivSB.append(1 / LAMBDA * (-g.getEPrimeHomo() + g.getEHomo()));
+//                } else {
+//                    totalIonizationDerivSB.append(1 / LAMBDA * (-g.getEPrimeHomo() + g.getEHomo())).append(", ");
+//                }
+//            } else {
+//                excelSB2.append(",,,");
+//            }
+//
+//            if (this.expGeom != null) {
+//                excelSB2.append("," + 0 + ",").append(g.getEGradient()).append(",");
+//                if (numit == 7 && trainingSet.equals("HC")) {
+//                    totalGeomDerivSB.append(1 / LAMBDA * (g.getEPrimeGradient() - g.getEGradient()));
+//                } else {
+//                    totalGeomDerivSB.append(1 / LAMBDA * (g.getEPrimeGradient() - g.getEGradient())).append(", ");
+//                }
+//            }
+//
+//            if (numit == 7 && trainingSet.equals("HC")) {
+//                totalHeatDerivSB.append(1 / LAMBDA * (g.getEPrimeHf() - g.getEHf()));
+//            } else {
+//                totalHeatDerivSB.append(1 / LAMBDA * (g.getEPrimeHf() - g.getEHf())).append(", ");
+//            }
+//
+//
+//            if (this.mult == 1 && numit > 0 && numit < 7) {
+//                double Hfderiv = 1 / LAMBDA * (g.getEPrimeHf() - g.getEHf());
+//
+//                double test = Hfderivs[numit - 1];
+//
+//                if (Math.abs(Hfderiv - test) > 1E-2) {
+//                    System.err.println("Something broke. Again. " + numit);
+//                    System.err.println("yay");
+//                    System.err.println(Hfderiv);
+//                    System.err.println(test);
+//                    System.exit(0);
+//                } else {
+//                    System.err.println("the Hf derivatives work");
+//                    System.err.println(Hfderiv);
+//                    System.err.println(test);
+//                }
+//
+//
+//            }
+//
+//            if (this.mult == 1 && numit > 0 && numit < 7) {
+//                double IEderiv = 1 / LAMBDA * (g.getEPrimeHomo() - g.getEHomo());
+//
+//                double test = IEderivs[numit - 1];
+//
+//                if (Math.abs(IEderiv - test) > 1E-2) {
+//                    System.err.println("Something broke. Again. " + numit);
+//                    System.err.println("yay");
+//                    System.err.println(IEderiv);
+//                    System.err.println(test);
+//                    System.exit(0);
+//                } else {
+//                    System.err.println("the IE derivatives work");
+//                    System.err.println(IEderiv);
+//                    System.err.println(test);
+//                }
+//
+//
+//            }
+//
+//
+//            if (this.mult == 1 && numit > 0 && numit < 7) {
+//
+//                NDDOSolutionRestricted solp = (NDDOSolutionRestricted) g.getEPrime().soln;
+//                NDDOSolutionRestricted sol = (NDDOSolutionRestricted) g.getE().soln;
+//
+//
+//                DoubleMatrix densityderiv = (solp.densityMatrix().sub(sol.densityMatrix()).mmul(1 / LAMBDA));
+//
+//
+//                if (!NDDOSolution.isSimilar(densityderivs[numit - 1], densityderiv, 1E-5)) {
+//                    System.err.println("Something broke. Again. " + numit);
+//                    System.err.println("yay");
+//                    System.err.println(densityderiv);
+//                    System.err.println(densityderivs[numit - 1]);
+//                    System.exit(0);
+//                } else {
+//                    System.err.println("the density derivatives work");
+//                }
+//
+//
+//            }
+//
+//            if (this.mult == 1 && numit > 0 && numit < 7) {
+//                double Dipolederiv = 1 / LAMBDA * (g.getEPrimeDipole() - g.getEDipole());
+//
+//                double test = Dipolederivs[numit - 1];
+//
+//                if (Math.abs(Dipolederiv - test) > 1E-2) {
+//                    System.err.println("Something broke. Again. " + numit);
+//                    System.err.println("yay");
+//                    System.err.println(Dipolederiv);
+//                    System.err.println(test);
+//                    System.exit(0);
+//                } else {
+//                    System.err.println("the dipole derivatives work");
+//                    System.err.println(Dipolederiv);
+//                    System.err.println(test);
+//                }
+//
+//
+//            }
+//
+//
+//            excelSB.append(",").append(g.gradient());
+//
+//        }
+//
+//        if (trainingSet.strip().contains("N")) {
+//            for (int numit = 0; numit < 8; numit++) {
+//
+//                getG(7, numit, mult);
+//
+//
+//                excelStr2 = "," + datum[0] + "," + g.getEHf() + ",";
+//
+//
+//                g.constructErrors(datum[0]);
+//
+//                if (this.expGeom != null) {
+//                    g.createExpGeom(this.expGeom, expSolution);
+//                    g.addGeomError();
+//                }
+//
+//                if (datum[1] != 0) {
+//                    g.addDipoleError(datum[1]);
+//
+//                    excelSB2.append(",").append(datum[1]).append(",").append(g.getEDipole()).append(",");
+//
+//                    if (numit == 7) {
+//                        totalDipoleDerivSB.append(1 / LAMBDA * (g.getEPrimeDipole() - g.getEDipole()));
+//                    } else {
+//                        totalDipoleDerivSB.append(1 / LAMBDA * (g.getEPrimeDipole() - g.getEDipole())).append(", ");
+//                    }
+//
+//                } else {
+//                    excelSB2.append(",,,");
+//                }
+//
+//                if (datum[2] != 0) {
+//                    g.addIEError(datum[2]);
+//
+//                    excelSB2.append(",").append(datum[2]).append(",").append(-g.getEHomo()).append(",");
+//                    if (numit == 7) {
+//                        totalIonizationDerivSB.append(1 / LAMBDA * (-g.getEPrimeHomo() + g.getEHomo()));
+//                    } else {
+//                        totalIonizationDerivSB.append(1 / LAMBDA * (-g.getEPrimeHomo() + g.getEHomo())).append(", ");
+//                    }
+//                } else {
+//                    excelSB2.append(",,,");
+//                }
+//
+//                if (this.expGeom != null) {
+//                    excelSB2.append("," + 0 + ",").append(g.getEGradient()).append(",");
+//                    if (numit == 7) {
+//                        totalGeomDerivSB.append(1 / LAMBDA * (g.getEPrimeGradient() - g.getEGradient()));
+//                    } else {
+//                        totalGeomDerivSB.append(1 / LAMBDA * (g.getEPrimeGradient() - g.getEGradient())).append(", ");
+//                    }
+//                }
+//
+//
+//                if (numit == 7) {
+//                    totalHeatDerivSB.append(1 / LAMBDA * (g.getEPrimeHf() - g.getEHf()));
+//                } else {
+//                    totalHeatDerivSB.append(1 / LAMBDA * (g.getEPrimeHf() - g.getEHf())).append(", ");
+//                }
+//
+//                excelSB.append(",").append(g.gradient());
+//            }
+//        }
+//        totalDipoleDeriv = totalDipoleDerivSB.toString();
+//        totalGeomDeriv = totalGeomDerivSB.toString();
+//        totalHeatDeriv = totalHeatDerivSB.toString();
+//        totalIonizationDeriv = totalIonizationDerivSB.toString();
+//        excelStr = excelSB.toString();
+//        excelStr2 = excelSB2.toString();
     }
 
     protected void outputErrorFunction() {
@@ -443,8 +444,6 @@ public abstract class MoleculeRun {
 
         output = new String[]{totalExcelStr, totalHeatDeriv, totalDipoleDeriv, totalIonizationDeriv, totalGeomDeriv};
     }
-
-    protected abstract void getG(int Z, int numit, int mult);
 
     protected abstract void getH(int Z1, int param1, int Z2, int param2);
 

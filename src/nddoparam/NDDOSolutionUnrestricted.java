@@ -7,9 +7,9 @@ import java.util.Arrays;
 
 
 public class NDDOSolutionUnrestricted extends NDDOSolution {
+    DoubleMatrix Ea, Eb;
     private DoubleMatrix Fa, Fb;
     private DoubleMatrix alphaDensity, betaDensity;
-    DoubleMatrix Ea, Eb;
 
     public NDDOSolutionUnrestricted(NDDOAtom[] atoms, int charge, int mult) {
         super(atoms, charge);
@@ -314,7 +314,7 @@ public class NDDOSolutionUnrestricted extends NDDOSolution {
             ca = matrices1[0].transpose();
 
             cb = matrices2[0].transpose();
-            if (unstable) System.err.println (Ea);
+            if (unstable) System.err.println(Ea);
 
             alphaDensity = calculateDensityMatrix(ca, nalpha).mmul(1 - damp).add(oldalphadensity.mmul(damp));
 
@@ -387,9 +387,9 @@ public class NDDOSolutionUnrestricted extends NDDOSolution {
         }
 
         if (Math.abs(checksum - e) > 1E-5 || checksum != checksum) {
-            System.err.println ("I knew it!");
-            System.err.println (checksum);
-            System.err.println (e);
+            System.err.println("I knew it!");
+            System.err.println(checksum);
+            System.err.println(e);
             System.exit(0);
         }
 
@@ -470,22 +470,22 @@ public class NDDOSolutionUnrestricted extends NDDOSolution {
     }
 
 
-    private double E (int atomnum, int[][] index) {
+    private double E(int atomnum, int[][] index) {
 
         DoubleMatrix densitymatrix = alphaDensity.add(betaDensity);
 
         double e = 0;
 
-        for (int i: index[atomnum]) {
+        for (int i : index[atomnum]) {
             if (i > -1) {
-                e += densitymatrix.get (i, i) * orbitals[i].U();
+                e += densitymatrix.get(i, i) * orbitals[i].U();
             }
         }
 
-        for (int i: index[atomnum]) {
-            for (int j: index[atomnum]) {
-                for (int k: index[atomnum]) {
-                    for (int l: index[atomnum]) {
+        for (int i : index[atomnum]) {
+            for (int j : index[atomnum]) {
+                for (int k : index[atomnum]) {
+                    for (int l : index[atomnum]) {
                         if (i != -1 && j != -1 && k != -1 && l != -1) {
 
                             e += 0.5 * densitymatrix.get(i, j) * densitymatrix.get(k, l) * NDDO6G.OneCenterERI(orbitals[i], orbitals[j], orbitals[k], orbitals[l]);
@@ -500,43 +500,43 @@ public class NDDOSolutionUnrestricted extends NDDOSolution {
     }
 
 
-    private double E( int atomnum1, int atomnum2, int[][] index) {
+    private double E(int atomnum1, int atomnum2, int[][] index) {
 
         DoubleMatrix densitymatrix = alphaDensity.add(betaDensity);
 
         double e = 0;
 
-        for (int i: index[atomnum1]) {
-            for (int j: index[atomnum1]) {
+        for (int i : index[atomnum1]) {
+            for (int j : index[atomnum1]) {
                 if (i != -1 && j != -1) {
                     e += densitymatrix.get(i, j) * atoms[atomnum2].V(orbitals[i], orbitals[j]);
                 }
             }
         }
 
-        for (int k: index[atomnum2]) {
-            for (int l: index[atomnum2]) {
+        for (int k : index[atomnum2]) {
+            for (int l : index[atomnum2]) {
                 if (k != -1 && l != -1) {
                     e += densitymatrix.get(k, l) * atoms[atomnum1].V(orbitals[k], orbitals[l]);
                 }
             }
         }
 
-        for (int i: index[atomnum1]) {
-            for (int k: index[atomnum2]) {
+        for (int i : index[atomnum1]) {
+            for (int k : index[atomnum2]) {
                 if (i != -1 && k != -1) {
                     e += 2 * densitymatrix.get(i, k) * NDDO6G.beta(orbitals[i], orbitals[k]);
                 }
             }
         }
 
-        for (int i: index[atomnum1]) {
-            for (int j: index[atomnum1]) {
-                for (int k: index[atomnum2]) {
-                    for (int l: index[atomnum2]) {
+        for (int i : index[atomnum1]) {
+            for (int j : index[atomnum1]) {
+                for (int k : index[atomnum2]) {
+                    for (int l : index[atomnum2]) {
                         if (i != -1 && j != -1 && k != -1 && l != -1) {
 
-                            e +=(densitymatrix.get(i, j) * densitymatrix.get(k, l) - alphaDensity.get (i, k) * alphaDensity.get(j, l) - betaDensity.get (i, k) * betaDensity.get(j, l))
+                            e += (densitymatrix.get(i, j) * densitymatrix.get(k, l) - alphaDensity.get(i, k) * alphaDensity.get(j, l) - betaDensity.get(i, k) * betaDensity.get(j, l))
                                     * NDDO6G.getG(orbitals[i], orbitals[j], orbitals[k], orbitals[l]);
                         }
                     }

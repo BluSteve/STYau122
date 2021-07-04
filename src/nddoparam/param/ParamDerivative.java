@@ -1,8 +1,10 @@
 package nddoparam.param;
 
-import nddoparam.*;
+import nddoparam.NDDO6G;
+import nddoparam.NDDOAtom;
+import nddoparam.NDDOParams;
+import nddoparam.NDDOSolutionRestricted;
 import org.jblas.DoubleMatrix;
-import org.jblas.Singular;
 import org.jblas.Solve;
 import scf.GTO;
 import scf.LCGTO;
@@ -1173,26 +1175,29 @@ public class ParamDerivative {
 
     }
 
-    public static double HfDeriv(NDDOSolutionRestricted soln, int Z, int paramNum) {
-        if (paramNum == 0) {
+    public static double HfDeriv(NDDOSolutionRestricted soln, int Z, int paramnum) {
+
+        if (paramnum == 0) {
             return alphaHfderiv(soln, Z);
         }
-        if (paramNum <= 2) {
-            return betaHfderiv(soln, Z, paramNum - 1);
+        if (paramnum <= 2) {
+            return betaHfderiv(soln, Z, paramnum - 1);
         }
-        if (paramNum <= 4) {
-            return uxxHfderiv(soln, Z, paramNum - 3);
+        if (paramnum <= 4) {
+            return uxxHfderiv(soln, Z, paramnum - 3);
         }
-        if (paramNum <= 6) {
-            return zetaHfderiv(soln, Z, paramNum - 5);
+
+        if (paramnum <= 6) {
+            return zetaHfderiv(soln, Z, paramnum - 5);
         }
-        if (paramNum == 7) {
+        if (paramnum == 7) {
             return eisolHfderiv(soln.atoms, Z);
         }
 
-        System.err.println("Invalid paramNum passed to HfDeriv");
+        System.err.println("oh no! This isn't MNDO!");
         System.exit(0);
         return 0;
+
     }
 
     public static double[] MNDOHfderivs(NDDOSolutionRestricted soln, int Z) {
@@ -1214,44 +1219,32 @@ public class ParamDerivative {
         } else {
             return new double[]{derivs[0], derivs[1], derivs[3], derivs[5], derivs[7]};
         }
-
-
     }
 
 
     public static DoubleMatrix[][] MNDOStaticMatrixDeriv(NDDOSolutionRestricted soln, int Z) {
-
         NDDOAtom[] atoms = soln.atoms;
+        DoubleMatrix[] Hderivs = new DoubleMatrix[8];
+        DoubleMatrix[] Fderivs = new DoubleMatrix[8];
 
-        DoubleMatrix[] Hderivs = new DoubleMatrix[6];
-
-        DoubleMatrix[] Fderivs = new DoubleMatrix[6];
-
-        Hderivs[0] = betafockderivstatic(soln, Z, 0);
-        Fderivs[0] = Hderivs[0].dup();
-        Hderivs[2] = uxxfockderivstatic(soln, Z, 0);
-        Fderivs[2] = Hderivs[2].dup();
-        Hderivs[4] = zetaHderivstatic(atoms, soln, Z, 0);
-        Fderivs[4] = Hderivs[4].dup().add(zetaGderivstatic(atoms, soln, Z, 0));
+        Hderivs[1] = betafockderivstatic(soln, Z, 0);
+        Fderivs[1] = Hderivs[1].dup();
+        Hderivs[3] = uxxfockderivstatic(soln, Z, 0);
+        Fderivs[3] = Hderivs[3].dup();
+        Hderivs[5] = zetaHderivstatic(atoms, soln, Z, 0);
+        Fderivs[5] = Hderivs[5].dup().add(zetaGderivstatic(atoms, soln, Z, 0));
 
         if (Z != 1) {
-            Hderivs[1] = betafockderivstatic(soln, Z, 1);
-            Fderivs[1] = Hderivs[1].dup();
-            Hderivs[3] = uxxfockderivstatic(soln, Z, 1);
-            Fderivs[3] = Hderivs[3].dup();
-            Hderivs[5] = zetaHderivstatic(atoms, soln, Z, 1);
-            Fderivs[5] = Hderivs[5].dup().add(zetaGderivstatic(atoms, soln, Z, 1));
-
-            return new DoubleMatrix[][]{Hderivs, Fderivs};
-
-        } else {
-            return new DoubleMatrix[][]{new DoubleMatrix[]{Hderivs[0], Hderivs[2], Hderivs[4]}, new DoubleMatrix[]{Fderivs[0], Fderivs[2], Fderivs[4]}};
+            Hderivs[2] = betafockderivstatic(soln, Z, 1);
+            Fderivs[2] = Hderivs[2].dup();
+            Hderivs[4] = uxxfockderivstatic(soln, Z, 1);
+            Fderivs[4] = Hderivs[4].dup();
+            Hderivs[6] = zetaHderivstatic(atoms, soln, Z, 1);
+            Fderivs[6] = Hderivs[6].dup().add(zetaGderivstatic(atoms, soln, Z, 1));
         }
-
-
+        return new DoubleMatrix[][]{Hderivs, Fderivs};
     }
 
-    // calculates heat of formation derivative based on H and F matrix derivatives w.r.t. a particular tau
     public static double MNDOHfDeriv(NDDOSolutionRestricted soln, DoubleMatrix Hderiv, DoubleMatrix Fderiv) {
 
         double e = 0;
@@ -1632,7 +1625,7 @@ public class ParamDerivative {
 
     }
 
-    private static double alphaHfderiv(NDDOSolutionRestricted soln, int Z) { // TODO STOP RAW CALLING NDDOAtom[]
+    private static double alphaHfderiv(NDDOSolutionRestricted soln, int Z) {
 
         double sum = 0;
 
@@ -1888,53 +1881,48 @@ public class ParamDerivative {
 
 
     public static DoubleMatrix[] xarraylimited(NDDOSolutionRestricted soln, DoubleMatrix[] fockderivstatic) {
-
         int NOcc = (int) (soln.nElectrons / 2.0);
-
         int NVirt = soln.orbitals.length - NOcc;
-
         DoubleMatrix[] Farray = new DoubleMatrix[fockderivstatic.length];
-
         DoubleMatrix[] xarray = new DoubleMatrix[fockderivstatic.length];
-
         DoubleMatrix[] rarray = new DoubleMatrix[fockderivstatic.length];
-
         DoubleMatrix[] dirs = new DoubleMatrix[fockderivstatic.length];
 
         for (int a = 0; a < Farray.length; a++) {
-            DoubleMatrix F = DoubleMatrix.zeros(NOcc * NVirt, 1);
+            if (fockderivstatic[a] != null) { // TODO null check
+                DoubleMatrix F = DoubleMatrix.zeros(NOcc * NVirt, 1);
 
-            int count1 = 0;
+                int count1 = 0;
 
-            for (int i = 0; i < NOcc; i++) {
-                for (int j = 0; j < NVirt; j++) {
+                for (int i = 0; i < NOcc; i++) {
+                    for (int j = 0; j < NVirt; j++) {
 
-                    double element = 0;
+                        double element = 0;
 
-                    for (int u = 0; u < soln.orbitals.length; u++) {
-                        for (int v = 0; v < soln.orbitals.length; v++) {
-                            element += soln.C.get(i, u) * soln.C.get(j + NOcc, v) * fockderivstatic[a].get(u, v);
+                        for (int u = 0; u < soln.orbitals.length; u++) {
+                            for (int v = 0; v < soln.orbitals.length; v++) {
+                                element += soln.C.get(i, u) * soln.C.get(j + NOcc, v) * fockderivstatic[a].get(u, v);
+                            }
                         }
+
+
+                        F.put(count1, 0, element);
+
+                        count1++;
                     }
-
-
-                    F.put(count1, 0, element);
-
-                    count1++;
                 }
+
+                Farray[a] = F;
+
+                xarray[a] = DoubleMatrix.zeros(NOcc * NVirt, 1);
+
+                rarray[a] = F.dup();
+
+                dirs[a] = F.dup();
             }
-
-            Farray[a] = F;
-
-            xarray[a] = DoubleMatrix.zeros(NOcc * NVirt, 1);
-
-            rarray[a] = F.dup();
-
-            dirs[a] = F.dup();
         }
 
-
-        if (dirs[0].rows == 0) {
+        if (dirs[1].rows == 0) {
             DoubleMatrix[] densityderivs = new DoubleMatrix[fockderivstatic.length];
 
             for (int i = 0; i < densityderivs.length; i++) {
@@ -1946,26 +1934,10 @@ public class ParamDerivative {
 
 
         while (numNotNull(rarray) > 0) {
-
             System.err.println("It's still running, don't worry: " + numNotNull(rarray));
-
             ArrayList<DoubleMatrix> d = new ArrayList<>();
-
-
             for (int a = 0; a < rarray.length; a++) {
-
-                if (rarray[a] != null) {
-                    DoubleMatrix[] mat = Singular.fullSVD(dirs[a]);
-
-                    for (int i = 0; i < mat[1].columns; i++) {
-
-                        DoubleMatrix vec = mat[0].getColumn(i);
-
-                        if (mat[1].get(i, i) > 0) {
-                            d.add(vec);
-                        }
-                    }
-                }
+                if (rarray[a] != null) d.add(dirs[a].dup());
             }
 
             ArrayList<DoubleMatrix> p = new ArrayList<>();
@@ -1974,9 +1946,7 @@ public class ParamDerivative {
                 p.add(computeResponseVectorsLimited(d.get(i), soln));
             }
 
-
             DoubleMatrix solver = new DoubleMatrix(p.size(), p.size());
-
 
             DoubleMatrix rhsvec = DoubleMatrix.zeros(p.size(), rarray.length);
 
@@ -2002,7 +1972,13 @@ public class ParamDerivative {
                 }
             }
 
-            DoubleMatrix alpha = Solve.solve(solver, rhsvec);
+            DoubleMatrix alpha;
+
+            try {
+                alpha = Solve.solve(solver, rhsvec);
+            } catch (Exception e) {
+                alpha = DoubleMatrix.ones(solver.columns, rhsvec.columns);
+            }
 
             for (int a = 0; a < rhsvec.columns; a++) {
                 if (rarray[a] != null) {
@@ -2014,7 +1990,7 @@ public class ParamDerivative {
 
                     }
 
-                    if (mag(rarray[a]) < 1E-5) {
+                    if (mag(rarray[a]) < 1E-7) {
                         rarray[a] = null;
                     }
                 }
@@ -2043,7 +2019,13 @@ public class ParamDerivative {
                 }
             }
 
-            DoubleMatrix beta = Solve.solve(solver, rhsvec);
+            DoubleMatrix beta;
+
+            try {
+                beta = Solve.solve(solver, rhsvec);
+            } catch (Exception e) {
+                beta = DoubleMatrix.ones(solver.columns, rhsvec.columns);
+            }
 
             for (int a = 0; a < rhsvec.columns; a++) {
                 if (rarray[a] != null) {
@@ -2059,17 +2041,15 @@ public class ParamDerivative {
 
 
         }
-
-
         return xarray;
-
-
     }
 
 
-    // TODO isn't this another loop through??
     public static DoubleMatrix xArrayComplementary(NDDOSolutionRestricted soln, DoubleMatrix fockderiv) {
         int NOcc = (int) (soln.nElectrons / 2.0);
+        if (NOcc == 0) {
+            return DoubleMatrix.zeros(0, 0);
+        }
         DoubleMatrix x = DoubleMatrix.zeros(NOcc - 1, 1);
         int count1 = 0;
 
@@ -2125,8 +2105,10 @@ public class ParamDerivative {
         int count = 0;
 
         for (int i = xlimited.length - NVirt; i < xlimited.length; i++) {
-            x.put(count, 0, xlimited.get(i, 0));
-            count++;
+            if (i > -1) {
+                x.put(count, 0, xlimited.get(i, 0));
+                count++;
+            }
         }
 
         for (int i = 0; i < xcomplementary.length; i++) {
@@ -2140,6 +2122,7 @@ public class ParamDerivative {
 
     public static DoubleMatrix HOMOcoefficientDerivativeComplementary(DoubleMatrix x, NDDOSolutionRestricted soln) {
 
+        System.err.println("new computation method");
 
         DoubleMatrix CDeriv = DoubleMatrix.zeros(1, soln.orbitals.length);
 
@@ -2150,10 +2133,12 @@ public class ParamDerivative {
 
             for (int k = 0; k < soln.orbitals.length; k++) {
 
-                if (k < NOcc) {
+                if (k < NOcc - 1) {
                     sum -= soln.C.get(k, u) * x.get(k, 0);
-                } else if (k > NOcc) {
-                    sum -= soln.C.get(k, u) * x.get(k - 1, 0);
+                } else if (k >= NOcc) {
+                    if (k > 0) {
+                        sum -= soln.C.get(k, u) * x.get(k - 1, 0);
+                    }
                 }
             }
 
@@ -2167,6 +2152,10 @@ public class ParamDerivative {
     public static double MNDOIEDeriv(NDDOSolutionRestricted soln, DoubleMatrix coeffDeriv, DoubleMatrix Fderiv) {
 
         int index = (int) (soln.nElectrons / 2.0) - 1;
+
+        if (index < 0) {
+            return 0;
+        }
 
         DoubleMatrix coeff = soln.C.getRow(index);
 
@@ -2185,6 +2174,11 @@ public class ParamDerivative {
     }
 
     public static double MNDODipoleDeriv(NDDOSolutionRestricted soln, DoubleMatrix densityderiv, int Z, int paramnum) {
+
+        if (soln.dipole <= 1E-6) {
+            return 0;
+        }
+
         NDDOAtom[] atoms = soln.atoms;
 
         double D1deriv = 0;

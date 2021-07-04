@@ -8,7 +8,6 @@ public abstract class ParamGradient {
     protected NDDOAtom[] atoms, perturbed;
     protected int Z, paramNum;
     protected NDDOSolution s, sprime;
-
     protected ParamErrorFunction e, eprime;
 
     public ParamGradient(NDDOAtom[] atoms, int Z, int paramNum) {
@@ -86,14 +85,14 @@ public abstract class ParamGradient {
     }
 
     public double getEGradient() {
-        return e.gradient;
+        return e.geomGradient;
     }
 
     public double getEPrimeGradient() {
         if (eprime != null) {
-            return eprime.gradient;
+            return eprime.geomGradient;
         }
-        return e.gradient;
+        return e.geomGradient;
     }
 
     public double getEHomo() {

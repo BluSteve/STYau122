@@ -1,6 +1,5 @@
 package nddoparam.param;
 
-import nddoparam.NDDOAtom;
 import nddoparam.NDDODerivative;
 import nddoparam.NDDOSolution;
 import nddoparam.NDDOSolutionUnrestricted;

@@ -23,4 +23,8 @@ public class ParamHessianUnrestricted extends ParamHessian {
     }
 
 
+    @Override
+    public ParamErrorFunction getE() {
+        return null;
+    }
 }

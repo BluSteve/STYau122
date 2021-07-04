@@ -4,13 +4,12 @@ import nddoparam.NDDOAtom;
 import nddoparam.NDDOSolution;
 import scf.Utils;
 
-public abstract class ParamHessian {
+public abstract class ParamHessian implements ErrorGettable{
+    public ParamGradient g, gprime;
     protected NDDOAtom[] atoms, perturbed;
     protected int paramNum1, Z1;
-    public ParamGradient g, gprime;
 
     public ParamHessian(NDDOAtom[] atoms, int Z1, int paramNum1) {
-        //System.err.println("initializing Hessian");
         this.Z1 = Z1;
         this.paramNum1 = paramNum1;
         this.atoms = atoms;

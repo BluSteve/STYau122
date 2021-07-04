@@ -16,8 +16,8 @@ public class LCGTO { // HAS AtomFixed, OrbitalProperties, c, e
     protected int Z;//atomic charge
     protected int L;//angular momentum (L = 0 for s orbital, L = 1 for p orbital etc.)
     protected double zeta;
-    private double[] gaussExponents;
     protected AtomFixed atom;
+    private double[] gaussExponents;
 
     public LCGTO(double[] e, double[] c, AtomFixed atom, OrbitalProperties orbital) {// e = exponent array, c = coefficient array
         this.gaussExponents = e;
@@ -54,6 +54,48 @@ public class LCGTO { // HAS AtomFixed, OrbitalProperties, c, e
 
     public LCGTO() {
 
+    }
+
+    public static double getS(LCGTO X1, LCGTO X2) {//normalised overlap integral
+        double S = 0;
+
+        for (int i = 0; i < X1.getn(); i++) {
+            for (int j = 0; j < X2.getn(); j++) {
+                S += X1.getCoeffArray()[i] * X2.getCoeffArray()[j] *
+                        GTO.getS(X1.getGaussArray()[i], X2.getGaussArray()[j]);
+            }
+
+        }
+
+        return S * X1.getN() * X2.getN();
+    }
+
+    public static double getSDeriv(LCGTO X1, LCGTO X2, int tau) {
+        double S = 0;
+
+        for (int i = 0; i < X1.getn(); i++) {
+            for (int j = 0; j < X2.getn(); j++) {
+                S += X1.getCoeffArray()[i] * X2.getCoeffArray()[j] *
+                        GTO.getSderiv(X1.getGaussArray()[i], X2.getGaussArray()[j], tau);
+            }
+
+        }
+
+        return S * X1.getN() * X2.getN();
+    }
+
+    public static double getSDeriv2(LCGTO X1, LCGTO X2, int tau1, int tau2) {
+        double S = 0;
+
+        for (int i = 0; i < X1.getn(); i++) {
+            for (int j = 0; j < X2.getn(); j++) {
+                S += X1.getCoeffArray()[i] * X2.getCoeffArray()[j] *
+                        GTO.getSderiv2(X1.getGaussArray()[i], X2.getGaussArray()[j], tau1, tau2);
+            }
+
+        }
+
+        return S * X1.getN() * X2.getN();
     }
 
     public int getZ() {
@@ -110,49 +152,6 @@ public class LCGTO { // HAS AtomFixed, OrbitalProperties, c, e
 
     public double[] getGaussExponents() {
         return gaussExponents;
-    }
-
-    public static double getS(LCGTO X1, LCGTO X2) {//normalised overlap integral
-        double S = 0;
-
-        for (int i = 0; i < X1.getn(); i++) {
-            for (int j = 0; j < X2.getn(); j++) {
-                S +=  X1.getCoeffArray()[i] * X2.getCoeffArray()[j] *
-                        GTO.getS(X1.getGaussArray()[i], X2.getGaussArray()[j]);
-            }
-
-        }
-
-        return S * X1.getN() * X2.getN();
-    }
-
-
-    public static double getSDeriv(LCGTO X1, LCGTO X2, int tau) {
-        double S = 0;
-
-        for (int i = 0; i < X1.getn(); i++) {
-            for (int j = 0; j < X2.getn(); j++) {
-                S += X1.getCoeffArray()[i] * X2.getCoeffArray()[j] *
-                        GTO.getSderiv(X1.getGaussArray()[i], X2.getGaussArray()[j], tau);
-            }
-
-        }
-
-        return S * X1.getN() * X2.getN();
-    }
-
-    public static double getSDeriv2(LCGTO X1, LCGTO X2, int tau1, int tau2) {
-        double S = 0;
-
-        for (int i = 0; i < X1.getn(); i++) {
-            for (int j = 0; j < X2.getn(); j++) {
-                S += X1.getCoeffArray()[i] * X2.getCoeffArray()[j] *
-                        GTO.getSderiv2(X1.getGaussArray()[i], X2.getGaussArray()[j], tau1, tau2);
-            }
-
-        }
-
-        return S * X1.getN() * X2.getN();
     }
 
     public boolean equals(Object b) {

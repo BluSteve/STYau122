@@ -7,17 +7,17 @@ import scf.GTO;
 import java.util.ArrayList;
 
 public abstract class ParamErrorFunction {
-    protected double HeatError, DipoleError, IEError, GeomError;
-    public double gradient;
+    public double geomGradient;
     public NDDOSolution soln, expSoln;
+    protected double HeatError, dipoleError, IEError, geomError;
     protected NDDOAtom[] atoms, expAtoms;
     protected ArrayList<Double> bondErrors, angleErrors, bonds, angles, bondDerivatives, angleDerivatives;
 
     public ParamErrorFunction(NDDOSolution soln, double refHeat) {
         this.atoms = soln.atoms;
         this.soln = soln;
-        this.HeatError = Math.pow((soln.hf - refHeat), 2);
-        this.DipoleError = 0;
+        this.HeatError = (soln.hf - refHeat) * (soln.hf - refHeat);
+        this.dipoleError = 0;
         this.IEError = 0;
 
         this.angleErrors = new ArrayList<>();
@@ -28,18 +28,20 @@ public abstract class ParamErrorFunction {
         this.angleDerivatives = new ArrayList<>();
     }
 
-    protected abstract double getDeriv(double[] coeff, int atom2);
-
-    protected abstract double getGradient(int i, int j);
+    public void createExpGeom(NDDOAtom[] expAtoms, NDDOSolution expSoln) {
+        this.expAtoms = expAtoms;
+        this.expSoln = expSoln;
+    }
 
     public void addDipoleError(double refDipole) {
-        this.DipoleError = 400 * (soln.dipole - refDipole) * (soln.dipole - refDipole);
+        this.dipoleError = 400 * (soln.dipole - refDipole) * (soln.dipole - refDipole);
     }
 
     public void addIEError(double refIE) {
         this.IEError = 100 * (refIE + soln.homo) * (refIE + soln.homo);
     }
 
+    // requires exp
     public void addGeomError() {
         double sum = 0;
         for (int i = 0; i < expAtoms.length; i++) {
@@ -48,17 +50,18 @@ public abstract class ParamErrorFunction {
                 sum += d * d;
             }
         }
-        this.gradient = 627.5 * Math.sqrt(sum);
-        this.GeomError = 0.000049 * 627.5 * 627.5 * sum;
+        this.geomGradient = 627.5 * Math.sqrt(sum);
+        this.geomError = 0.000049 * 627.5 * 627.5 * sum;
     }
 
+    // requires exp
     public void addBondError(int atom1, int atom2, double ref) {
-        double[] R = getR(atom1, atom2);
-        double deriv = getDeriv(R, atom2);
+        double deriv = getDeriv(getR(atom1, atom2), atom2);
         this.bondDerivatives.add(deriv);
         this.bondErrors.add(0.49 * deriv * deriv);
     }
 
+    // requires exp
     public void addAngleError(int atom1, int atom2, int atom3, double ref) {
         double[] coeff = getCoeff(atom1, atom2, atom3);
         double deriv = getDeriv(coeff, atom2);
@@ -66,35 +69,15 @@ public abstract class ParamErrorFunction {
         this.angleErrors.add(0.49 * deriv * deriv);
     }
 
-    public void createExpGeom(NDDOAtom[] expAtoms, NDDOSolution expSoln) {
-        this.expAtoms = expAtoms;
-        this.expSoln = expSoln;
-    }
-
-    protected double[] getR(int atom1, int atom2) {
-        double length = GTO.R(atoms[atom1].getCoordinates(), atoms[atom2].getCoordinates()) / 1.88973;
-        this.bonds.add(length);
-        double[] R = new double[]{expAtoms[atom2].getCoordinates()[0] - expAtoms[atom1].getCoordinates()[0], expAtoms[atom2].getCoordinates()[1] - expAtoms[atom1].getCoordinates()[1], expAtoms[atom2].getCoordinates()[2] - expAtoms[atom1].getCoordinates()[2]};
-        double dist = GTO.R(expAtoms[atom2].getCoordinates(), expAtoms[atom1].getCoordinates());
-        for (int x = 0; x < R.length; x++) {
-            R[x] /= dist;
+    public double getTotalError() {
+        double sum = HeatError + dipoleError + IEError + geomError;
+        for (Double d : angleErrors) {
+            sum += d;
         }
-        return R;
-    }
-
-    protected double[] getCoeff(int atom1, int atom2, int atom3) {
-        double[] vector1 = new double[]{expAtoms[atom1].getCoordinates()[0] - expAtoms[atom2].getCoordinates()[0],
-                expAtoms[atom1].getCoordinates()[1] - expAtoms[atom2].getCoordinates()[1],
-                expAtoms[atom1].getCoordinates()[2] - expAtoms[atom2].getCoordinates()[2]};
-
-        double[] vector2 = new double[]{expAtoms[atom3].getCoordinates()[0] - expAtoms[atom2].getCoordinates()[0],
-                expAtoms[atom3].getCoordinates()[1] - expAtoms[atom2].getCoordinates()[1],
-                expAtoms[atom3].getCoordinates()[2] - expAtoms[atom2].getCoordinates()[2]};
-
-        double angle = theta(vector1[0], vector1[1], vector1[2], vector2[0], vector2[1], vector2[2]);
-        this.angles.add(angle);
-        double[] perpendicularVector = normalizedVector(cross(vector1, vector2));
-        return normalizedVector(cross(vector2, perpendicularVector));
+        for (Double d : bondErrors) {
+            sum += d;
+        }
+        return sum;
     }
 
     private static double theta(double x1, double y1, double z1, double x2, double y2, double z2) {
@@ -120,15 +103,33 @@ public abstract class ParamErrorFunction {
         return Math.sqrt(sum);
     }
 
+    protected abstract double getDeriv(double[] coeff, int atom2);
 
-    public double getTotalError() {
-        double sum = HeatError + DipoleError + IEError + GeomError;
-        for (Double d : angleErrors) {
-            sum += d;
+    protected abstract double getGradient(int i, int j);
+
+    protected double[] getR(int atom1, int atom2) {
+        double length = GTO.R(atoms[atom1].getCoordinates(), atoms[atom2].getCoordinates()) / 1.88973;
+        this.bonds.add(length);
+        double[] R = new double[]{expAtoms[atom2].getCoordinates()[0] - expAtoms[atom1].getCoordinates()[0], expAtoms[atom2].getCoordinates()[1] - expAtoms[atom1].getCoordinates()[1], expAtoms[atom2].getCoordinates()[2] - expAtoms[atom1].getCoordinates()[2]};
+        double dist = GTO.R(expAtoms[atom2].getCoordinates(), expAtoms[atom1].getCoordinates());
+        for (int x = 0; x < R.length; x++) {
+            R[x] /= dist;
         }
-        for (Double d : bondErrors) {
-            sum += d;
-        }
-        return sum;
+        return R;
+    }
+
+    protected double[] getCoeff(int atom1, int atom2, int atom3) {
+        double[] vector1 = new double[]{expAtoms[atom1].getCoordinates()[0] - expAtoms[atom2].getCoordinates()[0],
+                expAtoms[atom1].getCoordinates()[1] - expAtoms[atom2].getCoordinates()[1],
+                expAtoms[atom1].getCoordinates()[2] - expAtoms[atom2].getCoordinates()[2]};
+
+        double[] vector2 = new double[]{expAtoms[atom3].getCoordinates()[0] - expAtoms[atom2].getCoordinates()[0],
+                expAtoms[atom3].getCoordinates()[1] - expAtoms[atom2].getCoordinates()[1],
+                expAtoms[atom3].getCoordinates()[2] - expAtoms[atom2].getCoordinates()[2]};
+
+        double angle = theta(vector1[0], vector1[1], vector1[2], vector2[0], vector2[1], vector2[2]);
+        this.angles.add(angle);
+        double[] perpendicularVector = normalizedVector(cross(vector1, vector2));
+        return normalizedVector(cross(vector2, perpendicularVector));
     }
 }

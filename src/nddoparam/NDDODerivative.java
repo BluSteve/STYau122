@@ -5,8 +5,6 @@ import scf.GTO;
 import scf.LCGTO;
 import scf.Utils;
 
-import java.util.Arrays;
-
 public class NDDODerivative {
 
     private static double qqderiv(double p01, double p11, double p21, double D11, double D21, double p02, double p12, double p22, double D12, double D22, double[] xA, double[] xB, int tau) {
@@ -697,7 +695,6 @@ public class NDDODerivative {
             double[] coeffDderiv2 = derivativeDecomposition2(a.getCoords(), c.getCoords(), d, tau);
 
 
-
             double sum2 = 0;
 
             for (int i = 0; i < coeffA2.length; i++) {
@@ -732,9 +729,7 @@ public class NDDODerivative {
             }
 
             return sum2;
-        }
-
-        else {
+        } else {
             double[] coeffA = a.decomposition(a.getCoords(), c.getCoords());
             double[] coeffB = b.decomposition(a.getCoords(), c.getCoords());
             double[] coeffC = c.decomposition(a.getCoords(), c.getCoords());
@@ -744,7 +739,6 @@ public class NDDODerivative {
             double[] coeffBderiv = derivativeDecomposition(a.getCoords(), c.getCoords(), b, tau);
             double[] coeffCderiv = derivativeDecomposition(a.getCoords(), c.getCoords(), c, tau);
             double[] coeffDderiv = derivativeDecomposition(a.getCoords(), c.getCoords(), d, tau);
-
 
 
             double sum = 0;
@@ -781,8 +775,6 @@ public class NDDODerivative {
             }
 
 
-
-
             return sum;
         }
     }
@@ -802,7 +794,6 @@ public class NDDODerivative {
 
         return (perturbed - orig) / 1E-8;
     }
-
 
 
     public static double[] derivativeDecomposition(double[] point1, double[] point2, NDDO6G a, int tau) {
@@ -880,10 +871,10 @@ public class NDDODerivative {
         return null;
     }
 
-    public static double[] derivativeDecomposition2 (double[] point1, double[] point2, NDDO6G a, int tau) {
+    public static double[] derivativeDecomposition2(double[] point1, double[] point2, NDDO6G a, int tau) {
 
         if (a.getL() == 0) {
-            return new double[] {0};
+            return new double[]{0};
         }
 
         double x = point2[0] - point1[0];
@@ -901,54 +892,48 @@ public class NDDODerivative {
                 case 0:
                     if (a.geti() == 1) {
                         double val1 = x * x * y / (R * R * R * Rxz) + x * x * y / (R * Rxz * Rxz * Rxz) - y / (R * Rxz);
-                        double val2 = - x * z / (Rxz * Rxz * Rxz);
+                        double val2 = -x * z / (Rxz * Rxz * Rxz);
                         double val3 = x * x / (R * R * R) - 1 / R;
-                        return new double[] {val1, val2, val3};
-                    }
-                    else if (a.getj() == 1) {
+                        return new double[]{val1, val2, val3};
+                    } else if (a.getj() == 1) {
                         double val1 = x / (R * Rxz) - x * Rxz / (R * R * R);
                         double val3 = x * y / (R * R * R);
-                        return new double[] {val1, 0, val3};
-                    }
-                    else if (a.getk() == 1) {
+                        return new double[]{val1, 0, val3};
+                    } else if (a.getk() == 1) {
                         double val1 = x * y * z / (R * R * R * Rxz) + x * y * z / (R * Rxz * Rxz * Rxz);
                         double val2 = x * x / (Rxz * Rxz * Rxz) - 1 / Rxz;
                         double val3 = x * z / (R * R * R);
-                        return new double[] {val1, val2, val3};
+                        return new double[]{val1, val2, val3};
                     }
                 case 1:
                     if (a.geti() == 1) {
                         double val1 = x * y * y / (R * R * R * Rxz) - x / (R * Rxz);
                         double val3 = x * y / (R * R * R);
-                        return new double[] {val1, 0, val3};
-                    }
-                    else if (a.getj() == 1) {
-                        double val1 = - y * Rxz / (R * R * R);
+                        return new double[]{val1, 0, val3};
+                    } else if (a.getj() == 1) {
+                        double val1 = -y * Rxz / (R * R * R);
                         double val3 = y * y / (R * R * R) - 1 / R;
-                        return new double[] {val1, 0, val3};
-                    }
-                    else if (a.getk() == 1) {
+                        return new double[]{val1, 0, val3};
+                    } else if (a.getk() == 1) {
                         double val1 = y * y * z / (R * R * R * Rxz) - z / (R * Rxz);
                         double val3 = y * z / (R * R * R);
-                        return new double[] {val1, 0, val3};
+                        return new double[]{val1, 0, val3};
                     }
                 case 2:
                     if (a.geti() == 1) {
                         double val1 = x * y * z / (R * R * R * Rxz) + x * y * z / (R * Rxz * Rxz * Rxz);
                         double val2 = 1 / Rxz - z * z / (Rxz * Rxz * Rxz);
                         double val3 = x * z / (R * R * R);
-                        return new double[] {val1, val2, val3};
-                    }
-                    else if (a.getj() == 1) {
+                        return new double[]{val1, val2, val3};
+                    } else if (a.getj() == 1) {
                         double val1 = z / (R * Rxz) - z * Rxz / (R * R * R);
                         double val3 = z * y / (R * R * R);
-                        return new double[] {val1, 0, val3};
-                    }
-                    else if (a.getk() == 1) {
+                        return new double[]{val1, 0, val3};
+                    } else if (a.getk() == 1) {
                         double val1 = y * z * z / (R * R * R * Rxz) + y * z * z / (R * Rxz * Rxz * Rxz) - y / (R * Rxz);
                         double val2 = x * z / (Rxz * Rxz * Rxz);
                         double val3 = z * z / (R * R * R) - 1 / R;
-                        return new double[] {val1, val2, val3};
+                        return new double[]{val1, val2, val3};
                     }
             }
         }
@@ -1270,7 +1255,7 @@ public class NDDODerivative {
         return e;
     }
 
-    public static DoubleMatrix[][] gradientroutine (NDDOAtom[] atoms, NDDOSolutionRestricted soln) {
+    public static DoubleMatrix[][] gradientroutine(NDDOAtom[] atoms, NDDOSolutionRestricted soln) {
 
         DoubleMatrix[] fockderivatives = new DoubleMatrix[atoms.length * 3];
 
@@ -1303,10 +1288,10 @@ public class NDDODerivative {
             }
         }
 
-        return new DoubleMatrix[][] {new DoubleMatrix[] {grad}, fockderivatives};
+        return new DoubleMatrix[][]{new DoubleMatrix[]{grad}, fockderivatives};
     }
 
-    public static DoubleMatrix[][] gradientroutine (NDDOAtom[] atoms, NDDOSolutionUnrestricted soln) {
+    public static DoubleMatrix[][] gradientroutine(NDDOAtom[] atoms, NDDOSolutionUnrestricted soln) {
 
         DoubleMatrix[] fockderivativesalpha = new DoubleMatrix[atoms.length * 3];
 
@@ -1343,16 +1328,29 @@ public class NDDODerivative {
             }
         }
 
-        return new DoubleMatrix[][] {new DoubleMatrix[] {grad}, fockderivativesalpha, fockderivativesbeta};
+        return new DoubleMatrix[][]{new DoubleMatrix[]{grad}, fockderivativesalpha, fockderivativesbeta};
     }
 
-    public static double grad (NDDOAtom[] atoms, NDDOSolutionRestricted soln, int atomnum, int tau) {
+    public static double grad(NDDOSolutionRestricted soln, int atomnum, int tau) {
+        double e = 0;
+
+        for (int a = 0; a < soln.atoms.length; a++) {
+            if (a != atomnum) {
+                e += Ederiv(atomnum, a, soln.index, soln.densityMatrix(), soln.atoms, soln.orbitals, tau);
+                e += soln.atoms[atomnum].crfDeriv(soln.atoms[a], tau);
+            }
+        }
+
+        return e;
+    }
+
+    public static double grad(NDDOAtom[] atoms, NDDOSolutionUnrestricted soln, int atomnum, int tau) {
 
         double e = 0;
 
         for (int a = 0; a < atoms.length; a++) {
             if (a != atomnum) {
-                e += Ederiv (atomnum, a, soln.index, soln.densityMatrix(), atoms, soln.orbitals, tau);
+                e += Ederiv(atomnum, a, soln.index, soln.alphaDensity(), soln.betaDensity(), atoms, soln.orbitals, tau);
                 e += atoms[atomnum].crfDeriv(atoms[a], tau);
             }
         }
@@ -1361,55 +1359,40 @@ public class NDDODerivative {
 
     }
 
-    public static double grad (NDDOAtom[] atoms, NDDOSolutionUnrestricted soln, int atomnum, int tau) {
+    private static double Ederiv(int atomnum1, int atomnum2, int[][] index, DoubleMatrix densityMatrix, NDDOAtom[] atoms, NDDO6G[] orbitals, int tau) {
 
         double e = 0;
 
-        for (int a = 0; a < atoms.length; a++) {
-            if (a != atomnum) {
-                e += Ederiv (atomnum, a, soln.index, soln.alphaDensity(), soln.betaDensity(), atoms, soln.orbitals, tau);
-                e += atoms[atomnum].crfDeriv(atoms[a], tau);
-            }
-        }
-
-        return e;
-
-    }
-
-    private static double Ederiv( int atomnum1, int atomnum2, int[][] index, DoubleMatrix densityMatrix, NDDOAtom[] atoms, NDDO6G[] orbitals, int tau) {
-
-        double e = 0;
-
-        for (int i: index[atomnum1]) {
-            for (int j: index[atomnum1]) {
+        for (int i : index[atomnum1]) {
+            for (int j : index[atomnum1]) {
                 if (i != -1 && j != -1) {
                     e += densityMatrix.get(i, j) * atoms[atomnum2].Vderiv(orbitals[i], orbitals[j], tau);
                 }
             }
         }
 
-        for (int k: index[atomnum2]) {
-            for (int l: index[atomnum2]) {
+        for (int k : index[atomnum2]) {
+            for (int l : index[atomnum2]) {
                 if (k != -1 && l != -1) {
                     e -= densityMatrix.get(k, l) * atoms[atomnum1].Vderiv(orbitals[k], orbitals[l], tau);
                 }
             }
         }
 
-        for (int i: index[atomnum1]) {
-            for (int k: index[atomnum2]) {
+        for (int i : index[atomnum1]) {
+            for (int k : index[atomnum2]) {
                 if (i != -1 && k != -1) {
                     e += 2 * densityMatrix.get(i, k) * NDDO6G.betaderiv(orbitals[i], orbitals[k], tau);
                 }
             }
         }
 
-        for (int i: index[atomnum1]) {
-            for (int j: index[atomnum1]) {
-                for (int k: index[atomnum2]) {
-                    for (int l: index[atomnum2]) {
+        for (int i : index[atomnum1]) {
+            for (int j : index[atomnum1]) {
+                for (int k : index[atomnum2]) {
+                    for (int l : index[atomnum2]) {
                         if (i != -1 && j != -1 && k != -1 && l != -1) {
-                            e +=(densityMatrix.get(i, j) * densityMatrix.get(k, l) - densityMatrix.get (i, k) * 0.5 * densityMatrix.get(j, l))
+                            e += (densityMatrix.get(i, j) * densityMatrix.get(k, l) - densityMatrix.get(i, k) * 0.5 * densityMatrix.get(j, l))
                                     * NDDODerivative.getGderiv(orbitals[i], orbitals[j], orbitals[k], orbitals[l], tau);
                         }
                     }
@@ -1422,41 +1405,41 @@ public class NDDODerivative {
 
     }
 
-    private static double Ederiv( int atomnum1, int atomnum2, int[][] index, DoubleMatrix alphaDensity, DoubleMatrix betaDensity, NDDOAtom[] atoms, NDDO6G[] orbitals, int tau) {
+    private static double Ederiv(int atomnum1, int atomnum2, int[][] index, DoubleMatrix alphaDensity, DoubleMatrix betaDensity, NDDOAtom[] atoms, NDDO6G[] orbitals, int tau) {
 
         double e = 0;
 
 
-        for (int i: index[atomnum1]) {
-            for (int j: index[atomnum1]) {
+        for (int i : index[atomnum1]) {
+            for (int j : index[atomnum1]) {
                 if (i != -1 && j != -1) {
                     e += (alphaDensity.get(i, j) + betaDensity.get(i, j)) * atoms[atomnum2].Vderiv(orbitals[i], orbitals[j], tau);
                 }
             }
         }
 
-        for (int k: index[atomnum2]) {
-            for (int l: index[atomnum2]) {
+        for (int k : index[atomnum2]) {
+            for (int l : index[atomnum2]) {
                 if (k != -1 && l != -1) {
                     e -= (alphaDensity.get(k, l) + betaDensity.get(k, l)) * atoms[atomnum1].Vderiv(orbitals[k], orbitals[l], tau);
                 }
             }
         }
 
-        for (int i: index[atomnum1]) {
-            for (int k: index[atomnum2]) {
+        for (int i : index[atomnum1]) {
+            for (int k : index[atomnum2]) {
                 if (i != -1 && k != -1) {
                     e += 2 * (alphaDensity.get(i, k) + betaDensity.get(i, k)) * NDDO6G.betaderiv(orbitals[i], orbitals[k], tau);
                 }
             }
         }
 
-        for (int i: index[atomnum1]) {
-            for (int j: index[atomnum1]) {
-                for (int k: index[atomnum2]) {
-                    for (int l: index[atomnum2]) {
+        for (int i : index[atomnum1]) {
+            for (int j : index[atomnum1]) {
+                for (int k : index[atomnum2]) {
+                    for (int l : index[atomnum2]) {
                         if (i != -1 && j != -1 && k != -1 && l != -1) {
-                            e +=((alphaDensity.get(i, j) + betaDensity.get(i, j)) * (alphaDensity.get(k, l) + betaDensity.get(k, l)) - alphaDensity.get (i, k) * alphaDensity.get(j, l) - betaDensity.get (i, k) * betaDensity.get(j, l))
+                            e += ((alphaDensity.get(i, j) + betaDensity.get(i, j)) * (alphaDensity.get(k, l) + betaDensity.get(k, l)) - alphaDensity.get(i, k) * alphaDensity.get(j, l) - betaDensity.get(i, k) * betaDensity.get(j, l))
                                     * NDDODerivative.getGderiv(orbitals[i], orbitals[j], orbitals[k], orbitals[l], tau);
                         }
                     }
@@ -1469,7 +1452,7 @@ public class NDDODerivative {
 
     }
 
-    public static DoubleMatrix[] staticderivs (NDDOAtom[] atoms, NDDOSolutionRestricted soln, int atomnum, int tau) {
+    public static DoubleMatrix[] staticderivs(NDDOAtom[] atoms, NDDOSolutionRestricted soln, int atomnum, int tau) {
 
         DoubleMatrix densitymatrix = soln.densityMatrix();
 
@@ -1575,11 +1558,11 @@ public class NDDODerivative {
 
         DoubleMatrix F = H.dup().add(G);
 
-        return new DoubleMatrix[] {H, F};
+        return new DoubleMatrix[]{H, F};
 
     }
 
-    public static DoubleMatrix[] staticderivs (NDDOAtom[] atoms, NDDOSolutionUnrestricted soln, int atomnum, int tau) {
+    public static DoubleMatrix[] staticderivs(NDDOAtom[] atoms, NDDOSolutionUnrestricted soln, int atomnum, int tau) {
 
         DoubleMatrix alphadensity = soln.alphaDensity();
 
@@ -1736,26 +1719,25 @@ public class NDDODerivative {
         DoubleMatrix Fa = H.add(J).add(Ka);
         DoubleMatrix Fb = H.add(J).add(Kb);
 
-        return new DoubleMatrix[] {H, Fa, Fb};
+        return new DoubleMatrix[]{H, Fa, Fb};
 
     }
 
-    public static DoubleMatrix densitymatrixderivfinite (NDDOAtom[] atoms,NDDOSolutionRestricted soln, int atomnum, int tau) {
+    public static DoubleMatrix densitymatrixderivfinite(NDDOAtom[] atoms, NDDOSolutionRestricted soln, int atomnum, int tau) {
 
         DoubleMatrix orig = soln.densityMatrix();
 
 
-
         NDDOAtom[] newatoms = Utils.perturbAtomCoords(atoms, atomnum, tau);
 
-        DoubleMatrix perturbed = new NDDOSolutionRestricted (newatoms, soln.charge).densityMatrix();
+        DoubleMatrix perturbed = new NDDOSolutionRestricted(newatoms, soln.charge).densityMatrix();
 
         return perturbed.sub(orig).mmul(1E7);
 
 
     }
 
-    public static DoubleMatrix[] densitymatrixderivfinite (NDDOAtom[] atoms,NDDOSolutionUnrestricted soln, int atomnum, int tau) {
+    public static DoubleMatrix[] densitymatrixderivfinite(NDDOAtom[] atoms, NDDOSolutionUnrestricted soln, int atomnum, int tau) {
 
         DoubleMatrix aorig = soln.alphaDensity();
 
@@ -1763,13 +1745,13 @@ public class NDDODerivative {
 
         NDDOAtom[] newatoms = Utils.perturbAtomCoords(atoms, atomnum, tau);
 
-        NDDOSolutionUnrestricted newsoln = new NDDOSolutionUnrestricted (newatoms, soln.charge, soln.multiplicity);
+        NDDOSolutionUnrestricted newsoln = new NDDOSolutionUnrestricted(newatoms, soln.charge, soln.multiplicity);
 
         DoubleMatrix aperturbed = newsoln.alphaDensity();
 
         DoubleMatrix bperturbed = newsoln.betaDensity();
 
-        return new DoubleMatrix[] {aperturbed.sub(aorig).mmul(1E7), bperturbed.sub(borig).mmul(1E7)};
+        return new DoubleMatrix[]{aperturbed.sub(aorig).mmul(1E7), bperturbed.sub(borig).mmul(1E7)};
 
 
     }

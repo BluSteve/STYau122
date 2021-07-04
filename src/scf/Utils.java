@@ -9,6 +9,7 @@ import java.lang.reflect.InvocationTargetException;
 public class Utils {
     public static final double lambda = 1E-7;
     public static final double bohr = 1.88973;
+    public static final int maxAtomNum = 10;
 
     public static double[] toDoubles(String[] strs) {
         double[] doubles = new double[strs.length];
@@ -32,38 +33,34 @@ public class Utils {
                     NDDOParams params = atoms[i].getParams();
                     params.modifyParam(paramNum, Utils.lambda);
                     perturbed[i] = (NDDOAtom) ctor.newInstance(atoms[i], params);
-                }
-                else {
+                } else {
                     perturbed[i] = (NDDOAtom) ctor2.newInstance(atoms[i]);
                 }
             }
-        }
-        catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
             e.printStackTrace();
         }
         return perturbed;
     }
 
-    public static NDDOAtom[] perturbAtomCoords(NDDOAtom[] atoms, int atomnum, int tau) {
+    public static NDDOAtom[] perturbAtomCoords(NDDOAtom[] atoms, int atomNum, int tau) {
         NDDOAtom[] perturbed = new NDDOAtom[atoms.length];
         try {
             Class<? extends NDDOAtom> c = atoms[0].getClass();
-            Constructor ctor = c.getDeclaredConstructor(c, atoms[0].getCoordinates().getClass());
+            Constructor<? extends NDDOAtom> ctor = c.getDeclaredConstructor(c, atoms[0].getCoordinates().getClass());
             ctor.setAccessible(true);
-            Constructor ctor2 = c.getDeclaredConstructor(c);
+            Constructor<? extends NDDOAtom> ctor2 = c.getDeclaredConstructor(c);
             ctor2.setAccessible(true);
             for (int i = 0; i < atoms.length; i++) {
-                if (i == atomnum) {
+                if (i == atomNum) {
                     double[] coords = atoms[i].getCoordinates().clone();
                     coords[tau] = coords[tau] + 1E-7;
-                    perturbed[i] = (NDDOAtom) ctor.newInstance(atoms[i], coords);
-                }
-                else {
-                    perturbed[i] = (NDDOAtom) ctor2.newInstance(atoms[i]);
+                    perturbed[i] = ctor.newInstance(atoms[i], coords);
+                } else {
+                    perturbed[i] = ctor2.newInstance(atoms[i]);
                 }
             }
-        }
-        catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
             e.printStackTrace();
         }
         return perturbed;
@@ -71,7 +68,7 @@ public class Utils {
 
     public static boolean containsZ(NDDOAtom[] atoms, int Z) {
         boolean result = false;
-        for (NDDOAtom atom: atoms) {
+        for (NDDOAtom atom : atoms) {
             if (atom.getAtomProperties().getZ() == Z) {
                 result = true;
                 break;
@@ -79,6 +76,7 @@ public class Utils {
         }
         return result;
     }
+
     public static int getTrainingSetSize(String trainingSet) {
         int result = 0;
         int removeH = 0;
@@ -89,6 +87,7 @@ public class Utils {
         result += (trainingSet.length() - removeH) * 8;
         return result;
     }
+
     /**
      * The confluent hypergeometric function, usually given the symbol 1F1.
      * For information about the function and use of parameters consult the link:

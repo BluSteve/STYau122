@@ -14,11 +14,10 @@ public class ParamGradientUnrestricted extends ParamGradient {
 
     public void constructErrors(double refHeat) {
         if (Utils.containsZ(atoms, Z)) {
-            e = new ParamErrorFunctionUnrestricted(atoms, s, refHeat);
-            eprime = new ParamErrorFunctionUnrestricted(perturbed, sprime, refHeat);
-        }
-        else {
-            e = new ParamErrorFunctionUnrestricted(atoms, s, refHeat);
+            e = new ParamErrorFunctionUnrestricted(s, refHeat);
+            eprime = new ParamErrorFunctionUnrestricted(sprime, refHeat);
+        } else {
+            e = new ParamErrorFunctionUnrestricted(s, refHeat);
         }
     }
 

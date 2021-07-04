@@ -46,12 +46,8 @@ public class NDDO6G extends STO6G {
     }
 
     public NDDO6G(NDDO6G nddo6G, double[] coordinates) {
-        this( nddo6G.i, nddo6G.j, nddo6G.k, nddo6G);
+        this(nddo6G.i, nddo6G.j, nddo6G.k, nddo6G);
         super.coordinates = coordinates;
-    }
-
-    public NDDOAtom getAtom() {
-        return this.a;
     }
 
     public static double OneCenterERI(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d) {
@@ -106,27 +102,19 @@ public class NDDO6G extends STO6G {
         return 0;
     }
 
-    public double U() {
-        return this.U;
-    }
-
-    public double beta() {
-        return this.beta;
-    }
-
     public static double beta(NDDO6G a, NDDO6G b) {
         return 0.5 * (a.beta + b.beta) * LCGTO.getS(a, b);
     }
 
-    public static double betaderiv (NDDO6G a, NDDO6G b, int tau) {
+    public static double betaderiv(NDDO6G a, NDDO6G b, int tau) {
         return 0.5 * (a.beta + b.beta) * LCGTO.getSDeriv(a, b, tau);
     }
 
-    public static double betaparamderiv (NDDO6G a, NDDO6G b, int num, int type) {
+    public static double betaparamderiv(NDDO6G a, NDDO6G b, int num, int type) {
         return 0.5 * (a.beta + b.beta) * ParamDerivative.getSderivfinite(a, b, num, type);
     }
 
-    public static double betaderiv2 (NDDO6G a, NDDO6G b, int tau1, int tau2) {
+    public static double betaderiv2(NDDO6G a, NDDO6G b, int tau1, int tau2) {
         return 0.5 * (a.beta + b.beta) * LCGTO.getSDeriv2(a, b, tau1, tau2);
     }
 
@@ -768,6 +756,50 @@ public class NDDO6G extends STO6G {
         return 0;
     }
 
+    public static double getG(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d) {
+        double[] coeffA = a.decomposition(a.coordinates, c.coordinates);
+        double[] coeffB = b.decomposition(a.coordinates, c.coordinates);
+        double[] coeffC = c.decomposition(a.coordinates, c.coordinates);
+        double[] coeffD = d.decomposition(a.coordinates, c.coordinates);
+
+        double sum2 = 0;
+
+        NDDO6G[] A = a.orbitalArray();
+        NDDO6G[] B = b.orbitalArray();
+        NDDO6G[] C = c.orbitalArray();
+        NDDO6G[] D = d.orbitalArray();
+
+        for (int i = 0; i < coeffA.length; i++) {
+            for (int j = 0; j < coeffB.length; j++) {
+                for (int k = 0; k < coeffC.length; k++) {
+                    for (int l = 0; l < coeffD.length; l++) {
+
+                        if (coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] != 0) {
+                            sum2 += coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] * LocalTwoCenterERI(A[i], B[j], C[k], D[l]) * 27.21;
+                        }
+
+
+                    }
+                }
+            }
+        }
+
+
+        return sum2;
+    }
+
+    public NDDOAtom getAtom() {
+        return this.a;
+    }
+
+    public double U() {
+        return this.U;
+    }
+
+    public double beta() {
+        return this.beta;
+    }
+
     public double[] decomposition(double[] point1, double[] point2) {
 
         if (this.L == 0) {
@@ -805,10 +837,10 @@ public class NDDO6G extends STO6G {
         return null;
     }
 
-    public double[] decomposition2 (double[] point1, double[] point2) {
+    public double[] decomposition2(double[] point1, double[] point2) {
 
         if (this.L == 0) {
-            return new double[] {1};
+            return new double[]{1};
         }
 
         double x = point2[0] - point1[0];
@@ -822,20 +854,18 @@ public class NDDO6G extends STO6G {
         double R = GTO.R(point1, point2);
 
         if (this.L == 1) {
-            if (this.i == 1 ) {
+            if (this.i == 1) {
                 if (Rxz == 0) {
                     return new double[]{1, 0, 0};
                 }
-                return new double[] { x * y / (R * Rxz), - z / Rxz, x / R};
-            }
-            else if (this.j == 1) {
-                return new double[] {- Rxz / R, 0, y / R};
-            }
-            else {
+                return new double[]{x * y / (R * Rxz), -z / Rxz, x / R};
+            } else if (this.j == 1) {
+                return new double[]{-Rxz / R, 0, y / R};
+            } else {
                 if (Rxz == 0) {
                     return new double[]{0, 1, 0};
                 }
-                return new double[] { y * z / (R * Rxz), x / Rxz, z / R};
+                return new double[]{y * z / (R * Rxz), x / Rxz, z / R};
             }
         }
 
@@ -843,7 +873,6 @@ public class NDDO6G extends STO6G {
 
 
     }
-
 
     public NDDO6G[] orbitalArray() {
         if (this.orbitalArray == null) {
@@ -858,37 +887,5 @@ public class NDDO6G extends STO6G {
         }
 
         return this.orbitalArray;
-    }
-
-    public static double getG(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d) {
-        double[] coeffA = a.decomposition(a.coordinates, c.coordinates);
-        double[] coeffB = b.decomposition(a.coordinates, c.coordinates);
-        double[] coeffC = c.decomposition(a.coordinates, c.coordinates);
-        double[] coeffD = d.decomposition(a.coordinates, c.coordinates);
-
-        double sum2 = 0;
-
-        NDDO6G[] A = a.orbitalArray();
-        NDDO6G[] B = b.orbitalArray();
-        NDDO6G[] C = c.orbitalArray();
-        NDDO6G[] D = d.orbitalArray();
-
-        for (int i = 0; i < coeffA.length; i++) {
-            for (int j = 0; j < coeffB.length; j++) {
-                for (int k = 0; k < coeffC.length; k++) {
-                    for (int l = 0; l < coeffD.length; l++) {
-
-                        if (coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] != 0) {
-                            sum2 += coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] * LocalTwoCenterERI(A[i], B[j], C[k], D[l]) * 27.21;
-                        }
-
-
-                    }
-                }
-            }
-        }
-
-
-        return sum2;
     }
 }

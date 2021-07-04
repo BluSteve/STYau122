@@ -26,7 +26,7 @@ import static scf.Utils.bohr;
 public class Main {
 
     static String trainingSet;
-    static String[] atomTypes;
+    static int[] atomTypes;
     static ArrayList<String[]> previousOutput = new ArrayList<>(300);
 
     public static void main(String[] args) {
@@ -58,14 +58,18 @@ public class Main {
                 Scanner sc = new Scanner(input);
                 Scanner referenceScan = new Scanner(reference);
                 trainingSet = sc.nextLine().split("=")[1];
-                atomTypes = trainingSet.split("");
+                atomTypes = new int[trainingSet.length()];
+                for (int x=0; x < trainingSet.length(); x++) {
+                    atomTypes[x] = AtomHandler.atomsMap.get(Character.toString(trainingSet.charAt(x))).getZ();
+                }
 
                 HashMap<String, MNDOParams> mndoParams = new HashMap<>(5);
                 int startingIndex = 0;
                 int paramLength = 13;
                 int atomNumber = 0;
+                String[] temp = trainingSet.split(""); // TODO change all this later during the refactor of names and Zs
                 while (startingIndex + paramLength <= paramVector.length) {
-                    mndoParams.put(atomTypes[atomNumber], new MNDOParams(Arrays.copyOfRange(paramVector, startingIndex, startingIndex + paramLength)));
+                    mndoParams.put(temp[atomNumber], new MNDOParams(Arrays.copyOfRange(paramVector, startingIndex, startingIndex + paramLength)));
                     startingIndex += paramLength;
                     atomNumber++;
                 }
@@ -133,18 +137,24 @@ public class Main {
 
                     // uses measurements to check if need dipole, ionization, etc. uses values from reference.
                     double[] data = new double[3];
-                    data[0] = Double.parseDouble(referenceScan.nextLine().split(" ")[1]); // I wish we standardized delimiters.
+                    data[0] = Double.parseDouble(referenceScan.nextLine().split(" ")[1]);
+                    String kind = "a";
                     String[] dipoles = referenceScan.nextLine().split(" ");
-                    String kind = "hf_only";
-                    if (dipoles.length > 1) {
-                        data[1] = Double.parseDouble(dipoles[1]);
-                        kind = "limited";
-                    }
                     String[] ionizations = referenceScan.nextLine().split(" ");
-                    if (ionizations.length > 1) {
+                    if (dipoles.length > 1 && ionizations.length > 1) {
+                        data[1] = Double.parseDouble(dipoles[1]);
                         data[2] = Double.parseDouble(ionizations[1]);
-                        kind = "complementary";
+                        kind = "d";
                     }
+                    else if (dipoles.length > 1) {
+                        data[1] = Double.parseDouble(dipoles[1]);
+                        kind = "b";
+                    }
+                    else if (ionizations.length > 1) {
+                        data[2] = Double.parseDouble(ionizations[1]);
+                        kind = "c";
+                    }
+
                     if (referenceScan.hasNext()) referenceScan.nextLine();
 
 
@@ -159,7 +169,7 @@ public class Main {
                 int cores = Runtime.getRuntime().availableProcessors();
                 pw.println("Running on " + cores + " cores.");
                 int remainingNonParallel = 14;
-                // if requests less than remainingNonParallel then just use parallel computation for one of them
+                // if requests less than remainingNonParallel then just use parallel computation for one of them, i.e. single-threaded
                 int maxParallel = remainingNonParallel < requests.size() ? requests.size() - remainingNonParallel : 1;
                 List<ComputationRequest> ParallelComputationRequests = requests.subList(0, maxParallel);
                 // Parallel part
@@ -168,8 +178,8 @@ public class Main {
                 // Run parallelMap on thread pool
                 List<MoleculeRun> results = threadPool.submit(() -> ParallelComputationRequests.parallelStream().map(request -> {
                     MoleculeRun result = request.restricted ? new MoleculeRunRestricted(request.atoms, request.charge,
-                            request.expgeom, request.datum, request.hasHessian, trainingSet) : new MoleculeRunUnrestricted(request.atoms,
-                            request.charge, request.mult, request.expgeom, request.datum, request.hasHessian, trainingSet);
+                            request.expgeom, request.datum, request.hasHessian, request.kind, atomTypes) : new MoleculeRunUnrestricted(request.atoms,
+                            request.charge, request.mult, request.expgeom, request.datum, request.hasHessian, request.kind, atomTypes);
                     writeOutput(pw, request, result);
                     return result;
                 })).get().collect(Collectors.toList());
@@ -198,8 +208,8 @@ public class Main {
 
                 for (ComputationRequest request : requests.subList(maxParallel, requests.size())) {
                     MoleculeRun result = request.restricted ? new MoleculeRunRestricted(request.atoms, request.charge,
-                            request.expgeom, request.datum, request.hasHessian, trainingSet) : new MoleculeRunUnrestricted(request.atoms,
-                            request.charge, request.mult, request.expgeom, request.datum, request.hasHessian, trainingSet);
+                            request.expgeom, request.datum, request.hasHessian, request.kind, atomTypes) : new MoleculeRunUnrestricted(request.atoms,
+                            request.charge, request.mult, request.expgeom, request.datum, request.hasHessian, request.kind, atomTypes);
                     hessianValues.add(result.hessianStr);
                     outputValues.add(result.output.clone());
                     outputGeoms.add(result.newGeomCoords);
@@ -252,7 +262,7 @@ public class Main {
 
                 pw.println("-----------");
 
-                int size = Utils.getTrainingSetSize(trainingSet); // TODO hardcoding, perhaps put in text file reference values for various atoms
+                int size = Utils.getTrainingSetSize(trainingSet);
                 int maxIndex = ((size + 1) * size) / 2;
 
                 double[] sum = new double[size + 1];
