@@ -120,47 +120,52 @@ public abstract class MoleculeRun {
                     h.addIEError(datum[2]);
                 }
 
-                hessianSB.append(h.hessian()).append(", ");
-
+                hessianSB.append(h.hessian()).append(",");
             }
         }
         hessianStr = hessianSB.toString();
     }
 
-    protected void runGradient2() {
+    protected void runGradient() {
         g = new ParamGradientRestricted(opt.s, kind, charge, datum, expSolution); // time intensive step
-        StringBuilder HFDerivSB = new StringBuilder(datum[0] + "," + g.getS().hf + ",");
-        StringBuilder dipoleDerivSB = new StringBuilder(datum[1] + "," + g.getS().dipole + ",");
-        StringBuilder IEDerivSB = new StringBuilder(datum[2] + "," + g.getS().homo + ",");
-        StringBuilder geomDerivSB = new StringBuilder("0," + g.getE().geomGradient + ",");
+        StringBuilder HFDerivsSB = new StringBuilder(datum[0] + "," + g.getS().hf + ",");
+        StringBuilder dipoleDerivsSB = new StringBuilder(datum[1] + "," + g.getS().dipole + ",");
+        StringBuilder IEDerivsSB = new StringBuilder(datum[2] + "," + -g.getS().homo + ",");
+        StringBuilder geomDerivsSB = new StringBuilder("0," + g.getE().geomGradient + ",");
         StringBuilder mainDataSB = new StringBuilder();
         mainDataSB.append(g.getE().getTotalError());
 
         for (int atomType : this.atomTypes) {
             switch (kind) {
                 case "a":
-                    appendToSB(g.getHFDerivs()[atomType], HFDerivSB);
+                    appendToSB(g.getHFDerivs()[atomType], HFDerivsSB);
                     break;
                 case "b":
-                    appendToSB(g.getHFDerivs()[atomType], HFDerivSB);
-                    appendToSB(g.getDipoleDerivs()[atomType], dipoleDerivSB);
+                    appendToSB(g.getHFDerivs()[atomType], HFDerivsSB);
+                    appendToSB(g.getDipoleDerivs()[atomType], dipoleDerivsSB);
                     break;
                 case "c":
-                    appendToSB(g.getHFDerivs()[atomType], HFDerivSB);
-                    appendToSB(g.getIEDerivs()[atomType], IEDerivSB);
+                    appendToSB(g.getHFDerivs()[atomType], HFDerivsSB);
+                    appendToSB(g.getIEDerivs()[atomType], IEDerivsSB);
                     break;
                 case "d":
-                    appendToSB(g.getHFDerivs()[atomType], HFDerivSB);
-                    appendToSB(g.getDipoleDerivs()[atomType], dipoleDerivSB);
-                    appendToSB(g.getIEDerivs()[atomType], IEDerivSB);
+                    appendToSB(g.getHFDerivs()[atomType], HFDerivsSB);
+                    appendToSB(g.getDipoleDerivs()[atomType], dipoleDerivsSB);
+                    appendToSB(g.getIEDerivs()[atomType], IEDerivsSB);
                     break;
             }
-            if (expSolution != null) appendToSB(g.getGeomDerivs()[atomType], geomDerivSB);
+            if (expSolution != null) appendToSB(g.getGeomDerivs()[atomType], geomDerivsSB);
+            appendToSB(g.getTotalDerivs()[atomType], mainDataSB);
         }
-        totalHeatDeriv = HFDerivSB.toString();
-        totalDipoleDeriv = dipoleDerivSB.toString();
-        totalIonizationDeriv = IEDerivSB.toString();
-        totalGeomDeriv = geomDerivSB.toString();
+
+        appendToSB(new double[] {datum[0], g.getS().hf, datum[1], g.getS().dipole,
+                        datum[2], g.getS().homo, 0, g.getE().geomGradient}, mainDataSB);
+
+        totalHeatDeriv = HFDerivsSB.toString();
+        totalDipoleDeriv = dipoleDerivsSB.toString();
+        totalIonizationDeriv = IEDerivsSB.toString();
+        totalGeomDeriv = geomDerivsSB.toString();
+        totalExcelStr = mainDataSB.toString();
     }
 
     private static void appendToSB(double[] array, StringBuilder sb) {
@@ -168,7 +173,7 @@ public abstract class MoleculeRun {
         sb.append(array[array.length - 1]);
     }
 
-    protected void runGradient() {
+//    protected void runGradient() {
 //        StringBuilder totalHeatDerivSB = new StringBuilder();
 //        StringBuilder totalDipoleDerivSB = new StringBuilder();
 //        StringBuilder totalIonizationDerivSB = new StringBuilder();
@@ -435,12 +440,12 @@ public abstract class MoleculeRun {
 //        totalIonizationDeriv = totalIonizationDerivSB.toString();
 //        excelStr = excelSB.toString();
 //        excelStr2 = excelSB2.toString();
-    }
+//    }
 
     protected void outputErrorFunction() {
         System.out.println("Error function: " + g.getE().getTotalError());
 
-        totalExcelStr += g.getE().getTotalError() + excelStr + excelStr2;
+//        totalExcelStr += g.getE().getTotalError() + excelStr + excelStr2;
 
         output = new String[]{totalExcelStr, totalHeatDeriv, totalDipoleDeriv, totalIonizationDeriv, totalGeomDeriv};
     }

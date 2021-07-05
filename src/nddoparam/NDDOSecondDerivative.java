@@ -2107,7 +2107,7 @@ public class NDDOSecondDerivative {
 
     }
 
-    private static int numIterable(int[] iterable) {
+    public static int numIterable(int[] iterable) {
 
         int count = 0;
 
@@ -2251,7 +2251,7 @@ public class NDDOSecondDerivative {
         return p;
     }
 
-    private static DoubleMatrix computeResponseVectorsPople(DoubleMatrix x, NDDOSolutionRestricted soln) {
+    public static DoubleMatrix computeResponseVectorsPople(DoubleMatrix x, NDDOSolutionRestricted soln) {
 
         int NOcc = (int) (soln.nElectrons / 2.0);
 
@@ -2468,7 +2468,7 @@ public class NDDOSecondDerivative {
 
     }
 
-    private static void orthogonalise(DoubleMatrix[] vectors) {
+    public static void orthogonalise(DoubleMatrix[] vectors) {
 
         for (int i = 0; i < vectors.length; i++) {
 

@@ -63,7 +63,6 @@ public abstract class NDDOGeometryOptimization {
         DoubleMatrix oldgrad;
 
         double energy = refEnergy - 1;
-        double scale;
         int count;
         int numIt = 0;
 
@@ -74,9 +73,7 @@ public abstract class NDDOGeometryOptimization {
             System.out.println("Gradient: " + mag(gradient));
 
             numIt++;
-            scale = 0.1;
             refEnergy = 0;
-            int numSearch = 0;
             sw.resume();
 
             refEnergy = energy;
@@ -99,43 +96,6 @@ public abstract class NDDOGeometryOptimization {
             System.out.println("-----------------------------------------------");
 
             energy = s.energy;
-
-//            while (Math.abs(energy - refEnergy) > 1E-8) {
-//                refEnergy = energy;
-//                System.err.println("SCALE" + scale);
-//                count = 0;
-//
-//                for (NDDOAtom a : atoms) {
-//                    for (int i = 0; i < 3; i++) {
-//                        // get x,y,z of a
-//                        // positions of atoms are essentially "weights"
-//                        a.getCoordinates()[i] = Math.round((a.getCoordinates()[i] + scale * searchdir.get(count)) * 1000000000) / 1000000000.0;
-//                        count++;
-//                    }
-//                }
-//
-//                updateNDDOSolution();
-//
-//                System.out.println("\nCurrent heat of formation: " + s.hf + "kcal/mol");
-//                System.out.println("Current HOMO energy: " + s.homo + " eV");
-//                System.out.println("Current energy: " + s.energy);
-//                System.out.println("-----------------------------------------------");
-//
-//                energy = s.energy;
-//
-//                if (energy > refEnergy) {
-//                    scale *= -0.5;
-//                    numSearch = 0;
-//                }
-//                else {
-//                    numSearch++;
-//
-//                    if (numSearch >= 5) {
-//                        scale *= 2;
-//                        numSearch = 0;
-//                    }
-//                }
-//            }
             sw.suspend();
             System.err.println("Time: " + sw.getTime());
 

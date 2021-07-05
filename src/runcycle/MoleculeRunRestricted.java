@@ -25,12 +25,8 @@ public class MoleculeRunRestricted extends MoleculeRun {
         outputErrorFunction();
     }
 
-    protected void getG(int Z, int numit, int mult) { // TODO make everything use NDDOSolution instead
-        g = new ParamGradientRestricted(opt.s, kind, charge, datum, expSolution);
-    }
-
-    protected void getH(int Z1, int param1, int Z2, int param2) {
-        h = new ParamHessianRestricted(atoms, charge, Z1, param1, Z2, param2, (NDDOSolutionRestricted) opt.s);
+    protected void getH(int Z1, int paramNum1, int Z2, int paramNum2) {
+        h = new ParamHessianRestricted(atoms, charge, Z1, paramNum1, Z2, paramNum2, (NDDOSolutionRestricted) opt.s);
     }
 
 }

@@ -1,9 +1,6 @@
 package nddoparam.param;
 
-import nddoparam.NDDO6G;
-import nddoparam.NDDOAtom;
-import nddoparam.NDDOParams;
-import nddoparam.NDDOSolutionRestricted;
+import nddoparam.*;
 import org.jblas.DoubleMatrix;
 import org.jblas.Solve;
 import scf.GTO;
@@ -1879,17 +1876,194 @@ public class ParamDerivative {
         return p;
     }
 
+    // fockDerivStatic is 1x8
+    public static DoubleMatrix[] xArrayLimitedPople(NDDOSolutionRestricted soln, DoubleMatrix[] fockDerivStaticPadded) {
+        int size = numNotNull(fockDerivStaticPadded);
+        DoubleMatrix[] fockDerivStatic = new DoubleMatrix[size];
+        size = 0;
+        for (DoubleMatrix dm : fockDerivStaticPadded) {
+            if (dm != null) {
+                fockDerivStatic[size] = dm.dup();
+                size++;
+            }
+        }
 
-    public static DoubleMatrix[] xarraylimited(NDDOSolutionRestricted soln, DoubleMatrix[] fockderivstatic) {
         int NOcc = (int) (soln.nElectrons / 2.0);
         int NVirt = soln.orbitals.length - NOcc;
-        DoubleMatrix[] Farray = new DoubleMatrix[fockderivstatic.length];
-        DoubleMatrix[] xarray = new DoubleMatrix[fockderivstatic.length];
-        DoubleMatrix[] rarray = new DoubleMatrix[fockderivstatic.length];
-        DoubleMatrix[] dirs = new DoubleMatrix[fockderivstatic.length];
+
+        DoubleMatrix[] xArray = new DoubleMatrix[fockDerivStatic.length];
+        DoubleMatrix[] barray = new DoubleMatrix[fockDerivStatic.length];
+        DoubleMatrix[] parray = new DoubleMatrix[fockDerivStatic.length];
+        DoubleMatrix[] Farray = new DoubleMatrix[fockDerivStatic.length];
+        DoubleMatrix[] rarray = new DoubleMatrix[fockDerivStatic.length];
+
+        DoubleMatrix preconditioner = DoubleMatrix.zeros(NOcc * NVirt, 1);
+        DoubleMatrix preconditionerinv = DoubleMatrix.zeros(NOcc * NVirt, 1);
+
+        int counter = 0;
+
+        for (int i = 0; i < NOcc; i++) {
+            for (int j = 0; j < NVirt; j++) {
+
+                double e = (-soln.E.get(i) + soln.E.get(NOcc + j));
+
+                preconditioner.put(counter, Math.pow(e, -0.5));
+
+                preconditionerinv.put(counter, Math.pow(e, 0.5));
+
+                counter++;
+
+            }
+        }
+
+        DoubleMatrix D = DoubleMatrix.diag(preconditioner);
+
+        DoubleMatrix Dinv = DoubleMatrix.diag(preconditionerinv);
+
+        for (int a = 0; a < xArray.length; a++) {
+            DoubleMatrix F = DoubleMatrix.zeros(NOcc * NVirt, 1);
+
+            int count1 = 0;
+
+            for (int i = 0; i < NOcc; i++) {
+                for (int j = 0; j < NVirt; j++) {
+                    double element = 0;
+
+                    for (int u = 0; u < soln.orbitals.length; u++) {
+                        for (int v = 0; v < soln.orbitals.length; v++) {
+                            element += soln.C.get(i, u) * soln.C.get(j + NOcc, v) * fockDerivStatic[a].get(u, v);
+                        }
+                    }
+
+                    element = element / (soln.E.get(j + NOcc) - soln.E.get(i));
+                    F.put(count1, 0, element);
+                    count1++;
+                }
+            }
+
+            F = D.mmul(F);
+            xArray[a] = DoubleMatrix.zeros(NOcc * NVirt, 1);
+            rarray[a] = xArray[a].dup();
+            barray[a] = F.dup();
+            Farray[a] = F.dup();
+        }
+
+
+        if (barray[1].rows == 0) {
+            DoubleMatrix[] densityderivs = new DoubleMatrix[fockDerivStatic.length];
+
+            for (int i = 0; i < densityderivs.length; i++) {
+                densityderivs[i] = DoubleMatrix.zeros(0, 0);
+            }
+
+            return densityderivs;
+        }
+
+
+        ArrayList<DoubleMatrix> b = new ArrayList<>();
+
+        ArrayList<DoubleMatrix> p = new ArrayList<>();
+
+        int[] iterable = new int[barray.length];
+
+
+        DoubleMatrix F = DoubleMatrix.zeros(NOcc * NVirt, Farray.length);
+        for (int i = 0; i < Farray.length; i++) {
+            F.putColumn(i, Farray[i]);
+        }
+
+        while (NDDOSecondDerivative.numIterable(iterable) > 0) {
+
+            NDDOSecondDerivative.orthogonalise(barray);
+
+            System.err.println("only " + NDDOSecondDerivative.numIterable(iterable) + " left to go!");
+
+            for (int i = 0; i < barray.length; i++) {
+
+                b.add(barray[i].dup());
+                parray[i] = D.mmul(NDDOSecondDerivative.computeResponseVectorsPople(Dinv.mmul(barray[i].dup()), soln));
+                p.add(parray[i].dup());
+            }
+
+            for (int i = 0; i < barray.length; i++) {
+                DoubleMatrix newb = parray[i];
+
+                for (int j = 0; j < b.size(); j++) {
+                    double num = b.get(j).transpose().mmul(parray[i]).get(0) / b.get(j).transpose().mmul(b.get(j)).get(0);
+                    newb = newb.sub(b.get(j).mmul(num));
+                }
+
+                barray[i] = newb.dup();
+            }
+
+            DoubleMatrix B = DoubleMatrix.zeros(NOcc * NVirt, b.size());
+            DoubleMatrix P = DoubleMatrix.zeros(NOcc * NVirt, b.size());
+
+            for (int i = 0; i < b.size(); i++) {
+                B.putColumn(i, b.get(i));
+
+                P.putColumn(i, b.get(i).sub(p.get(i)));
+            }
+
+
+            DoubleMatrix lhs = B.transpose().mmul(P);
+
+            DoubleMatrix rhs = B.transpose().mmul(F);
+
+            DoubleMatrix alpha = Solve.solve(lhs, rhs);
+
+            for (int a = 0; a < xArray.length; a++) {
+
+                rarray[a] = DoubleMatrix.zeros(NOcc * NVirt, 1);
+                xArray[a] = DoubleMatrix.zeros(NOcc * NVirt, 1);
+            }
+
+            for (int i = 0; i < alpha.rows; i++) {
+                for (int j = 0; j < alpha.columns; j++) {
+
+                    rarray[j] = rarray[j].add((b.get(i).sub(p.get(i))).mmul(alpha.get(i, j)));
+                    xArray[j] = xArray[j].add(b.get(i).mmul(alpha.get(i, j)));
+                }
+            }
+
+            for (int j = 0; j < alpha.columns; j++) {
+                rarray[j] = rarray[j].sub(Farray[j]);
+
+                xArray[j] = Dinv.mmul(xArray[j]);
+
+                if (mag(rarray[j]) < 1E-10) { //todo play with this
+                    iterable[j] = 1;
+                } else if (Double.isNaN(mag(rarray[j]))) {
+                    System.err.println("Pople algorithm fails; reverting to Thiel algorithm (don't panic)...");
+                    return xArrayLimitedThiel(soln, fockDerivStaticPadded);
+                } else {
+                    iterable[j] = 0;
+                    System.err.println("convergence test: " + mag(rarray[j]));
+                }
+            }
+        }
+
+        DoubleMatrix[] xArrayPadded = new DoubleMatrix[fockDerivStaticPadded.length];
+        size = 0;
+        for (int i = 0; i < fockDerivStaticPadded.length; i++) {
+            if (fockDerivStaticPadded[i] != null) {
+                xArrayPadded[i] = xArray[size];
+                size++;
+            }
+        }
+        return xArrayPadded;
+    }
+
+    private static DoubleMatrix[] xArrayLimitedThiel(NDDOSolutionRestricted soln, DoubleMatrix[] fockDerivStatic) {
+        int NOcc = (int) (soln.nElectrons / 2.0);
+        int NVirt = soln.orbitals.length - NOcc;
+        DoubleMatrix[] Farray = new DoubleMatrix[fockDerivStatic.length];
+        DoubleMatrix[] xarray = new DoubleMatrix[fockDerivStatic.length];
+        DoubleMatrix[] rarray = new DoubleMatrix[fockDerivStatic.length];
+        DoubleMatrix[] dirs = new DoubleMatrix[fockDerivStatic.length];
 
         for (int a = 0; a < Farray.length; a++) {
-            if (fockderivstatic[a] != null) { // TODO null check
+            if (fockDerivStatic[a] != null) { // TODO null check
                 DoubleMatrix F = DoubleMatrix.zeros(NOcc * NVirt, 1);
 
                 int count1 = 0;
@@ -1901,10 +2075,9 @@ public class ParamDerivative {
 
                         for (int u = 0; u < soln.orbitals.length; u++) {
                             for (int v = 0; v < soln.orbitals.length; v++) {
-                                element += soln.C.get(i, u) * soln.C.get(j + NOcc, v) * fockderivstatic[a].get(u, v);
+                                element += soln.C.get(i, u) * soln.C.get(j + NOcc, v) * fockDerivStatic[a].get(u, v);
                             }
                         }
-
 
                         F.put(count1, 0, element);
 
@@ -1913,17 +2086,14 @@ public class ParamDerivative {
                 }
 
                 Farray[a] = F;
-
                 xarray[a] = DoubleMatrix.zeros(NOcc * NVirt, 1);
-
                 rarray[a] = F.dup();
-
                 dirs[a] = F.dup();
             }
         }
 
         if (dirs[1].rows == 0) {
-            DoubleMatrix[] densityderivs = new DoubleMatrix[fockderivstatic.length];
+            DoubleMatrix[] densityderivs = new DoubleMatrix[fockDerivStatic.length];
 
             for (int i = 0; i < densityderivs.length; i++) {
                 densityderivs[i] = DoubleMatrix.zeros(0, 0);
@@ -1942,8 +2112,8 @@ public class ParamDerivative {
 
             ArrayList<DoubleMatrix> p = new ArrayList<>();
 
-            for (int i = 0; i < d.size(); i++) {
-                p.add(computeResponseVectorsLimited(d.get(i), soln));
+            for (DoubleMatrix doubleMatrix : d) {
+                p.add(computeResponseVectorsLimited(doubleMatrix, soln));
             }
 
             DoubleMatrix solver = new DoubleMatrix(p.size(), p.size());
@@ -2272,7 +2442,7 @@ public class ParamDerivative {
         return Math.sqrt(sum);
     }
 
-    private static double numNotNull(DoubleMatrix[] rarray) {
+    private static int numNotNull(DoubleMatrix[] rarray) {
 
         int count = 0;
         for (DoubleMatrix r : rarray) {

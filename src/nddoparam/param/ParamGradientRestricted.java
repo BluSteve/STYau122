@@ -3,6 +3,7 @@ package nddoparam.param;
 import nddoparam.*;
 import nddoparam.mndo.MNDOAtom;
 import nddoparam.mndo.MNDOParams;
+import org.apache.commons.lang3.time.StopWatch;
 import scf.AtomHandler;
 import scf.Utils;
 
@@ -79,7 +80,7 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
     @Override
     protected void computeBatchedDerivs(int Z) {
         staticDerivs[Z] = ParamDerivative.MNDOStaticMatrixDeriv((NDDOSolutionRestricted) s, Z);
-        xLimited[Z] = ParamDerivative.xarraylimited((NDDOSolutionRestricted) s, staticDerivs[Z][1]);
+        xLimited[Z] = ParamDerivative.xArrayLimitedPople((NDDOSolutionRestricted) s, staticDerivs[Z][1]);
     }
 
     @Override
@@ -133,20 +134,11 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
                     xLimited[Z][paramNum], xComplementary[Z][paramNum]);
             coeffDerivs[Z][paramNum] = ParamDerivative.HOMOcoefficientDerivativeComplementary(xForIE[Z][paramNum],
                     (NDDOSolutionRestricted) s);
-            IEDerivs[Z][paramNum] = ParamDerivative.MNDOIEDeriv((NDDOSolutionRestricted) s,
+            IEDerivs[Z][paramNum] = -ParamDerivative.MNDOIEDeriv((NDDOSolutionRestricted) s,
                     coeffDerivs[Z][paramNum], fockDerivs[Z][paramNum]);
 
             totalDerivs[Z][paramNum] += 200 * (s.homo + datum[2]) * IEDerivs[Z][paramNum];
         }
-    }
-
-    private static String csvify(double[] array) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < array.length - 1; i++) {
-            sb.append(array[i]).append(',');
-        }
-        sb.append(array[array.length - 1]);
-        return sb.toString();
     }
 
     public static void main(String[] args) {
@@ -168,9 +160,15 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
                 new MNDOAtom(AtomHandler.atomsMap.get("H"), new double[]{-0.6304 * Utils.bohr, -0.6304 * Utils.bohr, 0.6304 * Utils.bohr}, h),
                 new MNDOAtom(AtomHandler.atomsMap.get("H"), new double[]{-0.6304 * Utils.bohr, 0.6304 * Utils.bohr, -0.6304 * Utils.bohr}, h),
                 new MNDOAtom(AtomHandler.atomsMap.get("C"), new double[]{0, 0, 0}, c)};
+        MNDOAtom[] exp1 = new MNDOAtom[]{
+                new MNDOAtom(AtomHandler.atomsMap.get("H"), new double[]{0.6304 * Utils.bohr, 0.6304 * Utils.bohr, 0.6304 * Utils.bohr}, h),
+                new MNDOAtom(AtomHandler.atomsMap.get("H"), new double[]{0.6304 * Utils.bohr, -0.6304 * Utils.bohr, -0.6304 * Utils.bohr}, h),
+                new MNDOAtom(AtomHandler.atomsMap.get("H"), new double[]{-0.6304 * Utils.bohr, -0.6304 * Utils.bohr, 0.6304 * Utils.bohr}, h),
+                new MNDOAtom(AtomHandler.atomsMap.get("H"), new double[]{-0.6304 * Utils.bohr, 0.6304 * Utils.bohr, -0.6304 * Utils.bohr}, h),
+                new MNDOAtom(AtomHandler.atomsMap.get("C"), new double[]{0, 0, 0}, c)};
         NDDOSolution expsoln = new NDDOSolutionRestricted(exp, 0);
         double[] datum = new double[]{-17.9, 0, 13.6};
-        NDDOGeometryOptimizationRestricted opt = new NDDOGeometryOptimizationRestricted(new NDDOAtom[]{carbon, atom1, atom2, atom3, atom4}, 0);
+        NDDOGeometryOptimizationRestricted opt = new NDDOGeometryOptimizationRestricted(exp1, 0);
 
         ParamGradientRestricted g = new ParamGradientRestricted(opt.s, "a", 0, datum, expsoln);
         g.computeDerivs();
@@ -187,11 +185,15 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
         System.out.println("Test HF (C) Derivs: " + Arrays.deepToString(g.getHFDerivs()));
         System.out.println("Test IE (C) Derivs: " + Arrays.deepToString(g.getIEDerivs()));
 
+        StopWatch sw = new StopWatch();
+        sw.start();
         g = new ParamGradientRestricted(opt.s, "d", 0, datum, expsoln);
         g.computeDerivs();
+        sw.stop();
+        System.out.println("D Time taken: " + sw.getTime());
         System.out.println("Test HF (D) Derivs: " + Arrays.deepToString(g.getHFDerivs()));
         System.out.println("Test Dipole (D) Derivs: " + Arrays.deepToString(g.getDipoleDerivs()));
         System.out.println("Test IE (D) Derivs: " + Arrays.deepToString(g.getIEDerivs()));
-        System.out.println(csvify(g.getHFDerivs()[6]));
+        System.out.println("Test Total (D) Derivs: " + Arrays.deepToString(g.getTotalDerivs()));
     }
 }
