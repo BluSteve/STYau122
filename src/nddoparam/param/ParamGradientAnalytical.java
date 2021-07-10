@@ -24,54 +24,54 @@ public abstract class ParamGradientAnalytical implements ErrorGettable { // TODO
     }
 
     public void computeDerivs() {
-        geomDerivs = new double[Utils.maxAtomNum][NDDOSolution.maxParamNum];
-        totalDerivs = new double[Utils.maxAtomNum][NDDOSolution.maxParamNum];
+        geomDerivs = new double[s.getUniqueZs().length][NDDOSolution.maxParamNum];
+        totalDerivs = new double[s.getUniqueZs().length][NDDOSolution.maxParamNum];
         switch (kind) {
             case "a":
-                HFDerivs = new double[Utils.maxAtomNum][NDDOSolution.maxParamNum];
+                HFDerivs = new double[s.getUniqueZs().length][NDDOSolution.maxParamNum];
 
                 computeADerivs();
                 break;
             case "b":
-                HFDerivs = new double[Utils.maxAtomNum][NDDOSolution.maxParamNum];
-                dipoleDerivs = new double[Utils.maxAtomNum][NDDOSolution.maxParamNum];
+                HFDerivs = new double[s.getUniqueZs().length][NDDOSolution.maxParamNum];
+                dipoleDerivs = new double[s.getUniqueZs().length][NDDOSolution.maxParamNum];
 
-                densityDerivs = new DoubleMatrix[Utils.maxAtomNum][NDDOSolution.maxParamNum];
-                staticDerivs = new DoubleMatrix[Utils.maxAtomNum][NDDOSolution.maxParamNum][2];
-                xLimited = new DoubleMatrix[Utils.maxAtomNum][NDDOSolution.maxParamNum];
+                densityDerivs = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
+                staticDerivs = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum][2];
+                xLimited = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
 
                 computeBDerivs();
                 break;
             case "c":
-                HFDerivs = new double[Utils.maxAtomNum][NDDOSolution.maxParamNum];
-                IEDerivs = new double[Utils.maxAtomNum][NDDOSolution.maxParamNum];
+                HFDerivs = new double[s.getUniqueZs().length][NDDOSolution.maxParamNum];
+                IEDerivs = new double[s.getUniqueZs().length][NDDOSolution.maxParamNum];
 
-                densityDerivs = new DoubleMatrix[Utils.maxAtomNum][NDDOSolution.maxParamNum];
-                staticDerivs = new DoubleMatrix[Utils.maxAtomNum][2][NDDOSolution.maxParamNum];
-                xLimited = new DoubleMatrix[Utils.maxAtomNum][NDDOSolution.maxParamNum];
+                densityDerivs = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
+                staticDerivs = new DoubleMatrix[s.getUniqueZs().length][2][NDDOSolution.maxParamNum];
+                xLimited = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
 
-                xComplementary = new DoubleMatrix[Utils.maxAtomNum][NDDOSolution.maxParamNum];
-                xForIE = new DoubleMatrix[Utils.maxAtomNum][NDDOSolution.maxParamNum];
-                coeffDerivs = new DoubleMatrix[Utils.maxAtomNum][NDDOSolution.maxParamNum];
-                responseDerivs = new DoubleMatrix[Utils.maxAtomNum][NDDOSolution.maxParamNum];
-                fockDerivs = new DoubleMatrix[Utils.maxAtomNum][NDDOSolution.maxParamNum];
+                xComplementary = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
+                xForIE = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
+                coeffDerivs = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
+                responseDerivs = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
+                fockDerivs = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
 
                 computeCDerivs();
                 break;
             case "d":
-                HFDerivs = new double[Utils.maxAtomNum][NDDOSolution.maxParamNum];
-                dipoleDerivs = new double[Utils.maxAtomNum][NDDOSolution.maxParamNum];
-                IEDerivs = new double[Utils.maxAtomNum][NDDOSolution.maxParamNum];
+                HFDerivs = new double[s.getUniqueZs().length][NDDOSolution.maxParamNum];
+                dipoleDerivs = new double[s.getUniqueZs().length][NDDOSolution.maxParamNum];
+                IEDerivs = new double[s.getUniqueZs().length][NDDOSolution.maxParamNum];
 
-                densityDerivs = new DoubleMatrix[Utils.maxAtomNum][NDDOSolution.maxParamNum];
-                staticDerivs = new DoubleMatrix[Utils.maxAtomNum][2][NDDOSolution.maxParamNum];
-                xLimited = new DoubleMatrix[Utils.maxAtomNum][NDDOSolution.maxParamNum];
+                densityDerivs = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
+                staticDerivs = new DoubleMatrix[s.getUniqueZs().length][2][NDDOSolution.maxParamNum];
+                xLimited = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
 
-                xComplementary = new DoubleMatrix[Utils.maxAtomNum][NDDOSolution.maxParamNum];
-                xForIE = new DoubleMatrix[Utils.maxAtomNum][NDDOSolution.maxParamNum];
-                coeffDerivs = new DoubleMatrix[Utils.maxAtomNum][NDDOSolution.maxParamNum];
-                responseDerivs = new DoubleMatrix[Utils.maxAtomNum][NDDOSolution.maxParamNum];
-                fockDerivs = new DoubleMatrix[Utils.maxAtomNum][NDDOSolution.maxParamNum];
+                xComplementary = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
+                xForIE = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
+                coeffDerivs = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
+                responseDerivs = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
+                fockDerivs = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
 
                 computeDDerivs();
                 break;
