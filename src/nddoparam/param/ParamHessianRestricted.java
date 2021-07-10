@@ -18,7 +18,7 @@ public class ParamHessianRestricted extends ParamHessianAnalytical {
     }
 
     @Override
-    protected void computeHessians(String kind) {
+    protected void computeHessian(String kind) {
         for (int ZIndex2 = 0; ZIndex2 < s.getUniqueZs().length; ZIndex2++) {
             for (int paramNum2: s.getNeededParams()[s.getUniqueZs()[ZIndex2]]) {
                 gPrime = new ParamGradientRestricted(new NDDOSolutionRestricted(Utils.perturbAtomParams(s.atoms,

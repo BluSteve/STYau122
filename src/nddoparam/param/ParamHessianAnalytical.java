@@ -16,13 +16,13 @@ public abstract class ParamHessianAnalytical implements ErrorGettable {
         this.sExp = sExp;
     }
 
-    public void computeHessians() {
+    public void computeHessian() {
         hessian = new double[s.getUniqueZs().length * NDDOSolution.maxParamNum]
                 [s.getUniqueZs().length * NDDOSolution.maxParamNum];
-        computeHessians(kind);
+        computeHessian(kind);
     }
 
-    protected abstract void computeHessians(String kind);
+    protected abstract void computeHessian(String kind);
 
     public double[][] getHessian() {
         return hessian;
