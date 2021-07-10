@@ -12,7 +12,7 @@ import static nddoparam.mndo.MNDOParams.T2ParamNums;
 
 public abstract class NDDOSolution {
     // TODO make most of these private
-    public static final int maxParamNum = 8;
+    public static int maxParamNum = 8;
     private static final int[][] neededParams = new int[Utils.maxAtomNum][0];
     public double energy, homo, lumo, hf, dipole;
     public double[] chargedip, hybridip, dipoletot;

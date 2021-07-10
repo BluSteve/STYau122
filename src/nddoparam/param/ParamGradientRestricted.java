@@ -207,8 +207,12 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
         System.out.println("Test IE (D) Derivs: " + Arrays.deepToString(g.getIEDerivs()));
         System.out.println("Test Total (D) Derivs: " + Arrays.deepToString(g.getGradients()));
 
+        sw.reset();
+        sw.start();
         ParamHessianRestricted hessian = new ParamHessianRestricted(opt.s, "b", datum, expsoln);
         hessian.computeHessians();
-        System.out.println("Test A Hessian: " + Arrays.deepToString(hessian.getHessian()));
+        sw.stop();
+        System.out.println("Hessian time taken: " + sw.getTime());
+        System.out.println("Test Hessian: " + Arrays.deepToString(hessian.getHessian()));
     }
 }
