@@ -210,7 +210,7 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
         sw.reset();
         sw.start();
         ParamHessianRestricted hessian = new ParamHessianRestricted(opt.s, "b", datum, expsoln);
-        hessian.computeHessians();
+        hessian.computeHessian();
         sw.stop();
         System.out.println("Hessian time taken: " + sw.getTime());
         System.out.println("Test Hessian: " + Arrays.deepToString(hessian.getHessian()));
