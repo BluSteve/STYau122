@@ -1,26 +1,38 @@
 package nddoparam.param;
 
-import nddoparam.NDDOAtom;
 import nddoparam.NDDOSolution;
 import nddoparam.NDDOSolutionRestricted;
-import scf.Utils;
 
-public class ParamHessianRestricted extends ParamHessian {
-    public ParamHessianRestricted(NDDOAtom[] atoms, int charge, int Z1, int paramNum1, int Z2, int paramNum2, NDDOSolutionRestricted s) {
-        super(atoms, Z1, paramNum1);
-        NDDOSolutionRestricted sPrime = new NDDOSolutionRestricted(perturbed, charge);
-//        g = new ParamGradientRestricted(atoms, charge, Z2, paramNum2, s);
-//        gprime = new ParamGradientRestricted(perturbed, charge, Z2, paramNum2, sPrime);
+public class ParamHessianRestricted extends ParamHessianAnalytical {
+    public ParamHessianRestricted(NDDOSolutionRestricted s, String kind, int charge, double[] datum, NDDOSolution sExp) {
+        super(s, kind, charge, datum, sExp);
+        g = new ParamGradientRestricted(s, kind, charge, datum, sExp);
+        g.computeDerivs();
     }
 
-    public void createExpGeom(NDDOAtom[] expAtoms, NDDOSolution expSolution) {
-        g.createExpGeom(expAtoms, expSolution);
-        NDDOAtom[] perturbed = Utils.perturbAtomParams(expAtoms, paramNum1, Z1);
-        gprime.createExpGeom(perturbed, new NDDOSolutionRestricted(perturbed, expSolution.charge));
-    }
 
     @Override
     public ParamErrorFunction getE() {
         return null;
+    }
+
+    @Override
+    protected void computeAHessians() {
+        g.getTotalDerivs();
+    }
+
+    @Override
+    protected void computeBHessians() {
+
+    }
+
+    @Override
+    protected void computeCHessians() {
+
+    }
+
+    @Override
+    protected void computeDHessians() {
+
     }
 }

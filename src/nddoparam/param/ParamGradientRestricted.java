@@ -80,6 +80,7 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
     @Override
     protected void computeBatchedDerivs(int Z) {
         staticDerivs[Z] = ParamDerivative.MNDOStaticMatrixDeriv((NDDOSolutionRestricted) s, Z);
+        // TODO put all Z's together
         xLimited[Z] = ParamDerivative.xArrayLimitedPople((NDDOSolutionRestricted) s, staticDerivs[Z][1]);
     }
 
@@ -168,6 +169,7 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
                 new MNDOAtom(AtomHandler.atomsMap.get("C"), new double[]{0, 0, 0}, c)};
         NDDOSolution expsoln = new NDDOSolutionRestricted(exp, 0);
         double[] datum = new double[]{-17.9, 0, 13.6};
+
         NDDOGeometryOptimizationRestricted opt = new NDDOGeometryOptimizationRestricted(exp1, 0);
 
         ParamGradientRestricted g = new ParamGradientRestricted(opt.s, "a", 0, datum, expsoln);

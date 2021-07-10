@@ -2292,7 +2292,6 @@ public class ParamDerivative {
 
     public static DoubleMatrix HOMOcoefficientDerivativeComplementary(DoubleMatrix x, NDDOSolutionRestricted soln) {
 
-        System.err.println("new computation method");
 
         DoubleMatrix CDeriv = DoubleMatrix.zeros(1, soln.orbitals.length);
 

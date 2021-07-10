@@ -26,7 +26,7 @@ public class MoleculeRunRestricted extends MoleculeRun {
     }
 
     protected void getH(int Z1, int paramNum1, int Z2, int paramNum2) {
-        h = new ParamHessianRestricted(atoms, charge, Z1, paramNum1, Z2, paramNum2, (NDDOSolutionRestricted) opt.s);
+//        h = new ParamHessianRestricted(atoms, charge, Z1, paramNum1, Z2, paramNum2, (NDDOSolutionRestricted) opt.s);
     }
 
 }

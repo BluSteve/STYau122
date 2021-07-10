@@ -2,54 +2,44 @@ package nddoparam.param;
 
 import nddoparam.NDDOAtom;
 import nddoparam.NDDOSolution;
+import nddoparam.NDDOSolutionRestricted;
+import org.jblas.DoubleMatrix;
 import scf.Utils;
 
 public abstract class ParamHessianAnalytical implements ErrorGettable{
-    public ParamGradient g, gprime;
-    protected NDDOAtom[] atoms, perturbed;
-    protected int paramNum1, Z1;
+    protected ParamGradientAnalytical g;
+    protected NDDOSolution s, sExp;
+    protected String kind;
+    protected int charge;
+    protected double[] datum;
 
-    public ParamHessianAnalytical(NDDOAtom[] atoms, int Z1, int paramNum1) {
-        this.Z1 = Z1;
-        this.paramNum1 = paramNum1;
-        this.atoms = atoms;
-        perturbed = Utils.perturbAtomParams(atoms, paramNum1, Z1);
+    public ParamHessianAnalytical(NDDOSolution s, String kind, int charge, double[] datum, NDDOSolution sExp) {
+        this.s = s;
+        this.kind = kind;
+        this.charge = charge;
+        this.datum = datum;
+        this.sExp = sExp;
     }
 
-    public void constructErrors(double refHeat) {
-        g.constructErrors(refHeat);
-        gprime.constructErrors(refHeat);
+    public void computeDerivs() {
+        switch (kind) {
+            case "a":
+                computeAHessians();
+                break;
+            case "b":
+                computeBHessians();
+                break;
+            case "c":
+                computeCHessians();
+                break;
+            case "d":
+                computeDHessians();
+                break;
+        }
     }
 
-    public void addDipoleError(double ref) {
-        g.addDipoleError(ref);
-        gprime.addDipoleError(ref);
-    }
-
-    public void addIEError(double ref) {
-        g.addIEError(ref);
-        gprime.addIEError(ref);
-    }
-
-    public void addGeomError() {
-        g.addGeomError();
-        gprime.addGeomError();
-    }
-
-    public void addBondError(int atom1, int atom2, double ref) {
-        g.addBondError(atom1, atom2, ref);
-        gprime.addBondError(atom1, atom2, ref);
-    }
-
-    public void addAngleError(int atom1, int atom2, int atom3, double ref) {
-        g.addAngleError(atom1, atom2, atom3, ref);
-        gprime.addAngleError(atom1, atom2, atom3, ref);
-    }
-
-    public abstract void createExpGeom(NDDOAtom[] expAtoms, NDDOSolution expSoln);
-
-    public double hessian() {
-        return (gprime.gradient() - g.gradient()) / Utils.lambda;
-    }
-
+    protected abstract void computeAHessians();
+    protected abstract void computeBHessians();
+    protected abstract void computeCHessians();
+    protected abstract void computeDHessians();
 }

@@ -6,11 +6,11 @@ import scf.Utils;
 
 public abstract class ParamGradientAnalytical implements ErrorGettable { // TODO only works for restricted rn
     protected NDDOSolution s, sPrime, sExp;
+    protected ParamErrorFunction e;
     protected String kind;
     protected int charge;
     protected boolean isExpAvail;
     protected double[] datum;
-    protected ParamErrorFunction e;
     protected double[][] HFDerivs, dipoleDerivs, IEDerivs, geomDerivs, totalDerivs;
     protected DoubleMatrix[][] densityDerivs, xLimited, xComplementary, xForIE, coeffDerivs, responseDerivs, fockDerivs;
     protected DoubleMatrix[][][] staticDerivs;
