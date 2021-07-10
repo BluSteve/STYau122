@@ -1887,6 +1887,7 @@ public class ParamDerivative {
                 size++;
             }
         }
+        if (fockDerivStatic.length == 0) return new DoubleMatrix[fockDerivStaticPadded.length];
 
         int NOcc = (int) (soln.nElectrons / 2.0);
         int NVirt = soln.orbitals.length - NOcc;

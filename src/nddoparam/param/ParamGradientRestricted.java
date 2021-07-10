@@ -11,7 +11,9 @@ import org.jblas.DoubleMatrix;
 import scf.AtomHandler;
 import scf.Utils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class ParamGradientRestricted extends ParamGradientAnalytical {
 
@@ -28,50 +30,27 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
         }
     }
 
-    // gets only HFDerivs
     @Override
-    protected void computeADerivs() {
+    protected void computeDerivs(String kind) {
+        if (kind.equals("b") || kind.equals("c") || kind.equals("d")) computeBatchedDerivs(0, 0);
         for (int Z = 0; Z < s.getUniqueZs().length; Z++) {
             for (int paramNum : s.getNeededParams()[s.getUniqueZs()[Z]]) {
-                computeHFDeriv(Z, paramNum);
-                if (isExpAvail) computeGeomDeriv(Z, paramNum);
-            }
-        }
-    }
-
-    // gets HFDerivs and dipoleDerivs
-    @Override
-    protected void computeBDerivs() {
-        computeBatchedDerivs(0, 0);
-        for (int Z = 0; Z < s.getUniqueZs().length; Z++) {
-            for (int paramNum : s.getNeededParams()[s.getUniqueZs()[Z]]) {
-                computeDipoleDeriv(Z, paramNum, true);
-                if (isExpAvail) computeGeomDeriv(Z, paramNum);
-            }
-        }
-    }
-
-    // gets HFDerivs and IEDerivs
-    @Override
-    protected void computeCDerivs() {
-        computeBatchedDerivs(0, 0);
-        for (int Z = 0; Z < s.getUniqueZs().length; Z++) {
-            for (int paramNum : s.getNeededParams()[s.getUniqueZs()[Z]]) {
-                computeDipoleDeriv(Z, paramNum, false);
-                computeIEDeriv(Z, paramNum);
-                if (isExpAvail) computeGeomDeriv(Z, paramNum);
-            }
-        }
-    }
-
-    // gets HFDerivs, dipoleDerivs and IEDerivs;
-    @Override
-    protected void computeDDerivs() {
-        computeBatchedDerivs(0, 0);
-        for (int Z = 0; Z < s.getUniqueZs().length; Z++) {
-            for (int paramNum : s.getNeededParams()[s.getUniqueZs()[Z]]) {
-                computeDipoleDeriv(Z, paramNum, true);
-                computeIEDeriv(Z, paramNum);
+                switch (kind) {
+                    case "a":
+                        computeHFDeriv(Z, paramNum);
+                        break;
+                    case "b":
+                        computeDipoleDeriv(Z, paramNum, true);
+                        break;
+                    case "c":
+                        computeDipoleDeriv(Z, paramNum, false);
+                        computeIEDeriv(Z, paramNum);
+                        break;
+                    case "d":
+                        computeDipoleDeriv(Z, paramNum, true);
+                        computeIEDeriv(Z, paramNum);
+                        break;
+                }
                 if (isExpAvail) computeGeomDeriv(Z, paramNum);
             }
         }
@@ -82,19 +61,23 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
     // Will not compute anything before the firstZIndex and the firstParamIndex.
     @Override
     protected void computeBatchedDerivs(int firstZIndex, int firstParamIndex) {
-        DoubleMatrix[] aggregate = new DoubleMatrix[s.getUniqueZs().length * NDDOSolution.maxParamNum];
-        int i = 0;
+        ArrayList<DoubleMatrix> aggregate = new ArrayList<>(s.getUniqueZs().length * NDDOSolution.maxParamNum);
         for (int Z = firstZIndex; Z < s.getUniqueZs().length; Z++) {
-            staticDerivs[Z] = ParamDerivative.MNDOStaticMatrixDeriv((NDDOSolutionRestricted) s, s.getUniqueZs()[Z],
-                    firstParamIndex);
-            for (DoubleMatrix dm : staticDerivs[Z][1]) {
-                aggregate[i] = dm;
-                i++;
-            }
+            if (Z == firstZIndex)
+                staticDerivs[Z] = ParamDerivative.MNDOStaticMatrixDeriv((NDDOSolutionRestricted) s, s.getUniqueZs()[Z],
+                        firstParamIndex);
+            else staticDerivs[Z] = ParamDerivative.MNDOStaticMatrixDeriv((NDDOSolutionRestricted) s, s.getUniqueZs()[Z],
+                    0);
+            Collections.addAll(aggregate, staticDerivs[Z][1]);
         }
 
-        DoubleMatrix[] xLimitedAggregate = ParamDerivative.xArrayLimitedPople((NDDOSolutionRestricted) s, aggregate);
-        i = 0;
+        DoubleMatrix[] aggregateArray = new DoubleMatrix[aggregate.size()];
+        for (int x = 0; x < aggregate.size(); x++) {
+            aggregateArray[x] = aggregate.get(x);
+        }
+        DoubleMatrix[] xLimitedAggregate = ParamDerivative.xArrayLimitedPople((NDDOSolutionRestricted) s,
+                aggregateArray);
+        int i = 0;
         for (int Z = firstZIndex; Z < s.getUniqueZs().length; Z++) {
             xLimited[Z] = Arrays.copyOfRange(xLimitedAggregate, i * NDDOSolution.maxParamNum,
                     i * NDDOSolution.maxParamNum + NDDOSolution.maxParamNum);
@@ -117,13 +100,13 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
         }
         double geomGradient = 627.5 * Math.sqrt(sum);
         geomDerivs[Z][paramNum] = 1 / LAMBDA * (geomGradient - e.geomGradient);
-        totalDerivs[Z][paramNum] += 0.000049 * e.geomGradient * geomDerivs[Z][paramNum];
+        gradients[Z][paramNum] += 0.000049 * e.geomGradient * geomDerivs[Z][paramNum];
     }
 
     @Override
     protected void computeHFDeriv(int Z, int paramNum) {
         HFDerivs[Z][paramNum] = ParamDerivative.HFDeriv((NDDOSolutionRestricted) s, s.getUniqueZs()[Z], paramNum);
-        totalDerivs[Z][paramNum] += 2 * (s.hf - datum[0]) * HFDerivs[Z][paramNum];
+        gradients[Z][paramNum] += 2 * (s.hf - datum[0]) * HFDerivs[Z][paramNum];
     }
 
     // `full` sets whether dipole itself is actually computed
@@ -142,11 +125,11 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
                 dipoleDerivs[Z][paramNum] = ParamDerivative.MNDODipoleDeriv((NDDOSolutionRestricted) s,
                         densityDerivs[Z][paramNum], s.getUniqueZs()[Z], paramNum);
 
-                totalDerivs[Z][paramNum] += 800 * (s.dipole - datum[1]) * dipoleDerivs[Z][paramNum];
+                gradients[Z][paramNum] += 800 * (s.dipole - datum[1]) * dipoleDerivs[Z][paramNum];
             }
         }
 
-        totalDerivs[Z][paramNum] += 2 * (s.hf - datum[0]) * HFDerivs[Z][paramNum];
+        gradients[Z][paramNum] += 2 * (s.hf - datum[0]) * HFDerivs[Z][paramNum];
     }
 
     @Override
@@ -164,7 +147,7 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
             IEDerivs[Z][paramNum] = -ParamDerivative.MNDOIEDeriv((NDDOSolutionRestricted) s,
                     coeffDerivs[Z][paramNum], fockDerivs[Z][paramNum]);
 
-            totalDerivs[Z][paramNum] += 200 * (s.homo + datum[2]) * IEDerivs[Z][paramNum];
+            gradients[Z][paramNum] += 200 * (s.homo + datum[2]) * IEDerivs[Z][paramNum];
         }
     }
 
@@ -222,6 +205,10 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
         System.out.println("Test HF (D) Derivs: " + Arrays.deepToString(g.getHFDerivs()));
         System.out.println("Test Dipole (D) Derivs: " + Arrays.deepToString(g.getDipoleDerivs()));
         System.out.println("Test IE (D) Derivs: " + Arrays.deepToString(g.getIEDerivs()));
-        System.out.println("Test Total (D) Derivs: " + Arrays.deepToString(g.getTotalDerivs()));
+        System.out.println("Test Total (D) Derivs: " + Arrays.deepToString(g.getGradients()));
+
+        ParamHessianRestricted hessian = new ParamHessianRestricted(opt.s, "b", datum, expsoln);
+        hessian.computeHessians();
+        System.out.println("Test A Hessian: " + Arrays.deepToString(hessian.getHessian()));
     }
 }

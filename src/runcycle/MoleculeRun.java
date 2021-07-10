@@ -135,27 +135,27 @@ public abstract class MoleculeRun {
         StringBuilder mainDataSB = new StringBuilder();
         mainDataSB.append(g.getE().getTotalError());
 
-        for (int atomType : this.atomTypes) {
+        for (int i = 0; i < atomTypes.length; i++) {
             switch (kind) {
                 case "a":
-                    appendToSB(g.getHFDerivs()[atomType], HFDerivsSB);
+                    appendToSB(g.getHFDerivs()[i], HFDerivsSB);
                     break;
                 case "b":
-                    appendToSB(g.getHFDerivs()[atomType], HFDerivsSB);
-                    appendToSB(g.getDipoleDerivs()[atomType], dipoleDerivsSB);
+                    appendToSB(g.getHFDerivs()[i], HFDerivsSB);
+                    appendToSB(g.getDipoleDerivs()[i], dipoleDerivsSB);
                     break;
                 case "c":
-                    appendToSB(g.getHFDerivs()[atomType], HFDerivsSB);
-                    appendToSB(g.getIEDerivs()[atomType], IEDerivsSB);
+                    appendToSB(g.getHFDerivs()[i], HFDerivsSB);
+                    appendToSB(g.getIEDerivs()[i], IEDerivsSB);
                     break;
                 case "d":
-                    appendToSB(g.getHFDerivs()[atomType], HFDerivsSB);
-                    appendToSB(g.getDipoleDerivs()[atomType], dipoleDerivsSB);
-                    appendToSB(g.getIEDerivs()[atomType], IEDerivsSB);
+                    appendToSB(g.getHFDerivs()[i], HFDerivsSB);
+                    appendToSB(g.getDipoleDerivs()[i], dipoleDerivsSB);
+                    appendToSB(g.getIEDerivs()[i], IEDerivsSB);
                     break;
             }
-            if (expSolution != null) appendToSB(g.getGeomDerivs()[atomType], geomDerivsSB);
-            appendToSB(g.getTotalDerivs()[atomType], mainDataSB);
+            if (expSolution != null) appendToSB(g.getGeomDerivs()[i], geomDerivsSB);
+            appendToSB(g.getGradients()[i], mainDataSB);
         }
 
         appendToSB(new double[] {datum[0], g.getS().hf, datum[1], g.getS().dipole,
