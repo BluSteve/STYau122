@@ -1,27 +1,24 @@
 package nddoparam.param;
 
-import nddoparam.NDDOAtom;
 import nddoparam.NDDOSolution;
-import nddoparam.NDDOSolutionRestricted;
-import org.jblas.DoubleMatrix;
-import scf.Utils;
 
-public abstract class ParamHessianAnalytical implements ErrorGettable{
-    protected ParamGradientAnalytical g;
+public abstract class ParamHessianAnalytical implements ErrorGettable {
+    protected ParamGradientAnalytical g, gPrime;
     protected NDDOSolution s, sExp;
     protected String kind;
-    protected int charge;
     protected double[] datum;
+    protected double[][] hessian;
 
-    public ParamHessianAnalytical(NDDOSolution s, String kind, int charge, double[] datum, NDDOSolution sExp) {
+    public ParamHessianAnalytical(NDDOSolution s, String kind, double[] datum, NDDOSolution sExp) {
         this.s = s;
         this.kind = kind;
-        this.charge = charge;
         this.datum = datum;
         this.sExp = sExp;
     }
 
     public void computeDerivs() {
+        hessian = new double[s.getUniqueZs().length * NDDOSolution.maxParamNum]
+                [s.getUniqueZs().length * NDDOSolution.maxParamNum];
         switch (kind) {
             case "a":
                 computeAHessians();
@@ -39,7 +36,14 @@ public abstract class ParamHessianAnalytical implements ErrorGettable{
     }
 
     protected abstract void computeAHessians();
+
+    protected abstract void computeAHessian(int ZIndex, int paramNum2);
+
+    protected abstract void computeBatchedDerivs(int ZIndex, int paramNum2);
+
     protected abstract void computeBHessians();
+
     protected abstract void computeCHessians();
+
     protected abstract void computeDHessians();
 }

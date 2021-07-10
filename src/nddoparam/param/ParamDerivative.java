@@ -1219,25 +1219,25 @@ public class ParamDerivative {
     }
 
 
-    public static DoubleMatrix[][] MNDOStaticMatrixDeriv(NDDOSolutionRestricted soln, int Z, int firstPNum) {
+    public static DoubleMatrix[][] MNDOStaticMatrixDeriv(NDDOSolutionRestricted soln, int Z, int firstParamIndex) {
         NDDOAtom[] atoms = soln.atoms;
         DoubleMatrix[] HDerivs = new DoubleMatrix[8];
         DoubleMatrix[] FDerivs = new DoubleMatrix[8];
 
-        if (firstPNum <= 1) HDerivs[1] = betafockderivstatic(soln, Z, 0);
-        if (firstPNum <= 1) FDerivs[1] = HDerivs[1].dup();
-        if (firstPNum <= 3) HDerivs[3] = uxxfockderivstatic(soln, Z, 0);
-        if (firstPNum <= 3) FDerivs[3] = HDerivs[3].dup();
-        if (firstPNum <= 5) HDerivs[5] = zetaHderivstatic(atoms, soln, Z, 0);
-        if (firstPNum <= 5) FDerivs[5] = HDerivs[5].dup().add(zetaGderivstatic(atoms, soln, Z, 0));
+        if (firstParamIndex <= 1) HDerivs[1] = betafockderivstatic(soln, Z, 0);
+        if (firstParamIndex <= 1) FDerivs[1] = HDerivs[1].dup();
+        if (firstParamIndex <= 3) HDerivs[3] = uxxfockderivstatic(soln, Z, 0);
+        if (firstParamIndex <= 3) FDerivs[3] = HDerivs[3].dup();
+        if (firstParamIndex <= 5) HDerivs[5] = zetaHderivstatic(atoms, soln, Z, 0);
+        if (firstParamIndex <= 5) FDerivs[5] = HDerivs[5].dup().add(zetaGderivstatic(atoms, soln, Z, 0));
 
         if (Z != 1) {
-            if (firstPNum <= 2) HDerivs[2] = betafockderivstatic(soln, Z, 1);
-            if (firstPNum <= 2) FDerivs[2] = HDerivs[2].dup();
-            if (firstPNum <= 4) HDerivs[4] = uxxfockderivstatic(soln, Z, 1);
-            if (firstPNum <= 4) FDerivs[4] = HDerivs[4].dup();
-            if (firstPNum <= 6) HDerivs[6] = zetaHderivstatic(atoms, soln, Z, 1);
-            if (firstPNum <= 6) FDerivs[6] = HDerivs[6].dup().add(zetaGderivstatic(atoms, soln, Z, 1));
+            if (firstParamIndex <= 2) HDerivs[2] = betafockderivstatic(soln, Z, 1);
+            if (firstParamIndex <= 2) FDerivs[2] = HDerivs[2].dup();
+            if (firstParamIndex <= 4) HDerivs[4] = uxxfockderivstatic(soln, Z, 1);
+            if (firstParamIndex <= 4) FDerivs[4] = HDerivs[4].dup();
+            if (firstParamIndex <= 6) HDerivs[6] = zetaHderivstatic(atoms, soln, Z, 1);
+            if (firstParamIndex <= 6) FDerivs[6] = HDerivs[6].dup().add(zetaGderivstatic(atoms, soln, Z, 1));
         }
         return new DoubleMatrix[][]{HDerivs, FDerivs};
     }

@@ -8,7 +8,6 @@ public abstract class ParamGradientAnalytical implements ErrorGettable { // TODO
     protected NDDOSolution s, sPrime, sExp;
     protected ParamErrorFunction e;
     protected String kind;
-    protected int charge;
     protected boolean isExpAvail;
     protected double[] datum;
     protected double[][] HFDerivs, dipoleDerivs, IEDerivs, geomDerivs, totalDerivs;
@@ -17,10 +16,9 @@ public abstract class ParamGradientAnalytical implements ErrorGettable { // TODO
     protected static final double LAMBDA = 1E-7;
 
     // kind = "hf_only" or "limited" or "complementary"
-    public ParamGradientAnalytical(NDDOSolution s, String kind, int charge, double[] datum, NDDOSolution sExp) {
+    public ParamGradientAnalytical(NDDOSolution s, String kind, double[] datum, NDDOSolution sExp) {
         this.s = s;
         this.kind = kind;
-        this.charge = charge;
         this.datum = datum;
         this.sExp = sExp;
     }
@@ -82,11 +80,13 @@ public abstract class ParamGradientAnalytical implements ErrorGettable { // TODO
 
     protected abstract void computeGeomDeriv(int Z, int paramNum);
 
+    protected abstract void computeHFDeriv(int Z, int paramNum);
+
     protected abstract void computeDipoleDeriv(int Z, int paramNum, boolean lite);
 
     protected abstract void computeIEDeriv(int Z, int paramNum);
 
-    protected abstract void computeBatchedDerivs(int firstPNum);
+    protected abstract void computeBatchedDerivs(int firstZIndex, int firstParamIndex);
 
     protected abstract void computeADerivs();
 

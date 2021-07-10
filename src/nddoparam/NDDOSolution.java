@@ -26,17 +26,17 @@ public abstract class NDDOSolution {
     public NDDO6G[] orbitals;
     public String moleculeName;
     public int[] atomicNumbers;
-    private final ArrayList<Integer> uniqueZs = new ArrayList<>(Utils.maxAtomNum); // I don't want to use TreeMap due to O(log N) time cost
+    private final int[] uniqueZs;
 
     public NDDOSolution(NDDOAtom[] atoms, int charge) {
         // TODO move this to MoleculeRun
         StringBuilder nameBuilder = new StringBuilder();
         HashMap<String, Integer> nameOccurrences = new HashMap<>();
+        ArrayList<Integer> tempZs = new ArrayList<>(Utils.maxAtomNum);
         for (NDDOAtom a : atoms) {
             nElectrons += a.getAtomProperties().getQ();
-            if (!uniqueZs.contains(a.getAtomProperties().getZ())) {
-                uniqueZs.add(a.getAtomProperties().getZ());
-                // TODO change this for non-MNDO models.
+            if (!tempZs.contains(a.getAtomProperties().getZ())) {
+                tempZs.add(a.getAtomProperties().getZ());
                 if (a.getAtomProperties().getZ() == 1) neededParams[a.getAtomProperties().getZ()] = T1ParamNums;
                 else neededParams[a.getAtomProperties().getZ()] = T2ParamNums;
             }
@@ -47,7 +47,9 @@ public abstract class NDDOSolution {
             nameBuilder.append(key).append(nameOccurrences.get(key));
         }
         moleculeName = nameBuilder.toString();
-        Collections.sort(uniqueZs);
+        Collections.sort(tempZs);
+        uniqueZs = new int[tempZs.size()];
+        for (int i = 0; i < tempZs.size(); i++ ) uniqueZs[i] = tempZs.get(i);
 
         this.atoms = atoms;
 
@@ -163,7 +165,7 @@ public abstract class NDDOSolution {
         return neededParams;
     }
 
-    public ArrayList<Integer> getUniqueZs() {
+    public int[] getUniqueZs() {
         return uniqueZs;
     }
 
