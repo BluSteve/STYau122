@@ -1,9 +1,13 @@
 package nddoparam.param;
 
-import nddoparam.*;
+import nddoparam.NDDODerivative;
+import nddoparam.NDDOGeometryOptimizationRestricted;
+import nddoparam.NDDOSolution;
+import nddoparam.NDDOSolutionRestricted;
 import nddoparam.mndo.MNDOAtom;
 import nddoparam.mndo.MNDOParams;
 import org.apache.commons.lang3.time.StopWatch;
+import org.jblas.DoubleMatrix;
 import scf.AtomHandler;
 import scf.Utils;
 
@@ -29,7 +33,7 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
     protected void computeADerivs() {
         for (int Z : s.getUniqueZs()) {
             for (int paramNum : s.getNeededParams()[Z]) {
-                HFDerivs[Z][paramNum] = ParamDerivative.HfDeriv((NDDOSolutionRestricted) s, Z, paramNum);
+                HFDerivs[Z][paramNum] = ParamDerivative.HFDeriv((NDDOSolutionRestricted) s, Z, paramNum);
                 totalDerivs[Z][paramNum] += 2 * (s.hf - datum[0]) * HFDerivs[Z][paramNum];
                 if (isExpAvail) computeGeomDeriv(Z, paramNum);
             }
@@ -39,9 +43,9 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
     // gets HFDerivs and dipoleDerivs
     @Override
     protected void computeBDerivs() {
-        for (int Z : s.getUniqueZs()) {
-            computeBatchedDerivs(Z);
+        computeBatchedDerivs(0);
 
+        for (int Z : s.getUniqueZs()) {
             for (int paramNum : s.getNeededParams()[Z]) {
                 computeDipoleDeriv(Z, paramNum, true);
                 if (isExpAvail) computeGeomDeriv(Z, paramNum);
@@ -52,9 +56,9 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
     // gets HFDerivs and IEDerivs
     @Override
     protected void computeCDerivs() {
-        for (int Z : s.getUniqueZs()) {
-            computeBatchedDerivs(Z);
+        computeBatchedDerivs(0);
 
+        for (int Z : s.getUniqueZs()) {
             for (int paramNum : s.getNeededParams()[Z]) {
                 computeDipoleDeriv(Z, paramNum, false);
                 computeIEDeriv(Z, paramNum);
@@ -66,9 +70,9 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
     // gets HFDerivs, dipoleDerivs and IEDerivs;
     @Override
     protected void computeDDerivs() {
-        for (int Z : s.getUniqueZs()) {
-            computeBatchedDerivs(Z);
+        computeBatchedDerivs(0);
 
+        for (int Z : s.getUniqueZs()) {
             for (int paramNum : s.getNeededParams()[Z]) {
                 computeDipoleDeriv(Z, paramNum, true);
                 computeIEDeriv(Z, paramNum);
@@ -77,11 +81,28 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
         }
     }
 
+    // Compiles all necessary fock matrices into one array before using the Pople algorithm, for faster computation.
+    // This function is the only thing that's not computed on a Z, paramNum level.
+    // Will not compute anything before the firstP(aram)Num.
     @Override
-    protected void computeBatchedDerivs(int Z) {
-        staticDerivs[Z] = ParamDerivative.MNDOStaticMatrixDeriv((NDDOSolutionRestricted) s, Z);
-        // TODO put all Z's together
-        xLimited[Z] = ParamDerivative.xArrayLimitedPople((NDDOSolutionRestricted) s, staticDerivs[Z][1]);
+    protected void computeBatchedDerivs(int firstPNum) {
+        DoubleMatrix[] aggregate = new DoubleMatrix[Utils.maxAtomNum * NDDOSolution.maxParamNum];
+        int i = 0;
+        for (int Z : s.getUniqueZs()) {
+            staticDerivs[Z] = ParamDerivative.MNDOStaticMatrixDeriv((NDDOSolutionRestricted) s, Z, firstPNum);
+            for (DoubleMatrix dm : staticDerivs[Z][1]) {
+                aggregate[i] = dm;
+                i++;
+            }
+        }
+
+        DoubleMatrix[] xLimitedAggregate = ParamDerivative.xArrayLimitedPople((NDDOSolutionRestricted) s, aggregate);
+        i = 0;
+        for (int Z : s.getUniqueZs()) {
+            xLimited[Z] = Arrays.copyOfRange(xLimitedAggregate, i * NDDOSolution.maxParamNum,
+                    i * NDDOSolution.maxParamNum + NDDOSolution.maxParamNum);
+            i++;
+        }
     }
 
     @Override
@@ -105,10 +126,10 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
     protected void computeDipoleDeriv(int Z, int paramNum, boolean full) {
         // alpha and eisol have to be computed apart from the rest of HFDerivs. I.e. not as a part of dipole.
         if (paramNum == 0 || paramNum == 7) {
-            HFDerivs[Z][paramNum] = ParamDerivative.HfDeriv((NDDOSolutionRestricted) s, Z, paramNum);
+            HFDerivs[Z][paramNum] = ParamDerivative.HFDeriv((NDDOSolutionRestricted) s, Z, paramNum);
         }
         if (staticDerivs[Z][0][paramNum] != null || staticDerivs[Z][1][paramNum] != null) {
-            HFDerivs[Z][paramNum] = ParamDerivative.MNDOHfDeriv((NDDOSolutionRestricted) s,
+            HFDerivs[Z][paramNum] = ParamDerivative.MNDOHFDeriv((NDDOSolutionRestricted) s,
                     staticDerivs[Z][0][paramNum], staticDerivs[Z][1][paramNum]);
             densityDerivs[Z][paramNum] = ParamDerivative.densityDerivativeLimited((NDDOSolutionRestricted) s,
                     xLimited[Z][paramNum]);
@@ -133,7 +154,7 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
                     fockDerivs[Z][paramNum]);
             xForIE[Z][paramNum] = ParamDerivative.xarrayForIE((NDDOSolutionRestricted) s,
                     xLimited[Z][paramNum], xComplementary[Z][paramNum]);
-            coeffDerivs[Z][paramNum] = ParamDerivative.HOMOcoefficientDerivativeComplementary(xForIE[Z][paramNum],
+            coeffDerivs[Z][paramNum] = ParamDerivative.HOMOCoefficientDerivativeComplementary(xForIE[Z][paramNum],
                     (NDDOSolutionRestricted) s);
             IEDerivs[Z][paramNum] = -ParamDerivative.MNDOIEDeriv((NDDOSolutionRestricted) s,
                     coeffDerivs[Z][paramNum], fockDerivs[Z][paramNum]);

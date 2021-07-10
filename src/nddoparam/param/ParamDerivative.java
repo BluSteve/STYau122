@@ -1172,7 +1172,7 @@ public class ParamDerivative {
 
     }
 
-    public static double HfDeriv(NDDOSolutionRestricted soln, int Z, int paramnum) {
+    public static double HFDeriv(NDDOSolutionRestricted soln, int Z, int paramnum) {
 
         if (paramnum == 0) {
             return alphaHfderiv(soln, Z);
@@ -1219,30 +1219,30 @@ public class ParamDerivative {
     }
 
 
-    public static DoubleMatrix[][] MNDOStaticMatrixDeriv(NDDOSolutionRestricted soln, int Z) {
+    public static DoubleMatrix[][] MNDOStaticMatrixDeriv(NDDOSolutionRestricted soln, int Z, int firstPNum) {
         NDDOAtom[] atoms = soln.atoms;
-        DoubleMatrix[] Hderivs = new DoubleMatrix[8];
-        DoubleMatrix[] Fderivs = new DoubleMatrix[8];
+        DoubleMatrix[] HDerivs = new DoubleMatrix[8];
+        DoubleMatrix[] FDerivs = new DoubleMatrix[8];
 
-        Hderivs[1] = betafockderivstatic(soln, Z, 0);
-        Fderivs[1] = Hderivs[1].dup();
-        Hderivs[3] = uxxfockderivstatic(soln, Z, 0);
-        Fderivs[3] = Hderivs[3].dup();
-        Hderivs[5] = zetaHderivstatic(atoms, soln, Z, 0);
-        Fderivs[5] = Hderivs[5].dup().add(zetaGderivstatic(atoms, soln, Z, 0));
+        if (firstPNum <= 1) HDerivs[1] = betafockderivstatic(soln, Z, 0);
+        if (firstPNum <= 1) FDerivs[1] = HDerivs[1].dup();
+        if (firstPNum <= 3) HDerivs[3] = uxxfockderivstatic(soln, Z, 0);
+        if (firstPNum <= 3) FDerivs[3] = HDerivs[3].dup();
+        if (firstPNum <= 5) HDerivs[5] = zetaHderivstatic(atoms, soln, Z, 0);
+        if (firstPNum <= 5) FDerivs[5] = HDerivs[5].dup().add(zetaGderivstatic(atoms, soln, Z, 0));
 
         if (Z != 1) {
-            Hderivs[2] = betafockderivstatic(soln, Z, 1);
-            Fderivs[2] = Hderivs[2].dup();
-            Hderivs[4] = uxxfockderivstatic(soln, Z, 1);
-            Fderivs[4] = Hderivs[4].dup();
-            Hderivs[6] = zetaHderivstatic(atoms, soln, Z, 1);
-            Fderivs[6] = Hderivs[6].dup().add(zetaGderivstatic(atoms, soln, Z, 1));
+            if (firstPNum <= 2) HDerivs[2] = betafockderivstatic(soln, Z, 1);
+            if (firstPNum <= 2) FDerivs[2] = HDerivs[2].dup();
+            if (firstPNum <= 4) HDerivs[4] = uxxfockderivstatic(soln, Z, 1);
+            if (firstPNum <= 4) FDerivs[4] = HDerivs[4].dup();
+            if (firstPNum <= 6) HDerivs[6] = zetaHderivstatic(atoms, soln, Z, 1);
+            if (firstPNum <= 6) FDerivs[6] = HDerivs[6].dup().add(zetaGderivstatic(atoms, soln, Z, 1));
         }
-        return new DoubleMatrix[][]{Hderivs, Fderivs};
+        return new DoubleMatrix[][]{HDerivs, FDerivs};
     }
 
-    public static double MNDOHfDeriv(NDDOSolutionRestricted soln, DoubleMatrix Hderiv, DoubleMatrix Fderiv) {
+    public static double MNDOHFDeriv(NDDOSolutionRestricted soln, DoubleMatrix Hderiv, DoubleMatrix Fderiv) {
 
         double e = 0;
 
@@ -1949,7 +1949,7 @@ public class ParamDerivative {
         }
 
 
-        if (barray[1].rows == 0) {
+        if (barray[0].rows == 0) {
             DoubleMatrix[] densityderivs = new DoubleMatrix[fockDerivStatic.length];
 
             for (int i = 0; i < densityderivs.length; i++) {
@@ -2092,7 +2092,7 @@ public class ParamDerivative {
             }
         }
 
-        if (dirs[1].rows == 0) {
+        if (dirs[Math.min(1, dirs.length - 1)].rows == 0) {
             DoubleMatrix[] densityderivs = new DoubleMatrix[fockDerivStatic.length];
 
             for (int i = 0; i < densityderivs.length; i++) {
@@ -2290,7 +2290,7 @@ public class ParamDerivative {
     }
 
 
-    public static DoubleMatrix HOMOcoefficientDerivativeComplementary(DoubleMatrix x, NDDOSolutionRestricted soln) {
+    public static DoubleMatrix HOMOCoefficientDerivativeComplementary(DoubleMatrix x, NDDOSolutionRestricted soln) {
 
 
         DoubleMatrix CDeriv = DoubleMatrix.zeros(1, soln.orbitals.length);

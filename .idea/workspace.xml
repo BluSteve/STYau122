@@ -33,15 +33,9 @@
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDOGeometryOptimization.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/nddoparam/NDDOGeometryOptimization.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDOSecondDerivative.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/nddoparam/NDDOSecondDerivative.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/runcycle/MoleculeRun.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/runcycle/MoleculeRun.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/runcycle/MoleculeRunRestricted.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/runcycle/MoleculeRunRestricted.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientAnalytical.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientAnalytical.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientRestricted.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianAnalytical.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianAnalytical.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianRestricted.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRunRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRunRestricted.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -444,7 +438,7 @@
       <workItem from="1625299136863" duration="5034000" />
       <workItem from="1625385201338" duration="9158000" />
       <workItem from="1625469078475" duration="7585000" />
-      <workItem from="1625902825124" duration="1868000" />
+      <workItem from="1625902825124" duration="5722000" />
     </task>
     <task id="LOCAL-00001" summary="Convert integralarray to integralMap, implement getKey() in MNDOSolution.java">
       <created>1606298586134</created>
@@ -677,7 +671,14 @@
       <option name="project" value="LOCAL" />
       <updated>1625477494994</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="ParamGradient refactor 2.1 very much working edition">
+      <created>1625904834765</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1625904834765</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -745,7 +746,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Use OneCenterERI when applicable" />
     <MESSAGE value="Refactor Main.java, generalize atom properties, minor reformatting." />
     <MESSAGE value="Minor reformatting." />
     <MESSAGE value="Minor changes" />
@@ -770,7 +770,8 @@
     <MESSAGE value="Refactor T1 and T2 params to MNDOParams" />
     <MESSAGE value="ParamGradient refactor" />
     <MESSAGE value="ParamGradient refactor 2.0 working edition" />
-    <option name="LAST_COMMIT_MESSAGE" value="ParamGradient refactor 2.0 working edition" />
+    <MESSAGE value="ParamGradient refactor 2.1 very much working edition" />
+    <option name="LAST_COMMIT_MESSAGE" value="ParamGradient refactor 2.1 very much working edition" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/scf/AtomHandler.java">

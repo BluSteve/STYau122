@@ -86,7 +86,7 @@ public abstract class ParamGradientAnalytical implements ErrorGettable { // TODO
 
     protected abstract void computeIEDeriv(int Z, int paramNum);
 
-    protected abstract void computeBatchedDerivs(int Z);
+    protected abstract void computeBatchedDerivs(int firstPNum);
 
     protected abstract void computeADerivs();
 
