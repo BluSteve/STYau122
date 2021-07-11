@@ -21,54 +21,49 @@ public class ParamGradientUnrestricted2 extends ParamGradientAnalytical {
     }
 
     @Override
-    protected void constructSPrime(int Z, int paramNum) {
-        sPrime = new NDDOSolutionUnrestricted(Utils.perturbAtomParams(s.atoms, s.getUniqueZs()[Z], paramNum), s.charge,
+    protected void constructSPrime(int ZI, int paramNum) {
+        sPrime = new NDDOSolutionUnrestricted(Utils.perturbAtomParams(s.atoms, s.getUniqueZs()[ZI], paramNum), s.charge,
                 s.multiplicity);
     }
 
-    // Compiles all necessary fock matrices into one array before using the Pople algorithm, for faster computation.
-    // This function is the only thing that's not computed on a Z, paramNum level.
-    // Will not compute anything before the firstZIndex and the firstParamIndex.
     @Override
     protected void computeBatchedDerivs(int firstZIndex, int firstParamIndex) {
 
     }
 
     @Override
-    protected void computeHFDeriv(int Z, int paramNum) {
+    protected void computeHFDeriv(int ZI, int paramNum) {
         if (analytical) {
         } else
-            HFDerivs[Z][paramNum] = (sPrime.hf - s.hf) / Utils.LAMBDA;
-        totalGradients[Z][paramNum] += 2 * (s.hf - datum[0]) * HFDerivs[Z][paramNum];
+            HFDerivs[ZI][paramNum] = (sPrime.hf - s.hf) / Utils.LAMBDA;
+        totalGradients[ZI][paramNum] += 2 * (s.hf - datum[0]) * HFDerivs[ZI][paramNum];
     }
 
-    // `full` sets whether dipole itself is actually computed
-    // also computes HF
     @Override
-    protected void computeDipoleDeriv(int Z, int paramNum, boolean full) {
+    protected void computeDipoleDeriv(int ZI, int paramNum, boolean full) {
         if (analytical) {
 
         } else {
-            HFDerivs[Z][paramNum] = (sPrime.hf - s.hf) / Utils.LAMBDA;
-            if (full) dipoleDerivs[Z][paramNum] = (sPrime.dipole - s.dipole) / Utils.LAMBDA;
+            HFDerivs[ZI][paramNum] = (sPrime.hf - s.hf) / Utils.LAMBDA;
+            if (full) dipoleDerivs[ZI][paramNum] = (sPrime.dipole - s.dipole) / Utils.LAMBDA;
         }
-        totalGradients[Z][paramNum] += 2 * (s.hf - datum[0]) * HFDerivs[Z][paramNum];
-        if (full) totalGradients[Z][paramNum] += 800 * (s.dipole - datum[1]) * dipoleDerivs[Z][paramNum];
+        totalGradients[ZI][paramNum] += 2 * (s.hf - datum[0]) * HFDerivs[ZI][paramNum];
+        if (full) totalGradients[ZI][paramNum] += 800 * (s.dipole - datum[1]) * dipoleDerivs[ZI][paramNum];
     }
 
     @Override
-    protected void computeIEDeriv(int Z, int paramNum) {
+    protected void computeIEDeriv(int ZI, int paramNum) {
         if (analytical) {
 
         } else {
-            IEDerivs[Z][paramNum] = -(sPrime.homo - s.homo) / Utils.LAMBDA;
+            IEDerivs[ZI][paramNum] = -(sPrime.homo - s.homo) / Utils.LAMBDA;
         }
-        totalGradients[Z][paramNum] += 200 * (s.homo + datum[2]) * IEDerivs[Z][paramNum];
+        totalGradients[ZI][paramNum] += 200 * (s.homo + datum[2]) * IEDerivs[ZI][paramNum];
     }
 
     @Override
-    protected void computeGeomDeriv(int Z, int paramNum) {
-        sExpPrime = new NDDOSolutionUnrestricted(Utils.perturbAtomParams(sExp.atoms, s.getUniqueZs()[Z], paramNum), s.charge,
+    protected void computeGeomDeriv(int ZI, int paramNum) {
+        sExpPrime = new NDDOSolutionUnrestricted(Utils.perturbAtomParams(sExp.atoms, s.getUniqueZs()[ZI], paramNum), s.charge,
                 s.multiplicity);
         double sum = 0;
         double d;
@@ -79,7 +74,7 @@ public class ParamGradientUnrestricted2 extends ParamGradientAnalytical {
             }
         }
         double geomGradient = 627.5 * Math.sqrt(sum);
-        geomDerivs[Z][paramNum] = 1 / LAMBDA * (geomGradient - e.geomGradient);
-        totalGradients[Z][paramNum] += 0.000049 * e.geomGradient * geomDerivs[Z][paramNum];
+        geomDerivs[ZI][paramNum] = 1 / LAMBDA * (geomGradient - e.geomGradient);
+        totalGradients[ZI][paramNum] += 0.000049 * e.geomGradient * geomDerivs[ZI][paramNum];
     }
 }

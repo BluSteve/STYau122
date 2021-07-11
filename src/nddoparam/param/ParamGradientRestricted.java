@@ -29,8 +29,8 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
     }
 
     @Override
-    protected void constructSPrime(int Z, int paramNum) {
-        sPrime = new NDDOSolutionRestricted(Utils.perturbAtomParams(s.atoms, s.getUniqueZs()[Z], paramNum), s.charge);
+    protected void constructSPrime(int ZI, int paramNum) {
+        sPrime = new NDDOSolutionRestricted(Utils.perturbAtomParams(s.atoms, s.getUniqueZs()[ZI], paramNum), s.charge);
     }
 
     // Compiles all necessary fock matrices into one array before using the Pople algorithm, for faster computation.
@@ -63,59 +63,59 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
     }
 
     @Override
-    protected void computeHFDeriv(int Z, int paramNum) {
+    protected void computeHFDeriv(int ZI, int paramNum) {
         if (analytical)
-            HFDerivs[Z][paramNum] = ParamDerivative.HFDeriv((NDDOSolutionRestricted) s, s.getUniqueZs()[Z], paramNum);
+            HFDerivs[ZI][paramNum] = ParamDerivative.HFDeriv((NDDOSolutionRestricted) s, s.getUniqueZs()[ZI], paramNum);
         else
-            HFDerivs[Z][paramNum] = (sPrime.hf - s.hf) / Utils.LAMBDA;
-        totalGradients[Z][paramNum] += 2 * (s.hf - datum[0]) * HFDerivs[Z][paramNum];
+            HFDerivs[ZI][paramNum] = (sPrime.hf - s.hf) / Utils.LAMBDA;
+        totalGradients[ZI][paramNum] += 2 * (s.hf - datum[0]) * HFDerivs[ZI][paramNum];
     }
 
     // `full` sets whether dipole itself is actually computed
     // also computes HF
     @Override
-    protected void computeDipoleDeriv(int Z, int paramNum, boolean full) {
+    protected void computeDipoleDeriv(int ZI, int paramNum, boolean full) {
         if (analytical) {
             // alpha and eisol have to be computed apart from the rest of HFDerivs. I.e. not as a part of dipole.
             if (paramNum == 0 || paramNum == 7) {
-                HFDerivs[Z][paramNum] = ParamDerivative.HFDeriv((NDDOSolutionRestricted) s, s.getUniqueZs()[Z], paramNum);
+                HFDerivs[ZI][paramNum] = ParamDerivative.HFDeriv((NDDOSolutionRestricted) s, s.getUniqueZs()[ZI], paramNum);
             }
-            if (staticDerivs[Z][0][paramNum] != null || staticDerivs[Z][1][paramNum] != null) {
-                HFDerivs[Z][paramNum] = ParamDerivative.MNDOHFDeriv((NDDOSolutionRestricted) s,
-                        staticDerivs[Z][0][paramNum], staticDerivs[Z][1][paramNum]);
-                densityDerivs[Z][paramNum] = ParamDerivative.densityDerivativeLimited((NDDOSolutionRestricted) s,
-                        xLimited[Z][paramNum]);
-                if (full) dipoleDerivs[Z][paramNum] = ParamDerivative.MNDODipoleDeriv((NDDOSolutionRestricted) s,
-                        densityDerivs[Z][paramNum], s.getUniqueZs()[Z], paramNum);
+            if (staticDerivs[ZI][0][paramNum] != null || staticDerivs[ZI][1][paramNum] != null) {
+                HFDerivs[ZI][paramNum] = ParamDerivative.MNDOHFDeriv((NDDOSolutionRestricted) s,
+                        staticDerivs[ZI][0][paramNum], staticDerivs[ZI][1][paramNum]);
+                densityDerivs[ZI][paramNum] = ParamDerivative.densityDerivativeLimited((NDDOSolutionRestricted) s,
+                        xLimited[ZI][paramNum]);
+                if (full) dipoleDerivs[ZI][paramNum] = ParamDerivative.MNDODipoleDeriv((NDDOSolutionRestricted) s,
+                        densityDerivs[ZI][paramNum], s.getUniqueZs()[ZI], paramNum);
             }
         } else {
-            HFDerivs[Z][paramNum] = (sPrime.hf - s.hf) / Utils.LAMBDA;
-            if (full) dipoleDerivs[Z][paramNum] = (sPrime.dipole - s.dipole) / Utils.LAMBDA;
+            HFDerivs[ZI][paramNum] = (sPrime.hf - s.hf) / Utils.LAMBDA;
+            if (full) dipoleDerivs[ZI][paramNum] = (sPrime.dipole - s.dipole) / Utils.LAMBDA;
         }
-        totalGradients[Z][paramNum] += 2 * (s.hf - datum[0]) * HFDerivs[Z][paramNum];
-        if (full) totalGradients[Z][paramNum] += 800 * (s.dipole - datum[1]) * dipoleDerivs[Z][paramNum];
+        totalGradients[ZI][paramNum] += 2 * (s.hf - datum[0]) * HFDerivs[ZI][paramNum];
+        if (full) totalGradients[ZI][paramNum] += 800 * (s.dipole - datum[1]) * dipoleDerivs[ZI][paramNum];
     }
 
     @Override
-    protected void computeIEDeriv(int Z, int paramNum) {
+    protected void computeIEDeriv(int ZI, int paramNum) {
         if (analytical) {
-            if (staticDerivs[Z][0][paramNum] != null || staticDerivs[Z][1][paramNum] != null) {
-                responseDerivs[Z][paramNum] = ParamDerivative.responseMatrix((NDDOSolutionRestricted)
-                        s, densityDerivs[Z][paramNum]);
-                fockDerivs[Z][paramNum] = staticDerivs[Z][1][paramNum].add(responseDerivs[Z][paramNum]);
-                xComplementary[Z][paramNum] = ParamDerivative.xArrayComplementary((NDDOSolutionRestricted) s,
-                        fockDerivs[Z][paramNum]);
-                xForIE[Z][paramNum] = ParamDerivative.xarrayForIE((NDDOSolutionRestricted) s,
-                        xLimited[Z][paramNum], xComplementary[Z][paramNum]);
-                coeffDerivs[Z][paramNum] = ParamDerivative.HOMOCoefficientDerivativeComplementary(xForIE[Z][paramNum],
+            if (staticDerivs[ZI][0][paramNum] != null || staticDerivs[ZI][1][paramNum] != null) {
+                responseDerivs[ZI][paramNum] = ParamDerivative.responseMatrix((NDDOSolutionRestricted)
+                        s, densityDerivs[ZI][paramNum]);
+                fockDerivs[ZI][paramNum] = staticDerivs[ZI][1][paramNum].add(responseDerivs[ZI][paramNum]);
+                xComplementary[ZI][paramNum] = ParamDerivative.xArrayComplementary((NDDOSolutionRestricted) s,
+                        fockDerivs[ZI][paramNum]);
+                xForIE[ZI][paramNum] = ParamDerivative.xarrayForIE((NDDOSolutionRestricted) s,
+                        xLimited[ZI][paramNum], xComplementary[ZI][paramNum]);
+                coeffDerivs[ZI][paramNum] = ParamDerivative.HOMOCoefficientDerivativeComplementary(xForIE[ZI][paramNum],
                         (NDDOSolutionRestricted) s);
-                IEDerivs[Z][paramNum] = -ParamDerivative.MNDOIEDeriv((NDDOSolutionRestricted) s,
-                        coeffDerivs[Z][paramNum], fockDerivs[Z][paramNum]);
+                IEDerivs[ZI][paramNum] = -ParamDerivative.MNDOIEDeriv((NDDOSolutionRestricted) s,
+                        coeffDerivs[ZI][paramNum], fockDerivs[ZI][paramNum]);
             }
         } else {
-            IEDerivs[Z][paramNum] = -(sPrime.homo - s.homo) / Utils.LAMBDA;
+            IEDerivs[ZI][paramNum] = -(sPrime.homo - s.homo) / Utils.LAMBDA;
         }
-        totalGradients[Z][paramNum] += 200 * (s.homo + datum[2]) * IEDerivs[Z][paramNum];
+        totalGradients[ZI][paramNum] += 200 * (s.homo + datum[2]) * IEDerivs[ZI][paramNum];
     }
 
     @Override

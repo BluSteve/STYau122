@@ -1,9 +1,7 @@
 package nddoparam.param;
 
 import nddoparam.NDDOSolution;
-import nddoparam.NDDOSolutionRestricted;
 import org.jblas.DoubleMatrix;
-import scf.Utils;
 
 public abstract class ParamGradientAnalytical implements ErrorGettable { // TODO only works for restricted rn
     protected NDDOSolution s, sPrime, sExpPrime, sExp;
@@ -16,7 +14,6 @@ public abstract class ParamGradientAnalytical implements ErrorGettable { // TODO
     protected DoubleMatrix[][][] staticDerivs;
     protected static final double LAMBDA = 1E-7;
 
-    // kind = "hf_only" or "limited" or "complementary"
     public ParamGradientAnalytical(NDDOSolution s, String kind, double[] datum, NDDOSolution sExp, boolean analytical) {
         this.s = s;
         this.kind = kind;
@@ -119,6 +116,10 @@ public abstract class ParamGradientAnalytical implements ErrorGettable { // TODO
         return this.e;
     }
 
+    public NDDOSolution getS() {
+        return s;
+    }
+
     public double[][] getHFDerivs() {
         return HFDerivs;
     }
@@ -137,9 +138,5 @@ public abstract class ParamGradientAnalytical implements ErrorGettable { // TODO
 
     public double[][] getTotalGradients() {
         return totalGradients;
-    }
-
-    public NDDOSolution getS() {
-        return s;
     }
 }
