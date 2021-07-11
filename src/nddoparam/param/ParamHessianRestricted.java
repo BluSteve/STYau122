@@ -5,7 +5,7 @@ import nddoparam.NDDOSolutionRestricted;
 import scf.Utils;
 
 public class ParamHessianRestricted extends ParamHessianAnalytical {
-    public ParamHessianRestricted(NDDOSolution s, String kind, double[] datum, NDDOSolution sExp) {
+    public ParamHessianRestricted(NDDOSolutionRestricted s, String kind, double[] datum, NDDOSolutionRestricted sExp) {
         super(s, kind, datum, sExp);
         g = new ParamGradientRestricted(s, kind, datum, sExp, true);
         g.computeDerivs();
@@ -17,7 +17,8 @@ public class ParamHessianRestricted extends ParamHessianAnalytical {
         for (int ZIndex2 = 0; ZIndex2 < s.getUniqueZs().length; ZIndex2++) {
             for (int paramNum2: s.getNeededParams()[s.getUniqueZs()[ZIndex2]]) {
                 gPrime = new ParamGradientRestricted(new NDDOSolutionRestricted(Utils.perturbAtomParams(s.atoms,
-                        s.getUniqueZs()[ZIndex2], paramNum2), s.charge), kind, datum, sExp, true);
+                        s.getUniqueZs()[ZIndex2], paramNum2), s.charge), kind, datum, (NDDOSolutionRestricted) sExp,
+                        true);
                 if (kind.equals("b") || kind.equals("c") || kind.equals("d"))
                     gPrime.computeBatchedDerivs(ZIndex2, paramNum2);
 

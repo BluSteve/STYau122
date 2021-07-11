@@ -1344,14 +1344,14 @@ public class NDDODerivative {
         return e;
     }
 
-    public static double grad(NDDOAtom[] atoms, NDDOSolutionUnrestricted soln, int atomnum, int tau) {
+    public static double grad(NDDOSolutionUnrestricted soln, int atomnum, int tau) {
 
         double e = 0;
 
-        for (int a = 0; a < atoms.length; a++) {
+        for (int a = 0; a < soln.atoms.length; a++) {
             if (a != atomnum) {
-                e += Ederiv(atomnum, a, soln.index, soln.alphaDensity(), soln.betaDensity(), atoms, soln.orbitals, tau);
-                e += atoms[atomnum].crfDeriv(atoms[a], tau);
+                e += Ederiv(atomnum, a, soln.index, soln.alphaDensity(), soln.betaDensity(), soln.atoms, soln.orbitals, tau);
+                e += soln.atoms[atomnum].crfDeriv(soln.atoms[a], tau);
             }
         }
 

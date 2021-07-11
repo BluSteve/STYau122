@@ -1,7 +1,9 @@
 package nddoparam.param;
 
 import nddoparam.NDDOSolution;
+import nddoparam.NDDOSolutionRestricted;
 import org.jblas.DoubleMatrix;
+import scf.Utils;
 
 public abstract class ParamGradientAnalytical implements ErrorGettable { // TODO only works for restricted rn
     protected NDDOSolution s, sPrime, sExpPrime, sExp;
@@ -74,7 +76,34 @@ public abstract class ParamGradientAnalytical implements ErrorGettable { // TODO
         }
     }
 
-    public abstract void computeDerivs();
+    public void computeDerivs() {
+        if (analytical && (kind.equals("b") || kind.equals("c") || kind.equals("d")))
+            computeBatchedDerivs(0, 0);
+        for (int Z = 0; Z < s.getUniqueZs().length; Z++) {
+            for (int paramNum : s.getNeededParams()[s.getUniqueZs()[Z]]) {
+                if (!analytical) constructSPrime(Z, paramNum);
+                switch (kind) {
+                    case "a":
+                        computeHFDeriv(Z, paramNum);
+                        break;
+                    case "b":
+                        computeDipoleDeriv(Z, paramNum, true);
+                        break;
+                    case "c":
+                        computeDipoleDeriv(Z, paramNum, false);
+                        computeIEDeriv(Z, paramNum);
+                        break;
+                    case "d":
+                        computeDipoleDeriv(Z, paramNum, true);
+                        computeIEDeriv(Z, paramNum);
+                        break;
+                }
+                if (isExpAvail) computeGeomDeriv(Z, paramNum);
+            }
+        }
+    }
+
+    protected abstract void constructSPrime(int Z, int paramNum);
 
     protected abstract void computeBatchedDerivs(int firstZIndex, int firstParamIndex);
 

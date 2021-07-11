@@ -1,9 +1,6 @@
 package nddoparam.param;
 
-import nddoparam.NDDODerivative;
-import nddoparam.NDDOGeometryOptimizationRestricted;
-import nddoparam.NDDOSolution;
-import nddoparam.NDDOSolutionRestricted;
+import nddoparam.*;
 import nddoparam.mndo.MNDOAtom;
 import nddoparam.mndo.MNDOParams;
 import org.apache.commons.lang3.time.StopWatch;
@@ -17,7 +14,8 @@ import java.util.Collections;
 
 public class ParamGradientRestricted extends ParamGradientAnalytical {
 
-    public ParamGradientRestricted(NDDOSolution s, String kind, double[] datum, NDDOSolution sExp, boolean analytical) {
+    public ParamGradientRestricted(NDDOSolutionRestricted s, String kind, double[] datum,
+                                   NDDOSolutionRestricted sExp, boolean analytical) {
         super(s, kind, datum, sExp, analytical);
         e = new ParamErrorFunctionRestricted(s, datum[0]);
         if (datum[1] != 0) e.addDipoleError(datum[1]);
@@ -31,32 +29,8 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
     }
 
     @Override
-    public void computeDerivs() {
-        if (analytical && (kind.equals("b") || kind.equals("c") || kind.equals("d")))
-            computeBatchedDerivs(0, 0);
-        for (int Z = 0; Z < s.getUniqueZs().length; Z++) {
-            for (int paramNum : s.getNeededParams()[s.getUniqueZs()[Z]]) {
-                if (!analytical) sPrime = new NDDOSolutionRestricted(Utils.perturbAtomParams(s.atoms,
-                        s.getUniqueZs()[Z], paramNum), s.charge);
-                switch (kind) {
-                    case "a":
-                        computeHFDeriv(Z, paramNum);
-                        break;
-                    case "b":
-                        computeDipoleDeriv(Z, paramNum, true);
-                        break;
-                    case "c":
-                        computeDipoleDeriv(Z, paramNum, false);
-                        computeIEDeriv(Z, paramNum);
-                        break;
-                    case "d":
-                        computeDipoleDeriv(Z, paramNum, true);
-                        computeIEDeriv(Z, paramNum);
-                        break;
-                }
-                if (isExpAvail) computeGeomDeriv(Z, paramNum);
-            }
-        }
+    protected void constructSPrime(int Z, int paramNum) {
+        sPrime = new NDDOSolutionRestricted(Utils.perturbAtomParams(s.atoms, s.getUniqueZs()[Z], paramNum), s.charge);
     }
 
     // Compiles all necessary fock matrices into one array before using the Pople algorithm, for faster computation.
@@ -186,13 +160,14 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
                 new MNDOAtom(AtomHandler.atomsMap.get("H"), new double[]{-0.6304 * Utils.bohr, -0.6304 * Utils.bohr, 0.6304 * Utils.bohr}, h),
                 new MNDOAtom(AtomHandler.atomsMap.get("H"), new double[]{-0.6304 * Utils.bohr, 0.6304 * Utils.bohr, -0.6304 * Utils.bohr}, h),
                 new MNDOAtom(AtomHandler.atomsMap.get("C"), new double[]{0, 0, 0}, c)};
-        NDDOSolution expsoln = new NDDOSolutionRestricted(exp, 0);
+        NDDOSolution expsoln = new NDDOSolutionUnrestricted(exp, 0,1 );
         double[] datum = new double[]{-17.9, 0, 13.6};
 
-        NDDOGeometryOptimizationRestricted opt = new NDDOGeometryOptimizationRestricted(exp1, 0);
-        ParamGradientRestricted g;
+        NDDOGeometryOptimizationUnrestricted opt = new NDDOGeometryOptimizationUnrestricted(exp1, 0, 1);
+        ParamGradientUnrestricted2 g;
 
-        g = new ParamGradientRestricted(opt.s, "a", datum, expsoln, false);
+//        g = new ParamGradientRestricted((NDDOSolutionRestricted) opt.s, "a", datum, (NDDOSolutionRestricted) expsoln, false);
+        g = new ParamGradientUnrestricted2((NDDOSolutionUnrestricted) opt.s, "a", datum, (NDDOSolutionUnrestricted) expsoln, false);
         g.computeDerivs();
         System.out.println("Test HF (A) Derivs: " + Arrays.deepToString(g.getHFDerivs()));
         System.out.println("Geom Derivs: " + Arrays.deepToString(g.getGeomDerivs()));
@@ -208,22 +183,23 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
 //        System.out.println("Test IE (C) Derivs: " + Arrays.deepToString(g.getIEDerivs()));
 
         StopWatch sw = new StopWatch();
-        double time  = 0;
-        for (int x = 0; x < 100; x++ ) {
-            sw.start();
-            g = new ParamGradientRestricted(opt.s, "d", datum, expsoln, true);
-            g.computeDerivs();
-//            ParamHessianRestricted hessian = new ParamHessianRestricted(opt.s, "b", datum, expsoln);
-//            hessian.computeHessian();
-            sw.stop();
-            time += sw.getTime();
-            sw.reset();
-        }
+//        double time = 0;
+//        for (int x = 0; x < 100; x++) {
+//            sw.start();
+//            g = new ParamGradientRestricted((NDDOSolutionRestricted)opt.s, "d", datum, (NDDOSolutionRestricted)expsoln, true);
+//            g.computeDerivs();
+////            ParamHessianRestricted hessian = new ParamHessianRestricted(opt.s, "b", datum, expsoln);
+////            hessian.computeHessian();
+//            sw.stop();
+//            time += sw.getTime();
+//            sw.reset();
+//        }
         sw.start();
-        g = new ParamGradientRestricted(opt.s, "d", datum, expsoln, false);
+//        g = new ParamGradientRestricted((NDDOSolutionRestricted) opt.s, "d", datum, (NDDOSolutionRestricted) expsoln, false);
+        g = new ParamGradientUnrestricted2((NDDOSolutionUnrestricted) opt.s, "d", datum, (NDDOSolutionUnrestricted) expsoln, false);
         g.computeDerivs();
         sw.stop();
-        System.out.println("D Time taken: " + time / 100);
+        System.out.println("D Time taken: " + sw.getTime());
         System.out.println("Test HF (D) Derivs: " + Arrays.deepToString(g.getHFDerivs()));
         System.out.println("Test Dipole (D) Derivs: " + Arrays.deepToString(g.getDipoleDerivs()));
         System.out.println("Test IE (D) Derivs: " + Arrays.deepToString(g.getIEDerivs()));
