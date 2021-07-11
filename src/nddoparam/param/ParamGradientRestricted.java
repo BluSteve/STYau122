@@ -88,8 +88,7 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
     @Override
     protected void computeGeomDeriv(int Z, int paramNum) {
         // TODO sExp.charge or s.charge?
-        sPrime = new NDDOSolutionRestricted(Utils.perturbAtomParams(sExp.atoms, paramNum, s.getUniqueZs()[Z]),
-                s.charge); // sExp perturbed put into a solution
+        sPrime = new NDDOSolutionRestricted(Utils.perturbAtomParams(sExp.atoms, s.getUniqueZs()[Z], paramNum), s.charge);
         double sum = 0;
         double d;
         for (int i = 0; i < sPrime.atoms.length; i++) {
@@ -180,32 +179,40 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
         double[] datum = new double[]{-17.9, 0, 13.6};
 
         NDDOGeometryOptimizationRestricted opt = new NDDOGeometryOptimizationRestricted(exp1, 0);
-
-        ParamGradientRestricted g = new ParamGradientRestricted(opt.s, "a", datum, expsoln);
-        g.computeDerivs();
-        System.out.println("Test HF (A) Derivs: " + Arrays.deepToString(g.getHFDerivs()));
-        System.out.println("Geom Derivs: " + Arrays.deepToString(g.getGeomDerivs()));
-
-        g = new ParamGradientRestricted(opt.s, "b", datum, expsoln);
-        g.computeDerivs();
-        System.out.println("Test HF (B) Derivs: " + Arrays.deepToString(g.getHFDerivs()));
-        System.out.println("Test Dipole (B) Derivs: " + Arrays.deepToString(g.getDipoleDerivs()));
-
-        g = new ParamGradientRestricted(opt.s, "c", datum, expsoln);
-        g.computeDerivs();
-        System.out.println("Test HF (C) Derivs: " + Arrays.deepToString(g.getHFDerivs()));
-        System.out.println("Test IE (C) Derivs: " + Arrays.deepToString(g.getIEDerivs()));
+        ParamGradientRestricted g;
+//
+//        ParamGradientRestricted g = new ParamGradientRestricted(opt.s, "a", datum, expsoln);
+//        g.computeDerivs();
+//        System.out.println("Test HF (A) Derivs: " + Arrays.deepToString(g.getHFDerivs()));
+//        System.out.println("Geom Derivs: " + Arrays.deepToString(g.getGeomDerivs()));
+//
+//        g = new ParamGradientRestricted(opt.s, "b", datum, expsoln);
+//        g.computeDerivs();
+//        System.out.println("Test HF (B) Derivs: " + Arrays.deepToString(g.getHFDerivs()));
+//        System.out.println("Test Dipole (B) Derivs: " + Arrays.deepToString(g.getDipoleDerivs()));
+//
+//        g = new ParamGradientRestricted(opt.s, "c", datum, expsoln);
+//        g.computeDerivs();
+//        System.out.println("Test HF (C) Derivs: " + Arrays.deepToString(g.getHFDerivs()));
+//        System.out.println("Test IE (C) Derivs: " + Arrays.deepToString(g.getIEDerivs()));
 
         StopWatch sw = new StopWatch();
-        sw.start();
-        g = new ParamGradientRestricted(opt.s, "d", datum, expsoln);
-        g.computeDerivs();
-        sw.stop();
-        System.out.println("D Time taken: " + sw.getTime());
-        System.out.println("Test HF (D) Derivs: " + Arrays.deepToString(g.getHFDerivs()));
-        System.out.println("Test Dipole (D) Derivs: " + Arrays.deepToString(g.getDipoleDerivs()));
-        System.out.println("Test IE (D) Derivs: " + Arrays.deepToString(g.getIEDerivs()));
-        System.out.println("Test Total (D) Derivs: " + Arrays.deepToString(g.getGradients()));
+//        double time  = 0;
+//        for (int x = 0; x < 100; x++ ) {
+//            sw.start();
+////            g = new ParamGradientRestricted(opt.s, "d", datum, expsoln);
+////            g.computeDerivs();
+//            ParamHessianRestricted hessian = new ParamHessianRestricted(opt.s, "b", datum, expsoln);
+//            hessian.computeHessian();
+//            sw.stop();
+//            time += sw.getTime();
+//            sw.reset();
+//        }
+//        System.out.println("D Time taken: " + time / 100);
+//        System.out.println("Test HF (D) Derivs: " + Arrays.deepToString(g.getHFDerivs()));
+//        System.out.println("Test Dipole (D) Derivs: " + Arrays.deepToString(g.getDipoleDerivs()));
+//        System.out.println("Test IE (D) Derivs: " + Arrays.deepToString(g.getIEDerivs()));
+//        System.out.println("Test Total (D) Derivs: " + Arrays.deepToString(g.getGradients()));
 
         sw.reset();
         sw.start();
