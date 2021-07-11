@@ -20,7 +20,7 @@ public class Utils {
     }
 
 
-    public static NDDOAtom[] perturbAtomParams(NDDOAtom[] atoms, int paramNum, int Z) { // Z is proton number of the atom that you want to perturb the param (based on paramNum) of.
+    public static NDDOAtom[] perturbAtomParams(NDDOAtom[] atoms, int Z, int paramNum) { // Z is proton number of the atom that you want to perturb the param (based on paramNum) of.
         NDDOAtom[] perturbed = new NDDOAtom[atoms.length];
         try {
             Class<? extends NDDOAtom> c = atoms[0].getClass();

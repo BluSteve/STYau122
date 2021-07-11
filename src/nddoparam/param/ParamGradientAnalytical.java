@@ -31,6 +31,7 @@ public abstract class ParamGradientAnalytical implements ErrorGettable { // TODO
                 HFDerivs = new double[s.getUniqueZs().length][NDDOSolution.maxParamNum];
                 dipoleDerivs = new double[s.getUniqueZs().length][NDDOSolution.maxParamNum];
 
+
                 densityDerivs = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
                 staticDerivs = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum][2];
                 xLimited = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];

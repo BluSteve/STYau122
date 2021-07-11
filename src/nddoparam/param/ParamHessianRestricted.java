@@ -13,16 +13,11 @@ public class ParamHessianRestricted extends ParamHessianAnalytical {
 
 
     @Override
-    public ParamErrorFunction getE() {
-        return g.getE();
-    }
-
-    @Override
     protected void computeHessian(String kind) {
         for (int ZIndex2 = 0; ZIndex2 < s.getUniqueZs().length; ZIndex2++) {
             for (int paramNum2: s.getNeededParams()[s.getUniqueZs()[ZIndex2]]) {
                 gPrime = new ParamGradientRestricted(new NDDOSolutionRestricted(Utils.perturbAtomParams(s.atoms,
-                        paramNum2, s.getUniqueZs()[ZIndex2]), s.charge), kind, datum, sExp);
+                        s.getUniqueZs()[ZIndex2], paramNum2), s.charge), kind, datum, sExp);
                 if (kind.equals("b") || kind.equals("c") || kind.equals("d"))
                     gPrime.computeBatchedDerivs(ZIndex2, paramNum2);
 

@@ -27,4 +27,9 @@ public abstract class ParamHessianAnalytical implements ErrorGettable {
     public double[][] getHessian() {
         return hessian;
     }
+
+    @Override
+    public ParamErrorFunction getE() {
+        return g.getE();
+    }
 }

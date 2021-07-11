@@ -14,7 +14,7 @@ public abstract class ParamGradient {
         this.Z = Z;
         this.paramNum = paramNum;
         this.atoms = atoms;
-        perturbed = Utils.perturbAtomParams(atoms, paramNum, Z);
+        perturbed = Utils.perturbAtomParams(atoms, Z, paramNum);
     }
 
     public void addDipoleError(double ref) {
