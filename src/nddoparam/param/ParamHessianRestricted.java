@@ -7,7 +7,7 @@ import scf.Utils;
 public class ParamHessianRestricted extends ParamHessianAnalytical {
     public ParamHessianRestricted(NDDOSolution s, String kind, double[] datum, NDDOSolution sExp) {
         super(s, kind, datum, sExp);
-        g = new ParamGradientRestricted(s, kind, datum, sExp);
+        g = new ParamGradientRestricted(s, kind, datum, sExp, true);
         g.computeDerivs();
     }
 
@@ -17,7 +17,7 @@ public class ParamHessianRestricted extends ParamHessianAnalytical {
         for (int ZIndex2 = 0; ZIndex2 < s.getUniqueZs().length; ZIndex2++) {
             for (int paramNum2: s.getNeededParams()[s.getUniqueZs()[ZIndex2]]) {
                 gPrime = new ParamGradientRestricted(new NDDOSolutionRestricted(Utils.perturbAtomParams(s.atoms,
-                        s.getUniqueZs()[ZIndex2], paramNum2), s.charge), kind, datum, sExp);
+                        s.getUniqueZs()[ZIndex2], paramNum2), s.charge), kind, datum, sExp, true);
                 if (kind.equals("b") || kind.equals("c") || kind.equals("d"))
                     gPrime.computeBatchedDerivs(ZIndex2, paramNum2);
 
@@ -56,8 +56,8 @@ public class ParamHessianRestricted extends ParamHessianAnalytical {
                             if (gPrime.isExpAvail) gPrime.computeGeomDeriv(ZIndex1, paramNum1);
                             hessian[ZIndex2 * NDDOSolution.maxParamNum + paramNum2]
                                     [ZIndex1 * NDDOSolution.maxParamNum + paramNum1] =
-                                    (gPrime.getGradients()[ZIndex1][paramNum1]
-                                    - g.getGradients()[ZIndex1][paramNum1]) / Utils.lambda;
+                                    (gPrime.getTotalGradients()[ZIndex1][paramNum1]
+                                    - g.getTotalGradients()[ZIndex1][paramNum1]) / Utils.LAMBDA;
                             hessian[ZIndex1 * NDDOSolution.maxParamNum + paramNum1]
                                     [ZIndex2 * NDDOSolution.maxParamNum + paramNum2] =
                                     hessian[ZIndex2 * NDDOSolution.maxParamNum + paramNum2]

@@ -1043,7 +1043,7 @@ public class ParamDerivative {
 
             try {
                 NDDOParams params = A.getParams().clone();
-                params.modifyParam(5 + type, Utils.lambda);
+                params.modifyParam(5 + type, Utils.LAMBDA);
 
                 Class<? extends NDDOAtom> cl = A.getClass();
                 Constructor ctor = cl.getDeclaredConstructor(cl, A.getParams().getClass());
@@ -1058,7 +1058,7 @@ public class ParamDerivative {
         if (num == 1 || num == 2) {
             try {
                 NDDOParams params = C.getParams().clone();
-                params.modifyParam(5 + type, Utils.lambda);
+                params.modifyParam(5 + type, Utils.LAMBDA);
 
                 Class<? extends NDDOAtom> cl = C.getClass();
                 Constructor ctor = cl.getDeclaredConstructor(cl, C.getParams().getClass());
@@ -1073,7 +1073,7 @@ public class ParamDerivative {
 
         double finalval = NDDO6G.getG(A.getOrbitals()[aindex], A.getOrbitals()[bindex], C.getOrbitals()[cindex], C.getOrbitals()[dindex]);
 
-        return (finalval - initial) / Utils.lambda;
+        return (finalval - initial) / Utils.LAMBDA;
 
 
     }
@@ -1094,7 +1094,7 @@ public class ParamDerivative {
 
             try {
                 NDDOParams params = A.getParams().clone();
-                params.modifyParam(5 + type, Utils.lambda);
+                params.modifyParam(5 + type, Utils.LAMBDA);
 
                 Class<? extends NDDOAtom> cl = A.getClass();
                 Constructor ctor = cl.getDeclaredConstructor(cl, A.getParams().getClass());
@@ -1109,7 +1109,7 @@ public class ParamDerivative {
         if (num == 1 || num == 2) {
             try {
                 NDDOParams params = B.getParams().clone();
-                params.modifyParam(5 + type, Utils.lambda);
+                params.modifyParam(5 + type, Utils.LAMBDA);
 
                 Class<? extends NDDOAtom> cl = B.getClass();
                 Constructor ctor = cl.getDeclaredConstructor(cl, B.getParams().getClass());
@@ -1124,7 +1124,7 @@ public class ParamDerivative {
 
         double finalval = NDDO6G.getS(A.getOrbitals()[aindex], B.getOrbitals()[bindex]);
 
-        return (finalval - initial) / Utils.lambda;
+        return (finalval - initial) / Utils.LAMBDA;
 
 
     }
@@ -1137,7 +1137,7 @@ public class ParamDerivative {
 
             try {
                 NDDOParams params = A.getParams().clone();
-                params.modifyParam(0, Utils.lambda);
+                params.modifyParam(0, Utils.LAMBDA);
 
                 Class<? extends NDDOAtom> cl = A.getClass();
                 Constructor ctor = cl.getDeclaredConstructor(cl, A.getParams().getClass());
@@ -1152,7 +1152,7 @@ public class ParamDerivative {
         if (num == 1 || num == 2) {
             try {
                 NDDOParams params = B.getParams().clone();
-                params.modifyParam(0, Utils.lambda);
+                params.modifyParam(0, Utils.LAMBDA);
 
                 Class<? extends NDDOAtom> cl = B.getClass();
                 Constructor ctor = cl.getDeclaredConstructor(cl, B.getParams().getClass());
@@ -1167,7 +1167,7 @@ public class ParamDerivative {
 
         double finalval = A.crf(B);
 
-        return (finalval - initial) / Utils.lambda;
+        return (finalval - initial) / Utils.LAMBDA;
 
 
     }
@@ -2461,7 +2461,7 @@ public class ParamDerivative {
 
 
         NDDOParams params = a.getParams().clone();
-        params.modifyParam(5 + type, Utils.lambda);
+        params.modifyParam(5 + type, Utils.LAMBDA);
 
         Class<? extends NDDOAtom> c = a.getClass();
         Constructor ctor = c.getDeclaredConstructor(c, a.getParams().getClass());
@@ -2471,7 +2471,7 @@ public class ParamDerivative {
 
         double D1perturbed = a2.D1;
 
-        return (D1perturbed - D1) / Utils.lambda;
+        return (D1perturbed - D1) / Utils.LAMBDA;
 
     }
 
@@ -2481,7 +2481,7 @@ public class ParamDerivative {
 
 
         NDDOParams params = a.getParams().clone();
-        params.modifyParam(5 + type, Utils.lambda);
+        params.modifyParam(5 + type, Utils.LAMBDA);
 
         Class<? extends NDDOAtom> c = a.getClass();
         Constructor ctor = c.getDeclaredConstructor(c, a.getParams().getClass());
@@ -2491,7 +2491,7 @@ public class ParamDerivative {
 
         double D2perturbed = a2.D2;
 
-        return (D2perturbed - D2) / Utils.lambda;
+        return (D2perturbed - D2) / Utils.LAMBDA;
 
     }
 
@@ -2500,7 +2500,7 @@ public class ParamDerivative {
         double p1 = a.p1;
 
         NDDOParams params = a.getParams().clone();
-        params.modifyParam(5 + type, Utils.lambda);
+        params.modifyParam(5 + type, Utils.LAMBDA);
 
         Class<? extends NDDOAtom> c = a.getClass();
         Constructor ctor = c.getDeclaredConstructor(c, a.getParams().getClass());
@@ -2510,7 +2510,7 @@ public class ParamDerivative {
 
         double p1perturbed = a2.p1;
 
-        return (p1perturbed - p1) / Utils.lambda;
+        return (p1perturbed - p1) / Utils.LAMBDA;
 
     }
 
@@ -2519,7 +2519,7 @@ public class ParamDerivative {
         double p2 = a.p2;
 
         NDDOParams params = a.getParams().clone();
-        params.modifyParam(5 + type, Utils.lambda);
+        params.modifyParam(5 + type, Utils.LAMBDA);
 
         Class<? extends NDDOAtom> c = a.getClass();
         Constructor ctor = c.getDeclaredConstructor(c, a.getParams().getClass());
@@ -2529,7 +2529,7 @@ public class ParamDerivative {
 
         double p2perturbed = a2.p2;
 
-        return (p2perturbed - p2) / Utils.lambda;
+        return (p2perturbed - p2) / Utils.LAMBDA;
 
     }
 

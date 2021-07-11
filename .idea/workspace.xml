@@ -34,14 +34,13 @@
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/scf/Utils.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/scf/Utils.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientAnalytical.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientAnalytical.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientRestricted.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientUnrestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientUnrestricted.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianAnalytical.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianAnalytical.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianRestricted.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianUnrestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianUnrestricted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/scf/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/Utils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -444,7 +443,7 @@
       <workItem from="1625385201338" duration="9158000" />
       <workItem from="1625469078475" duration="7585000" />
       <workItem from="1625902825124" duration="18872000" />
-      <workItem from="1625978132443" duration="1905000" />
+      <workItem from="1625978132443" duration="5044000" />
     </task>
     <task id="LOCAL-00001" summary="Convert integralarray to integralMap, implement getKey() in MNDOSolution.java">
       <created>1606298586134</created>
@@ -733,7 +732,21 @@
       <option name="project" value="LOCAL" />
       <updated>1625934855266</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="Minor changes">
+      <created>1625982313169</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1625982313169</updated>
+    </task>
+    <task id="LOCAL-00043" summary="Minor changes">
+      <created>1625982325433</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1625982325433</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="ToolWindowManager">

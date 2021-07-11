@@ -7,7 +7,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 public class Utils {
-    public static final double lambda = 1E-7;
+    public static final double LAMBDA = 1E-7;
     public static final double bohr = 1.88973;
     public static final int maxAtomNum = 10;
 
@@ -31,7 +31,7 @@ public class Utils {
             for (int i = 0; i < atoms.length; i++) {
                 if (atoms[i].getAtomProperties().getZ() == Z) {
                     NDDOParams params = atoms[i].getParams();
-                    params.modifyParam(paramNum, Utils.lambda);
+                    params.modifyParam(paramNum, Utils.LAMBDA);
                     perturbed[i] = (NDDOAtom) ctor.newInstance(atoms[i], params);
                 } else {
                     perturbed[i] = (NDDOAtom) ctor2.newInstance(atoms[i]);

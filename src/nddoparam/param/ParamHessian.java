@@ -49,7 +49,7 @@ public abstract class ParamHessian implements ErrorGettable{
     public abstract void createExpGeom(NDDOAtom[] expAtoms, NDDOSolution expSoln);
 
     public double hessian() {
-        return (gprime.gradient() - g.gradient()) / Utils.lambda;
+        return (gprime.gradient() - g.gradient()) / Utils.LAMBDA;
     }
 
 }

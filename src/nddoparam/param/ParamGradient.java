@@ -54,7 +54,7 @@ public abstract class ParamGradient {
 
     public double gradient() {
         if (eprime != null) {
-            return (eprime.getTotalError() - e.getTotalError()) / Utils.lambda;
+            return (eprime.getTotalError() - e.getTotalError()) / Utils.LAMBDA;
         } else return 0;
     }
 
