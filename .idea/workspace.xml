@@ -32,7 +32,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDOSolutionRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDOSolutionRestricted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDOGeometryOptimization.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/nddoparam/NDDOGeometryOptimization.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDOSolution.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/nddoparam/NDDOSolution.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDOSolutionRestricted.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/nddoparam/NDDOSolutionRestricted.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/runcycle/MoleculeRun.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/runcycle/MoleculeRun.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/runcycle/MoleculeRunRestricted.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/runcycle/MoleculeRunRestricted.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/runcycle/MoleculeRunUnrestricted.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/runcycle/MoleculeRunUnrestricted.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mndooutput.txt" beforeDir="false" afterPath="$PROJECT_DIR$/mndooutput.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -440,13 +447,6 @@
       <workItem from="1625978132443" duration="10119000" />
       <workItem from="1626050017371" duration="3181000" />
     </task>
-    <task id="LOCAL-00008" summary="Minor reformatting.">
-      <created>1606922736048</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1606922736048</updated>
-    </task>
     <task id="LOCAL-00009" summary="Minor changes">
       <created>1607231592405</created>
       <option name="number" value="00009" />
@@ -783,7 +783,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626089675510</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <task id="LOCAL-00057" summary="Minor changes">
+      <created>1626089799744</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1626089799744</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -868,7 +875,6 @@
     <MESSAGE value="Finite difference added to ParamGradient as an option" />
     <MESSAGE value="Working (tbc) ParamGradientUnrestricted2" />
     <MESSAGE value="Other hessian representations" />
-    <MESSAGE value="Minor changes" />
     <MESSAGE value="Major refactors" />
     <MESSAGE value="MoleculeRun running now" />
     <MESSAGE value="MoleculeRun working now" />
@@ -876,7 +882,8 @@
     <MESSAGE value="MoleculeRun working now 2.0" />
     <MESSAGE value="Merged NDDOSolution from mergelater" />
     <MESSAGE value="Merged DIIS and NDDOAtom from mergelater" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merged DIIS and NDDOAtom from mergelater" />
+    <MESSAGE value="Minor changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor changes" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

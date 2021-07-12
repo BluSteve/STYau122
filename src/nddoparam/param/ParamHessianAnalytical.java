@@ -89,12 +89,12 @@ public abstract class ParamHessianAnalytical implements ErrorGettable {
         int iUnpadded = 0;
         int jUnpadded = 0;
         boolean allZero;
-        for (int i = 0; i < hessian.length; i++) {
+        for (double[] doubles : hessian) {
             allZero = true;
             for (int j = 0; j < hessian.length; j++) {
-                if (hessian[i][j] != 0) {
+                if (doubles[j] != 0) {
                     allZero = false;
-                    unpadded[iUnpadded][jUnpadded] = hessian[i][j];
+                    unpadded[iUnpadded][jUnpadded] = doubles[j];
                     jUnpadded++;
                 }
             }
@@ -112,10 +112,8 @@ public abstract class ParamHessianAnalytical implements ErrorGettable {
             if (i >= 1) {
                 p = i * (unpadded.length * 2 - i + 1) / 2;
             }
-            for (int j = i; j < unpadded.length; j++) {
-//                    System.out.println(p + " " + j);
+            for (int j = i; j < unpadded.length; j++)
                 hessianUT[p + j - i] = unpadded[i][j];
-            }
         }
         return hessianUT;
     }

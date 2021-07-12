@@ -149,7 +149,7 @@ public abstract class NDDOSolution {
         }
     }
 
-    public static int[][] getNeededParams() {
+    public int[][] getNeededParams() {
         return neededParams;
     }
 
