@@ -4,7 +4,6 @@ import datum.ReferenceData;
 import org.jblas.DoubleMatrix;
 import org.jblas.Solve;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -13,13 +12,11 @@ import java.util.Arrays;
 public class ParamOptimizer {
 
     public double[] changes;
-    private ArrayList<ReferenceData> datum;
+    private final ArrayList<ReferenceData> datum;
     private double value;
 
     public ParamOptimizer() {
-
-        this.datum = new ArrayList<ReferenceData>();
-
+        this.datum = new ArrayList<>();
     }
 
     public void addData(ReferenceData data) {
@@ -30,11 +27,9 @@ public class ParamOptimizer {
 
     public void optimize(DoubleMatrix B, DoubleMatrix gradient) throws Exception {
 
-        PrintWriter pw = new PrintWriter(new FileOutputStream(new File("mndooutput.txt"), true));
+        PrintWriter pw = new PrintWriter(new FileOutputStream("mndooutput.txt", true));
 
         DoubleMatrix searchdir = Solve.pinv(B).mmul(gradient);
-
-        //DoubleMatrix searchdir = gradient;
 
         double sum = 0;
 

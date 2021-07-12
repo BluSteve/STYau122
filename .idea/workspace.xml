@@ -32,57 +32,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/commons_lang3_3_12_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/gson_2_8_6.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/jblas_1_2_5.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/commons-lang3-3.12.0.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/gson-2.8.6.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/jblas-1.2.5.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.classpath" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/SMP2020_jar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/com_google_code_gson_gson_2_8_5.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/org_apache_commons_commons_lang3_3_12_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/org_jblas_jblas_1_2_5.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.project" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.settings/org.eclipse.jdt.core.prefs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SMP2020.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SMP2020.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/ComputationRequest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/datum/DipoleData.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/datum/GeometricalData.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/datum/HeatData.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/datum/IonizationData.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/datum/ReferenceData.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDO6G.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDOAtom.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDODerivative.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDOGeometryOptimization.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDOGeometryOptimizationRestricted.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDOGeometryOptimizationUnrestricted.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDOParams.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDOSecondDerivative.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDOSolution.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDOSolutionRestricted.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDOSolutionUnrestricted.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/nddoparam/am1/AM1Atom.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/nddoparam/am1/AM1Params.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/nddoparam/mndo/MNDOAtom.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/nddoparam/mndo/MNDOParams.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/optimize/ParamOptimizer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/runcycle/MoleculeRun.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/runcycle/MoleculeRunRestricted.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/runcycle/MoleculeRunUnrestricted.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/scf/AtomFixed.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/scf/AtomHandler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/scf/AtomProperties.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/scf/GTO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/scf/LCGTO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/scf/OrbitalProperties.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/scf/STO6G.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/scf/Utils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDOSolutionRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDOSolutionRestricted.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -514,14 +464,7 @@
       <workItem from="1626050017371" duration="3181000" />
       <workItem from="1626103288284" duration="1063000" />
       <workItem from="1626104377048" duration="262000" />
-      <workItem from="1626104655028" duration="223000" />
-    </task>
-    <task id="LOCAL-00010" summary="Successfully implement MNDOParams">
-      <created>1607434286899</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1607434286899</updated>
+      <workItem from="1626104655028" duration="549000" />
     </task>
     <task id="LOCAL-00011" summary="Fix MNDO6G.java and reformat">
       <created>1607500548389</created>
@@ -859,7 +802,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626090324446</updated>
     </task>
-    <option name="localTasksCounter" value="59" />
+    <task id="LOCAL-00059" summary="Downgrade to JDK 11">
+      <created>1626105128498</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1626105128498</updated>
+    </task>
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -927,7 +877,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="A bit faster." />
     <MESSAGE value="S factor geometry optimization" />
     <MESSAGE value="Further S factor geometry optimization" />
     <MESSAGE value="Even further S factor geometry optimization" />
@@ -952,7 +901,8 @@
     <MESSAGE value="Merged NDDOSolution from mergelater" />
     <MESSAGE value="Merged DIIS and NDDOAtom from mergelater" />
     <MESSAGE value="Minor changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Minor changes" />
+    <MESSAGE value="Downgrade to JDK 11" />
+    <option name="LAST_COMMIT_MESSAGE" value="Downgrade to JDK 11" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
