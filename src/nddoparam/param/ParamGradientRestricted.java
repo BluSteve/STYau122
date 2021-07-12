@@ -15,8 +15,8 @@ import java.util.Collections;
 public class ParamGradientRestricted extends ParamGradientAnalytical {
 
     public ParamGradientRestricted(NDDOSolutionRestricted s, String kind, double[] datum,
-                                   NDDOSolutionRestricted sExp, boolean analytical) {
-        super(s, kind, datum, sExp, analytical);
+                                   NDDOSolutionRestricted sExp) {
+        super(s, kind, datum, sExp);
         e = new ParamErrorFunctionRestricted(s, datum[0]);
         if (datum[1] != 0) e.addDipoleError(datum[1]);
         if (datum[2] != 0) e.addIEError(datum[2]);
@@ -197,7 +197,7 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
 //            sw.reset();
 //        }
         sw.start();
-        g = new ParamGradientRestricted((NDDOSolutionRestricted) opt.s, "d", datum, (NDDOSolutionRestricted) expsoln, true);
+        g = new ParamGradientRestricted((NDDOSolutionRestricted) opt.s, "d", datum, (NDDOSolutionRestricted) expsoln);
 //        g = new ParamGradientUnrestricted2((NDDOSolutionUnrestricted) opt.s, "d", datum, (NDDOSolutionUnrestricted) expsoln, false);
         g.computeDerivs();
 

@@ -128,7 +128,7 @@ public abstract class MoleculeRun {
     }
 
     protected void runGradient() {
-        g = new ParamGradientRestricted( (NDDOSolutionRestricted) opt.s, kind, datum, (NDDOSolutionRestricted) expSolution, true); // time intensive step
+        g = new ParamGradientRestricted( (NDDOSolutionRestricted) opt.s, kind, datum, (NDDOSolutionRestricted) expSolution); // time intensive step
         StringBuilder HFDerivsSB = new StringBuilder(datum[0] + "," + g.getS().hf + ",");
         StringBuilder dipoleDerivsSB = new StringBuilder(datum[1] + "," + g.getS().dipole + ",");
         StringBuilder IEDerivsSB = new StringBuilder(datum[2] + "," + -g.getS().homo + ",");

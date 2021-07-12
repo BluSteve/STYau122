@@ -3,23 +3,32 @@ package nddoparam.param;
 import nddoparam.NDDOSolution;
 import org.jblas.DoubleMatrix;
 
-public abstract class ParamGradientAnalytical implements ErrorGettable { // TODO only works for restricted rn
+public abstract class ParamGradientAnalytical implements ErrorGettable {
     protected NDDOSolution s, sPrime, sExpPrime, sExp;
     protected ParamErrorFunction e;
     protected String kind;
     protected boolean isExpAvail, analytical;
+
+    public boolean isAnalytical() {
+        return analytical;
+    }
+
+    public void setAnalytical(boolean analytical) {
+        this.analytical = analytical;
+    }
+
     protected double[] datum;
     protected double[][] HFDerivs, dipoleDerivs, IEDerivs, geomDerivs, totalGradients;
     protected DoubleMatrix[][] densityDerivs, xLimited, xComplementary, xForIE, coeffDerivs, responseDerivs, fockDerivs;
     protected DoubleMatrix[][][] staticDerivs;
     protected static final double LAMBDA = 1E-7;
 
-    public ParamGradientAnalytical(NDDOSolution s, String kind, double[] datum, NDDOSolution sExp, boolean analytical) {
+    public ParamGradientAnalytical(NDDOSolution s, String kind, double[] datum, NDDOSolution sExp) {
         this.s = s;
         this.kind = kind;
         this.datum = datum;
         this.sExp = sExp;
-        this.analytical = analytical;
+        this.analytical = true;
 
         geomDerivs = new double[s.getUniqueZs().length][NDDOSolution.maxParamNum];
         totalGradients = new double[s.getUniqueZs().length][NDDOSolution.maxParamNum];

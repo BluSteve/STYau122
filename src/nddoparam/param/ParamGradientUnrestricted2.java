@@ -7,8 +7,8 @@ import scf.Utils;
 public class ParamGradientUnrestricted2 extends ParamGradientAnalytical {
 
     public ParamGradientUnrestricted2(NDDOSolutionUnrestricted s, String kind, double[] datum,
-                                      NDDOSolutionUnrestricted sExp, boolean analytical) {
-        super(s, kind, datum, sExp, analytical);
+                                      NDDOSolutionUnrestricted sExp) {
+        super(s, kind, datum, sExp);
         e = new ParamErrorFunctionUnrestricted(s, datum[0]);
         if (datum[1] != 0) e.addDipoleError(datum[1]);
         if (datum[2] != 0) e.addIEError(datum[2]);
