@@ -32,14 +32,57 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/bin/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDOGeometryOptimization.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/nddoparam/NDDOGeometryOptimization.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDOSolution.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/nddoparam/NDDOSolution.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDOSolutionRestricted.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/nddoparam/NDDOSolutionRestricted.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/runcycle/MoleculeRun.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/runcycle/MoleculeRun.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/runcycle/MoleculeRunRestricted.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/runcycle/MoleculeRunRestricted.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/runcycle/MoleculeRunUnrestricted.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/runcycle/MoleculeRunUnrestricted.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mndooutput.txt" beforeDir="false" afterPath="$PROJECT_DIR$/mndooutput.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/commons_lang3_3_12_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/gson_2_8_6.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/jblas_1_2_5.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/commons-lang3-3.12.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/gson-2.8.6.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/jblas-1.2.5.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.classpath" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/SMP2020_jar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/com_google_code_gson_gson_2_8_5.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/org_apache_commons_commons_lang3_3_12_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/org_jblas_jblas_1_2_5.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.project" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.settings/org.eclipse.jdt.core.prefs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SMP2020.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SMP2020.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ComputationRequest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/datum/DipoleData.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/datum/GeometricalData.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/datum/HeatData.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/datum/IonizationData.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/datum/ReferenceData.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDO6G.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDOAtom.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDODerivative.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDOGeometryOptimization.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDOGeometryOptimizationRestricted.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDOGeometryOptimizationUnrestricted.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDOParams.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDOSecondDerivative.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDOSolution.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDOSolutionRestricted.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDOSolutionUnrestricted.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/nddoparam/am1/AM1Atom.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/nddoparam/am1/AM1Params.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/nddoparam/mndo/MNDOAtom.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/nddoparam/mndo/MNDOParams.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/optimize/ParamOptimizer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/runcycle/MoleculeRun.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/runcycle/MoleculeRunRestricted.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/runcycle/MoleculeRunUnrestricted.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/scf/AtomFixed.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/scf/AtomHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/scf/AtomProperties.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/scf/GTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/scf/LCGTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/scf/OrbitalProperties.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/scf/STO6G.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/scf/Utils.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -272,13 +315,13 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="create.test.in.the.same.root" value="true" />
     <property name="extract.method.default.visibility" value="private" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/nddoparam" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -291,6 +334,8 @@
       <recent name="Utils" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Documents\Gitted CS Projects\MNDOParam\lib" />
+      <recent name="D:\Documents\Gitted CS Projects\MNDOParam" />
       <recent name="D:\Documents\Gitted CS Projects\MNDOParam\src\nddoparam" />
       <recent name="D:\Documents\Gitted CS Projects\MNDOParam\src\nddoparam\am1" />
       <recent name="C:\Users\billi\Documents\Gitted CS Projects\scf" />
@@ -299,8 +344,10 @@
       <recent name="nddoparam.param" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Application.ParamGradientRestricted">
     <configuration name="AtomHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="adopt-openjdk-11" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="scf.AtomHandler" />
       <module name="SMP2020" />
       <extension name="coverage">
@@ -314,6 +361,8 @@
       </method>
     </configuration>
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="adopt-openjdk-11" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="SMP2020" />
       <method v="2">
@@ -321,6 +370,8 @@
       </method>
     </configuration>
     <configuration name="ParamGradientRestricted" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="adopt-openjdk-11" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="nddoparam.param.ParamGradientRestricted" />
       <module name="SMP2020" />
       <extension name="coverage">
@@ -333,13 +384,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -347,6 +400,19 @@
     <configuration name="SMP2020.jar" type="JarApplication" temporary="true">
       <option name="JAR_PATH" value="$PROJECT_DIR$/out/artifacts/SMP2020_jar/SMP2020.jar" />
       <method v="2" />
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="SMP2020" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="SMP2020" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <list>
       <item itemvalue="Application.Main" />
@@ -356,8 +422,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
         <item itemvalue="Application.ParamGradientRestricted" />
+        <item itemvalue="Application.Main" />
         <item itemvalue="Application.AtomHandler" />
         <item itemvalue="JAR Application.SMP2020.jar" />
         <item itemvalue="JAR Application.SMP2020.jar" />
@@ -446,13 +512,9 @@
       <workItem from="1625902825124" duration="18872000" />
       <workItem from="1625978132443" duration="10119000" />
       <workItem from="1626050017371" duration="3181000" />
-    </task>
-    <task id="LOCAL-00009" summary="Minor changes">
-      <created>1607231592405</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1607231592405</updated>
+      <workItem from="1626103288284" duration="1063000" />
+      <workItem from="1626104377048" duration="262000" />
+      <workItem from="1626104655028" duration="223000" />
     </task>
     <task id="LOCAL-00010" summary="Successfully implement MNDOParams">
       <created>1607434286899</created>
@@ -790,7 +852,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626089799744</updated>
     </task>
-    <option name="localTasksCounter" value="58" />
+    <task id="LOCAL-00058" summary="Minor changes">
+      <created>1626090324446</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1626090324446</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -891,6 +960,10 @@
         <PinnedItemInfo parentTag="nddoparam.param.ParamHessianRestricted" memberName="gPrime" />
       </pinned-members>
     </pin-to-top-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/scf/AtomHandler.java">
