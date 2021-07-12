@@ -89,24 +89,24 @@ public abstract class MoleculeRun {
         for (int i = 0; i < g.getS().getUniqueZs().length; i++) {
             switch (kind) {
                 case "a":
-                    appendToSB(g.getHFDerivs()[i], HFDerivsSB);
+                    appendToSB(g.depad(g.getHFDerivs())[i], HFDerivsSB);
                     break;
                 case "b":
-                    appendToSB(g.getHFDerivs()[i], HFDerivsSB);
-                    appendToSB(g.getDipoleDerivs()[i], dipoleDerivsSB);
+                    appendToSB(g.depad(g.getHFDerivs())[i], HFDerivsSB);
+                    appendToSB(g.depad(g.getDipoleDerivs())[i], dipoleDerivsSB);
                     break;
                 case "c":
-                    appendToSB(g.getHFDerivs()[i], HFDerivsSB);
-                    appendToSB(g.getIEDerivs()[i], IEDerivsSB);
+                    appendToSB(g.depad(g.getHFDerivs())[i], HFDerivsSB);
+                    appendToSB(g.depad(g.getIEDerivs())[i], IEDerivsSB);
                     break;
                 case "d":
-                    appendToSB(g.getHFDerivs()[i], HFDerivsSB);
-                    appendToSB(g.getDipoleDerivs()[i], dipoleDerivsSB);
-                    appendToSB(g.getIEDerivs()[i], IEDerivsSB);
+                    appendToSB(g.depad(g.getHFDerivs())[i], HFDerivsSB);
+                    appendToSB(g.depad(g.getDipoleDerivs())[i], dipoleDerivsSB);
+                    appendToSB(g.depad(g.getIEDerivs())[i], IEDerivsSB);
                     break;
             }
-            if (expSolution != null) appendToSB(g.getGeomDerivs()[i], geomDerivsSB);
-            appendToSB(g.getTotalGradients()[i], mainDataSB);
+            if (expSolution != null) appendToSB(g.depad(g.getGeomDerivs())[i], geomDerivsSB);
+            appendToSB(g.depad(g.getTotalGradients())[i], mainDataSB);
         }
 
         appendToSB(new double[]{datum[0], g.getS().hf, datum[1], g.getS().dipole,

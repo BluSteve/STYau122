@@ -163,6 +163,25 @@ public abstract class ParamGradientAnalytical implements ErrorGettable {
         return geomDerivs;
     }
 
+    public double[][] depad(double[][] derivs) {
+        double[][] res = new double[derivs.length][0];
+        for (int i = 0; i < derivs.length; i++) {
+            double[] depadded = new double[s.getNeededParams()[s.getUniqueZs()[i]].length];
+            int u = 0;
+            for (int j = 0; j < derivs[i].length; j++) {
+                for (int p: s.getNeededParams()[s.getUniqueZs()[i]]) {
+                    if (j == p) {
+                        depadded[u] = derivs[i][j];
+                        u++;
+                        break;
+                    }
+                }
+            }
+            res[i] = depadded;
+        }
+        return res;
+    }
+
     public double[][] getTotalGradients() {
         return totalGradients;
     }

@@ -166,8 +166,8 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
 //        NDDOGeometryOptimizationUnrestricted opt = new NDDOGeometryOptimizationUnrestricted(exp1, 0, 1);
 
         ParamGradientAnalytical g;
-        MoleculeRunRestricted m = new MoleculeRunRestricted(exp, 0, exp1, datum, true, "d", new int[]{1,6,8});
-        System.out.println(m.hessianStr);
+        MoleculeRunRestricted m = new MoleculeRunRestricted(exp, 0, exp1, datum, true, "a", new int[]{1,6,8});
+        System.out.println(m.totalHeatDeriv);
 
         g = new ParamGradientRestricted((NDDOSolutionRestricted) opt.s, "a", datum, (NDDOSolutionRestricted) expsoln, true);
 //        g = new ParamGradientUnrestricted2((NDDOSolutionUnrestricted) opt.s, "a", datum, (NDDOSolutionUnrestricted) expsoln, false);
