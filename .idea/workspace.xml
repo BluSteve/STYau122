@@ -32,11 +32,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/runcycle/MoleculeRun.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/runcycle/MoleculeRun.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientAnalytical.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientAnalytical.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientRestricted.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientUnrestricted2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientUnrestricted2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianAnalytical.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianAnalytical.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -443,13 +442,6 @@
       <workItem from="1625978132443" duration="10119000" />
       <workItem from="1626050017371" duration="3181000" />
     </task>
-    <task id="LOCAL-00004" summary="Optimize .gitignore">
-      <created>1606301141810</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1606301141810</updated>
-    </task>
     <task id="LOCAL-00005" summary="Optimize .gitignore further">
       <created>1606301422462</created>
       <option name="number" value="00005" />
@@ -786,7 +778,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626084499386</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="MoleculeRun working now + depadding">
+      <created>1626085467252</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1626085467252</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -854,7 +853,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Necessary ERI and overlap integral derivatives for 2nd-derivative evaluation. No core-repulsion function." />
     <MESSAGE value="2nd-derivative evaluation (inefficient). No core-repulsion function." />
     <MESSAGE value="Implemented second-derivative methods for UHF. Still no CRF second derivatives." />
     <MESSAGE value="Some part of the response-vector formalism. Incomplete." />
@@ -879,7 +877,8 @@
     <MESSAGE value="Major refactors" />
     <MESSAGE value="MoleculeRun running now" />
     <MESSAGE value="MoleculeRun working now" />
-    <option name="LAST_COMMIT_MESSAGE" value="MoleculeRun working now" />
+    <MESSAGE value="MoleculeRun working now + depadding" />
+    <option name="LAST_COMMIT_MESSAGE" value="MoleculeRun working now + depadding" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

@@ -14,14 +14,6 @@ public abstract class ParamGradientAnalytical implements ErrorGettable {
     protected DoubleMatrix[][][] staticDerivs;
     protected static final double LAMBDA = 1E-7;
 
-    public boolean isAnalytical() {
-        return analytical;
-    }
-
-    public void setAnalytical(boolean analytical) {
-        this.analytical = analytical;
-    }
-
     public ParamGradientAnalytical(NDDOSolution s, String kind, double[] datum, NDDOSolution sExp, boolean analytical) {
         this.s = s;
         this.kind = kind;
@@ -50,36 +42,28 @@ public abstract class ParamGradientAnalytical implements ErrorGettable {
                 HFDerivs = new double[s.getUniqueZs().length][NDDOSolution.maxParamNum];
                 IEDerivs = new double[s.getUniqueZs().length][NDDOSolution.maxParamNum];
 
-                if (this.analytical) {
-                    densityDerivs = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
-                    staticDerivs = new DoubleMatrix[s.getUniqueZs().length][2][NDDOSolution.maxParamNum];
-                    xLimited = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
-
-                    xComplementary = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
-                    xForIE = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
-                    coeffDerivs = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
-                    responseDerivs = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
-                    fockDerivs = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
-                }
+                if (analytical) initializeIntermediates();
                 break;
             case "d":
                 HFDerivs = new double[s.getUniqueZs().length][NDDOSolution.maxParamNum];
                 dipoleDerivs = new double[s.getUniqueZs().length][NDDOSolution.maxParamNum];
                 IEDerivs = new double[s.getUniqueZs().length][NDDOSolution.maxParamNum];
 
-                if (this.analytical) {
-                    densityDerivs = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
-                    staticDerivs = new DoubleMatrix[s.getUniqueZs().length][2][NDDOSolution.maxParamNum];
-                    xLimited = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
-
-                    xComplementary = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
-                    xForIE = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
-                    coeffDerivs = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
-                    responseDerivs = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
-                    fockDerivs = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
-                }
+                if (analytical) initializeIntermediates();
                 break;
         }
+    }
+
+    private void initializeIntermediates() {
+        densityDerivs = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
+        staticDerivs = new DoubleMatrix[s.getUniqueZs().length][2][NDDOSolution.maxParamNum];
+        xLimited = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
+
+        xComplementary = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
+        xForIE = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
+        coeffDerivs = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
+        responseDerivs = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
+        fockDerivs = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
     }
 
     public void computeGradient() {
@@ -163,13 +147,25 @@ public abstract class ParamGradientAnalytical implements ErrorGettable {
         return geomDerivs;
     }
 
+    public double[][] getTotalGradients() {
+        return totalGradients;
+    }
+
+    public boolean isAnalytical() {
+        return analytical;
+    }
+
+    public void setAnalytical(boolean analytical) {
+        this.analytical = analytical;
+    }
+
     public double[][] depad(double[][] derivs) {
         double[][] res = new double[derivs.length][0];
         for (int i = 0; i < derivs.length; i++) {
             double[] depadded = new double[s.getNeededParams()[s.getUniqueZs()[i]].length];
             int u = 0;
             for (int j = 0; j < derivs[i].length; j++) {
-                for (int p: s.getNeededParams()[s.getUniqueZs()[i]]) {
+                for (int p : s.getNeededParams()[s.getUniqueZs()[i]]) {
                     if (j == p) {
                         depadded[u] = derivs[i][j];
                         u++;
@@ -180,10 +176,6 @@ public abstract class ParamGradientAnalytical implements ErrorGettable {
             res[i] = depadded;
         }
         return res;
-    }
-
-    public double[][] getTotalGradients() {
-        return totalGradients;
     }
 
     public double getAnalyticalError() {

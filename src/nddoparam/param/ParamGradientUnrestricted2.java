@@ -27,12 +27,6 @@ public class ParamGradientUnrestricted2 extends ParamGradientAnalytical {
     }
 
     @Override
-    protected void constructSPrime(int ZI, int paramNum) {
-        sPrime = new NDDOSolutionUnrestricted(Utils.perturbAtomParams(s.atoms, s.getUniqueZs()[ZI], paramNum), s.charge,
-                s.multiplicity);
-    }
-
-    @Override
     protected void computeBatchedDerivs(int firstZIndex, int firstParamIndex) {
         System.err.println(errorMessage);
     }
@@ -66,6 +60,12 @@ public class ParamGradientUnrestricted2 extends ParamGradientAnalytical {
             IEDerivs[ZI][paramNum] = -(sPrime.homo - s.homo) / Utils.LAMBDA;
         }
         totalGradients[ZI][paramNum] += 200 * -(s.homo + datum[2]) * IEDerivs[ZI][paramNum];
+    }
+
+    @Override
+    protected void constructSPrime(int ZI, int paramNum) {
+        sPrime = new NDDOSolutionUnrestricted(Utils.perturbAtomParams(s.atoms, s.getUniqueZs()[ZI], paramNum), s.charge,
+                s.multiplicity);
     }
 
     @Override

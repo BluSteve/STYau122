@@ -32,11 +32,6 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
         }
     }
 
-    @Override
-    protected void constructSPrime(int ZI, int paramNum) {
-        sPrime = new NDDOSolutionRestricted(Utils.perturbAtomParams(s.atoms, s.getUniqueZs()[ZI], paramNum), s.charge);
-    }
-
     // Compiles all necessary fock matrices into one array before using the Pople algorithm, for faster computation.
     // This function is the only thing that's not computed on a Z, paramNum level.
     // Will not compute anything before the firstZIndex and the firstParamIndex.
@@ -120,6 +115,11 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
             IEDerivs[ZI][paramNum] = -(sPrime.homo - s.homo) / Utils.LAMBDA;
         }
         totalGradients[ZI][paramNum] += 200 * -(s.homo + datum[2]) * IEDerivs[ZI][paramNum];
+    }
+
+    @Override
+    protected void constructSPrime(int ZI, int paramNum) {
+        sPrime = new NDDOSolutionRestricted(Utils.perturbAtomParams(s.atoms, s.getUniqueZs()[ZI], paramNum), s.charge);
     }
 
     @Override

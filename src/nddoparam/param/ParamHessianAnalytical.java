@@ -13,14 +13,6 @@ public abstract class ParamHessianAnalytical implements ErrorGettable {
     protected double[][] hessian;
     protected boolean analytical;
 
-    public void setAnalytical(boolean analytical) {
-        this.analytical = analytical;
-    }
-
-    public boolean isAnalytical() {
-        return analytical;
-    }
-
     public ParamHessianAnalytical(NDDOSolution s, String kind, double[] datum, NDDOSolution sExp, boolean analytical) {
         this.s = s;
         this.kind = kind;
@@ -152,5 +144,13 @@ public abstract class ParamHessianAnalytical implements ErrorGettable {
     @Override
     public ParamErrorFunction getE() {
         return g.getE();
+    }
+
+    public void setAnalytical(boolean analytical) {
+        this.analytical = analytical;
+    }
+
+    public boolean isAnalytical() {
+        return analytical;
     }
 }
