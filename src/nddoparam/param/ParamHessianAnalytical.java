@@ -3,6 +3,10 @@ package nddoparam.param;
 import nddoparam.NDDOSolution;
 import scf.Utils;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 public abstract class ParamHessianAnalytical implements ErrorGettable {
     protected ParamGradientAnalytical g, gPrime;
     protected NDDOSolution s, sExp;
@@ -25,17 +29,19 @@ public abstract class ParamHessianAnalytical implements ErrorGettable {
         this.datum = datum;
         this.sExp = sExp;
         this.analytical = true;
-        hessian = new double[s.getUniqueZs().length * NDDOSolution.maxParamNum]
-                [s.getUniqueZs().length * NDDOSolution.maxParamNum];
     }
 
     protected void computeHessian() {
+        hessian = new double[s.getUniqueZs().length * NDDOSolution.maxParamNum]
+                [s.getUniqueZs().length * NDDOSolution.maxParamNum];
         for (int ZIndex2 = 0; ZIndex2 < s.getUniqueZs().length; ZIndex2++) {
             for (int paramNum2 : s.getNeededParams()[s.getUniqueZs()[ZIndex2]]) {
                 constructGPrime(ZIndex2, paramNum2);
                 gPrime.setAnalytical(analytical);
                 if (kind.equals("b") || kind.equals("c") || kind.equals("d"))
                     gPrime.computeBatchedDerivs(ZIndex2, paramNum2);
+
+
                 boolean needed;
                 for (int ZIndex1 = ZIndex2; ZIndex1 < s.getUniqueZs().length; ZIndex1++) {
                     for (int paramNum1 = paramNum2; paramNum1 < NDDOSolution.maxParamNum; paramNum1++) {
@@ -120,7 +126,7 @@ public abstract class ParamHessianAnalytical implements ErrorGettable {
             }
             for (int j = i; j < unpadded.length; j++) {
 //                    System.out.println(p + " " + j);
-                    hessianUT[p + j - i] = unpadded[i][j];
+                hessianUT[p + j - i] = unpadded[i][j];
             }
         }
         return hessianUT;
@@ -128,6 +134,23 @@ public abstract class ParamHessianAnalytical implements ErrorGettable {
 
     public double[][] getHessian() {
         return hessian;
+    }
+
+    // Gets the mse between analytical and finite difference.
+    public double getAnalyticalError() {
+        this.computeHessian();
+        double[] a = getHessianUT().clone();
+        double[][] b = new double[hessian.length][0];
+        for (int i = 0; i < hessian.length; i++) b[i] = hessian[i].clone();
+
+        analytical = !analytical;
+        this.computeHessian();
+        double sum = IntStream.range(0, a.length)
+                .mapToDouble(i -> (a[i] - getHessianUT()[i]) * (a[i] - getHessianUT()[i]))
+                .sum();
+        analytical = !analytical;
+        hessian = b;
+        return sum;
     }
 
     @Override

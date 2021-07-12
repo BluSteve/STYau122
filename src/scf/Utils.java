@@ -24,9 +24,9 @@ public class Utils {
         NDDOAtom[] perturbed = new NDDOAtom[atoms.length];
         try {
             Class<? extends NDDOAtom> c = atoms[0].getClass();
-            Constructor ctor = c.getDeclaredConstructor(c, atoms[0].getParams().getClass());
+            Constructor<? extends NDDOAtom> ctor = c.getDeclaredConstructor(c, atoms[0].getParams().getClass());
             ctor.setAccessible(true);
-            Constructor ctor2 = c.getDeclaredConstructor(c);
+            Constructor<? extends NDDOAtom> ctor2 = c.getDeclaredConstructor(c);
             ctor2.setAccessible(true);
             for (int i = 0; i < atoms.length; i++) {
                 if (atoms[i].getAtomProperties().getZ() == Z) {

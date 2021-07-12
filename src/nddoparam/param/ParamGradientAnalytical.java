@@ -3,6 +3,8 @@ package nddoparam.param;
 import nddoparam.NDDOSolution;
 import org.jblas.DoubleMatrix;
 
+import java.util.stream.IntStream;
+
 public abstract class ParamGradientAnalytical implements ErrorGettable {
     protected NDDOSolution s, sPrime, sExpPrime, sExp;
     protected ParamErrorFunction e;
@@ -30,7 +32,7 @@ public abstract class ParamGradientAnalytical implements ErrorGettable {
         this.sExp = sExp;
         this.analytical = true;
 
-        geomDerivs = new double[s.getUniqueZs().length][NDDOSolution.maxParamNum];
+        if (isExpAvail) geomDerivs = new double[s.getUniqueZs().length][NDDOSolution.maxParamNum];
         totalGradients = new double[s.getUniqueZs().length][NDDOSolution.maxParamNum];
         switch (kind) {
             case "a":
@@ -83,6 +85,7 @@ public abstract class ParamGradientAnalytical implements ErrorGettable {
     }
 
     public void computeDerivs() {
+        totalGradients = new double[s.getUniqueZs().length][NDDOSolution.maxParamNum];
         if (analytical && (kind.equals("b") || kind.equals("c") || kind.equals("d")))
             computeBatchedDerivs(0, 0);
         for (int Z = 0; Z < s.getUniqueZs().length; Z++) {
@@ -147,5 +150,22 @@ public abstract class ParamGradientAnalytical implements ErrorGettable {
 
     public double[][] getTotalGradients() {
         return totalGradients;
+    }
+
+    public double getAnalyticalError() {
+        this.computeDerivs();
+        double[][] a = new double[totalGradients.length][0];
+        for (int i = 0; i < totalGradients.length; i++) a[i] = totalGradients[i].clone();
+        analytical = !analytical;
+        this.computeDerivs();
+        double sum = 0;
+        for (int i = 0; i < totalGradients.length; i++) {
+            for (int j = 0; j < totalGradients[0].length; j++){
+                sum += (totalGradients[i][j] - a[i][j]) * (totalGradients[i][j] - a[i][j]);
+            }
+        }
+        analytical = !analytical;
+        totalGradients = a;
+        return sum;
     }
 }

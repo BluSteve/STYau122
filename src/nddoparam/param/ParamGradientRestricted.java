@@ -161,7 +161,7 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
                 new MNDOAtom(AtomHandler.atomsMap.get("H"), new double[]{-0.6304 * Utils.bohr, 0.6304 * Utils.bohr, -0.6304 * Utils.bohr}, h),
                 new MNDOAtom(AtomHandler.atomsMap.get("C"), new double[]{0, 0, 0}, c)};
 //        NDDOSolution expsoln = new NDDOSolutionUnrestricted(exp, 0,1 );
-        NDDOSolution expsoln = new NDDOSolutionRestricted(exp, 0 );
+        NDDOSolution expsoln = new NDDOSolutionRestricted(exp, 0);
         double[] datum = new double[]{365.7, 0, 0};
         NDDOGeometryOptimizationRestricted opt = new NDDOGeometryOptimizationRestricted(exp1, 0);
 
@@ -197,7 +197,7 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
 //            sw.reset();
 //        }
         sw.start();
-        g = new ParamGradientRestricted((NDDOSolutionRestricted) opt.s, "d", datum, (NDDOSolutionRestricted) expsoln);
+        g = new ParamGradientRestricted((NDDOSolutionRestricted) opt.s, "a", datum, null);
 //        g = new ParamGradientUnrestricted2((NDDOSolutionUnrestricted) opt.s, "d", datum, (NDDOSolutionUnrestricted) expsoln, false);
         g.computeDerivs();
 
@@ -207,16 +207,32 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
         System.out.println("Test Dipole (D) Derivs: " + Arrays.deepToString(g.getDipoleDerivs()));
         System.out.println("Test IE (D) Derivs: " + Arrays.deepToString(g.getIEDerivs()));
         System.out.println("Test Total (D) Derivs: " + Arrays.deepToString(g.getTotalGradients()));
+        g.setAnalytical(false);
+        g.computeDerivs();
+        System.out.println("Test HF (D) Derivs: " + Arrays.deepToString(g.getHFDerivs()));
+        System.out.println("Test Dipole (D) Derivs: " + Arrays.deepToString(g.getDipoleDerivs()));
+        System.out.println("Test IE (D) Derivs: " + Arrays.deepToString(g.getIEDerivs()));
+        System.out.println("Test Total (D) Derivs: " + Arrays.deepToString(g.getTotalGradients()));
+        System.out.println(g.getAnalyticalError());
 
         sw.reset();
         sw.start();
         ParamHessianRestricted hessian = new ParamHessianRestricted((NDDOSolutionRestricted) opt.s, "a", datum, null);
+        ParamHessianRestricted hessian2 = new ParamHessianRestricted((NDDOSolutionRestricted) opt.s, "a", datum, null);
         hessian.setAnalytical(true);
         hessian.computeHessian();
 //        ParamHessianUnrestricted2 hessian = new ParamHessianUnrestricted2((NDDOSolutionUnrestricted) opt.s, "b", datum, (NDDOSolutionUnrestricted) expsoln);
 //        hessian.computeHessian();
         sw.stop();
         System.out.println("Hessian time taken: " + sw.getTime());
+//        System.out.println("Test Hessian: " + Arrays.deepToString(hessian.getHessianUnpadded()));
+
+
+        hessian2.setAnalytical(false);
+        hessian2.computeHessian();
+        System.out.println(hessian.getAnalyticalError());
         System.out.println("Test Hessian: " + Arrays.toString(hessian.getHessianUT()));
+        System.out.println("Test Hessian: " + Arrays.toString(hessian2.getHessianUT()));
+
     }
 }
