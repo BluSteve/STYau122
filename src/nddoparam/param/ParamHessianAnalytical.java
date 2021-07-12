@@ -38,6 +38,7 @@ public abstract class ParamHessianAnalytical implements ErrorGettable {
 
 
                         if (needed) {
+//                            gPrime.constructSPrime(ZIndex1, paramNum1);
                             switch (kind) {
                                 case "a":
                                     gPrime.computeHFDeriv(ZIndex1, paramNum1);

@@ -58,7 +58,7 @@ public class ParamGradientUnrestricted2 extends ParamGradientAnalytical {
         } else {
             IEDerivs[ZI][paramNum] = -(sPrime.homo - s.homo) / Utils.LAMBDA;
         }
-        totalGradients[ZI][paramNum] += 200 * (s.homo + datum[2]) * IEDerivs[ZI][paramNum];
+        totalGradients[ZI][paramNum] += 200 * -(s.homo + datum[2]) * IEDerivs[ZI][paramNum];
     }
 
     @Override
@@ -75,6 +75,6 @@ public class ParamGradientUnrestricted2 extends ParamGradientAnalytical {
         }
         double geomGradient = 627.5 * Math.sqrt(sum);
         geomDerivs[ZI][paramNum] = 1 / LAMBDA * (geomGradient - e.geomGradient);
-        totalGradients[ZI][paramNum] += 0.000049 * e.geomGradient * geomDerivs[ZI][paramNum];
+        totalGradients[ZI][paramNum] += 0.000098 * e.geomGradient * geomDerivs[ZI][paramNum];
     }
 }

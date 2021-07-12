@@ -115,7 +115,7 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
         } else {
             IEDerivs[ZI][paramNum] = -(sPrime.homo - s.homo) / Utils.LAMBDA;
         }
-        totalGradients[ZI][paramNum] += 200 * (s.homo + datum[2]) * IEDerivs[ZI][paramNum];
+        totalGradients[ZI][paramNum] += 200 * -(s.homo + datum[2]) * IEDerivs[ZI][paramNum];
     }
 
     @Override
@@ -132,7 +132,7 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
         }
         double geomGradient = 627.5 * Math.sqrt(sum);
         geomDerivs[Z][paramNum] = 1 / LAMBDA * (geomGradient - e.geomGradient);
-        totalGradients[Z][paramNum] += 0.000049 * e.geomGradient * geomDerivs[Z][paramNum];
+        totalGradients[Z][paramNum] += 0.000098 * e.geomGradient * geomDerivs[Z][paramNum];
     }
 
     public static void main(String[] args) {
@@ -166,7 +166,7 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
         NDDOGeometryOptimizationRestricted opt = new NDDOGeometryOptimizationRestricted(exp1, 0);
 
 //        NDDOGeometryOptimizationUnrestricted opt = new NDDOGeometryOptimizationUnrestricted(exp1, 0, 1);
-        ParamGradientUnrestricted2 g;
+        ParamGradientRestricted g;
 
 //        g = new ParamGradientRestricted((NDDOSolutionRestricted) opt.s, "a", datum, (NDDOSolutionRestricted) expsoln, false);
 //        g = new ParamGradientUnrestricted2((NDDOSolutionUnrestricted) opt.s, "a", datum, (NDDOSolutionUnrestricted) expsoln, false);
@@ -196,17 +196,17 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
 //            time += sw.getTime();
 //            sw.reset();
 //        }
-//        sw.start();
-////        g = new ParamGradientRestricted((NDDOSolutionRestricted) opt.s, "d", datum, (NDDOSolutionRestricted) expsoln, false);
+        sw.start();
+        g = new ParamGradientRestricted((NDDOSolutionRestricted) opt.s, "d", datum, (NDDOSolutionRestricted) expsoln, true);
 //        g = new ParamGradientUnrestricted2((NDDOSolutionUnrestricted) opt.s, "d", datum, (NDDOSolutionUnrestricted) expsoln, false);
-//        g.computeDerivs();
-//
-//        sw.stop();
-//        System.out.println("D Time taken: " + sw.getTime());
-//        System.out.println("Test HF (D) Derivs: " + Arrays.deepToString(g.getHFDerivs()));
-//        System.out.println("Test Dipole (D) Derivs: " + Arrays.deepToString(g.getDipoleDerivs()));
-//        System.out.println("Test IE (D) Derivs: " + Arrays.deepToString(g.getIEDerivs()));
-//        System.out.println("Test Total (D) Derivs: " + Arrays.deepToString(g.getTotalGradients()));
+        g.computeDerivs();
+
+        sw.stop();
+        System.out.println("D Time taken: " + sw.getTime());
+        System.out.println("Test HF (D) Derivs: " + Arrays.deepToString(g.getHFDerivs()));
+        System.out.println("Test Dipole (D) Derivs: " + Arrays.deepToString(g.getDipoleDerivs()));
+        System.out.println("Test IE (D) Derivs: " + Arrays.deepToString(g.getIEDerivs()));
+        System.out.println("Test Total (D) Derivs: " + Arrays.deepToString(g.getTotalGradients()));
 
         sw.reset();
         sw.start();
