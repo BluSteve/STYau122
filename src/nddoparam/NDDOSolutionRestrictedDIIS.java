@@ -1,13 +1,14 @@
 package nddoparam;
 
-import org.apache.commons.lang3.time.StopWatch;
 import org.jblas.DoubleMatrix;
 import org.jblas.Eigen;
+import org.jblas.Solve;
+import org.apache.commons.lang3.time.StopWatch;
 
 import java.util.Arrays;
 
 
-public class NDDOSolutionRestricted extends NDDOSolution {
+public class NDDOSolutionRestrictedDIIS extends NDDOSolution {
 
     private DoubleMatrix densityMatrix;
 
@@ -15,14 +16,13 @@ public class NDDOSolutionRestricted extends NDDOSolution {
 
     public DoubleMatrix C, F, G, E;//H - core matrix, G = 2-electron matrix, F = fock matrix, C = coeffecient matrix (transposed for easier reading), E = eigenvalues
 
-    public NDDOSolutionRestricted(NDDOAtom[] atoms, int charge) {
-
-
+    public NDDOSolutionRestrictedDIIS(NDDOAtom[] atoms, int charge) {
         super(atoms, charge);
 
         StopWatch sw = new StopWatch();
 
         sw.start();
+
         int size = 0;
         for (int j = 0; j < orbitals.length; j++) {
             for (int k = j; k < orbitals.length; k++) {
@@ -147,12 +147,20 @@ public class NDDOSolutionRestricted extends NDDOSolution {
 
         F = H.dup();
 
+        DoubleMatrix[] Farray = new DoubleMatrix[8];
+        DoubleMatrix[] Darray = new DoubleMatrix[8];
+        DoubleMatrix[] commutatorarray = new DoubleMatrix[8];
+
+        DoubleMatrix B = DoubleMatrix.zeros (8, 8);
+
 
         int numIt = 0;
-        boolean unstable = false;
-        while (!isSimilar(densityMatrix, olddensity, 1E-10)) {//density matrix convergence criteria; since each iteration takes place within a fraction of a second I figured why not
 
-            numIt++;
+        double DIISError = 10;
+        while (DIISError > 1E-10) {//density matrix convergence criteria; since each iteration takes place within a fraction of a second I figured why not
+
+
+
             olddensity = densityMatrix.dup();
 
             integralcount = 0;
@@ -221,59 +229,139 @@ public class NDDOSolutionRestricted extends NDDOSolution {
 
             F = H.dup().add(G);
 
+            if (numIt < Farray.length) {
 
-            matrices = Eigen.symmetricEigenvectors(F);
+                Farray[numIt] = F.dup();
 
-            E = matrices[1].diag();
+                Darray[numIt] = densityMatrix.dup();
+                commutatorarray[numIt] = commutator(F.dup(), densityMatrix.dup());
+                DIISError = commutatorarray[numIt].norm2();
+
+                for (int i = 0; i <= numIt; i++) {
+
+                    double product = (commutatorarray[numIt].mmul(commutatorarray[i].transpose())).diag().sum();
+                    B.put(i, numIt, product);
+                    B.put(numIt, i, product);
+                }
+            }
+            else {
+
+                for (int i = 0; i < Farray.length - 1; i++) {
+
+                    Farray[i] = Farray[i+1].dup();
+                    Darray[i] = Darray[i+1].dup();
+                    commutatorarray[i] = commutatorarray[i+1].dup();
+                }
+
+                Farray[Farray.length - 1] = F.dup();
+                Darray[Darray.length - 1] = densityMatrix.dup();
+                commutatorarray[Darray.length - 1] = commutator(F.dup(), densityMatrix.dup());
+                DIISError = commutatorarray[Darray.length - 1].norm2();
+
+                DoubleMatrix newB = DoubleMatrix.zeros (8, 8);
+
+                for (int i = 0; i < Farray.length - 1; i++) {
+                    for (int j = i; j < Farray.length - 1; j++) {
+                        newB.put(i, j, B.get(i + 1, j + 1));
+                        newB.put(j, i , B.get(i + 1, j + 1));
+                    }
+                }
+
+                for (int i = 0; i < Farray.length; i++) {
+
+                    double product = commutatorarray[Farray.length - 1].transpose().mmul(commutatorarray[i]).diag().sum();
+                    newB.put(i, Farray.length - 1, product);
+                    newB.put(Farray.length - 1, i, product);
+                }
+
+                B = newB.dup();
+            }
 
 
-            //if (unstable) System.err.println (E);
+            if (commutatorarray[Math.min(Farray.length - 1, numIt)].max() < 0.1) {
 
-            C = matrices[0].transpose();
+                DoubleMatrix mat = DoubleMatrix.zeros (Math.min(Farray.length + 1, numIt + 2), Math.min(Farray.length + 1, numIt + 2));
 
-            densityMatrix = calculateDensityMatrix(C).mmul(1 - damp).add(olddensity.mmul(damp));
+                for (int i = 0; i < Math.min(Farray.length, numIt + 1); i++) {
+                    for (int j = i; j < Math.min(Farray.length, numIt + 1); j++) {
+                        mat.put(i, j, B.get(i, j));
+                        mat.put(j, i, B.get(i, j));
 
-            //System.out.println (densitymatrix);
+                    }
+                }
 
-            if (numIt >= 1000000) {
-                unstable = true;
-                System.err.println("SCF Has Not Converged for molecule " + moleculeName);
 
-                System.err.println("Damping Coefficient will be Increased, and the run restarted...");
 
-                damp += 0.02;
+                mat.putColumn(mat.columns - 1, DoubleMatrix.ones(mat.rows, 1));
 
-                matrices = Eigen.symmetricEigenvectors(H);
+                mat.putRow(mat.rows - 1, DoubleMatrix.ones(mat.columns, 1));
 
+                mat.put(mat.rows - 1, mat.columns - 1, 0);
+
+                DoubleMatrix rhs = DoubleMatrix.zeros (mat.rows, 1);
+
+                rhs.put(mat.rows - 1, 0, 1);
+
+                try {
+                    DoubleMatrix DIIS = Solve.solve(mat, rhs);
+
+                    DoubleMatrix F = DoubleMatrix.zeros (densityMatrix.rows, densityMatrix.columns);
+
+
+
+                    for (int i = 0; i < DIIS.length - 1; i++) {
+                        F = F.add (Farray[i].mmul(DIIS.get(i)));
+                    }
+
+
+                    this.F = F.dup();
+
+
+                    matrices = Eigen.symmetricEigenvectors(F);
+
+                    E = matrices[1].diag();
+
+                    C = matrices[0].transpose();
+
+                    densityMatrix = calculateDensityMatrix(C);
+                }
+                catch (Exception e) {
+                    matrices = Eigen.symmetricEigenvectors(F);
+
+                    E = matrices[1].diag();
+
+                    C = matrices[0].transpose();
+
+                    densityMatrix = calculateDensityMatrix(C).mmul(1 - damp).add(olddensity.mmul(damp));
+                }
+
+
+            }
+            else {
+
+                matrices = Eigen.symmetricEigenvectors(F);
 
                 E = matrices[1].diag();
 
                 C = matrices[0].transpose();
 
-                G = DoubleMatrix.zeros(C.rows, C.columns);
+                densityMatrix = calculateDensityMatrix(C).mmul(1 - damp).add(olddensity.mmul(damp));
 
-                densityMatrix = calculateDensityMatrix(C);
-
-                numIt = 0;
-
-                if (damp >= 1) {
-                    System.err.println("Damping Coefficient Cannot Be Increased Further. Exiting program...");
-
-                    for (NDDOAtom a : atoms) {
-                        System.out.println(a.getAtomProperties().getZ() + "; " + Arrays.toString(a.getCoordinates()));
-                    }
-                    System.exit(0);
-
-                }
             }
+
+
+            numIt++;
+
+            //System.err.println ("DIIS Error: " + DIISError);
 
         }
 
+
+
+
         System.out.println(moleculeName + " SCF completed: " + numIt + " iterations used");
 
-        sw.stop();
-
-        System.err.println ("non-DIIS took: " + sw.getTime());
+        System.err.println ("DIIS took: " + sw.getTime());
 
         double e = 0;
 
@@ -382,27 +470,6 @@ public class NDDOSolutionRestricted extends NDDOSolution {
 
         dipole = Math.sqrt(dipoletot[0] * dipoletot[0] + dipoletot[1] * dipoletot[1] + dipoletot[2] * dipoletot[2]);
 
-        NDDOSolutionRestrictedDIIS test = new NDDOSolutionRestrictedDIIS(atoms, charge);
-
-        if (!isSimilar(test.densityMatrix(), this.densityMatrix, 1E-8)) {
-            System.err.println ("DIIS doesnt work");
-            System.exit(0);
-        }
-
-        NDDOSolutionRestrictedEDIIS test2 = new NDDOSolutionRestrictedEDIIS(atoms, charge);
-
-        if (!isSimilar(test2.densityMatrix(), this.densityMatrix, 1E-8)) {
-            System.err.println ("E-DIIS doesnt work");
-            System.exit(0);
-        }
-
-        NDDOSolutionRestrictedDIISFinal test3 = new NDDOSolutionRestrictedDIISFinal (atoms, charge);
-
-        if (!isSimilar(test3.densityMatrix(), this.densityMatrix, 1E-8)) {
-            System.err.println ("combination algorithm doesn't work");
-            System.exit(0);
-        }
-
 
     }
 
@@ -500,6 +567,11 @@ public class NDDOSolutionRestricted extends NDDOSolution {
             }
         }
         return densityMatrix;
+    }
+
+    private static DoubleMatrix commutator (DoubleMatrix F, DoubleMatrix D) {
+
+        return F.mmul(D).sub(D.mmul(F));
     }
 
 
