@@ -32,8 +32,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/remote-targets.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mndo-install.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mndooutput.txt" beforeDir="false" afterPath="$PROJECT_DIR$/mndooutput.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -295,7 +296,7 @@
       <recent name="nddoparam.param" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.ParamGradientRestricted">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="AtomHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="adopt-openjdk-11" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -313,9 +314,9 @@
     </configuration>
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="adopt-openjdk-11" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="MNDOParam" />
+      <target name="steve@192.168.31.153:22" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -335,10 +336,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SMP2020.jar" type="JarApplication" temporary="true">
-      <option name="JAR_PATH" value="$PROJECT_DIR$/out/artifacts/SMP2020_jar/SMP2020.jar" />
-      <method v="2" />
-    </configuration>
     <configuration default="true" type="JetRunConfigurationType">
       <module name="MNDOParam" />
       <method v="2">
@@ -356,14 +353,12 @@
       <item itemvalue="Application.Main" />
       <item itemvalue="Application.AtomHandler" />
       <item itemvalue="Application.ParamGradientRestricted" />
-      <item itemvalue="JAR Application.SMP2020.jar" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.ParamGradientRestricted" />
         <item itemvalue="Application.Main" />
+        <item itemvalue="Application.ParamGradientRestricted" />
         <item itemvalue="Application.AtomHandler" />
-        <item itemvalue="JAR Application.SMP2020.jar" />
         <item itemvalue="JAR Application.SMP2020.jar" />
       </list>
     </recent_temporary>
@@ -453,14 +448,7 @@
       <workItem from="1626103288284" duration="1063000" />
       <workItem from="1626104377048" duration="262000" />
       <workItem from="1626104655028" duration="1024000" />
-      <workItem from="1626105704860" duration="44000" />
-    </task>
-    <task id="LOCAL-00014" summary="Finish optimizing MNDOParam">
-      <created>1608541932177</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1608541932177</updated>
+      <workItem from="1626105704860" duration="1233000" />
     </task>
     <task id="LOCAL-00015" summary="Minor improvements in MNDOSolution">
       <created>1608557309624</created>
@@ -798,7 +786,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626105678179</updated>
     </task>
-    <option name="localTasksCounter" value="63" />
+    <task id="LOCAL-00063" summary="Minor Changes">
+      <created>1626105911984</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1626105911984</updated>
+    </task>
+    <option name="localTasksCounter" value="64" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -866,7 +861,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Further S factor geometry optimization" />
     <MESSAGE value="Even further S factor geometry optimization" />
     <MESSAGE value="Even even further S factor geometry optimization" />
     <MESSAGE value="Refactor T1 and T2 params to MNDOParams" />
@@ -891,7 +885,8 @@
     <MESSAGE value="Downgrade to JDK 11" />
     <MESSAGE value="Minor changes" />
     <MESSAGE value="Git changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Git changes" />
+    <MESSAGE value="Minor Changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor Changes" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
