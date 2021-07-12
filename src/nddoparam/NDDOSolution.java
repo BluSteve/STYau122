@@ -28,6 +28,14 @@ public abstract class NDDOSolution {
     public int[] atomicNumbers;
     private final int[] uniqueZs; // NOT THE SAME AS ATOMTYPES, THIS ONE IS JUST FOR THIS MOLECULE
 
+    public static int[][] getNeededParams() {
+        return neededParams;
+    }
+
+    public int[] getUniqueZs() {
+        return uniqueZs;
+    }
+
     public NDDOSolution(NDDOAtom[] atoms, int charge) {
         // TODO move this to MoleculeRun
         StringBuilder nameBuilder = new StringBuilder();
@@ -158,15 +166,6 @@ public abstract class NDDOSolution {
             }
         }
         return true;
-    }
-
-    // Gets the taus that this particular NDDOSolution object requires
-    public int[][] getNeededParams() {
-        return neededParams;
-    }
-
-    public int[] getUniqueZs() {
-        return uniqueZs;
     }
 
     public abstract DoubleMatrix alphaDensity();
