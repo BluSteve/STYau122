@@ -31,8 +31,13 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientRestricted.java" afterDir="false" />
+    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="More scripts!">
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/MNDOParam_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations/blusteve.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mndo-update.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/remote-targets.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/remote-targets.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mndo-install.sh" beforeDir="false" afterPath="$PROJECT_DIR$/mndo-install.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -267,9 +272,9 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="create.test.in.the.same.root" value="true" />
     <property name="extract.method.default.visibility" value="private" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/blusteve.sh" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="SDKs" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
@@ -297,7 +302,7 @@
       <recent name="nddoparam.param" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.ParamGradientRestricted">
+  <component name="RunManager" selected="Shell Script.blusteve">
     <configuration name="AtomHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="adopt-openjdk-11" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -317,7 +322,7 @@
       <option name="ALTERNATIVE_JRE_PATH" value="adopt-openjdk-11" />
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="MNDOParam" />
-      <target name="steve@192.168.31.153:22" />
+      <projectPathOnTarget name="projectPathOnTarget" value="/home/steve/Downloads/MNDOParam" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -326,20 +331,17 @@
       <option name="ALTERNATIVE_JRE_PATH" value="adopt-openjdk-11" />
       <option name="MAIN_CLASS_NAME" value="nddoparam.param.ParamGradientRestricted" />
       <module name="MNDOParam" />
-      <target name="steve@192.168.31.153:22" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
+      <projectPathOnTarget name="projectPathOnTarget" value="/home/steve/Downloads/MNDOParam" />
+      <target name="steve@34.67.144.80:22" />
+      <method v="2" />
     </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="MNDOParam" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="MNDOParam" />
-      <option name="filePath" />
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -348,13 +350,13 @@
       <item itemvalue="Application.Main" />
       <item itemvalue="Application.AtomHandler" />
       <item itemvalue="Application.ParamGradientRestricted" />
+      <item itemvalue="Shell Script.blusteve" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.ParamGradientRestricted" />
         <item itemvalue="Application.Main" />
+        <item itemvalue="Application.ParamGradientRestricted" />
         <item itemvalue="Application.AtomHandler" />
-        <item itemvalue="JAR Application.SMP2020.jar" />
       </list>
     </recent_temporary>
   </component>
@@ -443,14 +445,8 @@
       <workItem from="1626103288284" duration="1063000" />
       <workItem from="1626104377048" duration="262000" />
       <workItem from="1626104655028" duration="1024000" />
-      <workItem from="1626105704860" duration="1358000" />
-    </task>
-    <task id="LOCAL-00016" summary="Working implementation of everything including AM1 classes">
-      <created>1609318234150</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1609318234150</updated>
+      <workItem from="1626105704860" duration="2751000" />
+      <workItem from="1626109327462" duration="2084000" />
     </task>
     <task id="LOCAL-00017" summary="Re-implement getGDerivFinite">
       <created>1609401468221</created>
@@ -788,7 +784,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626107696233</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL-00065" summary="Minor changes">
+      <created>1626107861222</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1626107861222</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -877,11 +880,11 @@
     <MESSAGE value="Merged NDDOSolution from mergelater" />
     <MESSAGE value="Merged DIIS and NDDOAtom from mergelater" />
     <MESSAGE value="Downgrade to JDK 11" />
-    <MESSAGE value="Minor changes" />
     <MESSAGE value="Git changes" />
     <MESSAGE value="Minor Changes" />
     <MESSAGE value="Shell script" />
-    <option name="LAST_COMMIT_MESSAGE" value="Shell script" />
+    <MESSAGE value="Minor changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor changes" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

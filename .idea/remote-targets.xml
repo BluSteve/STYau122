@@ -14,6 +14,18 @@
           </config>
         </ContributedStateBase>
       </target>
+      <target name="steve@34.67.144.80:22" type="ssh/sftp">
+        <config>
+          <option name="projectRootOnTarget" value="/home/steve/MNDOParam" />
+          <option name="serverName" value="steve@34.67.144.80:22 key" />
+        </config>
+        <ContributedStateBase type="JavaLanguageRuntime">
+          <config>
+            <option name="homePath" value="/home/steve/.jdks/jdk-11.0.11+9" />
+            <option name="javaVersionString" value="11" />
+          </config>
+        </ContributedStateBase>
+      </target>
     </targets>
   </component>
 </project>
