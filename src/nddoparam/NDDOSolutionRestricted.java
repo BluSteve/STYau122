@@ -377,27 +377,27 @@ public class NDDOSolutionRestricted extends NDDOSolution {
 
 
         dipole = Math.sqrt(dipoletot[0] * dipoletot[0] + dipoletot[1] * dipoletot[1] + dipoletot[2] * dipoletot[2]);
-
-        NDDOSolutionRestrictedDIIS test = new NDDOSolutionRestrictedDIIS(atoms, charge);
-
-        if (!isSimilar(test.densityMatrix(), this.densityMatrix, 1E-8)) {
-            System.err.println("DIIS doesnt work");
-            System.exit(0);
-        }
-
-        NDDOSolutionRestrictedEDIIS test2 = new NDDOSolutionRestrictedEDIIS(atoms, charge);
-
-        if (!isSimilar(test2.densityMatrix(), this.densityMatrix, 1E-8)) {
-            System.err.println("E-DIIS doesnt work");
-            System.exit(0);
-        }
-
-        NDDOSolutionRestrictedDIISFinal test3 = new NDDOSolutionRestrictedDIISFinal(atoms, charge);
-
-        if (!isSimilar(test3.densityMatrix(), this.densityMatrix, 1E-8)) {
-            System.err.println("combination algorithm doesn't work");
-            System.exit(0);
-        }
+//
+//        NDDOSolutionRestrictedDIIS test = new NDDOSolutionRestrictedDIIS(atoms, charge);
+//
+//        if (!isSimilar(test.densityMatrix(), this.densityMatrix, 1E-8)) {
+//            System.err.println("DIIS doesnt work");
+//            System.exit(0);
+//        }
+//
+//        NDDOSolutionRestrictedEDIIS test2 = new NDDOSolutionRestrictedEDIIS(atoms, charge);
+//
+//        if (!isSimilar(test2.densityMatrix(), this.densityMatrix, 1E-8)) {
+//            System.err.println("E-DIIS doesnt work");
+//            System.exit(0);
+//        }
+//
+//        NDDOSolutionRestrictedDIISFinal test3 = new NDDOSolutionRestrictedDIISFinal(atoms, charge);
+//
+//        if (!isSimilar(test3.densityMatrix(), this.densityMatrix, 1E-8)) {
+//            System.err.println("combination algorithm doesn't work");
+//            System.exit(0);
+//        }
 
 
     }

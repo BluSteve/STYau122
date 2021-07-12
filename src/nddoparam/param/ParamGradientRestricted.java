@@ -127,7 +127,7 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
 //        System.out.println("Test Hessian: " + Arrays.toString(hessian.getHessianUT()));
 //        System.out.println("Test Hessian: " + Arrays.toString(hessian2.getHessianUT()));
         double time = 0;
-        for (int x = 0; x < 100; x++) {
+        for (int x = 0; x < 1; x++) {
             sw.start();
 
             MoleculeRunRestricted m = new MoleculeRunRestricted(exp, 0, exp1, datum, true, "d", new int[]{1, 6});
@@ -136,7 +136,7 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
             sw.reset();
         }
 
-        System.out.println("MOLECULERUN TIME TAKEN: " + time / 100);
+        System.out.println("MOLECULERUN TIME TAKEN: " + time / 1);
 //        System.out.println(m.hessianStr);
     }
 

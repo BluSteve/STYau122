@@ -32,9 +32,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/remote-targets.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mndo-install.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientRestricted.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,8 +105,10 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/mndo-install.sh" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/Main.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/nddoparam/NDDOSolution.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/MNDOParam.iml" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/nddoparam/NDDOParams.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/nddoparam/NDDOSolutionRestricted.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/nddoparam/NDDOSecondDerivative.java" root0="FORCE_HIGHLIGHTING" />
@@ -277,6 +277,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Documents\Gitted CS Projects\MNDOParam" />
       <recent name="D:\Documents\Gitted CS Projects\MNDOParam\src\nddoparam" />
       <recent name="D:\Documents\Gitted CS Projects\MNDOParam\src\runcycle" />
       <recent name="D:\Documents\Gitted CS Projects\MNDOParam\src\nddoparam\param" />
@@ -296,7 +297,7 @@
       <recent name="nddoparam.param" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Application.ParamGradientRestricted">
     <configuration name="AtomHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="adopt-openjdk-11" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -323,15 +324,9 @@
     </configuration>
     <configuration name="ParamGradientRestricted" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="adopt-openjdk-11" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="nddoparam.param.ParamGradientRestricted" />
       <module name="MNDOParam" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="nddoparam.param.NDDOParamDerivative" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
+      <target name="steve@192.168.31.153:22" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -356,8 +351,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
         <item itemvalue="Application.ParamGradientRestricted" />
+        <item itemvalue="Application.Main" />
         <item itemvalue="Application.AtomHandler" />
         <item itemvalue="JAR Application.SMP2020.jar" />
       </list>
@@ -448,14 +443,7 @@
       <workItem from="1626103288284" duration="1063000" />
       <workItem from="1626104377048" duration="262000" />
       <workItem from="1626104655028" duration="1024000" />
-      <workItem from="1626105704860" duration="1233000" />
-    </task>
-    <task id="LOCAL-00015" summary="Minor improvements in MNDOSolution">
-      <created>1608557309624</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1608557309624</updated>
+      <workItem from="1626105704860" duration="1358000" />
     </task>
     <task id="LOCAL-00016" summary="Working implementation of everything including AM1 classes">
       <created>1609318234150</created>
@@ -793,7 +781,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626105911984</updated>
     </task>
-    <option name="localTasksCounter" value="64" />
+    <task id="LOCAL-00064" summary="Shell script">
+      <created>1626107696233</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1626107696233</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -861,7 +856,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Even further S factor geometry optimization" />
     <MESSAGE value="Even even further S factor geometry optimization" />
     <MESSAGE value="Refactor T1 and T2 params to MNDOParams" />
     <MESSAGE value="ParamGradient refactor" />
@@ -886,7 +880,8 @@
     <MESSAGE value="Minor changes" />
     <MESSAGE value="Git changes" />
     <MESSAGE value="Minor Changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Minor Changes" />
+    <MESSAGE value="Shell script" />
+    <option name="LAST_COMMIT_MESSAGE" value="Shell script" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
