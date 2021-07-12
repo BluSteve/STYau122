@@ -3,8 +3,6 @@ package nddoparam.param;
 import nddoparam.NDDOSolution;
 import scf.Utils;
 
-import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public abstract class ParamHessianAnalytical implements ErrorGettable {
@@ -23,24 +21,24 @@ public abstract class ParamHessianAnalytical implements ErrorGettable {
         return analytical;
     }
 
-    public ParamHessianAnalytical(NDDOSolution s, String kind, double[] datum, NDDOSolution sExp) {
+    public ParamHessianAnalytical(NDDOSolution s, String kind, double[] datum, NDDOSolution sExp, boolean analytical) {
         this.s = s;
         this.kind = kind;
         this.datum = datum;
         this.sExp = sExp;
-        this.analytical = true;
+        this.analytical = analytical;
     }
 
-    protected void computeHessian() {
+    public void computeHessian() {
         hessian = new double[s.getUniqueZs().length * NDDOSolution.maxParamNum]
                 [s.getUniqueZs().length * NDDOSolution.maxParamNum];
+
         for (int ZIndex2 = 0; ZIndex2 < s.getUniqueZs().length; ZIndex2++) {
             for (int paramNum2 : s.getNeededParams()[s.getUniqueZs()[ZIndex2]]) {
                 constructGPrime(ZIndex2, paramNum2);
-                gPrime.setAnalytical(analytical);
+
                 if (kind.equals("b") || kind.equals("c") || kind.equals("d"))
                     gPrime.computeBatchedDerivs(ZIndex2, paramNum2);
-
 
                 boolean needed;
                 for (int ZIndex1 = ZIndex2; ZIndex1 < s.getUniqueZs().length; ZIndex1++) {
@@ -52,7 +50,6 @@ public abstract class ParamHessianAnalytical implements ErrorGettable {
                                 break;
                             }
                         }
-
 
                         if (needed) {
                             if (!analytical) gPrime.constructSPrime(ZIndex1, paramNum1);
@@ -72,7 +69,6 @@ public abstract class ParamHessianAnalytical implements ErrorGettable {
                                     gPrime.computeIEDeriv(ZIndex1, paramNum1);
                                     break;
                             }
-
 
                             if (gPrime.isExpAvail) gPrime.computeGeomDeriv(ZIndex1, paramNum1);
                             hessian[ZIndex2 * NDDOSolution.maxParamNum + paramNum2]

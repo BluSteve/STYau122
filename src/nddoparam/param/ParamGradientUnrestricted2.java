@@ -1,20 +1,24 @@
 package nddoparam.param;
 
 import nddoparam.NDDODerivative;
+import nddoparam.NDDOSolution;
 import nddoparam.NDDOSolutionUnrestricted;
 import scf.Utils;
 
 public class ParamGradientUnrestricted2 extends ParamGradientAnalytical {
+    private final String errorMessage = "Analytical derivatives have yet to be implemented for unrestricted!";
 
     public ParamGradientUnrestricted2(NDDOSolutionUnrestricted s, String kind, double[] datum,
-                                      NDDOSolutionUnrestricted sExp) {
-        super(s, kind, datum, sExp);
+                                      NDDOSolutionUnrestricted sExp, boolean analytical) {
+        // TODO Change this line's hardcoding once analytical has been implemented for unrestricted.
+        super(s, kind, datum, sExp, false);
         e = new ParamErrorFunctionUnrestricted(s, datum[0]);
         if (datum[1] != 0) e.addDipoleError(datum[1]);
         if (datum[2] != 0) e.addIEError(datum[2]);
 
         if (this.sExp != null) {
             isExpAvail = true;
+            geomDerivs = new double[s.getUniqueZs().length][NDDOSolution.maxParamNum];
             e.createExpGeom(this.sExp.atoms, this.sExp);
             e.addGeomError();
         }
@@ -28,12 +32,13 @@ public class ParamGradientUnrestricted2 extends ParamGradientAnalytical {
 
     @Override
     protected void computeBatchedDerivs(int firstZIndex, int firstParamIndex) {
-
+        System.err.println(errorMessage);
     }
 
     @Override
     protected void computeHFDeriv(int ZI, int paramNum) {
         if (analytical) {
+            System.err.println(errorMessage);
         } else
             HFDerivs[ZI][paramNum] = (sPrime.hf - s.hf) / Utils.LAMBDA;
         totalGradients[ZI][paramNum] += 2 * (s.hf - datum[0]) * HFDerivs[ZI][paramNum];
@@ -42,7 +47,7 @@ public class ParamGradientUnrestricted2 extends ParamGradientAnalytical {
     @Override
     protected void computeDipoleDeriv(int ZI, int paramNum, boolean full) {
         if (analytical) {
-
+            System.err.println(errorMessage);
         } else {
             HFDerivs[ZI][paramNum] = (sPrime.hf - s.hf) / Utils.LAMBDA;
             if (full) dipoleDerivs[ZI][paramNum] = (sPrime.dipole - s.dipole) / Utils.LAMBDA;
@@ -54,7 +59,7 @@ public class ParamGradientUnrestricted2 extends ParamGradientAnalytical {
     @Override
     protected void computeIEDeriv(int ZI, int paramNum) {
         if (analytical) {
-
+            System.err.println(errorMessage);
         } else {
             IEDerivs[ZI][paramNum] = -(sPrime.homo - s.homo) / Utils.LAMBDA;
         }
@@ -62,19 +67,14 @@ public class ParamGradientUnrestricted2 extends ParamGradientAnalytical {
     }
 
     @Override
-    protected void computeGeomDeriv(int ZI, int paramNum) {
-        sExpPrime = new NDDOSolutionUnrestricted(Utils.perturbAtomParams(sExp.atoms, s.getUniqueZs()[ZI], paramNum), s.charge,
+    protected void constructSExpPrime(int Z, int paramNum) {
+        // TODO sExp.charge or s.charge?
+        sExpPrime = new NDDOSolutionUnrestricted(Utils.perturbAtomParams(sExp.atoms, s.getUniqueZs()[Z], paramNum), s.charge,
                 s.multiplicity);
-        double sum = 0;
-        double d;
-        for (int i = 0; i < sExpPrime.atoms.length; i++) {
-            for (int j = 0; j < 3; j++) {
-                d = NDDODerivative.grad((NDDOSolutionUnrestricted) sExpPrime, i, j);
-                sum += d * d;
-            }
-        }
-        double geomGradient = 627.5 * Math.sqrt(sum);
-        geomDerivs[ZI][paramNum] = 1 / LAMBDA * (geomGradient - e.geomGradient);
-        totalGradients[ZI][paramNum] += 0.000098 * e.geomGradient * geomDerivs[ZI][paramNum];
+    }
+
+    @Override
+    protected double findGrad(int i, int j) {
+        return NDDODerivative.grad((NDDOSolutionUnrestricted) sExpPrime, i, j);
     }
 }

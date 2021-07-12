@@ -3,13 +3,16 @@ package nddoparam.param;
 import nddoparam.NDDOSolution;
 import org.jblas.DoubleMatrix;
 
-import java.util.stream.IntStream;
-
 public abstract class ParamGradientAnalytical implements ErrorGettable {
     protected NDDOSolution s, sPrime, sExpPrime, sExp;
     protected ParamErrorFunction e;
     protected String kind;
     protected boolean isExpAvail, analytical;
+    protected double[] datum;
+    protected double[][] HFDerivs, dipoleDerivs, IEDerivs, geomDerivs, totalGradients;
+    protected DoubleMatrix[][] densityDerivs, xLimited, xComplementary, xForIE, coeffDerivs, responseDerivs, fockDerivs;
+    protected DoubleMatrix[][][] staticDerivs;
+    protected static final double LAMBDA = 1E-7;
 
     public boolean isAnalytical() {
         return analytical;
@@ -19,20 +22,13 @@ public abstract class ParamGradientAnalytical implements ErrorGettable {
         this.analytical = analytical;
     }
 
-    protected double[] datum;
-    protected double[][] HFDerivs, dipoleDerivs, IEDerivs, geomDerivs, totalGradients;
-    protected DoubleMatrix[][] densityDerivs, xLimited, xComplementary, xForIE, coeffDerivs, responseDerivs, fockDerivs;
-    protected DoubleMatrix[][][] staticDerivs;
-    protected static final double LAMBDA = 1E-7;
-
-    public ParamGradientAnalytical(NDDOSolution s, String kind, double[] datum, NDDOSolution sExp) {
+    public ParamGradientAnalytical(NDDOSolution s, String kind, double[] datum, NDDOSolution sExp, boolean analytical) {
         this.s = s;
         this.kind = kind;
         this.datum = datum;
         this.sExp = sExp;
-        this.analytical = true;
+        this.analytical = analytical;
 
-        if (isExpAvail) geomDerivs = new double[s.getUniqueZs().length][NDDOSolution.maxParamNum];
         totalGradients = new double[s.getUniqueZs().length][NDDOSolution.maxParamNum];
         switch (kind) {
             case "a":
@@ -84,7 +80,7 @@ public abstract class ParamGradientAnalytical implements ErrorGettable {
         }
     }
 
-    public void computeDerivs() {
+    public void computeGradient() {
         totalGradients = new double[s.getUniqueZs().length][NDDOSolution.maxParamNum];
         if (analytical && (kind.equals("b") || kind.equals("c") || kind.equals("d")))
             computeBatchedDerivs(0, 0);
@@ -112,6 +108,21 @@ public abstract class ParamGradientAnalytical implements ErrorGettable {
         }
     }
 
+    protected void computeGeomDeriv(int Z, int paramNum) {
+        constructSExpPrime(Z, paramNum);
+        double sum = 0;
+        double d;
+        for (int i = 0; i < sExpPrime.atoms.length; i++) {
+            for (int j = 0; j < 3; j++) {
+                d = findGrad(i, j);
+                sum += d * d;
+            }
+        }
+        double geomGradient = 627.5 * Math.sqrt(sum);
+        geomDerivs[Z][paramNum] = 1 / LAMBDA * (geomGradient - e.geomGradient);
+        totalGradients[Z][paramNum] += 0.000098 * e.geomGradient * geomDerivs[Z][paramNum];
+    }
+
     protected abstract void constructSPrime(int Z, int paramNum);
 
     protected abstract void computeBatchedDerivs(int firstZIndex, int firstParamIndex);
@@ -122,7 +133,9 @@ public abstract class ParamGradientAnalytical implements ErrorGettable {
 
     protected abstract void computeIEDeriv(int Z, int paramNum);
 
-    protected abstract void computeGeomDeriv(int Z, int paramNum);
+    protected abstract void constructSExpPrime(int Z, int paramNum);
+
+    protected abstract double findGrad(int i, int j);
 
     public ParamErrorFunction getE() {
         return this.e;
@@ -153,14 +166,14 @@ public abstract class ParamGradientAnalytical implements ErrorGettable {
     }
 
     public double getAnalyticalError() {
-        this.computeDerivs();
+        this.computeGradient();
         double[][] a = new double[totalGradients.length][0];
         for (int i = 0; i < totalGradients.length; i++) a[i] = totalGradients[i].clone();
         analytical = !analytical;
-        this.computeDerivs();
+        this.computeGradient();
         double sum = 0;
         for (int i = 0; i < totalGradients.length; i++) {
-            for (int j = 0; j < totalGradients[0].length; j++){
+            for (int j = 0; j < totalGradients[0].length; j++) {
                 sum += (totalGradients[i][j] - a[i][j]) * (totalGradients[i][j] - a[i][j]);
             }
         }
