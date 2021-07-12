@@ -25,6 +25,6 @@ public class MoleculeRunUnrestricted extends MoleculeRun {
 
     @Override
     protected void constructH() {
-        h = new ParamHessianUnrestricted2((ParamGradientUnrestricted2) g);
+        h = new ParamHessianUnrestricted2((ParamGradientUnrestricted2) g, true);
     }
 }

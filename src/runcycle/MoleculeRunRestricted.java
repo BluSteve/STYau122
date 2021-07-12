@@ -5,18 +5,19 @@ import nddoparam.NDDOGeometryOptimizationRestricted;
 import nddoparam.NDDOSolutionRestricted;
 import nddoparam.param.ParamGradientRestricted;
 import nddoparam.param.ParamHessianRestricted;
+import org.apache.commons.lang3.time.StopWatch;
 
 public class MoleculeRunRestricted extends MoleculeRun {
     public MoleculeRunRestricted(NDDOAtom[] atoms2, int charge, NDDOAtom[] expGeom, double[] datum, boolean isRunHessian, String kind, int[] atomTypes) {
         super(atoms2, charge, expGeom, datum, isRunHessian, kind, atomTypes, 1);
 
-        opt = new NDDOGeometryOptimizationRestricted(atoms, charge); // geometry is optimized upon initialization
+        opt = new NDDOGeometryOptimizationRestricted(atoms, charge); // ~ 74 ms for CH4 type d with expsoln
 
         newGeomCoords = "RHF\n" + "CHARGE=" + charge + "\nMULT=1\n";
         generateGeomCoords();
-        if (expGeom != null) expSolution = new NDDOSolutionRestricted(this.expGeom, charge);
+        if (expGeom != null) expSolution = new NDDOSolutionRestricted(this.expGeom, charge); // ~ 60 ms
 
-        routine();
+        routine(); // ~700-800 ms
     }
 
     @Override
@@ -26,6 +27,6 @@ public class MoleculeRunRestricted extends MoleculeRun {
 
     @Override
     protected void constructH() {
-        h = new ParamHessianRestricted((ParamGradientRestricted) g);
+        h = new ParamHessianRestricted((ParamGradientRestricted) g, true);
     }
 }

@@ -25,8 +25,8 @@ public class ParamGradientUnrestricted extends ParamGradient {
     public void createExpGeom(NDDOAtom[] expAtoms, NDDOSolution expSoln) {
         if (eprime != null) {
             NDDOAtom[] perturbedExp = Utils.perturbAtomParams(expAtoms, Z, paramNum);
-            eprime.createExpGeom(perturbedExp, new NDDOSolutionUnrestricted(perturbedExp, expSoln.charge, expSoln.multiplicity));
+            eprime.createExpGeom(new NDDOSolutionUnrestricted(perturbedExp, expSoln.charge, expSoln.multiplicity));
         }
-        e.createExpGeom(expAtoms, expSoln);
+        e.createExpGeom(expSoln);
     }
 }

@@ -22,6 +22,18 @@ public abstract class ParamGradientAnalytical implements ErrorGettable {
         this.analytical = analytical;
     }
 
+    protected void errorFunctionRoutine() {
+        if (datum[1] != 0) e.addDipoleError(datum[1]);
+        if (datum[2] != 0) e.addIEError(datum[2]);
+
+        if (this.sExp != null) {
+            isExpAvail = true;
+            geomDerivs = new double[s.getUniqueZs().length][NDDOSolution.maxParamNum];
+            e.createExpGeom(this.sExp);
+            e.addGeomError();
+        }
+    }
+
     protected void initializeArrays() {
         totalGradients = new double[s.getUniqueZs().length][NDDOSolution.maxParamNum];
         switch (kind) {

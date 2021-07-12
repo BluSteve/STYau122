@@ -28,8 +28,8 @@ public abstract class ParamErrorFunction {
         this.angleDerivatives = new ArrayList<>();
     }
 
-    public void createExpGeom(NDDOAtom[] expAtoms, NDDOSolution expSoln) {
-        this.expAtoms = expAtoms;
+    public void createExpGeom(NDDOSolution expSoln) {
+        this.expAtoms = expSoln.atoms;
         this.expSoln = expSoln;
     }
 

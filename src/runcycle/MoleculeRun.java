@@ -5,6 +5,7 @@ import nddoparam.NDDOGeometryOptimization;
 import nddoparam.NDDOSolution;
 import nddoparam.param.ParamGradientAnalytical;
 import nddoparam.param.ParamHessianAnalytical;
+import org.apache.commons.lang3.time.StopWatch;
 
 public abstract class MoleculeRun {
     protected static double LAMBDA = 1E-7;
@@ -42,9 +43,9 @@ public abstract class MoleculeRun {
     }
 
     protected void routine() {
-        runGradient();
+        runGradient(); // ~ 100 ms
 
-        if (isRunHessian) runHessian();
+        if (isRunHessian) runHessian(); // ~ 700-800 ms
         else hessianStr = "";
 
         outputErrorFunction();

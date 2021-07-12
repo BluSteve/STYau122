@@ -11,8 +11,8 @@ public class ParamHessianUnrestricted2 extends ParamHessianAnalytical {
         g.computeGradient();
     }
 
-    public ParamHessianUnrestricted2(ParamGradientUnrestricted2 g) {
-        super(g.s, g.kind, g.datum, g.sExp, g.analytical);
+    public ParamHessianUnrestricted2(ParamGradientUnrestricted2 g, boolean analytical) {
+        super(g.s, g.kind, g.datum, g.sExp, analytical);
         this.g = g;
     }
 

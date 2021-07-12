@@ -1,7 +1,6 @@
 package nddoparam.param;
 
 import nddoparam.NDDODerivative;
-import nddoparam.NDDOSolution;
 import nddoparam.NDDOSolutionUnrestricted;
 import scf.Utils;
 
@@ -15,15 +14,7 @@ public class ParamGradientUnrestricted2 extends ParamGradientAnalytical {
         initializeArrays();
 
         e = new ParamErrorFunctionUnrestricted(s, datum[0]);
-        if (datum[1] != 0) e.addDipoleError(datum[1]);
-        if (datum[2] != 0) e.addIEError(datum[2]);
-
-        if (this.sExp != null) {
-            isExpAvail = true;
-            geomDerivs = new double[s.getUniqueZs().length][NDDOSolution.maxParamNum];
-            e.createExpGeom(this.sExp.atoms, this.sExp);
-            e.addGeomError();
-        }
+        errorFunctionRoutine();
     }
 
     @Override
