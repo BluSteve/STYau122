@@ -32,7 +32,67 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDOSolutionRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDOSolutionRestricted.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_25_2020_9_21_PM_[Default_Changelist]/MNDOSolution.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_25_2020_9_21_PM_[Default_Changelist]/shelved.patch" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_25_2020_9_21_PM__Default_Changelist_.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_26_2020_3_22_PM_[Default_Changelist]/MNDOSolution$TwoElectronIntegralMap.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_26_2020_3_22_PM_[Default_Changelist]/MNDOSolution.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_26_2020_3_22_PM_[Default_Changelist]/Main.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_26_2020_3_22_PM_[Default_Changelist]/shelved.patch" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_26_2020_3_22_PM__Default_Changelist_.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_26_2020_3_51_PM_[Default_Changelist]/MNDOSolution.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_26_2020_3_51_PM_[Default_Changelist]/Main.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_26_2020_3_51_PM_[Default_Changelist]/shelved.patch" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_26_2020_3_51_PM__Default_Changelist_.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_26_2020_3_56_PM_[Default_Changelist]/MNDOSolution.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_26_2020_3_56_PM_[Default_Changelist]/Main.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_26_2020_3_56_PM_[Default_Changelist]/shelved.patch" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_26_2020_3_56_PM__Default_Changelist_.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_27_2020_3_40_PM_[Default_Changelist]/MNDOSolution$TwoElectronIntegralMap.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_27_2020_3_40_PM_[Default_Changelist]/MNDOSolution.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_27_2020_3_40_PM_[Default_Changelist]/Main.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_27_2020_3_40_PM_[Default_Changelist]/shelved.patch" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_27_2020_3_40_PM__Default_Changelist_.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2021-04-29_16_09_[Default_Changelist]/shelved.patch" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2021-04-29_16_09__Default_Changelist_.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2021-07-12_16_33_[Default_Changelist]/shelved.patch" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2021-07-12_16_33__Default_Changelist_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/ComputationRequest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/datum/DipoleData.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/datum/GeometricalData.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/datum/HeatData.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/datum/IonizationData.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/datum/ReferenceData.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDO6G.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDOAtom.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDODerivative.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDOGeometryOptimization.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDOGeometryOptimizationRestricted.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDOGeometryOptimizationUnrestricted.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDOParams.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDOSecondDerivative.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDOSolution.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDOSolutionRestricted.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/nddoparam/NDDOSolutionUnrestricted.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/nddoparam/am1/AM1Atom.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/nddoparam/am1/AM1Params.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/nddoparam/mndo/MNDOAtom.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/nddoparam/mndo/MNDOParams.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/optimize/ParamOptimizer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/runcycle/MoleculeRun.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/runcycle/MoleculeRunRestricted.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/runcycle/MoleculeRunUnrestricted.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/scf/AtomFixed.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/scf/AtomHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/scf/AtomProperties.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/scf/GTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/scf/LCGTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/scf/OrbitalProperties.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/scf/STO6G.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/scf/Utils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -464,21 +524,7 @@
       <workItem from="1626050017371" duration="3181000" />
       <workItem from="1626103288284" duration="1063000" />
       <workItem from="1626104377048" duration="262000" />
-      <workItem from="1626104655028" duration="549000" />
-    </task>
-    <task id="LOCAL-00011" summary="Fix MNDO6G.java and reformat">
-      <created>1607500548389</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1607500548389</updated>
-    </task>
-    <task id="LOCAL-00012" summary="Finish optimization of various special functions">
-      <created>1607501813088</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1607501813088</updated>
+      <workItem from="1626104655028" duration="877000" />
     </task>
     <task id="LOCAL-00013" summary="Finish optimizing MNDOSolutionUnrestricted.java">
       <created>1607504924154</created>
@@ -809,7 +855,21 @@
       <option name="project" value="LOCAL" />
       <updated>1626105128498</updated>
     </task>
-    <option name="localTasksCounter" value="60" />
+    <task id="LOCAL-00060" summary="Minor changes">
+      <created>1626105380664</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1626105380664</updated>
+    </task>
+    <task id="LOCAL-00061" summary="Minor changes">
+      <created>1626105452702</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1626105452702</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -900,9 +960,9 @@
     <MESSAGE value="MoleculeRun working now 2.0" />
     <MESSAGE value="Merged NDDOSolution from mergelater" />
     <MESSAGE value="Merged DIIS and NDDOAtom from mergelater" />
-    <MESSAGE value="Minor changes" />
     <MESSAGE value="Downgrade to JDK 11" />
-    <option name="LAST_COMMIT_MESSAGE" value="Downgrade to JDK 11" />
+    <MESSAGE value="Minor changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor changes" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
