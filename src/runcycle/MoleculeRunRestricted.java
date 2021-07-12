@@ -9,20 +9,14 @@ import nddoparam.param.ParamHessianRestricted;
 public class MoleculeRunRestricted extends MoleculeRun {
     public MoleculeRunRestricted(NDDOAtom[] atoms2, int charge, NDDOAtom[] expGeom, double[] datum, boolean isRunHessian, String kind, int[] atomTypes) {
         super(atoms2, charge, expGeom, datum, isRunHessian, kind, atomTypes, 1);
+
         opt = new NDDOGeometryOptimizationRestricted(atoms, charge); // geometry is optimized upon initialization
 
         newGeomCoords = "RHF\n" + "CHARGE=" + charge + "\nMULT=1\n";
         generateGeomCoords();
         if (expGeom != null) expSolution = new NDDOSolutionRestricted(this.expGeom, charge);
 
-        if (isRunHessian) {
-            runHessian();
-        } else {
-            hessianStr = "";
-        }
-        runGradient();
-
-        outputErrorFunction();
+        routine();
     }
 
     @Override
@@ -32,6 +26,6 @@ public class MoleculeRunRestricted extends MoleculeRun {
 
     @Override
     protected void constructH() {
-        h = new ParamHessianRestricted((NDDOSolutionRestricted) opt.s, kind, datum, (NDDOSolutionRestricted) expSolution, true);
+        h = new ParamHessianRestricted((ParamGradientRestricted) g);
     }
 }

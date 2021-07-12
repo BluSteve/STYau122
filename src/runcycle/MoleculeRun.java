@@ -3,6 +3,7 @@ package runcycle;
 import nddoparam.NDDOAtom;
 import nddoparam.NDDOGeometryOptimization;
 import nddoparam.NDDOSolution;
+import nddoparam.NDDOSolutionUnrestricted;
 import nddoparam.param.ParamGradientAnalytical;
 import nddoparam.param.ParamHessianAnalytical;
 
@@ -38,6 +39,15 @@ public abstract class MoleculeRun {
         this.size = atomTypes.length;
         this.mult = mult;
         this.kind = kind;
+    }
+
+    protected void routine() {
+        runGradient();
+
+        if (isRunHessian) runHessian();
+        else hessianStr = "";
+
+        outputErrorFunction();
     }
 
     protected void generateGeomCoords() {

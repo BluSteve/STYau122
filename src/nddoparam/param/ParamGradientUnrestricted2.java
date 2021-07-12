@@ -12,6 +12,8 @@ public class ParamGradientUnrestricted2 extends ParamGradientAnalytical {
                                       NDDOSolutionUnrestricted sExp, boolean analytical) {
         // TODO Change this line's hardcoding once analytical has been implemented for unrestricted.
         super(s, kind, datum, sExp, false);
+        initializeArrays();
+
         e = new ParamErrorFunctionUnrestricted(s, datum[0]);
         if (datum[1] != 0) e.addDipoleError(datum[1]);
         if (datum[2] != 0) e.addIEError(datum[2]);

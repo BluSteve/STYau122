@@ -28,7 +28,9 @@ public abstract class ParamGradientAnalytical implements ErrorGettable {
         this.datum = datum;
         this.sExp = sExp;
         this.analytical = analytical;
+    }
 
+    protected void initializeArrays() {
         totalGradients = new double[s.getUniqueZs().length][NDDOSolution.maxParamNum];
         switch (kind) {
             case "a":
