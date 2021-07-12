@@ -5,7 +5,7 @@ import datum.IonizationData;
 import nddoparam.mndo.MNDOAtom;
 import nddoparam.mndo.MNDOParams;
 import optimize.ParamOptimizer;
-import org.apache.commons.lang.time.StopWatch;
+import org.apache.commons.lang3.time.StopWatch;
 import org.jblas.DoubleMatrix;
 import org.jblas.Eigen;
 import runcycle.MoleculeRun;

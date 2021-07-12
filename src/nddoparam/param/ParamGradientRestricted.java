@@ -211,11 +211,12 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
         sw.reset();
         sw.start();
         ParamHessianRestricted hessian = new ParamHessianRestricted((NDDOSolutionRestricted) opt.s, "a", datum, null);
+        hessian.setAnalytical(true);
         hessian.computeHessian();
 //        ParamHessianUnrestricted2 hessian = new ParamHessianUnrestricted2((NDDOSolutionUnrestricted) opt.s, "b", datum, (NDDOSolutionUnrestricted) expsoln);
 //        hessian.computeHessian();
         sw.stop();
         System.out.println("Hessian time taken: " + sw.getTime());
-        System.out.println("Test Hessian: " + Arrays.deepToString(hessian.getHessian()));
+        System.out.println("Test Hessian: " + Arrays.toString(hessian.getHessianUT()));
     }
 }

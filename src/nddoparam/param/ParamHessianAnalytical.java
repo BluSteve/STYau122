@@ -9,12 +9,22 @@ public abstract class ParamHessianAnalytical implements ErrorGettable {
     protected String kind;
     protected double[] datum;
     protected double[][] hessian;
+    protected boolean analytical;
+
+    public void setAnalytical(boolean analytical) {
+        this.analytical = analytical;
+    }
+
+    public boolean isAnalytical() {
+        return analytical;
+    }
 
     public ParamHessianAnalytical(NDDOSolution s, String kind, double[] datum, NDDOSolution sExp) {
         this.s = s;
         this.kind = kind;
         this.datum = datum;
         this.sExp = sExp;
+        this.analytical = true;
         hessian = new double[s.getUniqueZs().length * NDDOSolution.maxParamNum]
                 [s.getUniqueZs().length * NDDOSolution.maxParamNum];
     }
@@ -38,7 +48,7 @@ public abstract class ParamHessianAnalytical implements ErrorGettable {
 
 
                         if (needed) {
-//                            gPrime.constructSPrime(ZIndex1, paramNum1);
+                            if (!analytical) gPrime.constructSPrime(ZIndex1, paramNum1);
                             switch (kind) {
                                 case "a":
                                     gPrime.computeHFDeriv(ZIndex1, paramNum1);
@@ -74,6 +84,46 @@ public abstract class ParamHessianAnalytical implements ErrorGettable {
     }
 
     protected abstract void constructGPrime(int ZIndex, int paramNum);
+
+    public double[][] getHessianUnpadded() {
+        int size = 0;
+        for (int[] i : s.getNeededParams()) {
+            size += i.length;
+        }
+        double[][] unpadded = new double[size][size];
+        int iUnpadded = 0;
+        int jUnpadded = 0;
+        boolean allZero;
+        for (int i = 0; i < hessian.length; i++) {
+            allZero = true;
+            for (int j = 0; j < hessian.length; j++) {
+                if (hessian[i][j] != 0) {
+                    allZero = false;
+                    unpadded[iUnpadded][jUnpadded] = hessian[i][j];
+                    jUnpadded++;
+                }
+            }
+            jUnpadded = 0;
+            if (!allZero) iUnpadded++;
+        }
+        return unpadded;
+    }
+
+    public double[] getHessianUT() {
+        double[][] unpadded = getHessianUnpadded();
+        double[] hessianUT = new double[(unpadded.length + 1) * unpadded.length / 2];
+        for (int i = 0; i < unpadded.length; i++) {
+            int p = 0;
+            if (i >= 1) {
+                p = i * (unpadded.length * 2 - i + 1) / 2;
+            }
+            for (int j = i; j < unpadded.length; j++) {
+//                    System.out.println(p + " " + j);
+                    hessianUT[p + j - i] = unpadded[i][j];
+            }
+        }
+        return hessianUT;
+    }
 
     public double[][] getHessian() {
         return hessian;

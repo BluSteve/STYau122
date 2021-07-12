@@ -11,15 +11,12 @@ public class ParamHessianUnrestricted extends ParamHessian {
         NDDOSolutionUnrestricted sPrime = new NDDOSolutionUnrestricted(perturbed, charge, mult);
         g = new ParamGradientUnrestricted(atoms, charge, mult, Z2, paramNum2, s);
         gprime = new ParamGradientUnrestricted(perturbed, charge, mult, Z2, paramNum2, sPrime);
-        //System.err.println("initialization complete");
     }
 
     public void createExpGeom(NDDOAtom[] expAtoms, NDDOSolution expSolution) {
         g.createExpGeom(expAtoms, expSolution);
-        //System.err.println("creating expgeom");
         NDDOAtom[] perturbed = Utils.perturbAtomParams(expAtoms, Z1, paramNum1);
         gprime.createExpGeom(perturbed, new NDDOSolutionUnrestricted(perturbed, expSolution.charge, expSolution.multiplicity));
-        //System.err.println("creation complete");
     }
 
 
