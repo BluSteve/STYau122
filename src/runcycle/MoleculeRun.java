@@ -3,7 +3,6 @@ package runcycle;
 import nddoparam.NDDOAtom;
 import nddoparam.NDDOGeometryOptimization;
 import nddoparam.NDDOSolution;
-import nddoparam.NDDOSolutionUnrestricted;
 import nddoparam.param.ParamGradientAnalytical;
 import nddoparam.param.ParamHessianAnalytical;
 
@@ -12,22 +11,23 @@ public abstract class MoleculeRun {
     public String[] output;
     public int[] atomTypes;
     public String hessianStr, newGeomCoords;
-    protected NDDOAtom[] atoms, expGeom;
-    protected int charge, size, mult;
-    protected boolean isRunHessian;
-    protected double[] datum;
-    protected ParamGradientAnalytical g;
-    protected ParamHessianAnalytical h;
-    protected NDDOGeometryOptimization opt;
-    protected NDDOSolution expSolution;
-    protected String totalHeatDeriv = "";
-    protected String totalIonizationDeriv = "";
-    protected String totalDipoleDeriv = "";
-    protected String totalGeomDeriv = "";
-    protected String totalExcelStr = "";
-    protected String excelStr = "";
-    protected String excelStr2 = "";
-    protected String kind;
+    // TODO CHANGE THE ONES BELOW BACK TO PROTECTED
+    public NDDOAtom[] atoms, expGeom;
+    public int charge, size, mult;
+    public boolean isRunHessian;
+    public double[] datum;
+    public ParamGradientAnalytical g;
+    public ParamHessianAnalytical h;
+    public NDDOGeometryOptimization opt;
+    public NDDOSolution expSolution;
+    public String totalHeatDeriv = "";
+    public String totalIonizationDeriv = "";
+    public String totalDipoleDeriv = "";
+    public String totalGeomDeriv = "";
+    public String totalExcelStr = "";
+    public String excelStr = "";
+    public String excelStr2 = "";
+    public String kind;
 
     public MoleculeRun(NDDOAtom[] atoms, int charge, NDDOAtom[] expGeom, double[] datum, boolean isRunHessian, String kind, int[] atomTypes, int mult) {
         this.atomTypes = atomTypes;
@@ -70,22 +70,23 @@ public abstract class MoleculeRun {
 
     protected void runHessian() {
         constructH();
-        h.computeHessian();
+        h.computeHessian(); // time intensive step
         StringBuilder hessianSB = new StringBuilder();
         appendToSB(h.getHessianUT(), hessianSB);
         hessianStr = hessianSB.toString();
     }
 
     protected void runGradient() {
-        constructG(); // time intensive step
-        StringBuilder HFDerivsSB = new StringBuilder(datum[0] + "," + g.getS().hf + ",");
-        StringBuilder dipoleDerivsSB = new StringBuilder(datum[1] + "," + g.getS().dipole + ",");
-        StringBuilder IEDerivsSB = new StringBuilder(datum[2] + "," + -g.getS().homo + ",");
-        StringBuilder geomDerivsSB = new StringBuilder("0," + g.getE().geomGradient + ",");
+        constructG();
+        g.computeGradient(); // time intensive step
+        StringBuilder HFDerivsSB = new StringBuilder(datum[0] + "," + g.getS().hf);
+        StringBuilder dipoleDerivsSB = new StringBuilder(datum[1] + "," + g.getS().dipole);
+        StringBuilder IEDerivsSB = new StringBuilder(datum[2] + "," + -g.getS().homo);
+        StringBuilder geomDerivsSB = new StringBuilder("0," + g.getE().geomGradient);
         StringBuilder mainDataSB = new StringBuilder();
         mainDataSB.append(g.getE().getTotalError());
 
-        for (int i = 0; i < atomTypes.length; i++) {
+        for (int i = 0; i < g.getS().getUniqueZs().length; i++) {
             switch (kind) {
                 case "a":
                     appendToSB(g.getHFDerivs()[i], HFDerivsSB);
@@ -465,8 +466,6 @@ public abstract class MoleculeRun {
 //        excelStr = excelSB.toString();
 //        excelStr2 = excelSB2.toString();
 //    }
-
-
 
 
 }

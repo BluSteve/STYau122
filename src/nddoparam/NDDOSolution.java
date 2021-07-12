@@ -26,7 +26,7 @@ public abstract class NDDOSolution {
     public NDDO6G[] orbitals;
     public String moleculeName;
     public int[] atomicNumbers;
-    private final int[] uniqueZs;
+    private final int[] uniqueZs; // NOT THE SAME AS ATOMTYPES, THIS ONE IS JUST FOR THIS MOLECULE
 
     public NDDOSolution(NDDOAtom[] atoms, int charge) {
         // TODO move this to MoleculeRun
