@@ -11,9 +11,10 @@ import static nddoparam.mndo.MNDOParams.T1ParamNums;
 import static nddoparam.mndo.MNDOParams.T2ParamNums;
 
 public abstract class NDDOSolution {
+    private static final int[][] neededParams = new int[Utils.maxAtomNum][0];
     // TODO make most of these private
     public static int maxParamNum = 8;
-    private static final int[][] neededParams = new int[Utils.maxAtomNum][0];
+    private final int[] uniqueZs; // NOT THE SAME AS ATOMTYPES, THIS ONE IS JUST FOR THIS MOLECULE
     public double energy, homo, lumo, hf, dipole;
     public double[] chargedip, hybridip, dipoletot;
     public int charge, multiplicity;
@@ -26,15 +27,6 @@ public abstract class NDDOSolution {
     public NDDO6G[] orbitals;
     public String moleculeName;
     public int[] atomicNumbers;
-    private final int[] uniqueZs; // NOT THE SAME AS ATOMTYPES, THIS ONE IS JUST FOR THIS MOLECULE
-
-    public static int[][] getNeededParams() {
-        return neededParams;
-    }
-
-    public int[] getUniqueZs() {
-        return uniqueZs;
-    }
 
     public NDDOSolution(NDDOAtom[] atoms, int charge) {
         // TODO move this to MoleculeRun
@@ -57,7 +49,7 @@ public abstract class NDDOSolution {
         moleculeName = nameBuilder.toString();
         Collections.sort(tempZs);
         uniqueZs = new int[tempZs.size()];
-        for (int i = 0; i < tempZs.size(); i++ ) uniqueZs[i] = tempZs.get(i);
+        for (int i = 0; i < tempZs.size(); i++) uniqueZs[i] = tempZs.get(i);
 
         this.atoms = atoms;
 
@@ -157,6 +149,10 @@ public abstract class NDDOSolution {
         }
     }
 
+    public static int[][] getNeededParams() {
+        return neededParams;
+    }
+
     public static boolean isSimilar(DoubleMatrix x, DoubleMatrix y, double limit) {
         for (int i = 0; i < y.rows; i++) {
             for (int j = 0; j < y.columns; j++) {
@@ -166,6 +162,10 @@ public abstract class NDDOSolution {
             }
         }
         return true;
+    }
+
+    public int[] getUniqueZs() {
+        return uniqueZs;
     }
 
     public abstract DoubleMatrix alphaDensity();

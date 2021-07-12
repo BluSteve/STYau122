@@ -4,7 +4,7 @@ import nddoparam.NDDOAtom;
 import nddoparam.NDDOSolution;
 import scf.Utils;
 
-public abstract class ParamHessian implements ErrorGettable{
+public abstract class ParamHessian implements ErrorGettable {
     public ParamGradient g, gprime;
     protected NDDOAtom[] atoms, perturbed;
     protected int paramNum1, Z1;

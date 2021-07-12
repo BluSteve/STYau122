@@ -5,7 +5,6 @@ import nddoparam.NDDOGeometryOptimization;
 import nddoparam.NDDOSolution;
 import nddoparam.param.ParamGradientAnalytical;
 import nddoparam.param.ParamHessianAnalytical;
-import org.apache.commons.lang3.time.StopWatch;
 
 public abstract class MoleculeRun {
     protected static double LAMBDA = 1E-7;
@@ -40,6 +39,12 @@ public abstract class MoleculeRun {
         this.size = atomTypes.length;
         this.mult = mult;
         this.kind = kind;
+    }
+
+    private static void appendToSB(double[] array, StringBuilder sb) {
+        if (sb.length() > 0) sb.append(',');
+        for (int i = 0; i < array.length - 1; i++) sb.append(array[i]).append(',');
+        sb.append(array[array.length - 1]);
     }
 
     protected void routine() {
@@ -128,12 +133,6 @@ public abstract class MoleculeRun {
     protected abstract void constructG();
 
     protected abstract void constructH();
-
-    private static void appendToSB(double[] array, StringBuilder sb) {
-        if (sb.length() > 0) sb.append(',');
-        for (int i = 0; i < array.length - 1; i++) sb.append(array[i]).append(',');
-        sb.append(array[array.length - 1]);
-    }
 
 //    protected void runHessian() {
 //        DoubleMatrix paramIndexes = new DoubleMatrix(size, 2);

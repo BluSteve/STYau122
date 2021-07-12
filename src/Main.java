@@ -59,7 +59,7 @@ public class Main {
                 Scanner referenceScan = new Scanner(reference);
                 trainingSet = sc.nextLine().split("=")[1];
                 atomTypes = new int[trainingSet.length()];
-                for (int x=0; x < trainingSet.length(); x++) {
+                for (int x = 0; x < trainingSet.length(); x++) {
                     atomTypes[x] = AtomHandler.atomsMap.get(Character.toString(trainingSet.charAt(x))).getZ();
                 }
 
@@ -145,12 +145,10 @@ public class Main {
                         data[1] = Double.parseDouble(dipoles[1]);
                         data[2] = Double.parseDouble(ionizations[1]);
                         kind = "d";
-                    }
-                    else if (dipoles.length > 1) {
+                    } else if (dipoles.length > 1) {
                         data[1] = Double.parseDouble(dipoles[1]);
                         kind = "b";
-                    }
-                    else if (ionizations.length > 1) {
+                    } else if (ionizations.length > 1) {
                         data[2] = Double.parseDouble(ionizations[1]);
                         kind = "c";
                     }

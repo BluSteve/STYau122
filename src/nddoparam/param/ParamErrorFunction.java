@@ -28,6 +28,29 @@ public abstract class ParamErrorFunction {
         this.angleDerivatives = new ArrayList<>();
     }
 
+    private static double theta(double x1, double y1, double z1, double x2, double y2, double z2) {
+        double sum = x1 * x2 + y1 * y2 + z1 * z2;
+        double summ = mag(new double[]{x1, y1, z1}) * mag(new double[]{x2, y2, z2});
+        return Math.acos(sum / summ) * 180 / Math.PI;
+    }
+
+    private static double[] cross(double[] a, double[] b) {
+        return new double[]{a[1] * b[2] - a[2] * b[1], b[0] * a[2] - a[0] * b[2], a[0] * b[1] - b[0] * a[1]};
+    }
+
+    private static double[] normalizedVector(double[] v) {
+        double val = mag(v);
+        return new double[]{v[0] / val, v[1] / val, v[2] / val};
+    }
+
+    private static double mag(double[] vector) {
+        double sum = 0;
+        for (double v : vector) {
+            sum += v * v;
+        }
+        return Math.sqrt(sum);
+    }
+
     public void createExpGeom(NDDOSolution expSoln) {
         this.expAtoms = expSoln.atoms;
         this.expSoln = expSoln;
@@ -78,29 +101,6 @@ public abstract class ParamErrorFunction {
             sum += d;
         }
         return sum;
-    }
-
-    private static double theta(double x1, double y1, double z1, double x2, double y2, double z2) {
-        double sum = x1 * x2 + y1 * y2 + z1 * z2;
-        double summ = mag(new double[]{x1, y1, z1}) * mag(new double[]{x2, y2, z2});
-        return Math.acos(sum / summ) * 180 / Math.PI;
-    }
-
-    private static double[] cross(double[] a, double[] b) {
-        return new double[]{a[1] * b[2] - a[2] * b[1], b[0] * a[2] - a[0] * b[2], a[0] * b[1] - b[0] * a[1]};
-    }
-
-    private static double[] normalizedVector(double[] v) {
-        double val = mag(v);
-        return new double[]{v[0] / val, v[1] / val, v[2] / val};
-    }
-
-    private static double mag(double[] vector) {
-        double sum = 0;
-        for (double v : vector) {
-            sum += v * v;
-        }
-        return Math.sqrt(sum);
     }
 
     protected abstract double getDeriv(double[] coeff, int atom2);

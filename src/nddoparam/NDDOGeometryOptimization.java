@@ -4,15 +4,14 @@ import org.apache.commons.lang3.time.StopWatch;
 import org.jblas.DoubleMatrix;
 import org.jblas.Eigen;
 import org.jblas.Solve;
-import scf.Utils;
 
 public abstract class NDDOGeometryOptimization {
-    protected NDDOAtom[] atoms;
-    protected double refEnergy;
     public double IE, dipole, heat;
     public int charge;
-    protected int counter, mult;
     public NDDOSolution s;
+    protected NDDOAtom[] atoms;
+    protected double refEnergy;
+    protected int counter, mult;
     protected DoubleMatrix gradient;
 
     public NDDOGeometryOptimization(NDDOAtom[] atoms, int charge, int mult) {
@@ -50,14 +49,13 @@ public abstract class NDDOGeometryOptimization {
 
         double lambda = lambda(h, U.transpose().mmul(gradient), h.rows - counter);
 
-        System.err.println ("lambda: " + lambda);
-
+        System.err.println("lambda: " + lambda);
 
 
         DoubleMatrix searchdir = Solve.pinv(B.sub(DoubleMatrix.eye(B.rows).mmul(lambda))).mmul(gradient).mul(-1);
 
         if (mag(searchdir) > 0.3) {
-            searchdir = searchdir.mmul(0.3/mag(searchdir));
+            searchdir = searchdir.mmul(0.3 / mag(searchdir));
         }
 
         DoubleMatrix oldgrad;
@@ -134,15 +132,14 @@ public abstract class NDDOGeometryOptimization {
             U = ms[0];
 
 
-
             lambda = lambda(h, U.transpose().mmul(gradient), h.rows - counter);
 
-            System.err.println ("lambda: " + lambda);
+            System.err.println("lambda: " + lambda);
 
             searchdir = Solve.pinv(B.sub(DoubleMatrix.eye(B.rows).mmul(lambda))).mmul(gradient).mul(-1);
 
             if (mag(searchdir) > 0.3) {
-                searchdir = searchdir.mmul(0.3/mag(searchdir));
+                searchdir = searchdir.mmul(0.3 / mag(searchdir));
             }
         }
         System.out.println("FINAL:");
@@ -157,6 +154,34 @@ public abstract class NDDOGeometryOptimization {
         this.IE = -s.homo;
     }
 
+    private static double lambda(DoubleMatrix h, DoubleMatrix g, int count) {
+
+        if (count == h.length) {
+            return 0;
+        }
+
+        double initialguess = h.get(count) - 3;
+
+        double newguess = initialguess + 2;
+
+        while (Math.abs(initialguess - newguess) > 1E-7) {
+
+            initialguess = newguess;
+
+            double f = -initialguess;
+
+            double fprime = -1;
+
+            for (int i = 0; i < h.rows; i++) {
+                f += g.get(i) * g.get(i) / (initialguess - h.get(i));
+                fprime -= g.get(i) * g.get(i) / ((initialguess - h.get(i)) * (initialguess - h.get(i)));
+            }
+
+            newguess = initialguess - f / fprime;
+        }
+
+        return newguess;
+    }
 
     protected abstract void updateNDDOSolution();
 
@@ -177,35 +202,6 @@ public abstract class NDDOGeometryOptimization {
         }
 
         return Math.sqrt(sum);
-    }
-
-    private static double lambda (DoubleMatrix h, DoubleMatrix g, int count) {
-
-        if (count == h.length) {
-            return 0;
-        }
-
-        double initialguess = h.get(count) - 3;
-
-        double newguess = initialguess + 2;
-
-        while (Math.abs(initialguess - newguess) > 1E-7) {
-
-            initialguess = newguess;
-
-            double f = - initialguess;
-
-            double fprime = -1;
-
-            for (int i = 0; i < h.rows; i++) {
-                f += g.get(i) * g.get(i) / (initialguess - h.get(i));
-                fprime -= g.get(i) * g.get(i) / ((initialguess - h.get(i)) * (initialguess - h.get(i)));
-            }
-
-            newguess = initialguess - f/fprime;
-        }
-
-        return newguess;
     }
 
     public NDDOAtom[] getAtoms() {

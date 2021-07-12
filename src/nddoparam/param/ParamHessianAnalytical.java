@@ -146,11 +146,11 @@ public abstract class ParamHessianAnalytical implements ErrorGettable {
         return g.getE();
     }
 
-    public void setAnalytical(boolean analytical) {
-        this.analytical = analytical;
-    }
-
     public boolean isAnalytical() {
         return analytical;
+    }
+
+    public void setAnalytical(boolean analytical) {
+        this.analytical = analytical;
     }
 }

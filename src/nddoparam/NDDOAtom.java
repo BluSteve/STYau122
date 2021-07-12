@@ -88,15 +88,15 @@ public abstract class NDDOAtom extends AtomFixed {
         return -this.atomProperties.getQ() * NDDO6G.getG(a, b, this.s(), this.s());
     }
 
-    public double Vderiv (NDDO6G a, NDDO6G b, int tau) {
+    public double Vderiv(NDDO6G a, NDDO6G b, int tau) {
         return -this.atomProperties.getQ() * NDDODerivative.getGderiv(a, b, this.s(), this.s(), tau);
     }
 
-    public double Vderiv2 (NDDO6G a, NDDO6G b, int tau1, int tau2) {
+    public double Vderiv2(NDDO6G a, NDDO6G b, int tau1, int tau2) {
         return -this.atomProperties.getQ() * NDDOSecondDerivative.getGderiv2(a, b, this.s(), this.s(), tau1, tau2);
     }
 
-    public double VParamDeriv (NDDO6G a, NDDO6G b, int num, int type) {
+    public double VParamDeriv(NDDO6G a, NDDO6G b, int num, int type) {
         return -this.atomProperties.getQ() * ParamDerivative.getGderiv(this.s(), this.s(), a, b, num, type);
     }
 
@@ -152,5 +152,5 @@ public abstract class NDDOAtom extends AtomFixed {
 
     public abstract double crfDeriv2(NDDOAtom b, int tau1, int tau2);
 
-    public abstract double crfParamDeriv (NDDOAtom b, int num);
+    public abstract double crfParamDeriv(NDDOAtom b, int num);
 }

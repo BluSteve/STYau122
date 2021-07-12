@@ -5,7 +5,6 @@ import nddoparam.NDDOGeometryOptimizationRestricted;
 import nddoparam.NDDOSolutionRestricted;
 import nddoparam.param.ParamGradientRestricted;
 import nddoparam.param.ParamHessianRestricted;
-import org.apache.commons.lang3.time.StopWatch;
 
 public class MoleculeRunRestricted extends MoleculeRun {
     public MoleculeRunRestricted(NDDOAtom[] atoms2, int charge, NDDOAtom[] expGeom, double[] datum, boolean isRunHessian, String kind, int[] atomTypes) {

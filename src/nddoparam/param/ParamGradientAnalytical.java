@@ -4,6 +4,7 @@ import nddoparam.NDDOSolution;
 import org.jblas.DoubleMatrix;
 
 public abstract class ParamGradientAnalytical implements ErrorGettable {
+    protected static final double LAMBDA = 1E-7;
     protected NDDOSolution s, sPrime, sExpPrime, sExp;
     protected ParamErrorFunction e;
     protected String kind;
@@ -12,7 +13,6 @@ public abstract class ParamGradientAnalytical implements ErrorGettable {
     protected double[][] HFDerivs, dipoleDerivs, IEDerivs, geomDerivs, totalGradients;
     protected DoubleMatrix[][] densityDerivs, xLimited, xComplementary, xForIE, coeffDerivs, responseDerivs, fockDerivs;
     protected DoubleMatrix[][][] staticDerivs;
-    protected static final double LAMBDA = 1E-7;
 
     public ParamGradientAnalytical(NDDOSolution s, String kind, double[] datum, NDDOSolution sExp, boolean analytical) {
         this.s = s;

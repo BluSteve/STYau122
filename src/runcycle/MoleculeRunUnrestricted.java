@@ -3,7 +3,8 @@ package runcycle;
 import nddoparam.NDDOAtom;
 import nddoparam.NDDOGeometryOptimizationUnrestricted;
 import nddoparam.NDDOSolutionUnrestricted;
-import nddoparam.param.*;
+import nddoparam.param.ParamGradientUnrestricted2;
+import nddoparam.param.ParamHessianUnrestricted2;
 
 public class MoleculeRunUnrestricted extends MoleculeRun {
     public MoleculeRunUnrestricted(NDDOAtom[] atoms2, int charge, int mult, NDDOAtom[] expGeom, double[] datum, boolean isRunHessian, String kind, int[] atomTypes) {
