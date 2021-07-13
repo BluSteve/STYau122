@@ -31,17 +31,7 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/runcycle/input/RawAtom.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/runcycle/input/RawInput.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/runcycle/input/RawMolecule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/MNDOParam_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/MNDOParam_jar.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mndooutput.txt" beforeDir="false" afterPath="$PROJECT_DIR$/mndooutput.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-    </list>
+    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -305,7 +295,7 @@
       <recent name="nddoparam.param" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.InputHandler">
+  <component name="RunManager" selected="Shell Script.blusteve">
     <configuration name="AtomHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="adopt-openjdk-11" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -367,8 +357,8 @@
       <item itemvalue="Application.Main" />
       <item itemvalue="Application.AtomHandler" />
       <item itemvalue="Application.ParamGradientRestricted" />
-      <item itemvalue="Shell Script.blusteve" />
       <item itemvalue="Application.InputHandler" />
+      <item itemvalue="Shell Script.blusteve" />
     </list>
     <recent_temporary>
       <list>
@@ -467,14 +457,7 @@
       <workItem from="1626105704860" duration="2751000" />
       <workItem from="1626109327462" duration="2084000" />
       <workItem from="1626154934101" duration="4422000" />
-      <workItem from="1626189563272" duration="5415000" />
-    </task>
-    <task id="LOCAL-00029" summary="Even further S factor geometry optimization">
-      <created>1621098059392</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1621098059392</updated>
+      <workItem from="1626189563272" duration="5651000" />
     </task>
     <task id="LOCAL-00030" summary="Even even further S factor geometry optimization">
       <created>1621102600977</created>
@@ -812,7 +795,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626180286887</updated>
     </task>
-    <option name="localTasksCounter" value="78" />
+    <task id="LOCAL-00078" summary="input.json">
+      <created>1626195084470</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1626195084470</updated>
+    </task>
+    <option name="localTasksCounter" value="79" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -880,7 +870,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Some minor refactoring of Gradient, working hessian? (tbc)" />
     <MESSAGE value="Faster hessian" />
     <MESSAGE value="Finite difference added to ParamGradient as an option" />
     <MESSAGE value="Working (tbc) ParamGradientUnrestricted2" />
@@ -905,7 +894,8 @@
     <MESSAGE value="Debug weird H2 bug" />
     <MESSAGE value="Minor changes" />
     <MESSAGE value="Adrian fix NDDO Solution Restricted" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adrian fix NDDO Solution Restricted" />
+    <MESSAGE value="input.json" />
+    <option name="LAST_COMMIT_MESSAGE" value="input.json" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>

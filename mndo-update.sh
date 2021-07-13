@@ -5,3 +5,4 @@ wget "https://blusteve.com/MNDOHessianUpdateData.txt" -O MNDOHessianUpdateData.t
 wget "https://blusteve.com/mndoparams.txt" -O mndoparams.txt
 wget "https://blusteve.com/reference.txt" -O reference.txt
 wget "https://blusteve.com/input.txt" -O input.txt
+wget "https://blusteve.com/input.json" -O input.json
