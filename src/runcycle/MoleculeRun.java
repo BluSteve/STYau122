@@ -84,7 +84,7 @@ public abstract class MoleculeRun {
 
     protected void runGradient() {
         constructG();
-        g.computeGradient(); // time intensive step
+        g.computeGradients(); // time intensive step
         StringBuilder HFDerivsSB = new StringBuilder(datum[0] + "," + g.getS().hf);
         StringBuilder dipoleDerivsSB = new StringBuilder(datum[1] + "," + g.getS().dipole);
         StringBuilder IEDerivsSB = new StringBuilder(datum[2] + "," + -g.getS().homo);

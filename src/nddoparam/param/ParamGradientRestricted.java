@@ -9,6 +9,7 @@ import nddoparam.mndo.MNDOParams;
 import org.apache.commons.lang3.time.StopWatch;
 import org.jblas.DoubleMatrix;
 import runcycle.MoleculeRunRestricted;
+import runcycle.MoleculeRunUnrestricted;
 import scf.AtomHandler;
 import scf.Utils;
 
@@ -130,7 +131,7 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
         for (int x = 0; x < 1; x++) {
             sw.start();
 
-            MoleculeRunRestricted m = new MoleculeRunRestricted(exp, 0, exp1, datum, true, "d", new int[]{1, 6});
+            MoleculeRunUnrestricted m = new MoleculeRunUnrestricted(exp, 0, 1, exp1, datum, true, "d", new int[]{1, 6});
             time += sw.getTime();
             sw.stop();
             sw.reset();

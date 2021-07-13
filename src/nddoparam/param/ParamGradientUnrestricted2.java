@@ -9,8 +9,7 @@ public class ParamGradientUnrestricted2 extends ParamGradientAnalytical {
 
     public ParamGradientUnrestricted2(NDDOSolutionUnrestricted s, String kind, double[] datum,
                                       NDDOSolutionUnrestricted sExp, boolean analytical) {
-        // TODO Change this line's hardcoding once analytical has been implemented for unrestricted.
-        super(s, kind, datum, sExp, false);
+        super(s, kind, datum, sExp, analytical);
         initializeArrays();
 
         e = new ParamErrorFunctionUnrestricted(s, datum[0]);

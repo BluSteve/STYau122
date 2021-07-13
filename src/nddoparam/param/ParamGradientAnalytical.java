@@ -78,32 +78,36 @@ public abstract class ParamGradientAnalytical implements ErrorGettable {
         fockDerivs = new DoubleMatrix[s.getUniqueZs().length][NDDOSolution.maxParamNum];
     }
 
-    public void computeGradient() {
+    public void computeGradients() {
         totalGradients = new double[s.getUniqueZs().length][NDDOSolution.maxParamNum];
         if (analytical && (kind.equals("b") || kind.equals("c") || kind.equals("d")))
             computeBatchedDerivs(0, 0);
         for (int Z = 0; Z < s.getUniqueZs().length; Z++) {
             for (int paramNum : s.getNeededParams()[s.getUniqueZs()[Z]]) {
-                if (!analytical) constructSPrime(Z, paramNum);
-                switch (kind) {
-                    case "a":
-                        computeHFDeriv(Z, paramNum);
-                        break;
-                    case "b":
-                        computeDipoleDeriv(Z, paramNum, true);
-                        break;
-                    case "c":
-                        computeDipoleDeriv(Z, paramNum, false);
-                        computeIEDeriv(Z, paramNum);
-                        break;
-                    case "d":
-                        computeDipoleDeriv(Z, paramNum, true);
-                        computeIEDeriv(Z, paramNum);
-                        break;
-                }
-                if (isExpAvail) computeGeomDeriv(Z, paramNum);
+                computeGradient(Z,paramNum);
             }
         }
+    }
+
+    public void computeGradient(int Z, int paramNum) {
+        if (!analytical) constructSPrime(Z, paramNum);
+        switch (kind) {
+            case "a":
+                computeHFDeriv(Z, paramNum);
+                break;
+            case "b":
+                computeDipoleDeriv(Z, paramNum, true);
+                break;
+            case "c":
+                computeDipoleDeriv(Z, paramNum, false);
+                computeIEDeriv(Z, paramNum);
+                break;
+            case "d":
+                computeDipoleDeriv(Z, paramNum, true);
+                computeIEDeriv(Z, paramNum);
+                break;
+        }
+        if (isExpAvail) computeGeomDeriv(Z, paramNum);
     }
 
     protected void computeGeomDeriv(int Z, int paramNum) {
@@ -191,11 +195,11 @@ public abstract class ParamGradientAnalytical implements ErrorGettable {
     }
 
     public double getAnalyticalError() {
-        this.computeGradient();
+        this.computeGradients();
         double[][] a = new double[totalGradients.length][0];
         for (int i = 0; i < totalGradients.length; i++) a[i] = totalGradients[i].clone();
         analytical = !analytical;
-        this.computeGradient();
+        this.computeGradients();
         double sum = 0;
         for (int i = 0; i < totalGradients.length; i++) {
             for (int j = 0; j < totalGradients[0].length; j++) {

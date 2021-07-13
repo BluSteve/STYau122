@@ -6,9 +6,8 @@ import scf.Utils;
 public class ParamHessianRestricted extends ParamHessianAnalytical {
     public ParamHessianRestricted(NDDOSolutionRestricted s, String kind, double[] datum, NDDOSolutionRestricted sExp, boolean analytical) {
         super(s, kind, datum, sExp, analytical);
-        g = new ParamGradientRestricted(s, kind, datum, sExp, true);
-        g.setAnalytical(this.analytical);
-        g.computeGradient();
+        g = new ParamGradientRestricted(s, kind, datum, sExp, analytical);
+        g.computeGradients();
     }
 
     public ParamHessianRestricted(ParamGradientRestricted g, boolean analytical) {
@@ -19,7 +18,6 @@ public class ParamHessianRestricted extends ParamHessianAnalytical {
     @Override
     protected void constructGPrime(int ZIndex, int paramNum) {
         gPrime = new ParamGradientRestricted(new NDDOSolutionRestricted(Utils.perturbAtomParams(s.atoms,
-                s.getUniqueZs()[ZIndex], paramNum), s.charge), kind, datum, (NDDOSolutionRestricted) sExp, true);
-        gPrime.setAnalytical(analytical);
+                s.getUniqueZs()[ZIndex], paramNum), s.charge), kind, datum, (NDDOSolutionRestricted) sExp, analytical);
     }
 }

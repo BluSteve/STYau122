@@ -44,25 +44,7 @@ public abstract class ParamHessianAnalytical implements ErrorGettable {
                         }
 
                         if (needed) {
-                            if (!analytical) gPrime.constructSPrime(ZIndex1, paramNum1);
-                            switch (kind) {
-                                case "a":
-                                    gPrime.computeHFDeriv(ZIndex1, paramNum1);
-                                    break;
-                                case "b":
-                                    gPrime.computeDipoleDeriv(ZIndex1, paramNum1, true);
-                                    break;
-                                case "c":
-                                    gPrime.computeDipoleDeriv(ZIndex1, paramNum1, false);
-                                    gPrime.computeIEDeriv(ZIndex1, paramNum1);
-                                    break;
-                                case "d":
-                                    gPrime.computeDipoleDeriv(ZIndex1, paramNum1, true);
-                                    gPrime.computeIEDeriv(ZIndex1, paramNum1);
-                                    break;
-                            }
-
-                            if (gPrime.isExpAvail) gPrime.computeGeomDeriv(ZIndex1, paramNum1);
+                            gPrime.computeGradient(ZIndex1, paramNum1);
                             hessian[ZIndex2 * NDDOSolution.maxParamNum + paramNum2]
                                     [ZIndex1 * NDDOSolution.maxParamNum + paramNum1] =
                                     (gPrime.getTotalGradients()[ZIndex1][paramNum1]
