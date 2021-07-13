@@ -5,15 +5,13 @@ import scf.Utils;
 
 public class ParamHessianUnrestricted2 extends ParamHessianAnalytical {
     public ParamHessianUnrestricted2(NDDOSolutionUnrestricted s, String kind, double[] datum, NDDOSolutionUnrestricted sExp, boolean analytical) {
-        // TODO Change this line's hardcoding once analytical has been implemented for unrestricted.
-        super(s, kind, datum, sExp, false);
+        super(s, kind, datum, sExp, analytical);
         g = new ParamGradientUnrestricted2(s, kind, datum, sExp, analytical);
         g.computeGradients();
     }
 
     public ParamHessianUnrestricted2(ParamGradientUnrestricted2 g, boolean analytical) {
-        // TODO Change this line's hardcoding once analytical has been implemented for unrestricted.
-        super(g.s, g.kind, g.datum, g.sExp, false);
+        super(g.s, g.kind, g.datum, g.sExp, analytical);
         this.g = g;
     }
 

@@ -34,9 +34,9 @@
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientRestricted.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientUnrestricted2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientUnrestricted2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianRestricted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianAnalytical.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianAnalytical.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianUnrestricted2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianUnrestricted2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRunUnrestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRunUnrestricted.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -451,13 +451,6 @@
       <workItem from="1626109327462" duration="2084000" />
       <workItem from="1626154934101" duration="4422000" />
     </task>
-    <task id="LOCAL-00022" summary="2nd-derivative evaluation (inefficient). No core-repulsion function.">
-      <created>1612602820697</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1612602820697</updated>
-    </task>
     <task id="LOCAL-00023" summary="2nd-derivative evaluation (inefficient). No core-repulsion function.">
       <created>1612823799049</created>
       <option name="number" value="00023" />
@@ -794,7 +787,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626172628589</updated>
     </task>
-    <option name="localTasksCounter" value="71" />
+    <task id="LOCAL-00071" summary="Some refactoring">
+      <created>1626174169754</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1626174169754</updated>
+    </task>
+    <option name="localTasksCounter" value="72" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -862,7 +862,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="ParamGradient refactor 2.1 very much working edition" />
     <MESSAGE value="Batched derivatives further optimized for Pople's algorithm." />
     <MESSAGE value="Some work on hessian" />
     <MESSAGE value="New indexing method" />
@@ -887,23 +886,10 @@
     <MESSAGE value="Minor changes" />
     <MESSAGE value="Runnable" />
     <MESSAGE value="No debug" />
-    <option name="LAST_COMMIT_MESSAGE" value="No debug" />
+    <MESSAGE value="Some refactoring" />
+    <option name="LAST_COMMIT_MESSAGE" value="Some refactoring" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/nddoparam/param/ParamGradientAnalytical.java</url>
-          <line>21</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/nddoparam/param/ParamGradientAnalytical.java</url>
-          <line>37</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="nddoparam.param.ParamHessianRestricted" memberName="gPrime" />

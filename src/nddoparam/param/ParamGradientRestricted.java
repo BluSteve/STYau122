@@ -127,18 +127,19 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
 //        System.out.println(hessian.getAnalyticalError());
 //        System.out.println("Test Hessian: " + Arrays.toString(hessian.getHessianUT()));
 //        System.out.println("Test Hessian: " + Arrays.toString(hessian2.getHessianUT()));
+        MoleculeRunUnrestricted m = null;
         double time = 0;
         for (int x = 0; x < 1; x++) {
             sw.start();
 
-            MoleculeRunUnrestricted m = new MoleculeRunUnrestricted(exp, 0, 1, exp1, datum, true, "d", new int[]{1, 6});
+            m = new MoleculeRunUnrestricted(exp, 0, 1, exp1, datum, true, "d", new int[]{1, 6});
             time += sw.getTime();
             sw.stop();
             sw.reset();
         }
 
         System.out.println("MOLECULERUN TIME TAKEN: " + time / 1);
-//        System.out.println(m.hessianStr);
+        System.out.println(m.hessianStr);
     }
 
     // Compiles all necessary fock matrices into one array before using the Pople algorithm, for faster computation.

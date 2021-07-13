@@ -29,7 +29,7 @@ public abstract class ParamHessianAnalytical implements ErrorGettable {
             for (int paramNum2 : s.getNeededParams()[s.getUniqueZs()[ZIndex2]]) {
                 constructGPrime(ZIndex2, paramNum2);
 
-                if (kind.equals("b") || kind.equals("c") || kind.equals("d"))
+                if (analytical && (kind.equals("b") || kind.equals("c") || kind.equals("d")))
                     gPrime.computeBatchedDerivs(ZIndex2, paramNum2);
 
                 boolean needed;

@@ -21,11 +21,13 @@ public class MoleculeRunUnrestricted extends MoleculeRun {
 
     @Override
     protected void constructG() {
-        g = new ParamGradientUnrestricted2((NDDOSolutionUnrestricted) opt.s, kind, datum, (NDDOSolutionUnrestricted) expSolution, true);
+        // TODO Change this line's hardcoding once analytical has been implemented for unrestricted.
+        g = new ParamGradientUnrestricted2((NDDOSolutionUnrestricted) opt.s, kind, datum, (NDDOSolutionUnrestricted) expSolution, false);
     }
 
     @Override
+    // TODO Change this line's hardcoding once analytical has been implemented for unrestricted.
     protected void constructH() {
-        h = new ParamHessianUnrestricted2((ParamGradientUnrestricted2) g, true);
+        h = new ParamHessianUnrestricted2((ParamGradientUnrestricted2) g, false);
     }
 }
