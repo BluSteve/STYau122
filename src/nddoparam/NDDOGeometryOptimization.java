@@ -49,7 +49,7 @@ public abstract class NDDOGeometryOptimization {
 
         double lambda = lambda(h, U.transpose().mmul(gradient), h.rows - counter);
 
-        System.err.println("lambda: " + lambda);
+//        System.err.println("lambda: " + lambda);
 
 
         DoubleMatrix searchdir = Solve.pinv(B.sub(DoubleMatrix.eye(B.rows).mmul(lambda))).mmul(gradient).mul(-1);
@@ -95,7 +95,7 @@ public abstract class NDDOGeometryOptimization {
 
             energy = s.energy;
             sw.suspend();
-            System.err.println("Time: " + sw.getTime());
+//            System.err.println("Time: " + sw.getTime());
 
 
             refEnergy = energy;
@@ -134,7 +134,7 @@ public abstract class NDDOGeometryOptimization {
 
             lambda = lambda(h, U.transpose().mmul(gradient), h.rows - counter);
 
-            System.err.println("lambda: " + lambda);
+//            System.err.println("lambda: " + lambda);
 
             searchdir = Solve.pinv(B.sub(DoubleMatrix.eye(B.rows).mmul(lambda))).mmul(gradient).mul(-1);
 

@@ -32,7 +32,7 @@ public class Main {
     public static void main(String[] args) {
         StopWatch sw = new StopWatch();
         sw.start();
-        System.err.close();
+//        System.err.close();
         System.out.println("MNDO Parameterization, updated 13 July. CH training set (PM7)");
 
         boolean useHessian;

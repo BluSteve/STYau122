@@ -1801,7 +1801,7 @@ public class NDDOSecondDerivative {
                     if (mag(rarray[a]) < 1E-6) {//todo change this if you want
                         rarray[a] = null;
                     } else {
-                        System.err.println("convergence test: " + mag(rarray[a]));
+//                        System.err.println("convergence test: " + mag(rarray[a]));
                     }
                 }
             }
@@ -1872,7 +1872,7 @@ public class NDDOSecondDerivative {
             densityMatrixDerivs[a] = densityMatrixDeriv;
         }
 
-        System.err.println("Time: " + sw.getTime());
+//        System.err.println("Time: " + sw.getTime());
 
 
         return densityMatrixDerivs;
@@ -1995,7 +1995,7 @@ public class NDDOSecondDerivative {
 
                 orthogonalise(barray);
 
-                System.err.println("only " + numIterable(iterable) + " left to go!");
+//                System.err.println("only " + numIterable(iterable) + " left to go!");
 
                 for (int i = 0; i < barray.length; i++) {
 
@@ -2068,7 +2068,7 @@ public class NDDOSecondDerivative {
                     return null;
                 } else {
                     iterable[j] = 0;
-                    System.err.println("convergence test: " + mag(rarray[j]));
+//                    System.err.println("convergence test: " + mag(rarray[j]));
                 }
             }
         }
@@ -2099,7 +2099,7 @@ public class NDDOSecondDerivative {
             densityMatrixDerivs[a] = densityMatrixDeriv;
         }
 
-        System.err.println("Time: " + sw.getTime());
+//        System.err.println("Time: " + sw.getTime());
 
 
         return densityMatrixDerivs;
