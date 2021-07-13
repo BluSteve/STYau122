@@ -6,6 +6,7 @@ public class RawMolecule {
     int index;
     boolean uhf;
     int charge, mult;
+    double[] datum;
     RawAtom[] atoms, expGeom;
 
     @Override
@@ -15,6 +16,7 @@ public class RawMolecule {
                 ", uhf=" + uhf +
                 ", charge=" + charge +
                 ", mult=" + mult +
+                ", datum=" + Arrays.toString(datum) +
                 ", atoms=" + Arrays.toString(atoms) +
                 ", expGeom=" + Arrays.toString(expGeom) +
                 '}';

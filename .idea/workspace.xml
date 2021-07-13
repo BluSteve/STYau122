@@ -31,7 +31,12 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="" />
+    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="mndo-update.sh">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mndo-install.sh" beforeDir="false" afterPath="$PROJECT_DIR$/mndo-install.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/input/RawMolecule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/input/RawMolecule.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -295,7 +300,7 @@
       <recent name="nddoparam.param" />
     </key>
   </component>
-  <component name="RunManager" selected="Shell Script.blusteve">
+  <component name="RunManager" selected="Application.InputHandler">
     <configuration name="AtomHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="adopt-openjdk-11" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -338,17 +343,6 @@
       <option name="MAIN_CLASS_NAME" value="nddoparam.param.ParamGradientRestricted" />
       <module name="MNDOParam" />
       <projectPathOnTarget name="projectPathOnTarget" value="/home/steve/Downloads/MNDOParam" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -457,21 +451,7 @@
       <workItem from="1626105704860" duration="2751000" />
       <workItem from="1626109327462" duration="2084000" />
       <workItem from="1626154934101" duration="4422000" />
-      <workItem from="1626189563272" duration="5651000" />
-    </task>
-    <task id="LOCAL-00030" summary="Even even further S factor geometry optimization">
-      <created>1621102600977</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1621102600977</updated>
-    </task>
-    <task id="LOCAL-00031" summary="Refactor T1 and T2 params to MNDOParams">
-      <created>1624087326260</created>
-      <option name="number" value="00031" />
-      <option name="presentableId" value="LOCAL-00031" />
-      <option name="project" value="LOCAL" />
-      <updated>1624087326260</updated>
+      <workItem from="1626189563272" duration="7339000" />
     </task>
     <task id="LOCAL-00032" summary="ParamGradient refactor">
       <created>1625393178108</created>
@@ -802,7 +782,21 @@
       <option name="project" value="LOCAL" />
       <updated>1626195084470</updated>
     </task>
-    <option name="localTasksCounter" value="79" />
+    <task id="LOCAL-00079" summary="mndo-update.sh">
+      <created>1626195279682</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1626195279682</updated>
+    </task>
+    <task id="LOCAL-00080" summary="mndo-update.sh">
+      <created>1626195439602</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1626195439602</updated>
+    </task>
+    <option name="localTasksCounter" value="81" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -870,7 +864,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Faster hessian" />
     <MESSAGE value="Finite difference added to ParamGradient as an option" />
     <MESSAGE value="Working (tbc) ParamGradientUnrestricted2" />
     <MESSAGE value="Other hessian representations" />
@@ -895,7 +888,8 @@
     <MESSAGE value="Minor changes" />
     <MESSAGE value="Adrian fix NDDO Solution Restricted" />
     <MESSAGE value="input.json" />
-    <option name="LAST_COMMIT_MESSAGE" value="input.json" />
+    <MESSAGE value="mndo-update.sh" />
+    <option name="LAST_COMMIT_MESSAGE" value="mndo-update.sh" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
@@ -906,6 +900,11 @@
           <url>file://$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java</url>
           <line>1882</line>
           <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/runcycle/input/InputHandler.java</url>
+          <line>82</line>
+          <option name="timeStamp" value="19" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

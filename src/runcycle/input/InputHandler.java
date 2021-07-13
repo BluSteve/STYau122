@@ -2,7 +2,6 @@ package runcycle.input;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -28,6 +27,7 @@ public class InputHandler {
         ri = new RawInput();
         try {
             List<String> lines = Files.readAllLines(Path.of("input.txt"));
+            List<String> datums = Files.readAllLines(Path.of("reference.txt"));
             ri.trainingSet = lines.get(0).split("=")[1];
             ArrayList<RawMolecule> moleculesL = new ArrayList<>();
 
@@ -70,8 +70,29 @@ public class InputHandler {
                     moleculesL.add(rm);
                     i++;
                 }
+
+
             } catch (IndexOutOfBoundsException e) {
 
+            }
+            try {
+                i = 0;
+                int j = 0;
+                while (i < datums.size()) {
+                    String[] ss;
+                    double[] datum = new double[3];
+                    datum[0] = Double.parseDouble(datums.get(i).split(" ")[1]);
+                    i++;
+                    ss = datums.get(i).split(" ");
+                    if (ss.length == 2) datum[1] = Double.parseDouble(ss[1]);
+                    i++;
+                    ss = datums.get(i).split(" ");
+                    if (ss.length == 2) datum[2] = Double.parseDouble(ss[1]);
+                    i += 2;
+                    moleculesL.get(j).datum = datum;
+                    j++;
+                }
+            } catch (IndexOutOfBoundsException e) {
             }
             ri.molecules = new RawMolecule[moleculesL.size()];
             for (int p = 0; p < moleculesL.size(); p++) ri.molecules[p] = moleculesL.get(p);
@@ -99,5 +120,6 @@ public class InputHandler {
 
     public static void main(String[] args) {
         InputHandler.processInput();
+        System.out.println(ri);
     }
 }

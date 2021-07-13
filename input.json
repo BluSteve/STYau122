@@ -6,6 +6,11 @@
       "uhf": false,
       "charge": 1,
       "mult": 1,
+      "datum": [
+        365.7,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "H",
@@ -23,6 +28,11 @@
       "uhf": true,
       "charge": 0,
       "mult": 2,
+      "datum": [
+        52.1,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "H",
@@ -40,6 +50,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        0.0,
+        0.0,
+        15.4
+      ],
       "atoms": [
         {
           "name": "H",
@@ -82,6 +97,11 @@
       "uhf": true,
       "charge": 1,
       "mult": 2,
+      "datum": [
+        430.6,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -99,6 +119,11 @@
       "uhf": true,
       "charge": 0,
       "mult": 3,
+      "datum": [
+        170.9,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -116,6 +141,11 @@
       "uhf": true,
       "charge": 0,
       "mult": 2,
+      "datum": [
+        142.4,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -141,6 +171,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        99.8,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -199,6 +234,11 @@
       "uhf": true,
       "charge": 0,
       "mult": 3,
+      "datum": [
+        99.8,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -257,6 +297,11 @@
       "uhf": false,
       "charge": 1,
       "mult": 1,
+      "datum": [
+        261.0,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -331,6 +376,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -17.9,
+        0.0,
+        13.6
+      ],
       "atoms": [
         {
           "name": "C",
@@ -421,6 +471,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        54.3,
+        0.0,
+        11.4
+      ],
       "atoms": [
         {
           "name": "C",
@@ -495,6 +550,11 @@
       "uhf": false,
       "charge": 1,
       "mult": 1,
+      "datum": [
+        266.0,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -585,6 +645,11 @@
       "uhf": true,
       "charge": 0,
       "mult": 2,
+      "datum": [
+        59.6,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -675,6 +740,11 @@
       "uhf": true,
       "charge": 1,
       "mult": 2,
+      "datum": [
+        257.0,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -781,6 +851,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        12.5,
+        0.0,
+        10.51
+      ],
       "atoms": [
         {
           "name": "C",
@@ -887,6 +962,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        90.3,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -993,6 +1073,11 @@
       "uhf": false,
       "charge": 1,
       "mult": 1,
+      "datum": [
+        216.0,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -1115,6 +1200,11 @@
       "uhf": true,
       "charge": 0,
       "mult": 2,
+      "datum": [
+        25.0,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -1237,6 +1327,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -20.0,
+        0.0,
+        12.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -1375,6 +1470,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        196.0,
+        0.0,
+        11.1
+      ],
       "atoms": [
         {
           "name": "C",
@@ -1433,6 +1533,11 @@
       "uhf": false,
       "charge": 1,
       "mult": 1,
+      "datum": [
+        257.0,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -1539,6 +1644,11 @@
       "uhf": false,
       "charge": 1,
       "mult": 1,
+      "datum": [
+        281.0,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -1645,6 +1755,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        45.6,
+        0.0,
+        10.07
+      ],
       "atoms": [
         {
           "name": "C",
@@ -1767,6 +1882,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        66.2,
+        0.45,
+        9.86
+      ],
       "atoms": [
         {
           "name": "C",
@@ -1832,6 +1952,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        44.4,
+        0.78,
+        10.37
+      ],
       "atoms": [
         {
           "name": "H",
@@ -1954,6 +2079,11 @@
       "uhf": false,
       "charge": 1,
       "mult": 1,
+      "datum": [
+        226.0,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "H",
@@ -2092,6 +2222,11 @@
       "uhf": false,
       "charge": 1,
       "mult": 1,
+      "datum": [
+        235.0,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -2165,6 +2300,11 @@
       "uhf": false,
       "charge": 1,
       "mult": 1,
+      "datum": [
+        237.0,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -2238,6 +2378,11 @@
       "uhf": true,
       "charge": 0,
       "mult": 2,
+      "datum": [
+        40.0,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -2376,6 +2521,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        12.7,
+        0.0,
+        11.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -2530,6 +2680,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        4.9,
+        0.37,
+        9.88
+      ],
       "atoms": [
         {
           "name": "C",
@@ -2684,6 +2839,11 @@
       "uhf": true,
       "charge": 0,
       "mult": 2,
+      "datum": [
+        16.8,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -2854,6 +3014,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -24.8,
+        0.08,
+        11.5
+      ],
       "atoms": [
         {
           "name": "C",
@@ -3040,6 +3205,11 @@
       "uhf": true,
       "charge": 0,
       "mult": 3,
+      "datum": [
+        232.0,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -3114,6 +3284,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        113.0,
+        0.0,
+        10.17
+      ],
       "atoms": [
         {
           "name": "C",
@@ -3220,6 +3395,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        72.8,
+        0.0,
+        9.1
+      ],
       "atoms": [
         {
           "name": "C",
@@ -3358,6 +3538,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        83.0,
+        0.0,
+        9.15
+      ],
       "atoms": [
         {
           "name": "H",
@@ -3496,6 +3681,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        38.8,
+        0.0,
+        9.15
+      ],
       "atoms": [
         {
           "name": "C",
@@ -3666,6 +3856,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        26.0,
+        0.0,
+        9.08
+      ],
       "atoms": [
         {
           "name": "C",
@@ -3836,6 +4031,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        39.5,
+        0.0,
+        10.2
+      ],
       "atoms": [
         {
           "name": "C",
@@ -4006,6 +4206,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        34.7,
+        0.0,
+        9.6
+      ],
       "atoms": [
         {
           "name": "C",
@@ -4176,6 +4381,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        51.9,
+        0.68,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -4346,6 +4556,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        37.5,
+        0.13,
+        9.43
+      ],
       "atoms": [
         {
           "name": "C",
@@ -4516,6 +4731,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        58.2,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -4686,6 +4906,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        47.9,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -4856,6 +5081,11 @@
       "uhf": false,
       "charge": 1,
       "mult": 1,
+      "datum": [
+        200.0,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -4953,6 +5183,11 @@
       "uhf": false,
       "charge": 1,
       "mult": 1,
+      "datum": [
+        213.0,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -5050,6 +5285,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -0.2,
+        0.0,
+        9.7
+      ],
       "atoms": [
         {
           "name": "C",
@@ -5252,6 +5492,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -1.9,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -5454,6 +5699,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        6.8,
+        0.0,
+        10.7
+      ],
       "atoms": [
         {
           "name": "C",
@@ -5656,6 +5906,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -4.3,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -5858,6 +6113,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -3.0,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -6060,6 +6320,11 @@
       "uhf": false,
       "charge": 1,
       "mult": 1,
+      "datum": [
+        176.0,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -6173,6 +6438,11 @@
       "uhf": true,
       "charge": 0,
       "mult": 2,
+      "datum": [
+        4.5,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -6391,6 +6661,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -32.4,
+        0.0,
+        11.4
+      ],
       "atoms": [
         {
           "name": "C",
@@ -6625,6 +6900,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -30.4,
+        0.0,
+        11.2
+      ],
       "atoms": [
         {
           "name": "C",
@@ -6859,6 +7139,11 @@
       "uhf": false,
       "charge": -1,
       "mult": 1,
+      "datum": [
+        21.3,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -7029,6 +7314,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        32.1,
+        0.42,
+        8.57
+      ],
       "atoms": [
         {
           "name": "C",
@@ -7215,6 +7505,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        46.4,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -7328,6 +7623,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        25.3,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -7546,6 +7846,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        19.1,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -7764,6 +8069,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        18.1,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -7982,6 +8292,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        37.3,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -8200,6 +8515,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        8.3,
+        0.2,
+        9.18
+      ],
       "atoms": [
         {
           "name": "C",
@@ -8418,6 +8738,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        18.0,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -8636,6 +8961,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        29.1,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -8854,6 +9184,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        44.3,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -9072,6 +9407,11 @@
       "uhf": false,
       "charge": 1,
       "mult": 1,
+      "datum": [
+        188.0,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -9193,6 +9533,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -9.9,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -9443,6 +9788,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -6.1,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -9693,6 +10043,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        1.3,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -9822,6 +10177,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -18.3,
+        0.0,
+        10.5
+      ],
       "atoms": [
         {
           "name": "C",
@@ -10072,6 +10432,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -7.9,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -10322,6 +10687,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -35.1,
+        0.0,
+        10.3
+      ],
       "atoms": [
         {
           "name": "C",
@@ -10604,6 +10974,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -40.3,
+        0.0,
+        11.3
+      ],
       "atoms": [
         {
           "name": "C",
@@ -10886,6 +11261,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        19.8,
+        0.0,
+        9.25
+      ],
       "atoms": [
         {
           "name": "C",
@@ -11088,6 +11468,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        47.5,
+        0.42,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -11290,6 +11675,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        40.1,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "H",
@@ -11524,6 +11914,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        41.1,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "H",
@@ -11758,6 +12153,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        25.4,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -11992,6 +12392,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        25.0,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -12226,6 +12631,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        19.8,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -12363,6 +12773,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        20.1,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -12629,6 +13044,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -1.1,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -12895,6 +13315,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        2.3,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -13161,6 +13586,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        3.5,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -13427,6 +13857,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        30.9,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -13564,6 +13999,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -1.1,
+        0.0,
+        10.3
+      ],
       "atoms": [
         {
           "name": "C",
@@ -13830,6 +14270,11 @@
       "uhf": false,
       "charge": 1,
       "mult": 1,
+      "datum": [
+        177.0,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -13975,6 +14420,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -10.1,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -14273,6 +14723,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -15.7,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -14571,6 +15026,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -16.8,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -14869,6 +15329,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -14.8,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -15167,6 +15632,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -11.8,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -15320,6 +15790,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -29.5,
+        0.0,
+        10.3
+      ],
       "atoms": [
         {
           "name": "C",
@@ -15618,6 +16093,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -44.4,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -15948,6 +16428,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -42.5,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -16278,6 +16763,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -41.7,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -16608,6 +17098,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -41.1,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -16938,6 +17433,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -39.9,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -17268,6 +17768,11 @@
       "uhf": false,
       "charge": 1,
       "mult": 1,
+      "datum": [
+        212.0,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -17502,6 +18007,11 @@
       "uhf": false,
       "charge": 1,
       "mult": 1,
+      "datum": [
+        209.0,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -17736,6 +18246,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        43.0,
+        0.0,
+        8.5
+      ],
       "atoms": [
         {
           "name": "C",
@@ -17865,6 +18380,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        59.7,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -18115,6 +18635,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        12.0,
+        0.36,
+        8.82
+      ],
       "atoms": [
         {
           "name": "C",
@@ -18365,6 +18890,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -9.9,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -18526,6 +19056,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -6.0,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -18687,6 +19222,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -19.4,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -18848,6 +19388,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -12.4,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -19162,6 +19707,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -33.1,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -19339,6 +19889,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -31.0,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -19516,6 +20071,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -31.9,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -19693,6 +20253,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -32.7,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -19870,6 +20435,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -14.9,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -20047,6 +20617,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -30.4,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -20224,6 +20799,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -37.0,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -20401,6 +20981,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -48.7,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -20594,6 +21179,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -49.3,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -20787,6 +21377,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -47.6,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -20980,6 +21575,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -48.3,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -21358,6 +21958,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -46.6,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -21551,6 +22156,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -48.2,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -21744,6 +22354,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -45.3,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -22122,6 +22737,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -46.0,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -22315,6 +22935,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -44.9,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -22693,6 +23318,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        148.7,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -22959,6 +23589,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        70.7,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -23225,6 +23860,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        35.3,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -23491,6 +24131,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        7.2,
+        0.0,
+        8.8
+      ],
       "atoms": [
         {
           "name": "C",
@@ -23789,6 +24434,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        4.1,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -24087,6 +24737,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        4.6,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -24240,6 +24895,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        4.3,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -24538,6 +25198,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        13.7,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -24707,6 +25372,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        16.6,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -24876,6 +25546,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        19.3,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -25061,6 +25736,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -4.6,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -25246,6 +25926,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        15.2,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -25431,6 +26116,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -0.5,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -25616,6 +26306,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        0.7,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -25801,6 +26496,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -0.9,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -25986,6 +26686,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        14.9,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -26171,6 +26876,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        14.4,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -26356,6 +27066,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -24.1,
+        0.0,
+        9.45
+      ],
       "atoms": [
         {
           "name": "C",
@@ -26718,6 +27433,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -19.8,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -26919,6 +27639,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -41.1,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -27120,6 +27845,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -54.0,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -27546,6 +28276,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -52.6,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -27763,6 +28498,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -53.6,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -27980,6 +28720,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -53.7,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -28197,6 +28942,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -51.7,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -28414,6 +29164,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -52.0,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -28631,6 +29386,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -51.1,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -28848,6 +29608,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -52.4,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -29065,6 +29830,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -53.2,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -29282,6 +30052,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -51.5,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -29499,6 +30274,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -52.6,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -29716,6 +30496,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -50.9,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -29933,6 +30718,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -50.4,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -30150,6 +30940,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -50.5,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -30367,6 +31162,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -51.4,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -30584,6 +31384,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -50.8,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -30801,6 +31606,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -50.7,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -31018,6 +31828,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -49.9,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -31444,6 +32259,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        28.3,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -31605,6 +32425,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        36.0,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -31766,6 +32591,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -51.5,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -31991,6 +32821,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -49.4,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -32216,6 +33051,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -55.4,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -32457,6 +33297,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -54.7,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -32698,6 +33543,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        73.5,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -32996,6 +33846,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        36.1,
+        0.0,
+        8.15
+      ],
       "atoms": [
         {
           "name": "C",
@@ -33294,6 +34149,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        134.3,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -33463,6 +34323,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        59.4,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -33632,6 +34497,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        53.1,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -33801,6 +34671,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        79.9,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -33970,6 +34845,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        118.1,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -34139,6 +35019,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        74.0,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -34308,6 +35193,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        85.1,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -34493,6 +35383,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        72.3,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -34678,6 +35573,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        6.2,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -34863,6 +35763,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -4.2,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -35064,6 +35969,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -5.2,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -35265,6 +36175,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -8.6,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -35466,6 +36381,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        19.9,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -35667,6 +36587,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -10.3,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -35868,6 +36793,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -11.3,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -36069,6 +36999,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -5.4,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -36270,6 +37205,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        3.0,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -36471,6 +37411,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -5.9,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -36688,6 +37633,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -31.9,
+        0.0,
+        9.6
+      ],
       "atoms": [
         {
           "name": "C",
@@ -36905,6 +37855,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -6.8,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -37331,6 +38286,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -24.5,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -37548,6 +38508,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -26.5,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -37781,6 +38746,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -26.6,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -38014,6 +38984,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -40.5,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -38247,6 +39222,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -34.7,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -38480,6 +39460,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -43.5,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -38713,6 +39698,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -39.9,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -38962,6 +39952,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -30.3,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -39211,6 +40206,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -29.8,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -39460,6 +40460,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -51.0,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -39709,6 +40714,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -45.2,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -39958,6 +40968,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -63.5,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
@@ -40223,6 +41238,11 @@
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "datum": [
+        -68.0,
+        0.0,
+        0.0
+      ],
       "atoms": [
         {
           "name": "C",
