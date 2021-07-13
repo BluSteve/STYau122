@@ -6,9 +6,9 @@ export PATH=~/.jdks/jdk-11.0.11+9/bin:$PATH
 echo "export PATH=~/.jdks/jdk-11.0.11+9/bin:$PATH" >> ~/.bashrc
 rm OpenJDK11U-jdk_x64_linux_hotspot_11.0.11_9.tar.gz
 
-wget "https://blusteve.com/mndo-update.sh"
+wget "https://mndo.blusteve.com/mndo-update.sh"
 chmod +x mndo-update.sh
-wget "https://blusteve.com/mndo-j.sh"
+wget "https://mndo.blusteve.com/mndo-j.sh"
 chmod +x mndo-j.sh
 
 sudo apt install libgfortran5 htop
