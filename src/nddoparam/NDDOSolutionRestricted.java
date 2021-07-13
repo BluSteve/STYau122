@@ -680,9 +680,12 @@ public class NDDOSolutionRestricted extends NDDOSolution {
 
                 }
 
-
-                DIIS = bestDIIS.dup();
-
+                try {
+                    DIIS = bestDIIS.dup();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.err.println(bestDIIS);
+                }
 
                 DoubleMatrix F = DoubleMatrix.zeros(densityMatrix.rows, densityMatrix.columns);
 
