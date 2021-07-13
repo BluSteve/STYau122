@@ -2018,9 +2018,9 @@ public class ParamDerivative {
                 alpha = Solve.solve(lhs, rhs);
             } catch (LapackException e) {
                 alpha = DoubleMatrix.ones(lhs.columns, rhs.columns);
-                System.err.println(Arrays.toString(fockDerivStatic));
-                System.err.println(lhs);
-                System.err.println(rhs);
+//                System.err.println(Arrays.toString(fockDerivStatic));
+//                System.err.println(lhs);
+//                System.err.println(rhs);
             }
 
             for (int a = 0; a < xArray.length; a++) {
@@ -2066,6 +2066,14 @@ public class ParamDerivative {
     }
 
     private static DoubleMatrix[] xArrayLimitedThiel(NDDOSolutionRestricted soln, DoubleMatrix[] fockDerivStatic) {
+        boolean bad = true;
+        for (DoubleMatrix dm : fockDerivStatic) {
+            if (dm != null) {
+                bad = false;
+                break;
+            }
+        }
+        if (bad) return new DoubleMatrix[fockDerivStatic.length];
         int NOcc = (int) (soln.nElectrons / 2.0);
         int NVirt = soln.orbitals.length - NOcc;
         DoubleMatrix[] Farray = new DoubleMatrix[fockDerivStatic.length];
