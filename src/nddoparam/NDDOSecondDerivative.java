@@ -1745,7 +1745,7 @@ public class NDDOSecondDerivative {
 
             ArrayList<DoubleMatrix> p = new ArrayList<>();
 
-            System.err.println("It's still running, don't worry: " + numNotNull(rarray));
+//            System.err.println("It's still running, don't worry: " + numNotNull(rarray));
 
             for (int i = 0; i < rarray.length; i++) {
 

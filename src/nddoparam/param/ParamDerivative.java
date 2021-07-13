@@ -9,6 +9,7 @@ import scf.Utils;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ParamDerivative {
 
@@ -1977,7 +1978,7 @@ public class ParamDerivative {
 
             NDDOSecondDerivative.orthogonalise(barray);
 
-            System.err.println("only " + NDDOSecondDerivative.numIterable(iterable) + " left to go!");
+//            System.err.println("only " + NDDOSecondDerivative.numIterable(iterable) + " left to go!");
 
             for (int i = 0; i < barray.length; i++) {
 
@@ -2010,8 +2011,16 @@ public class ParamDerivative {
             DoubleMatrix lhs = B.transpose().mmul(P);
 
             DoubleMatrix rhs = B.transpose().mmul(F);
+            DoubleMatrix alpha = null;
 
-            DoubleMatrix alpha = Solve.solve(lhs, rhs);
+            try {
+                alpha = Solve.solve(lhs, rhs);
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.err.println(Arrays.toString(fockDerivStatic));
+                System.err.println(lhs.toString());
+                System.err.println(rhs.toString());
+            }
 
             for (int a = 0; a < xArray.length; a++) {
 
@@ -2105,7 +2114,7 @@ public class ParamDerivative {
 
 
         while (numNotNull(rarray) > 0) {
-            System.err.println("It's still running, don't worry: " + numNotNull(rarray));
+//            System.err.println("It's still running, don't worry: " + numNotNull(rarray));
             ArrayList<DoubleMatrix> d = new ArrayList<>();
             for (int a = 0; a < rarray.length; a++) {
                 if (rarray[a] != null) d.add(dirs[a].dup());

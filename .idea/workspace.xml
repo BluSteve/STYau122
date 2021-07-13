@@ -32,11 +32,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/mndo-j.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations/blusteve.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/runConfigurations/blusteve.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mndo-install.sh" beforeDir="false" afterPath="$PROJECT_DIR$/mndo-install.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mndooutput.txt" beforeDir="false" afterPath="$PROJECT_DIR$/mndooutput.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDOSecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDOSecondDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientRestricted.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianAnalytical.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianAnalytical.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianUnrestricted2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianUnrestricted2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRunUnrestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRunUnrestricted.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -271,7 +276,7 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="create.test.in.the.same.root" value="true" />
     <property name="extract.method.default.visibility" value="private" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/blusteve.sh" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Facets" />
     <property name="project.structure.proportion" value="0.15" />
@@ -301,7 +306,7 @@
       <recent name="nddoparam.param" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.ParamGradientRestricted">
+  <component name="RunManager" selected="Shell Script.blusteve">
     <configuration name="AtomHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="adopt-openjdk-11" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -450,13 +455,6 @@
       <workItem from="1626105704860" duration="2751000" />
       <workItem from="1626109327462" duration="2084000" />
       <workItem from="1626154934101" duration="4422000" />
-    </task>
-    <task id="LOCAL-00023" summary="2nd-derivative evaluation (inefficient). No core-repulsion function.">
-      <created>1612823799049</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1612823799049</updated>
     </task>
     <task id="LOCAL-00024" summary="Implemented second-derivative methods for UHF. Still no CRF second derivatives.">
       <created>1613146655402</created>
@@ -794,7 +792,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626174169754</updated>
     </task>
-    <option name="localTasksCounter" value="72" />
+    <task id="LOCAL-00072" summary="Fixed analytical vs finite difference decision bug">
+      <created>1626174692382</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1626174692382</updated>
+    </task>
+    <option name="localTasksCounter" value="73" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -862,7 +867,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Batched derivatives further optimized for Pople's algorithm." />
     <MESSAGE value="Some work on hessian" />
     <MESSAGE value="New indexing method" />
     <MESSAGE value="Some minor refactoring of Gradient, working hessian? (tbc)" />
@@ -887,9 +891,19 @@
     <MESSAGE value="Runnable" />
     <MESSAGE value="No debug" />
     <MESSAGE value="Some refactoring" />
-    <option name="LAST_COMMIT_MESSAGE" value="Some refactoring" />
+    <MESSAGE value="Fixed analytical vs finite difference decision bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed analytical vs finite difference decision bug" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java</url>
+          <line>1881</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="nddoparam.param.ParamHessianRestricted" memberName="gPrime" />

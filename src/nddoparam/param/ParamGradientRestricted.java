@@ -8,6 +8,7 @@ import nddoparam.mndo.MNDOAtom;
 import nddoparam.mndo.MNDOParams;
 import org.apache.commons.lang3.time.StopWatch;
 import org.jblas.DoubleMatrix;
+import runcycle.MoleculeRun;
 import runcycle.MoleculeRunRestricted;
 import runcycle.MoleculeRunUnrestricted;
 import scf.AtomHandler;
@@ -127,12 +128,12 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
 //        System.out.println(hessian.getAnalyticalError());
 //        System.out.println("Test Hessian: " + Arrays.toString(hessian.getHessianUT()));
 //        System.out.println("Test Hessian: " + Arrays.toString(hessian2.getHessianUT()));
-        MoleculeRunUnrestricted m = null;
+        MoleculeRun m = null;
         double time = 0;
         for (int x = 0; x < 1; x++) {
             sw.start();
 
-            m = new MoleculeRunUnrestricted(exp, 0, 1, exp1, datum, true, "d", new int[]{1, 6});
+            m = new MoleculeRunRestricted(exp, 0, exp1, datum, true, "d", new int[]{1, 6});
             time += sw.getTime();
             sw.stop();
             sw.reset();
