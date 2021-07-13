@@ -32,16 +32,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/mndo-j.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations/blusteve.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/runConfigurations/blusteve.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mndo-install.sh" beforeDir="false" afterPath="$PROJECT_DIR$/mndo-install.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mndooutput.txt" beforeDir="false" afterPath="$PROJECT_DIR$/mndooutput.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDOSecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDOSecondDerivative.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientRestricted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -456,13 +450,6 @@
       <workItem from="1626109327462" duration="2084000" />
       <workItem from="1626154934101" duration="4422000" />
     </task>
-    <task id="LOCAL-00024" summary="Implemented second-derivative methods for UHF. Still no CRF second derivatives.">
-      <created>1613146655402</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1613146655402</updated>
-    </task>
     <task id="LOCAL-00025" summary="Some part of the response-vector formalism. Incomplete.">
       <created>1613204192166</created>
       <option name="number" value="00025" />
@@ -799,7 +786,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626174692382</updated>
     </task>
-    <option name="localTasksCounter" value="73" />
+    <task id="LOCAL-00073" summary="Debug weird H2 bug">
+      <created>1626177595394</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1626177595394</updated>
+    </task>
+    <option name="localTasksCounter" value="74" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -867,7 +861,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Some work on hessian" />
     <MESSAGE value="New indexing method" />
     <MESSAGE value="Some minor refactoring of Gradient, working hessian? (tbc)" />
     <MESSAGE value="Faster hessian" />
@@ -892,14 +885,17 @@
     <MESSAGE value="No debug" />
     <MESSAGE value="Some refactoring" />
     <MESSAGE value="Fixed analytical vs finite difference decision bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed analytical vs finite difference decision bug" />
+    <MESSAGE value="Debug weird H2 bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="Debug weird H2 bug" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java</url>
-          <line>1881</line>
+          <line>1882</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>

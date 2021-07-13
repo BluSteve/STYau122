@@ -3,6 +3,7 @@ package nddoparam.param;
 import nddoparam.*;
 import org.jblas.DoubleMatrix;
 import org.jblas.Solve;
+import org.jblas.exceptions.LapackException;
 import scf.GTO;
 import scf.LCGTO;
 import scf.Utils;
@@ -2011,15 +2012,15 @@ public class ParamDerivative {
             DoubleMatrix lhs = B.transpose().mmul(P);
 
             DoubleMatrix rhs = B.transpose().mmul(F);
-            DoubleMatrix alpha = null;
+            DoubleMatrix alpha;
 
             try {
                 alpha = Solve.solve(lhs, rhs);
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (LapackException e) {
+                alpha = DoubleMatrix.ones(lhs.columns, rhs.columns);
                 System.err.println(Arrays.toString(fockDerivStatic));
-                System.err.println(lhs.toString());
-                System.err.println(rhs.toString());
+                System.err.println(lhs);
+                System.err.println(rhs);
             }
 
             for (int a = 0; a < xArray.length; a++) {
@@ -2156,7 +2157,7 @@ public class ParamDerivative {
 
             try {
                 alpha = Solve.solve(solver, rhsvec);
-            } catch (Exception e) {
+            } catch (LapackException e) {
                 alpha = DoubleMatrix.ones(solver.columns, rhsvec.columns);
             }
 
