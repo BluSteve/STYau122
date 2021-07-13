@@ -3,8 +3,9 @@ package nddoparam;
 import org.apache.commons.lang3.time.StopWatch;
 import org.jblas.DoubleMatrix;
 import org.jblas.Eigen;
+import org.jblas.Solve;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 
 
 public class NDDOSolutionRestricted extends NDDOSolution {
@@ -19,6 +20,7 @@ public class NDDOSolutionRestricted extends NDDOSolution {
         StopWatch sw = new StopWatch();
 
         sw.start();
+
         int size = 0;
         for (int j = 0; j < orbitals.length; j++) {
             for (int k = j; k < orbitals.length; k++) {
@@ -143,12 +145,22 @@ public class NDDOSolutionRestricted extends NDDOSolution {
 
         F = H.dup();
 
+        DoubleMatrix[] Farray = new DoubleMatrix[8];
+        DoubleMatrix[] Darray = new DoubleMatrix[8];
+        double[] Earray = new double[8];
+
+        DoubleMatrix Bforediis = DoubleMatrix.zeros(8, 8);
+
+        DoubleMatrix B = DoubleMatrix.zeros(8, 8);
+
+        DoubleMatrix[] commutatorarray = new DoubleMatrix[8];
+
 
         int numIt = 0;
-        boolean unstable = false;
-        while (!isSimilar(densityMatrix, olddensity, 1E-10)) {//density matrix convergence criteria; since each iteration takes place within a fraction of a second I figured why not
 
-            numIt++;
+        double DIISError = 10;
+        while (DIISError > 1E-10) {//density matrix convergence criteria; since each iteration takes place within a fraction of a second I figured why not
+
             olddensity = densityMatrix.dup();
 
             integralcount = 0;
@@ -217,59 +229,547 @@ public class NDDOSolutionRestricted extends NDDOSolution {
 
             F = H.dup().add(G);
 
+            if (numIt < Farray.length) {
 
-            matrices = Eigen.symmetricEigenvectors(F);
+                Farray[numIt] = F.dup();
 
-            E = matrices[1].diag();
+                Darray[numIt] = densityMatrix.dup();
+                Earray[numIt] = -0.5 * (H.mmul(densityMatrix)).diag().sum();
+                commutatorarray[numIt] = commutator(F.dup(), densityMatrix.dup());
+                DIISError = commutatorarray[numIt].norm2();
+
+                for (int i = 0; i <= numIt; i++) {
+
+                    double product = (commutatorarray[numIt].mmul(commutatorarray[i].transpose())).diag().sum();
+                    B.put(i, numIt, product);
+                    B.put(numIt, i, product);
+
+                    product = 0.5 * ((Farray[i].mmul(Darray[numIt])).diag().sum() + (Farray[numIt].mmul(Darray[i])).diag().sum());
+
+                    Bforediis.put(i, numIt, product);
+                    Bforediis.put(numIt, i, product);
+                }
+            } else {
+
+                for (int i = 0; i < Farray.length - 1; i++) {
+
+                    Farray[i] = Farray[i + 1].dup();
+                    Darray[i] = Darray[i + 1].dup();
+                    commutatorarray[i] = commutatorarray[i + 1].dup();
+                    Earray[i] = Earray[i + 1];
+                }
+
+                Farray[Farray.length - 1] = F.dup();
+                Darray[Darray.length - 1] = densityMatrix.dup();
+                Earray[Darray.length - 1] = -0.5 * (H.mmul(densityMatrix)).diag().sum();
+                commutatorarray[Darray.length - 1] = commutator(F.dup(), densityMatrix.dup());
+                DIISError = commutatorarray[Darray.length - 1].norm2();
+
+                DoubleMatrix newB = DoubleMatrix.zeros(8, 8);
+
+                DoubleMatrix newBforediis = DoubleMatrix.zeros(8, 8);
+
+                for (int i = 0; i < Farray.length - 1; i++) {
+                    for (int j = i; j < Farray.length - 1; j++) {
+                        newB.put(i, j, B.get(i + 1, j + 1));
+                        newB.put(j, i, B.get(i + 1, j + 1));
+                        newBforediis.put(i, j, Bforediis.get(i + 1, j + 1));
+                        newBforediis.put(j, i, Bforediis.get(i + 1, j + 1));
+                    }
+                }
+
+                for (int i = 0; i < Farray.length; i++) {
+
+                    double product = commutatorarray[Farray.length - 1].transpose().mmul(commutatorarray[i]).diag().sum();
+                    newB.put(i, Farray.length - 1, product);
+                    newB.put(Farray.length - 1, i, product);
+
+                    product = 0.5 * ((Farray[i].mmul(Darray[Farray.length - 1])).diag().sum() + (Farray[Farray.length - 1].mmul(Darray[i])).diag().sum());
+                    newBforediis.put(i, Farray.length - 1, product);
+                    newBforediis.put(Farray.length - 1, i, product);
+                }
+
+                B = newB.dup();
+
+                Bforediis = newBforediis.dup();
+            }
 
 
-            //if (unstable) System.err.println (E);
+            //System.err.println ("DIIS Error: " + DIISError);
 
-            C = matrices[0].transpose();
 
-            densityMatrix = calculateDensityMatrix(C).mmul(1 - damp).add(olddensity.mmul(damp));
+            if (commutatorarray[Math.min(Farray.length - 1, numIt)].max() > 0.01) {
 
-            //System.out.println (densitymatrix);
+                DoubleMatrix mat = DoubleMatrix.zeros(Math.min(Farray.length + 1, numIt + 2), Math.min(Farray.length + 1, numIt + 2));
 
-            if (numIt >= 1000000) {
-                unstable = true;
-                System.err.println("SCF Has Not Converged for molecule " + moleculeName);
+                for (int i = 0; i < Math.min(Farray.length, numIt + 1); i++) {
+                    for (int j = i; j < Math.min(Farray.length, numIt + 1); j++) {
+                        mat.put(i, j, Bforediis.get(i, j));
+                        mat.put(j, i, Bforediis.get(i, j));
 
-                System.err.println("Damping Coefficient will be Increased, and the run restarted...");
+                    }
+                }
 
-                damp += 0.02;
 
-                matrices = Eigen.symmetricEigenvectors(H);
+                mat.putColumn(mat.columns - 1, DoubleMatrix.ones(mat.rows, 1));
 
+                mat.putRow(mat.rows - 1, DoubleMatrix.ones(mat.columns, 1));
+
+                mat.put(mat.rows - 1, mat.columns - 1, 0);
+
+                DoubleMatrix rhs = DoubleMatrix.ones(mat.rows, 1);
+
+                for (int i = 0; i < Math.min(Farray.length, numIt + 1); i++) {
+                    rhs.put(i, Earray[i]);
+                }
+
+
+                boolean nonNegative = false;
+
+                DoubleMatrix DIIS = null;
+
+                double bestE = 0;
+
+                DoubleMatrix bestDIIS = null;
+
+
+                try {
+                    DIIS = Solve.solve(mat, rhs);
+
+                    DIIS = DIIS.put(DIIS.rows - 1, 0);
+
+                    nonNegative = !(DIIS.min() < 0);
+
+                    if (nonNegative) {
+                        double e = 0;
+
+
+                        for (int i = 0; i < DIIS.length - 1; i++) {
+                            e -= Earray[i] * DIIS.get(i);
+                        }
+
+                        for (int i = 0; i < DIIS.length - 1; i++) {
+                            for (int j = 0; j < DIIS.length - 1; j++) {
+                                e += 0.5 * DIIS.get(i) * DIIS.get(j) * 0.5 * B.get(i, j);
+                            }
+                        }
+
+                        bestE = e;
+
+                        bestDIIS = DIIS.dup();
+                    }
+                } catch (Exception ex) {
+                }
+
+                for (int i = 0; i < mat.rows - 2; i++) {
+
+
+                    try {
+
+                        DoubleMatrix newmat = removeElementsSquare(mat.dup(), new int[]{i});
+                        DoubleMatrix newrhs = removeElementsLinear(rhs.dup(), new int[]{i});
+                        DIIS = addrow(Solve.solve(newmat, newrhs), new int[]{i});
+
+                        DIIS = DIIS.put(DIIS.rows - 1, 0);
+
+                        nonNegative = !(DIIS.min() < 0);
+
+                        if (nonNegative) {
+                            double e = 0;
+
+
+                            for (int a = 0; a < DIIS.length - 1; a++) {
+                                e -= Earray[a] * DIIS.get(a);
+                            }
+
+                            for (int a = 0; a < DIIS.length - 1; a++) {
+                                for (int b = 0; b < DIIS.length - 1; b++) {
+                                    e += 0.5 * DIIS.get(a) * DIIS.get(b) * 0.5 * B.get(a, b);
+                                }
+                            }
+
+                            if (e < bestE) {
+                                bestE = e;
+
+                                bestDIIS = DIIS.dup();
+                            }
+                        }
+                    } catch (Exception ex) {
+                    }
+                }
+
+
+                for (int i = 0; i < mat.rows - 2; i++) {
+
+                    for (int j = i + 1; j < mat.rows - 2; j++) {
+                        try {
+
+                            DoubleMatrix newmat = removeElementsSquare(mat.dup(), new int[]{i, j});
+                            DoubleMatrix newrhs = removeElementsLinear(rhs.dup(), new int[]{i, j});
+                            DIIS = addrow(Solve.solve(newmat, newrhs), new int[]{i, j});
+
+                            DIIS = DIIS.put(DIIS.rows - 1, 0);
+
+                            nonNegative = !(DIIS.min() < 0);
+
+                            if (nonNegative) {
+                                double e = 0;
+
+
+                                for (int a = 0; a < DIIS.length - 1; a++) {
+                                    e -= Earray[a] * DIIS.get(a);
+                                }
+
+                                for (int a = 0; a < DIIS.length - 1; a++) {
+                                    for (int b = 0; b < DIIS.length - 1; b++) {
+                                        e += 0.5 * DIIS.get(a) * DIIS.get(b) * 0.5 * B.get(a, b);
+                                    }
+                                }
+
+                                if (e < bestE) {
+                                    bestE = e;
+
+                                    bestDIIS = DIIS.dup();
+                                }
+                            }
+                        } catch (Exception ex) {
+                        }
+                    }
+
+                }
+
+                for (int i = 0; i < mat.rows - 2; i++) {
+
+                    for (int j = i + 1; j < mat.rows - 2; j++) {
+
+                        for (int k = j + 1; k < mat.rows - 2; k++) {
+                            try {
+
+                                DoubleMatrix newmat = removeElementsSquare(mat.dup(), new int[]{i, j, k});
+                                DoubleMatrix newrhs = removeElementsLinear(rhs.dup(), new int[]{i, j, k});
+                                DIIS = addrow(Solve.solve(newmat, newrhs), new int[]{i, j, k});
+
+                                DIIS = DIIS.put(DIIS.rows - 1, 0);
+
+                                nonNegative = !(DIIS.min() < 0);
+
+                                if (nonNegative) {
+                                    double e = 0;
+
+
+                                    for (int a = 0; a < DIIS.length - 1; a++) {
+                                        e -= Earray[a] * DIIS.get(a);
+                                    }
+
+                                    for (int a = 0; a < DIIS.length - 1; a++) {
+                                        for (int b = 0; b < DIIS.length - 1; b++) {
+                                            e += 0.5 * DIIS.get(a) * DIIS.get(b) * 0.5 * B.get(a, b);
+                                        }
+                                    }
+
+                                    if (e < bestE) {
+                                        bestE = e;
+
+                                        bestDIIS = DIIS.dup();
+                                    }
+                                }
+                            } catch (Exception ex) {
+                            }
+                        }
+                    }
+
+                }
+
+                for (int i = 0; i < mat.rows - 2; i++) {
+
+                    for (int j = i + 1; j < mat.rows - 2; j++) {
+
+                        for (int k = j + 1; k < mat.rows - 2; k++) {
+
+                            for (int l = k + 1; l < mat.rows - 2; l++) {
+                                try {
+
+                                    DoubleMatrix newmat = removeElementsSquare(mat.dup(), new int[]{i, j, k, l});
+                                    DoubleMatrix newrhs = removeElementsLinear(rhs.dup(), new int[]{i, j, k, l});
+                                    DIIS = addrow(Solve.solve(newmat, newrhs), new int[]{i, j, k, l});
+
+                                    DIIS = DIIS.put(DIIS.rows - 1, 0);
+
+                                    nonNegative = !(DIIS.min() < 0);
+
+                                    if (nonNegative) {
+                                        double e = 0;
+
+
+                                        for (int a = 0; a < DIIS.length - 1; a++) {
+                                            e -= Earray[a] * DIIS.get(a);
+                                        }
+
+                                        for (int a = 0; a < DIIS.length - 1; a++) {
+                                            for (int b = 0; b < DIIS.length - 1; b++) {
+                                                e += 0.5 * DIIS.get(a) * DIIS.get(b) * 0.5 * B.get(a, b);
+                                            }
+                                        }
+
+                                        if (e < bestE) {
+                                            bestE = e;
+
+                                            bestDIIS = DIIS.dup();
+                                        }
+                                    }
+                                } catch (Exception ex) {
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+
+                for (int i = 0; i < mat.rows - 2; i++) {
+
+                    for (int j = i + 1; j < mat.rows - 2; j++) {
+
+                        for (int k = j + 1; k < mat.rows - 2; k++) {
+
+                            for (int l = k + 1; l < mat.rows - 2; l++) {
+
+                                for (int m = l + 1; m < mat.rows - 2; m++) {
+                                    try {
+
+                                        DoubleMatrix newmat = removeElementsSquare(mat.dup(), new int[]{i, j, k, l, m});
+                                        DoubleMatrix newrhs = removeElementsLinear(rhs.dup(), new int[]{i, j, k, l, m});
+                                        DIIS = addrow(Solve.solve(newmat, newrhs), new int[]{i, j, k, l, m});
+
+                                        DIIS = DIIS.put(DIIS.rows - 1, 0);
+
+                                        nonNegative = !(DIIS.min() < 0);
+
+                                        if (nonNegative) {
+                                            double e = 0;
+
+
+                                            for (int a = 0; a < DIIS.length - 1; a++) {
+                                                e -= Earray[a] * DIIS.get(a);
+                                            }
+
+                                            for (int a = 0; a < DIIS.length - 1; a++) {
+                                                for (int b = 0; b < DIIS.length - 1; b++) {
+                                                    e += 0.5 * DIIS.get(a) * DIIS.get(b) * 0.5 * B.get(a, b);
+                                                }
+                                            }
+
+                                            if (e < bestE) {
+                                                bestE = e;
+
+                                                bestDIIS = DIIS.dup();
+                                            }
+                                        }
+                                    } catch (Exception ex) {
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+                for (int i = 0; i < mat.rows - 2; i++) {
+
+                    for (int j = i + 1; j < mat.rows - 2; j++) {
+
+                        for (int k = j + 1; k < mat.rows - 2; k++) {
+
+                            for (int l = k + 1; l < mat.rows - 2; l++) {
+
+                                for (int m = l + 1; m < mat.rows - 2; m++) {
+
+                                    for (int n = m + 1; n < mat.rows - 2; n++) {
+
+                                        try {
+
+                                            DoubleMatrix newmat = removeElementsSquare(mat.dup(), new int[]{i, j, k, l, m, n});
+                                            DoubleMatrix newrhs = removeElementsLinear(rhs.dup(), new int[]{i, j, k, l, m, n});
+                                            DIIS = addrow(Solve.solve(newmat, newrhs), new int[]{i, j, k, l, m, n});
+
+                                            DIIS = DIIS.put(DIIS.rows - 1, 0);
+
+                                            nonNegative = !(DIIS.min() < 0);
+
+                                            if (nonNegative) {
+                                                double e = 0;
+
+
+                                                for (int a = 0; a < DIIS.length - 1; a++) {
+                                                    e -= Earray[a] * DIIS.get(a);
+                                                }
+
+                                                for (int a = 0; a < DIIS.length - 1; a++) {
+                                                    for (int b = 0; b < DIIS.length - 1; b++) {
+                                                        e += 0.5 * DIIS.get(a) * DIIS.get(b) * 0.5 * B.get(a, b);
+                                                    }
+                                                }
+
+                                                if (e < bestE) {
+                                                    bestE = e;
+
+                                                    bestDIIS = DIIS.dup();
+                                                }
+                                            }
+                                        } catch (Exception ex) {
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+                for (int i = 0; i < mat.rows - 2; i++) {
+
+                    for (int j = i + 1; j < mat.rows - 2; j++) {
+
+                        for (int k = j + 1; k < mat.rows - 2; k++) {
+
+                            for (int l = k + 1; l < mat.rows - 2; l++) {
+
+                                for (int m = l + 1; m < mat.rows - 2; m++) {
+
+                                    for (int n = m + 1; n < mat.rows - 2; n++) {
+
+                                        for (int o = 0; o < mat.rows - 2; o++) {
+                                            try {
+
+                                                DoubleMatrix newmat = removeElementsSquare(mat.dup(), new int[]{i, j, k, l, m, n, o});
+                                                DoubleMatrix newrhs = removeElementsLinear(rhs.dup(), new int[]{i, j, k, l, m, n, o});
+                                                DIIS = addrow(Solve.solve(newmat, newrhs), new int[]{i, j, k, l, m, n, o});
+
+                                                DIIS = DIIS.put(DIIS.rows - 1, 0);
+
+                                                nonNegative = !(DIIS.min() < 0);
+
+                                                if (nonNegative) {
+                                                    double e = 0;
+
+
+                                                    for (int a = 0; a < DIIS.length - 1; a++) {
+                                                        e -= Earray[a] * DIIS.get(a);
+                                                    }
+
+                                                    for (int a = 0; a < DIIS.length - 1; a++) {
+                                                        for (int b = 0; b < DIIS.length - 1; b++) {
+                                                            e += 0.5 * DIIS.get(a) * DIIS.get(b) * 0.5 * B.get(a, b);
+                                                        }
+                                                    }
+
+                                                    if (e < bestE) {
+                                                        bestE = e;
+
+                                                        bestDIIS = DIIS.dup();
+                                                    }
+                                                }
+                                            } catch (Exception ex) {
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+
+                DIIS = bestDIIS.dup();
+
+
+                DoubleMatrix F = DoubleMatrix.zeros(densityMatrix.rows, densityMatrix.columns);
+
+
+                for (int i = 0; i < DIIS.length - 1; i++) {
+                    F = F.add(Farray[i].mmul(DIIS.get(i)));
+                }
+
+
+                this.F = F.dup();
+
+                matrices = Eigen.symmetricEigenvectors(F);
 
                 E = matrices[1].diag();
 
                 C = matrices[0].transpose();
 
-                G = DoubleMatrix.zeros(C.rows, C.columns);
-
                 densityMatrix = calculateDensityMatrix(C);
 
-                numIt = 0;
 
-                if (damp >= 1) {
-                    System.err.println("Damping Coefficient Cannot Be Increased Further. Exiting program...");
+            } else {
 
-                    for (NDDOAtom a : atoms) {
-                        System.out.println(a.getAtomProperties().getZ() + "; " + Arrays.toString(a.getCoordinates()));
+                DoubleMatrix mat = DoubleMatrix.zeros(Math.min(Farray.length + 1, numIt + 2), Math.min(Farray.length + 1, numIt + 2));
+
+                for (int i = 0; i < Math.min(Farray.length, numIt + 1); i++) {
+                    for (int j = i; j < Math.min(Farray.length, numIt + 1); j++) {
+                        mat.put(i, j, B.get(i, j));
+                        mat.put(j, i, B.get(i, j));
+
                     }
-                    System.exit(0);
+                }
 
+
+                mat.putColumn(mat.columns - 1, DoubleMatrix.ones(mat.rows, 1));
+
+                mat.putRow(mat.rows - 1, DoubleMatrix.ones(mat.columns, 1));
+
+                mat.put(mat.rows - 1, mat.columns - 1, 0);
+
+                DoubleMatrix rhs = DoubleMatrix.zeros(mat.rows, 1);
+
+                rhs.put(mat.rows - 1, 0, 1);
+
+                try {
+                    DoubleMatrix DIIS = Solve.solve(mat, rhs);
+
+                    DoubleMatrix F = DoubleMatrix.zeros(densityMatrix.rows, densityMatrix.columns);
+
+                    DoubleMatrix D = DoubleMatrix.zeros(densityMatrix.rows, densityMatrix.columns);
+
+
+                    for (int i = 0; i < DIIS.length - 1; i++) {
+                        F = F.add(Farray[i].mmul(DIIS.get(i)));
+                        D = D.add(Darray[i].mmul(DIIS.get(i)));
+                    }
+
+
+                    this.F = F.dup();
+
+
+                    matrices = Eigen.symmetricEigenvectors(F);
+
+                    E = matrices[1].diag();
+
+                    C = matrices[0].transpose();
+
+                    densityMatrix = calculateDensityMatrix(C);
+                } catch (Exception e) {
+                    matrices = Eigen.symmetricEigenvectors(F);
+
+                    E = matrices[1].diag();
+
+                    C = matrices[0].transpose();
+
+                    densityMatrix = calculateDensityMatrix(C).mmul(1 - damp).add(olddensity.mmul(damp));
                 }
             }
 
+
+            numIt++;
+
         }
+
 
         System.out.println(moleculeName + " SCF completed: " + numIt + " iterations used");
 
-        sw.stop();
-
-        System.err.println("non-DIIS took: " + sw.getTime());
+        System.err.println("Hybrid DIIS took: " + sw.getTime());
 
         double e = 0;
 
@@ -377,29 +877,87 @@ public class NDDOSolutionRestricted extends NDDOSolution {
 
 
         dipole = Math.sqrt(dipoletot[0] * dipoletot[0] + dipoletot[1] * dipoletot[1] + dipoletot[2] * dipoletot[2]);
-//
-//        NDDOSolutionRestrictedDIIS test = new NDDOSolutionRestrictedDIIS(atoms, charge);
-//
-//        if (!isSimilar(test.densityMatrix(), this.densityMatrix, 1E-8)) {
-//            System.err.println("DIIS doesnt work");
-//            System.exit(0);
-//        }
-//
-//        NDDOSolutionRestrictedEDIIS test2 = new NDDOSolutionRestrictedEDIIS(atoms, charge);
-//
-//        if (!isSimilar(test2.densityMatrix(), this.densityMatrix, 1E-8)) {
-//            System.err.println("E-DIIS doesnt work");
-//            System.exit(0);
-//        }
-//
-//        NDDOSolutionRestrictedDIISFinal test3 = new NDDOSolutionRestrictedDIISFinal(atoms, charge);
-//
-//        if (!isSimilar(test3.densityMatrix(), this.densityMatrix, 1E-8)) {
-//            System.err.println("combination algorithm doesn't work");
-//            System.exit(0);
-//        }
 
 
+    }
+
+    private static DoubleMatrix commutator(DoubleMatrix F, DoubleMatrix D) {
+
+        return F.mmul(D).sub(D.mmul(F));
+    }
+
+    private static DoubleMatrix removeElementsSquare(DoubleMatrix original, int[] indices) {//remove rows and columns specified in indices and return downsized square matrix
+
+        DoubleMatrix newarray = DoubleMatrix.zeros(original.rows - indices.length, original.rows - indices.length);
+
+        ArrayList<Integer> array = new ArrayList<>();
+        for (int i = 0; i < original.rows; i++) {
+            array.add(i);
+        }
+
+        for (int i : indices) {
+            array.remove(Integer.valueOf(i));
+        }
+
+        int count = 0;
+
+        for (int i : array) {
+            int count1 = 0;
+            for (int j : array) {
+                newarray.put(count, count1, original.get(i, j));
+                count1++;
+            }
+
+            count++;
+        }
+
+        return newarray;
+    }
+
+    private static DoubleMatrix removeElementsLinear(DoubleMatrix original, int[] indices) {//get rid of the rows given in indices and return downsized vector
+
+        DoubleMatrix newarray = DoubleMatrix.zeros(original.rows - indices.length, 1);
+
+        ArrayList<Integer> array = new ArrayList<>();
+        for (int i = 0; i < original.rows; i++) {
+            array.add(i);
+        }
+
+        for (int i : indices) {
+            array.remove(Integer.valueOf(i));
+        }
+
+        int count = 0;
+
+        for (int i : array) {
+            newarray.put(count, original.get(i));
+
+            count++;
+        }
+
+        return newarray;
+    }
+
+    private static DoubleMatrix addrow(DoubleMatrix original, int[] indices) { // add  zero row at indices
+
+        DoubleMatrix newarray = DoubleMatrix.zeros(original.rows + indices.length, 1);
+
+        ArrayList<Double> array = new ArrayList<>();
+
+        for (double i : original.toArray()) {
+            array.add(i);
+        }
+
+        for (int i = 0; i < indices.length; i++) {
+
+            array.add(indices[i], 0.0);
+        }
+
+        for (int i = 0; i < array.size(); i++) {
+            newarray.put(i, array.get(i));
+        }
+
+        return newarray;
     }
 
     private double E(int atomnum, int[][] index) {
@@ -479,7 +1037,6 @@ public class NDDOSolutionRestricted extends NDDOSolution {
         return E;
     }
 
-
     private DoubleMatrix calculateDensityMatrix(DoubleMatrix c) {//density matrix construction by definition.
         DoubleMatrix densityMatrix = DoubleMatrix.zeros(orbitals.length, orbitals.length);
         for (int i = 0; i < orbitals.length; i++) {
@@ -497,7 +1054,6 @@ public class NDDOSolutionRestricted extends NDDOSolution {
         }
         return densityMatrix;
     }
-
 
     @Override
     public DoubleMatrix alphaDensity() {

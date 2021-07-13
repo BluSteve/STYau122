@@ -31,13 +31,8 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="More scripts!">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/MNDOParam_jar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations/blusteve.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mndo-update.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/remote-targets.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/remote-targets.xml" afterDir="false" />
+    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mndo-install.sh" beforeDir="false" afterPath="$PROJECT_DIR$/mndo-install.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,17 +105,17 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/mndo-install.sh" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/Main.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/NDDOSolution.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/MNDOParam.iml" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/NDDOParams.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/nddoparam/NDDOSolutionRestricted.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/NDDOSecondDerivative.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/MNDOParam.iml" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/nddoparam/NDDOGeometryOptimizationRestricted.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/param/ParamGradientRestricted.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/Main.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/nddoparam/NDDOParams.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/nddoparam/NDDOSolution.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/nddoparam/NDDOSecondDerivative.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/nddoparam/NDDODerivative.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/mndo-install.sh" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/nddoparam/param/ParamGradientRestricted.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -292,17 +287,17 @@
       <recent name="Utils" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\billi\IdeaProjects\MNDOParam" />
       <recent name="D:\Documents\Gitted CS Projects\MNDOParam\lib" />
       <recent name="D:\Documents\Gitted CS Projects\MNDOParam" />
       <recent name="D:\Documents\Gitted CS Projects\MNDOParam\src\nddoparam" />
       <recent name="D:\Documents\Gitted CS Projects\MNDOParam\src\nddoparam\am1" />
-      <recent name="C:\Users\billi\Documents\Gitted CS Projects\scf" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="nddoparam.param" />
     </key>
   </component>
-  <component name="RunManager" selected="Shell Script.blusteve">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="AtomHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="adopt-openjdk-11" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -335,26 +330,15 @@
       <target name="steve@34.67.144.80:22" />
       <method v="2" />
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="MNDOParam" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="MNDOParam" />
-      <option name="filePath" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -460,13 +444,6 @@
       <workItem from="1626104655028" duration="1024000" />
       <workItem from="1626105704860" duration="2751000" />
       <workItem from="1626109327462" duration="2084000" />
-    </task>
-    <task id="LOCAL-00017" summary="Re-implement getGDerivFinite">
-      <created>1609401468221</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1609401468221</updated>
     </task>
     <task id="LOCAL-00018" summary="Working implementation of OF for CHN.">
       <created>1609493512264</created>
@@ -804,7 +781,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626107861222</updated>
     </task>
-    <option name="localTasksCounter" value="66" />
+    <task id="LOCAL-00066" summary="Gcloud script">
+      <created>1626153438944</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1626153438944</updated>
+    </task>
+    <option name="localTasksCounter" value="67" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -872,7 +856,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Even even further S factor geometry optimization" />
     <MESSAGE value="Refactor T1 and T2 params to MNDOParams" />
     <MESSAGE value="ParamGradient refactor" />
     <MESSAGE value="ParamGradient refactor 2.0 working edition" />
@@ -897,7 +880,8 @@
     <MESSAGE value="Minor Changes" />
     <MESSAGE value="Shell script" />
     <MESSAGE value="Minor changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Minor changes" />
+    <MESSAGE value="Gcloud script" />
+    <option name="LAST_COMMIT_MESSAGE" value="Gcloud script" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
