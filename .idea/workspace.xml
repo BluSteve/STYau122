@@ -33,6 +33,9 @@
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mndooutput.txt" beforeDir="false" afterPath="$PROJECT_DIR$/mndooutput.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -269,11 +272,11 @@
     <property name="extract.method.default.visibility" value="private" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/blusteve.sh" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.last.edited" value="Facets" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -444,13 +447,7 @@
       <workItem from="1626104655028" duration="1024000" />
       <workItem from="1626105704860" duration="2751000" />
       <workItem from="1626109327462" duration="2084000" />
-    </task>
-    <task id="LOCAL-00018" summary="Working implementation of OF for CHN.">
-      <created>1609493512264</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1609493512264</updated>
+      <workItem from="1626154934101" duration="4422000" />
     </task>
     <task id="LOCAL-00019" summary="Necessary ERI and overlap integral derivatives for 2nd-derivative evaluation. No core-repulsion function.">
       <created>1611992518207</created>
@@ -788,7 +785,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626153438944</updated>
     </task>
-    <option name="localTasksCounter" value="67" />
+    <task id="LOCAL-00067" summary="Hybrid DIIS inserted">
+      <created>1626155100162</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1626155100163</updated>
+    </task>
+    <option name="localTasksCounter" value="68" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -856,7 +860,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Refactor T1 and T2 params to MNDOParams" />
     <MESSAGE value="ParamGradient refactor" />
     <MESSAGE value="ParamGradient refactor 2.0 working edition" />
     <MESSAGE value="ParamGradient refactor 2.1 very much working edition" />
@@ -881,7 +884,8 @@
     <MESSAGE value="Shell script" />
     <MESSAGE value="Minor changes" />
     <MESSAGE value="Gcloud script" />
-    <option name="LAST_COMMIT_MESSAGE" value="Gcloud script" />
+    <MESSAGE value="Hybrid DIIS inserted" />
+    <option name="LAST_COMMIT_MESSAGE" value="Hybrid DIIS inserted" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

@@ -38,7 +38,7 @@ public class Main {
 
         for (int numRuns = 0; numRuns < 1; numRuns++) { // numRuns < 1 then no Hessian for you
             // one for hessian, one without. this code is verbose.
-            useHessian = numRuns % 2 == 1;
+            useHessian = true;
 
             File input = new File("input.txt");
             File reference = new File("reference.txt");
@@ -318,7 +318,7 @@ public class Main {
                 if (useHessian) {
                     double[] hessianSum = new double[maxIndex];
                     for (String hessianStr : hessianValues) {
-                        String[] hessianStrs = hessianStr.split(", ");
+                        String[] hessianStrs = hessianStr.split(",");
                         for (int i = 0; i < maxIndex; i++) {
                             hessianSum[i] += Double.parseDouble(hessianStrs[i]);
                         }
