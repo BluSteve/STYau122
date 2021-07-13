@@ -32,7 +32,8 @@ public class Main {
     public static void main(String[] args) {
         StopWatch sw = new StopWatch();
         sw.start();
-        System.err.println("MNDO Parameterization, updated 27 October. CHN training set (PM7)");
+        System.err.close();
+        System.out.println("MNDO Parameterization, updated 13 July. CH training set (PM7)");
 
         boolean useHessian;
 
@@ -430,12 +431,12 @@ public class Main {
                 //pw.println(Arrays.toString(paramVector).substring(1, Arrays.toString(paramVector).length() - 1));
                 pw.close();
 
-                sw.stop();
-                System.out.println("Time taken: " + sw.getTime());
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+        sw.stop();
+        System.out.println("Time taken: " + sw.getTime());
     }
 
     private static void parseInput(HashMap<String, MNDOParams> mndoParams, ArrayList<MNDOAtom> array, String s) {

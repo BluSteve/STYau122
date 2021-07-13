@@ -2039,7 +2039,7 @@ public class ParamDerivative {
                     return xArrayLimitedThiel(soln, fockDerivStaticPadded);
                 } else {
                     iterable[j] = 0;
-                    System.err.println("convergence test: " + mag(rarray[j]));
+//                    System.err.println("convergence test: " + mag(rarray[j]));
                 }
             }
         }
