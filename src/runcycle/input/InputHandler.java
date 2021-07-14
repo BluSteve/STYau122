@@ -82,35 +82,36 @@ public class InputHandler {
 			double[] kmn =
 					Utils.toDoubles(
 							hud.get(0).split(":")[1].strip().split(","));
-			double[][] h =
-					new double[ri.atomTypes.length * Solution.maxParamNum][];
-			int sum = 0;
-			int pp = 0;
-			for (int j = PARAMLENGTH; j > 0; j--) {
-				if (pp != 2 && pp != 4 && pp !=6) {
-					double[] current = new double[13];
-					System.arraycopy(kmn, sum, current, 13 - j, j);
-					sum += j;
-					double[] paddedCurrent =
-							new double[ri.atomTypes.length *
-									Solution.maxParamNum];
-					paddedCurrent[0] = current[0];
-					paddedCurrent[1] = current[1];
-					paddedCurrent[3] = current[2];
-					paddedCurrent[5] = current[3];
-					paddedCurrent[7] = current[4];
-					System.arraycopy(current, 5, paddedCurrent, 8, 8);
-					h[pp] = paddedCurrent;
-					pp++;
-				}
-				else {
-					j++;
-					h[pp] =
-							new double[ri.atomTypes.length * Solution.maxParamNum];
-					pp++;
-				}
-			}
-			ri.params.lastHessian = h;
+//			double[][] h =
+//					new double[ri.atomTypes.length * Solution.maxParamNum][];
+//			int sum = 0;
+//			int pp = 0;
+//			for (int j = PARAMLENGTH; j > 0; j--) {
+//				if (pp != 2 && pp != 4 && pp !=6) {
+//					double[] current = new double[13];
+//					System.arraycopy(kmn, sum, current, 13 - j, j);
+//					sum += j;
+//					double[] paddedCurrent =
+//							new double[ri.atomTypes.length *
+//									Solution.maxParamNum];
+//					paddedCurrent[0] = current[0];
+//					paddedCurrent[1] = current[1];
+//					paddedCurrent[3] = current[2];
+//					paddedCurrent[5] = current[3];
+//					paddedCurrent[7] = current[4];
+//					System.arraycopy(current, 5, paddedCurrent, 8, 8);
+//					h[pp] = paddedCurrent;
+//					pp++;
+//				}
+//				else {
+//					j++;
+//					h[pp] =
+//							new double[ri.atomTypes.length * Solution.maxParamNum];
+//					pp++;
+//				}
+//			}
+			ri.params.lastHessian =
+					Utils.toDoubles(hud.get(0).split(":")[1].strip().split(","));
 			ri.params.lastGradient =
 					Utils.toDoubles(hud.get(1).split(":")[1].strip().split(","));
 			ri.params.lastSearchDir =
@@ -248,7 +249,7 @@ public class InputHandler {
 	}
 
 	public static void main(String[] args) {
-		InputHandler.convertFromTXT("input.txt");
+		InputHandler.convertFromTXT("inputtesting.txt");
 	}
 
 	// TODO ADD CHARGE TO NAME

@@ -1,11 +1,11 @@
 package runcycle.output;
 
 public class MoleculeOutput {
-	int index;
-	String name;
-	long time;
-	double[] datum;
-	double hf, dipole, ie, geomGradient, total;
-	ParamGradientOutput gradient;
-	double[][] hessian;
+	public int index;
+	public String name;
+	public long time;
+	public double[] datum;
+	public double hf, dipole, ie, geomGradient, totalError;
+	public ParamGradientOutput gradient;
+	public double[][] hessian;
 }

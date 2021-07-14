@@ -32,7 +32,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/input.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output.json" beforeDir="false" afterPath="$PROJECT_DIR$/output.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/input/RawParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/input/RawParams.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/output/MoleculeOutput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/output/MoleculeOutput.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/output/OutputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/output/OutputHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/output/ParamGradientOutput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/output/ParamGradientOutput.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -272,7 +280,7 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.appearance" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -293,6 +301,7 @@
       <recent name="D:\Documents\Gitted CS Projects\MNDOParam\src\nddoparam\am1" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="runcycle.output" />
       <recent name="" />
       <recent name="nddoparam.param" />
     </key>
@@ -463,13 +472,6 @@
       <workItem from="1626154934101" duration="4422000" />
       <workItem from="1626189563272" duration="7339000" />
       <workItem from="1626225806495" duration="11505000" />
-    </task>
-    <task id="LOCAL-00043" summary="Minor changes">
-      <created>1625982325433</created>
-      <option name="number" value="00043" />
-      <option name="presentableId" value="LOCAL-00043" />
-      <option name="project" value="LOCAL" />
-      <updated>1625982325433</updated>
     </task>
     <task id="LOCAL-00044" summary="Finite difference added to ParamGradient as an option">
       <created>1625985598323</created>
@@ -807,7 +809,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626256793765</updated>
     </task>
-    <option name="localTasksCounter" value="92" />
+    <task id="LOCAL-00092" summary="nMolecules added as RawInput param">
+      <created>1626257161658</created>
+      <option name="number" value="00092" />
+      <option name="presentableId" value="LOCAL-00092" />
+      <option name="project" value="LOCAL" />
+      <updated>1626257161658</updated>
+    </task>
+    <option name="localTasksCounter" value="93" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -875,7 +884,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Merged DIIS and NDDOAtom from mergelater" />
     <MESSAGE value="Downgrade to JDK 11" />
     <MESSAGE value="Git changes" />
     <MESSAGE value="Minor Changes" />
@@ -900,7 +908,8 @@
     <MESSAGE value="Minor formatting." />
     <MESSAGE value="Refactor" />
     <MESSAGE value="MNDOHessianUpdate jsonify" />
-    <option name="LAST_COMMIT_MESSAGE" value="MNDOHessianUpdate jsonify" />
+    <MESSAGE value="nMolecules added as RawInput param" />
+    <option name="LAST_COMMIT_MESSAGE" value="nMolecules added as RawInput param" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

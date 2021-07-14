@@ -6,7 +6,6 @@ import runcycle.MoleculeRun;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class OutputHandler {
 	public static MoleculeOutput toMoleculeOutput(MoleculeRun result) {
@@ -21,7 +20,7 @@ public class OutputHandler {
 		mo.dipole = result.getG().getS().dipole;
 		mo.ie = -result.getG().getS().homo;
 		mo.geomGradient = result.getG().getE().geomGradient;
-		mo.total = result.getG().getE().getTotalError();
+		mo.totalError = result.getG().getE().getTotalError();
 
 		ParamGradientOutput pgo = new ParamGradientOutput();
 		pgo.hf = result.getG().getHFDerivs();
@@ -36,7 +35,7 @@ public class OutputHandler {
 
 	public static void output(MoleculeOutput[] mos, String output) {
 		GsonBuilder builder = new GsonBuilder();
-		builder.setPrettyPrinting();
+//		builder.setPrettyPrinting();
 		Gson gson = builder.create();
 		try {
 			FileWriter fw = new FileWriter(output);

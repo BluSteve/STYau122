@@ -1,6 +1,8 @@
 import nddoparam.NDDOParams;
+import nddoparam.Solution;
 import nddoparam.mndo.MNDOParams;
 import org.apache.commons.lang3.time.StopWatch;
+import org.jblas.DoubleMatrix;
 import runcycle.MoleculeRun;
 import runcycle.MoleculeRunR;
 import runcycle.MoleculeRunU;
@@ -32,10 +34,12 @@ public class Main {
 			InputHandler.processInput(INPUT_FILENAME);
 			RawInput ri = InputHandler.ri;
 			System.out.println(
-					"MNDO Parameterization, updated 13 July. " + ri.trainingSet +
+					"MNDO Parameterization, updated 13 July. " +
+							ri.trainingSet +
 							" training set (PM7)");
 
-			NDDOParams[] nddoParams = new MNDOParams[ri.params.nddoParams.length];
+			NDDOParams[] nddoParams =
+					new MNDOParams[ri.params.nddoParams.length];
 			// TODO change the following line if AM1
 			for (int i = 0; i < ri.params.nddoParams.length; i++)
 				nddoParams[i] = new MNDOParams(ri.params.nddoParams[i]);
@@ -48,18 +52,22 @@ public class Main {
 				int remainingNonParallel = 5;
 				int maxParallel = remainingNonParallel < requests.size() ?
 						requests.size() - remainingNonParallel : 1;
-				List<RawMolecule> parallelRequests = requests.subList(0, maxParallel);
+				List<RawMolecule> parallelRequests =
+						requests.subList(0, maxParallel);
 				ForkJoinPool threadPool = new ForkJoinPool(cores);
 
 				List<MoleculeRun> results = threadPool
-						.submit(() -> parallelRequests.parallelStream().map(request -> {
-							MoleculeRun result = request.restricted ?
-									new MoleculeRunR(request, nddoParams,
-											ri.atomTypes, useHessian) :
-									new MoleculeRunU(request, nddoParams,
-											ri.atomTypes, useHessian);
-							return result;
-						})).get().collect(Collectors.toList());
+						.submit(() -> parallelRequests.parallelStream()
+								.map(request -> {
+									MoleculeRun result = request.restricted ?
+											new MoleculeRunR(request,
+													nddoParams,
+													ri.atomTypes, useHessian) :
+											new MoleculeRunU(request,
+													nddoParams,
+													ri.atomTypes, useHessian);
+									return result;
+								})).get().collect(Collectors.toList());
 
 				for (RawMolecule request : requests
 						.subList(maxParallel, requests.size())) {
@@ -79,11 +87,56 @@ public class Main {
 				OutputHandler.output(mos, OUTPUT_FILENAME);
 				InputHandler.updateInput(ri, INPUT_FILENAME);
 
+				// tt stands for total total
+				double[] ttGradient =
+						new double[ri.params.lastGradient.length];
+				for (int i = 0; i < mos.length; i++) {
+					int k = 0;
+					for (double[] gradient : mos[i].gradient.total) {
+						int (
+						for (int j : ) {
+							ttGradient[j] += gradient[j];
+						}
+					}
+				}
+//
+//				DoubleMatrix B = findMockHessian(
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 		sw.stop();
 		System.out.println("Time taken: " + sw.getTime());
+	}
+
+	private static DoubleMatrix findMockHessian(double[] newGradient,
+												double[] oldHessian,
+												double[] oldGradient,
+												double[] oldDir, int size) {
+		DoubleMatrix s = new DoubleMatrix(oldDir);
+		DoubleMatrix hessian = new DoubleMatrix(size, size);
+		int count = 1;
+		int index = 0;
+		while (index < ((size + 1) * size) / 2) {
+			for (int i = count - 1; i < size; i++) {
+				hessian.put(count - 1, i, oldHessian[index]);
+				hessian.put(i, count - 1, oldHessian[index]);
+				index++;
+			}
+			count++;
+		}
+		DoubleMatrix y =
+				new DoubleMatrix(newGradient)
+						.sub(new DoubleMatrix(oldGradient));
+
+		double b = y.transpose().mmul(s).get(0);
+		DoubleMatrix A = y.mmul(y.transpose()).mmul(1 / b);
+		double a = s.transpose().mmul(hessian).mmul(s).get(0);
+		DoubleMatrix C = hessian.mmul(s).mmul(s.transpose()).mmul
+				(hessian
+						.transpose()).mmul(1 / a);
+
+		return hessian.add(A).sub(C);
 	}
 }
