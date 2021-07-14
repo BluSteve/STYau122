@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 public class AtomProperties implements Serializable { // Only 119 of these
     private static final double HEATCONV = 4.3363E-2;
-    private int Z, Q;
+    private int index, Z, Q;
     private String name;
     private double mass, heat;
     private OrbitalProperties[] orbitals;
@@ -49,10 +49,20 @@ public class AtomProperties implements Serializable { // Only 119 of these
         this.orbitals = orbitals;
     }
 
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
     @Override
     public String toString() {
         return "AtomProperties{" +
-                "Z=" + Z +
+                "index=" + index +
+                ", Z=" + Z +
+                ", Q=" + Q +
                 ", name='" + name + '\'' +
                 ", mass=" + mass +
                 ", heat=" + heat +

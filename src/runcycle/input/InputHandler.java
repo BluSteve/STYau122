@@ -2,7 +2,6 @@ package runcycle.input;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import nddoparam.NDDOAtom;
 import scf.AtomHandler;
 import scf.AtomProperties;
 import scf.Utils;
@@ -13,9 +12,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
-
-import static nddoparam.mndo.MNDOParams.T1ParamNums;
-import static nddoparam.mndo.MNDOParams.T2ParamNums;
 
 public class InputHandler {
     public static RawInput ri;
@@ -28,16 +24,22 @@ public class InputHandler {
         }
     }
 
-    private static void convertFromTXT() {
+    private static void convertFromTXT(String input) {
         AtomHandler.populateAtoms();
         ri = new RawInput();
         try {
-            List<String> lines = Files.readAllLines(Path.of("input.txt"));
+            List<String> lines = Files.readAllLines(Path.of(input));
             List<String> datums = Files.readAllLines(Path.of("reference.txt"));
+            String[] mndoParamsS = Files.readAllLines(Path.of("mndoparams.txt")).get(0).split(", ");
+            double[] mp = Utils.toDoubles(mndoParamsS);
             ri.trainingSet = lines.get(0).split("=")[1];
             ri.atomTypes = new int[ri.trainingSet.length()];
             for (int x = 0; x < ri.trainingSet.length(); x++) {
                 ri.atomTypes[x] = AtomHandler.atomsMap.get(Character.toString(ri.trainingSet.charAt(x))).getZ();
+            }
+            ri.nddoParams = new double[ri.atomTypes.length][];
+            for (int x = 0; x < ri.atomTypes.length; x++) {
+                ri.nddoParams[x] = Arrays.copyOfRange(mp, x*13, x*13+13);
             }
             ArrayList<RawMolecule> moleculesL = new ArrayList<>();
 
@@ -48,7 +50,7 @@ public class InputHandler {
                     ArrayList<RawAtom> atomsL = new ArrayList<>();
                     ArrayList<RawAtom> expGeomL = new ArrayList<>();
 
-                    rm.uhf = lines.get(i).equals("UHF");
+                    rm.restricted = lines.get(i).equals("RHF");
                     i++;
 
                     rm.charge = Integer.parseInt(lines.get(i).split("=")[1]);
@@ -148,11 +150,12 @@ public class InputHandler {
         StringTokenizer t = new StringTokenizer(lines.get(i), " ");
         t.nextToken();
         ra.name = t.nextToken();
+        ra.Z = AtomHandler.atomsMap.get(ra.name).getZ();
         for (int q = 0; q < 3; q++) ra.coords[q] = Double.parseDouble(t.nextToken());
         rawAtoms.add(ra);
     }
 
     public static void main(String[] args) {
-        InputHandler.convertFromTXT();
+        InputHandler.convertFromTXT("testinginput.txt");
     }
 }

@@ -5,6 +5,7 @@ import java.util.Arrays;
 public class RawInput {
     public String trainingSet;
     public int[] atomTypes;
+    public double[][] nddoParams;
     public RawMolecule[] molecules;
 
     @Override

@@ -18,7 +18,9 @@ public class AtomHandler {
             String json = Files.readString(Path.of("atom_properties.json"));
             Gson gson = new Gson();
             AtomProperties[] unindexedAtoms = gson.fromJson(json, AtomProperties[].class);
-            for (AtomProperties atom : unindexedAtoms) {
+            for (int i = 0; i < unindexedAtoms.length; i++) {
+                AtomProperties atom = unindexedAtoms[i];
+                atom.setIndex(i);
                 atom.setOrbitals(OrbitalProperties.generateOrbitals(atom.getPeriod()));
                 atoms[atom.getZ()] = atom;
                 atomsMap.put(atom.getName(), atom);
