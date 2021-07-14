@@ -43,7 +43,7 @@ public class InputHandler {
 
 	public static void makeInput(RawInput ri, String input) {
 		GsonBuilder builder = new GsonBuilder();
-		builder.setPrettyPrinting();
+//		builder.setPrettyPrinting();
 		Gson gson = builder.create();
 		try {
 			FileWriter fw = new FileWriter(input);
@@ -225,6 +225,7 @@ public class InputHandler {
 				ri.molecules[p] = moleculesL.get(p);
 			for (int j = 0; j < ri.molecules.length; j++)
 				ri.molecules[j].index = j;
+			ri.nMolecules = ri.molecules.length;
 
 			makeInput(ri, "input.json");
 		} catch (

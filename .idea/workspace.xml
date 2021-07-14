@@ -32,14 +32,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/runcycle/input/RawParams.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/input.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/input/RawInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/input/RawInput.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -471,13 +464,6 @@
       <workItem from="1626189563272" duration="7339000" />
       <workItem from="1626225806495" duration="11505000" />
     </task>
-    <task id="LOCAL-00042" summary="Minor changes">
-      <created>1625982313169</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1625982313169</updated>
-    </task>
     <task id="LOCAL-00043" summary="Minor changes">
       <created>1625982325433</created>
       <option name="number" value="00043" />
@@ -814,7 +800,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626252613627</updated>
     </task>
-    <option name="localTasksCounter" value="91" />
+    <task id="LOCAL-00091" summary="MNDOHessianUpdate jsonify">
+      <created>1626256793765</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1626256793765</updated>
+    </task>
+    <option name="localTasksCounter" value="92" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -882,7 +875,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Merged NDDOSolution from mergelater" />
     <MESSAGE value="Merged DIIS and NDDOAtom from mergelater" />
     <MESSAGE value="Downgrade to JDK 11" />
     <MESSAGE value="Git changes" />
@@ -907,7 +899,8 @@
     <MESSAGE value="Major refactor." />
     <MESSAGE value="Minor formatting." />
     <MESSAGE value="Refactor" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor" />
+    <MESSAGE value="MNDOHessianUpdate jsonify" />
+    <option name="LAST_COMMIT_MESSAGE" value="MNDOHessianUpdate jsonify" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -916,11 +909,6 @@
           <url>file://$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java</url>
           <line>2693</line>
           <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/runcycle/input/InputHandler.java</url>
-          <line>116</line>
-          <option name="timeStamp" value="29" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
