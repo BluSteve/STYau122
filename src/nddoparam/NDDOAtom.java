@@ -12,7 +12,8 @@ public abstract class NDDOAtom extends AtomFixed {
 	protected NDDO6G[] orbitals;
 	protected NDDOParams np;
 
-	public NDDOAtom(AtomProperties atomProperties, double[] coordinates, NDDOParams np) {
+	public NDDOAtom(AtomProperties atomProperties, double[] coordinates,
+					NDDOParams np) {
 		super(atomProperties, coordinates);
 		this.np = np.clone();
 		this.p0 = p0();
@@ -49,18 +50,21 @@ public abstract class NDDOAtom extends AtomFixed {
 	}
 
 	protected NDDO6G[] setOrbitals() {//initialises basis functions
-		OrbitalProperties[] orbitalProperties = super.atomProperties.getOrbitals();
+		OrbitalProperties[] orbitalProperties =
+				super.atomProperties.getOrbitals();
 		NDDO6G[] nddoOrbitals = new NDDO6G[orbitalProperties.length];
 		for (int x = 0; x < nddoOrbitals.length; x++) {
 			switch (orbitalProperties[x].getType()) {
 				case "s":
 					nddoOrbitals[x] =
-							new NDDO6G(this, orbitalProperties[x], np.getZetas(),
+							new NDDO6G(this, orbitalProperties[x],
+									np.getZetas(),
 									np.getBetas(), np.getUss());
 					break;
 				case "p":
 					nddoOrbitals[x] =
-							new NDDO6G(this, orbitalProperties[x], np.getZetap(),
+							new NDDO6G(this, orbitalProperties[x],
+									np.getZetap(),
 									np.getBetap(), np.getUpp());
 					break;
 			}
@@ -89,7 +93,8 @@ public abstract class NDDOAtom extends AtomFixed {
 	}
 
 	public double V(NDDO6G a, NDDO6G b) {
-		return -this.atomProperties.getQ() * NDDO6G.getG(a, b, this.s(), this.s());
+		return -this.atomProperties.getQ() *
+				NDDO6G.getG(a, b, this.s(), this.s());
 	}
 
 	public double Vderiv(NDDO6G a, NDDO6G b, int tau) {
@@ -99,7 +104,8 @@ public abstract class NDDOAtom extends AtomFixed {
 
 	public double Vderiv2(NDDO6G a, NDDO6G b, int tau1, int tau2) {
 		return -this.atomProperties.getQ() *
-				GeometrySecondDerivative.getGderiv2(a, b, this.s(), this.s(), tau1, tau2);
+				GeometrySecondDerivative
+						.getGderiv2(a, b, this.s(), this.s(), tau1, tau2);
 	}
 
 	public double VParamDeriv(NDDO6G a, NDDO6G b, int num, int type) {
@@ -124,14 +130,16 @@ public abstract class NDDOAtom extends AtomFixed {
 	}
 
 	protected double D2() {
-		return 1 / np.getZetap() * Math.sqrt((2 * atomProperties.getPeriod() + 1) *
-				(2 * atomProperties.getPeriod() + 2) / 20.0);
+		return 1 / np.getZetap() *
+				Math.sqrt((2 * atomProperties.getPeriod() + 1) *
+						(2 * atomProperties.getPeriod() + 2) / 20.0);
 	}
 
 	protected double p1() {
 		double guess = 0;
 
-		double newguess = 0.5 * Math.pow(D1 * D1 * 27.2114 / (np.getHsp()), 1.0 / 3);
+		double newguess =
+				0.5 * Math.pow(D1 * D1 * 27.2114 / (np.getHsp()), 1.0 / 3);
 
 		while (Math.abs(guess - newguess) > 1E-12) {
 
@@ -139,8 +147,9 @@ public abstract class NDDOAtom extends AtomFixed {
 			double f = 1 / guess - 1 / Math.sqrt(guess * guess + D1 * D1) -
 					4 * np.getHsp() / 27.2114;
 			double fprime =
-					-1 / (guess * guess) + guess / Math.pow(guess * guess + D1 * D1,
-							1.5);
+					-1 / (guess * guess) +
+							guess / Math.pow(guess * guess + D1 * D1,
+									1.5);
 
 			newguess = guess - f / fprime;
 		}

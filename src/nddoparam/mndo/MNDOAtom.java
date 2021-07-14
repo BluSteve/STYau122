@@ -1,8 +1,8 @@
 package nddoparam.mndo;
 
+import nddoparam.GeometryDerivative;
 import nddoparam.NDDO6G;
 import nddoparam.NDDOAtom;
-import nddoparam.GeometryDerivative;
 import scf.AtomProperties;
 import scf.GTO;
 
@@ -11,7 +11,8 @@ import java.util.Objects;
 public class MNDOAtom extends NDDOAtom {
 	private MNDOParams mp;
 
-	public MNDOAtom(AtomProperties atomProperties, double[] coordinates, MNDOParams mp) {
+	public MNDOAtom(AtomProperties atomProperties, double[] coordinates,
+					MNDOParams mp) {
 		super(atomProperties, coordinates, mp);
 		this.mp = mp.clone();
 	}
@@ -35,10 +36,13 @@ public class MNDOAtom extends NDDOAtom {
 				Math.exp(-b.mp.getAlpha() * R / bohr);
 	}
 
-	private static double getfPrime(MNDOAtom a, MNDOAtom b, double R, int tau) {
-		return (a.getCoordinates()[tau] - b.getCoordinates()[tau]) / (R * bohr) *
+	private static double getfPrime(MNDOAtom a, MNDOAtom b, double R,
+									int tau) {
+		return (a.getCoordinates()[tau] - b.getCoordinates()[tau]) /
+				(R * bohr) *
 				Math.exp(-a.mp.getAlpha() * R / bohr)
-				- a.mp.getAlpha() * (a.getCoordinates()[tau] - b.getCoordinates()[tau]) /
+				- a.mp.getAlpha() *
+				(a.getCoordinates()[tau] - b.getCoordinates()[tau]) /
 				(bohr * bohr) * Math.exp(-a.mp.getAlpha() * R / bohr)
 				- b.mp.getAlpha() / bohr *
 				(a.getCoordinates()[tau] - b.getCoordinates()[tau]) / R *
@@ -58,11 +62,13 @@ public class MNDOAtom extends NDDOAtom {
 		MNDOAtom b = (MNDOAtom) c;
 		double f;
 		double R = GTO.R(this.getCoordinates(), b.getCoordinates());
-		if ((this.atomProperties.getZ() == 7 || this.atomProperties.getZ() == 8) &&
+		if ((this.atomProperties.getZ() == 7 ||
+				this.atomProperties.getZ() == 8) &&
 				b.atomProperties.getZ() == 1) {
 			f = getf(this, b, R);
 		}
-		else if ((b.atomProperties.getZ() == 7 || b.atomProperties.getZ() == 8) &&
+		else if ((b.atomProperties.getZ() == 7 ||
+				b.atomProperties.getZ() == 8) &&
 				this.atomProperties.getZ() == 1) {
 			f = getf(b, this, R);
 		}
@@ -83,18 +89,21 @@ public class MNDOAtom extends NDDOAtom {
 		double R = GTO.R(this.getCoordinates(), b.getCoordinates());
 		double r = R / bohr;
 
-		if ((this.atomProperties.getZ() == 7 || this.atomProperties.getZ() == 8) &&
+		if ((this.atomProperties.getZ() == 7 ||
+				this.atomProperties.getZ() == 8) &&
 				b.atomProperties.getZ() == 1) {
 			f = getf(this, b, R);
 			fprime = getfPrime(this, b, R, tau);
 		}
-		else if ((b.atomProperties.getZ() == 7 || b.atomProperties.getZ() == 8) &&
+		else if ((b.atomProperties.getZ() == 7 ||
+				b.atomProperties.getZ() == 8) &&
 				this.atomProperties.getZ() == 1) {
 			f = getf(b, this, R);
 			fprime = -getfPrime(b, this, R, tau);
 		}
 		else {
-			f = 1 + Math.exp(-b.mp.getAlpha() * r) + Math.exp(-this.mp.getAlpha() * r);
+			f = 1 + Math.exp(-b.mp.getAlpha() * r) +
+					Math.exp(-this.mp.getAlpha() * r);
 			fprime = -b.mp.getAlpha() / bohr *
 					(this.getCoordinates()[tau] - b.getCoordinates()[tau]) / R *
 					Math.exp(-b.mp.getAlpha() * r)
@@ -106,7 +115,9 @@ public class MNDOAtom extends NDDOAtom {
 		return fprime * this.atomProperties.getQ() * b.atomProperties.getQ() *
 				NDDO6G.getG(this.s(), this.s(), b.s(), b.s()) +
 				f * this.atomProperties.getQ() * b.atomProperties.getQ() *
-						GeometryDerivative.getGderiv(this.s(), this.s(), b.s(), b.s(), tau);
+						GeometryDerivative
+								.getGderiv(this.s(), this.s(), b.s(), b.s(),
+										tau);
 	}
 
 	public double crfDeriv2(NDDOAtom c, int tau1, int tau2) {//TODO
@@ -138,11 +149,13 @@ public class MNDOAtom extends NDDOAtom {
 		double returnval = 0;
 
 		if (num == 0 || num == 2) {
-			returnval += val * -R / bohr * Math.exp(-this.mp.getAlpha() * R / bohr);
+			returnval +=
+					val * -R / bohr * Math.exp(-this.mp.getAlpha() * R / bohr);
 		}
 
 		if (num == 1 || num == 2) {
-			returnval += val * -R / bohr * Math.exp(-c.mp.getAlpha() * R / bohr);
+			returnval +=
+					val * -R / bohr * Math.exp(-c.mp.getAlpha() * R / bohr);
 		}
 
 		return returnval;

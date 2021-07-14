@@ -33,21 +33,25 @@ public class Utils {
 
 
 	public static NDDOAtom[] perturbAtomParams(NDDOAtom[] atoms, int Z,
-											   int paramNum) { // Z is proton number of
+											   int paramNum) { // Z is proton
+		// number of
 		// the atom that you want to perturb the param (based on paramNum) of.
 		NDDOAtom[] perturbed = new NDDOAtom[atoms.length];
 		try {
 			Class<? extends NDDOAtom> c = atoms[0].getClass();
 			Constructor<? extends NDDOAtom> ctor =
-					c.getDeclaredConstructor(c, atoms[0].getParams().getClass());
+					c.getDeclaredConstructor(c,
+							atoms[0].getParams().getClass());
 			ctor.setAccessible(true);
-			Constructor<? extends NDDOAtom> ctor2 = c.getDeclaredConstructor(c);
+			Constructor<? extends NDDOAtom> ctor2 =
+					c.getDeclaredConstructor(c);
 			ctor2.setAccessible(true);
 			for (int i = 0; i < atoms.length; i++) {
 				if (atoms[i].getAtomProperties().getZ() == Z) {
 					NDDOParams params = atoms[i].getParams();
 					params.modifyParam(paramNum, Utils.LAMBDA);
-					perturbed[i] = (NDDOAtom) ctor.newInstance(atoms[i], params);
+					perturbed[i] =
+							(NDDOAtom) ctor.newInstance(atoms[i], params);
 				}
 				else {
 					perturbed[i] = (NDDOAtom) ctor2.newInstance(atoms[i]);
@@ -59,14 +63,17 @@ public class Utils {
 		return perturbed;
 	}
 
-	public static NDDOAtom[] perturbAtomCoords(NDDOAtom[] atoms, int atomNum, int tau) {
+	public static NDDOAtom[] perturbAtomCoords(NDDOAtom[] atoms, int atomNum,
+											   int tau) {
 		NDDOAtom[] perturbed = new NDDOAtom[atoms.length];
 		try {
 			Class<? extends NDDOAtom> c = atoms[0].getClass();
 			Constructor<? extends NDDOAtom> ctor =
-					c.getDeclaredConstructor(c, atoms[0].getCoordinates().getClass());
+					c.getDeclaredConstructor(c,
+							atoms[0].getCoordinates().getClass());
 			ctor.setAccessible(true);
-			Constructor<? extends NDDOAtom> ctor2 = c.getDeclaredConstructor(c);
+			Constructor<? extends NDDOAtom> ctor2 =
+					c.getDeclaredConstructor(c);
 			ctor2.setAccessible(true);
 			for (int i = 0; i < atoms.length; i++) {
 				if (i == atomNum) {
@@ -108,30 +115,42 @@ public class Utils {
 
 	/**
 	 * The confluent hypergeometric function, usually given the symbol 1F1.
-	 * For information about the function and use of parameters consult the link:
-	 * http://mathworld.wolfram.com/ConfluentHypergeometricFunctionoftheFirstKind.html
+	 * For information about the function and use of parameters consult the
+	 * link:
+	 * http://mathworld.wolfram
+	 * .com/ConfluentHypergeometricFunctionoftheFirstKind.html
 	 */
-	public static double confluentHypergeometric1F1(double a, double c, double xin) {
+	public static double confluentHypergeometric1F1(double a, double c,
+													double xin) {
         /*
-        takes in the numerator parameter of 1F1 (ap), the denominator parameter of 1F1
+        takes in the numerator parameter of 1F1 (ap), the denominator
+        parameter of 1F1
         (cp) and the value of the argument (z)&
-    	returns either the value of the rational approximation of 1F1 when it converges
+    	returns either the value of the rational approximation of 1F1 when it
+    	converges
     	to a given tolerance or,if that given
     	tolerance is not met, will ask for different values of ap, cp & z.
-    	Also: A and B	will contain the values of the numerator and denominator
+    	Also: A and B	will contain the values of the numerator and
+    	denominator
     	polynomials, respectively, for all degrees
-    	from 0 to n inclusive where n is the maximum degree for which the values of the
+    	from 0 to n inclusive where n is the maximum degree for which the
+    	values of the
     	polynomials are to be calculated
     	*/
 
 
 		double x = -xin;
-		double[] arrayA = new double[1001]; //the numerator of the rational approx.
-		double[] arrayB = new double[1001]; //the denominator of the rational approx.
-		double[] arrayR = new double[1001]; //the value of the rational approximations.
-		double[] arrayD = new double[1001]; //difference in subsequent rational approx.
+		double[] arrayA =
+				new double[1001]; //the numerator of the rational approx.
+		double[] arrayB =
+				new double[1001]; //the denominator of the rational approx.
+		double[] arrayR =
+				new double[1001]; //the value of the rational approximations.
+		double[] arrayD =
+				new double[1001]; //difference in subsequent rational approx.
 		int n =
-				200; //number of iterations,if you change this number must also change
+				200; //number of iterations,if you change this number must
+		// also change
 		// condition of the last if statement
 		int n1 = n + 1;
 		double tolerance = 1E-10;//specified tolerance
@@ -142,7 +161,8 @@ public class Utils {
 		double three = 3.0;
 
 
-		// to understand the following code refer to rational approximation of 1F1(ap;
+		// to understand the following code refer to rational approximation of
+		// 1F1(ap;
 		// cp; -z)
 
 		double ct1 = a * x / c;
@@ -160,7 +180,8 @@ public class Utils {
 		arrayA[2] = arrayB[2] - (one + ct2) * ct1;
 		ct1 = three;
 		double xn0 = three;
-		//for i=3,...,n the values of arrayA[1+i] and arrayB[1+i] are calculated using
+		//for i=3,...,n the values of arrayA[1+i] and arrayB[1+i] are
+		// calculated using
 		// the recurrence relations below*/
 
 		for (int i = 3; i <= n; i++) {
@@ -170,12 +191,16 @@ public class Utils {
 			ct2 = ct2 * (a + xn1) / (c + xn2);
 			double g2 = ct2 * ((c - xn1) + (a + xn0) / (ct1 + two) * z2);
 			double g3 =
-					ct2 * z2 * z2 / ct1 / (ct1 - two) * (a + xn2) / (c + xn3) * (a - xn2);
+					ct2 * z2 * z2 / ct1 / (ct1 - two) * (a + xn2) / (c + xn3) *
+							(a - xn2);
 
-			//the recurrance relations for arrayA[i+1] and arrayB[i+1] are as follows
+			//the recurrance relations for arrayA[i+1] and arrayB[i+1] are as
+			// follows
 
-			arrayB[i] = g1 * arrayB[i - 1] + g2 * arrayB[i - 2] + g3 * arrayB[i - 3];
-			arrayA[i] = g1 * arrayA[i - 1] + g2 * arrayA[i - 2] + g3 * arrayA[i - 3];
+			arrayB[i] = g1 * arrayB[i - 1] + g2 * arrayB[i - 2] +
+					g3 * arrayB[i - 3];
+			arrayA[i] = g1 * arrayA[i - 1] + g2 * arrayA[i - 2] +
+					g3 * arrayA[i - 3];
 
 			xn3 = xn2;
 			xn2 = xn1;
@@ -187,22 +212,29 @@ public class Utils {
 		arrayD[n1 - 1] = zero;
 		for (int j1 = 1; j1 <= n + 1; j1++) {
 			arrayR[j1 - 1] =
-					(arrayA[j1 - 1]) / (arrayB[j1 - 1]);//rational approximation of 1f1
+					(arrayA[j1 - 1]) /
+							(arrayB[j1 - 1]);//rational approximation of 1f1
 			if (j1 > 1) {
 				arrayD[j1 - 2] = (arrayR[j1 - 1]) - (arrayR[j1 - 2]);
 			}
-			if (j1 >= 5 && Math.abs(arrayD[j1 - 2] / arrayR[j1 - 1]) <= tolerance) {
-				//checking for convergence of the rational approximation to a given
+			if (j1 >= 5 &&
+					Math.abs(arrayD[j1 - 2] / arrayR[j1 - 1]) <= tolerance) {
+				//checking for convergence of the rational approximation to a
+				// given
 				// tolerance
-				//if that tolerance is met then exit the loop and return the value of
+				//if that tolerance is met then exit the loop and return the
+				// value of
 				// the approximation
 				return arrayR[j1 - 1];
 			}//end if
-			//if that tolerance is not met within the given numberof iterations then the
+			//if that tolerance is not met within the given numberof
+			// iterations then the
 			// program will
 			//ask you to check the values entered
-			if (j1 == 1000 && Math.abs(arrayD[j1 - 2] / arrayR[j1 - 1]) > tolerance) {
-				throw new RuntimeException("please check your the values a, c & xin");
+			if (j1 == 1000 &&
+					Math.abs(arrayD[j1 - 2] / arrayR[j1 - 1]) > tolerance) {
+				throw new RuntimeException(
+						"please check your the values a, c & xin");
 			}
 		}//end for
 

@@ -105,16 +105,20 @@ public class InputHandler {
 //				else {
 //					j++;
 //					h[pp] =
-//							new double[ri.atomTypes.length * Solution.maxParamNum];
+//							new double[ri.atomTypes.length * Solution
+//							.maxParamNum];
 //					pp++;
 //				}
 //			}
 			ri.params.lastHessian =
-					Utils.toDoubles(hud.get(0).split(":")[1].strip().split(","));
+					Utils.toDoubles(
+							hud.get(0).split(":")[1].strip().split(","));
 			ri.params.lastGradient =
-					Utils.toDoubles(hud.get(1).split(":")[1].strip().split(","));
+					Utils.toDoubles(
+							hud.get(1).split(":")[1].strip().split(","));
 			ri.params.lastDir =
-					Utils.toDoubles(hud.get(2).split(":")[1].strip().split(","));
+					Utils.toDoubles(
+							hud.get(2).split(":")[1].strip().split(","));
 			for (int x = 0; x < ri.atomTypes.length; x++) {
 				ri.params.nddoParams[x] =
 						Arrays.copyOfRange(mp, x * PARAMLENGTH,

@@ -12,7 +12,8 @@ public class SolutionR extends Solution {
 
 	public double[] integralArray;
 	public DoubleMatrix C, F, G, E;
-	//H - core matrix, G = 2-electron matrix, F = fock matrix, C = coeffecient matrix
+	//H - core matrix, G = 2-electron matrix, F = fock matrix, C = coeffecient
+	// matrix
 // (transposed for easier reading), E = eigenvalues
 	private DoubleMatrix densityMatrix;
 
@@ -77,8 +78,10 @@ public class SolutionR extends Solution {
 			}
 		}
 		integralArray = new double[size];
-		//The idea of the integralarray is to simply store all the integrals in order
-		// they are called. It's basically my way of avoiding having to perform a
+		//The idea of the integralarray is to simply store all the integrals
+		// in order
+		// they are called. It's basically my way of avoiding having to
+		// perform a
 		// Yoshemine sort.
 		// TODO re-implement HashMap
 		int integralcount = 0;
@@ -88,9 +91,11 @@ public class SolutionR extends Solution {
 					for (int l : index[atomNumber[j]]) {
 						if (l > -1) {
 							integralArray[integralcount] =
-									(NDDO6G.OneCenterERI(orbitals[j], orbitals[j],
+									(NDDO6G.OneCenterERI(orbitals[j],
+											orbitals[j],
 											orbitals[l], orbitals[l]) - 0.5 *
-											NDDO6G.OneCenterERI(orbitals[j], orbitals[l],
+											NDDO6G.OneCenterERI(orbitals[j],
+													orbitals[l],
 													orbitals[j], orbitals[l]));
 							integralcount++;
 						}
@@ -102,8 +107,10 @@ public class SolutionR extends Solution {
 								if (m > -1) {
 									if (atomNumber[l] == atomNumber[m]) {
 										integralArray[integralcount] =
-												(NDDO6G.getG(orbitals[j], orbitals[j],
-														orbitals[l], orbitals[m]));
+												(NDDO6G.getG(orbitals[j],
+														orbitals[j],
+														orbitals[l],
+														orbitals[m]));
 										integralcount++;
 									}
 								}
@@ -114,9 +121,11 @@ public class SolutionR extends Solution {
 				}
 				else if (atomNumber[j] == atomNumber[k]) { // case 2
 					integralArray[integralcount] = (1.5 *
-							NDDO6G.OneCenterERI(orbitals[j], orbitals[k], orbitals[j],
+							NDDO6G.OneCenterERI(orbitals[j], orbitals[k],
+									orbitals[j],
 									orbitals[k]) - 0.5 *
-							NDDO6G.OneCenterERI(orbitals[j], orbitals[j], orbitals[k],
+							NDDO6G.OneCenterERI(orbitals[j], orbitals[j],
+									orbitals[k],
 									orbitals[k]));
 					integralcount++;
 					for (int l : missingIndex[atomNumber[j]]) {
@@ -125,8 +134,10 @@ public class SolutionR extends Solution {
 								if (m > -1) {
 									if (atomNumber[l] == atomNumber[m]) {
 										integralArray[integralcount] =
-												(NDDO6G.getG(orbitals[j], orbitals[k],
-														orbitals[l], orbitals[m]));
+												(NDDO6G.getG(orbitals[j],
+														orbitals[k],
+														orbitals[l],
+														orbitals[m]));
 										integralcount++;
 									}
 								}
@@ -140,7 +151,8 @@ public class SolutionR extends Solution {
 							for (int m : index[atomNumber[k]]) {
 								if (m > -1) {
 									integralArray[integralcount] = (-0.5 *
-											NDDO6G.getG(orbitals[j], orbitals[l],
+											NDDO6G.getG(orbitals[j],
+													orbitals[l],
 													orbitals[k], orbitals[m]));
 									integralcount++;
 								}
@@ -154,7 +166,8 @@ public class SolutionR extends Solution {
 		DoubleMatrix[] matrices = Eigen.symmetricEigenvectors(H);
 
 		System.out.println(moleculeName +
-				" Initial diagonalization completed, beginning SCF iterations...");
+				" Initial diagonalization completed, beginning SCF iterations." +
+				"..");
 
 		E = matrices[1].diag();
 
@@ -183,7 +196,8 @@ public class SolutionR extends Solution {
 
 		double DIISError = 10;
 		while (DIISError >
-				1E-10) {//density matrix convergence criteria; since each iteration
+				1E-10) {//density matrix convergence criteria; since each
+			// iteration
 			// takes place within a fraction of a second I figured why not
 
 			olddensity = densityMatrix.dup();
@@ -222,7 +236,8 @@ public class SolutionR extends Solution {
 						}
 					}
 					else if (atomNumber[j] == atomNumber[k]) {
-						val += densityMatrix.get(j, k) * integralArray[integralcount];
+						val += densityMatrix.get(j, k) *
+								integralArray[integralcount];
 						integralcount++;
 
 						for (int l : missingIndex[atomNumber[j]]) {
@@ -267,19 +282,23 @@ public class SolutionR extends Solution {
 
 				Darray[numIt] = densityMatrix.dup();
 				Earray[numIt] = -0.5 * (H.mmul(densityMatrix)).diag().sum();
-				commutatorarray[numIt] = commutator(F.dup(), densityMatrix.dup());
+				commutatorarray[numIt] =
+						commutator(F.dup(), densityMatrix.dup());
 				DIISError = commutatorarray[numIt].norm2();
 
 				for (int i = 0; i <= numIt; i++) {
 
 					double product =
-							(commutatorarray[numIt].mmul(commutatorarray[i].transpose()))
+							(commutatorarray[numIt]
+									.mmul(commutatorarray[i].transpose()))
 									.diag().sum();
 					B.put(i, numIt, product);
 					B.put(numIt, i, product);
 
-					product = 0.5 * ((Farray[i].mmul(Darray[numIt])).diag().sum() +
-							(Farray[numIt].mmul(Darray[i])).diag().sum());
+					product = 0.5 *
+							((Farray[i].mmul(Darray[numIt])).diag().sum() +
+									(Farray[numIt].mmul(Darray[i])).diag()
+											.sum());
 
 					Bforediis.put(i, numIt, product);
 					Bforediis.put(numIt, i, product);
@@ -297,7 +316,8 @@ public class SolutionR extends Solution {
 
 				Farray[Farray.length - 1] = F.dup();
 				Darray[Darray.length - 1] = densityMatrix.dup();
-				Earray[Darray.length - 1] = -0.5 * (H.mmul(densityMatrix)).diag().sum();
+				Earray[Darray.length - 1] =
+						-0.5 * (H.mmul(densityMatrix)).diag().sum();
 				commutatorarray[Darray.length - 1] =
 						commutator(F.dup(), densityMatrix.dup());
 				DIISError = commutatorarray[Darray.length - 1].norm2();
@@ -317,14 +337,17 @@ public class SolutionR extends Solution {
 
 				for (int i = 0; i < Farray.length; i++) {
 
-					double product = commutatorarray[Farray.length - 1].transpose()
-							.mmul(commutatorarray[i]).diag().sum();
+					double product =
+							commutatorarray[Farray.length - 1].transpose()
+									.mmul(commutatorarray[i]).diag().sum();
 					newB.put(i, Farray.length - 1, product);
 					newB.put(Farray.length - 1, i, product);
 
 					product = 0.5 *
-							((Farray[i].mmul(Darray[Farray.length - 1])).diag().sum() +
-									(Farray[Farray.length - 1].mmul(Darray[i])).diag()
+							((Farray[i].mmul(Darray[Farray.length - 1])).diag()
+									.sum() +
+									(Farray[Farray.length - 1].mmul(Darray[i]))
+											.diag()
 											.sum());
 					newBforediis.put(i, Farray.length - 1, product);
 					newBforediis.put(Farray.length - 1, i, product);
@@ -339,14 +362,16 @@ public class SolutionR extends Solution {
 			//System.err.println ("DIIS Error: " + DIISError);
 
 
-			if (commutatorarray[Math.min(Farray.length - 1, numIt)].max() > 0.01) {
+			if (commutatorarray[Math.min(Farray.length - 1, numIt)].max() >
+					0.01) {
 
 				DoubleMatrix mat = DoubleMatrix
 						.zeros(Math.min(Farray.length + 1, numIt + 2),
 								Math.min(Farray.length + 1, numIt + 2));
 
 				for (int i = 0; i < Math.min(Farray.length, numIt + 1); i++) {
-					for (int j = i; j < Math.min(Farray.length, numIt + 1); j++) {
+					for (int j = i; j < Math.min(Farray.length, numIt + 1);
+						 j++) {
 						mat.put(i, j, Bforediis.get(i, j));
 						mat.put(j, i, Bforediis.get(i, j));
 
@@ -393,7 +418,8 @@ public class SolutionR extends Solution {
 
 						for (int i = 0; i < DIIS.length - 1; i++) {
 							for (int j = 0; j < DIIS.length - 1; j++) {
-								e += 0.5 * DIIS.get(i) * DIIS.get(j) * 0.5 * B.get(i, j);
+								e += 0.5 * DIIS.get(i) * DIIS.get(j) * 0.5 *
+										B.get(i, j);
 							}
 						}
 
@@ -413,7 +439,8 @@ public class SolutionR extends Solution {
 								removeElementsSquare(mat.dup(), new int[]{i});
 						DoubleMatrix newrhs =
 								removeElementsLinear(rhs.dup(), new int[]{i});
-						DIIS = addrow(Solve.solve(newmat, newrhs), new int[]{i});
+						DIIS = addrow(Solve.solve(newmat, newrhs),
+								new int[]{i});
 
 						DIIS = DIIS.put(DIIS.rows - 1, 0);
 
@@ -451,10 +478,13 @@ public class SolutionR extends Solution {
 						try {
 
 							DoubleMatrix newmat =
-									removeElementsSquare(mat.dup(), new int[]{i, j});
+									removeElementsSquare(mat.dup(),
+											new int[]{i, j});
 							DoubleMatrix newrhs =
-									removeElementsLinear(rhs.dup(), new int[]{i, j});
-							DIIS = addrow(Solve.solve(newmat, newrhs), new int[]{i, j});
+									removeElementsLinear(rhs.dup(),
+											new int[]{i, j});
+							DIIS = addrow(Solve.solve(newmat, newrhs),
+									new int[]{i, j});
 
 							DIIS = DIIS.put(DIIS.rows - 1, 0);
 
@@ -470,7 +500,8 @@ public class SolutionR extends Solution {
 
 								for (int a = 0; a < DIIS.length - 1; a++) {
 									for (int b = 0; b < DIIS.length - 1; b++) {
-										e += 0.5 * DIIS.get(a) * DIIS.get(b) * 0.5 *
+										e += 0.5 * DIIS.get(a) * DIIS.get(b) *
+												0.5 *
 												B.get(a, b);
 									}
 								}
@@ -494,10 +525,12 @@ public class SolutionR extends Solution {
 						for (int k = j + 1; k < mat.rows - 2; k++) {
 							try {
 
-								DoubleMatrix newmat = removeElementsSquare(mat.dup(),
-										new int[]{i, j, k});
-								DoubleMatrix newrhs = removeElementsLinear(rhs.dup(),
-										new int[]{i, j, k});
+								DoubleMatrix newmat =
+										removeElementsSquare(mat.dup(),
+												new int[]{i, j, k});
+								DoubleMatrix newrhs =
+										removeElementsLinear(rhs.dup(),
+												new int[]{i, j, k});
 								DIIS = addrow(Solve.solve(newmat, newrhs),
 										new int[]{i, j, k});
 
@@ -514,8 +547,10 @@ public class SolutionR extends Solution {
 									}
 
 									for (int a = 0; a < DIIS.length - 1; a++) {
-										for (int b = 0; b < DIIS.length - 1; b++) {
-											e += 0.5 * DIIS.get(a) * DIIS.get(b) * 0.5 *
+										for (int b = 0; b < DIIS.length - 1;
+											 b++) {
+											e += 0.5 * DIIS.get(a) *
+													DIIS.get(b) * 0.5 *
 													B.get(a, b);
 										}
 									}
@@ -542,10 +577,12 @@ public class SolutionR extends Solution {
 							for (int l = k + 1; l < mat.rows - 2; l++) {
 								try {
 
-									DoubleMatrix newmat = removeElementsSquare(mat.dup(),
-											new int[]{i, j, k, l});
-									DoubleMatrix newrhs = removeElementsLinear(rhs.dup(),
-											new int[]{i, j, k, l});
+									DoubleMatrix newmat =
+											removeElementsSquare(mat.dup(),
+													new int[]{i, j, k, l});
+									DoubleMatrix newrhs =
+											removeElementsLinear(rhs.dup(),
+													new int[]{i, j, k, l});
 									DIIS = addrow(Solve.solve(newmat, newrhs),
 											new int[]{i, j, k, l});
 
@@ -557,13 +594,17 @@ public class SolutionR extends Solution {
 										double e = 0;
 
 
-										for (int a = 0; a < DIIS.length - 1; a++) {
+										for (int a = 0; a < DIIS.length - 1;
+											 a++) {
 											e -= Earray[a] * DIIS.get(a);
 										}
 
-										for (int a = 0; a < DIIS.length - 1; a++) {
-											for (int b = 0; b < DIIS.length - 1; b++) {
-												e += 0.5 * DIIS.get(a) * DIIS.get(b) *
+										for (int a = 0; a < DIIS.length - 1;
+											 a++) {
+											for (int b = 0; b < DIIS.length - 1;
+												 b++) {
+												e += 0.5 * DIIS.get(a) *
+														DIIS.get(b) *
 														0.5 * B.get(a, b);
 											}
 										}
@@ -596,11 +637,14 @@ public class SolutionR extends Solution {
 
 										DoubleMatrix newmat =
 												removeElementsSquare(mat.dup(),
-														new int[]{i, j, k, l, m});
+														new int[]{i, j, k, l,
+																m});
 										DoubleMatrix newrhs =
 												removeElementsLinear(rhs.dup(),
-														new int[]{i, j, k, l, m});
-										DIIS = addrow(Solve.solve(newmat, newrhs),
+														new int[]{i, j, k, l,
+																m});
+										DIIS = addrow(Solve
+														.solve(newmat, newrhs),
 												new int[]{i, j, k, l, m});
 
 										DIIS = DIIS.put(DIIS.rows - 1, 0);
@@ -611,14 +655,18 @@ public class SolutionR extends Solution {
 											double e = 0;
 
 
-											for (int a = 0; a < DIIS.length - 1; a++) {
+											for (int a = 0; a < DIIS.length - 1;
+												 a++) {
 												e -= Earray[a] * DIIS.get(a);
 											}
 
-											for (int a = 0; a < DIIS.length - 1; a++) {
-												for (int b = 0; b < DIIS.length - 1;
+											for (int a = 0; a < DIIS.length - 1;
+												 a++) {
+												for (int b = 0;
+													 b < DIIS.length - 1;
 													 b++) {
-													e += 0.5 * DIIS.get(a) * DIIS.get(b) *
+													e += 0.5 * DIIS.get(a) *
+															DIIS.get(b) *
 															0.5 * B.get(a, b);
 												}
 											}
@@ -653,13 +701,20 @@ public class SolutionR extends Solution {
 										try {
 
 											DoubleMatrix newmat =
-													removeElementsSquare(mat.dup(),
-															new int[]{i, j, k, l, m, n});
+													removeElementsSquare(
+															mat.dup(),
+															new int[]{i, j, k,
+																	l, m, n});
 											DoubleMatrix newrhs =
-													removeElementsLinear(rhs.dup(),
-															new int[]{i, j, k, l, m, n});
-											DIIS = addrow(Solve.solve(newmat, newrhs),
-													new int[]{i, j, k, l, m, n});
+													removeElementsLinear(
+															rhs.dup(),
+															new int[]{i, j, k,
+																	l, m, n});
+											DIIS = addrow(Solve
+															.solve(newmat,
+																	newrhs),
+													new int[]{i, j, k, l, m,
+															n});
 
 											DIIS = DIIS.put(DIIS.rows - 1, 0);
 
@@ -669,17 +724,22 @@ public class SolutionR extends Solution {
 												double e = 0;
 
 
-												for (int a = 0; a < DIIS.length - 1;
+												for (int a = 0;
+													 a < DIIS.length - 1;
 													 a++) {
-													e -= Earray[a] * DIIS.get(a);
+													e -= Earray[a] *
+															DIIS.get(a);
 												}
 
-												for (int a = 0; a < DIIS.length - 1;
+												for (int a = 0;
+													 a < DIIS.length - 1;
 													 a++) {
-													for (int b = 0; b < DIIS.length - 1;
+													for (int b = 0;
+														 b < DIIS.length - 1;
 														 b++) {
 														e += 0.5 * DIIS.get(a) *
-																DIIS.get(b) * 0.5 *
+																DIIS.get(b) *
+																0.5 *
 																B.get(a, b);
 													}
 												}
@@ -716,37 +776,56 @@ public class SolutionR extends Solution {
 											try {
 
 												DoubleMatrix newmat =
-														removeElementsSquare(mat.dup(),
-																new int[]{i, j, k, l, m,
+														removeElementsSquare(
+																mat.dup(),
+																new int[]{i, j,
+																		k, l
+																		, m,
 																		n, o});
 												DoubleMatrix newrhs =
-														removeElementsLinear(rhs.dup(),
-																new int[]{i, j, k, l, m,
+														removeElementsLinear(
+																rhs.dup(),
+																new int[]{i, j,
+																		k, l
+																		, m,
 																		n, o});
-												DIIS = addrow(Solve.solve(newmat,
-														newrhs),
-														new int[]{i, j, k, l, m, n, o});
+												DIIS = addrow(Solve
+																.solve(newmat,
+																		newrhs),
+														new int[]{i, j, k, l
+																, m,
+																n, o});
 
-												DIIS = DIIS.put(DIIS.rows - 1, 0);
+												DIIS = DIIS.put(DIIS.rows - 1,
+														0);
 
-												nonNegative = !(DIIS.min() < 0);
+												nonNegative =
+														!(DIIS.min() < 0);
 
 												if (nonNegative) {
 													double e = 0;
 
 
-													for (int a = 0; a < DIIS.length - 1;
+													for (int a = 0;
+														 a < DIIS.length - 1;
 														 a++) {
-														e -= Earray[a] * DIIS.get(a);
+														e -= Earray[a] *
+																DIIS.get(a);
 													}
 
-													for (int a = 0; a < DIIS.length - 1;
+													for (int a = 0;
+														 a < DIIS.length - 1;
 														 a++) {
 														for (int b = 0;
-															 b < DIIS.length - 1; b++) {
-															e += 0.5 * DIIS.get(a) *
-																	DIIS.get(b) * 0.5 *
-																	B.get(a, b);
+															 b < DIIS.length -
+																	 1; b++) {
+															e += 0.5 * DIIS.get(
+																	a) *
+																	DIIS.get(
+																			b) *
+																	0.5 *
+																	B.get(a,
+																			b);
 														}
 													}
 
@@ -775,7 +854,8 @@ public class SolutionR extends Solution {
 				}
 
 				DoubleMatrix F =
-						DoubleMatrix.zeros(densityMatrix.rows, densityMatrix.columns);
+						DoubleMatrix.zeros(densityMatrix.rows,
+								densityMatrix.columns);
 
 
 				for (int i = 0; i < DIIS.length - 1; i++) {
@@ -802,7 +882,8 @@ public class SolutionR extends Solution {
 								Math.min(Farray.length + 1, numIt + 2));
 
 				for (int i = 0; i < Math.min(Farray.length, numIt + 1); i++) {
-					for (int j = i; j < Math.min(Farray.length, numIt + 1); j++) {
+					for (int j = i; j < Math.min(Farray.length, numIt + 1);
+						 j++) {
 						mat.put(i, j, B.get(i, j));
 						mat.put(j, i, B.get(i, j));
 
@@ -866,7 +947,8 @@ public class SolutionR extends Solution {
 		}
 
 
-//        System.out.println(moleculeName + " SCF completed: " + numIt + " iterations
+//        System.out.println(moleculeName + " SCF completed: " + numIt + "
+//        iterations
 //        used");
 
 //        System.err.println("Hybrid DIIS took: " + sw.getTime());
@@ -875,7 +957,8 @@ public class SolutionR extends Solution {
 
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = 0; k < orbitals.length; k++) {
-				e += 0.5 * densityMatrix.get(j, k) * (H.get(j, k) + F.get(j, k));
+				e += 0.5 * densityMatrix.get(j, k) *
+						(H.get(j, k) + F.get(j, k));
 			}
 		}
 
@@ -957,11 +1040,14 @@ public class SolutionR extends Solution {
 
 		for (int j = 0; j < atoms.length; j++) {
 			chargedip[0] +=
-					2.5416 * populations[j] * (atoms[j].getCoordinates()[0] - com[0]);
+					2.5416 * populations[j] *
+							(atoms[j].getCoordinates()[0] - com[0]);
 			chargedip[1] +=
-					2.5416 * populations[j] * (atoms[j].getCoordinates()[1] - com[1]);
+					2.5416 * populations[j] *
+							(atoms[j].getCoordinates()[1] - com[1]);
 			chargedip[2] +=
-					2.5416 * populations[j] * (atoms[j].getCoordinates()[2] - com[2]);
+					2.5416 * populations[j] *
+							(atoms[j].getCoordinates()[2] - com[2]);
 		}
 
 
@@ -980,12 +1066,14 @@ public class SolutionR extends Solution {
 		}
 
 
-		dipoletot = new double[]{chargedip[0] + hybridip[0], chargedip[1] + hybridip[1],
+		dipoletot = new double[]{chargedip[0] + hybridip[0],
+				chargedip[1] + hybridip[1],
 				chargedip[2] + hybridip[2]};
 
 
-		dipole = Math.sqrt(dipoletot[0] * dipoletot[0] + dipoletot[1] * dipoletot[1] +
-				dipoletot[2] * dipoletot[2]);
+		dipole = Math.sqrt(
+				dipoletot[0] * dipoletot[0] + dipoletot[1] * dipoletot[1] +
+						dipoletot[2] * dipoletot[2]);
 
 
 	}
@@ -996,11 +1084,13 @@ public class SolutionR extends Solution {
 	}
 
 	private static DoubleMatrix removeElementsSquare(DoubleMatrix original,
-													 int[] indices) {//remove rows and
+													 int[] indices) {//remove
+		// rows and
 		// columns specified in indices and return downsized square matrix
 
 		DoubleMatrix newarray = DoubleMatrix
-				.zeros(original.rows - indices.length, original.rows - indices.length);
+				.zeros(original.rows - indices.length,
+						original.rows - indices.length);
 
 		ArrayList<Integer> array = new ArrayList<>();
 		for (int i = 0; i < original.rows; i++) {
@@ -1027,10 +1117,12 @@ public class SolutionR extends Solution {
 	}
 
 	private static DoubleMatrix removeElementsLinear(DoubleMatrix original,
-													 int[] indices) {//get rid of the
+													 int[] indices) {//get rid
+		// of the
 		// rows given in indices and return downsized vector
 
-		DoubleMatrix newarray = DoubleMatrix.zeros(original.rows - indices.length, 1);
+		DoubleMatrix newarray =
+				DoubleMatrix.zeros(original.rows - indices.length, 1);
 
 		ArrayList<Integer> array = new ArrayList<>();
 		for (int i = 0; i < original.rows; i++) {
@@ -1053,9 +1145,11 @@ public class SolutionR extends Solution {
 	}
 
 	private static DoubleMatrix addrow(DoubleMatrix original,
-									   int[] indices) { // add  zero row at indices
+									   int[] indices) { // add  zero row at
+		// indices
 
-		DoubleMatrix newarray = DoubleMatrix.zeros(original.rows + indices.length, 1);
+		DoubleMatrix newarray =
+				DoubleMatrix.zeros(original.rows + indices.length, 1);
 
 		ArrayList<Double> array = new ArrayList<>();
 
@@ -1092,10 +1186,12 @@ public class SolutionR extends Solution {
 						if (i != -1 && j != -1 && k != -1 && l != -1) {
 							e += 0.5 * densityMatrix.get(i, j) *
 									(densityMatrix.get(k, l) *
-											NDDO6G.OneCenterERI(orbitals[i], orbitals[j],
+											NDDO6G.OneCenterERI(orbitals[i],
+													orbitals[j],
 													orbitals[k], orbitals[l])
 											- 0.5 * densityMatrix.get(k, l) *
-											NDDO6G.OneCenterERI(orbitals[i], orbitals[k],
+											NDDO6G.OneCenterERI(orbitals[i],
+													orbitals[k],
 													orbitals[j], orbitals[l]));
 						}
 					}
@@ -1142,10 +1238,12 @@ public class SolutionR extends Solution {
 				for (int k : index[atomnum2]) {
 					for (int l : index[atomnum2]) {
 						if (i != -1 && j != -1 && k != -1 && l != -1) {
-							e += (densityMatrix.get(i, j) * densityMatrix.get(k, l) -
+							e += (densityMatrix.get(i, j) *
+									densityMatrix.get(k, l) -
 									densityMatrix.get(i, k) * 0.5 *
 											densityMatrix.get(j, l))
-									* NDDO6G.getG(orbitals[i], orbitals[j], orbitals[k],
+									* NDDO6G.getG(orbitals[i], orbitals[j],
+									orbitals[k],
 									orbitals[l]);
 						}
 					}

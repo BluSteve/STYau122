@@ -11,10 +11,12 @@ import org.apache.commons.lang3.time.StopWatch;
 import runcycle.input.RawMolecule;
 
 public class MoleculeRunU extends MoleculeRun {
-	public MoleculeRunU(NDDOAtom[] atoms2, int charge, int mult, NDDOAtom[] expGeom,
+	public MoleculeRunU(NDDOAtom[] atoms2, int charge, int mult,
+						NDDOAtom[] expGeom,
 						double[] datum, boolean isRunHessian, String kind,
 						int[] atomTypes) {
-		super(atoms2, charge, expGeom, datum, isRunHessian, kind, atomTypes, mult, null);
+		super(atoms2, charge, expGeom, datum, isRunHessian, kind, atomTypes,
+				mult, null);
 		metaRoutine();
 	}
 
@@ -45,14 +47,16 @@ public class MoleculeRunU extends MoleculeRun {
 
 	@Override
 	protected void constructG() {
-		// TODO Change this line's hardcoding once analytical has been implemented for
+		// TODO Change this line's hardcoding once analytical has been
+		//  implemented for
 		//  unrestricted.
 		g = new ParamGradientU((SolutionU) opt.s, kind, datum,
 				(SolutionU) expSolution, false);
 	}
 
 	@Override
-	// TODO Change this line's hardcoding once analytical has been implemented for
+	// TODO Change this line's hardcoding once analytical has been implemented
+	//  for
 	//  unrestricted.
 	protected void constructH() {
 		h = new ParamHessianU((ParamGradientU) g, false);

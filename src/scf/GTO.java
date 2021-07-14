@@ -2,8 +2,10 @@ package scf;
 
 import java.util.Arrays;
 
-//this is the GTO class, and all the relevant GTO integral routines are implemented here.
-//The GTO object represents a GTO of the form (x-coordinates[0])^i(y-coordinates[1])^j
+//this is the GTO class, and all the relevant GTO integral routines are
+// implemented here.
+//The GTO object represents a GTO of the form (x-coordinates[0])^i
+// (y-coordinates[1])^j
 // (z-coordinates[2])^k exp(-exponent * r^2)
 public class GTO {
 
@@ -23,7 +25,8 @@ public class GTO {
 
 		this.N = Math.pow(2 / Math.PI, 0.75) * Math.pow(2, L) *
 				Math.pow(exponent, (2 * L + 3) / 4.0) /
-				Math.sqrt(fact2(2 * i - 1) * fact2(2 * j - 1) * fact2(2 * k - 1));
+				Math.sqrt(
+						fact2(2 * i - 1) * fact2(2 * j - 1) * fact2(2 * k - 1));
 	}
 
 	static int fact2(int num) {
@@ -37,8 +40,9 @@ public class GTO {
 
 	public static double R(double[] P, double[] C) {
 
-		double val = (P[0] - C[0]) * (P[0] - C[0]) + (P[1] - C[1]) * (P[1] - C[1]) +
-				(P[2] - C[2]) * (P[2] - C[2]);
+		double val =
+				(P[0] - C[0]) * (P[0] - C[0]) + (P[1] - C[1]) * (P[1] - C[1]) +
+						(P[2] - C[2]) * (P[2] - C[2]);
 
 		return Math.sqrt(val);
 
@@ -52,7 +56,8 @@ public class GTO {
 						b.coordinates[0] - a.coordinates[0]) *
 				I(a.j, b.j, a.exponent, b.exponent,
 						b.coordinates[1] - a.coordinates[1]) *
-				I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2]);
+				I(a.k, b.k, a.exponent, b.exponent,
+						b.coordinates[2] - a.coordinates[2]);
 	}
 
 	public static double getSderiv(GTO a, GTO b, int tau) {
@@ -60,21 +65,24 @@ public class GTO {
 		switch (tau) {
 			case 0:
 
-				return a.getN() * b.getN() * Ideriv(a.i, b.i, a.exponent, b.exponent,
-						b.coordinates[0] - a.coordinates[0]) *
+				return a.getN() * b.getN() *
+						Ideriv(a.i, b.i, a.exponent, b.exponent,
+								b.coordinates[0] - a.coordinates[0]) *
 						I(a.j, b.j, a.exponent, b.exponent,
 								b.coordinates[1] - a.coordinates[1]) *
 						I(a.k, b.k, a.exponent, b.exponent,
 								b.coordinates[2] - a.coordinates[2]);
 			case 1:
-				return a.getN() * b.getN() * I(a.i, b.i, a.exponent, b.exponent,
+				return a.getN() * b.getN() * I(a.i, b.i, a.exponent,
+						b.exponent,
 						b.coordinates[0] - a.coordinates[0]) *
 						Ideriv(a.j, b.j, a.exponent, b.exponent,
 								b.coordinates[1] - a.coordinates[1]) *
 						I(a.k, b.k, a.exponent, b.exponent,
 								b.coordinates[2] - a.coordinates[2]);
 			case 2:
-				return a.getN() * b.getN() * I(a.i, b.i, a.exponent, b.exponent,
+				return a.getN() * b.getN() * I(a.i, b.i, a.exponent,
+						b.exponent,
 						b.coordinates[0] - a.coordinates[0]) *
 						I(a.j, b.j, a.exponent, b.exponent,
 								b.coordinates[1] - a.coordinates[1]) *
@@ -121,15 +129,17 @@ public class GTO {
 			case 1:
 				switch (B) {
 					case 1: // derivative wrt y and y
-						return a.getN() * b.getN() * I(a.i, b.i, a.exponent, b.exponent,
-								b.coordinates[0] - a.coordinates[0]) *
+						return a.getN() * b.getN() *
+								I(a.i, b.i, a.exponent, b.exponent,
+										b.coordinates[0] - a.coordinates[0]) *
 								Ideriv2(a.j, b.j, a.exponent, b.exponent,
 										b.coordinates[1] - a.coordinates[1]) *
 								I(a.k, b.k, a.exponent, b.exponent,
 										b.coordinates[2] - a.coordinates[2]);
 					case 2: // derivative wrt y and z
-						return a.getN() * b.getN() * I(a.i, b.i, a.exponent, b.exponent,
-								b.coordinates[0] - a.coordinates[0]) *
+						return a.getN() * b.getN() *
+								I(a.i, b.i, a.exponent, b.exponent,
+										b.coordinates[0] - a.coordinates[0]) *
 								Ideriv(a.j, b.j, a.exponent, b.exponent,
 										b.coordinates[1] - a.coordinates[1]) *
 								Ideriv(a.k, b.k, a.exponent, b.exponent,
@@ -137,7 +147,8 @@ public class GTO {
 
 				}
 			case 2: // derivative wrt z and z
-				return a.getN() * b.getN() * I(a.i, b.i, a.exponent, b.exponent,
+				return a.getN() * b.getN() * I(a.i, b.i, a.exponent,
+						b.exponent,
 						b.coordinates[0] - a.coordinates[0]) *
 						I(a.j, b.j, a.exponent, b.exponent,
 								b.coordinates[1] - a.coordinates[1]) *
@@ -152,7 +163,8 @@ public class GTO {
 	private static double I(int l1, int l2, double a1, double a2, double R) {
 
 		double num =
-				Math.sqrt(Math.PI / (a1 + a2)) * Math.exp(-a1 * a2 * R * R / (a1 + a2));
+				Math.sqrt(Math.PI / (a1 + a2)) *
+						Math.exp(-a1 * a2 * R * R / (a1 + a2));
 		switch (l1) {
 			case 0:
 				switch (l2) {
@@ -168,7 +180,8 @@ public class GTO {
 						return a2 * R / (a1 + a2) * num;
 					case 1:
 						return (1 / (2 * (a1 + a2)) -
-								a1 * a2 * R * R / ((a1 + a2) * (a1 + a2))) * num;
+								a1 * a2 * R * R / ((a1 + a2) * (a1 + a2))) *
+								num;
 				}
 				break;
 		}
@@ -176,10 +189,12 @@ public class GTO {
 		return 0;
 	}
 
-	private static double Ideriv(int l1, int l2, double a1, double a2, double R) {
+	private static double Ideriv(int l1, int l2, double a1, double a2,
+								 double R) {
 
 		double num =
-				Math.sqrt(Math.PI / (a1 + a2)) * Math.exp(-a1 * a2 * R * R / (a1 + a2));
+				Math.sqrt(Math.PI / (a1 + a2)) *
+						Math.exp(-a1 * a2 * R * R / (a1 + a2));
 		switch (l1) {
 			case 0:
 				switch (l2) {
@@ -206,10 +221,12 @@ public class GTO {
 
 	}
 
-	private static double Ideriv2(int l1, int l2, double a1, double a2, double R) {
+	private static double Ideriv2(int l1, int l2, double a1, double a2,
+								  double R) {
 
 		double num =
-				Math.sqrt(Math.PI / (a1 + a2)) * Math.exp(-a1 * a2 * R * R / (a1 + a2));
+				Math.sqrt(Math.PI / (a1 + a2)) *
+						Math.exp(-a1 * a2 * R * R / (a1 + a2));
 		switch (l1) {
 			case 0:
 				switch (l2) {
@@ -217,19 +234,22 @@ public class GTO {
 						return num * 2 * a1 * a2 / (a1 + a2) *
 								(2 * a1 * a2 / (a1 + a2) * R * R - 1);
 					case 1:
-						return 2 * a1 * a1 * a2 * R / ((a1 + a2) * (a1 + a2)) * num *
+						return 2 * a1 * a1 * a2 * R / ((a1 + a2) * (a1 + a2)) *
+								num *
 								(3 - 2 * a1 * a2 / (a1 + a2) * R * R);
 				}
 				break;
 			case 1:
 				switch (l2) {
 					case 0:
-						return 2 * a1 * a2 * a2 * R / ((a1 + a2) * (a1 + a2)) * num *
+						return 2 * a1 * a2 * a2 * R / ((a1 + a2) * (a1 + a2)) *
+								num *
 								(2 * a1 * a2 / (a1 + a2) * R * R - 3);
 					case 1:
 						return a1 * a2 * Math.pow(a1 + a2, -2) * num *
 								(2 * R * a1 * a2 / (a1 + a2) *
-										(3 * R - 2 * R * R * R * a1 * a2 / (a1 + a2)) +
+										(3 * R - 2 * R * R * R * a1 * a2 /
+												(a1 + a2)) +
 										6 * R * R * a1 * a2 / (a1 + a2) - 3);
 				}
 				break;
@@ -256,7 +276,8 @@ public class GTO {
 
 		GTO newa = new GTO(a.i, a.j, a.k, a.exponent, newcoords);
 
-		return 1E8 * (GTO.getSderiv(newa, b, tau1) - GTO.getSderiv(a, b, tau1));
+		return 1E8 * (GTO.getSderiv(newa, b, tau1) - GTO.getSderiv(a, b,
+				tau1));
 	}
 
 	public int geti() {

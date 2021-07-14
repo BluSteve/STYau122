@@ -1,6 +1,5 @@
 package runcycle.input;
 
-import nddoparam.NDDOAtom;
 import nddoparam.mndo.MNDOAtom;
 import nddoparam.mndo.MNDOParams;
 import scf.AtomHandler;

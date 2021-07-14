@@ -14,7 +14,9 @@ import runcycle.output.MoleculeOutput;
 import runcycle.output.OutputHandler;
 import scf.AtomHandler;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ForkJoinPool;
 import java.util.stream.Collectors;
 
@@ -95,8 +97,10 @@ public class Main {
 				double[] ttGradient = new double[paramLength];
 				double[][] ttHessian = null;
 				if (runHessian) ttHessian =
-						new double[results.get(0).getH().getHessianUnpadded().length]
-								[results.get(0).getH().getHessianUnpadded()[0].length];
+						new double[results.get(0).getH()
+								.getHessianUnpadded().length]
+								[results.get(0).getH()
+								.getHessianUnpadded()[0].length];
 				for (MoleculeRun result : results) {
 					double[] g =
 							result.getG().combine(result.getG()
@@ -118,10 +122,63 @@ public class Main {
 								ri.params.lastGradient, ri.params.lastDir,
 								paramLength);
 
-//				ParamOptimizer o = new ParamOptimizer();
-
+				ParamOptimizer o = new ParamOptimizer();
+//				for (String[] j : outputValues) {
+//                    String[] strs = j[1].strip().split(",");
+//
+//                    double[] derivs = new double[strs.length - 2];
+//
+//                    for (int i = 2; i < strs.length; i++) {
+//                        derivs[i - 2] = Double.parseDouble(strs[i]);
+//                    }
+//
+//                    o.addData(new HeatData(derivs, Double.parseDouble
+//                    (strs[0]),
+//                    Double.parseDouble(strs[1])));
+//
+//                    if (!j[3].equals("")) {
+//                        strs = j[3].strip().split(",");
+//
+//                        derivs = new double[strs.length - 2];
+//
+//                        for (int i = 2; i < strs.length; i++) {
+//                            derivs[i - 2] = Double.parseDouble(strs[i]);
+//                        }
+//
+//                        o.addData(new IonizationData(derivs, Double
+//                        .parseDouble
+//                        (strs[0]), Double.parseDouble(strs[1])));
+//                    }
+//
+//                    if (!j[2].equals("")) {
+//                        strs = j[2].strip().split(",");
+//
+//                        derivs = new double[strs.length - 2];
+//
+//                        for (int i = 2; i < strs.length; i++) {
+//                            derivs[i - 2] = Double.parseDouble(strs[i]);
+//                        }
+//
+//                        o.addData(new DipoleData(derivs, Double.parseDouble
+//                        (strs[0]),
+//                        Double.parseDouble(strs[1])));
+//                    }
+//
+//                    if (!j[4].equals("")) {
+//                        strs = j[4].strip().split(",");
+//
+//                        derivs = new double[strs.length - 2];
+//
+//                        for (int i = 2; i < strs.length; i++) {
+//                            derivs[i - 2] = Double.parseDouble(strs[i]);
+//                        }
+//
+//                        o.addData(new GeometricalData(derivs, Double
+//                        .parseDouble
+//                        (strs[0]), Double.parseDouble(strs[1])));
+//                    }
+//                }
 				System.out.println(Eigen.symmetricEigenvalues(B));
-
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

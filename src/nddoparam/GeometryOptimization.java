@@ -21,10 +21,12 @@ public abstract class GeometryOptimization {
 		updateNDDOSolution();
 		refEnergy = s.energy;
 		System.out.println(
-				"\n" + s.getMoleculeName() + " Current heat of formation: " + s.hf +
+				"\n" + s.getMoleculeName() + " Current heat of formation: " +
+						s.hf +
 						"kcal/mol");
 		System.out
-				.println(s.getMoleculeName() + " Current HOMO energy: " + s.homo + " " +
+				.println(s.getMoleculeName() + " Current HOMO energy: " +
+						s.homo + " " +
 						"eV");
 		System.out.println("-----------------------------------------------");
 
@@ -51,13 +53,15 @@ public abstract class GeometryOptimization {
 		}
 
 
-		double lambda = lambda(h, U.transpose().mmul(gradient), h.rows - counter);
+		double lambda =
+				lambda(h, U.transpose().mmul(gradient), h.rows - counter);
 
 //        System.err.println("lambda: " + lambda);
 
 
 		DoubleMatrix searchdir =
-				Solve.pinv(B.sub(DoubleMatrix.eye(B.rows).mmul(lambda))).mmul(gradient)
+				Solve.pinv(B.sub(DoubleMatrix.eye(B.rows).mmul(lambda)))
+						.mmul(gradient)
 						.mul(-1);
 
 		if (mag(searchdir) > 0.3) {
@@ -88,7 +92,8 @@ public abstract class GeometryOptimization {
 					// get x,y,z of a
 					// positions of atoms are essentially "weights"
 					a.getCoordinates()[i] = Math.round(
-							(a.getCoordinates()[i] + searchdir.get(count)) * 1000000000) /
+							(a.getCoordinates()[i] + searchdir.get(count)) *
+									1000000000) /
 							1000000000.0;
 					count++;
 				}
@@ -96,10 +101,13 @@ public abstract class GeometryOptimization {
 
 			updateNDDOSolution();
 
-			System.out.println("\nCurrent heat of formation: " + s.hf + "kcal/mol");
+			System.out.println(
+					"\nCurrent heat of formation: " + s.hf + "kcal/mol");
 			System.out.println("Current HOMO energy: " + s.homo + " eV");
 			System.out.println("Current energy: " + s.energy);
-			System.out.println("-----------------------------------------------");
+			System.out
+					.println(
+							"-----------------------------------------------");
 
 			energy = s.energy;
 			sw.suspend();
@@ -144,7 +152,8 @@ public abstract class GeometryOptimization {
 
 //            System.err.println("lambda: " + lambda);
 
-			searchdir = Solve.pinv(B.sub(DoubleMatrix.eye(B.rows).mmul(lambda)))
+			searchdir =
+					Solve.pinv(B.sub(DoubleMatrix.eye(B.rows).mmul(lambda)))
 					.mmul(gradient).mul(-1);
 
 			if (mag(searchdir) > 0.3) {
@@ -195,11 +204,13 @@ public abstract class GeometryOptimization {
 
 	protected abstract void updateNDDOSolution();
 
-	private DoubleMatrix getb(DoubleMatrix B, DoubleMatrix y, DoubleMatrix searchdir) {
+	private DoubleMatrix getb(DoubleMatrix B, DoubleMatrix y,
+							  DoubleMatrix searchdir) {
 		double a = 1 / y.transpose().mmul(searchdir).get(0);
 		double b = searchdir.transpose().mmul(B).mmul(searchdir).get(0);
 		DoubleMatrix m2 =
-				B.mmul(searchdir).mmul(searchdir.transpose()).mmul(B.transpose()).mmul(b);
+				B.mmul(searchdir).mmul(searchdir.transpose())
+						.mmul(B.transpose()).mmul(b);
 		DoubleMatrix m1 = y.mmul(y.transpose()).mmul(a);
 
 		return B.add(m1).sub(m2);

@@ -25,9 +25,11 @@ public class ParamOptimizer {
 		this.value += data.getValue();
 	}
 
-	public void optimize(DoubleMatrix B, DoubleMatrix gradient) throws Exception {
+	public void optimize(DoubleMatrix B, DoubleMatrix gradient)
+			throws Exception {
 
-		PrintWriter pw = new PrintWriter(new FileOutputStream("mndooutput.txt", true));
+		PrintWriter pw =
+				new PrintWriter(new FileOutputStream("mndooutput.txt", true));
 
 		DoubleMatrix searchdir = Solve.pinv(B).mmul(gradient);
 

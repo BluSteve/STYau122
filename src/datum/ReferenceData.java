@@ -25,7 +25,8 @@ public abstract class ReferenceData {
 
 		this.actual = actual;
 
-		this.value = (reference - actual) * (reference - actual) * weight * weight;
+		this.value =
+				(reference - actual) * (reference - actual) * weight * weight;
 
 		this.updated = actual;
 
@@ -42,7 +43,8 @@ public abstract class ReferenceData {
 
 		this.updated = this.actual + change;
 
-		this.value = (reference - updated) * (reference - updated) * weight * weight;
+		this.value =
+				(reference - updated) * (reference - updated) * weight * weight;
 
 	}
 

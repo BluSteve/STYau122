@@ -20,7 +20,8 @@ public class ParamHessianR extends ParamHessian {
 	protected void constructGPrime(int ZIndex, int paramNum) {
 		gPrime = new ParamGradientR(
 				new SolutionR(Utils.perturbAtomParams(s.atoms,
-						s.getUniqueZs()[ZIndex], paramNum), s.charge), kind, datum,
+						s.getUniqueZs()[ZIndex], paramNum), s.charge), kind,
+				datum,
 				(SolutionR) sExp, analytical);
 	}
 }

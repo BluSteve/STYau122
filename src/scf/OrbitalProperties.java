@@ -6,10 +6,13 @@ import java.util.Arrays;
 
 public class OrbitalProperties implements Serializable {
 	private static String[][] ORBITALS_PER_SHELL =
-			new String[][]{new String[0], new String[]{"s"}, new String[]{"s", "p"},
-					new String[]{"s", "p", "d"}, new String[]{"s", "p", "d", "f"},
+			new String[][]{new String[0], new String[]{"s"},
+					new String[]{"s", "p"},
+					new String[]{"s", "p", "d"},
 					new String[]{"s", "p", "d", "f"},
-					new String[]{"s", "p", "d", "f"}, new String[]{"s", "p", "d", "f"}};
+					new String[]{"s", "p", "d", "f"},
+					new String[]{"s", "p", "d", "f"},
+					new String[]{"s", "p", "d", "f"}};
 	private String type;
 	private int shell, L;
 	private int[] config;
@@ -27,12 +30,16 @@ public class OrbitalProperties implements Serializable {
 		for (String x : ORBITALS_PER_SHELL[shell]) {
 			switch (x) {
 				case "s":
-					orbitals.add(new OrbitalProperties(x, shell, new int[]{0, 0, 0}));
+					orbitals.add(new OrbitalProperties(x, shell,
+							new int[]{0, 0, 0}));
 					break;
 				case "p":
-					orbitals.add(new OrbitalProperties(x, shell, new int[]{1, 0, 0}));
-					orbitals.add(new OrbitalProperties(x, shell, new int[]{0, 1, 0}));
-					orbitals.add(new OrbitalProperties(x, shell, new int[]{0, 0, 1}));
+					orbitals.add(new OrbitalProperties(x, shell,
+							new int[]{1, 0, 0}));
+					orbitals.add(new OrbitalProperties(x, shell,
+							new int[]{0, 1, 0}));
+					orbitals.add(new OrbitalProperties(x, shell,
+							new int[]{0, 0, 1}));
 					break;
 			}
 		}

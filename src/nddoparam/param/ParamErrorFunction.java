@@ -11,7 +11,8 @@ public abstract class ParamErrorFunction {
 	public Solution soln, expSoln;
 	protected double HeatError, dipoleError, IEError, geomError;
 	protected NDDOAtom[] atoms, expAtoms;
-	protected ArrayList<Double> bondErrors, angleErrors, bonds, angles, bondDerivatives,
+	protected ArrayList<Double> bondErrors, angleErrors, bonds, angles,
+			bondDerivatives,
 			angleDerivatives;
 
 	public ParamErrorFunction(Solution soln, double refHeat) {
@@ -29,15 +30,18 @@ public abstract class ParamErrorFunction {
 		this.angleDerivatives = new ArrayList<>();
 	}
 
-	private static double theta(double x1, double y1, double z1, double x2, double y2,
+	private static double theta(double x1, double y1, double z1, double x2,
+								double y2,
 								double z2) {
 		double sum = x1 * x2 + y1 * y2 + z1 * z2;
-		double summ = mag(new double[]{x1, y1, z1}) * mag(new double[]{x2, y2, z2});
+		double summ =
+				mag(new double[]{x1, y1, z1}) * mag(new double[]{x2, y2, z2});
 		return Math.acos(sum / summ) * 180 / Math.PI;
 	}
 
 	private static double[] cross(double[] a, double[] b) {
-		return new double[]{a[1] * b[2] - a[2] * b[1], b[0] * a[2] - a[0] * b[2],
+		return new double[]{a[1] * b[2] - a[2] * b[1],
+				b[0] * a[2] - a[0] * b[2],
 				a[0] * b[1] - b[0] * a[1]};
 	}
 
@@ -60,7 +64,8 @@ public abstract class ParamErrorFunction {
 	}
 
 	public void addDipoleError(double refDipole) {
-		this.dipoleError = 400 * (soln.dipole - refDipole) * (soln.dipole - refDipole);
+		this.dipoleError =
+				400 * (soln.dipole - refDipole) * (soln.dipole - refDipole);
 	}
 
 	public void addIEError(double refIE) {
@@ -112,12 +117,15 @@ public abstract class ParamErrorFunction {
 
 	protected double[] getR(int atom1, int atom2) {
 		double length =
-				GTO.R(atoms[atom1].getCoordinates(), atoms[atom2].getCoordinates()) /
+				GTO.R(atoms[atom1].getCoordinates(),
+						atoms[atom2].getCoordinates()) /
 						1.88973;
 		this.bonds.add(length);
 		double[] R = new double[]{
-				expAtoms[atom2].getCoordinates()[0] - expAtoms[atom1].getCoordinates()[0],
-				expAtoms[atom2].getCoordinates()[1] - expAtoms[atom1].getCoordinates()[1],
+				expAtoms[atom2].getCoordinates()[0] -
+						expAtoms[atom1].getCoordinates()[0],
+				expAtoms[atom2].getCoordinates()[1] -
+						expAtoms[atom1].getCoordinates()[1],
 				expAtoms[atom2].getCoordinates()[2] -
 						expAtoms[atom1].getCoordinates()[2]};
 		double dist =
@@ -131,21 +139,27 @@ public abstract class ParamErrorFunction {
 
 	protected double[] getCoeff(int atom1, int atom2, int atom3) {
 		double[] vector1 = new double[]{
-				expAtoms[atom1].getCoordinates()[0] - expAtoms[atom2].getCoordinates()[0],
-				expAtoms[atom1].getCoordinates()[1] - expAtoms[atom2].getCoordinates()[1],
+				expAtoms[atom1].getCoordinates()[0] -
+						expAtoms[atom2].getCoordinates()[0],
+				expAtoms[atom1].getCoordinates()[1] -
+						expAtoms[atom2].getCoordinates()[1],
 				expAtoms[atom1].getCoordinates()[2] -
 						expAtoms[atom2].getCoordinates()[2]};
 
 		double[] vector2 = new double[]{
-				expAtoms[atom3].getCoordinates()[0] - expAtoms[atom2].getCoordinates()[0],
-				expAtoms[atom3].getCoordinates()[1] - expAtoms[atom2].getCoordinates()[1],
+				expAtoms[atom3].getCoordinates()[0] -
+						expAtoms[atom2].getCoordinates()[0],
+				expAtoms[atom3].getCoordinates()[1] -
+						expAtoms[atom2].getCoordinates()[1],
 				expAtoms[atom3].getCoordinates()[2] -
 						expAtoms[atom2].getCoordinates()[2]};
 
-		double angle = theta(vector1[0], vector1[1], vector1[2], vector2[0], vector2[1],
+		double angle = theta(vector1[0], vector1[1], vector1[2], vector2[0],
+				vector2[1],
 				vector2[2]);
 		this.angles.add(angle);
-		double[] perpendicularVector = normalizedVector(cross(vector1, vector2));
+		double[] perpendicularVector =
+				normalizedVector(cross(vector1, vector2));
 		return normalizedVector(cross(vector2, perpendicularVector));
 	}
 }

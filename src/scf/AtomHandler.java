@@ -22,7 +22,8 @@ public class AtomHandler {
 			for (int i = 0; i < unindexedAtoms.length; i++) {
 				AtomProperties atom = unindexedAtoms[i];
 				atom.setIndex(i);
-				atom.setOrbitals(OrbitalProperties.generateOrbitals(atom.getPeriod()));
+				atom.setOrbitals(
+						OrbitalProperties.generateOrbitals(atom.getPeriod()));
 				atoms[atom.getZ()] = atom;
 				atomsMap.put(atom.getName(), atom);
 			}

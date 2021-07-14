@@ -16,7 +16,8 @@ public class RawMolecule {
 	public int[] uniqueZs;
 	public RawAtom[] atoms, expGeom;
 
-	public static MNDOAtom[] toMNDOAtoms(RawAtom[] atoms, MNDOParams[] mndoParams) {
+	public static MNDOAtom[] toMNDOAtoms(RawAtom[] atoms,
+										 MNDOParams[] mndoParams) {
 		MNDOAtom[] res = new MNDOAtom[atoms.length];
 		for (int i = 0; i < atoms.length; i++) {
 			res[i] = atoms[i].toMNDOAtom(

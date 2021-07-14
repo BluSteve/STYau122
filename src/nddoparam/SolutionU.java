@@ -16,7 +16,8 @@ public class SolutionU extends Solution {
 		this.multiplicity = mult;
 		if (nElectrons % 2 == multiplicity % 2 || multiplicity < 1) {
 			System.err.println(
-					"Please check multiplicity and charge: " + nElectrons + ", " +
+					"Please check multiplicity and charge: " + nElectrons +
+							", " +
 							multiplicity);
 			System.exit(0);
 		}
@@ -27,7 +28,8 @@ public class SolutionU extends Solution {
 
 		int nbeta = nElectrons / 2;
 
-		//System.out.println("1-electron matrix elements evaluated - moving on to
+		//System.out.println("1-electron matrix elements evaluated - moving
+		// on to
 		// two-electron matrix");
 
 
@@ -77,7 +79,8 @@ public class SolutionU extends Solution {
 					for (int l : index[atomNumber[j]]) {
 						if (l > -1) {
 							integralArrayCoulomb[integralCount] =
-									NDDO6G.OneCenterERI(orbitals[j], orbitals[j],
+									NDDO6G.OneCenterERI(orbitals[j],
+											orbitals[j],
 											orbitals[l], orbitals[l]);
 							integralCount++;
 						}
@@ -88,8 +91,10 @@ public class SolutionU extends Solution {
 								if (m > -1) {
 									if (atomNumber[l] == atomNumber[m]) {
 										integralArrayCoulomb[integralCount] =
-												NDDO6G.getG(orbitals[j], orbitals[j],
-														orbitals[l], orbitals[m]);
+												NDDO6G.getG(orbitals[j],
+														orbitals[j],
+														orbitals[l],
+														orbitals[m]);
 										integralCount++;
 									}
 								}
@@ -99,7 +104,8 @@ public class SolutionU extends Solution {
 				}
 				else if (atomNumber[j] == atomNumber[k]) {
 					integralArrayCoulomb[integralCount] = 2 *
-							NDDO6G.OneCenterERI(orbitals[j], orbitals[k], orbitals[j],
+							NDDO6G.OneCenterERI(orbitals[j], orbitals[k],
+									orbitals[j],
 									orbitals[k]);
 					integralCount++;
 					for (int l : missingIndex[atomNumber[j]]) {
@@ -108,8 +114,10 @@ public class SolutionU extends Solution {
 								if (m > -1) {
 									if (atomNumber[l] == atomNumber[m]) {
 										integralArrayCoulomb[integralCount] =
-												NDDO6G.getG(orbitals[j], orbitals[k],
-														orbitals[l], orbitals[m]);
+												NDDO6G.getG(orbitals[j],
+														orbitals[k],
+														orbitals[l],
+														orbitals[m]);
 										integralCount++;
 									}
 								}
@@ -120,7 +128,8 @@ public class SolutionU extends Solution {
 			}
 		}
 
-		//System.out.println("Coulomb (J) matrix ERIs evaluated - moving on to Exchange
+		//System.out.println("Coulomb (J) matrix ERIs evaluated - moving on to
+		// Exchange
 		// (K) matrix ERIs...");
 
 		size = 0;
@@ -162,19 +171,23 @@ public class SolutionU extends Solution {
 					for (int l : index[atomNumber[j]]) {
 						if (l > -1) {
 							integralArrayExchange[integralCount] = -1 *
-									NDDO6G.OneCenterERI(orbitals[j], orbitals[l],
+									NDDO6G.OneCenterERI(orbitals[j],
+											orbitals[l],
 											orbitals[j], orbitals[l]);
 							integralCount++;
 						}
 					}
 				}
 				else if (atomNumber[j] == atomNumber[k]) {
-					//System.err.println ("1.5[" + j + k + "|" + j + k + "] - 0.5[" + j
+					//System.err.println ("1.5[" + j + k + "|" + j + k + "] -
+					// 0.5[" + j
 					// + j + "|" + k + k + "]");
 					integralArrayExchange[integralCount] = -1 *
-							NDDO6G.OneCenterERI(orbitals[j], orbitals[k], orbitals[j],
+							NDDO6G.OneCenterERI(orbitals[j], orbitals[k],
+									orbitals[j],
 									orbitals[k]) - 1 *
-							NDDO6G.OneCenterERI(orbitals[j], orbitals[j], orbitals[k],
+							NDDO6G.OneCenterERI(orbitals[j], orbitals[j],
+									orbitals[k],
 									orbitals[k]);
 					integralCount++;
 				}
@@ -184,7 +197,8 @@ public class SolutionU extends Solution {
 							for (int m : index[atomNumber[k]]) {
 								if (m > -1) {
 									integralArrayExchange[integralCount] = -1 *
-											NDDO6G.getG(orbitals[j], orbitals[l],
+											NDDO6G.getG(orbitals[j],
+													orbitals[l],
 													orbitals[k], orbitals[m]);
 									integralCount++;
 								}
@@ -198,7 +212,8 @@ public class SolutionU extends Solution {
 		DoubleMatrix[] matrices = Eigen.symmetricEigenvectors(H);
 
 		System.out.println(
-				moleculeName + " All ERIs evaluated, beginning SCF iterations...");
+				moleculeName +
+						" All ERIs evaluated, beginning SCF iterations...");
 
 		Ea = matrices[1].diag();
 
@@ -246,7 +261,8 @@ public class SolutionU extends Solution {
 
 						for (int l : index[atomNumber[j]]) {
 							if (l > -1) {
-								val += (alphaDensity.get(l, l) + betaDensity.get(l, l)) *
+								val += (alphaDensity.get(l, l) +
+										betaDensity.get(l, l)) *
 										integralArrayCoulomb[Jcount];
 								Jcount++;
 							}
@@ -269,7 +285,8 @@ public class SolutionU extends Solution {
 						}
 					}
 					else if (atomNumber[j] == atomNumber[k]) {
-						val += (alphaDensity.get(j, k) + betaDensity.get(j, k)) *
+						val += (alphaDensity.get(j, k) +
+								betaDensity.get(j, k)) *
 								integralArrayCoulomb[Jcount];
 						Jcount++;
 
@@ -314,8 +331,10 @@ public class SolutionU extends Solution {
 
 					}
 					else if (atomNumber[j] == atomNumber[k]) {
-						vala += alphaDensity.get(j, k) * integralArrayExchange[Kcount];
-						valb += betaDensity.get(j, k) * integralArrayExchange[Kcount];
+						vala += alphaDensity.get(j, k) *
+								integralArrayExchange[Kcount];
+						valb += betaDensity.get(j, k) *
+								integralArrayExchange[Kcount];
 						Kcount++;
 
 					}
@@ -369,7 +388,8 @@ public class SolutionU extends Solution {
 				System.err.println("SCF Has Not Converged");
 
 				System.err.println(
-						"Damping Coefficient will be Increased, and the run restarted." +
+						"Damping Coefficient will be Increased, and the run " +
+								"restarted." +
 								"." +
 								".");
 
@@ -378,7 +398,8 @@ public class SolutionU extends Solution {
 				matrices = Eigen.symmetricEigenvectors(H);
 
 				System.out.println(
-						"Exchange (K) matrix ERIs evaluated, beginning SCF iterations." +
+						"Exchange (K) matrix ERIs evaluated, beginning SCF " +
+								"iterations." +
 								"." +
 								".");
 
@@ -404,11 +425,13 @@ public class SolutionU extends Solution {
 
 				if (damp >= 1) {
 					System.err.println(
-							"Damping Coefficient Cannot Be Increased Further. Exiting " +
+							"Damping Coefficient Cannot Be Increased Further. " +
+									"Exiting " +
 									"program...");
 
 					for (NDDOAtom a : atoms) {
-						System.out.println(a.getAtomProperties().getZ() + "; " +
+						System.out.println(a.getAtomProperties().getZ() + ";" +
+								" " +
 								Arrays.toString(a.getCoordinates()));
 					}
 					System.exit(0);
@@ -423,8 +446,10 @@ public class SolutionU extends Solution {
 
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = 0; k < orbitals.length; k++) {
-				e += 0.5 * alphaDensity.get(j, k) * (H.get(j, k) + Fa.get(j, k));
-				e += 0.5 * betaDensity.get(j, k) * (H.get(j, k) + Fb.get(j, k));
+				e += 0.5 * alphaDensity.get(j, k) *
+						(H.get(j, k) + Fa.get(j, k));
+				e += 0.5 * betaDensity.get(j, k) * (H.get(j, k) + Fb.get(j,
+						k));
 			}
 		}
 		double checksum = 0;
@@ -498,11 +523,14 @@ public class SolutionU extends Solution {
 
 		for (int j = 0; j < atoms.length; j++) {
 			chargedip[0] +=
-					2.5416 * populations[j] * (atoms[j].getCoordinates()[0] - com[0]);
+					2.5416 * populations[j] *
+							(atoms[j].getCoordinates()[0] - com[0]);
 			chargedip[1] +=
-					2.5416 * populations[j] * (atoms[j].getCoordinates()[1] - com[1]);
+					2.5416 * populations[j] *
+							(atoms[j].getCoordinates()[1] - com[1]);
 			chargedip[2] +=
-					2.5416 * populations[j] * (atoms[j].getCoordinates()[2] - com[2]);
+					2.5416 * populations[j] *
+							(atoms[j].getCoordinates()[2] - com[2]);
 		}
 
 
@@ -524,12 +552,14 @@ public class SolutionU extends Solution {
 		}
 
 
-		dipoletot = new double[]{chargedip[0] + hybridip[0], chargedip[1] + hybridip[1],
+		dipoletot = new double[]{chargedip[0] + hybridip[0],
+				chargedip[1] + hybridip[1],
 				chargedip[2] + hybridip[2]};
 
 
-		dipole = Math.sqrt(dipoletot[0] * dipoletot[0] + dipoletot[1] * dipoletot[1] +
-				dipoletot[2] * dipoletot[2]);
+		dipole = Math.sqrt(
+				dipoletot[0] * dipoletot[0] + dipoletot[1] * dipoletot[1] +
+						dipoletot[2] * dipoletot[2]);
 
 	}
 
@@ -552,13 +582,18 @@ public class SolutionU extends Solution {
 					for (int l : index[atomnum]) {
 						if (i != -1 && j != -1 && k != -1 && l != -1) {
 
-							e += 0.5 * densitymatrix.get(i, j) * densitymatrix.get(k,
-									l) *
-									NDDO6G.OneCenterERI(orbitals[i], orbitals[j],
+							e += 0.5 * densitymatrix.get(i, j) *
+									densitymatrix.get(k,
+											l) *
+									NDDO6G.OneCenterERI(orbitals[i],
+											orbitals[j],
 											orbitals[k], orbitals[l]);
-							e -= 0.5 * (alphaDensity.get(i, j) * alphaDensity.get(k, l) +
-									betaDensity.get(i, j) * betaDensity.get(k, l)) *
-									NDDO6G.OneCenterERI(orbitals[i], orbitals[k],
+							e -= 0.5 * (alphaDensity.get(i, j) *
+									alphaDensity.get(k, l) +
+									betaDensity.get(i, j) *
+											betaDensity.get(k, l)) *
+									NDDO6G.OneCenterERI(orbitals[i],
+											orbitals[k],
 											orbitals[j], orbitals[l]);
 						}
 					}
@@ -609,10 +644,14 @@ public class SolutionU extends Solution {
 					for (int l : index[atomnum2]) {
 						if (i != -1 && j != -1 && k != -1 && l != -1) {
 
-							e += (densitymatrix.get(i, j) * densitymatrix.get(k, l) -
-									alphaDensity.get(i, k) * alphaDensity.get(j, l) -
-									betaDensity.get(i, k) * betaDensity.get(j, l))
-									* NDDO6G.getG(orbitals[i], orbitals[j], orbitals[k],
+							e += (densitymatrix.get(i, j) *
+									densitymatrix.get(k, l) -
+									alphaDensity.get(i, k) *
+											alphaDensity.get(j, l) -
+									betaDensity.get(i, k) *
+											betaDensity.get(j, l))
+									* NDDO6G.getG(orbitals[i], orbitals[j],
+									orbitals[k],
 									orbitals[l]);
 						}
 					}
@@ -626,9 +665,11 @@ public class SolutionU extends Solution {
 	}
 
 	private DoubleMatrix calculateDensityMatrix(DoubleMatrix c,
-												int NElectrons) {//density matrix
+												int NElectrons) {//density
+		// matrix
 		// construction by definition.
-		DoubleMatrix densityMatrix = new DoubleMatrix(orbitals.length, orbitals.length);
+		DoubleMatrix densityMatrix =
+				new DoubleMatrix(orbitals.length, orbitals.length);
 
 		for (int i = 0; i < orbitals.length; i++) {
 			for (int j = 0; j < orbitals.length; j++) {

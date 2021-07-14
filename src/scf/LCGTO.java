@@ -15,13 +15,15 @@ public class LCGTO { // HAS AtomFixed, OrbitalProperties, c, e
 	protected double[] coefficientArray;
 	protected int shell;//principal quantum number
 	protected int Z;//atomic charge
-	protected int L;//angular momentum (L = 0 for s orbital, L = 1 for p orbital etc.)
+	protected int L;
+//angular momentum (L = 0 for s orbital, L = 1 for p orbital etc.)
 	protected double zeta;
 	protected AtomFixed atom;
 	private double[] gaussExponents;
 
 	public LCGTO(double[] e, double[] c, AtomFixed atom,
-				 OrbitalProperties orbital) {// e = exponent array, c = coefficient array
+				 OrbitalProperties orbital) {// e = exponent array, c =
+		// coefficient array
 		this.gaussExponents = e;
 		this.coefficientArray = c;
 		this.n = c.length;
@@ -45,12 +47,14 @@ public class LCGTO { // HAS AtomFixed, OrbitalProperties, c, e
 
 		for (int a = 0; a < n; a++) {
 			for (int b = 0; b < n; b++) {
-				sum += c[a] * c[b] * gaussArray[a].getN() * gaussArray[b].getN() /
+				sum += c[a] * c[b] * gaussArray[a].getN() *
+						gaussArray[b].getN() /
 						Math.pow(e[a] + e[b], L + 1.5);
 			}
 		}
 
-		sum *= Math.pow(Math.PI, 1.5) * GTO.fact2(2 * i - 1) * GTO.fact2(2 * j - 1) *
+		sum *= Math.pow(Math.PI, 1.5) * GTO.fact2(2 * i - 1) *
+				GTO.fact2(2 * j - 1) *
 				GTO.fact2(2 * k - 1) / Math.pow(2, L);
 		sum = Math.pow(sum, -0.5);
 		N = sum;
@@ -60,7 +64,8 @@ public class LCGTO { // HAS AtomFixed, OrbitalProperties, c, e
 
 	}
 
-	public static double getS(LCGTO X1, LCGTO X2) {//normalised overlap integral
+	public static double getS(LCGTO X1, LCGTO X2) {//normalised overlap
+		// integral
 		double S = 0;
 
 		for (int i = 0; i < X1.getn(); i++) {
@@ -80,7 +85,8 @@ public class LCGTO { // HAS AtomFixed, OrbitalProperties, c, e
 		for (int i = 0; i < X1.getn(); i++) {
 			for (int j = 0; j < X2.getn(); j++) {
 				S += X1.getCoeffArray()[i] * X2.getCoeffArray()[j] *
-						GTO.getSderiv(X1.getGaussArray()[i], X2.getGaussArray()[j], tau);
+						GTO.getSderiv(X1.getGaussArray()[i],
+								X2.getGaussArray()[j], tau);
 			}
 
 		}
@@ -94,7 +100,8 @@ public class LCGTO { // HAS AtomFixed, OrbitalProperties, c, e
 		for (int i = 0; i < X1.getn(); i++) {
 			for (int j = 0; j < X2.getn(); j++) {
 				S += X1.getCoeffArray()[i] * X2.getCoeffArray()[j] *
-						GTO.getSderiv2(X1.getGaussArray()[i], X2.getGaussArray()[j],
+						GTO.getSderiv2(X1.getGaussArray()[i],
+								X2.getGaussArray()[j],
 								tau1,
 								tau2);
 			}
@@ -163,10 +170,12 @@ public class LCGTO { // HAS AtomFixed, OrbitalProperties, c, e
 	public boolean equals(Object b) {
 		if (b instanceof LCGTO) {
 			LCGTO a = (LCGTO) b;
-			return this.N == a.N && Arrays.equals(a.coordinates, coordinates) &&
+			return this.N == a.N && Arrays.equals(a.coordinates,
+					coordinates) &&
 					a.i == i && a.j == j && a.k == k &&
 					Arrays.equals(a.coefficientArray, coefficientArray) &&
-					Arrays.deepEquals(a.gaussArray, gaussArray) && shell == a.shell;
+					Arrays.deepEquals(a.gaussArray, gaussArray) &&
+					shell == a.shell;
 
 		}
 		return false;

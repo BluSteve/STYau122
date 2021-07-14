@@ -14,7 +14,8 @@ public class MoleculeRunR extends MoleculeRun {
 	public MoleculeRunR(NDDOAtom[] atoms2, int charge, NDDOAtom[] expGeom,
 						double[] datum, boolean isRunHessian, String kind,
 						int[] atomTypes) {
-		super(atoms2, charge, expGeom, datum, isRunHessian, kind, atomTypes, 1, null);
+		super(atoms2, charge, expGeom, datum, isRunHessian, kind, atomTypes, 1,
+				null);
 		metaRoutine();
 	}
 

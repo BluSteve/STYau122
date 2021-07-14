@@ -44,7 +44,8 @@ public abstract class Solution {
 			}
 			if (!nameOccurrences.containsKey(a.getName()))
 				nameOccurrences.put(a.getName(), 1);
-			else nameOccurrences.put(a.getName(), nameOccurrences.get(a.getName()) + 1);
+			else nameOccurrences
+					.put(a.getName(), nameOccurrences.get(a.getName()) + 1);
 		}
 		for (String key : nameOccurrences.keySet()) {
 			nameBuilder.append(key).append(nameOccurrences.get(key));
@@ -108,10 +109,12 @@ public abstract class Solution {
 		}
 
 		for (int j = 0; j < atoms.length; j++) {
-			int[] nums = new int[]{index[j][0], index[j][1], index[j][2], index[j][3]};
+			int[] nums = new int[]{index[j][0], index[j][1], index[j][2],
+					index[j][3]};
 			int counter = 0;
 			for (int k = 0; k < orbitals.length; k++) {
-				if (nums[0] != k && nums[1] != k && nums[2] != k && nums[3] != k) {
+				if (nums[0] != k && nums[1] != k && nums[2] != k &&
+						nums[3] != k) {
 					missingIndex[j][counter] = k;
 					counter++;
 				}
@@ -154,7 +157,8 @@ public abstract class Solution {
 		}
 	}
 
-	public static boolean isSimilar(DoubleMatrix x, DoubleMatrix y, double limit) {
+	public static boolean isSimilar(DoubleMatrix x, DoubleMatrix y,
+									double limit) {
 		for (int i = 0; i < y.rows; i++) {
 			for (int j = 0; j < y.columns; j++) {
 				if (Math.abs(x.get(i, j) - y.get(i, j)) > limit) {
