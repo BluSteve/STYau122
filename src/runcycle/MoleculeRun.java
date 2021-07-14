@@ -6,6 +6,7 @@ import nddoparam.NDDOSolution;
 import nddoparam.param.ParamGradientAnalytical;
 import nddoparam.param.ParamHessianAnalytical;
 import runcycle.input.RawMolecule;
+import scf.Utils;
 
 public abstract class MoleculeRun {
     protected static double LAMBDA = 1E-7;
@@ -32,7 +33,8 @@ public abstract class MoleculeRun {
     protected ParamGradientAnalytical g;
     protected ParamHessianAnalytical h;
 
-    public MoleculeRun(NDDOAtom[] atoms, int charge, NDDOAtom[] expGeom, double[] datum, boolean isRunHessian, String kind, int[] atomTypes, int mult) {
+    public MoleculeRun(NDDOAtom[] atoms, int charge, NDDOAtom[] expGeom, double[] datum, boolean isRunHessian, String kind, int[] atomTypes, int mult, RawMolecule rawMolecule) {
+        this.rawMolecule = rawMolecule;
         this.atomTypes = atomTypes;
         this.atoms = atoms;
         this.expGeom = expGeom;
@@ -80,21 +82,9 @@ public abstract class MoleculeRun {
     }
 
     protected void generateGeomCoords() {
-        StringBuilder sb = new StringBuilder(newGeomCoords);
         for (int i = 0; i < atoms.length; i++) {
-            // TODO use Utils.bohr
-            String s = (i + 1) + "    " + atoms[i].getName() + "    " + String.format("%.9f", atoms[i].getCoordinates()[0] / 1.88973) + "    " + String.format("%.9f", atoms[i].getCoordinates()[1] / 1.88973) + "    " + String.format("%.9f", atoms[i].getCoordinates()[2] / 1.88973) + "\n";
-            sb.append(s);
+            rawMolecule.atoms[i].coords = atoms[i].getCoordinates();
         }
-
-        if (this.expGeom != null) {
-            sb.append("EXPGEOM\n");
-            for (int i = 0; i < this.expGeom.length; i++) {
-                String s = (i + 1) + "    " + this.expGeom[i].getName() + "    " + String.format("%.9f", this.expGeom[i].getCoordinates()[0] / 1.88973) + "    " + String.format("%.9f", this.expGeom[i].getCoordinates()[1] / 1.88973) + "    " + String.format("%.9f", this.expGeom[i].getCoordinates()[2] / 1.88973) + "\n";
-                sb.append(s);
-            }
-        }
-        newGeomCoords = sb.toString();
     }
 
     protected void runHessian() {

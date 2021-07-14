@@ -19,6 +19,35 @@ public class InputHandler {
     public static void processInput(String path) {
         try {
             ri = (new Gson()).fromJson(new FileReader(path), RawInput.class);
+            for (RawMolecule rm : ri.molecules) {
+                for (int i = 0; i < rm.atoms.length; i++) {
+                    rm.atoms[i].coords = Utils.bohr(rm.atoms[i].coords);
+                    rm.expGeom[i].coords = Utils.bohr(rm.expGeom[i].coords);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void updateInput(RawInput ri, String input) {
+        for (RawMolecule rm : ri.molecules) {
+            for (int i = 0; i < rm.atoms.length; i++) {
+                rm.atoms[i].coords = Utils.debohr(rm.atoms[i].coords);
+                rm.expGeom[i].coords = Utils.debohr(rm.expGeom[i].coords);
+            }
+        }
+        makeInput(ri, input);
+    }
+
+    public static void makeInput(RawInput ri, String input) {
+        GsonBuilder builder = new GsonBuilder();
+        builder.setPrettyPrinting();
+        Gson gson = builder.create();
+        try {
+            FileWriter fw = new FileWriter(input);
+            gson.toJson(ri, fw);
+            fw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -39,7 +68,7 @@ public class InputHandler {
             }
             ri.nddoParams = new double[ri.atomTypes.length][];
             for (int x = 0; x < ri.atomTypes.length; x++) {
-                ri.nddoParams[x] = Arrays.copyOfRange(mp, x*13, x*13+13);
+                ri.nddoParams[x] = Arrays.copyOfRange(mp, x * 13, x * 13 + 13);
             }
             ArrayList<RawMolecule> moleculesL = new ArrayList<>();
 
@@ -132,12 +161,7 @@ public class InputHandler {
             for (int p = 0; p < moleculesL.size(); p++) ri.molecules[p] = moleculesL.get(p);
             for (int j = 0; j < ri.molecules.length; j++) ri.molecules[j].index = j;
 
-            GsonBuilder builder = new GsonBuilder();
-            builder.setPrettyPrinting();
-            Gson gson = builder.create();
-            FileWriter fw = new FileWriter("input.json");
-            gson.toJson(ri, fw);
-            fw.close();
+            makeInput(ri, "input.json");
         } catch (
                 IOException e) {
             e.printStackTrace();

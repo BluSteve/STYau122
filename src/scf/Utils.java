@@ -19,6 +19,18 @@ public class Utils {
         return doubles;
     }
 
+    public static double[] bohr(double[] notbohr) {
+        double[] res = new double[notbohr.length];
+        for (int i = 0; i < notbohr.length; i++) res[i] = notbohr[i] * bohr;
+        return res;
+    }
+
+    public static double[] debohr(double[] notbohr) {
+        double[] res = new double[notbohr.length];
+        for (int i = 0; i < notbohr.length; i++) res[i] = notbohr[i] / bohr;
+        return res;
+    }
+
 
     public static NDDOAtom[] perturbAtomParams(NDDOAtom[] atoms, int Z, int paramNum) { // Z is proton number of the atom that you want to perturb the param (based on paramNum) of.
         NDDOAtom[] perturbed = new NDDOAtom[atoms.length];

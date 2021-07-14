@@ -1,14 +1,6 @@
-import datum.DipoleData;
-import datum.GeometricalData;
-import datum.HeatData;
-import datum.IonizationData;
 import nddoparam.NDDOParams;
-import nddoparam.mndo.MNDOAtom;
 import nddoparam.mndo.MNDOParams;
-import optimize.ParamOptimizer;
 import org.apache.commons.lang3.time.StopWatch;
-import org.jblas.DoubleMatrix;
-import org.jblas.Eigen;
 import runcycle.MoleculeRun;
 import runcycle.MoleculeRunRestricted;
 import runcycle.MoleculeRunUnrestricted;
@@ -20,8 +12,6 @@ import runcycle.output.OutputHandler;
 import scf.AtomHandler;
 import scf.Utils;
 
-import java.io.File;
-import java.io.PrintWriter;
 import java.util.*;
 import java.util.concurrent.ForkJoinPool;
 import java.util.stream.Collectors;
@@ -30,6 +20,7 @@ import static scf.Utils.bohr;
 
 public class Main {
 
+    private static final String INPUT_FILENAME = "input.json";
     static String trainingSet;
     static int[] atomTypes;
     static ArrayList<String[]> previousOutput = new ArrayList<>(300);
@@ -42,7 +33,7 @@ public class Main {
 
         for (int numRuns = 0; numRuns < 1; numRuns++) {
             boolean useHessian = numRuns % 2 == 0; // Hessian every other run
-            InputHandler.processInput("input.json");
+            InputHandler.processInput(INPUT_FILENAME);
             RawInput ri = InputHandler.ri;
             System.out.println("MNDO Parameterization, updated 13 July. " + ri.trainingSet + " training set (PM7)");
 
@@ -79,6 +70,7 @@ public class Main {
                     mos[i] = OutputHandler.toMoleculeOutput(results.get(i));
                 }
                 OutputHandler.output(mos);
+                InputHandler.updateInput(ri, INPUT_FILENAME);
 
 
                 System.out.println(results.get(0).hessianStr);

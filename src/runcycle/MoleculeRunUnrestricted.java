@@ -12,7 +12,11 @@ import runcycle.input.RawMolecule;
 
 public class MoleculeRunUnrestricted extends MoleculeRun {
     public MoleculeRunUnrestricted(NDDOAtom[] atoms2, int charge, int mult, NDDOAtom[] expGeom, double[] datum, boolean isRunHessian, String kind, int[] atomTypes) {
-        super(atoms2, charge, expGeom, datum, isRunHessian, kind, atomTypes, mult);
+        super(atoms2, charge, expGeom, datum, isRunHessian, kind, atomTypes, mult, null);
+        metaRoutine();
+    }
+
+    private void metaRoutine() {
         StopWatch sw = new StopWatch();
         sw.start();
 
@@ -29,9 +33,9 @@ public class MoleculeRunUnrestricted extends MoleculeRun {
     }
 
     public MoleculeRunUnrestricted(RawMolecule rm, NDDOParams[] mp, int[] atomTypes, boolean isRunHessian) {
-        this(RawMolecule.toMNDOAtoms(rm.atoms, (MNDOParams[]) mp), rm.charge, rm.mult, RawMolecule.toMNDOAtoms(rm.expGeom, (MNDOParams[]) mp),
-                rm.datum, isRunHessian, rm.kind, atomTypes);
-        this.rawMolecule = rm;
+        super(RawMolecule.toMNDOAtoms(rm.atoms, (MNDOParams[]) mp), rm.charge, RawMolecule.toMNDOAtoms(rm.expGeom, (MNDOParams[]) mp),
+                rm.datum, isRunHessian, rm.kind, atomTypes, rm.mult, rm);
+        metaRoutine();
     }
 
     @Override
