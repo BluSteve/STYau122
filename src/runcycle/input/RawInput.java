@@ -3,8 +3,8 @@ package runcycle.input;
 import java.util.Arrays;
 
 public class RawInput {
-    String trainingSet;
-    RawMolecule[] molecules;
+    public String trainingSet;
+    public RawMolecule[] molecules;
 
     @Override
     public String toString() {

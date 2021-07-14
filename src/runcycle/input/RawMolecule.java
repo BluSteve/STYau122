@@ -3,11 +3,13 @@ package runcycle.input;
 import java.util.Arrays;
 
 public class RawMolecule {
-    int index;
-    boolean uhf;
-    int charge, mult;
-    double[] datum;
-    RawAtom[] atoms, expGeom;
+    public int index;
+    public String name;
+    public boolean uhf;
+    public int charge, mult, nElectrons;
+    public double[] datum;
+    public int[] uniqueZs;
+    public RawAtom[] atoms, expGeom;
 
     @Override
     public String toString() {

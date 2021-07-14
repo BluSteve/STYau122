@@ -3,13 +3,18 @@
   "molecules": [
     {
       "index": 0,
+      "name": "H1",
       "uhf": false,
       "charge": 1,
       "mult": 1,
+      "nElectrons": 1,
       "datum": [
         365.7,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1
       ],
       "atoms": [
         {
@@ -25,13 +30,18 @@
     },
     {
       "index": 1,
+      "name": "H1",
       "uhf": true,
       "charge": 0,
       "mult": 2,
+      "nElectrons": 1,
       "datum": [
         52.1,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1
       ],
       "atoms": [
         {
@@ -47,13 +57,18 @@
     },
     {
       "index": 2,
+      "name": "H2",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 2,
       "datum": [
         0.0,
         0.0,
         15.4
+      ],
+      "uniqueZs": [
+        1
       ],
       "atoms": [
         {
@@ -94,13 +109,18 @@
     },
     {
       "index": 3,
+      "name": "C1",
       "uhf": true,
       "charge": 1,
       "mult": 2,
+      "nElectrons": 4,
       "datum": [
         430.6,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        6
       ],
       "atoms": [
         {
@@ -116,13 +136,18 @@
     },
     {
       "index": 4,
+      "name": "C1",
       "uhf": true,
       "charge": 0,
       "mult": 3,
+      "nElectrons": 4,
       "datum": [
         170.9,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        6
       ],
       "atoms": [
         {
@@ -138,13 +163,19 @@
     },
     {
       "index": 5,
+      "name": "C1H1",
       "uhf": true,
       "charge": 0,
       "mult": 2,
+      "nElectrons": 5,
       "datum": [
         142.4,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -168,13 +199,19 @@
     },
     {
       "index": 6,
+      "name": "C1H2",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 6,
       "datum": [
         99.8,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -231,13 +268,19 @@
     },
     {
       "index": 7,
+      "name": "C1H2",
       "uhf": true,
       "charge": 0,
       "mult": 3,
+      "nElectrons": 6,
       "datum": [
         99.8,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -294,13 +337,19 @@
     },
     {
       "index": 8,
+      "name": "C1H3",
       "uhf": false,
       "charge": 1,
       "mult": 1,
+      "nElectrons": 7,
       "datum": [
         261.0,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -373,13 +422,19 @@
     },
     {
       "index": 9,
+      "name": "C1H4",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 8,
       "datum": [
         -17.9,
         0.0,
         13.6
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -468,13 +523,19 @@
     },
     {
       "index": 10,
+      "name": "C2H2",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 10,
       "datum": [
         54.3,
         0.0,
         11.4
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -547,13 +608,19 @@
     },
     {
       "index": 11,
+      "name": "C2H3",
       "uhf": false,
       "charge": 1,
       "mult": 1,
+      "nElectrons": 11,
       "datum": [
         266.0,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -642,13 +709,19 @@
     },
     {
       "index": 12,
+      "name": "C2H3",
       "uhf": true,
       "charge": 0,
       "mult": 2,
+      "nElectrons": 11,
       "datum": [
         59.6,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -737,13 +810,19 @@
     },
     {
       "index": 13,
+      "name": "C2H4",
       "uhf": true,
       "charge": 1,
       "mult": 2,
+      "nElectrons": 12,
       "datum": [
         257.0,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -848,13 +927,19 @@
     },
     {
       "index": 14,
+      "name": "C2H4",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 12,
       "datum": [
         12.5,
         0.0,
         10.51
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -959,13 +1044,19 @@
     },
     {
       "index": 15,
+      "name": "C2H4",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 12,
       "datum": [
         90.3,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -1070,13 +1161,19 @@
     },
     {
       "index": 16,
+      "name": "C2H5",
       "uhf": false,
       "charge": 1,
       "mult": 1,
+      "nElectrons": 13,
       "datum": [
         216.0,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -1197,13 +1294,19 @@
     },
     {
       "index": 17,
+      "name": "C2H5",
       "uhf": true,
       "charge": 0,
       "mult": 2,
+      "nElectrons": 13,
       "datum": [
         25.0,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -1324,13 +1427,19 @@
     },
     {
       "index": 18,
+      "name": "C2H6",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 14,
       "datum": [
         -20.0,
         0.0,
         12.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -1467,13 +1576,18 @@
     },
     {
       "index": 19,
+      "name": "C3",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 12,
       "datum": [
         196.0,
         0.0,
         11.1
+      ],
+      "uniqueZs": [
+        6
       ],
       "atoms": [
         {
@@ -1530,13 +1644,19 @@
     },
     {
       "index": 20,
+      "name": "C3H3",
       "uhf": false,
       "charge": 1,
       "mult": 1,
+      "nElectrons": 15,
       "datum": [
         257.0,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -1641,13 +1761,19 @@
     },
     {
       "index": 21,
+      "name": "C3H3",
       "uhf": false,
       "charge": 1,
       "mult": 1,
+      "nElectrons": 15,
       "datum": [
         281.0,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -1752,13 +1878,19 @@
     },
     {
       "index": 22,
+      "name": "C3H4",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 16,
       "datum": [
         45.6,
         0.0,
         10.07
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -1879,13 +2011,19 @@
     },
     {
       "index": 23,
+      "name": "C3H4",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 16,
       "datum": [
         66.2,
         0.45,
         9.86
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -1949,13 +2087,19 @@
     },
     {
       "index": 24,
+      "name": "C3H4",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 16,
       "datum": [
         44.4,
         0.78,
         10.37
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -2076,13 +2220,19 @@
     },
     {
       "index": 25,
+      "name": "C3H5",
       "uhf": false,
       "charge": 1,
       "mult": 1,
+      "nElectrons": 17,
       "datum": [
         226.0,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -2219,13 +2369,19 @@
     },
     {
       "index": 26,
+      "name": "C3H5",
       "uhf": false,
       "charge": 1,
       "mult": 1,
+      "nElectrons": 17,
       "datum": [
         235.0,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -2297,13 +2453,19 @@
     },
     {
       "index": 27,
+      "name": "C3H5",
       "uhf": false,
       "charge": 1,
       "mult": 1,
+      "nElectrons": 17,
       "datum": [
         237.0,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -2375,13 +2537,19 @@
     },
     {
       "index": 28,
+      "name": "C3H5",
       "uhf": true,
       "charge": 0,
       "mult": 2,
+      "nElectrons": 17,
       "datum": [
         40.0,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -2518,13 +2686,19 @@
     },
     {
       "index": 29,
+      "name": "C3H6",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 18,
       "datum": [
         12.7,
         0.0,
         11.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -2677,13 +2851,19 @@
     },
     {
       "index": 30,
+      "name": "C3H6",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 18,
       "datum": [
         4.9,
         0.37,
         9.88
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -2836,13 +3016,19 @@
     },
     {
       "index": 31,
+      "name": "C3H7",
       "uhf": true,
       "charge": 0,
       "mult": 2,
+      "nElectrons": 19,
       "datum": [
         16.8,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -3011,13 +3197,19 @@
     },
     {
       "index": 32,
+      "name": "C3H8",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 20,
       "datum": [
         -24.8,
         0.08,
         11.5
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -3202,13 +3394,18 @@
     },
     {
       "index": 33,
+      "name": "C4",
       "uhf": true,
       "charge": 0,
       "mult": 3,
+      "nElectrons": 16,
       "datum": [
         232.0,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        6
       ],
       "atoms": [
         {
@@ -3281,13 +3478,19 @@
     },
     {
       "index": 34,
+      "name": "C4H2",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 18,
       "datum": [
         113.0,
         0.0,
         10.17
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -3392,13 +3595,19 @@
     },
     {
       "index": 35,
+      "name": "C4H4",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 20,
       "datum": [
         72.8,
         0.0,
         9.1
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -3535,13 +3744,19 @@
     },
     {
       "index": 36,
+      "name": "C4H4",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 20,
       "datum": [
         83.0,
         0.0,
         9.15
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -3678,13 +3893,19 @@
     },
     {
       "index": 37,
+      "name": "C4H6",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 22,
       "datum": [
         38.8,
         0.0,
         9.15
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -3853,13 +4074,19 @@
     },
     {
       "index": 38,
+      "name": "C4H6",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 22,
       "datum": [
         26.0,
         0.0,
         9.08
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -4028,13 +4255,19 @@
     },
     {
       "index": 39,
+      "name": "C4H6",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 22,
       "datum": [
         39.5,
         0.0,
         10.2
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -4203,13 +4436,19 @@
     },
     {
       "index": 40,
+      "name": "C4H6",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 22,
       "datum": [
         34.7,
         0.0,
         9.6
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -4378,13 +4617,19 @@
     },
     {
       "index": 41,
+      "name": "C4H6",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 22,
       "datum": [
         51.9,
         0.68,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -4553,13 +4798,19 @@
     },
     {
       "index": 42,
+      "name": "C4H6",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 22,
       "datum": [
         37.5,
         0.13,
         9.43
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -4728,13 +4979,19 @@
     },
     {
       "index": 43,
+      "name": "C4H6",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 22,
       "datum": [
         58.2,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -4903,13 +5160,19 @@
     },
     {
       "index": 44,
+      "name": "C4H6",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 22,
       "datum": [
         47.9,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -5078,13 +5341,19 @@
     },
     {
       "index": 45,
+      "name": "C4H7",
       "uhf": false,
       "charge": 1,
       "mult": 1,
+      "nElectrons": 23,
       "datum": [
         200.0,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -5180,13 +5449,19 @@
     },
     {
       "index": 46,
+      "name": "C4H7",
       "uhf": false,
       "charge": 1,
       "mult": 1,
+      "nElectrons": 23,
       "datum": [
         213.0,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -5282,13 +5557,19 @@
     },
     {
       "index": 47,
+      "name": "C4H8",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 24,
       "datum": [
         -0.2,
         0.0,
         9.7
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -5489,13 +5770,19 @@
     },
     {
       "index": 48,
+      "name": "C4H8",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 24,
       "datum": [
         -1.9,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -5696,13 +5983,19 @@
     },
     {
       "index": 49,
+      "name": "C4H8",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 24,
       "datum": [
         6.8,
         0.0,
         10.7
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -5903,13 +6196,19 @@
     },
     {
       "index": 50,
+      "name": "C4H8",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 24,
       "datum": [
         -4.3,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -6110,13 +6409,19 @@
     },
     {
       "index": 51,
+      "name": "C4H8",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 24,
       "datum": [
         -3.0,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -6317,13 +6622,19 @@
     },
     {
       "index": 52,
+      "name": "C4H9",
       "uhf": false,
       "charge": 1,
       "mult": 1,
+      "nElectrons": 25,
       "datum": [
         176.0,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -6435,13 +6746,19 @@
     },
     {
       "index": 53,
+      "name": "C4H9",
       "uhf": true,
       "charge": 0,
       "mult": 2,
+      "nElectrons": 25,
       "datum": [
         4.5,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -6658,13 +6975,19 @@
     },
     {
       "index": 54,
+      "name": "C4H10",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 26,
       "datum": [
         -32.4,
         0.0,
         11.4
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -6897,13 +7220,19 @@
     },
     {
       "index": 55,
+      "name": "C4H10",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 26,
       "datum": [
         -30.4,
         0.0,
         11.2
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -7136,13 +7465,19 @@
     },
     {
       "index": 56,
+      "name": "C5H5",
       "uhf": false,
       "charge": -1,
       "mult": 1,
+      "nElectrons": 25,
       "datum": [
         21.3,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -7311,13 +7646,19 @@
     },
     {
       "index": 57,
+      "name": "C5H6",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 26,
       "datum": [
         32.1,
         0.42,
         8.57
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -7502,13 +7843,19 @@
     },
     {
       "index": 58,
+      "name": "C5H8",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 28,
       "datum": [
         46.4,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -7620,13 +7967,19 @@
     },
     {
       "index": 59,
+      "name": "C5H8",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 28,
       "datum": [
         25.3,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -7843,13 +8196,19 @@
     },
     {
       "index": 60,
+      "name": "C5H8",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 28,
       "datum": [
         19.1,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -8066,13 +8425,19 @@
     },
     {
       "index": 61,
+      "name": "C5H8",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 28,
       "datum": [
         18.1,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -8289,13 +8654,19 @@
     },
     {
       "index": 62,
+      "name": "C5H8",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 28,
       "datum": [
         37.3,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -8512,13 +8883,19 @@
     },
     {
       "index": 63,
+      "name": "C5H8",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 28,
       "datum": [
         8.3,
         0.2,
         9.18
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -8735,13 +9112,19 @@
     },
     {
       "index": 64,
+      "name": "C5H8",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 28,
       "datum": [
         18.0,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -8958,13 +9341,19 @@
     },
     {
       "index": 65,
+      "name": "C5H8",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 28,
       "datum": [
         29.1,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -9181,13 +9570,19 @@
     },
     {
       "index": 66,
+      "name": "C5H8",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 28,
       "datum": [
         44.3,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -9404,13 +9799,19 @@
     },
     {
       "index": 67,
+      "name": "C5H9",
       "uhf": false,
       "charge": 1,
       "mult": 1,
+      "nElectrons": 29,
       "datum": [
         188.0,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -9530,13 +9931,19 @@
     },
     {
       "index": 68,
+      "name": "C5H10",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 30,
       "datum": [
         -9.9,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -9785,13 +10192,19 @@
     },
     {
       "index": 69,
+      "name": "C5H10",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 30,
       "datum": [
         -6.1,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -10040,13 +10453,19 @@
     },
     {
       "index": 70,
+      "name": "C5H10",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 30,
       "datum": [
         1.3,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -10174,13 +10593,19 @@
     },
     {
       "index": 71,
+      "name": "C5H10",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 30,
       "datum": [
         -18.3,
         0.0,
         10.5
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -10429,13 +10854,19 @@
     },
     {
       "index": 72,
+      "name": "C5H10",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 30,
       "datum": [
         -7.9,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -10684,13 +11115,19 @@
     },
     {
       "index": 73,
+      "name": "C5H12",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 32,
       "datum": [
         -35.1,
         0.0,
         10.3
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -10971,13 +11408,19 @@
     },
     {
       "index": 74,
+      "name": "C5H12",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 32,
       "datum": [
         -40.3,
         0.0,
         11.3
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -11258,13 +11701,19 @@
     },
     {
       "index": 75,
+      "name": "C6H6",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 30,
       "datum": [
         19.8,
         0.0,
         9.25
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -11465,13 +11914,19 @@
     },
     {
       "index": 76,
+      "name": "C6H6",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 30,
       "datum": [
         47.5,
         0.42,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -11672,13 +12127,19 @@
     },
     {
       "index": 77,
+      "name": "C6H8",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 32,
       "datum": [
         40.1,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -11911,13 +12372,19 @@
     },
     {
       "index": 78,
+      "name": "C6H8",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 32,
       "datum": [
         41.1,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -12150,13 +12617,19 @@
     },
     {
       "index": 79,
+      "name": "C6H8",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 32,
       "datum": [
         25.4,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -12389,13 +12862,19 @@
     },
     {
       "index": 80,
+      "name": "C6H8",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 32,
       "datum": [
         25.0,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -12628,13 +13107,19 @@
     },
     {
       "index": 81,
+      "name": "C6H10",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 34,
       "datum": [
         19.8,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -12770,13 +13255,19 @@
     },
     {
       "index": 82,
+      "name": "C6H10",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 34,
       "datum": [
         20.1,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -13041,13 +13532,19 @@
     },
     {
       "index": 83,
+      "name": "C6H10",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 34,
       "datum": [
         -1.1,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -13312,13 +13809,19 @@
     },
     {
       "index": 84,
+      "name": "C6H10",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 34,
       "datum": [
         2.3,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -13583,13 +14086,19 @@
     },
     {
       "index": 85,
+      "name": "C6H10",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 34,
       "datum": [
         3.5,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -13854,13 +14363,19 @@
     },
     {
       "index": 86,
+      "name": "C6H10",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 34,
       "datum": [
         30.9,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -13996,13 +14511,19 @@
     },
     {
       "index": 87,
+      "name": "C6H10",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 34,
       "datum": [
         -1.1,
         0.0,
         10.3
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -14267,13 +14788,19 @@
     },
     {
       "index": 88,
+      "name": "C6H11",
       "uhf": false,
       "charge": 1,
       "mult": 1,
+      "nElectrons": 35,
       "datum": [
         177.0,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -14417,13 +14944,19 @@
     },
     {
       "index": 89,
+      "name": "C6H12",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 36,
       "datum": [
         -10.1,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -14720,13 +15253,19 @@
     },
     {
       "index": 90,
+      "name": "C6H12",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 36,
       "datum": [
         -15.7,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -15023,13 +15562,19 @@
     },
     {
       "index": 91,
+      "name": "C6H12",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 36,
       "datum": [
         -16.8,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -15326,13 +15871,19 @@
     },
     {
       "index": 92,
+      "name": "C6H12",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 36,
       "datum": [
         -14.8,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -15629,13 +16180,19 @@
     },
     {
       "index": 93,
+      "name": "C6H12",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 36,
       "datum": [
         -11.8,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -15787,13 +16344,19 @@
     },
     {
       "index": 94,
+      "name": "C6H12",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 36,
       "datum": [
         -29.5,
         0.0,
         10.3
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -16090,13 +16653,19 @@
     },
     {
       "index": 95,
+      "name": "C6H14",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 38,
       "datum": [
         -44.4,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -16425,13 +16994,19 @@
     },
     {
       "index": 96,
+      "name": "C6H14",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 38,
       "datum": [
         -42.5,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -16760,13 +17335,19 @@
     },
     {
       "index": 97,
+      "name": "C6H14",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 38,
       "datum": [
         -41.7,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -17095,13 +17676,19 @@
     },
     {
       "index": 98,
+      "name": "C6H14",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 38,
       "datum": [
         -41.1,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -17430,13 +18017,19 @@
     },
     {
       "index": 99,
+      "name": "C6H14",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 38,
       "datum": [
         -39.9,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -17765,13 +18358,19 @@
     },
     {
       "index": 100,
+      "name": "C7H7",
       "uhf": false,
       "charge": 1,
       "mult": 1,
+      "nElectrons": 35,
       "datum": [
         212.0,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -18004,13 +18603,19 @@
     },
     {
       "index": 101,
+      "name": "C7H7",
       "uhf": false,
       "charge": 1,
       "mult": 1,
+      "nElectrons": 35,
       "datum": [
         209.0,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -18243,13 +18848,19 @@
     },
     {
       "index": 102,
+      "name": "C7H8",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 36,
       "datum": [
         43.0,
         0.0,
         8.5
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -18377,13 +18988,19 @@
     },
     {
       "index": 103,
+      "name": "C7H8",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 36,
       "datum": [
         59.7,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -18632,13 +19249,19 @@
     },
     {
       "index": 104,
+      "name": "C7H8",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 36,
       "datum": [
         12.0,
         0.36,
         8.82
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -18887,13 +19510,19 @@
     },
     {
       "index": 105,
+      "name": "C7H12",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 40,
       "datum": [
         -9.9,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -19053,13 +19682,19 @@
     },
     {
       "index": 106,
+      "name": "C7H12",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 40,
       "datum": [
         -6.0,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -19219,13 +19854,19 @@
     },
     {
       "index": 107,
+      "name": "C7H12",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 40,
       "datum": [
         -19.4,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -19385,13 +20026,19 @@
     },
     {
       "index": 108,
+      "name": "C7H12",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 40,
       "datum": [
         -12.4,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -19704,13 +20351,19 @@
     },
     {
       "index": 109,
+      "name": "C7H14",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 42,
       "datum": [
         -33.1,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -19886,13 +20539,19 @@
     },
     {
       "index": 110,
+      "name": "C7H14",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 42,
       "datum": [
         -31.0,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -20068,13 +20727,19 @@
     },
     {
       "index": 111,
+      "name": "C7H14",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 42,
       "datum": [
         -31.9,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -20250,13 +20915,19 @@
     },
     {
       "index": 112,
+      "name": "C7H14",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 42,
       "datum": [
         -32.7,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -20432,13 +21103,19 @@
     },
     {
       "index": 113,
+      "name": "C7H14",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 42,
       "datum": [
         -14.9,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -20614,13 +21291,19 @@
     },
     {
       "index": 114,
+      "name": "C7H14",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 42,
       "datum": [
         -30.4,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -20796,13 +21479,19 @@
     },
     {
       "index": 115,
+      "name": "C7H14",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 42,
       "datum": [
         -37.0,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -20978,13 +21667,19 @@
     },
     {
       "index": 116,
+      "name": "C7H16",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 44,
       "datum": [
         -48.7,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -21176,13 +21871,19 @@
     },
     {
       "index": 117,
+      "name": "C7H16",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 44,
       "datum": [
         -49.3,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -21374,13 +22075,19 @@
     },
     {
       "index": 118,
+      "name": "C7H16",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 44,
       "datum": [
         -47.6,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -21572,13 +22279,19 @@
     },
     {
       "index": 119,
+      "name": "C7H16",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 44,
       "datum": [
         -48.3,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -21955,13 +22668,19 @@
     },
     {
       "index": 120,
+      "name": "C7H16",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 44,
       "datum": [
         -46.6,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -22153,13 +22872,19 @@
     },
     {
       "index": 121,
+      "name": "C7H16",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 44,
       "datum": [
         -48.2,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -22351,13 +23076,19 @@
     },
     {
       "index": 122,
+      "name": "C7H16",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 44,
       "datum": [
         -45.3,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -22734,13 +23465,19 @@
     },
     {
       "index": 123,
+      "name": "C7H16",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 44,
       "datum": [
         -46.0,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -22932,13 +23669,19 @@
     },
     {
       "index": 124,
+      "name": "C7H16",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 44,
       "datum": [
         -44.9,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -23315,13 +24058,19 @@
     },
     {
       "index": 125,
+      "name": "C8H8",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 40,
       "datum": [
         148.7,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -23586,13 +24335,19 @@
     },
     {
       "index": 126,
+      "name": "C8H8",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 40,
       "datum": [
         70.7,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -23857,13 +24612,19 @@
     },
     {
       "index": 127,
+      "name": "C8H8",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 40,
       "datum": [
         35.3,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -24128,13 +24889,19 @@
     },
     {
       "index": 128,
+      "name": "C8H10",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 42,
       "datum": [
         7.2,
         0.0,
         8.8
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -24431,13 +25198,19 @@
     },
     {
       "index": 129,
+      "name": "C8H10",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 42,
       "datum": [
         4.1,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -24734,13 +25507,19 @@
     },
     {
       "index": 130,
+      "name": "C8H10",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 42,
       "datum": [
         4.6,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -24892,13 +25671,19 @@
     },
     {
       "index": 131,
+      "name": "C8H10",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 42,
       "datum": [
         4.3,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -25195,13 +25980,19 @@
     },
     {
       "index": 132,
+      "name": "C8H12",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 44,
       "datum": [
         13.7,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -25369,13 +26160,19 @@
     },
     {
       "index": 133,
+      "name": "C8H12",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 44,
       "datum": [
         16.6,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -25543,13 +26340,19 @@
     },
     {
       "index": 134,
+      "name": "C8H14",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 46,
       "datum": [
         19.3,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -25733,13 +26536,19 @@
     },
     {
       "index": 135,
+      "name": "C8H14",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 46,
       "datum": [
         -4.6,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -25923,13 +26732,19 @@
     },
     {
       "index": 136,
+      "name": "C8H14",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 46,
       "datum": [
         15.2,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -26113,13 +26928,19 @@
     },
     {
       "index": 137,
+      "name": "C8H14",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 46,
       "datum": [
         -0.5,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -26303,13 +27124,19 @@
     },
     {
       "index": 138,
+      "name": "C8H14",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 46,
       "datum": [
         0.7,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -26493,13 +27320,19 @@
     },
     {
       "index": 139,
+      "name": "C8H14",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 46,
       "datum": [
         -0.9,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -26683,13 +27516,19 @@
     },
     {
       "index": 140,
+      "name": "C8H14",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 46,
       "datum": [
         14.9,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -26873,13 +27712,19 @@
     },
     {
       "index": 141,
+      "name": "C8H14",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 46,
       "datum": [
         14.4,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -27063,13 +27908,19 @@
     },
     {
       "index": 142,
+      "name": "C8H14",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 46,
       "datum": [
         -24.1,
         0.0,
         9.45
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -27430,13 +28281,19 @@
     },
     {
       "index": 143,
+      "name": "C8H16",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 48,
       "datum": [
         -19.8,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -27636,13 +28493,19 @@
     },
     {
       "index": 144,
+      "name": "C8H16",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 48,
       "datum": [
         -41.1,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -27842,13 +28705,19 @@
     },
     {
       "index": 145,
+      "name": "C8H18",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 50,
       "datum": [
         -54.0,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -28273,13 +29142,19 @@
     },
     {
       "index": 146,
+      "name": "C8H18",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 50,
       "datum": [
         -52.6,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -28495,13 +29370,19 @@
     },
     {
       "index": 147,
+      "name": "C8H18",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 50,
       "datum": [
         -53.6,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -28717,13 +29598,19 @@
     },
     {
       "index": 148,
+      "name": "C8H18",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 50,
       "datum": [
         -53.7,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -28939,13 +29826,19 @@
     },
     {
       "index": 149,
+      "name": "C8H18",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 50,
       "datum": [
         -51.7,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -29161,13 +30054,19 @@
     },
     {
       "index": 150,
+      "name": "C8H18",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 50,
       "datum": [
         -52.0,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -29383,13 +30282,19 @@
     },
     {
       "index": 151,
+      "name": "C8H18",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 50,
       "datum": [
         -51.1,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -29605,13 +30510,19 @@
     },
     {
       "index": 152,
+      "name": "C8H18",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 50,
       "datum": [
         -52.4,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -29827,13 +30738,19 @@
     },
     {
       "index": 153,
+      "name": "C8H18",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 50,
       "datum": [
         -53.2,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -30049,13 +30966,19 @@
     },
     {
       "index": 154,
+      "name": "C8H18",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 50,
       "datum": [
         -51.5,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -30271,13 +31194,19 @@
     },
     {
       "index": 155,
+      "name": "C8H18",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 50,
       "datum": [
         -52.6,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -30493,13 +31422,19 @@
     },
     {
       "index": 156,
+      "name": "C8H18",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 50,
       "datum": [
         -50.9,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -30715,13 +31650,19 @@
     },
     {
       "index": 157,
+      "name": "C8H18",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 50,
       "datum": [
         -50.4,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -30937,13 +31878,19 @@
     },
     {
       "index": 158,
+      "name": "C8H18",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 50,
       "datum": [
         -50.5,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -31159,13 +32106,19 @@
     },
     {
       "index": 159,
+      "name": "C8H18",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 50,
       "datum": [
         -51.4,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -31381,13 +32334,19 @@
     },
     {
       "index": 160,
+      "name": "C8H18",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 50,
       "datum": [
         -50.8,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -31603,13 +32562,19 @@
     },
     {
       "index": 161,
+      "name": "C8H18",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 50,
       "datum": [
         -50.7,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -31825,13 +32790,19 @@
     },
     {
       "index": 162,
+      "name": "C8H18",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 50,
       "datum": [
         -49.9,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -32256,13 +33227,19 @@
     },
     {
       "index": 163,
+      "name": "C9H10",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 46,
       "datum": [
         28.3,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -32422,13 +33399,19 @@
     },
     {
       "index": 164,
+      "name": "C9H10",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 46,
       "datum": [
         36.0,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -32588,13 +33571,19 @@
     },
     {
       "index": 165,
+      "name": "C9H18",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 54,
       "datum": [
         -51.5,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -32818,13 +33807,19 @@
     },
     {
       "index": 166,
+      "name": "C9H18",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 54,
       "datum": [
         -49.4,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -33048,13 +34043,19 @@
     },
     {
       "index": 167,
+      "name": "C9H20",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 56,
       "datum": [
         -55.4,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -33294,13 +34295,19 @@
     },
     {
       "index": 168,
+      "name": "C9H20",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 56,
       "datum": [
         -54.7,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -33540,13 +34547,19 @@
     },
     {
       "index": 169,
+      "name": "C10H8",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 48,
       "datum": [
         73.5,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -33843,13 +34856,19 @@
     },
     {
       "index": 170,
+      "name": "C10H8",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 48,
       "datum": [
         36.1,
         0.0,
         8.15
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -34146,13 +35165,19 @@
     },
     {
       "index": 171,
+      "name": "C10H10",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 50,
       "datum": [
         134.3,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -34320,13 +35345,19 @@
     },
     {
       "index": 172,
+      "name": "C10H10",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 50,
       "datum": [
         59.4,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -34494,13 +35525,19 @@
     },
     {
       "index": 173,
+      "name": "C10H10",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 50,
       "datum": [
         53.1,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -34668,13 +35705,19 @@
     },
     {
       "index": 174,
+      "name": "C10H10",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 50,
       "datum": [
         79.9,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -34842,13 +35885,19 @@
     },
     {
       "index": 175,
+      "name": "C10H10",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 50,
       "datum": [
         118.1,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -35016,13 +36065,19 @@
     },
     {
       "index": 176,
+      "name": "C10H10",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 50,
       "datum": [
         74.0,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -35190,13 +36245,19 @@
     },
     {
       "index": 177,
+      "name": "C10H12",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 52,
       "datum": [
         85.1,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -35380,13 +36441,19 @@
     },
     {
       "index": 178,
+      "name": "C10H12",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 52,
       "datum": [
         72.3,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -35570,13 +36637,19 @@
     },
     {
       "index": 179,
+      "name": "C10H12",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 52,
       "datum": [
         6.2,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -35760,13 +36833,19 @@
     },
     {
       "index": 180,
+      "name": "C10H14",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 54,
       "datum": [
         -4.2,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -35966,13 +37045,19 @@
     },
     {
       "index": 181,
+      "name": "C10H14",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 54,
       "datum": [
         -5.2,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -36172,13 +37257,19 @@
     },
     {
       "index": 182,
+      "name": "C10H14",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 54,
       "datum": [
         -8.6,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -36378,13 +37469,19 @@
     },
     {
       "index": 183,
+      "name": "C10H14",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 54,
       "datum": [
         19.9,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -36584,13 +37681,19 @@
     },
     {
       "index": 184,
+      "name": "C10H14",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 54,
       "datum": [
         -10.3,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -36790,13 +37893,19 @@
     },
     {
       "index": 185,
+      "name": "C10H14",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 54,
       "datum": [
         -11.3,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -36996,13 +38105,19 @@
     },
     {
       "index": 186,
+      "name": "C10H14",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 54,
       "datum": [
         -5.4,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -37202,13 +38317,19 @@
     },
     {
       "index": 187,
+      "name": "C10H14",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 54,
       "datum": [
         3.0,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -37408,13 +38529,19 @@
     },
     {
       "index": 188,
+      "name": "C10H16",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 56,
       "datum": [
         -5.9,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -37630,13 +38757,19 @@
     },
     {
       "index": 189,
+      "name": "C10H16",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 56,
       "datum": [
         -31.9,
         0.0,
         9.6
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -37852,13 +38985,19 @@
     },
     {
       "index": 190,
+      "name": "C10H16",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 56,
       "datum": [
         -6.8,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -38283,13 +39422,19 @@
     },
     {
       "index": 191,
+      "name": "C10H16",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 56,
       "datum": [
         -24.5,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -38505,13 +39650,19 @@
     },
     {
       "index": 192,
+      "name": "C10H18",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 58,
       "datum": [
         -26.5,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -38743,13 +39894,19 @@
     },
     {
       "index": 193,
+      "name": "C10H18",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 58,
       "datum": [
         -26.6,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -38981,13 +40138,19 @@
     },
     {
       "index": 194,
+      "name": "C10H18",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 58,
       "datum": [
         -40.5,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -39219,13 +40382,19 @@
     },
     {
       "index": 195,
+      "name": "C10H18",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 58,
       "datum": [
         -34.7,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -39457,13 +40626,19 @@
     },
     {
       "index": 196,
+      "name": "C10H18",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 58,
       "datum": [
         -43.5,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -39695,13 +40870,19 @@
     },
     {
       "index": 197,
+      "name": "C10H20",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 60,
       "datum": [
         -39.9,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -39949,13 +41130,19 @@
     },
     {
       "index": 198,
+      "name": "C10H20",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 60,
       "datum": [
         -30.3,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -40203,13 +41390,19 @@
     },
     {
       "index": 199,
+      "name": "C10H20",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 60,
       "datum": [
         -29.8,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -40457,13 +41650,19 @@
     },
     {
       "index": 200,
+      "name": "C10H20",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 60,
       "datum": [
         -51.0,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -40711,13 +41910,19 @@
     },
     {
       "index": 201,
+      "name": "C10H20",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 60,
       "datum": [
         -45.2,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -40965,13 +42170,19 @@
     },
     {
       "index": 202,
+      "name": "C10H22",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 62,
       "datum": [
         -63.5,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {
@@ -41235,13 +42446,19 @@
     },
     {
       "index": 203,
+      "name": "C10H22",
       "uhf": false,
       "charge": 0,
       "mult": 1,
+      "nElectrons": 62,
       "datum": [
         -68.0,
         0.0,
         0.0
+      ],
+      "uniqueZs": [
+        1,
+        6
       ],
       "atoms": [
         {

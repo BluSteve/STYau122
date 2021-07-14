@@ -3,8 +3,8 @@ package runcycle.input;
 import java.util.Arrays;
 
 public class RawAtom {
-    String name;
-    double[] coords = new double[3];
+    public String name;
+    public double[] coords = new double[3];
 
     @Override
     public String toString() {

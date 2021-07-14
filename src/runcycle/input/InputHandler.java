@@ -2,28 +2,34 @@ package runcycle.input;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import nddoparam.NDDOAtom;
+import scf.AtomHandler;
+import scf.AtomProperties;
+import scf.Utils;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
+
+import static nddoparam.mndo.MNDOParams.T1ParamNums;
+import static nddoparam.mndo.MNDOParams.T2ParamNums;
 
 public class InputHandler {
-    static RawInput ri;
+    public static RawInput ri;
 
-    public static void processInput() {
+    public static void processInput(String path) {
         try {
-            ri = (new Gson()).fromJson(new FileReader("input.json"), RawInput.class);
+            ri = (new Gson()).fromJson(new FileReader(path), RawInput.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     private static void convertFromTXT() {
+        AtomHandler.populateAtoms();
         ri = new RawInput();
         try {
             List<String> lines = Files.readAllLines(Path.of("input.txt"));
@@ -52,6 +58,29 @@ public class InputHandler {
                         i++;
                     }
 
+                    StringBuilder nameBuilder = new StringBuilder();
+                    HashMap<String, Integer> nameOccurrences = new HashMap<>();
+                    ArrayList<Integer> tempZs = new ArrayList<>(Utils.maxAtomNum);
+                    for (RawAtom a : atomsL) {
+                        AtomProperties ap = AtomHandler.atomsMap.get(a.name);
+                        rm.nElectrons += ap.getQ();
+                        if (!tempZs.contains(ap.getZ())) {
+                            tempZs.add(ap.getZ());
+                        }
+                        if (!nameOccurrences.containsKey(a.name)) nameOccurrences.put(a.name, 1);
+                        else nameOccurrences.put(a.name, nameOccurrences.get(a.name) + 1);
+
+                    }
+                    for (String key : nameOccurrences.keySet()) {
+                        nameBuilder.append(key).append(nameOccurrences.get(key));
+                    }
+                    Collections.sort(tempZs);
+                    int[] uniqueZs = new int[tempZs.size()];
+                    for (int u = 0; u < tempZs.size(); u++) uniqueZs[u] = tempZs.get(u);
+                    rm.uniqueZs = uniqueZs;
+                    rm.name = nameBuilder.toString();
+
+
                     if (lines.get(i).equals("EXPGEOM")) {
                         i++;
                         while (!lines.get(i).equals("---")) {
@@ -66,15 +95,10 @@ public class InputHandler {
 
                     rm.atoms = new RawAtom[atomsL.size()];
                     for (int p = 0; p < atomsL.size(); p++) rm.atoms[p] = atomsL.get(p);
-
                     moleculesL.add(rm);
                     i++;
                 }
-
-
-            } catch (IndexOutOfBoundsException e) {
-
-            }
+            } catch (IndexOutOfBoundsException e) { }
             try {
                 i = 0;
                 int j = 0;
@@ -104,9 +128,11 @@ public class InputHandler {
             FileWriter fw = new FileWriter("input.json");
             gson.toJson(ri, fw);
             fw.close();
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
         }
+
     }
 
     private static void addAtom(List<RawAtom> rawAtoms, List<String> lines, int i) {
@@ -119,7 +145,6 @@ public class InputHandler {
     }
 
     public static void main(String[] args) {
-        InputHandler.processInput();
-        System.out.println(ri);
+        InputHandler.convertFromTXT();
     }
 }
