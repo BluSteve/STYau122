@@ -32,8 +32,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testinginput.txt" beforeDir="false" afterPath="$PROJECT_DIR$/inputtesting.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/runcycle/output/MoleculeOutput.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/runcycle/output/OutputHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/runcycle/output/ParamGradientOutput.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/input.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputtesting.txt" beforeDir="false" afterPath="$PROJECT_DIR$/inputtesting.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRunRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRunRestricted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRunUnrestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRunUnrestricted.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -367,8 +375,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
-        <item itemvalue="Application.InputHandler" />
         <item itemvalue="Application.AtomHandler" />
+        <item itemvalue="Application.InputHandler" />
         <item itemvalue="Application.ParamGradientRestricted" />
       </list>
     </recent_temporary>
@@ -462,14 +470,7 @@
       <workItem from="1626109327462" duration="2084000" />
       <workItem from="1626154934101" duration="4422000" />
       <workItem from="1626189563272" duration="7339000" />
-      <workItem from="1626225806495" duration="7124000" />
-    </task>
-    <task id="LOCAL-00036" summary="Some work on hessian">
-      <created>1625927776303</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1625927776303</updated>
+      <workItem from="1626225806495" duration="9419000" />
     </task>
     <task id="LOCAL-00037" summary="New indexing method">
       <created>1625928479820</created>
@@ -807,7 +808,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626232787687</updated>
     </task>
-    <option name="localTasksCounter" value="85" />
+    <task id="LOCAL-00085" summary="Minor changes">
+      <created>1626233018683</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1626233018683</updated>
+    </task>
+    <option name="localTasksCounter" value="86" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -893,14 +901,14 @@
     <MESSAGE value="Some refactoring" />
     <MESSAGE value="Fixed analytical vs finite difference decision bug" />
     <MESSAGE value="Debug weird H2 bug" />
-    <MESSAGE value="Minor changes" />
     <MESSAGE value="Adrian fix NDDO Solution Restricted" />
     <MESSAGE value="input.json" />
     <MESSAGE value="mndo-update.sh" />
     <MESSAGE value="more input handler stuff" />
     <MESSAGE value="I/O" />
     <MESSAGE value="Main refactor" />
-    <option name="LAST_COMMIT_MESSAGE" value="Main refactor" />
+    <MESSAGE value="Minor changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor changes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -909,6 +917,11 @@
           <url>file://$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java</url>
           <line>1882</line>
           <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/runcycle/input/InputHandler.java</url>
+          <line>150</line>
+          <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -16,9 +16,6 @@ public abstract class MoleculeRun {
     public NDDOAtom[] atoms, expGeom;
     public int charge, size, mult;
     public boolean isRunHessian;
-    public double[] datum;
-    public ParamGradientAnalytical g;
-    public ParamHessianAnalytical h;
     public NDDOGeometryOptimization opt;
     public NDDOSolution expSolution;
     public String totalHeatDeriv = "";
@@ -29,6 +26,11 @@ public abstract class MoleculeRun {
     public String excelStr = "";
     public String excelStr2 = "";
     public String kind;
+    protected RawMolecule rawMolecule;
+    protected long time;
+    protected double[] datum;
+    protected ParamGradientAnalytical g;
+    protected ParamHessianAnalytical h;
 
     public MoleculeRun(NDDOAtom[] atoms, int charge, NDDOAtom[] expGeom, double[] datum, boolean isRunHessian, String kind, int[] atomTypes, int mult) {
         this.atomTypes = atomTypes;
@@ -46,6 +48,26 @@ public abstract class MoleculeRun {
         if (sb.length() > 0) sb.append(',');
         for (int i = 0; i < array.length - 1; i++) sb.append(array[i]).append(',');
         sb.append(array[array.length - 1]);
+    }
+
+    public RawMolecule getRawMolecule() {
+        return rawMolecule;
+    }
+
+    public long getTime() {
+        return time;
+    }
+
+    public double[] getDatum() {
+        return datum;
+    }
+
+    public ParamGradientAnalytical getG() {
+        return g;
+    }
+
+    public ParamHessianAnalytical getH() {
+        return h;
     }
 
     protected void routine() {

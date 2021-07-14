@@ -15,6 +15,8 @@ import runcycle.MoleculeRunUnrestricted;
 import runcycle.input.InputHandler;
 import runcycle.input.RawInput;
 import runcycle.input.RawMolecule;
+import runcycle.output.MoleculeOutput;
+import runcycle.output.OutputHandler;
 import scf.AtomHandler;
 import scf.Utils;
 
@@ -71,6 +73,13 @@ public class Main {
                             new MoleculeRunUnrestricted(request, nddoParams, ri.atomTypes, useHessian);
                     results.add(result);
                 }
+
+                MoleculeOutput[] mos = new MoleculeOutput[results.size()];
+                for (int i = 0; i < results.size(); i++) {
+                    mos[i] = OutputHandler.toMoleculeOutput(results.get(i));
+                }
+                OutputHandler.output(mos);
+
 
                 System.out.println(results.get(0).hessianStr);
 //
