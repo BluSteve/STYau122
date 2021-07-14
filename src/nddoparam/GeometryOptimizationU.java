@@ -14,16 +14,16 @@ public class GeometryOptimizationU extends GeometryOptimization {
 	}
 
 	protected double derivative(int i, int j) {
-		return Derivative.grad((SolutionU) s, i, j);
+		return GeometryDerivative.grad((SolutionU) s, i, j);
 	}
 
 	protected DoubleMatrix[] routine() {
 		DoubleMatrix[][] matrices =
-				Derivative.gradientroutine(atoms, (SolutionU) s);
+				GeometryDerivative.gradientroutine(atoms, (SolutionU) s);
 
 		DoubleMatrix gradient = matrices[0][0];
 
-		DoubleMatrix hessian = SecondDerivative
+		DoubleMatrix hessian = GeometrySecondDerivative
 				.hessianroutine(atoms, (SolutionU) s, matrices[1],
 						matrices[2]);
 

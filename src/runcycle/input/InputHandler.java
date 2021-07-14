@@ -199,6 +199,8 @@ public class InputHandler {
 	}
 
 	public static void main(String[] args) {
-		InputHandler.convertFromTXT("inputtesting.txt");
+		InputHandler.convertFromTXT("input.txt");
 	}
+
+	// TODO ADD CHARGE TO NAME
 }

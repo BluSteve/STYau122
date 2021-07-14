@@ -1,6 +1,6 @@
 package nddoparam.param;
 
-import nddoparam.Derivative;
+import nddoparam.GeometryDerivative;
 import nddoparam.SolutionU;
 import scf.Utils;
 
@@ -80,6 +80,6 @@ public class ParamGradientU extends ParamGradient {
 
 	@Override
 	protected double findGrad(int i, int j) {
-		return Derivative.grad((SolutionU) sExpPrime, i, j);
+		return GeometryDerivative.grad((SolutionU) sExpPrime, i, j);
 	}
 }

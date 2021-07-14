@@ -301,11 +301,13 @@
 //                String processedexcelstr = Arrays.toString(Arrays.copyOfRange(sum, 1,
 //                size + 1)).substring(1, Arrays.toString(Arrays.copyOfRange(sum, 1,
 //                size + 1)).length() - 1);
-//
+// TODO SUMMING
+
 //                pw.println("SUM OF ERROR FUNCTION: " + sum[0]);
 //                pw.println("GRADIENT SUM: " + processedexcelstr);
 //                pw.flush();
-//
+// TODO this is last computed/updated hessian
+
 //                Scanner scan = new Scanner(new File("MNDOHessianUpdateData.txt"));
 //
 //                double[] nums = getHessianUpdateData(scan);
@@ -322,11 +324,15 @@
 //                }
 //
 //
+
+// TODO HESSIAN UPDATING PROCEDURE
+
 //                double[] grad = getHessianUpdateData(scan);
 //                DoubleMatrix oldGradient = new DoubleMatrix(grad);
 //
 //                grad = new double[grad.length];
-//                System.arraycopy(sum, 1, grad, 0, grad.length);
+//                System.arraycopy(sum, 1, grad, 0, grad.length); // same as total
+//                gradient.
 //                DoubleMatrix newGradient = new DoubleMatrix(grad);
 //
 //                double[] dir = getHessianUpdateData(scan);
@@ -344,8 +350,10 @@
 //                DoubleMatrix C = hessian.mmul(s).mmul(s.transpose()).mmul(hessian
 //                .transpose()).mmul(1 / a);
 //
-//                DoubleMatrix B = hessian.add(A).sub(C);
+//                DoubleMatrix B = hessian.add(A).sub(C); // fundamnetally similar to
+//                hessian
 //
+
 //                if (useHessian) {
 //                    double[] hessianSum = new double[maxIndex];
 //                    for (String hessianStr : hessianValues) {

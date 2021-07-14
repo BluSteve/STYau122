@@ -2550,7 +2550,7 @@ public class ParamDerivative {
 
 	private static DoubleMatrix computeResponseVectorsLimited(DoubleMatrix x,
 															  SolutionR soln) {//todo
-		// duplicate from SecondDerivative
+		// duplicate from GeometrySecondDerivative
 
 		int NOcc = (int) (soln.nElectrons / 2.0);
 
@@ -2788,17 +2788,17 @@ public class ParamDerivative {
 			F.putColumn(i, Farray[i]);
 		}
 
-		while (SecondDerivative.numIterable(iterable) > 0) {
+		while (GeometrySecondDerivative.numIterable(iterable) > 0) {
 
-			SecondDerivative.orthogonalise(barray);
+			GeometrySecondDerivative.orthogonalise(barray);
 
-//            System.err.println("only " + SecondDerivative.numIterable(iterable) +
+//            System.err.println("only " + GeometrySecondDerivative.numIterable(iterable) +
 //            " left to go!");
 
 			for (int i = 0; i < barray.length; i++) {
 
 				b.add(barray[i].dup());
-				parray[i] = D.mmul(SecondDerivative
+				parray[i] = D.mmul(GeometrySecondDerivative
 						.computeResponseVectorsPople(Dinv.mmul(barray[i].dup()), soln));
 				p.add(parray[i].dup());
 			}

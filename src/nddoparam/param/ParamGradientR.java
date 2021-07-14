@@ -1,6 +1,6 @@
 package nddoparam.param;
 
-import nddoparam.Derivative;
+import nddoparam.GeometryDerivative;
 import nddoparam.GeometryOptimizationR;
 import nddoparam.Solution;
 import nddoparam.SolutionR;
@@ -330,6 +330,6 @@ public class ParamGradientR extends ParamGradient {
 
 	@Override
 	protected double findGrad(int i, int j) {
-		return Derivative.grad((SolutionR) sExpPrime, i, j);
+		return GeometryDerivative.grad((SolutionR) sExpPrime, i, j);
 	}
 }

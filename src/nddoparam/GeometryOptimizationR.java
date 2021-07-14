@@ -14,18 +14,18 @@ public class GeometryOptimizationR extends GeometryOptimization {
 	}
 
 	protected double derivative(int i, int j) {
-		return Derivative.grad((SolutionR) s, i, j);
+		return GeometryDerivative.grad((SolutionR) s, i, j);
 	}
 
 	protected DoubleMatrix[] routine() {
 		DoubleMatrix[][] matrices =
-				Derivative.gradientroutine(atoms, (SolutionR) s);
+				GeometryDerivative.gradientroutine(atoms, (SolutionR) s);
 
 		DoubleMatrix gradient = matrices[0][0];
 		DoubleMatrix hessian;
 
 		try {
-			hessian = SecondDerivative
+			hessian = GeometrySecondDerivative
 					.hessianroutine(atoms, (SolutionR) s, matrices[1]);
 		} catch (Exception e) {
 			hessian = DoubleMatrix.eye(gradient.length);

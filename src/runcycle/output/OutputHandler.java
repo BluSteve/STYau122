@@ -34,12 +34,12 @@ public class OutputHandler {
 		return mo;
 	}
 
-	public static void output(MoleculeOutput[] mos) {
+	public static void output(MoleculeOutput[] mos, String output) {
 		GsonBuilder builder = new GsonBuilder();
 		builder.setPrettyPrinting();
 		Gson gson = builder.create();
 		try {
-			FileWriter fw = new FileWriter("output.json");
+			FileWriter fw = new FileWriter(output);
 			gson.toJson(mos, fw);
 			fw.close();
 		} catch (IOException e) {
