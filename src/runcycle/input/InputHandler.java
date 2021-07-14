@@ -156,6 +156,6 @@ public class InputHandler {
     }
 
     public static void main(String[] args) {
-        InputHandler.convertFromTXT("testinginput.txt");
+        InputHandler.convertFromTXT("inputtesting.txt");
     }
 }
