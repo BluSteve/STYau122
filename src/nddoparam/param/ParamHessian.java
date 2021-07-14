@@ -27,19 +27,24 @@ public abstract class ParamHessian {
 				[s.getUniqueZs().length * Solution.maxParamNum];
 
 		for (int ZIndex2 = 0; ZIndex2 < s.getUniqueZs().length; ZIndex2++) {
-			for (int paramNum2 : s.getNeededParams()[s.getUniqueZs()[ZIndex2]]) {
+			for (int paramNum2 : s.getNeededParams()[s
+					.getUniqueZs()[ZIndex2]]) {
 				constructGPrime(ZIndex2, paramNum2);
 
 				if (analytical &&
-						(kind.equals("b") || kind.equals("c") || kind.equals("d")))
+						(kind.equals("b") || kind.equals("c") ||
+								kind.equals("d")))
 					gPrime.computeBatchedDerivs(ZIndex2, paramNum2);
 
 				boolean needed;
-				for (int ZIndex1 = ZIndex2; ZIndex1 < s.getUniqueZs().length; ZIndex1++) {
-					for (int paramNum1 = paramNum2; paramNum1 < Solution.maxParamNum;
+				for (int ZIndex1 = ZIndex2; ZIndex1 < s.getUniqueZs().length;
+					 ZIndex1++) {
+					for (int paramNum1 = paramNum2;
+						 paramNum1 < Solution.maxParamNum;
 						 paramNum1++) {
 						needed = false;
-						for (int p : s.getNeededParams()[s.getUniqueZs()[ZIndex1]]) {
+						for (int p : s.getNeededParams()[s
+								.getUniqueZs()[ZIndex1]]) {
 							if (paramNum1 == p) {
 								needed = true;
 								break;
@@ -49,12 +54,15 @@ public abstract class ParamHessian {
 						if (needed) {
 							gPrime.computeGradient(ZIndex1, paramNum1);
 							hessian[ZIndex2 * Solution.maxParamNum + paramNum2]
-									[ZIndex1 * Solution.maxParamNum + paramNum1] =
+									[ZIndex1 * Solution.maxParamNum +
+									paramNum1] =
 									(gPrime.getTotalGradients()[ZIndex1][paramNum1]
-											- g.getTotalGradients()[ZIndex1][paramNum1]) /
+											-
+											g.getTotalGradients()[ZIndex1][paramNum1]) /
 											Utils.LAMBDA;
 							hessian[ZIndex1 * Solution.maxParamNum + paramNum1]
-									[ZIndex2 * Solution.maxParamNum + paramNum2] =
+									[ZIndex2 * Solution.maxParamNum +
+									paramNum2] =
 									hessian[ZIndex2 * Solution.maxParamNum +
 											paramNum2]
 											[ZIndex1 * Solution.maxParamNum +
@@ -94,7 +102,8 @@ public abstract class ParamHessian {
 
 	public double[] getHessianUT() {
 		double[][] unpadded = getHessianUnpadded();
-		double[] hessianUT = new double[(unpadded.length + 1) * unpadded.length / 2];
+		double[] hessianUT =
+				new double[(unpadded.length + 1) * unpadded.length / 2];
 		for (int i = 0; i < unpadded.length; i++) {
 			int p = 0;
 			if (i >= 1) {
@@ -120,7 +129,8 @@ public abstract class ParamHessian {
 		analytical = !analytical;
 		this.computeHessian();
 		double sum = IntStream.range(0, a.length)
-				.mapToDouble(i -> (a[i] - getHessianUT()[i]) * (a[i] - getHessianUT()[i]))
+				.mapToDouble(i -> (a[i] - getHessianUT()[i]) *
+						(a[i] - getHessianUT()[i]))
 				.sum();
 		analytical = !analytical;
 		hessian = b;

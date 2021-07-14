@@ -2,6 +2,7 @@ package runcycle.input;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import nddoparam.Solution;
 import scf.AtomHandler;
 import scf.AtomProperties;
 import scf.Utils;
@@ -59,10 +60,14 @@ public class InputHandler {
 		try {
 			List<String> lines = Files.readAllLines(Path.of(input));
 			List<String> datums = Files.readAllLines(Path.of("reference.txt"));
+			List<String> hud = Files.readAllLines(Path.of(
+					"MNDOHessianUpdateData" +
+							".txt"));
 			String[] mndoParamsS =
 					Files.readAllLines(Path.of("mndoparams.txt")).get(0)
 							.split(", ");
 			double[] mp = Utils.toDoubles(mndoParamsS);
+
 			ri.trainingSet = lines.get(0).split("=")[1];
 			ri.atomTypes = new int[ri.trainingSet.length()];
 			for (int x = 0; x < ri.trainingSet.length(); x++) {
@@ -70,10 +75,53 @@ public class InputHandler {
 						.get(Character.toString(ri.trainingSet.charAt(x)))
 						.getZ();
 			}
-			ri.nddoParams = new double[ri.atomTypes.length][];
-			for (int x = 0; x < ri.atomTypes.length; x++) {
-				ri.nddoParams[x] = Arrays.copyOfRange(mp, x * 13, x * 13 + 13);
+			int PARAMLENGTH = 13;
+
+			ri.params = new RawParams();
+			ri.params.nddoParams = new double[ri.atomTypes.length][];
+			double[] kmn =
+					Utils.toDoubles(
+							hud.get(0).split(":")[1].strip().split(","));
+			double[][] h =
+					new double[ri.atomTypes.length * Solution.maxParamNum][];
+			int sum = 0;
+			int pp = 0;
+			for (int j = PARAMLENGTH; j > 0; j--) {
+				if (pp != 2 && pp != 4 && pp !=6) {
+					double[] current = new double[13];
+					System.arraycopy(kmn, sum, current, 13 - j, j);
+					sum += j;
+					double[] paddedCurrent =
+							new double[ri.atomTypes.length *
+									Solution.maxParamNum];
+					paddedCurrent[0] = current[0];
+					paddedCurrent[1] = current[1];
+					paddedCurrent[3] = current[2];
+					paddedCurrent[5] = current[3];
+					paddedCurrent[7] = current[4];
+					System.arraycopy(current, 5, paddedCurrent, 8, 8);
+					h[pp] = paddedCurrent;
+					pp++;
+				}
+				else {
+					j++;
+					h[pp] =
+							new double[ri.atomTypes.length * Solution.maxParamNum];
+					pp++;
+				}
 			}
+			ri.params.lastHessian = h;
+			ri.params.lastGradient =
+					Utils.toDoubles(hud.get(1).split(":")[1].strip().split(","));
+			ri.params.lastSearchDir =
+					Utils.toDoubles(hud.get(2).split(":")[1].strip().split(","));
+			for (int x = 0; x < ri.atomTypes.length; x++) {
+				ri.params.nddoParams[x] =
+						Arrays.copyOfRange(mp, x * PARAMLENGTH,
+								x * PARAMLENGTH +
+										PARAMLENGTH);
+			}
+
 			ArrayList<RawMolecule> moleculesL = new ArrayList<>();
 
 			int i = 1;
@@ -123,7 +171,7 @@ public class InputHandler {
 					for (int u = 0; u < tempZs.size(); u++)
 						uniqueZs[u] = tempZs.get(u);
 					rm.uniqueZs = uniqueZs;
-					rm.name = nameBuilder.toString();
+					rm.name = nameBuilder + " " + rm.charge;
 
 
 					if (lines.get(i).equals("EXPGEOM")) {

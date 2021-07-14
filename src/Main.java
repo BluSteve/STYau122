@@ -10,13 +10,11 @@ import runcycle.input.RawMolecule;
 import runcycle.output.MoleculeOutput;
 import runcycle.output.OutputHandler;
 import scf.AtomHandler;
-import scf.Utils;
 
 import java.util.*;
 import java.util.concurrent.ForkJoinPool;
 import java.util.stream.Collectors;
 
-import static scf.Utils.bohr;
 
 public class Main {
 
@@ -37,10 +35,10 @@ public class Main {
 					"MNDO Parameterization, updated 13 July. " + ri.trainingSet +
 							" training set (PM7)");
 
-			NDDOParams[] nddoParams = new MNDOParams[ri.nddoParams.length];
+			NDDOParams[] nddoParams = new MNDOParams[ri.params.nddoParams.length];
 			// TODO change the following line if AM1
-			for (int i = 0; i < ri.nddoParams.length; i++)
-				nddoParams[i] = new MNDOParams(ri.nddoParams[i]);
+			for (int i = 0; i < ri.params.nddoParams.length; i++)
+				nddoParams[i] = new MNDOParams(ri.params.nddoParams[i]);
 
 			try {
 				List<RawMolecule> requests =
@@ -87,9 +85,5 @@ public class Main {
 		}
 		sw.stop();
 		System.out.println("Time taken: " + sw.getTime());
-	}
-
-	private static double[] getHessianUpdateData(Scanner scan) {
-		return Utils.toDoubles(scan.nextLine().split(":")[1].split(","));
 	}
 }
