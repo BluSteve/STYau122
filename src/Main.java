@@ -1,5 +1,4 @@
 import nddoparam.NDDOParams;
-import nddoparam.Solution;
 import nddoparam.mndo.MNDOParams;
 import org.apache.commons.lang3.time.StopWatch;
 import org.jblas.DoubleMatrix;
@@ -87,20 +86,32 @@ public class Main {
 				OutputHandler.output(mos, OUTPUT_FILENAME);
 				InputHandler.updateInput(ri, INPUT_FILENAME);
 
-				// tt stands for total total
+				// TODO generalize and put into function for storing
+				//  param_length;
+				int paramLength = MNDOParams.T1ParamNums.length
+						+ (ri.atomTypes.length - 1) *
+						MNDOParams.T2ParamNums.length;
 				double[] ttGradient =
-						new double[ri.params.lastGradient.length];
-				for (int i = 0; i < mos.length; i++) {
+						new double[paramLength];
+				for (MoleculeOutput mo : mos) {
 					int k = 0;
-					for (double[] gradient : mos[i].gradient.total) {
-						int (
-						for (int j : ) {
-							ttGradient[j] += gradient[j];
+					int l = 0;
+					for (double[] gradient : mo.gradient.total) {
+						int[] paramIndexes;
+						if (k == 0) paramIndexes = MNDOParams.T1ParamNums;
+						else paramIndexes = MNDOParams.T2ParamNums;
+						for (int j : paramIndexes) {
+							ttGradient[l] += gradient[j];
+							l++;
 						}
+						k++;
 					}
 				}
-//
-//				DoubleMatrix B = findMockHessian(
+				DoubleMatrix B = findMockHessian(ttGradient,
+						ri.params.lastHessian,
+						ri.params.lastGradient, ri.params.lastDir,
+						paramLength);
+				System.out.println(B);
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -134,8 +145,7 @@ public class Main {
 		DoubleMatrix A = y.mmul(y.transpose()).mmul(1 / b);
 		double a = s.transpose().mmul(hessian).mmul(s).get(0);
 		DoubleMatrix C = hessian.mmul(s).mmul(s.transpose()).mmul
-				(hessian
-						.transpose()).mmul(1 / a);
+				(hessian.transpose()).mmul(1 / a);
 
 		return hessian.add(A).sub(C);
 	}

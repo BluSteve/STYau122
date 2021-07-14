@@ -6,7 +6,7 @@ public class RawParams {
 	public double[][] nddoParams;
 	public double[] lastHessian;
 	public double[] lastGradient; // total gradients
-	public double[] lastSearchDir;
+	public double[] lastDir;
 
 	@Override
 	public String toString() {
@@ -14,7 +14,7 @@ public class RawParams {
 				"nddoParams=" + Arrays.toString(nddoParams) +
 				", lastHessian=" + Arrays.toString(lastHessian) +
 				", lastGradient=" + Arrays.toString(lastGradient) +
-				", lastSearchDir=" + Arrays.toString(lastSearchDir) +
+				", lastSearchDir=" + Arrays.toString(lastDir) +
 				'}';
 	}
 }
