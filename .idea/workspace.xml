@@ -32,15 +32,66 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/input.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inputtesting.txt" beforeDir="false" afterPath="$PROJECT_DIR$/inputtesting.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output.json" beforeDir="false" afterPath="$PROJECT_DIR$/output.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ComputationRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ComputationRequest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/datum/DipoleData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/datum/DipoleData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/datum/GeometricalData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/datum/GeometricalData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/datum/HeatData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/datum/HeatData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/datum/IonizationData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/datum/IonizationData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/datum/ReferenceData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/datum/ReferenceData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDO6G.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDO6G.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDOAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDOAtom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDODerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDODerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDOGeometryOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDOGeometryOptimization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDOGeometryOptimizationRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDOGeometryOptimizationRestricted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDOGeometryOptimizationUnrestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDOGeometryOptimizationUnrestricted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDOParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDOParams.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDOSecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDOSecondDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDOSolution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDOSolution.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDOSolutionRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDOSolutionRestricted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDOSolutionRestrictedDIIS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDOSolutionRestrictedDIIS.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDOSolutionRestrictedEDIIS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDOSolutionRestrictedEDIIS.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDOSolutionUnrestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDOSolutionUnrestricted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/am1/AM1Atom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/am1/AM1Atom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/am1/AM1Params.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/am1/AM1Params.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/mndo/MNDOAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/mndo/MNDOAtom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/mndo/MNDOParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/mndo/MNDOParams.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ErrorGettable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ErrorGettable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamErrorFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamErrorFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamErrorFunctionRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamErrorFunctionRestricted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamErrorFunctionUnrestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamErrorFunctionUnrestricted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientAnalytical.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientAnalytical.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientRestricted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientUnrestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientUnrestricted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientUnrestricted2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientUnrestricted2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianAnalytical.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianAnalytical.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianRestricted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianUnrestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianUnrestricted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianUnrestricted2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianUnrestricted2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/optimize/ParamOptimizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/optimize/ParamOptimizer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRunRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRunRestricted.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRunUnrestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRunUnrestricted.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/input/RawAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/input/RawAtom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/input/RawInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/input/RawInput.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/input/RawMolecule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/input/RawMolecule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/output/MoleculeOutput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/output/MoleculeOutput.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/output/OutputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/output/OutputHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/output/ParamGradientOutput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/output/ParamGradientOutput.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scf/AtomFixed.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/AtomFixed.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scf/AtomHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/AtomHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scf/AtomProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/AtomProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scf/GTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/GTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scf/LCGTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/LCGTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scf/OrbitalProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/OrbitalProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scf/STO6G.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/STO6G.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/scf/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/Utils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -114,17 +165,17 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/NDDOSolutionRestricted.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/MNDOParam.iml" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/NDDOGeometryOptimizationRestricted.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/Main.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/NDDOParams.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/NDDOSolution.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/NDDOSecondDerivative.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/NDDODerivative.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/mndo-install.sh" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/Main.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/nddoparam/NDDOSolution.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/MNDOParam.iml" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/nddoparam/NDDOParams.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/nddoparam/NDDOSolutionRestricted.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/nddoparam/NDDOSecondDerivative.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/nddoparam/NDDOGeometryOptimizationRestricted.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/nddoparam/param/ParamGradientRestricted.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/nddoparam/NDDODerivative.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -278,7 +329,7 @@
     <property name="extract.method.default.visibility" value="private" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
@@ -354,13 +405,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -915,7 +968,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java</url>
-          <line>1882</line>
+          <line>2693</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>

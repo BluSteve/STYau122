@@ -10,595 +10,668 @@ import java.util.ArrayList;
 
 public class NDDOSolutionRestrictedEDIIS extends NDDOSolution {
 
-    public double[] integralArray;
-    public DoubleMatrix C, F, G, E;//H - core matrix, G = 2-electron matrix, F = fock matrix, C = coeffecient matrix (transposed for easier reading), E = eigenvalues
-    private DoubleMatrix densityMatrix;
-
-    public NDDOSolutionRestrictedEDIIS(NDDOAtom[] atoms, int charge) {
-        super(atoms, charge);
-
-        StopWatch sw = new StopWatch();
-
-        sw.start();
-
-        int size = 0;
-        for (int j = 0; j < orbitals.length; j++) {
-            for (int k = j; k < orbitals.length; k++) {
-                if (j == k) {
-
-                    for (int l : index[atomNumber[j]]) {
-                        if (l > -1) {
-                            size++;
-                        }
-                    }
-
-                    for (int l : missingIndex[atomNumber[j]]) {
-                        if (l > -1) {
-                            for (int m : missingIndex[atomNumber[j]]) {
-                                if (m > -1) {
-                                    if (atomNumber[l] == atomNumber[m]) {
-                                        size++;
-                                    }
-                                }
-
-                            }
-                        }
-                    }
-                } else if (atomNumber[j] == atomNumber[k]) {
-                    size++;
-
-                    for (int l : missingIndex[atomNumber[j]]) {
-                        if (l > -1) {
-                            for (int m : missingIndex[atomNumber[j]]) {
-                                if (m > -1) {
-                                    if (atomNumber[l] == atomNumber[m]) {
-                                        size++;
-                                    }
-                                }
-
-                            }
-                        }
-                    }
-                } else {
-                    for (int l : index[atomNumber[j]]) {
-                        if (l > -1) {
-                            for (int m : index[atomNumber[k]]) {
-                                if (m > -1) {
-                                    size++;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        integralArray = new double[size];
-        //The idea of the integralarray is to simply store all the integrals in order they are called. It's basically my way of avoiding having to perform a Yoshemine sort.
-        // TODO re-implement HashMap
-        int integralcount = 0;
-        for (int j = 0; j < orbitals.length; j++) {
-            for (int k = j; k < orbitals.length; k++) {
-                if (j == k) { // case 1
-                    for (int l : index[atomNumber[j]]) {
-                        if (l > -1) {
-                            integralArray[integralcount] = (NDDO6G.OneCenterERI(orbitals[j], orbitals[j], orbitals[l], orbitals[l]) - 0.5 * NDDO6G.OneCenterERI(orbitals[j], orbitals[l], orbitals[j], orbitals[l]));
-                            integralcount++;
-                        }
-                    }
-
-                    for (int l : missingIndex[atomNumber[j]]) {
-                        if (l > -1) {
-                            for (int m : missingIndex[atomNumber[j]]) {
-                                if (m > -1) {
-                                    if (atomNumber[l] == atomNumber[m]) {
-                                        integralArray[integralcount] = (NDDO6G.getG(orbitals[j], orbitals[j], orbitals[l], orbitals[m]));
-                                        integralcount++;
-                                    }
-                                }
-
-                            }
-                        }
-                    }
-                } else if (atomNumber[j] == atomNumber[k]) { // case 2
-                    integralArray[integralcount] = (1.5 * NDDO6G.OneCenterERI(orbitals[j], orbitals[k], orbitals[j], orbitals[k]) - 0.5 * NDDO6G.OneCenterERI(orbitals[j], orbitals[j], orbitals[k], orbitals[k]));
-                    integralcount++;
-                    for (int l : missingIndex[atomNumber[j]]) {
-                        if (l > -1) {
-                            for (int m : missingIndex[atomNumber[j]]) {
-                                if (m > -1) {
-                                    if (atomNumber[l] == atomNumber[m]) {
-                                        integralArray[integralcount] = (NDDO6G.getG(orbitals[j], orbitals[k], orbitals[l], orbitals[m]));
-                                        integralcount++;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                } else { // case 3
-                    for (int l : index[atomNumber[j]]) {
-                        if (l > -1) {
-                            for (int m : index[atomNumber[k]]) {
-                                if (m > -1) {
-                                    integralArray[integralcount] = (-0.5 * NDDO6G.getG(orbitals[j], orbitals[l], orbitals[k], orbitals[m]));
-                                    integralcount++;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        DoubleMatrix[] matrices = Eigen.symmetricEigenvectors(H);
-
-        System.out.println(moleculeName + " Initial diagonalization completed, beginning SCF iterations...");
-
-        E = matrices[1].diag();
-
-        C = matrices[0].transpose();
-
-        G = DoubleMatrix.zeros(C.rows, C.columns);
-
-        densityMatrix = calculateDensityMatrix(C);
-
-        DoubleMatrix olddensity = DoubleMatrix.zeros(C.rows, C.columns);
-
-        F = H.dup();
-
-        DoubleMatrix[] Farray = new DoubleMatrix[8];
-        DoubleMatrix[] Darray = new DoubleMatrix[8];
-        double[] Earray = new double[8];
-
-        DoubleMatrix B = DoubleMatrix.zeros(8, 8);
-
-
-        int numIt = 0;
-
-        double DIISError = 10;
-        while (DIISError > 1E-10) {//density matrix convergence criteria; since each iteration takes place within a fraction of a second I figured why not
-
-            olddensity = densityMatrix.dup();
-
-            integralcount = 0;
-
-            //this entire block of code fills up the G matrix, and it calls the integralarray to save time.
+	public double[] integralArray;
+	public DoubleMatrix C, F, G, E;
+//H - core matrix, G = 2-electron matrix, F = fock matrix, C = coeffecient matrix
+// (transposed for easier reading), E = eigenvalues
+	private DoubleMatrix densityMatrix;
+
+	public NDDOSolutionRestrictedEDIIS(NDDOAtom[] atoms, int charge) {
+		super(atoms, charge);
+
+		StopWatch sw = new StopWatch();
+
+		sw.start();
+
+		int size = 0;
+		for (int j = 0; j < orbitals.length; j++) {
+			for (int k = j; k < orbitals.length; k++) {
+				if (j == k) {
+
+					for (int l : index[atomNumber[j]]) {
+						if (l > -1) {
+							size++;
+						}
+					}
+
+					for (int l : missingIndex[atomNumber[j]]) {
+						if (l > -1) {
+							for (int m : missingIndex[atomNumber[j]]) {
+								if (m > -1) {
+									if (atomNumber[l] == atomNumber[m]) {
+										size++;
+									}
+								}
+
+							}
+						}
+					}
+				}
+				else if (atomNumber[j] == atomNumber[k]) {
+					size++;
+
+					for (int l : missingIndex[atomNumber[j]]) {
+						if (l > -1) {
+							for (int m : missingIndex[atomNumber[j]]) {
+								if (m > -1) {
+									if (atomNumber[l] == atomNumber[m]) {
+										size++;
+									}
+								}
+
+							}
+						}
+					}
+				}
+				else {
+					for (int l : index[atomNumber[j]]) {
+						if (l > -1) {
+							for (int m : index[atomNumber[k]]) {
+								if (m > -1) {
+									size++;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		integralArray = new double[size];
+		//The idea of the integralarray is to simply store all the integrals in order
+		// they are called. It's basically my way of avoiding having to perform a
+		// Yoshemine sort.
+		// TODO re-implement HashMap
+		int integralcount = 0;
+		for (int j = 0; j < orbitals.length; j++) {
+			for (int k = j; k < orbitals.length; k++) {
+				if (j == k) { // case 1
+					for (int l : index[atomNumber[j]]) {
+						if (l > -1) {
+							integralArray[integralcount] =
+									(NDDO6G.OneCenterERI(orbitals[j], orbitals[j],
+											orbitals[l], orbitals[l]) - 0.5 *
+											NDDO6G.OneCenterERI(orbitals[j], orbitals[l],
+													orbitals[j], orbitals[l]));
+							integralcount++;
+						}
+					}
+
+					for (int l : missingIndex[atomNumber[j]]) {
+						if (l > -1) {
+							for (int m : missingIndex[atomNumber[j]]) {
+								if (m > -1) {
+									if (atomNumber[l] == atomNumber[m]) {
+										integralArray[integralcount] =
+												(NDDO6G.getG(orbitals[j], orbitals[j],
+														orbitals[l], orbitals[m]));
+										integralcount++;
+									}
+								}
+
+							}
+						}
+					}
+				}
+				else if (atomNumber[j] == atomNumber[k]) { // case 2
+					integralArray[integralcount] = (1.5 *
+							NDDO6G.OneCenterERI(orbitals[j], orbitals[k], orbitals[j],
+									orbitals[k]) - 0.5 *
+							NDDO6G.OneCenterERI(orbitals[j], orbitals[j], orbitals[k],
+									orbitals[k]));
+					integralcount++;
+					for (int l : missingIndex[atomNumber[j]]) {
+						if (l > -1) {
+							for (int m : missingIndex[atomNumber[j]]) {
+								if (m > -1) {
+									if (atomNumber[l] == atomNumber[m]) {
+										integralArray[integralcount] =
+												(NDDO6G.getG(orbitals[j], orbitals[k],
+														orbitals[l], orbitals[m]));
+										integralcount++;
+									}
+								}
+							}
+						}
+					}
+				}
+				else { // case 3
+					for (int l : index[atomNumber[j]]) {
+						if (l > -1) {
+							for (int m : index[atomNumber[k]]) {
+								if (m > -1) {
+									integralArray[integralcount] = (-0.5 *
+											NDDO6G.getG(orbitals[j], orbitals[l],
+													orbitals[k], orbitals[m]));
+									integralcount++;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		DoubleMatrix[] matrices = Eigen.symmetricEigenvectors(H);
+
+		System.out.println(moleculeName +
+				" Initial diagonalization completed, beginning SCF iterations...");
+
+		E = matrices[1].diag();
+
+		C = matrices[0].transpose();
+
+		G = DoubleMatrix.zeros(C.rows, C.columns);
+
+		densityMatrix = calculateDensityMatrix(C);
+
+		DoubleMatrix olddensity = DoubleMatrix.zeros(C.rows, C.columns);
+
+		F = H.dup();
+
+		DoubleMatrix[] Farray = new DoubleMatrix[8];
+		DoubleMatrix[] Darray = new DoubleMatrix[8];
+		double[] Earray = new double[8];
+
+		DoubleMatrix B = DoubleMatrix.zeros(8, 8);
+
+
+		int numIt = 0;
+
+		double DIISError = 10;
+		while (DIISError >
+				1E-10) {//density matrix convergence criteria; since each iteration
+			// takes place within a fraction of a second I figured why not
+
+			olddensity = densityMatrix.dup();
+
+			integralcount = 0;
+
+			//this entire block of code fills up the G matrix, and it calls the
+			// integralarray to save time.
+
+			for (int j = 0; j < orbitals.length; j++) {
+				for (int k = j; k < orbitals.length; k++) {
+					double val = 0;
+					if (j == k) {
+
+						for (int l : index[atomNumber[j]]) {
+							if (l > -1) {
+								val += densityMatrix.get(l, l) *
+										integralArray[integralcount];
+								integralcount++;
+							}
+						}
+
+						for (int l : missingIndex[atomNumber[j]]) {
+							if (l > -1) {
+								for (int m : missingIndex[atomNumber[j]]) {
+									if (m > -1) {
+										if (atomNumber[l] == atomNumber[m]) {
+											val += densityMatrix.get(l, m) *
+													integralArray[integralcount];
+											integralcount++;
+										}
+									}
+
+								}
+							}
+						}
+					}
+					else if (atomNumber[j] == atomNumber[k]) {
+						val += densityMatrix.get(j, k) * integralArray[integralcount];
+						integralcount++;
+
+						for (int l : missingIndex[atomNumber[j]]) {
+							if (l > -1) {
+								for (int m : missingIndex[atomNumber[j]]) {
+									if (m > -1) {
+										if (atomNumber[l] == atomNumber[m]) {
+											val += densityMatrix.get(l, m) *
+													integralArray[integralcount];
+											integralcount++;
+										}
+									}
+
+								}
+							}
+						}
+					}
+					else {
+						for (int l : index[atomNumber[j]]) {
+							if (l > -1) {
+								for (int m : index[atomNumber[k]]) {
+									if (m > -1) {
+										val += densityMatrix.get(l, m) *
+												integralArray[integralcount];
+										integralcount++;
+									}
+								}
+							}
+						}
+					}
+
+					G.put(j, k, val);
+					G.put(k, j, val);
+				}
+			}
+
+			F = H.dup().add(G);
+
+			if (numIt < Farray.length) {
+
+				Farray[numIt] = F.dup();
+			}
+			else {
+
+				for (int i = 0; i < Farray.length - 1; i++) {
+
+					Farray[i] = Farray[i + 1].dup();
+				}
+
+				Farray[Farray.length - 1] = F.dup();
+			}
+
+
+			if (numIt < Farray.length) {
+
+				Darray[numIt] = densityMatrix.dup();
+				Earray[numIt] = -0.5 * (H.mmul(densityMatrix)).diag().sum();
+				DIISError = commutator(F.dup(), densityMatrix.dup()).norm2();
+			}
+			else {
+
+				for (int i = 0; i < Farray.length - 1; i++) {
+
+					Darray[i] = Darray[i + 1].dup();
+					Earray[i] = Earray[i + 1];
+				}
+
+				Darray[Darray.length - 1] = densityMatrix.dup();
+				Earray[Darray.length - 1] = -0.5 * (H.mmul(densityMatrix)).diag().sum();
+				;
+				DIISError = commutator(F.dup(), densityMatrix.dup()).norm2();
+			}
+
+			if (numIt < Farray.length) {
+
+				for (int i = 0; i <= numIt; i++) {
+
+					double product =
+							0.5 * ((Farray[i].mmul(Darray[numIt])).diag().sum() +
+							(Farray[numIt].mmul(Darray[i])).diag().sum());
+
+					B.put(i, numIt, product);
+					B.put(numIt, i, product);
+				}
+			}
+			else {
+
+				DoubleMatrix newB = DoubleMatrix.zeros(8, 8);
+
+				for (int i = 0; i < Farray.length - 1; i++) {
+					for (int j = i; j < Farray.length - 1; j++) {
+						newB.put(i, j, B.get(i + 1, j + 1));
+						newB.put(j, i, B.get(i + 1, j + 1));
+					}
+				}
+
+				for (int i = 0; i < Farray.length; i++) {
+
+					double product = 0.5 *
+							((Farray[i].mmul(Darray[Farray.length - 1])).diag().sum() +
+									(Farray[Farray.length - 1].mmul(Darray[i])).diag()
+											.sum());
+					newB.put(i, Farray.length - 1, product);
+					newB.put(Farray.length - 1, i, product);
+				}
+
+				B = newB.dup();
+			}
+
+
+			DoubleMatrix mat = DoubleMatrix.zeros(Math.min(Farray.length + 1, numIt + 2),
+					Math.min(Farray.length + 1, numIt + 2));
+
+			for (int i = 0; i < Math.min(Farray.length, numIt + 1); i++) {
+				for (int j = i; j < Math.min(Farray.length, numIt + 1); j++) {
+					mat.put(i, j, B.get(i, j));
+					mat.put(j, i, B.get(i, j));
+
+				}
+			}
+
+
+			mat.putColumn(mat.columns - 1, DoubleMatrix.ones(mat.rows, 1));
 
-            for (int j = 0; j < orbitals.length; j++) {
-                for (int k = j; k < orbitals.length; k++) {
-                    double val = 0;
-                    if (j == k) {
-
-                        for (int l : index[atomNumber[j]]) {
-                            if (l > -1) {
-                                val += densityMatrix.get(l, l) * integralArray[integralcount];
-                                integralcount++;
-                            }
-                        }
+			mat.putRow(mat.rows - 1, DoubleMatrix.ones(mat.columns, 1));
+
+			mat.put(mat.rows - 1, mat.columns - 1, 0);
+
+			DoubleMatrix rhs = DoubleMatrix.ones(mat.rows, 1);
+
+			for (int i = 0; i < Math.min(Farray.length, numIt + 1); i++) {
+				rhs.put(i, Earray[i]);
+			}
+
+
+			boolean nonNegative = false;
+
+			DoubleMatrix DIIS = null;
 
-                        for (int l : missingIndex[atomNumber[j]]) {
-                            if (l > -1) {
-                                for (int m : missingIndex[atomNumber[j]]) {
-                                    if (m > -1) {
-                                        if (atomNumber[l] == atomNumber[m]) {
-                                            val += densityMatrix.get(l, m) * integralArray[integralcount];
-                                            integralcount++;
-                                        }
-                                    }
-
-                                }
-                            }
-                        }
-                    } else if (atomNumber[j] == atomNumber[k]) {
-                        val += densityMatrix.get(j, k) * integralArray[integralcount];
-                        integralcount++;
+			try {
+				DIIS = Solve.solve(mat, rhs);
 
-                        for (int l : missingIndex[atomNumber[j]]) {
-                            if (l > -1) {
-                                for (int m : missingIndex[atomNumber[j]]) {
-                                    if (m > -1) {
-                                        if (atomNumber[l] == atomNumber[m]) {
-                                            val += densityMatrix.get(l, m) * integralArray[integralcount];
-                                            integralcount++;
-                                        }
-                                    }
+				DIIS = DIIS.put(DIIS.rows - 1, 0);
 
-                                }
-                            }
-                        }
-                    } else {
-                        for (int l : index[atomNumber[j]]) {
-                            if (l > -1) {
-                                for (int m : index[atomNumber[k]]) {
-                                    if (m > -1) {
-                                        val += densityMatrix.get(l, m) * integralArray[integralcount];
-                                        integralcount++;
-                                    }
-                                }
-                            }
-                        }
-                    }
+				nonNegative = !(DIIS.min() < 0);
+			} catch (Exception ex) {
+			}
 
-                    G.put(j, k, val);
-                    G.put(k, j, val);
-                }
-            }
+			i_died:
 
-            F = H.dup().add(G);
+			if (!nonNegative) {
+				for (int i = 0; i < mat.rows - 2; i++) {
 
-            if (numIt < Farray.length) {
 
-                Farray[numIt] = F.dup();
-            } else {
+					try {
 
-                for (int i = 0; i < Farray.length - 1; i++) {
+						DoubleMatrix newmat =
+								removeElementsSquare(mat.dup(), new int[]{i});
+						DoubleMatrix newrhs =
+								removeElementsLinear(rhs.dup(), new int[]{i});
+						DIIS = addrow(Solve.solve(newmat, newrhs), new int[]{i});
 
-                    Farray[i] = Farray[i + 1].dup();
-                }
+						DIIS = DIIS.put(DIIS.rows - 1, 0);
 
-                Farray[Farray.length - 1] = F.dup();
-            }
+						nonNegative = !(DIIS.min() < 0);
 
+						if (nonNegative) {
+							break i_died;
+						}
+					} catch (Exception ex) {
+					}
+				}
+			}
+			i_died2:
 
-            if (numIt < Farray.length) {
+			if (!nonNegative) {
+				for (int i = 0; i < mat.rows - 2; i++) {
 
-                Darray[numIt] = densityMatrix.dup();
-                Earray[numIt] = -0.5 * (H.mmul(densityMatrix)).diag().sum();
-                DIISError = commutator(F.dup(), densityMatrix.dup()).norm2();
-            } else {
+					for (int j = i + 1; j < mat.rows - 2; j++) {
+						try {
 
-                for (int i = 0; i < Farray.length - 1; i++) {
+							DoubleMatrix newmat =
+									removeElementsSquare(mat.dup(), new int[]{i, j});
+							DoubleMatrix newrhs =
+									removeElementsLinear(rhs.dup(), new int[]{i, j});
+							DIIS = addrow(Solve.solve(newmat, newrhs), new int[]{i, j});
 
-                    Darray[i] = Darray[i + 1].dup();
-                    Earray[i] = Earray[i + 1];
-                }
+							DIIS = DIIS.put(DIIS.rows - 1, 0);
 
-                Darray[Darray.length - 1] = densityMatrix.dup();
-                Earray[Darray.length - 1] = -0.5 * (H.mmul(densityMatrix)).diag().sum();
-                ;
-                DIISError = commutator(F.dup(), densityMatrix.dup()).norm2();
-            }
+							nonNegative = !(DIIS.min() < 0);
 
-            if (numIt < Farray.length) {
+							if (nonNegative) {
+								break i_died2;
+							}
+						} catch (Exception ex) {
+						}
+					}
 
-                for (int i = 0; i <= numIt; i++) {
+				}
+			}
 
-                    double product = 0.5 * ((Farray[i].mmul(Darray[numIt])).diag().sum() + (Farray[numIt].mmul(Darray[i])).diag().sum());
+			i_died3:
 
-                    B.put(i, numIt, product);
-                    B.put(numIt, i, product);
-                }
-            } else {
+			if (!nonNegative) {
+				for (int i = 0; i < mat.rows - 2; i++) {
 
-                DoubleMatrix newB = DoubleMatrix.zeros(8, 8);
+					for (int j = i + 1; j < mat.rows - 2; j++) {
 
-                for (int i = 0; i < Farray.length - 1; i++) {
-                    for (int j = i; j < Farray.length - 1; j++) {
-                        newB.put(i, j, B.get(i + 1, j + 1));
-                        newB.put(j, i, B.get(i + 1, j + 1));
-                    }
-                }
+						for (int k = j + 1; k < mat.rows - 2; k++) {
+							try {
 
-                for (int i = 0; i < Farray.length; i++) {
+								DoubleMatrix newmat = removeElementsSquare(mat.dup(),
+										new int[]{i, j, k});
+								DoubleMatrix newrhs = removeElementsLinear(rhs.dup(),
+										new int[]{i, j, k});
+								DIIS = addrow(Solve.solve(newmat, newrhs),
+										new int[]{i, j, k});
 
-                    double product = 0.5 * ((Farray[i].mmul(Darray[Farray.length - 1])).diag().sum() + (Farray[Farray.length - 1].mmul(Darray[i])).diag().sum());
-                    newB.put(i, Farray.length - 1, product);
-                    newB.put(Farray.length - 1, i, product);
-                }
+								DIIS = DIIS.put(DIIS.rows - 1, 0);
 
-                B = newB.dup();
-            }
+								nonNegative = !(DIIS.min() < 0);
 
+								if (nonNegative) {
+									break i_died3;
+								}
+							} catch (Exception ex) {
+							}
+						}
+					}
 
-            DoubleMatrix mat = DoubleMatrix.zeros(Math.min(Farray.length + 1, numIt + 2), Math.min(Farray.length + 1, numIt + 2));
+				}
+			}
 
-            for (int i = 0; i < Math.min(Farray.length, numIt + 1); i++) {
-                for (int j = i; j < Math.min(Farray.length, numIt + 1); j++) {
-                    mat.put(i, j, B.get(i, j));
-                    mat.put(j, i, B.get(i, j));
+			i_died4:
 
-                }
-            }
+			if (!nonNegative) {
+				for (int i = 0; i < mat.rows - 2; i++) {
 
+					for (int j = i + 1; j < mat.rows - 2; j++) {
 
-            mat.putColumn(mat.columns - 1, DoubleMatrix.ones(mat.rows, 1));
+						for (int k = j + 1; k < mat.rows - 2; k++) {
 
-            mat.putRow(mat.rows - 1, DoubleMatrix.ones(mat.columns, 1));
+							for (int l = k + 1; l < mat.rows - 2; l++) {
+								try {
 
-            mat.put(mat.rows - 1, mat.columns - 1, 0);
+									DoubleMatrix newmat = removeElementsSquare(mat.dup(),
+											new int[]{i, j, k, l});
+									DoubleMatrix newrhs = removeElementsLinear(rhs.dup(),
+											new int[]{i, j, k, l});
+									DIIS = addrow(Solve.solve(newmat, newrhs),
+											new int[]{i, j, k, l});
 
-            DoubleMatrix rhs = DoubleMatrix.ones(mat.rows, 1);
+									DIIS = DIIS.put(DIIS.rows - 1, 0);
 
-            for (int i = 0; i < Math.min(Farray.length, numIt + 1); i++) {
-                rhs.put(i, Earray[i]);
-            }
+									nonNegative = !(DIIS.min() < 0);
 
+									if (nonNegative) {
+										break i_died4;
+									}
+								} catch (Exception ex) {
+								}
+							}
+						}
+					}
 
-            boolean nonNegative = false;
+				}
+			}
 
-            DoubleMatrix DIIS = null;
+			i_died5:
 
-            try {
-                DIIS = Solve.solve(mat, rhs);
+			if (!nonNegative) {
+				for (int i = 0; i < mat.rows - 2; i++) {
 
-                DIIS = DIIS.put(DIIS.rows - 1, 0);
+					for (int j = i + 1; j < mat.rows - 2; j++) {
 
-                nonNegative = !(DIIS.min() < 0);
-            } catch (Exception ex) {
-            }
+						for (int k = j + 1; k < mat.rows - 2; k++) {
 
-            i_died:
+							for (int l = k + 1; l < mat.rows - 2; l++) {
 
-            if (!nonNegative) {
-                for (int i = 0; i < mat.rows - 2; i++) {
+								for (int m = l + 1; m < mat.rows - 2; m++) {
+									try {
 
+										DoubleMatrix newmat =
+												removeElementsSquare(mat.dup(),
+														new int[]{i, j, k, l, m});
+										DoubleMatrix newrhs =
+												removeElementsLinear(rhs.dup(),
+														new int[]{i, j, k, l, m});
+										DIIS = addrow(Solve.solve(newmat, newrhs),
+												new int[]{i, j, k, l, m});
 
-                    try {
+										DIIS = DIIS.put(DIIS.rows - 1, 0);
 
-                        DoubleMatrix newmat = removeElementsSquare(mat.dup(), new int[]{i});
-                        DoubleMatrix newrhs = removeElementsLinear(rhs.dup(), new int[]{i});
-                        DIIS = addrow(Solve.solve(newmat, newrhs), new int[]{i});
+										nonNegative = !(DIIS.min() < 0);
 
-                        DIIS = DIIS.put(DIIS.rows - 1, 0);
+										if (nonNegative) {
+											break i_died5;
+										}
+									} catch (Exception ex) {
+									}
+								}
+							}
+						}
+					}
 
-                        nonNegative = !(DIIS.min() < 0);
+				}
+			}
 
-                        if (nonNegative) {
-                            break i_died;
-                        }
-                    } catch (Exception ex) {
-                    }
-                }
-            }
-            i_died2:
+			i_died6:
 
-            if (!nonNegative) {
-                for (int i = 0; i < mat.rows - 2; i++) {
+			if (!nonNegative) {
+				for (int i = 0; i < mat.rows - 2; i++) {
 
-                    for (int j = i + 1; j < mat.rows - 2; j++) {
-                        try {
+					for (int j = i + 1; j < mat.rows - 2; j++) {
 
-                            DoubleMatrix newmat = removeElementsSquare(mat.dup(), new int[]{i, j});
-                            DoubleMatrix newrhs = removeElementsLinear(rhs.dup(), new int[]{i, j});
-                            DIIS = addrow(Solve.solve(newmat, newrhs), new int[]{i, j});
+						for (int k = j + 1; k < mat.rows - 2; k++) {
 
-                            DIIS = DIIS.put(DIIS.rows - 1, 0);
+							for (int l = k + 1; l < mat.rows - 2; l++) {
 
-                            nonNegative = !(DIIS.min() < 0);
+								for (int m = l + 1; m < mat.rows - 2; m++) {
 
-                            if (nonNegative) {
-                                break i_died2;
-                            }
-                        } catch (Exception ex) {
-                        }
-                    }
+									for (int n = m + 1; n < mat.rows - 2; n++) {
 
-                }
-            }
+										try {
 
-            i_died3:
+											DoubleMatrix newmat =
+													removeElementsSquare(mat.dup(),
+															new int[]{i, j, k, l, m, n});
+											DoubleMatrix newrhs =
+													removeElementsLinear(rhs.dup(),
+															new int[]{i, j, k, l, m, n});
+											DIIS = addrow(Solve.solve(newmat, newrhs),
+													new int[]{i, j, k, l, m, n});
 
-            if (!nonNegative) {
-                for (int i = 0; i < mat.rows - 2; i++) {
+											DIIS = DIIS.put(DIIS.rows - 1, 0);
 
-                    for (int j = i + 1; j < mat.rows - 2; j++) {
+											nonNegative = !(DIIS.min() < 0);
 
-                        for (int k = j + 1; k < mat.rows - 2; k++) {
-                            try {
+											if (nonNegative) {
+												break i_died6;
+											}
+										} catch (Exception ex) {
+										}
+									}
+								}
+							}
+						}
+					}
 
-                                DoubleMatrix newmat = removeElementsSquare(mat.dup(), new int[]{i, j, k});
-                                DoubleMatrix newrhs = removeElementsLinear(rhs.dup(), new int[]{i, j, k});
-                                DIIS = addrow(Solve.solve(newmat, newrhs), new int[]{i, j, k});
+				}
+			}
 
-                                DIIS = DIIS.put(DIIS.rows - 1, 0);
+			i_died7:
 
-                                nonNegative = !(DIIS.min() < 0);
+			if (!nonNegative) {
+				for (int i = 0; i < mat.rows - 2; i++) {
 
-                                if (nonNegative) {
-                                    break i_died3;
-                                }
-                            } catch (Exception ex) {
-                            }
-                        }
-                    }
+					for (int j = i + 1; j < mat.rows - 2; j++) {
 
-                }
-            }
+						for (int k = j + 1; k < mat.rows - 2; k++) {
 
-            i_died4:
+							for (int l = k + 1; l < mat.rows - 2; l++) {
 
-            if (!nonNegative) {
-                for (int i = 0; i < mat.rows - 2; i++) {
+								for (int m = l + 1; m < mat.rows - 2; m++) {
 
-                    for (int j = i + 1; j < mat.rows - 2; j++) {
+									for (int n = m + 1; n < mat.rows - 2; n++) {
 
-                        for (int k = j + 1; k < mat.rows - 2; k++) {
+										for (int o = 0; o < mat.rows - 2; o++) {
+											try {
 
-                            for (int l = k + 1; l < mat.rows - 2; l++) {
-                                try {
+												DoubleMatrix newmat =
+														removeElementsSquare(mat.dup(),
+																new int[]{i, j, k, l, m,
+																		n, o});
+												DoubleMatrix newrhs =
+														removeElementsLinear(rhs.dup(),
+																new int[]{i, j, k, l, m,
+																		n, o});
+												DIIS = addrow(Solve.solve(newmat,
+														newrhs),
+														new int[]{i, j, k, l, m, n, o});
 
-                                    DoubleMatrix newmat = removeElementsSquare(mat.dup(), new int[]{i, j, k, l});
-                                    DoubleMatrix newrhs = removeElementsLinear(rhs.dup(), new int[]{i, j, k, l});
-                                    DIIS = addrow(Solve.solve(newmat, newrhs), new int[]{i, j, k, l});
+												DIIS = DIIS.put(DIIS.rows - 1, 0);
 
-                                    DIIS = DIIS.put(DIIS.rows - 1, 0);
+												nonNegative = !(DIIS.min() < 0);
 
-                                    nonNegative = !(DIIS.min() < 0);
+												if (nonNegative) {
+													break i_died7;
+												}
+											} catch (Exception ex) {
+											}
+										}
+									}
+								}
+							}
+						}
+					}
 
-                                    if (nonNegative) {
-                                        break i_died4;
-                                    }
-                                } catch (Exception ex) {
-                                }
-                            }
-                        }
-                    }
+				}
+			}
 
-                }
-            }
 
-            i_died5:
+			if (!nonNegative) {
 
-            if (!nonNegative) {
-                for (int i = 0; i < mat.rows - 2; i++) {
+				matrices = Eigen.symmetricEigenvectors(F);
 
-                    for (int j = i + 1; j < mat.rows - 2; j++) {
+				E = matrices[1].diag();
 
-                        for (int k = j + 1; k < mat.rows - 2; k++) {
+				C = matrices[0].transpose();
 
-                            for (int l = k + 1; l < mat.rows - 2; l++) {
+				densityMatrix = calculateDensityMatrix(C).mmul(1 - damp)
+						.add(olddensity.mmul(damp));
+			}
+			else {
 
-                                for (int m = l + 1; m < mat.rows - 2; m++) {
-                                    try {
+				DoubleMatrix F =
+						DoubleMatrix.zeros(densityMatrix.rows, densityMatrix.columns);
 
-                                        DoubleMatrix newmat = removeElementsSquare(mat.dup(), new int[]{i, j, k, l, m});
-                                        DoubleMatrix newrhs = removeElementsLinear(rhs.dup(), new int[]{i, j, k, l, m});
-                                        DIIS = addrow(Solve.solve(newmat, newrhs), new int[]{i, j, k, l, m});
 
-                                        DIIS = DIIS.put(DIIS.rows - 1, 0);
+				for (int i = 0; i < DIIS.length - 1; i++) {
+					F = F.add(Farray[i].mmul(DIIS.get(i)));
+				}
 
-                                        nonNegative = !(DIIS.min() < 0);
 
-                                        if (nonNegative) {
-                                            break i_died5;
-                                        }
-                                    } catch (Exception ex) {
-                                    }
-                                }
-                            }
-                        }
-                    }
+				this.F = F.dup();
 
-                }
-            }
+				matrices = Eigen.symmetricEigenvectors(F);
 
-            i_died6:
+				E = matrices[1].diag();
 
-            if (!nonNegative) {
-                for (int i = 0; i < mat.rows - 2; i++) {
+				C = matrices[0].transpose();
 
-                    for (int j = i + 1; j < mat.rows - 2; j++) {
+				densityMatrix = calculateDensityMatrix(C);
+			}
 
-                        for (int k = j + 1; k < mat.rows - 2; k++) {
 
-                            for (int l = k + 1; l < mat.rows - 2; l++) {
+			numIt++;
 
-                                for (int m = l + 1; m < mat.rows - 2; m++) {
+		}
 
-                                    for (int n = m + 1; n < mat.rows - 2; n++) {
 
-                                        try {
+		System.out
+				.println(moleculeName + " SCF completed: " + numIt + " iterations used");
 
-                                            DoubleMatrix newmat = removeElementsSquare(mat.dup(), new int[]{i, j, k, l, m, n});
-                                            DoubleMatrix newrhs = removeElementsLinear(rhs.dup(), new int[]{i, j, k, l, m, n});
-                                            DIIS = addrow(Solve.solve(newmat, newrhs), new int[]{i, j, k, l, m, n});
+		System.err.println("E-DIIS took: " + sw.getTime());
 
-                                            DIIS = DIIS.put(DIIS.rows - 1, 0);
+		double e = 0;
 
-                                            nonNegative = !(DIIS.min() < 0);
-
-                                            if (nonNegative) {
-                                                break i_died6;
-                                            }
-                                        } catch (Exception ex) {
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                }
-            }
-
-            i_died7:
-
-            if (!nonNegative) {
-                for (int i = 0; i < mat.rows - 2; i++) {
-
-                    for (int j = i + 1; j < mat.rows - 2; j++) {
-
-                        for (int k = j + 1; k < mat.rows - 2; k++) {
-
-                            for (int l = k + 1; l < mat.rows - 2; l++) {
-
-                                for (int m = l + 1; m < mat.rows - 2; m++) {
-
-                                    for (int n = m + 1; n < mat.rows - 2; n++) {
-
-                                        for (int o = 0; o < mat.rows - 2; o++) {
-                                            try {
-
-                                                DoubleMatrix newmat = removeElementsSquare(mat.dup(), new int[]{i, j, k, l, m, n, o});
-                                                DoubleMatrix newrhs = removeElementsLinear(rhs.dup(), new int[]{i, j, k, l, m, n, o});
-                                                DIIS = addrow(Solve.solve(newmat, newrhs), new int[]{i, j, k, l, m, n, o});
-
-                                                DIIS = DIIS.put(DIIS.rows - 1, 0);
-
-                                                nonNegative = !(DIIS.min() < 0);
-
-                                                if (nonNegative) {
-                                                    break i_died7;
-                                                }
-                                            } catch (Exception ex) {
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                }
-            }
-
-
-            if (!nonNegative) {
-
-                matrices = Eigen.symmetricEigenvectors(F);
-
-                E = matrices[1].diag();
-
-                C = matrices[0].transpose();
-
-                densityMatrix = calculateDensityMatrix(C).mmul(1 - damp).add(olddensity.mmul(damp));
-            } else {
-
-                DoubleMatrix F = DoubleMatrix.zeros(densityMatrix.rows, densityMatrix.columns);
-
-
-                for (int i = 0; i < DIIS.length - 1; i++) {
-                    F = F.add(Farray[i].mmul(DIIS.get(i)));
-                }
-
-
-                this.F = F.dup();
-
-                matrices = Eigen.symmetricEigenvectors(F);
-
-                E = matrices[1].diag();
-
-                C = matrices[0].transpose();
-
-                densityMatrix = calculateDensityMatrix(C);
-            }
-
-
-            numIt++;
-
-        }
-
-
-        System.out.println(moleculeName + " SCF completed: " + numIt + " iterations used");
-
-        System.err.println("E-DIIS took: " + sw.getTime());
-
-        double e = 0;
-
-        for (int j = 0; j < orbitals.length; j++) {
-            for (int k = 0; k < orbitals.length; k++) {
-                e += 0.5 * densityMatrix.get(j, k) * (H.get(j, k) + F.get(j, k));
-            }
-        }
+		for (int j = 0; j < orbitals.length; j++) {
+			for (int k = 0; k < orbitals.length; k++) {
+				e += 0.5 * densityMatrix.get(j, k) * (H.get(j, k) + F.get(j, k));
+			}
+		}
 
 //        double checksum = 0;
 //
@@ -620,274 +693,298 @@ public class NDDOSolutionRestrictedEDIIS extends NDDOSolution {
 //        }
 
 
-        double heat = 0;
+		double heat = 0;
 
-        for (int j = 0; j < atoms.length; j++) {
-            heat += atoms[j].getHeat() - atoms[j].getEisol();
-            for (int k = j + 1; k < atoms.length; k++) {
-                e += atoms[j].crf(atoms[k]);
-            }
-        }
+		for (int j = 0; j < atoms.length; j++) {
+			heat += atoms[j].getHeat() - atoms[j].getEisol();
+			for (int k = j + 1; k < atoms.length; k++) {
+				e += atoms[j].crf(atoms[k]);
+			}
+		}
 
-        energy = e;
+		energy = e;
 
-        heat += e;
+		heat += e;
 
-        this.hf = heat / 4.3363E-2;
+		this.hf = heat / 4.3363E-2;
 
-        if (nElectrons > 0) {
-            this.homo = E.get(nElectrons / 2 - 1, 0);
-        } else {
-            this.homo = 0;
-        }
+		if (nElectrons > 0) {
+			this.homo = E.get(nElectrons / 2 - 1, 0);
+		}
+		else {
+			this.homo = 0;
+		}
 
-        this.lumo = E.get(nElectrons / 2, 0);
+		this.lumo = E.get(nElectrons / 2, 0);
 
-        double[] populations = new double[atoms.length];
+		double[] populations = new double[atoms.length];
 
-        for (int j = 0; j < atoms.length; j++) {
-            double sum = 0;
-            for (int k : index[j]) {
-                if (k > -1) {
-                    sum += densityMatrix.get(k, k);
-                }
-            }
+		for (int j = 0; j < atoms.length; j++) {
+			double sum = 0;
+			for (int k : index[j]) {
+				if (k > -1) {
+					sum += densityMatrix.get(k, k);
+				}
+			}
 
-            populations[j] = atoms[j].getAtomProperties().getQ() - sum;
-        }
+			populations[j] = atoms[j].getAtomProperties().getQ() - sum;
+		}
 
 
-        double[] com = new double[]{0, 0, 0};
+		double[] com = new double[]{0, 0, 0};
 
-        double mass = 0;
+		double mass = 0;
 
-        for (NDDOAtom atom : atoms) {
-            com[0] = com[0] + atom.getMass() * atom.getCoordinates()[0];
-            com[1] = com[1] + atom.getMass() * atom.getCoordinates()[1];
-            com[2] = com[2] + atom.getMass() * atom.getCoordinates()[2];
-            mass += atom.getMass();
-        }
+		for (NDDOAtom atom : atoms) {
+			com[0] = com[0] + atom.getMass() * atom.getCoordinates()[0];
+			com[1] = com[1] + atom.getMass() * atom.getCoordinates()[1];
+			com[2] = com[2] + atom.getMass() * atom.getCoordinates()[2];
+			mass += atom.getMass();
+		}
 
-        com[0] = com[0] / mass;
-        com[1] = com[1] / mass;
-        com[2] = com[2] / mass;
+		com[0] = com[0] / mass;
+		com[1] = com[1] / mass;
+		com[2] = com[2] / mass;
 
 
-        chargedip = new double[]{0, 0, 0};
+		chargedip = new double[]{0, 0, 0};
 
-        for (int j = 0; j < atoms.length; j++) {
-            chargedip[0] += 2.5416 * populations[j] * (atoms[j].getCoordinates()[0] - com[0]);
-            chargedip[1] += 2.5416 * populations[j] * (atoms[j].getCoordinates()[1] - com[1]);
-            chargedip[2] += 2.5416 * populations[j] * (atoms[j].getCoordinates()[2] - com[2]);
-        }
+		for (int j = 0; j < atoms.length; j++) {
+			chargedip[0] +=
+					2.5416 * populations[j] * (atoms[j].getCoordinates()[0] - com[0]);
+			chargedip[1] +=
+					2.5416 * populations[j] * (atoms[j].getCoordinates()[1] - com[1]);
+			chargedip[2] +=
+					2.5416 * populations[j] * (atoms[j].getCoordinates()[2] - com[2]);
+		}
 
 
-        hybridip = new double[]{0, 0, 0};
+		hybridip = new double[]{0, 0, 0};
 
-        for (int j = 0; j < atoms.length; j++) {
+		for (int j = 0; j < atoms.length; j++) {
 
-            if (index[j][1] != -1) {//exclude hydrogen
-                hybridip[0] = hybridip[0] - 2.5416 * 2 * atoms[j].D1 * densityMatrix.get(index[j][0], index[j][1]);
-                hybridip[1] = hybridip[1] - 2.5416 * 2 * atoms[j].D1 * densityMatrix.get(index[j][0], index[j][2]);
-                hybridip[2] = hybridip[2] - 2.5416 * 2 * atoms[j].D1 * densityMatrix.get(index[j][0], index[j][3]);
-            }
-        }
+			if (index[j][1] != -1) {//exclude hydrogen
+				hybridip[0] = hybridip[0] - 2.5416 * 2 * atoms[j].D1 *
+						densityMatrix.get(index[j][0], index[j][1]);
+				hybridip[1] = hybridip[1] - 2.5416 * 2 * atoms[j].D1 *
+						densityMatrix.get(index[j][0], index[j][2]);
+				hybridip[2] = hybridip[2] - 2.5416 * 2 * atoms[j].D1 *
+						densityMatrix.get(index[j][0], index[j][3]);
+			}
+		}
 
 
-        dipoletot = new double[]{chargedip[0] + hybridip[0], chargedip[1] + hybridip[1], chargedip[2] + hybridip[2]};
+		dipoletot = new double[]{chargedip[0] + hybridip[0], chargedip[1] + hybridip[1],
+				chargedip[2] + hybridip[2]};
 
 
-        dipole = Math.sqrt(dipoletot[0] * dipoletot[0] + dipoletot[1] * dipoletot[1] + dipoletot[2] * dipoletot[2]);
+		dipole = Math.sqrt(dipoletot[0] * dipoletot[0] + dipoletot[1] * dipoletot[1] +
+				dipoletot[2] * dipoletot[2]);
 
 
-    }
+	}
 
-    private static DoubleMatrix commutator(DoubleMatrix F, DoubleMatrix D) {
+	private static DoubleMatrix commutator(DoubleMatrix F, DoubleMatrix D) {
 
-        return F.mmul(D).sub(D.mmul(F));
-    }
+		return F.mmul(D).sub(D.mmul(F));
+	}
 
-    private static DoubleMatrix removeElementsSquare(DoubleMatrix original, int[] indices) {
+	private static DoubleMatrix removeElementsSquare(DoubleMatrix original,
+													 int[] indices) {
 
-        DoubleMatrix newarray = DoubleMatrix.zeros(original.rows - indices.length, original.rows - indices.length);
+		DoubleMatrix newarray = DoubleMatrix
+				.zeros(original.rows - indices.length, original.rows - indices.length);
 
-        ArrayList<Integer> array = new ArrayList<>();
-        for (int i = 0; i < original.rows; i++) {
-            array.add(i);
-        }
+		ArrayList<Integer> array = new ArrayList<>();
+		for (int i = 0; i < original.rows; i++) {
+			array.add(i);
+		}
 
-        for (int i : indices) {
-            array.remove(Integer.valueOf(i));
-        }
+		for (int i : indices) {
+			array.remove(Integer.valueOf(i));
+		}
 
-        int count = 0;
+		int count = 0;
 
-        for (int i : array) {
-            int count1 = 0;
-            for (int j : array) {
-                newarray.put(count, count1, original.get(i, j));
-                count1++;
-            }
+		for (int i : array) {
+			int count1 = 0;
+			for (int j : array) {
+				newarray.put(count, count1, original.get(i, j));
+				count1++;
+			}
 
-            count++;
-        }
+			count++;
+		}
 
-        return newarray;
-    }
+		return newarray;
+	}
+
+	private static DoubleMatrix removeElementsLinear(DoubleMatrix original,
+													 int[] indices) {
 
-    private static DoubleMatrix removeElementsLinear(DoubleMatrix original, int[] indices) {
-
-        DoubleMatrix newarray = DoubleMatrix.zeros(original.rows - indices.length, 1);
-
-        ArrayList<Integer> array = new ArrayList<>();
-        for (int i = 0; i < original.rows; i++) {
-            array.add(i);
-        }
-
-        for (int i : indices) {
-            array.remove(Integer.valueOf(i));
-        }
-
-        int count = 0;
-
-        for (int i : array) {
-            newarray.put(count, original.get(i));
-
-            count++;
-        }
-
-        return newarray;
-    }
-
-    private static DoubleMatrix addrow(DoubleMatrix original, int[] indices) {
-
-        DoubleMatrix newarray = DoubleMatrix.zeros(original.rows + indices.length, 1);
-
-        ArrayList<Double> array = new ArrayList<>();
-
-        for (double i : original.toArray()) {
-            array.add(i);
-        }
-
-        for (int i = 0; i < indices.length; i++) {
-
-            array.add(indices[i], 0.0);
-        }
-
-        for (int i = 0; i < array.size(); i++) {
-            newarray.put(i, array.get(i));
-        }
-
-        return newarray;
-    }
-
-    private double E(int atomnum, int[][] index) {
-
-        double e = 0;
-
-        for (int i : index[atomnum]) {
-            if (i > -1) {
-                e += densityMatrix.get(i, i) * orbitals[i].U();
-            }
-        }
-
-        for (int i : index[atomnum]) {
-            for (int j : index[atomnum]) {
-                for (int k : index[atomnum]) {
-                    for (int l : index[atomnum]) {
-                        if (i != -1 && j != -1 && k != -1 && l != -1) {
-                            e += 0.5 * densityMatrix.get(i, j) *
-                                    (densityMatrix.get(k, l) * NDDO6G.OneCenterERI(orbitals[i], orbitals[j], orbitals[k], orbitals[l])
-                                            - 0.5 * densityMatrix.get(k, l) * NDDO6G.OneCenterERI(orbitals[i], orbitals[k], orbitals[j], orbitals[l]));
-                        }
-                    }
-                }
-            }
-        }
-
-        return e;
-    }
-
-    private double E(int atomnum1, int atomnum2, int[][] index) {
-
-        double e = 0;
-
-        for (int i : index[atomnum1]) {
-            for (int j : index[atomnum1]) {
-                if (i != -1 && j != -1) {
-                    e += densityMatrix.get(i, j) * atoms[atomnum2].V(orbitals[i], orbitals[j]);
-                }
-            }
-        }
-
-        for (int k : index[atomnum2]) {
-            for (int l : index[atomnum2]) {
-                if (k != -1 && l != -1) {
-                    e += densityMatrix.get(k, l) * atoms[atomnum1].V(orbitals[k], orbitals[l]);
-                }
-            }
-        }
-
-        for (int i : index[atomnum1]) {
-            for (int k : index[atomnum2]) {
-                if (i != -1 && k != -1) {
-                    e += 2 * densityMatrix.get(i, k) * NDDO6G.beta(orbitals[i], orbitals[k]);
-                }
-            }
-        }
-
-        for (int i : index[atomnum1]) {
-            for (int j : index[atomnum1]) {
-                for (int k : index[atomnum2]) {
-                    for (int l : index[atomnum2]) {
-                        if (i != -1 && j != -1 && k != -1 && l != -1) {
-                            e += (densityMatrix.get(i, j) * densityMatrix.get(k, l) - densityMatrix.get(i, k) * 0.5 * densityMatrix.get(j, l))
-                                    * NDDO6G.getG(orbitals[i], orbitals[j], orbitals[k], orbitals[l]);
-                        }
-                    }
-                }
-            }
-        }
-
-        return e;
-
-
-    }
-
-    public DoubleMatrix getE() {
-        return E;
-    }
-
-    private DoubleMatrix calculateDensityMatrix(DoubleMatrix c) {//density matrix construction by definition.
-        DoubleMatrix densityMatrix = DoubleMatrix.zeros(orbitals.length, orbitals.length);
-        for (int i = 0; i < orbitals.length; i++) {
-            for (int j = 0; j < orbitals.length; j++) {
-                double sum = 0;
-                int count = nElectrons;
-                int counter = -1;
-                while (count > 0) {
-                    counter++;
-                    sum += 2 * c.get(counter, i) * c.get(counter, j);
-                    count -= 2;
-                }
-                densityMatrix.put(i, j, sum);
-            }
-        }
-        return densityMatrix;
-    }
-
-    @Override
-    public DoubleMatrix alphaDensity() {
-        return this.densityMatrix.mmul(0.5);
-    }
-
-    @Override
-    public DoubleMatrix betaDensity() {
-        return this.densityMatrix.mmul(0.5);
-    }
-
-    @Override
-    public DoubleMatrix densityMatrix() {
-        return this.densityMatrix;
-    }
+		DoubleMatrix newarray = DoubleMatrix.zeros(original.rows - indices.length, 1);
+
+		ArrayList<Integer> array = new ArrayList<>();
+		for (int i = 0; i < original.rows; i++) {
+			array.add(i);
+		}
+
+		for (int i : indices) {
+			array.remove(Integer.valueOf(i));
+		}
+
+		int count = 0;
+
+		for (int i : array) {
+			newarray.put(count, original.get(i));
+
+			count++;
+		}
+
+		return newarray;
+	}
+
+	private static DoubleMatrix addrow(DoubleMatrix original, int[] indices) {
+
+		DoubleMatrix newarray = DoubleMatrix.zeros(original.rows + indices.length, 1);
+
+		ArrayList<Double> array = new ArrayList<>();
+
+		for (double i : original.toArray()) {
+			array.add(i);
+		}
+
+		for (int i = 0; i < indices.length; i++) {
+
+			array.add(indices[i], 0.0);
+		}
+
+		for (int i = 0; i < array.size(); i++) {
+			newarray.put(i, array.get(i));
+		}
+
+		return newarray;
+	}
+
+	private double E(int atomnum, int[][] index) {
+
+		double e = 0;
+
+		for (int i : index[atomnum]) {
+			if (i > -1) {
+				e += densityMatrix.get(i, i) * orbitals[i].U();
+			}
+		}
+
+		for (int i : index[atomnum]) {
+			for (int j : index[atomnum]) {
+				for (int k : index[atomnum]) {
+					for (int l : index[atomnum]) {
+						if (i != -1 && j != -1 && k != -1 && l != -1) {
+							e += 0.5 * densityMatrix.get(i, j) *
+									(densityMatrix.get(k, l) *
+											NDDO6G.OneCenterERI(orbitals[i], orbitals[j],
+													orbitals[k], orbitals[l])
+											- 0.5 * densityMatrix.get(k, l) *
+											NDDO6G.OneCenterERI(orbitals[i], orbitals[k],
+													orbitals[j], orbitals[l]));
+						}
+					}
+				}
+			}
+		}
+
+		return e;
+	}
+
+	private double E(int atomnum1, int atomnum2, int[][] index) {
+
+		double e = 0;
+
+		for (int i : index[atomnum1]) {
+			for (int j : index[atomnum1]) {
+				if (i != -1 && j != -1) {
+					e += densityMatrix.get(i, j) *
+							atoms[atomnum2].V(orbitals[i], orbitals[j]);
+				}
+			}
+		}
+
+		for (int k : index[atomnum2]) {
+			for (int l : index[atomnum2]) {
+				if (k != -1 && l != -1) {
+					e += densityMatrix.get(k, l) *
+							atoms[atomnum1].V(orbitals[k], orbitals[l]);
+				}
+			}
+		}
+
+		for (int i : index[atomnum1]) {
+			for (int k : index[atomnum2]) {
+				if (i != -1 && k != -1) {
+					e += 2 * densityMatrix.get(i, k) *
+							NDDO6G.beta(orbitals[i], orbitals[k]);
+				}
+			}
+		}
+
+		for (int i : index[atomnum1]) {
+			for (int j : index[atomnum1]) {
+				for (int k : index[atomnum2]) {
+					for (int l : index[atomnum2]) {
+						if (i != -1 && j != -1 && k != -1 && l != -1) {
+							e += (densityMatrix.get(i, j) * densityMatrix.get(k, l) -
+									densityMatrix.get(i, k) * 0.5 *
+											densityMatrix.get(j, l))
+									* NDDO6G.getG(orbitals[i], orbitals[j], orbitals[k],
+									orbitals[l]);
+						}
+					}
+				}
+			}
+		}
+
+		return e;
+
+
+	}
+
+	public DoubleMatrix getE() {
+		return E;
+	}
+
+	private DoubleMatrix calculateDensityMatrix(
+			DoubleMatrix c) {//density matrix construction by definition.
+		DoubleMatrix densityMatrix = DoubleMatrix.zeros(orbitals.length,
+				orbitals.length);
+		for (int i = 0; i < orbitals.length; i++) {
+			for (int j = 0; j < orbitals.length; j++) {
+				double sum = 0;
+				int count = nElectrons;
+				int counter = -1;
+				while (count > 0) {
+					counter++;
+					sum += 2 * c.get(counter, i) * c.get(counter, j);
+					count -= 2;
+				}
+				densityMatrix.put(i, j, sum);
+			}
+		}
+		return densityMatrix;
+	}
+
+	@Override
+	public DoubleMatrix alphaDensity() {
+		return this.densityMatrix.mmul(0.5);
+	}
+
+	@Override
+	public DoubleMatrix betaDensity() {
+		return this.densityMatrix.mmul(0.5);
+	}
+
+	@Override
+	public DoubleMatrix densityMatrix() {
+		return this.densityMatrix;
+	}
 }

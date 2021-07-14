@@ -11,40 +11,47 @@ import org.apache.commons.lang3.time.StopWatch;
 import runcycle.input.RawMolecule;
 
 public class MoleculeRunRestricted extends MoleculeRun {
-    public MoleculeRunRestricted(NDDOAtom[] atoms2, int charge, NDDOAtom[] expGeom, double[] datum, boolean isRunHessian, String kind, int[] atomTypes) {
-        super(atoms2, charge, expGeom, datum, isRunHessian, kind, atomTypes, 1, null);
-        metaRoutine();
-    }
+	public MoleculeRunRestricted(NDDOAtom[] atoms2, int charge, NDDOAtom[] expGeom,
+								 double[] datum, boolean isRunHessian, String kind,
+								 int[] atomTypes) {
+		super(atoms2, charge, expGeom, datum, isRunHessian, kind, atomTypes, 1, null);
+		metaRoutine();
+	}
 
-    private void metaRoutine() {
-        StopWatch sw = new StopWatch();
-        sw.start();
+	public MoleculeRunRestricted(RawMolecule rm, NDDOParams[] mp, int[] atomTypes,
+								 boolean isRunHessian) {
+		super(RawMolecule.toMNDOAtoms(rm.atoms, (MNDOParams[]) mp), rm.charge,
+				RawMolecule.toMNDOAtoms(rm.expGeom, (MNDOParams[]) mp),
+				rm.datum, isRunHessian, rm.kind, atomTypes, 1, rm);
+		metaRoutine();
+	}
 
-        opt = new NDDOGeometryOptimizationRestricted(atoms, charge); // ~ 74 ms for CH4 type d with expsoln
+	private void metaRoutine() {
+		StopWatch sw = new StopWatch();
+		sw.start();
 
-        generateGeomCoords();
+		opt = new NDDOGeometryOptimizationRestricted(atoms,
+				charge); // ~ 74 ms for CH4 type d with expsoln
 
-        if (expGeom != null) expSolution = new NDDOSolutionRestricted(this.expGeom, charge); // ~ 60 ms
+		generateGeomCoords();
 
-        routine(); // ~700-800 ms
+		if (expGeom != null)
+			expSolution = new NDDOSolutionRestricted(this.expGeom, charge); // ~ 60 ms
 
-        sw.stop();
-        time = sw.getTime();
-    }
+		routine(); // ~700-800 ms
 
-    public MoleculeRunRestricted(RawMolecule rm, NDDOParams[] mp, int[] atomTypes, boolean isRunHessian) {
-        super(RawMolecule.toMNDOAtoms(rm.atoms, (MNDOParams[]) mp), rm.charge, RawMolecule.toMNDOAtoms(rm.expGeom, (MNDOParams[]) mp),
-                rm.datum, isRunHessian, rm.kind, atomTypes, 1, rm);
-        metaRoutine();
-    }
+		sw.stop();
+		time = sw.getTime();
+	}
 
-    @Override
-    protected void constructG() {
-        g = new ParamGradientRestricted((NDDOSolutionRestricted) opt.s, kind, datum, (NDDOSolutionRestricted) expSolution, true);
-    }
+	@Override
+	protected void constructG() {
+		g = new ParamGradientRestricted((NDDOSolutionRestricted) opt.s, kind, datum,
+				(NDDOSolutionRestricted) expSolution, true);
+	}
 
-    @Override
-    protected void constructH() {
-        h = new ParamHessianRestricted((ParamGradientRestricted) g, true);
-    }
+	@Override
+	protected void constructH() {
+		h = new ParamHessianRestricted((ParamGradientRestricted) g, true);
+	}
 }

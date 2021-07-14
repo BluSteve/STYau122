@@ -33,12 +33,14 @@
 //        StopWatch sw = new StopWatch();
 //        sw.start();
 ////        System.out.close();
-//        System.out.println("MNDO Parameterization, updated 13 July. CH training set (PM7)");
+//        System.out.println("MNDO Parameterization, updated 13 July. CH training set
+//        (PM7)");
 //        AtomHandler.populateAtoms();
 //
 //        boolean useHessian;
 //
-//        for (int numRuns = 0; numRuns < 1; numRuns++) { // numRuns < 1 then no Hessian for you
+//        for (int numRuns = 0; numRuns < 1; numRuns++) { // numRuns < 1 then no
+//        Hessian for you
 //            useHessian = true;
 //
 //            File input = new File("input.txt");
@@ -47,29 +49,35 @@
 //            File previous = new File("mndooutput.txt");
 //
 //            try {
-//                // this code is ugly. does mndoparams have a fixed size? TODO a lot of things here
+//                // this code is ugly. does mndoparams have a fixed size? TODO a lot
+//                 of things here
 //                //readOutput(new Scanner(previous));
 //                Scanner paramScan = new Scanner(params);
 //                String[] strings = paramScan.nextLine().split(",");
 //                double[] paramVector = Utils.toDoubles(strings);
 //
-//                PrintWriter pw = new PrintWriter(new FileOutputStream("mndooutput.txt", true));
+//                PrintWriter pw = new PrintWriter(new FileOutputStream("mndooutput
+//                .txt", true));
 //
 //                Scanner sc = new Scanner(input);
 //                Scanner referenceScan = new Scanner(reference);
 //                trainingSet = sc.nextLine().split("=")[1];
 //                atomTypes = new int[trainingSet.length()];
 //                for (int x = 0; x < trainingSet.length(); x++) {
-//                    atomTypes[x] = AtomHandler.atomsMap.get(Character.toString(trainingSet.charAt(x))).getZ();
+//                    atomTypes[x] = AtomHandler.atomsMap.get(Character.toString
+//                    (trainingSet.charAt(x))).getZ();
 //                }
 //
 //                HashMap<String, MNDOParams> mndoParams = new HashMap<>(5);
 //                int startingIndex = 0;
 //                int paramLength = 13;
 //                int atomNumber = 0;
-//                String[] temp = trainingSet.split(""); // TODO change all this later during the refactor of names and Zs
+//                String[] temp = trainingSet.split(""); // TODO change all this later
+//                 during the refactor of names and Zs
 //                while (startingIndex + paramLength <= paramVector.length) {
-//                    mndoParams.put(temp[atomNumber], new MNDOParams(Arrays.copyOfRange(paramVector, startingIndex, startingIndex + paramLength)));
+//                    mndoParams.put(temp[atomNumber], new MNDOParams(Arrays
+//                    .copyOfRange(paramVector, startingIndex, startingIndex +
+//                    paramLength)));
 //                    startingIndex += paramLength;
 //                    atomNumber++;
 //                }
@@ -135,9 +143,11 @@
 //                    }
 //
 //
-//                    // uses measurements to check if need dipole, ionization, etc. uses values from reference.
+//                    // uses measurements to check if need dipole, ionization, etc.
+//                    uses values from reference.
 //                    double[] data = new double[3];
-//                    data[0] = Double.parseDouble(referenceScan.nextLine().split(" ")[1]);
+//                    data[0] = Double.parseDouble(referenceScan.nextLine().split(" ")
+//                    [1]);
 //                    String kind = "a";
 //                    String[] dipoles = referenceScan.nextLine().split(" ");
 //                    String[] ionizations = referenceScan.nextLine().split(" ");
@@ -157,8 +167,10 @@
 //
 //
 //                    requests
-//                            .add(new ComputationRequest(bool, atoms.clone(), charge, mult, expGeom == null ? null :
-//                                    expGeom.clone(), data.clone(), useHessian, kind, counter));
+//                            .add(new ComputationRequest(bool, atoms.clone(), charge,
+//                            mult, expGeom == null ? null :
+//                                    expGeom.clone(), data.clone(), useHessian, kind,
+//                                    counter));
 //                    counter++;
 //                }
 //
@@ -167,17 +179,25 @@
 //                int cores = Runtime.getRuntime().availableProcessors();
 //                pw.println("Running on " + cores + " cores.");
 //                int remainingNonParallel = 5;
-//                // if requests less than remainingNonParallel then just use parallel computation for one of them, i.e. single-threaded
-//                int maxParallel = remainingNonParallel < requests.size() ? requests.size() - remainingNonParallel : 1;
-//                List<ComputationRequest> ParallelComputationRequests = requests.subList(0, maxParallel);
+//                // if requests less than remainingNonParallel then just use parallel
+//                computation for one of them, i.e. single-threaded
+//                int maxParallel = remainingNonParallel < requests.size() ? requests
+//                .size() - remainingNonParallel : 1;
+//                List<ComputationRequest> ParallelComputationRequests = requests
+//                .subList(0, maxParallel);
 //                // Parallel part
 //                // Run one thread per core (tweakable)
 //                ForkJoinPool threadPool = new ForkJoinPool(cores);
 //                // Run parallelMap on thread pool
-//                List<MoleculeRun> results = threadPool.submit(() -> ParallelComputationRequests.parallelStream().map(request -> {
-//                    MoleculeRun result = request.restricted ? new MoleculeRunRestricted(request.atoms, request.charge,
-//                            request.expgeom, request.datum, request.hasHessian, request.kind, atomTypes) : new MoleculeRunUnrestricted(request.atoms,
-//                            request.charge, request.mult, request.expgeom, request.datum, request.hasHessian, request.kind, atomTypes);
+//                List<MoleculeRun> results = threadPool.submit(() ->
+//                ParallelComputationRequests.parallelStream().map(request -> {
+//                    MoleculeRun result = request.restricted ? new
+//                    MoleculeRunRestricted(request.atoms, request.charge,
+//                            request.expgeom, request.datum, request.hasHessian,
+//                            request.kind, atomTypes) : new MoleculeRunUnrestricted
+//                            (request.atoms,
+//                            request.charge, request.mult, request.expgeom, request
+//                            .datum, request.hasHessian, request.kind, atomTypes);
 //                    writeOutput(pw, request, result);
 //                    return result;
 //                })).get().collect(Collectors.toList());
@@ -188,7 +208,8 @@
 //                for (String[] slist : previousOutput) {
 //                    outputValues.add(Arrays.copyOfRange(slist, 2, 6));
 //                }
-//                outputValues.addAll(results.stream().map(result -> result.output.clone()).collect(Collectors.toList()));
+//                outputValues.addAll(results.stream().map(result -> result.output
+//                .clone()).collect(Collectors.toList()));
 //                // TODO sort this
 //
 //
@@ -196,18 +217,25 @@
 //                for (String[] slist : previousOutput) {
 //                    hessianValues.add(slist[1]);
 //                }
-//                hessianValues.addAll(results.stream().map(result -> result.hessianStr).collect(Collectors.toList()));
+//                hessianValues.addAll(results.stream().map(result -> result
+//                .hessianStr).collect(Collectors.toList()));
 //
 //                List<String> outputGeoms = new ArrayList<>();
 //                for (String[] slist : previousOutput) {
 //                    outputGeoms.add(slist[6]);
 //                }
-//                outputGeoms.addAll(results.stream().map(result -> result.newGeomCoords).collect(Collectors.toList()));
+//                outputGeoms.addAll(results.stream().map(result -> result
+//                .newGeomCoords).collect(Collectors.toList()));
 //
-//                for (ComputationRequest request : requests.subList(maxParallel, requests.size())) {
-//                    MoleculeRun result = request.restricted ? new MoleculeRunRestricted(request.atoms, request.charge,
-//                            request.expgeom, request.datum, request.hasHessian, request.kind, atomTypes) : new MoleculeRunUnrestricted(request.atoms,
-//                            request.charge, request.mult, request.expgeom, request.datum, request.hasHessian, request.kind, atomTypes);
+//                for (ComputationRequest request : requests.subList(maxParallel,
+//                requests.size())) {
+//                    MoleculeRun result = request.restricted ? new
+//                    MoleculeRunRestricted(request.atoms, request.charge,
+//                            request.expgeom, request.datum, request.hasHessian,
+//                            request.kind, atomTypes) : new MoleculeRunUnrestricted
+//                            (request.atoms,
+//                            request.charge, request.mult, request.expgeom, request
+//                            .datum, request.hasHessian, request.kind, atomTypes);
 //                    hessianValues.add(result.hessianStr);
 //                    outputValues.add(result.output.clone());
 //                    outputGeoms.add(result.newGeomCoords);
@@ -270,7 +298,9 @@
 //                        sum[num] += Double.parseDouble(excelstrsplit[num]);
 //                    }
 //                }
-//                String processedexcelstr = Arrays.toString(Arrays.copyOfRange(sum, 1, size + 1)).substring(1, Arrays.toString(Arrays.copyOfRange(sum, 1, size + 1)).length() - 1);
+//                String processedexcelstr = Arrays.toString(Arrays.copyOfRange(sum, 1,
+//                size + 1)).substring(1, Arrays.toString(Arrays.copyOfRange(sum, 1,
+//                size + 1)).length() - 1);
 //
 //                pw.println("SUM OF ERROR FUNCTION: " + sum[0]);
 //                pw.println("GRADIENT SUM: " + processedexcelstr);
@@ -311,7 +341,8 @@
 //
 //                double a = s.transpose().mmul(hessian).mmul(s).get(0);
 //
-//                DoubleMatrix C = hessian.mmul(s).mmul(s.transpose()).mmul(hessian.transpose()).mmul(1 / a);
+//                DoubleMatrix C = hessian.mmul(s).mmul(s.transpose()).mmul(hessian
+//                .transpose()).mmul(1 / a);
 //
 //                DoubleMatrix B = hessian.add(A).sub(C);
 //
@@ -357,7 +388,8 @@
 //                        derivs[i - 2] = Double.parseDouble(strs[i]);
 //                    }
 //
-//                    o.addData(new HeatData(derivs, Double.parseDouble(strs[0]), Double.parseDouble(strs[1])));
+//                    o.addData(new HeatData(derivs, Double.parseDouble(strs[0]),
+//                    Double.parseDouble(strs[1])));
 //
 //                    if (!j[3].equals("")) {
 //                        strs = j[3].strip().split(",");
@@ -368,7 +400,8 @@
 //                            derivs[i - 2] = Double.parseDouble(strs[i]);
 //                        }
 //
-//                        o.addData(new IonizationData(derivs, Double.parseDouble(strs[0]), Double.parseDouble(strs[1])));
+//                        o.addData(new IonizationData(derivs, Double.parseDouble
+//                        (strs[0]), Double.parseDouble(strs[1])));
 //                    }
 //
 //                    if (!j[2].equals("")) {
@@ -380,7 +413,8 @@
 //                            derivs[i - 2] = Double.parseDouble(strs[i]);
 //                        }
 //
-//                        o.addData(new DipoleData(derivs, Double.parseDouble(strs[0]), Double.parseDouble(strs[1])));
+//                        o.addData(new DipoleData(derivs, Double.parseDouble(strs[0]),
+//                        Double.parseDouble(strs[1])));
 //                    }
 //
 //                    if (!j[4].equals("")) {
@@ -392,16 +426,19 @@
 //                            derivs[i - 2] = Double.parseDouble(strs[i]);
 //                        }
 //
-//                        o.addData(new GeometricalData(derivs, Double.parseDouble(strs[0]), Double.parseDouble(strs[1])));
+//                        o.addData(new GeometricalData(derivs, Double.parseDouble
+//                        (strs[0]), Double.parseDouble(strs[1])));
 //                    }
 //                }
 //                //o.optimize(B, newGradient);
 //
-//                //PrintWriter write = new PrintWriter(new FileOutputStream(new File("MNDOHessianUpdateData.txt")));
+//                //PrintWriter write = new PrintWriter(new FileOutputStream(new File
+//                ("MNDOHessianUpdateData.txt")));
 //
 //                //write.println("OLD HESSIAN:   " + string);
 //                //write.println("OLD GRADIENT:  " + processedexcelstr);
-//                //write.println("SEARCH VECTOR: " + Arrays.toString(o.changes).substring(1, Arrays.toString(o.changes).length() - 1));
+//                //write.println("SEARCH VECTOR: " + Arrays.toString(o.changes)
+//                .substring(1, Arrays.toString(o.changes).length() - 1));
 //
 //                //write.close();
 //
@@ -427,7 +464,8 @@
 //                }
 //
 //                // used to be "write", which is exactly the same as pw
-//                //pw.println(Arrays.toString(paramVector).substring(1, Arrays.toString(paramVector).length() - 1));
+//                //pw.println(Arrays.toString(paramVector).substring(1, Arrays
+//                .toString(paramVector).length() - 1));
 //                pw.close();
 //
 //            } catch (Exception e) {
@@ -438,7 +476,8 @@
 //        System.out.println("Time taken: " + sw.getTime());
 //    }
 //
-//    private static void parseInput(HashMap<String, MNDOParams> mndoParams, ArrayList<MNDOAtom> array, String s) {
+//    private static void parseInput(HashMap<String, MNDOParams> mndoParams,
+//    ArrayList<MNDOAtom> array, String s) {
 //        StringTokenizer t = new StringTokenizer(s, " ");
 //        t.nextToken();
 //        String element = t.nextToken();
@@ -446,10 +485,12 @@
 //        double y = Double.parseDouble(t.nextToken()) * bohr;
 //        double z = Double.parseDouble(t.nextToken()) * bohr;
 //
-//        array.add(new MNDOAtom(AtomHandler.atomsMap.get(element), new double[]{x, y, z}, mndoParams.get(element)));
+//        array.add(new MNDOAtom(AtomHandler.atomsMap.get(element), new double[]{x, y,
+//        z}, mndoParams.get(element)));
 //    }
 //
-//    private static void writeOutput(PrintWriter pw, ComputationRequest request, MoleculeRun result) {
+//    private static void writeOutput(PrintWriter pw, ComputationRequest request,
+//    MoleculeRun result) {
 //        System.out.println("Computation started: " + request.index);
 //        String output = "";
 //        output += "Computation number: " + request.index + "\n";

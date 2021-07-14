@@ -4,6 +4,6 @@ import runcycle.input.RawMolecule;
 import java.util.Arrays;
 
 public class ComputationRequest {
-    public RawMolecule rm;
+	public RawMolecule rm;
 
 }

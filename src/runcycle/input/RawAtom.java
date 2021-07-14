@@ -8,20 +8,20 @@ import scf.AtomHandler;
 import java.util.Arrays;
 
 public class RawAtom {
-    public String name;
-    public int Z;
-    public double[] coords = new double[3];
+	public String name;
+	public int Z;
+	public double[] coords = new double[3];
 
-    public MNDOAtom toMNDOAtom(MNDOParams mndoParams) {
-        return new MNDOAtom(AtomHandler.atoms[Z], coords, mndoParams);
-    }
+	public MNDOAtom toMNDOAtom(MNDOParams mndoParams) {
+		return new MNDOAtom(AtomHandler.atoms[Z], coords, mndoParams);
+	}
 
-    @Override
-    public String toString() {
-        return "RawAtom{" +
-                "name='" + name + '\'' +
-                ", Z=" + Z +
-                ", coords=" + Arrays.toString(coords) +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "RawAtom{" +
+				"name='" + name + '\'' +
+				", Z=" + Z +
+				", coords=" + Arrays.toString(coords) +
+				'}';
+	}
 }

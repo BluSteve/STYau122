@@ -20,60 +20,73 @@ import static scf.Utils.bohr;
 
 public class Main {
 
-    private static final String INPUT_FILENAME = "input.json";
-    static String trainingSet;
-    static int[] atomTypes;
-    static ArrayList<String[]> previousOutput = new ArrayList<>(300);
+	private static final String INPUT_FILENAME = "input.json";
+	static String trainingSet;
+	static int[] atomTypes;
+	static ArrayList<String[]> previousOutput = new ArrayList<>(300);
 
-    public static void main(String[] args) {
-        StopWatch sw = new StopWatch();
-        sw.start();
+	public static void main(String[] args) {
+		StopWatch sw = new StopWatch();
+		sw.start();
 //        System.out.close();
-        AtomHandler.populateAtoms();
+		AtomHandler.populateAtoms();
 
-        for (int numRuns = 0; numRuns < 1; numRuns++) {
-            boolean useHessian = numRuns % 2 == 0; // Hessian every other run
-            InputHandler.processInput(INPUT_FILENAME);
-            RawInput ri = InputHandler.ri;
-            System.out.println("MNDO Parameterization, updated 13 July. " + ri.trainingSet + " training set (PM7)");
+		for (int numRuns = 0; numRuns < 1; numRuns++) {
+			boolean useHessian = numRuns % 2 == 0; // Hessian every other run
+			InputHandler.processInput(INPUT_FILENAME);
+			RawInput ri = InputHandler.ri;
+			System.out.println(
+					"MNDO Parameterization, updated 13 July. " + ri.trainingSet +
+							" training set (PM7)");
 
-            NDDOParams[] nddoParams = new MNDOParams[ri.nddoParams.length];
-            // TODO change the following line if AM1
-            for (int i = 0; i < ri.nddoParams.length; i++) nddoParams[i] = new MNDOParams(ri.nddoParams[i]);
+			NDDOParams[] nddoParams = new MNDOParams[ri.nddoParams.length];
+			// TODO change the following line if AM1
+			for (int i = 0; i < ri.nddoParams.length; i++)
+				nddoParams[i] = new MNDOParams(ri.nddoParams[i]);
 
-            try {
-                List<RawMolecule> requests = new ArrayList<>();
-                for (RawMolecule rm : ri.molecules) {
-                    requests.add(rm);
-                }
+			try {
+				List<RawMolecule> requests = new ArrayList<>();
+				for (RawMolecule rm : ri.molecules) {
+					requests.add(rm);
+				}
 
-                int cores = Runtime.getRuntime().availableProcessors();
-                int remainingNonParallel = 5;
-                int maxParallel = remainingNonParallel < requests.size() ? requests.size() - remainingNonParallel : 1;
-                List<RawMolecule> parallelRequests = requests.subList(0, maxParallel);
-                ForkJoinPool threadPool = new ForkJoinPool(cores);
+				int cores = Runtime.getRuntime().availableProcessors();
+				int remainingNonParallel = 5;
+				int maxParallel = remainingNonParallel < requests.size() ?
+						requests.size() - remainingNonParallel : 1;
+				List<RawMolecule> parallelRequests = requests.subList(0, maxParallel);
+				ForkJoinPool threadPool = new ForkJoinPool(cores);
 
-                List<MoleculeRun> results = threadPool.submit(() -> parallelRequests.parallelStream().map(request -> {
-                    MoleculeRun result = request.restricted ? new MoleculeRunRestricted(request, nddoParams, ri.atomTypes, useHessian) :
-                            new MoleculeRunUnrestricted(request, nddoParams, ri.atomTypes, useHessian);
-                    return result;
-                })).get().collect(Collectors.toList());
+				List<MoleculeRun> results = threadPool
+						.submit(() -> parallelRequests.parallelStream().map(request -> {
+							MoleculeRun result = request.restricted ?
+									new MoleculeRunRestricted(request, nddoParams,
+											ri.atomTypes, useHessian) :
+									new MoleculeRunUnrestricted(request, nddoParams,
+											ri.atomTypes, useHessian);
+							return result;
+						})).get().collect(Collectors.toList());
 
-                for (RawMolecule request : requests.subList(maxParallel, requests.size())) {
-                    MoleculeRun result = request.restricted ? new MoleculeRunRestricted(request, nddoParams, ri.atomTypes, useHessian) :
-                            new MoleculeRunUnrestricted(request, nddoParams, ri.atomTypes, useHessian);
-                    results.add(result);
-                }
+				for (RawMolecule request : requests
+						.subList(maxParallel, requests.size())) {
+					MoleculeRun result = request.restricted ?
+							new MoleculeRunRestricted(request, nddoParams, ri.atomTypes,
+									useHessian) :
+							new MoleculeRunUnrestricted(request, nddoParams,
+									ri.atomTypes,
+									useHessian);
+					results.add(result);
+				}
 
-                MoleculeOutput[] mos = new MoleculeOutput[results.size()];
-                for (int i = 0; i < results.size(); i++) {
-                    mos[i] = OutputHandler.toMoleculeOutput(results.get(i));
-                }
-                OutputHandler.output(mos);
-                InputHandler.updateInput(ri, INPUT_FILENAME);
+				MoleculeOutput[] mos = new MoleculeOutput[results.size()];
+				for (int i = 0; i < results.size(); i++) {
+					mos[i] = OutputHandler.toMoleculeOutput(results.get(i));
+				}
+				OutputHandler.output(mos);
+				InputHandler.updateInput(ri, INPUT_FILENAME);
 
 
-                System.out.println(results.get(0).hessianStr);
+				System.out.println(results.get(0).hessianStr);
 //
 //                PrintWriter pw2 = new PrintWriter("input.txt");
 //                pw2.println("TRAININGSET=" + trainingSet);
@@ -130,7 +143,9 @@ public class Main {
 //                        sum[num] += Double.parseDouble(excelstrsplit[num]);
 //                    }
 //                }
-//                String processedexcelstr = Arrays.toString(Arrays.copyOfRange(sum, 1, size + 1)).substring(1, Arrays.toString(Arrays.copyOfRange(sum, 1, size + 1)).length() - 1);
+//                String processedexcelstr = Arrays.toString(Arrays.copyOfRange(sum, 1,
+//                size + 1)).substring(1, Arrays.toString(Arrays.copyOfRange(sum, 1,
+//                size + 1)).length() - 1);
 //
 //                pw.println("SUM OF ERROR FUNCTION: " + sum[0]);
 //                pw.println("GRADIENT SUM: " + processedexcelstr);
@@ -171,7 +186,8 @@ public class Main {
 //
 //                double a = s.transpose().mmul(hessian).mmul(s).get(0);
 //
-//                DoubleMatrix C = hessian.mmul(s).mmul(s.transpose()).mmul(hessian.transpose()).mmul(1 / a);
+//                DoubleMatrix C = hessian.mmul(s).mmul(s.transpose()).mmul(hessian
+//                .transpose()).mmul(1 / a);
 //
 //                DoubleMatrix B = hessian.add(A).sub(C);
 //
@@ -217,7 +233,8 @@ public class Main {
 //                        derivs[i - 2] = Double.parseDouble(strs[i]);
 //                    }
 //
-//                    o.addData(new HeatData(derivs, Double.parseDouble(strs[0]), Double.parseDouble(strs[1])));
+//                    o.addData(new HeatData(derivs, Double.parseDouble(strs[0]),
+//                    Double.parseDouble(strs[1])));
 //
 //                    if (!j[3].equals("")) {
 //                        strs = j[3].strip().split(",");
@@ -228,7 +245,8 @@ public class Main {
 //                            derivs[i - 2] = Double.parseDouble(strs[i]);
 //                        }
 //
-//                        o.addData(new IonizationData(derivs, Double.parseDouble(strs[0]), Double.parseDouble(strs[1])));
+//                        o.addData(new IonizationData(derivs, Double.parseDouble
+//                        (strs[0]), Double.parseDouble(strs[1])));
 //                    }
 //
 //                    if (!j[2].equals("")) {
@@ -240,7 +258,8 @@ public class Main {
 //                            derivs[i - 2] = Double.parseDouble(strs[i]);
 //                        }
 //
-//                        o.addData(new DipoleData(derivs, Double.parseDouble(strs[0]), Double.parseDouble(strs[1])));
+//                        o.addData(new DipoleData(derivs, Double.parseDouble(strs[0]),
+//                        Double.parseDouble(strs[1])));
 //                    }
 //
 //                    if (!j[4].equals("")) {
@@ -252,16 +271,19 @@ public class Main {
 //                            derivs[i - 2] = Double.parseDouble(strs[i]);
 //                        }
 //
-//                        o.addData(new GeometricalData(derivs, Double.parseDouble(strs[0]), Double.parseDouble(strs[1])));
+//                        o.addData(new GeometricalData(derivs, Double.parseDouble
+//                        (strs[0]), Double.parseDouble(strs[1])));
 //                    }
 //                }
 //                //o.optimize(B, newGradient);
 //
-//                //PrintWriter write = new PrintWriter(new FileOutputStream(new File("MNDOHessianUpdateData.txt")));
+//                //PrintWriter write = new PrintWriter(new FileOutputStream(new File
+//                ("MNDOHessianUpdateData.txt")));
 //
 //                //write.println("OLD HESSIAN:   " + string);
 //                //write.println("OLD GRADIENT:  " + processedexcelstr);
-//                //write.println("SEARCH VECTOR: " + Arrays.toString(o.changes).substring(1, Arrays.toString(o.changes).length() - 1));
+//                //write.println("SEARCH VECTOR: " + Arrays.toString(o.changes)
+//                .substring(1, Arrays.toString(o.changes).length() - 1));
 //
 //                //write.close();
 //
@@ -287,18 +309,19 @@ public class Main {
 //                }
 //
 //                // used to be "write", which is exactly the same as pw
-//                //pw.println(Arrays.toString(paramVector).substring(1, Arrays.toString(paramVector).length() - 1));
+//                //pw.println(Arrays.toString(paramVector).substring(1, Arrays
+//                .toString(paramVector).length() - 1));
 //                pw.close();
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        sw.stop();
-        System.out.println("Time taken: " + sw.getTime());
-    }
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		sw.stop();
+		System.out.println("Time taken: " + sw.getTime());
+	}
 
-    private static double[] getHessianUpdateData(Scanner scan) {
-        return Utils.toDoubles(scan.nextLine().split(":")[1].split(","));
-    }
+	private static double[] getHessianUpdateData(Scanner scan) {
+		return Utils.toDoubles(scan.nextLine().split(":")[1].split(","));
+	}
 }
