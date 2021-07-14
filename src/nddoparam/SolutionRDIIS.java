@@ -6,7 +6,7 @@ import org.jblas.Eigen;
 import org.jblas.Solve;
 
 
-public class NDDOSolutionRestrictedDIIS extends NDDOSolution {
+public class SolutionRDIIS extends Solution {
 
 	public double[] integralArray;
 	public DoubleMatrix C, F, G, E;
@@ -14,7 +14,7 @@ public class NDDOSolutionRestrictedDIIS extends NDDOSolution {
 // (transposed for easier reading), E = eigenvalues
 	private DoubleMatrix densityMatrix;
 
-	public NDDOSolutionRestrictedDIIS(NDDOAtom[] atoms, int charge) {
+	public SolutionRDIIS(NDDOAtom[] atoms, int charge) {
 		super(atoms, charge);
 
 		StopWatch sw = new StopWatch();

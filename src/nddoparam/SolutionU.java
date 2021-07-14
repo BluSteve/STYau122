@@ -6,12 +6,12 @@ import org.jblas.Eigen;
 import java.util.Arrays;
 
 
-public class NDDOSolutionUnrestricted extends NDDOSolution {
+public class SolutionU extends Solution {
 	DoubleMatrix Ea, Eb;
 	private DoubleMatrix Fa, Fb;
 	private DoubleMatrix alphaDensity, betaDensity;
 
-	public NDDOSolutionUnrestricted(NDDOAtom[] atoms, int charge, int mult) {
+	public SolutionU(NDDOAtom[] atoms, int charge, int mult) {
 		super(atoms, charge);
 		this.multiplicity = mult;
 		if (nElectrons % 2 == multiplicity % 2 || multiplicity < 1) {

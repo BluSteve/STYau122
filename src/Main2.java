@@ -9,8 +9,8 @@
 //import org.jblas.DoubleMatrix;
 //import org.jblas.Eigen;
 //import runcycle.MoleculeRun;
-//import runcycle.MoleculeRunRestricted;
-//import runcycle.MoleculeRunUnrestricted;
+//import runcycle.MoleculeRunR;
+//import runcycle.MoleculeRunU;
 //import scf.AtomHandler;
 //import scf.Utils;
 //
@@ -192,9 +192,9 @@
 //                List<MoleculeRun> results = threadPool.submit(() ->
 //                ParallelComputationRequests.parallelStream().map(request -> {
 //                    MoleculeRun result = request.restricted ? new
-//                    MoleculeRunRestricted(request.atoms, request.charge,
+//                    MoleculeRunR(request.atoms, request.charge,
 //                            request.expgeom, request.datum, request.hasHessian,
-//                            request.kind, atomTypes) : new MoleculeRunUnrestricted
+//                            request.kind, atomTypes) : new MoleculeRunU
 //                            (request.atoms,
 //                            request.charge, request.mult, request.expgeom, request
 //                            .datum, request.hasHessian, request.kind, atomTypes);
@@ -230,9 +230,9 @@
 //                for (ComputationRequest request : requests.subList(maxParallel,
 //                requests.size())) {
 //                    MoleculeRun result = request.restricted ? new
-//                    MoleculeRunRestricted(request.atoms, request.charge,
+//                    MoleculeRunR(request.atoms, request.charge,
 //                            request.expgeom, request.datum, request.hasHessian,
-//                            request.kind, atomTypes) : new MoleculeRunUnrestricted
+//                            request.kind, atomTypes) : new MoleculeRunU
 //                            (request.atoms,
 //                            request.charge, request.mult, request.expgeom, request
 //                            .datum, request.hasHessian, request.kind, atomTypes);

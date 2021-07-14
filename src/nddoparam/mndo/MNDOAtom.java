@@ -2,7 +2,7 @@ package nddoparam.mndo;
 
 import nddoparam.NDDO6G;
 import nddoparam.NDDOAtom;
-import nddoparam.NDDODerivative;
+import nddoparam.Derivative;
 import scf.AtomProperties;
 import scf.GTO;
 
@@ -106,7 +106,7 @@ public class MNDOAtom extends NDDOAtom {
 		return fprime * this.atomProperties.getQ() * b.atomProperties.getQ() *
 				NDDO6G.getG(this.s(), this.s(), b.s(), b.s()) +
 				f * this.atomProperties.getQ() * b.atomProperties.getQ() *
-						NDDODerivative.getGderiv(this.s(), this.s(), b.s(), b.s(), tau);
+						Derivative.getGderiv(this.s(), this.s(), b.s(), b.s(), tau);
 	}
 
 	public double crfDeriv2(NDDOAtom c, int tau1, int tau2) {//TODO

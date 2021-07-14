@@ -5,16 +5,16 @@ import org.jblas.DoubleMatrix;
 import org.jblas.Eigen;
 import org.jblas.Solve;
 
-public abstract class NDDOGeometryOptimization {
+public abstract class GeometryOptimization {
 	public double IE, dipole, heat;
 	public int charge;
-	public NDDOSolution s;
+	public Solution s;
 	protected NDDOAtom[] atoms;
 	protected double refEnergy;
 	protected int counter, mult;
 	protected DoubleMatrix gradient;
 
-	public NDDOGeometryOptimization(NDDOAtom[] atoms, int charge, int mult) {
+	public GeometryOptimization(NDDOAtom[] atoms, int charge, int mult) {
 		this.atoms = atoms;
 		this.charge = charge;
 		this.mult = mult;

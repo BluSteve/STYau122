@@ -1,21 +1,21 @@
 package nddoparam.param;
 
-import nddoparam.NDDODerivative;
-import nddoparam.NDDOSolutionUnrestricted;
+import nddoparam.Derivative;
+import nddoparam.SolutionU;
 import scf.Utils;
 
-public class ParamGradientUnrestricted2 extends ParamGradientAnalytical {
+public class ParamGradientU extends ParamGradient {
 	private final String errorMessage =
 			"Analytical derivatives have yet to be implemented for unrestricted!";
 
-	public ParamGradientUnrestricted2(NDDOSolutionUnrestricted s, String kind,
-									  double[] datum,
-									  NDDOSolutionUnrestricted sExp,
-									  boolean analytical) {
+	public ParamGradientU(SolutionU s, String kind,
+						  double[] datum,
+						  SolutionU sExp,
+						  boolean analytical) {
 		super(s, kind, datum, sExp, analytical);
 		initializeArrays();
 
-		e = new ParamErrorFunctionUnrestricted(s, datum[0]);
+		e = new ParamErrorFunctionU(s, datum[0]);
 		errorFunctionRoutine();
 	}
 
@@ -63,7 +63,7 @@ public class ParamGradientUnrestricted2 extends ParamGradientAnalytical {
 
 	@Override
 	protected void constructSPrime(int ZI, int paramNum) {
-		sPrime = new NDDOSolutionUnrestricted(
+		sPrime = new SolutionU(
 				Utils.perturbAtomParams(s.atoms, s.getUniqueZs()[ZI], paramNum),
 				s.charge,
 				s.multiplicity);
@@ -72,7 +72,7 @@ public class ParamGradientUnrestricted2 extends ParamGradientAnalytical {
 	@Override
 	protected void constructSExpPrime(int Z, int paramNum) {
 		// TODO sExp.charge or s.charge?
-		sExpPrime = new NDDOSolutionUnrestricted(
+		sExpPrime = new SolutionU(
 				Utils.perturbAtomParams(sExp.atoms, s.getUniqueZs()[Z], paramNum),
 				s.charge,
 				s.multiplicity);
@@ -80,6 +80,6 @@ public class ParamGradientUnrestricted2 extends ParamGradientAnalytical {
 
 	@Override
 	protected double findGrad(int i, int j) {
-		return NDDODerivative.grad((NDDOSolutionUnrestricted) sExpPrime, i, j);
+		return Derivative.grad((SolutionU) sExpPrime, i, j);
 	}
 }

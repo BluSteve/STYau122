@@ -1,16 +1,15 @@
 package nddoparam.param;
 
-import nddoparam.NDDODerivative;
-import nddoparam.NDDOGeometryOptimizationRestricted;
-import nddoparam.NDDOSolution;
-import nddoparam.NDDOSolutionRestricted;
+import nddoparam.Derivative;
+import nddoparam.GeometryOptimizationR;
+import nddoparam.Solution;
+import nddoparam.SolutionR;
 import nddoparam.mndo.MNDOAtom;
 import nddoparam.mndo.MNDOParams;
 import org.apache.commons.lang3.time.StopWatch;
 import org.jblas.DoubleMatrix;
 import runcycle.MoleculeRun;
-import runcycle.MoleculeRunRestricted;
-import runcycle.MoleculeRunUnrestricted;
+import runcycle.MoleculeRunR;
 import scf.AtomHandler;
 import scf.Utils;
 
@@ -18,14 +17,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
-public class ParamGradientRestricted extends ParamGradientAnalytical {
+public class ParamGradientR extends ParamGradient {
 
-	public ParamGradientRestricted(NDDOSolutionRestricted s, String kind, double[] datum,
-								   NDDOSolutionRestricted sExp, boolean analytical) {
+	public ParamGradientR(SolutionR s, String kind, double[] datum,
+						  SolutionR sExp, boolean analytical) {
 		super(s, kind, datum, sExp, analytical);
 		initializeArrays();
 
-		e = new ParamErrorFunctionRestricted(s, datum[0]);
+		e = new ParamErrorFunctionR(s, datum[0]);
 		errorFunctionRoutine();
 	}
 
@@ -85,34 +84,34 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
 				new MNDOAtom(AtomHandler.atomsMap.get("C"), new double[]{0, 0, 0}, c)};
 		double[] datum = new double[]{-17.9, 0, 13.6};
 
-//        NDDOSolution expsoln = new NDDOSolutionUnrestricted(exp, 0,1 );
-		NDDOSolution expsoln = new NDDOSolutionRestricted(exp, 0);
-		NDDOGeometryOptimizationRestricted opt =
-				new NDDOGeometryOptimizationRestricted(exp1, 0);
-//        NDDOGeometryOptimizationUnrestricted opt = new
-//        NDDOGeometryOptimizationUnrestricted(exp1, 0, 1);
+//        Solution expsoln = new SolutionU(exp, 0,1 );
+		Solution expsoln = new SolutionR(exp, 0);
+		GeometryOptimizationR opt =
+				new GeometryOptimizationR(exp1, 0);
+//        GeometryOptimizationU opt = new
+//        GeometryOptimizationU(exp1, 0, 1);
 		StopWatch sw = new StopWatch();
 
-		ParamGradientAnalytical g;
+		ParamGradient g;
 
 
-//        g = new ParamGradientRestricted((NDDOSolutionRestricted) opt.s, "a", datum,
-//        (NDDOSolutionRestricted) expsoln, true);
-//        g = new ParamGradientUnrestricted2((NDDOSolutionUnrestricted) opt.s, "a",
-//        datum, (NDDOSolutionUnrestricted) expsoln, false);
+//        g = new ParamGradientR((SolutionR) opt.s, "a", datum,
+//        (SolutionR) expsoln, true);
+//        g = new ParamGradientU((SolutionU) opt.s, "a",
+//        datum, (SolutionU) expsoln, false);
 //        g.computeGradient();
 //        System.out.println("Test HF (A) Derivs: " + Arrays.deepToString(g.getHFDerivs
 //        ()));
 //        System.out.println("Geom Derivs: " + Arrays.deepToString(g.getGeomDerivs()));
 
-//        g = new ParamGradientRestricted(opt.s, "b", datum, expsoln, true);
+//        g = new ParamGradientR(opt.s, "b", datum, expsoln, true);
 //        g.computeDerivs();
 //        System.out.println("Test HF (B) Derivs: " + Arrays.deepToString(g.getHFDerivs
 //        ()));
 //        System.out.println("Test Dipole (B) Derivs: " + Arrays.deepToString(g
 //        .getDipoleDerivs()));
 //
-//        g = new ParamGradientRestricted(opt.s, "c", datum, expsoln, true);
+//        g = new ParamGradientR(opt.s, "c", datum, expsoln, true);
 //        g.computeDerivs();
 //        System.out.println("Test HF (C) Derivs: " + Arrays.deepToString(g.getHFDerivs
 //        ()));
@@ -122,10 +121,10 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
 ////        double time = 0;
 ////        for (int x = 0; x < 100; x++) {
 ////            sw.start();
-////            g = new ParamGradientRestricted((NDDOSolutionRestricted)opt.s, "d",
-// datum, (NDDOSolutionRestricted)expsoln, true);
+////            g = new ParamGradientR((SolutionR)opt.s, "d",
+// datum, (SolutionR)expsoln, true);
 ////            g.computeDerivs();
-//////            ParamHessianRestricted hessian = new ParamHessianRestricted(opt.s,
+//////            ParamHessianR hessian = new ParamHessianR(opt.s,
 // "b", datum, expsoln);
 //////            hessian.computeHessian();
 ////            sw.stop();
@@ -133,10 +132,10 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
 ////            sw.reset();
 ////        }
 //        sw.start();
-//        g = new ParamGradientRestricted((NDDOSolutionRestricted) opt.s, "d", datum,
-//        (NDDOSolutionRestricted) expsoln, true);
-////        g = new ParamGradientUnrestricted2((NDDOSolutionUnrestricted) opt.s, "d",
-// datum, (NDDOSolutionUnrestricted) expsoln, true);
+//        g = new ParamGradientR((SolutionR) opt.s, "d", datum,
+//        (SolutionR) expsoln, true);
+////        g = new ParamGradientU((SolutionU) opt.s, "d",
+// datum, (SolutionU) expsoln, true);
 //        g.computeGradient();
 //
 //        sw.stop();
@@ -163,15 +162,15 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
 //
 //        sw.reset();
 //        sw.start();
-//        ParamHessianRestricted hessian = new ParamHessianRestricted(
-//        (NDDOSolutionRestricted) opt.s, "d", datum, (NDDOSolutionRestricted) expsoln,
+//        ParamHessianR hessian = new ParamHessianR(
+//        (SolutionR) opt.s, "d", datum, (SolutionR) expsoln,
 //        true);
-////        ParamHessianRestricted hessian2 = new ParamHessianRestricted(
-// (NDDOSolutionRestricted) opt.s, "a", datum, null, false);
+////        ParamHessianR hessian2 = new ParamHessianR(
+// (SolutionR) opt.s, "a", datum, null, false);
 ////        hessian.setAnalytical(true);
 //        hessian.computeHessian();
-//////        ParamHessianUnrestricted2 hessian = new ParamHessianUnrestricted2(
-// (NDDOSolutionUnrestricted) opt.s, "b", datum, (NDDOSolutionUnrestricted) expsoln);
+//////        ParamHessianU hessian = new ParamHessianU(
+// (SolutionU) opt.s, "b", datum, (SolutionU) expsoln);
 //////        hessian.computeHessian();
 //        sw.stop();
 //        System.out.println("Hessian time taken: " + sw.getTime());
@@ -188,7 +187,7 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
 		for (int x = 0; x < 1; x++) {
 			sw.start();
 
-			m = new MoleculeRunRestricted(exp, 0, exp1, datum, true, "d",
+			m = new MoleculeRunR(exp, 0, exp1, datum, true, "d",
 					new int[]{1, 6});
 			time += sw.getTime();
 			sw.stop();
@@ -206,15 +205,15 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
 	@Override
 	protected void computeBatchedDerivs(int firstZIndex, int firstParamIndex) {
 		ArrayList<DoubleMatrix> aggregate =
-				new ArrayList<>(s.getUniqueZs().length * NDDOSolution.maxParamNum);
+				new ArrayList<>(s.getUniqueZs().length * Solution.maxParamNum);
 		for (int Z = firstZIndex; Z < s.getUniqueZs().length; Z++) {
 			if (Z == firstZIndex)
 				staticDerivs[Z] = ParamDerivative
-						.MNDOStaticMatrixDeriv((NDDOSolutionRestricted) s,
+						.MNDOStaticMatrixDeriv((SolutionR) s,
 								s.getUniqueZs()[Z],
 								firstParamIndex);
 			else staticDerivs[Z] = ParamDerivative
-					.MNDOStaticMatrixDeriv((NDDOSolutionRestricted) s,
+					.MNDOStaticMatrixDeriv((SolutionR) s,
 							s.getUniqueZs()[Z],
 							0);
 			Collections.addAll(aggregate, staticDerivs[Z][1]);
@@ -225,13 +224,13 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
 			aggregateArray[x] = aggregate.get(x);
 		}
 		DoubleMatrix[] xLimitedAggregate =
-				ParamDerivative.xArrayLimitedPople((NDDOSolutionRestricted) s,
+				ParamDerivative.xArrayLimitedPople((SolutionR) s,
 						aggregateArray);
 		int i = 0;
 		for (int Z = firstZIndex; Z < s.getUniqueZs().length; Z++) {
 			xLimited[Z] =
-					Arrays.copyOfRange(xLimitedAggregate, i * NDDOSolution.maxParamNum,
-							i * NDDOSolution.maxParamNum + NDDOSolution.maxParamNum);
+					Arrays.copyOfRange(xLimitedAggregate, i * Solution.maxParamNum,
+							i * Solution.maxParamNum + Solution.maxParamNum);
 			i++;
 		}
 	}
@@ -240,7 +239,7 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
 	protected void computeHFDeriv(int ZI, int paramNum) {
 		if (analytical)
 			HFDerivs[ZI][paramNum] = ParamDerivative
-					.HFDeriv((NDDOSolutionRestricted) s, s.getUniqueZs()[ZI], paramNum);
+					.HFDeriv((SolutionR) s, s.getUniqueZs()[ZI], paramNum);
 		else
 			HFDerivs[ZI][paramNum] = (sPrime.hf - s.hf) / Utils.LAMBDA;
 		totalGradients[ZI][paramNum] += 2 * (s.hf - datum[0]) * HFDerivs[ZI][paramNum];
@@ -255,20 +254,20 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
 			// not as a part of dipole.
 			if (paramNum == 0 || paramNum == 7) {
 				HFDerivs[ZI][paramNum] = ParamDerivative
-						.HFDeriv((NDDOSolutionRestricted) s, s.getUniqueZs()[ZI],
+						.HFDeriv((SolutionR) s, s.getUniqueZs()[ZI],
 								paramNum);
 			}
 			if (staticDerivs[ZI][0][paramNum] != null ||
 					staticDerivs[ZI][1][paramNum] != null) {
 				HFDerivs[ZI][paramNum] =
-						ParamDerivative.MNDOHFDeriv((NDDOSolutionRestricted) s,
+						ParamDerivative.MNDOHFDeriv((SolutionR) s,
 								staticDerivs[ZI][0][paramNum],
 								staticDerivs[ZI][1][paramNum]);
 				densityDerivs[ZI][paramNum] = ParamDerivative
-						.densityDerivativeLimited((NDDOSolutionRestricted) s,
+						.densityDerivativeLimited((SolutionR) s,
 								xLimited[ZI][paramNum]);
 				if (full) dipoleDerivs[ZI][paramNum] =
-						ParamDerivative.MNDODipoleDeriv((NDDOSolutionRestricted) s,
+						ParamDerivative.MNDODipoleDeriv((SolutionR) s,
 								densityDerivs[ZI][paramNum], s.getUniqueZs()[ZI],
 								paramNum);
 			}
@@ -289,21 +288,21 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
 			if (staticDerivs[ZI][0][paramNum] != null ||
 					staticDerivs[ZI][1][paramNum] != null) {
 				responseDerivs[ZI][paramNum] =
-						ParamDerivative.responseMatrix((NDDOSolutionRestricted)
+						ParamDerivative.responseMatrix((SolutionR)
 								s, densityDerivs[ZI][paramNum]);
 				fockDerivs[ZI][paramNum] =
 						staticDerivs[ZI][1][paramNum].add(responseDerivs[ZI][paramNum]);
 				xComplementary[ZI][paramNum] =
-						ParamDerivative.xArrayComplementary((NDDOSolutionRestricted) s,
+						ParamDerivative.xArrayComplementary((SolutionR) s,
 								fockDerivs[ZI][paramNum]);
 				xForIE[ZI][paramNum] =
-						ParamDerivative.xarrayForIE((NDDOSolutionRestricted) s,
+						ParamDerivative.xarrayForIE((SolutionR) s,
 								xLimited[ZI][paramNum], xComplementary[ZI][paramNum]);
 				coeffDerivs[ZI][paramNum] = ParamDerivative
 						.HOMOCoefficientDerivativeComplementary(xForIE[ZI][paramNum],
-								(NDDOSolutionRestricted) s);
+								(SolutionR) s);
 				IEDerivs[ZI][paramNum] =
-						-ParamDerivative.MNDOIEDeriv((NDDOSolutionRestricted) s,
+						-ParamDerivative.MNDOIEDeriv((SolutionR) s,
 								coeffDerivs[ZI][paramNum], fockDerivs[ZI][paramNum]);
 			}
 		}
@@ -316,7 +315,7 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
 
 	@Override
 	protected void constructSPrime(int ZI, int paramNum) {
-		sPrime = new NDDOSolutionRestricted(
+		sPrime = new SolutionR(
 				Utils.perturbAtomParams(s.atoms, s.getUniqueZs()[ZI], paramNum),
 				s.charge);
 	}
@@ -324,13 +323,13 @@ public class ParamGradientRestricted extends ParamGradientAnalytical {
 	@Override
 	protected void constructSExpPrime(int Z, int paramNum) {
 		// TODO sExp.charge or s.charge?
-		sExpPrime = new NDDOSolutionRestricted(
+		sExpPrime = new SolutionR(
 				Utils.perturbAtomParams(sExp.atoms, s.getUniqueZs()[Z], paramNum),
 				s.charge);
 	}
 
 	@Override
 	protected double findGrad(int i, int j) {
-		return NDDODerivative.grad((NDDOSolutionRestricted) sExpPrime, i, j);
+		return Derivative.grad((SolutionR) sExpPrime, i, j);
 	}
 }

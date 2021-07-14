@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 
-public class NDDOSecondDerivative {
+public class SecondDerivative {
 
 
 	private static double generalizedform(double a, double b, double R) {
@@ -1299,7 +1299,7 @@ public class NDDOSecondDerivative {
 
 	public static double getGderiv2finite(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d,
 										  int tau1, int tau2) {
-		double orig = NDDODerivative.getGderiv(a, b, c, d, tau1);
+		double orig = Derivative.getGderiv(a, b, c, d, tau1);
 
 		double[] newcoords = a.getCoords().clone();
 
@@ -1308,7 +1308,7 @@ public class NDDOSecondDerivative {
 		NDDO6G anew = new NDDO6G(a, newcoords);
 		NDDO6G bnew = new NDDO6G(b, newcoords);
 
-		double perturbed = NDDODerivative.getGderiv(anew, bnew, c, d, tau1);
+		double perturbed = Derivative.getGderiv(anew, bnew, c, d, tau1);
 
 		return (perturbed - orig) / 1E-6;
 	}
@@ -1320,14 +1320,14 @@ public class NDDOSecondDerivative {
 			return new double[]{0};
 		}
 
-		double[] orig = NDDODerivative.derivativeDecomposition(point1, point2, a, tau1);
+		double[] orig = Derivative.derivativeDecomposition(point1, point2, a, tau1);
 
 		point1 = point1.clone();
 
 		point1[tau2] += 1E-9;
 
 		double[] perturbed =
-				NDDODerivative.derivativeDecomposition(point1, point2, a, tau1);
+				Derivative.derivativeDecomposition(point1, point2, a, tau1);
 
 		return new double[]{(perturbed[0] - orig[0]) / 1E-9,
 				(perturbed[1] - orig[1]) / 1E-9, (perturbed[2] - orig[2]) / 1E-9};
@@ -1668,14 +1668,14 @@ public class NDDOSecondDerivative {
 			return new double[]{0};
 		}
 
-		double[] orig = NDDODerivative.derivativeDecomposition2(point1, point2, a, tau1);
+		double[] orig = Derivative.derivativeDecomposition2(point1, point2, a, tau1);
 
 		point1 = point1.clone();
 
 		point1[tau2] += 1E-9;
 
 		double[] perturbed =
-				NDDODerivative.derivativeDecomposition2(point1, point2, a, tau1);
+				Derivative.derivativeDecomposition2(point1, point2, a, tau1);
 
 		return new double[]{(perturbed[0] - orig[0]) / 1E-9,
 				(perturbed[1] - orig[1]) / 1E-9, (perturbed[2] - orig[2]) / 1E-9};
@@ -2022,22 +2022,22 @@ public class NDDOSecondDerivative {
 		double[] coeffC = c.decomposition(a.getCoords(), c.getCoords());
 		double[] coeffD = d.decomposition(a.getCoords(), c.getCoords());
 
-		double[] coeffAderiv1 = NDDODerivative
+		double[] coeffAderiv1 = Derivative
 				.derivativeDecomposition(a.getCoords(), c.getCoords(), a, tau1);
-		double[] coeffBderiv1 = NDDODerivative
+		double[] coeffBderiv1 = Derivative
 				.derivativeDecomposition(a.getCoords(), c.getCoords(), b, tau1);
-		double[] coeffCderiv1 = NDDODerivative
+		double[] coeffCderiv1 = Derivative
 				.derivativeDecomposition(a.getCoords(), c.getCoords(), c, tau1);
-		double[] coeffDderiv1 = NDDODerivative
+		double[] coeffDderiv1 = Derivative
 				.derivativeDecomposition(a.getCoords(), c.getCoords(), d, tau1);
 
-		double[] coeffAderiv2 = NDDODerivative
+		double[] coeffAderiv2 = Derivative
 				.derivativeDecomposition(a.getCoords(), c.getCoords(), a, tau2);
-		double[] coeffBderiv2 = NDDODerivative
+		double[] coeffBderiv2 = Derivative
 				.derivativeDecomposition(a.getCoords(), c.getCoords(), b, tau2);
-		double[] coeffCderiv2 = NDDODerivative
+		double[] coeffCderiv2 = Derivative
 				.derivativeDecomposition(a.getCoords(), c.getCoords(), c, tau2);
-		double[] coeffDderiv2 = NDDODerivative
+		double[] coeffDderiv2 = Derivative
 				.derivativeDecomposition(a.getCoords(), c.getCoords(), d, tau2);
 
 		double[] coeffAderiv =
@@ -2069,22 +2069,22 @@ public class NDDOSecondDerivative {
 					secondDerivativeDecomposition2(a.getCoords(), c.getCoords(), d, tau1,
 							tau2);
 
-			coeffAderiv2 = NDDODerivative
+			coeffAderiv2 = Derivative
 					.derivativeDecomposition2(a.getCoords(), c.getCoords(), a, tau2);
-			coeffBderiv2 = NDDODerivative
+			coeffBderiv2 = Derivative
 					.derivativeDecomposition2(a.getCoords(), c.getCoords(), b, tau2);
-			coeffCderiv2 = NDDODerivative
+			coeffCderiv2 = Derivative
 					.derivativeDecomposition2(a.getCoords(), c.getCoords(), c, tau2);
-			coeffDderiv2 = NDDODerivative
+			coeffDderiv2 = Derivative
 					.derivativeDecomposition2(a.getCoords(), c.getCoords(), d, tau2);
 
-			coeffAderiv1 = NDDODerivative
+			coeffAderiv1 = Derivative
 					.derivativeDecomposition2(a.getCoords(), c.getCoords(), a, tau1);
-			coeffBderiv1 = NDDODerivative
+			coeffBderiv1 = Derivative
 					.derivativeDecomposition2(a.getCoords(), c.getCoords(), b, tau1);
-			coeffCderiv1 = NDDODerivative
+			coeffCderiv1 = Derivative
 					.derivativeDecomposition2(a.getCoords(), c.getCoords(), c, tau1);
-			coeffDderiv1 = NDDODerivative
+			coeffDderiv1 = Derivative
 					.derivativeDecomposition2(a.getCoords(), c.getCoords(), d, tau1);
 
 			coeffA = a.decomposition2(a.getCoords(), c.getCoords());
@@ -2110,10 +2110,10 @@ public class NDDOSecondDerivative {
 
 						double eri = NDDO6G.LocalTwoCenterERI(A[i], B[j], C[k], D[l]);
 
-						double erideriv1 = NDDODerivative
+						double erideriv1 = Derivative
 								.LocalTwoCenterERIderiv(A[i], B[j], C[k], D[l], tau1);
 
-						double erideriv2 = NDDODerivative
+						double erideriv2 = Derivative
 								.LocalTwoCenterERIderiv(A[i], B[j], C[k], D[l], tau2);
 
 						double erideriv =
@@ -2227,7 +2227,7 @@ public class NDDOSecondDerivative {
 							e += (densityMatrix.get(i, j) * densityMatrix.get(k, l) -
 									densityMatrix.get(i, k) * 0.5 *
 											densityMatrix.get(j, l))
-									* NDDOSecondDerivative
+									* SecondDerivative
 									.getGderiv2(orbitals[i], orbitals[j], orbitals[k],
 											orbitals[l], tau1, tau2);
 						}
@@ -2286,7 +2286,7 @@ public class NDDOSecondDerivative {
 									(alphaDensity.get(k, l) + betaDensity.get(k, l)) -
 									alphaDensity.get(i, k) * alphaDensity.get(j, l) -
 									betaDensity.get(i, k) * betaDensity.get(j, l))
-									* NDDOSecondDerivative
+									* SecondDerivative
 									.getGderiv2(orbitals[i], orbitals[j], orbitals[k],
 											orbitals[l], tau1, tau2);
 						}
@@ -2301,36 +2301,36 @@ public class NDDOSecondDerivative {
 	}
 
 
-	public static double hessianfinite(NDDOAtom[] atoms, NDDOSolutionRestricted soln,
+	public static double hessianfinite(NDDOAtom[] atoms, SolutionR soln,
 									   int atomnum1, int tau1, int atomnum2, int tau2) {
 
-		double initval = NDDODerivative.gradient(atoms, soln, atomnum1, tau1);
+		double initval = Derivative.gradient(atoms, soln, atomnum1, tau1);
 
 		NDDOAtom[] newatoms = Utils.perturbAtomCoords(atoms, atomnum2, tau2);
 
-		NDDOSolutionRestricted newsoln =
-				new NDDOSolutionRestricted(newatoms, soln.charge);
+		SolutionR newsoln =
+				new SolutionR(newatoms, soln.charge);
 
-		double finalval = NDDODerivative.gradient(newatoms, newsoln, atomnum1, tau1);
+		double finalval = Derivative.gradient(newatoms, newsoln, atomnum1, tau1);
 
 		return 1E7 * (finalval - initval);
 
 
 	}
 
-	public static double hessianfinite(NDDOAtom[] atoms, NDDOSolutionUnrestricted soln,
+	public static double hessianfinite(NDDOAtom[] atoms, SolutionU soln,
 									   int atomnum1, int tau1, int atomnum2, int tau2) {
 
-		double initval = NDDODerivative.gradientUnrestricted(atoms, soln, atomnum1,
+		double initval = Derivative.gradientUnrestricted(atoms, soln, atomnum1,
 				tau1);
 
 		NDDOAtom[] newatoms = Utils.perturbAtomCoords(atoms, atomnum2, tau2);
 
-		NDDOSolutionUnrestricted newsoln =
-				new NDDOSolutionUnrestricted(newatoms, soln.charge, soln.multiplicity);
+		SolutionU newsoln =
+				new SolutionU(newatoms, soln.charge, soln.multiplicity);
 
 		double finalval =
-				NDDODerivative.gradientUnrestricted(newatoms, newsoln, atomnum1, tau1);
+				Derivative.gradientUnrestricted(newatoms, newsoln, atomnum1, tau1);
 
 		return 1E7 * (finalval - initval);
 
@@ -2338,7 +2338,7 @@ public class NDDOSecondDerivative {
 	}
 
 	public static DoubleMatrix hessianroutine(NDDOAtom[] atoms,
-											  NDDOSolutionRestricted soln,
+											  SolutionR soln,
 											  DoubleMatrix[] fockderivstatic) {//todo
 		// play around with it if you want
 
@@ -2363,7 +2363,7 @@ public class NDDOSecondDerivative {
 			// (fockderivstatic, count, Math.min(fockderivstatic.length, count + size)));
 			for (int i = 0; i < output.length; i++) {
 				densityderivs[count + i] = output[i].dup();
-//                if (!NDDOSolution.isSimilar(output[i], test[i], 1E-5)) {
+//                if (!Solution.isSimilar(output[i], test[i], 1E-5)) {
 //                    System.err.println ("oh no");
 //                    System.err.println (output[i].getRow(0));
 //                    System.err.println (test[i].getRow(0));
@@ -2423,7 +2423,7 @@ public class NDDOSecondDerivative {
 
 	}
 
-	public static DoubleMatrix[] densityderivthiel(NDDOSolutionRestricted soln,
+	public static DoubleMatrix[] densityderivthiel(SolutionR soln,
 												   DoubleMatrix[] fockderivstatic) {
 
 		StopWatch sw = new StopWatch();
@@ -2652,7 +2652,7 @@ public class NDDOSecondDerivative {
 
 	}
 
-	public static DoubleMatrix[] densityderivpople(NDDOSolutionRestricted soln,
+	public static DoubleMatrix[] densityderivpople(SolutionR soln,
 												   DoubleMatrix[] fockderivstatic) {
 		StopWatch sw = new StopWatch();
 		sw.start();
@@ -2909,7 +2909,7 @@ public class NDDOSecondDerivative {
 
 
 	private static DoubleMatrix computeResponseVectorsThiel(DoubleMatrix x,
-															NDDOSolutionRestricted soln) {
+															SolutionR soln) {
 
 		int NOcc = (int) (soln.nElectrons / 2.0);
 
@@ -3051,7 +3051,7 @@ public class NDDOSecondDerivative {
 	}
 
 	public static DoubleMatrix computeResponseVectorsPople(DoubleMatrix x,
-														   NDDOSolutionRestricted soln) {
+														   SolutionR soln) {
 
 		int NOcc = (int) (soln.nElectrons / 2.0);
 
@@ -3216,7 +3216,7 @@ public class NDDOSecondDerivative {
 	}
 
 	public static DoubleMatrix hessianroutine(NDDOAtom[] atoms,
-											  NDDOSolutionUnrestricted soln,
+											  SolutionU soln,
 											  DoubleMatrix[] fockderivstaticalpha,
 											  DoubleMatrix[] fockderivstaticbeta) {
 
@@ -3232,7 +3232,7 @@ public class NDDOSecondDerivative {
 			for (int tau = 0; tau < 3; tau++) {
 
 				DoubleMatrix[] matrices =
-						NDDODerivative.densitymatrixderivfinite(atoms, soln, a, tau);
+						Derivative.densitymatrixderivfinite(atoms, soln, a, tau);
 				densityderivsalpha[count] = matrices[0];
 				densityderivsbeta[count] = matrices[1];
 				count++;

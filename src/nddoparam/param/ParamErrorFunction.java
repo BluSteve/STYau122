@@ -1,20 +1,20 @@
 package nddoparam.param;
 
 import nddoparam.NDDOAtom;
-import nddoparam.NDDOSolution;
+import nddoparam.Solution;
 import scf.GTO;
 
 import java.util.ArrayList;
 
 public abstract class ParamErrorFunction {
 	public double geomGradient;
-	public NDDOSolution soln, expSoln;
+	public Solution soln, expSoln;
 	protected double HeatError, dipoleError, IEError, geomError;
 	protected NDDOAtom[] atoms, expAtoms;
 	protected ArrayList<Double> bondErrors, angleErrors, bonds, angles, bondDerivatives,
 			angleDerivatives;
 
-	public ParamErrorFunction(NDDOSolution soln, double refHeat) {
+	public ParamErrorFunction(Solution soln, double refHeat) {
 		this.atoms = soln.atoms;
 		this.soln = soln;
 		this.HeatError = (soln.hf - refHeat) * (soln.hf - refHeat);
@@ -54,7 +54,7 @@ public abstract class ParamErrorFunction {
 		return Math.sqrt(sum);
 	}
 
-	public void createExpGeom(NDDOSolution expSoln) {
+	public void createExpGeom(Solution expSoln) {
 		this.expAtoms = expSoln.atoms;
 		this.expSoln = expSoln;
 	}

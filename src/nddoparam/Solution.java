@@ -10,7 +10,7 @@ import java.util.HashMap;
 import static nddoparam.mndo.MNDOParams.T1ParamNums;
 import static nddoparam.mndo.MNDOParams.T2ParamNums;
 
-public abstract class NDDOSolution {
+public abstract class Solution {
 	private static final int[][] neededParams = new int[Utils.maxAtomNum][0];
 	// TODO make most of these private
 	public static int maxParamNum = 8;
@@ -29,7 +29,7 @@ public abstract class NDDOSolution {
 	public String moleculeName;
 	public int[] atomicNumbers;
 
-	public NDDOSolution(NDDOAtom[] atoms, int charge) {
+	public Solution(NDDOAtom[] atoms, int charge) {
 		// TODO move this to MoleculeRun
 		StringBuilder nameBuilder = new StringBuilder();
 		HashMap<String, Integer> nameOccurrences = new HashMap<>();

@@ -2,7 +2,7 @@ package nddoparam.am1;
 
 import nddoparam.NDDO6G;
 import nddoparam.NDDOAtom;
-import nddoparam.NDDODerivative;
+import nddoparam.Derivative;
 import scf.AtomProperties;
 import scf.GTO;
 
@@ -156,7 +156,7 @@ public class AM1Atom extends NDDOAtom {
 				fprime * this.atomProperties.getQ() * b.atomProperties.getQ() *
 				NDDO6G.getG(this.s(), this.s(), b.s(), b.s()) +
 				f * this.atomProperties.getQ() * b.atomProperties.getQ() *
-						NDDODerivative.getGderiv(this.s(), this.s(), b.s(), b.s(), tau) +
+						Derivative.getGderiv(this.s(), this.s(), b.s(), b.s(), tau) +
 				gaussiancontribution;
 
 		return returnval;

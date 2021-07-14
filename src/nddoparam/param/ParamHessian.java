@@ -1,55 +1,141 @@
 package nddoparam.param;
 
-import nddoparam.NDDOAtom;
-import nddoparam.NDDOSolution;
+import nddoparam.Solution;
 import scf.Utils;
 
-public abstract class ParamHessian implements ErrorGettable {
-	public ParamGradient g, gprime;
-	protected NDDOAtom[] atoms, perturbed;
-	protected int paramNum1, Z1;
+import java.util.stream.IntStream;
 
-	public ParamHessian(NDDOAtom[] atoms, int Z1, int paramNum1) {
-		this.Z1 = Z1;
-		this.paramNum1 = paramNum1;
-		this.atoms = atoms;
-		perturbed = Utils.perturbAtomParams(atoms, Z1, paramNum1);
+public abstract class ParamHessian {
+	protected ParamGradient g, gPrime;
+	protected Solution s, sExp;
+	protected String kind;
+	protected double[] datum;
+	protected double[][] hessian;
+	protected boolean analytical;
+
+	public ParamHessian(Solution s, String kind, double[] datum,
+						Solution sExp, boolean analytical) {
+		this.s = s;
+		this.kind = kind;
+		this.datum = datum;
+		this.sExp = sExp;
+		this.analytical = analytical;
 	}
 
-	public void constructErrors(double refHeat) {
-		g.constructErrors(refHeat);
-		gprime.constructErrors(refHeat);
+	public void computeHessian() {
+		hessian = new double[s.getUniqueZs().length * Solution.maxParamNum]
+				[s.getUniqueZs().length * Solution.maxParamNum];
+
+		for (int ZIndex2 = 0; ZIndex2 < s.getUniqueZs().length; ZIndex2++) {
+			for (int paramNum2 : s.getNeededParams()[s.getUniqueZs()[ZIndex2]]) {
+				constructGPrime(ZIndex2, paramNum2);
+
+				if (analytical &&
+						(kind.equals("b") || kind.equals("c") || kind.equals("d")))
+					gPrime.computeBatchedDerivs(ZIndex2, paramNum2);
+
+				boolean needed;
+				for (int ZIndex1 = ZIndex2; ZIndex1 < s.getUniqueZs().length; ZIndex1++) {
+					for (int paramNum1 = paramNum2; paramNum1 < Solution.maxParamNum;
+						 paramNum1++) {
+						needed = false;
+						for (int p : s.getNeededParams()[s.getUniqueZs()[ZIndex1]]) {
+							if (paramNum1 == p) {
+								needed = true;
+								break;
+							}
+						}
+
+						if (needed) {
+							gPrime.computeGradient(ZIndex1, paramNum1);
+							hessian[ZIndex2 * Solution.maxParamNum + paramNum2]
+									[ZIndex1 * Solution.maxParamNum + paramNum1] =
+									(gPrime.getTotalGradients()[ZIndex1][paramNum1]
+											- g.getTotalGradients()[ZIndex1][paramNum1]) /
+											Utils.LAMBDA;
+							hessian[ZIndex1 * Solution.maxParamNum + paramNum1]
+									[ZIndex2 * Solution.maxParamNum + paramNum2] =
+									hessian[ZIndex2 * Solution.maxParamNum +
+											paramNum2]
+											[ZIndex1 * Solution.maxParamNum +
+											paramNum1];
+						}
+					}
+				}
+			}
+		}
 	}
 
-	public void addDipoleError(double ref) {
-		g.addDipoleError(ref);
-		gprime.addDipoleError(ref);
+	protected abstract void constructGPrime(int ZIndex, int paramNum);
+
+	public double[][] getHessianUnpadded() {
+		int size = 0;
+		for (int[] i : s.getNeededParams()) {
+			size += i.length;
+		}
+		double[][] unpadded = new double[size][size];
+		int iUnpadded = 0;
+		int jUnpadded = 0;
+		boolean allZero;
+		for (double[] doubles : hessian) {
+			allZero = true;
+			for (int j = 0; j < hessian.length; j++) {
+				if (doubles[j] != 0) {
+					allZero = false;
+					unpadded[iUnpadded][jUnpadded] = doubles[j];
+					jUnpadded++;
+				}
+			}
+			jUnpadded = 0;
+			if (!allZero) iUnpadded++;
+		}
+		return unpadded;
 	}
 
-	public void addIEError(double ref) {
-		g.addIEError(ref);
-		gprime.addIEError(ref);
+	public double[] getHessianUT() {
+		double[][] unpadded = getHessianUnpadded();
+		double[] hessianUT = new double[(unpadded.length + 1) * unpadded.length / 2];
+		for (int i = 0; i < unpadded.length; i++) {
+			int p = 0;
+			if (i >= 1) {
+				p = i * (unpadded.length * 2 - i + 1) / 2;
+			}
+			for (int j = i; j < unpadded.length; j++)
+				hessianUT[p + j - i] = unpadded[i][j];
+		}
+		return hessianUT;
 	}
 
-	public void addGeomError() {
-		g.addGeomError();
-		gprime.addGeomError();
+	public double[][] getHessian() {
+		return hessian;
 	}
 
-	public void addBondError(int atom1, int atom2, double ref) {
-		g.addBondError(atom1, atom2, ref);
-		gprime.addBondError(atom1, atom2, ref);
+	// Gets the mse between analytical and finite difference.
+	public double getAnalyticalError() {
+		this.computeHessian();
+		double[] a = getHessianUT().clone();
+		double[][] b = new double[hessian.length][0];
+		for (int i = 0; i < hessian.length; i++) b[i] = hessian[i].clone();
+
+		analytical = !analytical;
+		this.computeHessian();
+		double sum = IntStream.range(0, a.length)
+				.mapToDouble(i -> (a[i] - getHessianUT()[i]) * (a[i] - getHessianUT()[i]))
+				.sum();
+		analytical = !analytical;
+		hessian = b;
+		return sum;
 	}
 
-	public void addAngleError(int atom1, int atom2, int atom3, double ref) {
-		g.addAngleError(atom1, atom2, atom3, ref);
-		gprime.addAngleError(atom1, atom2, atom3, ref);
+	public ParamErrorFunction getE() {
+		return g.getE();
 	}
 
-	public abstract void createExpGeom(NDDOAtom[] expAtoms, NDDOSolution expSoln);
-
-	public double hessian() {
-		return (gprime.gradient() - g.gradient()) / Utils.LAMBDA;
+	public boolean isAnalytical() {
+		return analytical;
 	}
 
+	public void setAnalytical(boolean analytical) {
+		this.analytical = analytical;
+	}
 }

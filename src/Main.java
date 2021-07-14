@@ -2,8 +2,8 @@ import nddoparam.NDDOParams;
 import nddoparam.mndo.MNDOParams;
 import org.apache.commons.lang3.time.StopWatch;
 import runcycle.MoleculeRun;
-import runcycle.MoleculeRunRestricted;
-import runcycle.MoleculeRunUnrestricted;
+import runcycle.MoleculeRunR;
+import runcycle.MoleculeRunU;
 import runcycle.input.InputHandler;
 import runcycle.input.RawInput;
 import runcycle.input.RawMolecule;
@@ -60,9 +60,9 @@ public class Main {
 				List<MoleculeRun> results = threadPool
 						.submit(() -> parallelRequests.parallelStream().map(request -> {
 							MoleculeRun result = request.restricted ?
-									new MoleculeRunRestricted(request, nddoParams,
+									new MoleculeRunR(request, nddoParams,
 											ri.atomTypes, useHessian) :
-									new MoleculeRunUnrestricted(request, nddoParams,
+									new MoleculeRunU(request, nddoParams,
 											ri.atomTypes, useHessian);
 							return result;
 						})).get().collect(Collectors.toList());
@@ -70,9 +70,9 @@ public class Main {
 				for (RawMolecule request : requests
 						.subList(maxParallel, requests.size())) {
 					MoleculeRun result = request.restricted ?
-							new MoleculeRunRestricted(request, nddoParams, ri.atomTypes,
+							new MoleculeRunR(request, nddoParams, ri.atomTypes,
 									useHessian) :
-							new MoleculeRunUnrestricted(request, nddoParams,
+							new MoleculeRunU(request, nddoParams,
 									ri.atomTypes,
 									useHessian);
 					results.add(result);

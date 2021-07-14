@@ -8,7 +8,7 @@ import org.jblas.Solve;
 import java.util.ArrayList;
 
 
-public class NDDOSolutionRestrictedEDIIS extends NDDOSolution {
+public class SolutionR extends Solution {
 
 	public double[] integralArray;
 	public DoubleMatrix C, F, G, E;
@@ -16,7 +16,7 @@ public class NDDOSolutionRestrictedEDIIS extends NDDOSolution {
 // (transposed for easier reading), E = eigenvalues
 	private DoubleMatrix densityMatrix;
 
-	public NDDOSolutionRestrictedEDIIS(NDDOAtom[] atoms, int charge) {
+	public SolutionR(NDDOAtom[] atoms, int charge) {
 		super(atoms, charge);
 
 		StopWatch sw = new StopWatch();
@@ -172,7 +172,11 @@ public class NDDOSolutionRestrictedEDIIS extends NDDOSolution {
 		DoubleMatrix[] Darray = new DoubleMatrix[8];
 		double[] Earray = new double[8];
 
+		DoubleMatrix Bforediis = DoubleMatrix.zeros(8, 8);
+
 		DoubleMatrix B = DoubleMatrix.zeros(8, 8);
+
+		DoubleMatrix[] commutatorarray = new DoubleMatrix[8];
 
 
 		int numIt = 0;
@@ -260,116 +264,146 @@ public class NDDOSolutionRestrictedEDIIS extends NDDOSolution {
 			if (numIt < Farray.length) {
 
 				Farray[numIt] = F.dup();
+
+				Darray[numIt] = densityMatrix.dup();
+				Earray[numIt] = -0.5 * (H.mmul(densityMatrix)).diag().sum();
+				commutatorarray[numIt] = commutator(F.dup(), densityMatrix.dup());
+				DIISError = commutatorarray[numIt].norm2();
+
+				for (int i = 0; i <= numIt; i++) {
+
+					double product =
+							(commutatorarray[numIt].mmul(commutatorarray[i].transpose()))
+									.diag().sum();
+					B.put(i, numIt, product);
+					B.put(numIt, i, product);
+
+					product = 0.5 * ((Farray[i].mmul(Darray[numIt])).diag().sum() +
+							(Farray[numIt].mmul(Darray[i])).diag().sum());
+
+					Bforediis.put(i, numIt, product);
+					Bforediis.put(numIt, i, product);
+				}
 			}
 			else {
 
 				for (int i = 0; i < Farray.length - 1; i++) {
 
 					Farray[i] = Farray[i + 1].dup();
-				}
-
-				Farray[Farray.length - 1] = F.dup();
-			}
-
-
-			if (numIt < Farray.length) {
-
-				Darray[numIt] = densityMatrix.dup();
-				Earray[numIt] = -0.5 * (H.mmul(densityMatrix)).diag().sum();
-				DIISError = commutator(F.dup(), densityMatrix.dup()).norm2();
-			}
-			else {
-
-				for (int i = 0; i < Farray.length - 1; i++) {
-
 					Darray[i] = Darray[i + 1].dup();
+					commutatorarray[i] = commutatorarray[i + 1].dup();
 					Earray[i] = Earray[i + 1];
 				}
 
+				Farray[Farray.length - 1] = F.dup();
 				Darray[Darray.length - 1] = densityMatrix.dup();
 				Earray[Darray.length - 1] = -0.5 * (H.mmul(densityMatrix)).diag().sum();
-				;
-				DIISError = commutator(F.dup(), densityMatrix.dup()).norm2();
-			}
-
-			if (numIt < Farray.length) {
-
-				for (int i = 0; i <= numIt; i++) {
-
-					double product =
-							0.5 * ((Farray[i].mmul(Darray[numIt])).diag().sum() +
-							(Farray[numIt].mmul(Darray[i])).diag().sum());
-
-					B.put(i, numIt, product);
-					B.put(numIt, i, product);
-				}
-			}
-			else {
+				commutatorarray[Darray.length - 1] =
+						commutator(F.dup(), densityMatrix.dup());
+				DIISError = commutatorarray[Darray.length - 1].norm2();
 
 				DoubleMatrix newB = DoubleMatrix.zeros(8, 8);
+
+				DoubleMatrix newBforediis = DoubleMatrix.zeros(8, 8);
 
 				for (int i = 0; i < Farray.length - 1; i++) {
 					for (int j = i; j < Farray.length - 1; j++) {
 						newB.put(i, j, B.get(i + 1, j + 1));
 						newB.put(j, i, B.get(i + 1, j + 1));
+						newBforediis.put(i, j, Bforediis.get(i + 1, j + 1));
+						newBforediis.put(j, i, Bforediis.get(i + 1, j + 1));
 					}
 				}
 
 				for (int i = 0; i < Farray.length; i++) {
 
-					double product = 0.5 *
+					double product = commutatorarray[Farray.length - 1].transpose()
+							.mmul(commutatorarray[i]).diag().sum();
+					newB.put(i, Farray.length - 1, product);
+					newB.put(Farray.length - 1, i, product);
+
+					product = 0.5 *
 							((Farray[i].mmul(Darray[Farray.length - 1])).diag().sum() +
 									(Farray[Farray.length - 1].mmul(Darray[i])).diag()
 											.sum());
-					newB.put(i, Farray.length - 1, product);
-					newB.put(Farray.length - 1, i, product);
+					newBforediis.put(i, Farray.length - 1, product);
+					newBforediis.put(Farray.length - 1, i, product);
 				}
 
 				B = newB.dup();
+
+				Bforediis = newBforediis.dup();
 			}
 
 
-			DoubleMatrix mat = DoubleMatrix.zeros(Math.min(Farray.length + 1, numIt + 2),
-					Math.min(Farray.length + 1, numIt + 2));
+			//System.err.println ("DIIS Error: " + DIISError);
 
-			for (int i = 0; i < Math.min(Farray.length, numIt + 1); i++) {
-				for (int j = i; j < Math.min(Farray.length, numIt + 1); j++) {
-					mat.put(i, j, B.get(i, j));
-					mat.put(j, i, B.get(i, j));
 
+			if (commutatorarray[Math.min(Farray.length - 1, numIt)].max() > 0.01) {
+
+				DoubleMatrix mat = DoubleMatrix
+						.zeros(Math.min(Farray.length + 1, numIt + 2),
+								Math.min(Farray.length + 1, numIt + 2));
+
+				for (int i = 0; i < Math.min(Farray.length, numIt + 1); i++) {
+					for (int j = i; j < Math.min(Farray.length, numIt + 1); j++) {
+						mat.put(i, j, Bforediis.get(i, j));
+						mat.put(j, i, Bforediis.get(i, j));
+
+					}
 				}
-			}
 
 
-			mat.putColumn(mat.columns - 1, DoubleMatrix.ones(mat.rows, 1));
+				mat.putColumn(mat.columns - 1, DoubleMatrix.ones(mat.rows, 1));
 
-			mat.putRow(mat.rows - 1, DoubleMatrix.ones(mat.columns, 1));
+				mat.putRow(mat.rows - 1, DoubleMatrix.ones(mat.columns, 1));
 
-			mat.put(mat.rows - 1, mat.columns - 1, 0);
+				mat.put(mat.rows - 1, mat.columns - 1, 0);
 
-			DoubleMatrix rhs = DoubleMatrix.ones(mat.rows, 1);
+				DoubleMatrix rhs = DoubleMatrix.ones(mat.rows, 1);
 
-			for (int i = 0; i < Math.min(Farray.length, numIt + 1); i++) {
-				rhs.put(i, Earray[i]);
-			}
+				for (int i = 0; i < Math.min(Farray.length, numIt + 1); i++) {
+					rhs.put(i, Earray[i]);
+				}
 
 
-			boolean nonNegative = false;
+				boolean nonNegative = false;
 
-			DoubleMatrix DIIS = null;
+				DoubleMatrix DIIS = null;
 
-			try {
-				DIIS = Solve.solve(mat, rhs);
+				double bestE = 0;
 
-				DIIS = DIIS.put(DIIS.rows - 1, 0);
+				DoubleMatrix bestDIIS = null;
 
-				nonNegative = !(DIIS.min() < 0);
-			} catch (Exception ex) {
-			}
 
-			i_died:
+				try {
+					DIIS = Solve.solve(mat, rhs);
 
-			if (!nonNegative) {
+					DIIS = DIIS.put(DIIS.rows - 1, 0);
+
+					nonNegative = !(DIIS.min() < 0);
+
+					if (nonNegative) {
+						double e = 0;
+
+
+						for (int i = 0; i < DIIS.length - 1; i++) {
+							e -= Earray[i] * DIIS.get(i);
+						}
+
+						for (int i = 0; i < DIIS.length - 1; i++) {
+							for (int j = 0; j < DIIS.length - 1; j++) {
+								e += 0.5 * DIIS.get(i) * DIIS.get(j) * 0.5 * B.get(i, j);
+							}
+						}
+
+						bestE = e;
+
+						bestDIIS = DIIS.dup();
+					}
+				} catch (Exception ex) {
+				}
+
 				for (int i = 0; i < mat.rows - 2; i++) {
 
 
@@ -386,15 +420,31 @@ public class NDDOSolutionRestrictedEDIIS extends NDDOSolution {
 						nonNegative = !(DIIS.min() < 0);
 
 						if (nonNegative) {
-							break i_died;
+							double e = 0;
+
+
+							for (int a = 0; a < DIIS.length - 1; a++) {
+								e -= Earray[a] * DIIS.get(a);
+							}
+
+							for (int a = 0; a < DIIS.length - 1; a++) {
+								for (int b = 0; b < DIIS.length - 1; b++) {
+									e += 0.5 * DIIS.get(a) * DIIS.get(b) * 0.5 *
+											B.get(a, b);
+								}
+							}
+
+							if (e < bestE) {
+								bestE = e;
+
+								bestDIIS = DIIS.dup();
+							}
 						}
 					} catch (Exception ex) {
 					}
 				}
-			}
-			i_died2:
 
-			if (!nonNegative) {
+
 				for (int i = 0; i < mat.rows - 2; i++) {
 
 					for (int j = i + 1; j < mat.rows - 2; j++) {
@@ -411,18 +461,32 @@ public class NDDOSolutionRestrictedEDIIS extends NDDOSolution {
 							nonNegative = !(DIIS.min() < 0);
 
 							if (nonNegative) {
-								break i_died2;
+								double e = 0;
+
+
+								for (int a = 0; a < DIIS.length - 1; a++) {
+									e -= Earray[a] * DIIS.get(a);
+								}
+
+								for (int a = 0; a < DIIS.length - 1; a++) {
+									for (int b = 0; b < DIIS.length - 1; b++) {
+										e += 0.5 * DIIS.get(a) * DIIS.get(b) * 0.5 *
+												B.get(a, b);
+									}
+								}
+
+								if (e < bestE) {
+									bestE = e;
+
+									bestDIIS = DIIS.dup();
+								}
 							}
 						} catch (Exception ex) {
 						}
 					}
 
 				}
-			}
 
-			i_died3:
-
-			if (!nonNegative) {
 				for (int i = 0; i < mat.rows - 2; i++) {
 
 					for (int j = i + 1; j < mat.rows - 2; j++) {
@@ -442,7 +506,25 @@ public class NDDOSolutionRestrictedEDIIS extends NDDOSolution {
 								nonNegative = !(DIIS.min() < 0);
 
 								if (nonNegative) {
-									break i_died3;
+									double e = 0;
+
+
+									for (int a = 0; a < DIIS.length - 1; a++) {
+										e -= Earray[a] * DIIS.get(a);
+									}
+
+									for (int a = 0; a < DIIS.length - 1; a++) {
+										for (int b = 0; b < DIIS.length - 1; b++) {
+											e += 0.5 * DIIS.get(a) * DIIS.get(b) * 0.5 *
+													B.get(a, b);
+										}
+									}
+
+									if (e < bestE) {
+										bestE = e;
+
+										bestDIIS = DIIS.dup();
+									}
 								}
 							} catch (Exception ex) {
 							}
@@ -450,11 +532,7 @@ public class NDDOSolutionRestrictedEDIIS extends NDDOSolution {
 					}
 
 				}
-			}
 
-			i_died4:
-
-			if (!nonNegative) {
 				for (int i = 0; i < mat.rows - 2; i++) {
 
 					for (int j = i + 1; j < mat.rows - 2; j++) {
@@ -476,7 +554,25 @@ public class NDDOSolutionRestrictedEDIIS extends NDDOSolution {
 									nonNegative = !(DIIS.min() < 0);
 
 									if (nonNegative) {
-										break i_died4;
+										double e = 0;
+
+
+										for (int a = 0; a < DIIS.length - 1; a++) {
+											e -= Earray[a] * DIIS.get(a);
+										}
+
+										for (int a = 0; a < DIIS.length - 1; a++) {
+											for (int b = 0; b < DIIS.length - 1; b++) {
+												e += 0.5 * DIIS.get(a) * DIIS.get(b) *
+														0.5 * B.get(a, b);
+											}
+										}
+
+										if (e < bestE) {
+											bestE = e;
+
+											bestDIIS = DIIS.dup();
+										}
 									}
 								} catch (Exception ex) {
 								}
@@ -485,11 +581,8 @@ public class NDDOSolutionRestrictedEDIIS extends NDDOSolution {
 					}
 
 				}
-			}
 
-			i_died5:
 
-			if (!nonNegative) {
 				for (int i = 0; i < mat.rows - 2; i++) {
 
 					for (int j = i + 1; j < mat.rows - 2; j++) {
@@ -515,7 +608,26 @@ public class NDDOSolutionRestrictedEDIIS extends NDDOSolution {
 										nonNegative = !(DIIS.min() < 0);
 
 										if (nonNegative) {
-											break i_died5;
+											double e = 0;
+
+
+											for (int a = 0; a < DIIS.length - 1; a++) {
+												e -= Earray[a] * DIIS.get(a);
+											}
+
+											for (int a = 0; a < DIIS.length - 1; a++) {
+												for (int b = 0; b < DIIS.length - 1;
+													 b++) {
+													e += 0.5 * DIIS.get(a) * DIIS.get(b) *
+															0.5 * B.get(a, b);
+												}
+											}
+
+											if (e < bestE) {
+												bestE = e;
+
+												bestDIIS = DIIS.dup();
+											}
 										}
 									} catch (Exception ex) {
 									}
@@ -525,11 +637,7 @@ public class NDDOSolutionRestrictedEDIIS extends NDDOSolution {
 					}
 
 				}
-			}
 
-			i_died6:
-
-			if (!nonNegative) {
 				for (int i = 0; i < mat.rows - 2; i++) {
 
 					for (int j = i + 1; j < mat.rows - 2; j++) {
@@ -558,7 +666,29 @@ public class NDDOSolutionRestrictedEDIIS extends NDDOSolution {
 											nonNegative = !(DIIS.min() < 0);
 
 											if (nonNegative) {
-												break i_died6;
+												double e = 0;
+
+
+												for (int a = 0; a < DIIS.length - 1;
+													 a++) {
+													e -= Earray[a] * DIIS.get(a);
+												}
+
+												for (int a = 0; a < DIIS.length - 1;
+													 a++) {
+													for (int b = 0; b < DIIS.length - 1;
+														 b++) {
+														e += 0.5 * DIIS.get(a) *
+																DIIS.get(b) * 0.5 *
+																B.get(a, b);
+													}
+												}
+
+												if (e < bestE) {
+													bestE = e;
+
+													bestDIIS = DIIS.dup();
+												}
 											}
 										} catch (Exception ex) {
 										}
@@ -569,11 +699,7 @@ public class NDDOSolutionRestrictedEDIIS extends NDDOSolution {
 					}
 
 				}
-			}
 
-			i_died7:
-
-			if (!nonNegative) {
 				for (int i = 0; i < mat.rows - 2; i++) {
 
 					for (int j = i + 1; j < mat.rows - 2; j++) {
@@ -606,7 +732,29 @@ public class NDDOSolutionRestrictedEDIIS extends NDDOSolution {
 												nonNegative = !(DIIS.min() < 0);
 
 												if (nonNegative) {
-													break i_died7;
+													double e = 0;
+
+
+													for (int a = 0; a < DIIS.length - 1;
+														 a++) {
+														e -= Earray[a] * DIIS.get(a);
+													}
+
+													for (int a = 0; a < DIIS.length - 1;
+														 a++) {
+														for (int b = 0;
+															 b < DIIS.length - 1; b++) {
+															e += 0.5 * DIIS.get(a) *
+																	DIIS.get(b) * 0.5 *
+																	B.get(a, b);
+														}
+													}
+
+													if (e < bestE) {
+														bestE = e;
+
+														bestDIIS = DIIS.dup();
+													}
 												}
 											} catch (Exception ex) {
 											}
@@ -618,21 +766,13 @@ public class NDDOSolutionRestrictedEDIIS extends NDDOSolution {
 					}
 
 				}
-			}
 
-
-			if (!nonNegative) {
-
-				matrices = Eigen.symmetricEigenvectors(F);
-
-				E = matrices[1].diag();
-
-				C = matrices[0].transpose();
-
-				densityMatrix = calculateDensityMatrix(C).mmul(1 - damp)
-						.add(olddensity.mmul(damp));
-			}
-			else {
+				try {
+					DIIS = bestDIIS.dup();
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.err.println(moleculeName);
+				}
 
 				DoubleMatrix F =
 						DoubleMatrix.zeros(densityMatrix.rows, densityMatrix.columns);
@@ -652,6 +792,72 @@ public class NDDOSolutionRestrictedEDIIS extends NDDOSolution {
 				C = matrices[0].transpose();
 
 				densityMatrix = calculateDensityMatrix(C);
+
+
+			}
+			else {
+
+				DoubleMatrix mat = DoubleMatrix
+						.zeros(Math.min(Farray.length + 1, numIt + 2),
+								Math.min(Farray.length + 1, numIt + 2));
+
+				for (int i = 0; i < Math.min(Farray.length, numIt + 1); i++) {
+					for (int j = i; j < Math.min(Farray.length, numIt + 1); j++) {
+						mat.put(i, j, B.get(i, j));
+						mat.put(j, i, B.get(i, j));
+
+					}
+				}
+
+
+				mat.putColumn(mat.columns - 1, DoubleMatrix.ones(mat.rows, 1));
+
+				mat.putRow(mat.rows - 1, DoubleMatrix.ones(mat.columns, 1));
+
+				mat.put(mat.rows - 1, mat.columns - 1, 0);
+
+				DoubleMatrix rhs = DoubleMatrix.zeros(mat.rows, 1);
+
+				rhs.put(mat.rows - 1, 0, 1);
+
+				try {
+					DoubleMatrix DIIS = Solve.solve(mat, rhs);
+
+					DoubleMatrix F =
+							DoubleMatrix.zeros(densityMatrix.rows,
+									densityMatrix.columns);
+
+					DoubleMatrix D =
+							DoubleMatrix.zeros(densityMatrix.rows,
+									densityMatrix.columns);
+
+
+					for (int i = 0; i < DIIS.length - 1; i++) {
+						F = F.add(Farray[i].mmul(DIIS.get(i)));
+						D = D.add(Darray[i].mmul(DIIS.get(i)));
+					}
+
+
+					this.F = F.dup();
+
+
+					matrices = Eigen.symmetricEigenvectors(F);
+
+					E = matrices[1].diag();
+
+					C = matrices[0].transpose();
+
+					densityMatrix = calculateDensityMatrix(C);
+				} catch (Exception e) {
+					matrices = Eigen.symmetricEigenvectors(F);
+
+					E = matrices[1].diag();
+
+					C = matrices[0].transpose();
+
+					densityMatrix = calculateDensityMatrix(C).mmul(1 - damp)
+							.add(olddensity.mmul(damp));
+				}
 			}
 
 
@@ -660,10 +866,10 @@ public class NDDOSolutionRestrictedEDIIS extends NDDOSolution {
 		}
 
 
-		System.out
-				.println(moleculeName + " SCF completed: " + numIt + " iterations used");
+//        System.out.println(moleculeName + " SCF completed: " + numIt + " iterations
+//        used");
 
-		System.err.println("E-DIIS took: " + sw.getTime());
+//        System.err.println("Hybrid DIIS took: " + sw.getTime());
 
 		double e = 0;
 
@@ -790,7 +996,8 @@ public class NDDOSolutionRestrictedEDIIS extends NDDOSolution {
 	}
 
 	private static DoubleMatrix removeElementsSquare(DoubleMatrix original,
-													 int[] indices) {
+													 int[] indices) {//remove rows and
+		// columns specified in indices and return downsized square matrix
 
 		DoubleMatrix newarray = DoubleMatrix
 				.zeros(original.rows - indices.length, original.rows - indices.length);
@@ -820,7 +1027,8 @@ public class NDDOSolutionRestrictedEDIIS extends NDDOSolution {
 	}
 
 	private static DoubleMatrix removeElementsLinear(DoubleMatrix original,
-													 int[] indices) {
+													 int[] indices) {//get rid of the
+		// rows given in indices and return downsized vector
 
 		DoubleMatrix newarray = DoubleMatrix.zeros(original.rows - indices.length, 1);
 
@@ -844,7 +1052,8 @@ public class NDDOSolutionRestrictedEDIIS extends NDDOSolution {
 		return newarray;
 	}
 
-	private static DoubleMatrix addrow(DoubleMatrix original, int[] indices) {
+	private static DoubleMatrix addrow(DoubleMatrix original,
+									   int[] indices) { // add  zero row at indices
 
 		DoubleMatrix newarray = DoubleMatrix.zeros(original.rows + indices.length, 1);
 

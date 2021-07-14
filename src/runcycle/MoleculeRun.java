@@ -1,12 +1,11 @@
 package runcycle;
 
 import nddoparam.NDDOAtom;
-import nddoparam.NDDOGeometryOptimization;
-import nddoparam.NDDOSolution;
-import nddoparam.param.ParamGradientAnalytical;
-import nddoparam.param.ParamHessianAnalytical;
+import nddoparam.GeometryOptimization;
+import nddoparam.Solution;
+import nddoparam.param.ParamGradient;
+import nddoparam.param.ParamHessian;
 import runcycle.input.RawMolecule;
-import scf.Utils;
 
 public abstract class MoleculeRun {
 	protected static double LAMBDA = 1E-7;
@@ -17,8 +16,8 @@ public abstract class MoleculeRun {
 	public NDDOAtom[] atoms, expGeom;
 	public int charge, size, mult;
 	public boolean isRunHessian;
-	public NDDOGeometryOptimization opt;
-	public NDDOSolution expSolution;
+	public GeometryOptimization opt;
+	public Solution expSolution;
 	public String totalHeatDeriv = "";
 	public String totalIonizationDeriv = "";
 	public String totalDipoleDeriv = "";
@@ -30,8 +29,8 @@ public abstract class MoleculeRun {
 	protected RawMolecule rawMolecule;
 	protected long time;
 	protected double[] datum;
-	protected ParamGradientAnalytical g;
-	protected ParamHessianAnalytical h;
+	protected ParamGradient g;
+	protected ParamHessian h;
 
 	public MoleculeRun(NDDOAtom[] atoms, int charge, NDDOAtom[] expGeom, double[] datum,
 					   boolean isRunHessian, String kind, int[] atomTypes, int mult,
@@ -66,11 +65,11 @@ public abstract class MoleculeRun {
 		return datum;
 	}
 
-	public ParamGradientAnalytical getG() {
+	public ParamGradient getG() {
 		return g;
 	}
 
-	public ParamHessianAnalytical getH() {
+	public ParamHessian getH() {
 		return h;
 	}
 
@@ -275,8 +274,8 @@ public abstract class MoleculeRun {
 //            }
 //        }
 //
-//        NDDOSolutionRestricted soln = (NDDOSolutionRestricted) opt.s;
-//        g = new ParamGradientRestricted(soln, this.kind);
+//        SolutionR soln = (SolutionR) opt.s;
+//        g = new ParamGradientR(soln, this.kind);
 //
 //
 //        for (int numit = 0; numit < 8; numit++) {
@@ -388,16 +387,16 @@ public abstract class MoleculeRun {
 //
 //            if (this.mult == 1 && numit > 0 && numit < 7) {
 //
-//                NDDOSolutionRestricted solp = (NDDOSolutionRestricted) g.getEPrime()
+//                SolutionR solp = (SolutionR) g.getEPrime()
 //                .soln;
-//                NDDOSolutionRestricted sol = (NDDOSolutionRestricted) g.getE().soln;
+//                SolutionR sol = (SolutionR) g.getE().soln;
 //
 //
 //                DoubleMatrix densityderiv = (solp.densityMatrix().sub(sol
 //                .densityMatrix()).mmul(1 / LAMBDA));
 //
 //
-//                if (!NDDOSolution.isSimilar(densityderivs[numit - 1], densityderiv,
+//                if (!Solution.isSimilar(densityderivs[numit - 1], densityderiv,
 //                1E-5)) {
 //                    System.err.println("Something broke. Again. " + numit);
 //                    System.err.println("yay");

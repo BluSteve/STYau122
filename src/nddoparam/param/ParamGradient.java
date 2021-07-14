@@ -1,119 +1,227 @@
 package nddoparam.param;
 
-import nddoparam.NDDOAtom;
-import nddoparam.NDDOSolution;
-import scf.Utils;
+import nddoparam.Solution;
+import org.jblas.DoubleMatrix;
 
 public abstract class ParamGradient {
-	protected NDDOAtom[] atoms, perturbed;
-	protected int Z, paramNum;
-	protected NDDOSolution s, sprime;
-	protected ParamErrorFunction e, eprime;
+	protected static final double LAMBDA = 1E-7;
+	protected Solution s, sPrime, sExpPrime, sExp;
+	protected ParamErrorFunction e;
+	protected String kind;
+	protected boolean isExpAvail, analytical;
+	protected double[] datum;
+	protected double[][] HFDerivs, dipoleDerivs, IEDerivs, geomDerivs, totalGradients;
+	protected DoubleMatrix[][] densityDerivs, xLimited, xComplementary, xForIE,
+			coeffDerivs, responseDerivs, fockDerivs;
+	protected DoubleMatrix[][][] staticDerivs;
 
-	public ParamGradient(NDDOAtom[] atoms, int Z, int paramNum) {
-		this.Z = Z;
-		this.paramNum = paramNum;
-		this.atoms = atoms;
-		perturbed = Utils.perturbAtomParams(atoms, Z, paramNum);
+	public ParamGradient(Solution s, String kind, double[] datum,
+						 Solution sExp, boolean analytical) {
+		this.s = s;
+		this.kind = kind;
+		this.datum = datum;
+		this.sExp = sExp;
+		this.analytical = analytical;
 	}
 
-	public void addDipoleError(double ref) {
-		if (eprime != null) {
-			eprime.addDipoleError(ref);
+	protected void errorFunctionRoutine() {
+		if (datum[1] != 0) e.addDipoleError(datum[1]);
+		if (datum[2] != 0) e.addIEError(datum[2]);
+
+		if (this.sExp != null) {
+			isExpAvail = true;
+			geomDerivs = new double[s.getUniqueZs().length][Solution.maxParamNum];
+			e.createExpGeom(this.sExp);
+			e.addGeomError();
 		}
-		e.addDipoleError(ref);
 	}
 
-	public void addIEError(double ref) {
-		if (eprime != null) {
-			eprime.addIEError(ref);
+	protected void initializeArrays() {
+		totalGradients = new double[s.getUniqueZs().length][Solution.maxParamNum];
+		switch (kind) {
+			case "a":
+				HFDerivs = new double[s.getUniqueZs().length][Solution.maxParamNum];
+				break;
+			case "b":
+				HFDerivs = new double[s.getUniqueZs().length][Solution.maxParamNum];
+				dipoleDerivs =
+						new double[s.getUniqueZs().length][Solution.maxParamNum];
+
+				if (this.analytical) {
+					densityDerivs = new DoubleMatrix[s
+							.getUniqueZs().length][Solution.maxParamNum];
+					staticDerivs = new DoubleMatrix[s
+							.getUniqueZs().length][Solution.maxParamNum][2];
+					xLimited = new DoubleMatrix[s
+							.getUniqueZs().length][Solution.maxParamNum];
+				}
+				break;
+			case "c":
+				HFDerivs = new double[s.getUniqueZs().length][Solution.maxParamNum];
+				IEDerivs = new double[s.getUniqueZs().length][Solution.maxParamNum];
+
+				if (analytical) initializeIntermediates();
+				break;
+			case "d":
+				HFDerivs = new double[s.getUniqueZs().length][Solution.maxParamNum];
+				dipoleDerivs =
+						new double[s.getUniqueZs().length][Solution.maxParamNum];
+				IEDerivs = new double[s.getUniqueZs().length][Solution.maxParamNum];
+
+				if (analytical) initializeIntermediates();
+				break;
 		}
-		e.addIEError(ref);
 	}
 
-	public void addGeomError() {
-		if (eprime != null) {
-			eprime.addGeomError();
+	private void initializeIntermediates() {
+		densityDerivs =
+				new DoubleMatrix[s.getUniqueZs().length][Solution.maxParamNum];
+		staticDerivs =
+				new DoubleMatrix[s.getUniqueZs().length][2][Solution.maxParamNum];
+		xLimited = new DoubleMatrix[s.getUniqueZs().length][Solution.maxParamNum];
+
+		xComplementary =
+				new DoubleMatrix[s.getUniqueZs().length][Solution.maxParamNum];
+		xForIE = new DoubleMatrix[s.getUniqueZs().length][Solution.maxParamNum];
+		coeffDerivs = new DoubleMatrix[s.getUniqueZs().length][Solution.maxParamNum];
+		responseDerivs =
+				new DoubleMatrix[s.getUniqueZs().length][Solution.maxParamNum];
+		fockDerivs = new DoubleMatrix[s.getUniqueZs().length][Solution.maxParamNum];
+	}
+
+	public void computeGradients() {
+		totalGradients = new double[s.getUniqueZs().length][Solution.maxParamNum];
+		if (analytical && (kind.equals("b") || kind.equals("c") || kind.equals("d")))
+			computeBatchedDerivs(0, 0);
+		for (int Z = 0; Z < s.getUniqueZs().length; Z++) {
+			for (int paramNum : s.getNeededParams()[s.getUniqueZs()[Z]]) {
+				computeGradient(Z, paramNum);
+			}
 		}
-		e.addGeomError();
 	}
 
-	public void addBondError(int atom1, int atom2, double ref) {
-		if (eprime != null) {
-			eprime.addBondError(atom1, atom2, ref);
+	public void computeGradient(int Z, int paramNum) {
+		if (!analytical) constructSPrime(Z, paramNum);
+		switch (kind) {
+			case "a":
+				computeHFDeriv(Z, paramNum);
+				break;
+			case "b":
+				computeDipoleDeriv(Z, paramNum, true);
+				break;
+			case "c":
+				computeDipoleDeriv(Z, paramNum, false);
+				computeIEDeriv(Z, paramNum);
+				break;
+			case "d":
+				computeDipoleDeriv(Z, paramNum, true);
+				computeIEDeriv(Z, paramNum);
+				break;
 		}
-		e.addBondError(atom1, atom2, ref);
+		if (isExpAvail) computeGeomDeriv(Z, paramNum);
 	}
 
-	public void addAngleError(int atom1, int atom2, int atom3, double ref) {
-		if (eprime != null) {
-			eprime.addAngleError(atom1, atom2, atom3, ref);
+	protected void computeGeomDeriv(int Z, int paramNum) {
+		constructSExpPrime(Z, paramNum);
+		double sum = 0;
+		double d;
+		for (int i = 0; i < sExpPrime.atoms.length; i++) {
+			for (int j = 0; j < 3; j++) {
+				d = findGrad(i, j);
+				sum += d * d;
+			}
 		}
-		e.addAngleError(atom1, atom2, atom3, ref);
+		double geomGradient = 627.5 * Math.sqrt(sum);
+		geomDerivs[Z][paramNum] = 1 / LAMBDA * (geomGradient - e.geomGradient);
+		totalGradients[Z][paramNum] +=
+				0.000098 * e.geomGradient * geomDerivs[Z][paramNum];
 	}
 
-	public double gradient() {
-		if (eprime != null) {
-			return (eprime.getTotalError() - e.getTotalError()) / Utils.LAMBDA;
-		}
-		else return 0;
-	}
+	protected abstract void constructSPrime(int Z, int paramNum);
 
-	public abstract void constructErrors(double refHeat);
+	protected abstract void computeBatchedDerivs(int firstZIndex, int firstParamIndex);
 
-	public abstract void createExpGeom(NDDOAtom[] expAtoms, NDDOSolution expSoln);
+	protected abstract void computeHFDeriv(int Z, int paramNum);
 
-	public double getEDipole() {
-		return s.dipole;
-	}
+	protected abstract void computeDipoleDeriv(int Z, int paramNum, boolean full);
 
-	public double getEPrimeDipole() {
-		if (eprime != null) {
-			return eprime.soln.dipole;
-		}
-		return s.dipole;
-	}
+	protected abstract void computeIEDeriv(int Z, int paramNum);
 
-	public double getEHf() {
-		return s.hf;
-	}
+	protected abstract void constructSExpPrime(int Z, int paramNum);
 
-	public double getEPrimeHf() {
-		if (eprime != null) {
-			return eprime.soln.hf;
-		}
-		return s.hf;
-	}
-
-	public double getEGradient() {
-		return e.geomGradient;
-	}
-
-	public double getEPrimeGradient() {
-		if (eprime != null) {
-			return eprime.geomGradient;
-		}
-		return e.geomGradient;
-	}
-
-	public double getEHomo() {
-		return s.homo;
-	}
-
-	public double getEPrimeHomo() {
-		if (eprime != null) {
-			return eprime.soln.homo;
-		}
-		return s.homo;
-	}
+	protected abstract double findGrad(int i, int j);
 
 	public ParamErrorFunction getE() {
-		return e;
+		return this.e;
 	}
 
-	public ParamErrorFunction getEPrime() {
-		return eprime;
+	public Solution getS() {
+		return s;
+	}
+
+	public double[][] getHFDerivs() {
+		return HFDerivs;
+	}
+
+	public double[][] getDipoleDerivs() {
+		return dipoleDerivs;
+	}
+
+	public double[][] getIEDerivs() {
+		return IEDerivs;
+	}
+
+	public double[][] getGeomDerivs() {
+		return geomDerivs;
+	}
+
+	public double[][] getTotalGradients() {
+		return totalGradients;
+	}
+
+	public boolean isAnalytical() {
+		return analytical;
+	}
+
+	public void setAnalytical(boolean analytical) {
+		this.analytical = analytical;
+	}
+
+	public double[][] depad(double[][] derivs) {
+		double[][] res = new double[derivs.length][0];
+		for (int i = 0; i < derivs.length; i++) {
+			double[] depadded =
+					new double[s.getNeededParams()[s.getUniqueZs()[i]].length];
+			int u = 0;
+			for (int j = 0; j < derivs[i].length; j++) {
+				for (int p : s.getNeededParams()[s.getUniqueZs()[i]]) {
+					if (j == p) {
+						depadded[u] = derivs[i][j];
+						u++;
+						break;
+					}
+				}
+			}
+			res[i] = depadded;
+		}
+		return res;
+	}
+
+	public double getAnalyticalError() {
+		this.computeGradients();
+		double[][] a = new double[totalGradients.length][0];
+		for (int i = 0; i < totalGradients.length; i++) a[i] = totalGradients[i].clone();
+		analytical = !analytical;
+		this.computeGradients();
+		double sum = 0;
+		for (int i = 0; i < totalGradients.length; i++) {
+			for (int j = 0; j < totalGradients[0].length; j++) {
+				sum += (totalGradients[i][j] - a[i][j]) *
+						(totalGradients[i][j] - a[i][j]);
+			}
+		}
+		analytical = !analytical;
+		totalGradients = a;
+		return sum;
 	}
 }
-
-
