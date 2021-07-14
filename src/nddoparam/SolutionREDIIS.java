@@ -12,7 +12,7 @@ public class SolutionREDIIS extends Solution {
 
 	public double[] integralArray;
 	public DoubleMatrix C, F, G, E;
-//H - core matrix, G = 2-electron matrix, F = fock matrix, C = coeffecient matrix
+	//H - core matrix, G = 2-electron matrix, F = fock matrix, C = coeffecient matrix
 // (transposed for easier reading), E = eigenvalues
 	private DoubleMatrix densityMatrix;
 
@@ -298,7 +298,7 @@ public class SolutionREDIIS extends Solution {
 
 					double product =
 							0.5 * ((Farray[i].mmul(Darray[numIt])).diag().sum() +
-							(Farray[numIt].mmul(Darray[i])).diag().sum());
+									(Farray[numIt].mmul(Darray[i])).diag().sum());
 
 					B.put(i, numIt, product);
 					B.put(numIt, i, product);

@@ -206,7 +206,7 @@ public class ParamDerivative {
 	private static double uzuz(double p01, double p11, double p21, double D11,
 							   double D21,
 							   double p02, double p12, double p22, double D12,
-							    double D22,
+							   double D22,
 							   double R, int num, double D1deriv, double D2deriv,
 							   double p1deriv, double p2deriv) {
 		double a11 = p11 + p12;
@@ -339,7 +339,7 @@ public class ParamDerivative {
 	private static double uzQzz(double p01, double p11, double p21, double D11,
 								double D21, double p02, double p12, double p22,
 								double D12, double D22, double R, int num,
-								 double D1deriv,
+								double D1deriv,
 								double D2deriv, double p1deriv, double p2deriv) {
 		double a12 = p11 + p22;
 
@@ -742,7 +742,7 @@ public class ParamDerivative {
 		return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv,
 				D2deriv, p1deriv, p2deriv) +
 				qQzz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num),
-D1deriv,
+						D1deriv,
 						D2deriv, p1deriv, p2deriv);
 	}
 
@@ -750,7 +750,7 @@ D1deriv,
 											double D11, double D21, double p02,
 											double p12, double p22, double D12,
 											double D22, double R, int num,
-											 double D1deriv,
+											double D1deriv,
 											double D2deriv, double p1deriv,
 											double p2deriv) {
 		return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv,
@@ -803,7 +803,7 @@ D1deriv,
 				qQpipi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv,
 						D2deriv, p1deriv, p2deriv) +
 				qQzz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num),
-D1deriv,
+						D1deriv,
 						D2deriv, p1deriv, p2deriv) +
 				QpipiQzz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num),
 						D1deriv, D2deriv, p1deriv, p2deriv);
@@ -842,7 +842,7 @@ D1deriv,
 		return -quz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriv,
 				D2deriv, p1deriv, p2deriv) +
 				uzQpipi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num,
-D1deriv,
+						D1deriv,
 						D2deriv, p1deriv, p2deriv);
 	}
 
@@ -930,7 +930,7 @@ D1deriv,
 										  double D1deriv, double D2deriv, double p1deriv,
 										  double p2deriv) {
 		return QpizQpiz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num,
-D1deriv,
+				D1deriv,
 				D2deriv, p1deriv, p2deriv);
 	}
 
@@ -961,7 +961,7 @@ D1deriv,
 
 
 	protected static double LocalTwoCenterERIderiv(NDDO6G a, NDDO6G b, NDDO6G c,
- NDDO6G d,
+												   NDDO6G d,
 												   double D1deriv, double D2deriv,
 												   double p1deriv, double p2deriv,
 												   int num, int type) {
@@ -1112,7 +1112,7 @@ D1deriv,
 												d.getj() == c.getj() && d.getk() == 0) {
 											return spzppippideriv(a.p0, a.p1, a.p2, a.D1,
 													a.D2, c.p0, c.p1, c.p2, c.D1, c.D2
-, R,
+													, R,
 													num, D1deriv, D2deriv, p1deriv,
 													p2deriv);
 										}
@@ -1161,7 +1161,7 @@ D1deriv,
 											switch (d.getL()) {
 												case 0:
 													return sppisppideriv(a.p0, a.p1,
-a.p2,
+															a.p2,
 															a.D1, a.D2, c.p0, c.p1, c.p2,
 															c.D1, c.D2, R, num, D1deriv,
 															D2deriv, p1deriv, p2deriv);
@@ -1254,7 +1254,7 @@ a.p2,
 												d.getj() == c.getj() && d.getk() == 0) {
 											return spzppippideriv(a.p0, a.p1, a.p2, a.D1,
 													a.D2, c.p0, c.p1, c.p2, c.D1, c.D2
-, R,
+													, R,
 													num, D1deriv, D2deriv, p1deriv,
 													p2deriv);
 										}
@@ -1278,7 +1278,7 @@ a.p2,
 
 											case 0://(pzpz|ss)
 												return pzpzssderiv(a.p0, a.p1, a.p2,
-a.D1,
+														a.D1,
 														a.D2, c.p0, c.p1, c.p2, c.D1,
 														c.D2, R, num, D1deriv, D2deriv,
 														p1deriv, p2deriv);
@@ -1387,7 +1387,7 @@ a.D1,
 																	a.D2, c.p0, c.p1,
 																	c.p2, c.D1, c.D2, R,
 																	num, D1deriv,
-																	 D2deriv,
+																	D2deriv,
 																	p1deriv, p2deriv);
 														}
 														else {
@@ -1418,7 +1418,7 @@ a.D1,
 									if (d.geti() == a.geti() && d.getj() == a.getj() &&
 											d.getk() == 0) {//(ppis|sppi)
 										return sppisppideriv(a.p0, a.p1, a.p2, a.D1,
-a.D2,
+												a.D2,
 												c.p0, c.p1, c.p2, c.D1, c.D2, R, num,
 												D1deriv, D2deriv, p1deriv, p2deriv);
 									}
@@ -1447,7 +1447,7 @@ a.D2,
 											switch (d.getL()) {
 												case 0:
 													return sppisppideriv(a.p0, a.p1,
-a.p2,
+															a.p2,
 															a.D1, a.D2, c.p0, c.p1, c.p2,
 															c.D1, c.D2, R, num, D1deriv,
 															D2deriv, p1deriv, p2deriv);
@@ -1524,7 +1524,7 @@ a.p2,
 																	a.D2, c.p0, c.p1,
 																	c.p2, c.D1, c.D2, R,
 																	num, D1deriv,
-																	 D2deriv,
+																	D2deriv,
 																	p1deriv, p2deriv);
 														}
 														else {
@@ -1553,7 +1553,7 @@ a.p2,
 												if (a.geti() == b.geti() &&
 														a.getj() == b.getj()) {
 													return ppippissderiv(a.p0, a.p1,
-a.p2,
+															a.p2,
 															a.D1, a.D2, c.p0, c.p1, c.p2,
 															c.D1, c.D2, R, num, D1deriv,
 															D2deriv, p1deriv, p2deriv);
@@ -1648,7 +1648,7 @@ a.p2,
 														c.getj() != d.getj() &&
 														c.getk() == 0) {
 													return pxpypxpyderiv(a.p0, a.p1,
-a.p2,
+															a.p2,
 															a.D1, a.D2, c.p0, c.p1, c.p2,
 															c.D1, c.D2, R, num, D1deriv,
 															D2deriv, p1deriv, p2deriv);
@@ -2549,7 +2549,8 @@ a.p2,
 
 
 	private static DoubleMatrix computeResponseVectorsLimited(DoubleMatrix x,
-															  SolutionR soln) {//todo duplicate from SecondDerivative
+															  SolutionR soln) {//todo
+		// duplicate from SecondDerivative
 
 		int NOcc = (int) (soln.nElectrons / 2.0);
 
@@ -2864,7 +2865,9 @@ a.p2,
 				}
 				else if (Double.isNaN(mag(rarray[j]))) {
 					System.err.println(
-							"Pople algorithm fails; reverting to Thiel algorithm (don't " +
+							"Pople algorithm fails; reverting to Thiel algorithm " +
+									"(don't" +
+									" " +
 									"panic)...");
 					return xArrayLimitedThiel(soln, fockDerivStaticPadded);
 				}
@@ -2969,7 +2972,7 @@ a.p2,
 
 					for (int i = 0; i < rhs.rows; i++) {
 						rhs.put(i, 0, 2 * rarray[a].transpose().mmul(d.get(i)).get(0,
-0));
+								0));
 
 					}
 

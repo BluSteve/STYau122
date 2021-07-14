@@ -49,7 +49,7 @@
 //            File previous = new File("mndooutput.txt");
 //
 //            try {
-//                // this code is ugly. does mndoparams have a fixed size? TODO a lot
+//                // this code is ugly. does mndoparams have a fixed size?
 //                 of things here
 //                //readOutput(new Scanner(previous));
 //                Scanner paramScan = new Scanner(params);

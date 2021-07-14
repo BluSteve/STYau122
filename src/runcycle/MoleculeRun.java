@@ -186,7 +186,6 @@ public abstract class MoleculeRun {
 //        StringBuilder hessianSB = new StringBuilder();
 //        for (int I = 0; I < size; I++) {
 //            for (int j = I; j < size; j++) {
-//                // TODO optimize this
 //                int Z1 = (int) Math.round(paramIndexes.get(I, 0));
 //                int Z2 = (int) Math.round(paramIndexes.get(j, 0));
 //                int param1 = (int) Math.round(paramIndexes.get(I, 1));

@@ -1912,7 +1912,7 @@ public class SecondDerivative {
 
 							returnval[1] =
 									3 * x * x * x / (Rxz * Rxz * Rxz * Rxz * Rxz) -
-									3 * x / (Rxz * Rxz * Rxz);
+											3 * x / (Rxz * Rxz * Rxz);
 
 							returnval[2] =
 									3 * x * x * z / (R * R * R * R * R) - z / (R * R * R);
@@ -1944,7 +1944,7 @@ public class SecondDerivative {
 
 							returnval[1] =
 									3 * x * x * z / (Rxz * Rxz * Rxz * Rxz * Rxz) -
-									z / (Rxz * Rxz * Rxz);
+											z / (Rxz * Rxz * Rxz);
 
 							returnval[2] =
 									3 * x * z * z / (R * R * R * R * R) - x / (R * R * R);
@@ -1961,7 +1961,7 @@ public class SecondDerivative {
 						case 1: //partial wrt y and y
 							returnval[0] =
 									3 * y * y * y * z / (R * R * R * R * R * Rxz) -
-									3 * y * z / (R * R * R * Rxz);
+											3 * y * z / (R * R * R * Rxz);
 
 							returnval[1] = 0;
 
@@ -2845,7 +2845,9 @@ public class SecondDerivative {
 				}
 				else if (Double.isNaN(mag(rarray[j]))) {
 					System.err.println(
-							"Pople algorithm fails; reverting to Thiel algorithm (don't " +
+							"Pople algorithm fails; reverting to Thiel algorithm " +
+									"(don't" +
+									" " +
 									"panic)...");
 					return null;
 				}

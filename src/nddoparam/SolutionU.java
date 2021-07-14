@@ -369,7 +369,8 @@ public class SolutionU extends Solution {
 				System.err.println("SCF Has Not Converged");
 
 				System.err.println(
-						"Damping Coefficient will be Increased, and the run restarted.." +
+						"Damping Coefficient will be Increased, and the run restarted." +
+								"." +
 								".");
 
 				damp += 0.02;
@@ -377,7 +378,8 @@ public class SolutionU extends Solution {
 				matrices = Eigen.symmetricEigenvectors(H);
 
 				System.out.println(
-						"Exchange (K) matrix ERIs evaluated, beginning SCF iterations.." +
+						"Exchange (K) matrix ERIs evaluated, beginning SCF iterations." +
+								"." +
 								".");
 
 				Ea = matrices[1].diag();

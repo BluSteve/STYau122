@@ -15,7 +15,7 @@ public abstract class Solution {
 	// TODO make most of these private
 	public static int maxParamNum = 8;
 	private final int[] uniqueZs;
-			// NOT THE SAME AS ATOMTYPES, THIS ONE IS JUST FOR THIS MOLECULE
+	// NOT THE SAME AS ATOMTYPES, THIS ONE IS JUST FOR THIS MOLECULE
 	public double energy, homo, lumo, hf, dipole;
 	public double[] chargedip, hybridip, dipoletot;
 	public int charge, multiplicity;

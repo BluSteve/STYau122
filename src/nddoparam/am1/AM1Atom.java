@@ -154,10 +154,11 @@ public class AM1Atom extends NDDOAtom {
 
 		double returnval =
 				fprime * this.atomProperties.getQ() * b.atomProperties.getQ() *
-				NDDO6G.getG(this.s(), this.s(), b.s(), b.s()) +
-				f * this.atomProperties.getQ() * b.atomProperties.getQ() *
-						Derivative.getGderiv(this.s(), this.s(), b.s(), b.s(), tau) +
-				gaussiancontribution;
+						NDDO6G.getG(this.s(), this.s(), b.s(), b.s()) +
+						f * this.atomProperties.getQ() * b.atomProperties.getQ() *
+								Derivative.getGderiv(this.s(), this.s(), b.s(), b.s(),
+										tau) +
+						gaussiancontribution;
 
 		return returnval;
 	}

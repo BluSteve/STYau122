@@ -130,7 +130,7 @@ public abstract class GeometryOptimization {
 			if (numIt == 20) {
 				numIt = 0;
 				matrices = routine();
-				B = matrices[1]; // TODO is mmul the same as mul when it comes to scalars
+				B = matrices[1];
 			}
 
 			ms = Eigen.symmetricEigenvectors(B);

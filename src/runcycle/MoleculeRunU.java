@@ -11,9 +11,9 @@ import org.apache.commons.lang3.time.StopWatch;
 import runcycle.input.RawMolecule;
 
 public class MoleculeRunU extends MoleculeRun {
-	public MoleculeRunU(NDDOAtom[] atoms2, int charge, int mult,
-						NDDOAtom[] expGeom, double[] datum,
-						boolean isRunHessian, String kind, int[] atomTypes) {
+	public MoleculeRunU(NDDOAtom[] atoms2, int charge, int mult, NDDOAtom[] expGeom,
+						double[] datum, boolean isRunHessian, String kind,
+						int[] atomTypes) {
 		super(atoms2, charge, expGeom, datum, isRunHessian, kind, atomTypes, mult, null);
 		metaRoutine();
 	}
