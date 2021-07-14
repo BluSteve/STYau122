@@ -35,6 +35,10 @@ public class InputHandler {
             List<String> lines = Files.readAllLines(Path.of("input.txt"));
             List<String> datums = Files.readAllLines(Path.of("reference.txt"));
             ri.trainingSet = lines.get(0).split("=")[1];
+            ri.atomTypes = new int[ri.trainingSet.length()];
+            for (int x = 0; x < ri.trainingSet.length(); x++) {
+                ri.atomTypes[x] = AtomHandler.atomsMap.get(Character.toString(ri.trainingSet.charAt(x))).getZ();
+            }
             ArrayList<RawMolecule> moleculesL = new ArrayList<>();
 
             int i = 1;
@@ -69,7 +73,6 @@ public class InputHandler {
                         }
                         if (!nameOccurrences.containsKey(a.name)) nameOccurrences.put(a.name, 1);
                         else nameOccurrences.put(a.name, nameOccurrences.get(a.name) + 1);
-
                     }
                     for (String key : nameOccurrences.keySet()) {
                         nameBuilder.append(key).append(nameOccurrences.get(key));
@@ -98,7 +101,8 @@ public class InputHandler {
                     moleculesL.add(rm);
                     i++;
                 }
-            } catch (IndexOutOfBoundsException e) { }
+            } catch (IndexOutOfBoundsException e) {
+            }
             try {
                 i = 0;
                 int j = 0;
@@ -114,6 +118,10 @@ public class InputHandler {
                     if (ss.length == 2) datum[2] = Double.parseDouble(ss[1]);
                     i += 2;
                     moleculesL.get(j).datum = datum;
+                    if (datum[1] == 0 && datum[2] == 0) moleculesL.get(j).kind = "a";
+                    else if (datum[1] == 0) moleculesL.get(j).kind = "c";
+                    else if (datum[2] == 0) moleculesL.get(j).kind = "b";
+                    else moleculesL.get(j).kind = "d";
                     j++;
                 }
             } catch (IndexOutOfBoundsException e) {

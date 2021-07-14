@@ -8,6 +8,7 @@ public class RawMolecule {
     public boolean uhf;
     public int charge, mult, nElectrons;
     public double[] datum;
+    public String kind;
     public int[] uniqueZs;
     public RawAtom[] atoms, expGeom;
 
