@@ -5,6 +5,7 @@ import nddoparam.NDDOGeometryOptimization;
 import nddoparam.NDDOSolution;
 import nddoparam.param.ParamGradientAnalytical;
 import nddoparam.param.ParamHessianAnalytical;
+import runcycle.input.RawMolecule;
 
 public abstract class MoleculeRun {
     protected static double LAMBDA = 1E-7;

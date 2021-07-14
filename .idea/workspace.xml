@@ -33,13 +33,21 @@
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="mndo-update.sh">
       <change afterPath="$PROJECT_DIR$/src/Main2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testinginput.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/input.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ComputationRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ComputationRequest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRunRestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRunRestricted.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRunUnrestricted.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRunUnrestricted.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/input/RawAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/input/RawAtom.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/runcycle/input/RawInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/input/RawInput.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/runcycle/input/RawMolecule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/input/RawMolecule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scf/AtomHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/AtomHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scf/AtomProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/AtomProperties.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -305,7 +313,7 @@
       <recent name="nddoparam.param" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.InputHandler">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="AtomHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="adopt-openjdk-11" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -372,10 +380,10 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.InputHandler" />
         <item itemvalue="Application.Main" />
-        <item itemvalue="Application.ParamGradientRestricted" />
+        <item itemvalue="Application.InputHandler" />
         <item itemvalue="Application.AtomHandler" />
+        <item itemvalue="Application.ParamGradientRestricted" />
       </list>
     </recent_temporary>
   </component>
@@ -468,14 +476,7 @@
       <workItem from="1626109327462" duration="2084000" />
       <workItem from="1626154934101" duration="4422000" />
       <workItem from="1626189563272" duration="7339000" />
-      <workItem from="1626225806495" duration="1464000" />
-    </task>
-    <task id="LOCAL-00033" summary="ParamGradient refactor 2.0 working edition">
-      <created>1625477494994</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1625477494994</updated>
+      <workItem from="1626225806495" duration="6698000" />
     </task>
     <task id="LOCAL-00034" summary="ParamGradient refactor 2.1 very much working edition">
       <created>1625904834765</created>
@@ -813,7 +814,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626225922042</updated>
     </task>
-    <option name="localTasksCounter" value="82" />
+    <task id="LOCAL-00082" summary="more input handler stuff">
+      <created>1626227304099</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1626227304099</updated>
+    </task>
+    <option name="localTasksCounter" value="83" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -881,7 +889,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Finite difference added to ParamGradient as an option" />
     <MESSAGE value="Working (tbc) ParamGradientUnrestricted2" />
     <MESSAGE value="Other hessian representations" />
     <MESSAGE value="Major refactors" />
@@ -906,7 +913,8 @@
     <MESSAGE value="Adrian fix NDDO Solution Restricted" />
     <MESSAGE value="input.json" />
     <MESSAGE value="mndo-update.sh" />
-    <option name="LAST_COMMIT_MESSAGE" value="mndo-update.sh" />
+    <MESSAGE value="more input handler stuff" />
+    <option name="LAST_COMMIT_MESSAGE" value="more input handler stuff" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

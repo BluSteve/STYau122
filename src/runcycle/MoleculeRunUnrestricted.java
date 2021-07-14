@@ -2,9 +2,12 @@ package runcycle;
 
 import nddoparam.NDDOAtom;
 import nddoparam.NDDOGeometryOptimizationUnrestricted;
+import nddoparam.NDDOParams;
 import nddoparam.NDDOSolutionUnrestricted;
+import nddoparam.mndo.MNDOParams;
 import nddoparam.param.ParamGradientUnrestricted2;
 import nddoparam.param.ParamHessianUnrestricted2;
+import runcycle.input.RawMolecule;
 
 public class MoleculeRunUnrestricted extends MoleculeRun {
     public MoleculeRunUnrestricted(NDDOAtom[] atoms2, int charge, int mult, NDDOAtom[] expGeom, double[] datum, boolean isRunHessian, String kind, int[] atomTypes) {
@@ -17,6 +20,11 @@ public class MoleculeRunUnrestricted extends MoleculeRun {
         if (this.expGeom != null) expSolution = new NDDOSolutionUnrestricted(this.expGeom, charge, mult);
 
         routine();
+    }
+
+    public MoleculeRunUnrestricted(RawMolecule rm, NDDOParams[] mp, int[] atomTypes, boolean isRunHessian) {
+        this(RawMolecule.toMNDOAtoms(rm.atoms, (MNDOParams[]) mp), rm.charge, rm.mult, RawMolecule.toMNDOAtoms(rm.expGeom, (MNDOParams[]) mp),
+                rm.datum, isRunHessian, rm.kind, atomTypes);
     }
 
     @Override
