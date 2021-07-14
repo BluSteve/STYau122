@@ -1,7 +1,9 @@
 import nddoparam.NDDOParams;
 import nddoparam.mndo.MNDOParams;
+import optimize.ParamOptimizer;
 import org.apache.commons.lang3.time.StopWatch;
 import org.jblas.DoubleMatrix;
+import org.jblas.Eigen;
 import runcycle.MoleculeRun;
 import runcycle.MoleculeRunR;
 import runcycle.MoleculeRunU;
@@ -29,7 +31,7 @@ public class Main {
 		AtomHandler.populateAtoms();
 
 		for (int numRuns = 0; numRuns < 1; numRuns++) {
-			boolean useHessian = numRuns % 2 == 0; // Hessian every other run
+			boolean runHessian = numRuns % 2 == 0; // Hessian every other run
 			InputHandler.processInput(INPUT_FILENAME);
 			RawInput ri = InputHandler.ri;
 			System.out.println(
@@ -61,10 +63,10 @@ public class Main {
 									MoleculeRun result = request.restricted ?
 											new MoleculeRunR(request,
 													nddoParams,
-													ri.atomTypes, useHessian) :
+													ri.atomTypes, runHessian) :
 											new MoleculeRunU(request,
 													nddoParams,
-													ri.atomTypes, useHessian);
+													ri.atomTypes, runHessian);
 									return result;
 								})).get().collect(Collectors.toList());
 
@@ -72,10 +74,10 @@ public class Main {
 						.subList(maxParallel, requests.size())) {
 					MoleculeRun result = request.restricted ?
 							new MoleculeRunR(request, nddoParams, ri.atomTypes,
-									useHessian) :
+									runHessian) :
 							new MoleculeRunU(request, nddoParams,
 									ri.atomTypes,
-									useHessian);
+									runHessian);
 					results.add(result);
 				}
 
@@ -86,32 +88,39 @@ public class Main {
 				OutputHandler.output(mos, OUTPUT_FILENAME);
 				InputHandler.updateInput(ri, INPUT_FILENAME);
 
-				// TODO generalize and put into function for storing
-				//  param_length;
-				int paramLength = MNDOParams.T1ParamNums.length
-						+ (ri.atomTypes.length - 1) *
-						MNDOParams.T2ParamNums.length;
-				double[] ttGradient =
-						new double[paramLength];
-				for (MoleculeOutput mo : mos) {
-					int k = 0;
-					int l = 0;
-					for (double[] gradient : mo.gradient.total) {
-						int[] paramIndexes;
-						if (k == 0) paramIndexes = MNDOParams.T1ParamNums;
-						else paramIndexes = MNDOParams.T2ParamNums;
-						for (int j : paramIndexes) {
-							ttGradient[l] += gradient[j];
-							l++;
+				int paramLength =
+						results.get(0).getG().combine(results.get(0).getG()
+								.depad(results.get(0).getG()
+										.getTotalGradients())).length;
+				double[] ttGradient = new double[paramLength];
+				double[][] ttHessian = null;
+				if (runHessian) ttHessian =
+						new double[results.get(0).getH().getHessianUnpadded().length]
+								[results.get(0).getH().getHessianUnpadded()[0].length];
+				for (MoleculeRun result : results) {
+					double[] g =
+							result.getG().combine(result.getG()
+									.depad(result.getG().getTotalGradients()));
+					for (int i = 0; i < g.length; i++) {
+						ttGradient[i] += g[i];
+					}
+					if (runHessian) {
+						double[][] h = result.getH().getHessianUnpadded();
+						for (int i = 0; i < h.length; i++) {
+							for (int j = 0; j < h[0].length; j++)
+								ttHessian[i][j] += h[i][j];
 						}
-						k++;
 					}
 				}
-				DoubleMatrix B = findMockHessian(ttGradient,
-						ri.params.lastHessian,
-						ri.params.lastGradient, ri.params.lastDir,
-						paramLength);
-				System.out.println(B);
+				DoubleMatrix B = runHessian ? new DoubleMatrix(ttHessian) :
+						findMockHessian(ttGradient,
+								ri.params.lastHessian,
+								ri.params.lastGradient, ri.params.lastDir,
+								paramLength);
+
+//				ParamOptimizer o = new ParamOptimizer();
+
+				System.out.println(Eigen.symmetricEigenvalues(B));
 
 			} catch (Exception e) {
 				e.printStackTrace();

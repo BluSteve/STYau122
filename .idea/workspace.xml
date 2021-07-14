@@ -33,12 +33,9 @@
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/input.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inputtesting.txt" beforeDir="false" afterPath="$PROJECT_DIR$/inputtesting.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/output.json" beforeDir="false" afterPath="$PROJECT_DIR$/output.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/input/RawParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/input/RawParams.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -471,13 +468,6 @@
       <workItem from="1626189563272" duration="7339000" />
       <workItem from="1626225806495" duration="11505000" />
     </task>
-    <task id="LOCAL-00045" summary="Working (tbc) ParamGradientUnrestricted2">
-      <created>1625986845960</created>
-      <option name="number" value="00045" />
-      <option name="presentableId" value="LOCAL-00045" />
-      <option name="project" value="LOCAL" />
-      <updated>1625986845960</updated>
-    </task>
     <task id="LOCAL-00046" summary="Minor changes">
       <created>1625987210049</created>
       <option name="number" value="00046" />
@@ -814,7 +804,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626259873649</updated>
     </task>
-    <option name="localTasksCounter" value="94" />
+    <task id="LOCAL-00094" summary="Working B">
+      <created>1626260807771</created>
+      <option name="number" value="00094" />
+      <option name="presentableId" value="LOCAL-00094" />
+      <option name="project" value="LOCAL" />
+      <updated>1626260807771</updated>
+    </task>
+    <option name="localTasksCounter" value="95" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -882,7 +879,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Git changes" />
     <MESSAGE value="Minor Changes" />
     <MESSAGE value="Shell script" />
     <MESSAGE value="Gcloud script" />
@@ -907,7 +903,8 @@
     <MESSAGE value="MNDOHessianUpdate jsonify" />
     <MESSAGE value="nMolecules added as RawInput param" />
     <MESSAGE value="Middle of nowhere" />
-    <option name="LAST_COMMIT_MESSAGE" value="Middle of nowhere" />
+    <MESSAGE value="Working B" />
+    <option name="LAST_COMMIT_MESSAGE" value="Working B" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
