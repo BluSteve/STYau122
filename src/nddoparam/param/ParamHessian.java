@@ -5,7 +5,8 @@ import scf.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -56,7 +57,7 @@ public abstract class ParamHessian {
 		hessian = new double[s.getUniqueZs().length * Solution.maxParamNum]
 				[s.getUniqueZs().length * Solution.maxParamNum];
 		try {
-			ForkJoinPool threadPool = new ForkJoinPool(hessian.length);
+			ExecutorService threadPool = Executors.newFixedThreadPool(hessian.length);
 
 			List<int[]> ZandPNs = new ArrayList<>(hessian.length);
 
@@ -68,16 +69,16 @@ public abstract class ParamHessian {
 				}
 			}
 
-			List<Double> results =
-					threadPool.submit(() -> ZandPNs.parallelStream()
-							.map(request -> {
-								int ZIndex2 = request[0];
-								int paramNum2 = request[1];
-								computeHessianRow(ZIndex2, paramNum2);
-								return 0.0;
-							}))
-							.get().collect(Collectors.toList());
-			System.out.println(results);
+			// todo make this more elegant
+			threadPool.submit(() -> ZandPNs.parallelStream()
+					.map(request -> {
+						int ZIndex2 = request[0];
+						int paramNum2 = request[1];
+						computeHessianRow(ZIndex2, paramNum2);
+						return 1;
+					}))
+					.get().collect(Collectors.toList());
+			threadPool.shutdown();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

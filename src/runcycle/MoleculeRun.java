@@ -57,7 +57,7 @@ public class MoleculeRun {
 				ioException.printStackTrace();
 			}
 		}
-		System.err.println(rawMolecule.index + " " + rawMolecule.name + " " +
+		System.err.println(rawMolecule.index + " " + rawMolecule.name +
 				" finished in " + time);
 	}
 

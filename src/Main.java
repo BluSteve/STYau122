@@ -17,7 +17,8 @@ import scf.AtomHandler;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 
@@ -25,15 +26,18 @@ public class Main {
 
 	private static final String INPUT_FILENAME = "input.json";
 	private static final String OUTPUT_FILENAME = "output.json";
+	private static final int NUM_RUNS = 100;
 	private static RawInput ri;
 
 	public static void main(String[] args) {
 		StopWatch sw = new StopWatch();
 		sw.start();
-//        System.out.close();
+        System.out.close();
 
-		for (int numRuns = 0; numRuns < 1; numRuns++) {
-			boolean isRunHessian = numRuns % 2 == 0; // Hessian every other run
+		for (int runNum = 0; runNum < NUM_RUNS; runNum++) {
+			StopWatch lsw = new StopWatch();
+			lsw.start();
+			boolean isRunHessian = runNum % 2 == 0; // Hessian every other run
 
 			AtomHandler.populateAtoms();
 			InputHandler.processInput(INPUT_FILENAME);
@@ -91,7 +95,7 @@ public class Main {
 					requests.size() - remainingNonParallel : 1;
 			List<RawMolecule> parallelRequests =
 					requests.subList(0, maxParallel);
-			ForkJoinPool threadPool = new ForkJoinPool(cores);
+			ExecutorService threadPool = Executors.newFixedThreadPool(cores);
 
 			List<MoleculeRun> results = null;
 			try {
@@ -105,8 +109,8 @@ public class Main {
 										isRunHessian)))
 						.get()
 						.collect(Collectors.toList());
-			}
-			catch (Exception e) {
+				threadPool.shutdown();
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 
@@ -203,11 +207,11 @@ public class Main {
 
 			OutputHandler.output(mos, OUTPUT_FILENAME);
 			InputHandler.updateInput(ri, INPUT_FILENAME);
-
+			System.err.println("\nRun " + runNum + " time taken: " + lsw.getTime());
 		}
 
 		sw.stop();
-		System.out.println("\nTime taken: " + sw.getTime());
+		System.err.println("\nTotal time taken: " + sw.getTime());
 	}
 
 	private static DoubleMatrix findMockHessian(DoubleMatrix newGradient,

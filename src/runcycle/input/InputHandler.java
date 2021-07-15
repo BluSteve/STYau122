@@ -45,7 +45,7 @@ public class InputHandler {
 
 	public static void makeInput(RawInput ri, String input) {
 		GsonBuilder builder = new GsonBuilder();
-//		builder.setPrettyPrinting();
+		builder.setPrettyPrinting();
 		Gson gson = builder.serializeNulls().create();
 		try {
 			FileWriter fw = new FileWriter(input);
