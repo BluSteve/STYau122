@@ -3523,15 +3523,20 @@ public class ParamDerivative {
 			}
 		}
 
-		if (dirs[Math.min(1, dirs.length - 1)].rows == 0) {
-			DoubleMatrix[] densityderivs =
-					new DoubleMatrix[fockDerivStatic.length];
+		// todo adrian what the frick is this
+		for (DoubleMatrix dir : dirs) {
+			if (dir != null) {
+				if (dir.rows == 0) {
+					DoubleMatrix[] densityderivs =
+							new DoubleMatrix[fockDerivStatic.length];
 
-			for (int i = 0; i < densityderivs.length; i++) {
-				densityderivs[i] = DoubleMatrix.zeros(0, 0);
+					for (int i = 0; i < densityderivs.length; i++) {
+						densityderivs[i] = DoubleMatrix.zeros(0, 0);
+					}
+
+					return densityderivs;
+				}
 			}
-
-			return densityderivs;
 		}
 
 
@@ -3692,21 +3697,20 @@ public class ParamDerivative {
 
 		DoubleMatrix densityMatrixDeriv =
 				DoubleMatrix.zeros(soln.orbitals.length, soln.orbitals.length);
-
 		for (int u = 0; u < densityMatrixDeriv.rows; u++) {
 			for (int v = 0; v < densityMatrixDeriv.columns; v++) {
 				double sum = 0;
 				int count = 0;
 				for (int i = 0; i < NOcc; i++) {
 					for (int j = 0; j < NVirt; j++) {
-						sum -= 2 * (soln.C.get(i, u) * soln.C.get(j + NOcc,
-								v) +
-								soln.C.get(j + NOcc, u) * soln.C.get(i, v)) *
-								x.get(count, 0);
-						count++;
+							sum -= 2 * (soln.C.get(i, u) * soln.C.get(j + NOcc,
+									v) +
+									soln.C.get(j + NOcc, u) *
+											soln.C.get(i, v)) *
+									x.get(count, 0);
+							count++;
+						}
 					}
-				}
-
 				densityMatrixDeriv.put(u, v, sum);
 			}
 		}

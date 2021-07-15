@@ -36,9 +36,15 @@ public class ParamGradientR extends ParamGradient {
 						.MNDOStaticMatrixDeriv((SolutionR) s,
 								s.getUniqueZs()[ZI],
 								firstParamIndex);
+			else if (ZI < firstZIndex) {
+				staticDerivs[ZI] =
+						new DoubleMatrix[][]{
+								new DoubleMatrix[Solution.maxParamNum],
+								new DoubleMatrix[Solution.maxParamNum]};
+			}
 			else staticDerivs[ZI] = ParamDerivative
-					.MNDOStaticMatrixDeriv((SolutionR) s,
-							s.getUniqueZs()[ZI], 0);
+						.MNDOStaticMatrixDeriv((SolutionR) s,
+								s.getUniqueZs()[ZI], 0);
 			Collections.addAll(aggregate, staticDerivs[ZI][1]);
 		}
 
@@ -50,7 +56,7 @@ public class ParamGradientR extends ParamGradient {
 				ParamDerivative.xArrayLimitedPople((SolutionR) s,
 						aggregateArray);
 		int i = 0;
-		for (int Z = firstZIndex; Z < s.getUniqueZs().length; Z++) {
+		for (int Z = 0; Z < s.getUniqueZs().length; Z++) {
 			xLimited[Z] =
 					Arrays.copyOfRange(xLimitedAggregate,
 							i * Solution.maxParamNum,
@@ -82,7 +88,7 @@ public class ParamGradientR extends ParamGradient {
 						.HFDeriv((SolutionR) s, s.getUniqueZs()[ZI],
 								paramNum);
 			}
-			if (staticDerivs[ZI][0][paramNum] != null ||
+			else if (staticDerivs[ZI][0][paramNum] != null ||
 					staticDerivs[ZI][1][paramNum] != null) {
 				HFDerivs[ZI][paramNum] =
 						ParamDerivative.MNDOHFDeriv((SolutionR) s,

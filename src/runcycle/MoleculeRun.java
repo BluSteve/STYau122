@@ -43,7 +43,9 @@ public class MoleculeRun {
 			run();
 		} catch (Exception e) {
 			System.err.println(
-					"ERROR! " + Arrays.toString(e.getStackTrace()) + " " + rawMolecule.index + " " +
+					"ERROR! " + e.getClass() + " " +
+							Arrays.toString(e.getStackTrace()) + " " +
+							rawMolecule.index + " " +
 							rawMolecule.name);
 //			try {
 //				FileWriter fw = new FileWriter("errored.txt", true);
