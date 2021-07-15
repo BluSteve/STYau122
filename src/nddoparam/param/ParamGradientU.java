@@ -10,8 +10,8 @@ public class ParamGradientU extends ParamGradient {
 					"unrestricted!";
 
 	public ParamGradientU(SolutionU s, double[] datum, SolutionU sExp,
-						  boolean analytical) {
-		super(s, datum, sExp, analytical);
+						  boolean analytical, int[] atomTypes) {
+		super(s, datum, sExp, analytical, atomTypes);
 		initializeArrays();
 
 		e = new ParamErrorFunctionU(s, datum[0]);

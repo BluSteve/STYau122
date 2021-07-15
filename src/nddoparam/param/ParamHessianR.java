@@ -5,14 +5,15 @@ import scf.Utils;
 
 public class ParamHessianR extends ParamHessian {
 	public ParamHessianR(SolutionR s, double[] datum,
-						 SolutionR sExp, boolean analytical) {
-		super(s, datum, sExp, analytical);
-		g = new ParamGradientR(s, datum, sExp, analytical);
+						 SolutionR sExp, boolean analytical, int[] atomTypes) {
+		super(s, datum, sExp, analytical, atomTypes);
+		g = new ParamGradientR(s, datum, sExp, analytical, atomTypes);
 		g.computeGradients();
 	}
 
-	public ParamHessianR(ParamGradientR g, boolean analytical) {
-		super(g.s, g.datum, g.sExp, analytical);
+	public ParamHessianR(ParamGradientR g, boolean analytical,
+						 int[] atomTypes) {
+		super(g.s, g.datum, g.sExp, analytical, atomTypes);
 		this.g = g;
 	}
 
@@ -22,6 +23,6 @@ public class ParamHessianR extends ParamHessian {
 				new SolutionR(Utils.perturbAtomParams(s.atoms,
 						s.getUniqueZs()[ZIndex], paramNum), s.charge),
 				datum,
-				(SolutionR) sExp, analytical);
+				(SolutionR) sExp, analytical, atomTypes);
 	}
 }

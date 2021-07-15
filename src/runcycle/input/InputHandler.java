@@ -22,7 +22,9 @@ public class InputHandler {
 			for (RawMolecule rm : ri.molecules) {
 				for (int i = 0; i < rm.atoms.length; i++) {
 					rm.atoms[i].coords = Utils.bohr(rm.atoms[i].coords);
-					rm.expGeom[i].coords = Utils.bohr(rm.expGeom[i].coords);
+					if (rm.expGeom.length > 0)
+						rm.expGeom[i].coords =
+								Utils.bohr(rm.expGeom[i].coords);
 				}
 			}
 		} catch (IOException e) {

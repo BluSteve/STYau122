@@ -8,16 +8,18 @@ import java.util.stream.IntStream;
 public abstract class ParamHessian {
 	protected ParamGradient g, gPrime;
 	protected Solution s, sExp;
+	protected int[] atomTypes;
 	protected double[] datum;
 	protected double[][] hessian;
 	protected boolean analytical;
 
 	public ParamHessian(Solution s, double[] datum,
-						Solution sExp, boolean analytical) {
+						Solution sExp, boolean analytical, int[] atomTypes) {
 		this.s = s;
 		this.datum = datum;
 		this.sExp = sExp;
 		this.analytical = analytical;
+		this.atomTypes = atomTypes;
 	}
 
 	public void computeHessian() {

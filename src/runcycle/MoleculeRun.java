@@ -81,12 +81,12 @@ public class MoleculeRun {
 
 		g = restricted ?
 				new ParamGradientR((SolutionR) getOpt().s, datum,
-						(SolutionR) getExpS(), true) :
+						(SolutionR) getExpS(), true, atomTypes) :
 				new ParamGradientU((SolutionU) getOpt().s, datum,
-						(SolutionU) getExpS(), false);
+						(SolutionU) getExpS(), false, atomTypes);
 		h = restricted ?
-				new ParamHessianR((ParamGradientR) g, true) :
-				new ParamHessianU((ParamGradientU) g, false);
+				new ParamHessianR((ParamGradientR) g, true, atomTypes) :
+				new ParamHessianU((ParamGradientU) g, false, atomTypes);
 
 
 		g.computeGradients(); // time intensive step ~ 100 ms

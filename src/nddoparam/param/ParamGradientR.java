@@ -13,8 +13,8 @@ import java.util.Collections;
 public class ParamGradientR extends ParamGradient {
 
 	public ParamGradientR(SolutionR s, double[] datum, SolutionR sExp,
-						  boolean analytical) {
-		super(s, datum, sExp, analytical);
+						  boolean analytical, int[] atomTypes) {
+		super(s, datum, sExp, analytical, atomTypes);
 		initializeArrays();
 
 		e = new ParamErrorFunctionR(s, datum[0]);
