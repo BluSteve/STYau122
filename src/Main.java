@@ -30,7 +30,7 @@ public class Main {
 	public static void main(String[] args) {
 		StopWatch sw = new StopWatch();
 		sw.start();
-//        System.out.close();
+        System.out.close();
 
 		for (int numRuns = 0; numRuns < 1; numRuns++) {
 			boolean isRunHessian = numRuns % 2 == 0; // Hessian every other run
@@ -82,20 +82,21 @@ public class Main {
 				w++;
 			}
 
+			List<RawMolecule> requests =
+					new ArrayList<>(Arrays.asList(ri.molecules));
+
+			int cores = Runtime.getRuntime().availableProcessors();
+			int remainingNonParallel = 0;
+			int maxParallel = remainingNonParallel < requests.size() ?
+					requests.size() - remainingNonParallel : 1;
+			List<RawMolecule> parallelRequests =
+					requests.subList(0, maxParallel);
+			ForkJoinPool threadPool = new ForkJoinPool(cores);
+
+			List<MoleculeRun> results = null;
 			try {
-				List<RawMolecule> requests =
-						new ArrayList<>(Arrays.asList(ri.molecules));
-
-				int cores = Runtime.getRuntime().availableProcessors();
-				int remainingNonParallel = 5;
-				int maxParallel = remainingNonParallel < requests.size() ?
-						requests.size() - remainingNonParallel : 1;
-				List<RawMolecule> parallelRequests =
-						requests.subList(0, maxParallel);
-				ForkJoinPool threadPool = new ForkJoinPool(cores);
-
 				NDDOParams[] finalNddoParams = nddoParams;
-				List<MoleculeRun> results = threadPool
+				results = threadPool
 						.submit(() -> parallelRequests.parallelStream()
 								.map(rawMolecule -> new MoleculeRun(
 										rawMolecule,
@@ -104,104 +105,105 @@ public class Main {
 										isRunHessian)))
 						.get()
 						.collect(Collectors.toList());
-
-				for (RawMolecule rawMolecule : requests
-						.subList(maxParallel, requests.size())) {
-					MoleculeRun result =
-							new MoleculeRun(rawMolecule, finalNddoParams,
-									ri.atomTypes, isRunHessian);
-					results.add(result);
-				}
-
-				MoleculeOutput[] mos = new MoleculeOutput[results.size()];
-				for (int i = 0; i < results.size(); i++) {
-					mos[i] = OutputHandler.toMoleculeOutput(results.get(i));
-				}
-
-				ParamOptimizer o = new ParamOptimizer();
-				int paramLength =
-						results.get(0).getG().combine(results.get(0).getG()
-								.depad(results.get(0).getG()
-										.getTotalGradients())).length;
-				double[] ttGradient = new double[paramLength];
-				double[][] ttHessian = null;
-				if (isRunHessian) ttHessian =
-						new double[results.get(0).getH()
-								.getHessianUnpadded().length]
-								[results.get(0).getH()
-								.getHessianUnpadded()[0].length];
-				for (MoleculeRun result : results) {
-					o.addData(new ReferenceData(result.getDatum()[0],
-							result.getS().hf,
-							result.getG().combine(
-									result.getG().depad(result.getG()
-											.getHFDerivs())),
-							ReferenceData.HF_WEIGHT));
-					if (result.getDatum()[1] != 0)
-						o.addData(new ReferenceData(result.getDatum()[1],
-								result.getS().dipole,
-								result.getG().combine(
-										result.getG().depad(result.getG()
-												.getDipoleDerivs())),
-								ReferenceData.DIPOLE_WEIGHT));
-					if (result.getDatum()[2] != 0)
-						o.addData(new ReferenceData(result.getDatum()[2],
-								-result.getS().homo,
-								result.getG()
-										.combine(result.getG()
-												.depad(result.getG()
-														.getIEDerivs())),
-								ReferenceData.IE_WEIGHT));
-					if (result.isExpAvail()) o.addData(new ReferenceData(0,
-							-result.getG().getE().geomGradient,
-							result.getG()
-									.combine(result.getG().depad(result.getG()
-											.getGeomDerivs())),
-							ReferenceData.GEOM_WEIGHT));
-
-					double[] g =
-							result.getG().combine(result.getG()
-									.depad(result.getG().getTotalGradients()));
-					for (int i = 0; i < g.length; i++) {
-						ttGradient[i] += g[i];
-					}
-					if (isRunHessian) {
-						double[][] h = result.getH().getHessianUnpadded();
-						for (int i = 0; i < h.length; i++) {
-							for (int j = 0; j < h[0].length; j++)
-								ttHessian[i][j] += h[i][j];
-						}
-					}
-				}
-				DoubleMatrix newGradient = new DoubleMatrix(ttGradient);
-				DoubleMatrix newHessian =
-						isRunHessian ? new DoubleMatrix(ttHessian) :
-								findMockHessian(newGradient,
-										ri.params.lastHessian,
-										ri.params.lastGradient,
-										ri.params.lastDir,
-										paramLength);
-				double[] dir = o.optimize(newHessian, newGradient);
-
-				ri.params.lastGradient = ttGradient;
-				ri.params.lastHessian = ParamHessian.getHessianUT(
-						newHessian.toArray2());
-				ri.params.lastDir = dir;
-
-				int n = 0;
-				for (int atomI = 0; atomI < neededParams.length; atomI++) {
-					for (int paramI : neededParams[atomI]) {
-						ri.params.nddoParams[atomI][paramI] += dir[n];
-						n++;
-					}
-				}
-
-				OutputHandler.output(mos, OUTPUT_FILENAME);
-				InputHandler.updateInput(ri, INPUT_FILENAME);
-
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				e.printStackTrace();
 			}
+
+			for (RawMolecule rawMolecule : requests
+					.subList(maxParallel, requests.size())) {
+				MoleculeRun result =
+						new MoleculeRun(rawMolecule, nddoParams,
+								ri.atomTypes, isRunHessian);
+				results.add(result);
+			}
+
+			MoleculeOutput[] mos = new MoleculeOutput[results.size()];
+			for (int i = 0; i < results.size(); i++) {
+				mos[i] = OutputHandler.toMoleculeOutput(results.get(i));
+			}
+
+			ParamOptimizer o = new ParamOptimizer();
+			int paramLength =
+					results.get(0).getG().combine(results.get(0).getG()
+							.depad(results.get(0).getG()
+									.getTotalGradients())).length;
+			double[] ttGradient = new double[paramLength];
+			double[][] ttHessian = null;
+			if (isRunHessian) ttHessian =
+					new double[results.get(0).getH()
+							.getHessianUnpadded().length]
+							[results.get(0).getH()
+							.getHessianUnpadded()[0].length];
+			for (MoleculeRun result : results) {
+				o.addData(new ReferenceData(result.getDatum()[0],
+						result.getS().hf,
+						result.getG().combine(
+								result.getG().depad(result.getG()
+										.getHFDerivs())),
+						ReferenceData.HF_WEIGHT));
+				if (result.getDatum()[1] != 0)
+					o.addData(new ReferenceData(result.getDatum()[1],
+							result.getS().dipole,
+							result.getG().combine(
+									result.getG().depad(result.getG()
+											.getDipoleDerivs())),
+							ReferenceData.DIPOLE_WEIGHT));
+				if (result.getDatum()[2] != 0)
+					o.addData(new ReferenceData(result.getDatum()[2],
+							-result.getS().homo,
+							result.getG()
+									.combine(result.getG()
+											.depad(result.getG()
+													.getIEDerivs())),
+							ReferenceData.IE_WEIGHT));
+				if (result.isExpAvail()) o.addData(new ReferenceData(0,
+						-result.getG().getE().geomGradient,
+						result.getG()
+								.combine(result.getG().depad(result.getG()
+										.getGeomDerivs())),
+						ReferenceData.GEOM_WEIGHT));
+
+				double[] g =
+						result.getG().combine(result.getG()
+								.depad(result.getG().getTotalGradients()));
+				for (int i = 0; i < g.length; i++) {
+					ttGradient[i] += g[i];
+				}
+				if (isRunHessian) {
+					double[][] h = result.getH().getHessianUnpadded();
+					for (int i = 0; i < h.length; i++) {
+						for (int j = 0; j < h[0].length; j++)
+							ttHessian[i][j] += h[i][j];
+					}
+				}
+			}
+			DoubleMatrix newGradient = new DoubleMatrix(ttGradient);
+			DoubleMatrix newHessian =
+					isRunHessian ? new DoubleMatrix(ttHessian) :
+							findMockHessian(newGradient,
+									ri.params.lastHessian,
+									ri.params.lastGradient,
+									ri.params.lastDir,
+									paramLength);
+			double[] dir = o.optimize(newHessian, newGradient);
+
+			ri.params.lastGradient = ttGradient;
+			ri.params.lastHessian = ParamHessian.getHessianUT(
+					newHessian.toArray2());
+			ri.params.lastDir = dir;
+
+			int n = 0;
+			for (int atomI = 0; atomI < neededParams.length; atomI++) {
+				for (int paramI : neededParams[atomI]) {
+					ri.params.nddoParams[atomI][paramI] += dir[n];
+					n++;
+				}
+			}
+
+			OutputHandler.output(mos, OUTPUT_FILENAME);
+			InputHandler.updateInput(ri, INPUT_FILENAME);
+
 		}
 
 		sw.stop();

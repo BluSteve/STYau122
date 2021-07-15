@@ -1,2 +1,2 @@
 #!/bin/bash
-wget "https://blusteve.com/MNDOParam.jar" -O MNDOParam.jar
+wget "https://mndo.blusteve.com/MNDOParam.jar" -O MNDOParam.jar

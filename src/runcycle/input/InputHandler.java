@@ -22,7 +22,7 @@ public class InputHandler {
 			for (RawMolecule rm : ri.molecules) {
 				for (int i = 0; i < rm.atoms.length; i++) {
 					rm.atoms[i].coords = Utils.bohr(rm.atoms[i].coords);
-					if (rm.expGeom.length > 0)
+					if (rm.expGeom!=null)
 						rm.expGeom[i].coords =
 								Utils.bohr(rm.expGeom[i].coords);
 				}
@@ -36,7 +36,8 @@ public class InputHandler {
 		for (RawMolecule rm : ri.molecules) {
 			for (int i = 0; i < rm.atoms.length; i++) {
 				rm.atoms[i].coords = Utils.debohr(rm.atoms[i].coords);
-				rm.expGeom[i].coords = Utils.debohr(rm.expGeom[i].coords);
+				if (rm.expGeom != null) rm.expGeom[i].coords =
+						Utils.debohr(rm.expGeom[i].coords);
 			}
 		}
 		makeInput(ri, input);
@@ -45,7 +46,7 @@ public class InputHandler {
 	public static void makeInput(RawInput ri, String input) {
 		GsonBuilder builder = new GsonBuilder();
 //		builder.setPrettyPrinting();
-		Gson gson = builder.create();
+		Gson gson = builder.serializeNulls().create();
 		try {
 			FileWriter fw = new FileWriter(input);
 			gson.toJson(ri, fw);
@@ -160,7 +161,7 @@ public class InputHandler {
 							rm.expGeom[p] = expGeomL.get(p);
 					}
 					else {
-						rm.expGeom = new RawAtom[0];
+						rm.expGeom = null;
 					}
 
 					rm.atoms = new RawAtom[atomsL.size()];

@@ -6,6 +6,10 @@ import nddoparam.param.*;
 import org.apache.commons.lang3.time.StopWatch;
 import runcycle.input.RawMolecule;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Arrays;
+
 public class MoleculeRun {
 	protected int[] atomTypes;
 	protected double[] datum;
@@ -23,7 +27,8 @@ public class MoleculeRun {
 					   boolean isRunHessian) {
 		// todo change for am1
 		atoms = RawMolecule.toMNDOAtoms(rm.atoms, (MNDOParams[]) mp);
-		expGeom = RawMolecule.toMNDOAtoms(rm.expGeom, (MNDOParams[]) mp);
+		expGeom = rm.expGeom != null ? RawMolecule.toMNDOAtoms(rm.expGeom,
+				(MNDOParams[]) mp) : null;
 		charge = rm.charge;
 		mult = rm.mult;
 		datum = rm.datum.clone();
@@ -33,7 +38,26 @@ public class MoleculeRun {
 		this.isRunHessian = isRunHessian;
 		isExpAvail = expGeom != null;
 
-		run();
+		System.err.println(rawMolecule.index + " " + rawMolecule.name + " " +
+				"started");
+		try {
+			run();
+		} catch (Exception e) {
+			System.err.println(
+					"ERROR! " + e.getClass() + " " + rawMolecule.index + " " +
+							rawMolecule.name);
+			try {
+				FileWriter fw = new FileWriter("errored.txt", true);
+				fw.write(e.getClass() + " " +
+						Arrays.toString(e.getStackTrace()) + " " + rawMolecule.index + " " +
+						rawMolecule.name + "\n");
+				fw.close();
+			} catch (IOException ioException) {
+				ioException.printStackTrace();
+			}
+		}
+		System.err.println(rawMolecule.index + " " + rawMolecule.name + " " +
+				" finished in " + time);
 	}
 
 	public boolean isExpAvail() {

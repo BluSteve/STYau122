@@ -846,12 +846,20 @@ public class SolutionR extends Solution {
 
 				}
 
-				try {
+//				try {
 					DIIS = bestDIIS.dup();
-				} catch (Exception e) {
-					e.printStackTrace();
-					System.err.println(moleculeName);
-				}
+//				} catch (Exception e) {
+//					System.err.println("NP Error: " + moleculeName);
+//					try {
+//						FileWriter fw = new FileWriter("errored.txt", true);
+//						fw.write(moleculeName + " " + charge + " " +
+//								Arrays.toString(atoms[0].getCoordinates()) +
+//								"\n");
+//						fw.close();
+//					} catch (IOException ioException) {
+//						ioException.printStackTrace();
+//					}
+//				}
 
 				DoubleMatrix F =
 						DoubleMatrix.zeros(densityMatrix.rows,
