@@ -7,7 +7,7 @@ public class ParamHessianR extends ParamHessian {
 	public ParamHessianR(SolutionR s, String kind, double[] datum,
 						 SolutionR sExp, boolean analytical) {
 		super(s, kind, datum, sExp, analytical);
-		g = new ParamGradientR(s, kind, datum, sExp, analytical);
+		g = new ParamGradientR(s, datum, sExp, analytical);
 		g.computeGradients();
 	}
 
@@ -20,7 +20,7 @@ public class ParamHessianR extends ParamHessian {
 	protected void constructGPrime(int ZIndex, int paramNum) {
 		gPrime = new ParamGradientR(
 				new SolutionR(Utils.perturbAtomParams(s.atoms,
-						s.getUniqueZs()[ZIndex], paramNum), s.charge), kind,
+						s.getUniqueZs()[ZIndex], paramNum), s.charge),
 				datum,
 				(SolutionR) sExp, analytical);
 	}

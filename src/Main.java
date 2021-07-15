@@ -184,7 +184,7 @@ public class Main {
 		}
 
 		sw.stop();
-		System.out.println("Time taken: " + sw.getTime());
+		System.out.println("\nTime taken: " + sw.getTime());
 	}
 
 	private static DoubleMatrix findMockHessian(DoubleMatrix newGradient,

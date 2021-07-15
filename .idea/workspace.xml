@@ -35,9 +35,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/optimize/ParamOptimizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/optimize/ParamOptimizer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Testing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientU.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianR.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianU.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRunR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRunR.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRunU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRunU.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -283,7 +289,7 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="reference.settings.project.statistic.project.settings" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -448,21 +454,7 @@
       <workItem from="1626265797344" duration="3296000" />
       <workItem from="1626269235170" duration="410000" />
       <workItem from="1626270856281" duration="1172000" />
-      <workItem from="1626332270700" duration="10403000" />
-    </task>
-    <task id="LOCAL-00048" summary="Other hessian representations">
-      <created>1626057418018</created>
-      <option name="number" value="00048" />
-      <option name="presentableId" value="LOCAL-00048" />
-      <option name="project" value="LOCAL" />
-      <updated>1626057418018</updated>
-    </task>
-    <task id="LOCAL-00049" summary="Minor changes">
-      <created>1626058012315</created>
-      <option name="number" value="00049" />
-      <option name="presentableId" value="LOCAL-00049" />
-      <option name="project" value="LOCAL" />
-      <updated>1626058012315</updated>
+      <workItem from="1626332270700" duration="11719000" />
     </task>
     <task id="LOCAL-00050" summary="Major refactors">
       <created>1626082460259</created>
@@ -793,7 +785,21 @@
       <option name="project" value="LOCAL" />
       <updated>1626344982179</updated>
     </task>
-    <option name="localTasksCounter" value="97" />
+    <task id="LOCAL-00097" summary="remove old moleculerun">
+      <created>1626345411377</created>
+      <option name="number" value="00097" />
+      <option name="presentableId" value="LOCAL-00097" />
+      <option name="project" value="LOCAL" />
+      <updated>1626345411377</updated>
+    </task>
+    <task id="LOCAL-00098" summary="Minor changes">
+      <created>1626345419333</created>
+      <option name="number" value="00098" />
+      <option name="presentableId" value="LOCAL-00098" />
+      <option name="project" value="LOCAL" />
+      <updated>1626345419333</updated>
+    </task>
+    <option name="localTasksCounter" value="99" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -861,7 +867,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Gcloud script" />
     <MESSAGE value="Hybrid DIIS inserted" />
     <MESSAGE value="Runnable" />
     <MESSAGE value="No debug" />
@@ -874,7 +879,6 @@
     <MESSAGE value="more input handler stuff" />
     <MESSAGE value="I/O" />
     <MESSAGE value="Main refactor" />
-    <MESSAGE value="Minor changes" />
     <MESSAGE value="output.json" />
     <MESSAGE value="Formatting" />
     <MESSAGE value="Major refactor." />
@@ -886,7 +890,9 @@
     <MESSAGE value="Working B" />
     <MESSAGE value="Working? hessian b" />
     <MESSAGE value="Steve thinks it's working but it's probably not&#10;Major refactor of param opt + finished hessian" />
-    <option name="LAST_COMMIT_MESSAGE" value="Steve thinks it's working but it's probably not&#10;Major refactor of param opt + finished hessian" />
+    <MESSAGE value="remove old moleculerun" />
+    <MESSAGE value="Minor changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor changes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -895,11 +901,6 @@
           <url>file://$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java</url>
           <line>3269</line>
           <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Main.java</url>
-          <line>62</line>
-          <option name="timeStamp" value="14" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

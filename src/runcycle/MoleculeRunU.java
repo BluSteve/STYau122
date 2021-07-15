@@ -49,7 +49,7 @@ public class MoleculeRunU extends MoleculeRun {
 		// TODO Change this line's hardcoding once analytical has been
 		//  implemented for
 		//  unrestricted.
-		g = new ParamGradientU((SolutionU) getOpt().s, getKind(), datum,
+		g = new ParamGradientU((SolutionU) getOpt().s, datum,
 				(SolutionU) getExpS(), false);
 	}
 

@@ -9,7 +9,6 @@ public abstract class ParamGradient {
 	protected static final double LAMBDA = 1E-7;
 	protected Solution s, sPrime, sExpPrime, sExp;
 	protected ParamErrorFunction e;
-	protected String kind;
 	protected boolean isExpAvail, analytical;
 	protected double[] datum;
 	protected double[][] HFDerivs, dipoleDerivs, IEDerivs, geomDerivs,
@@ -18,10 +17,9 @@ public abstract class ParamGradient {
 			coeffDerivs, responseDerivs, fockDerivs;
 	protected DoubleMatrix[][][] staticDerivs;
 
-	public ParamGradient(Solution s, String kind, double[] datum,
+	public ParamGradient(Solution s, double[] datum,
 						 Solution sExp, boolean analytical) {
 		this.s = s;
-		this.kind = kind;
 		this.datum = datum;
 		this.sExp = sExp;
 		this.analytical = analytical;
@@ -43,46 +41,32 @@ public abstract class ParamGradient {
 	protected void initializeArrays() {
 		totalGradients =
 				new double[s.getUniqueZs().length][Solution.maxParamNum];
-		switch (kind) {
-			case "a":
-				HFDerivs = new double[s
-						.getUniqueZs().length][Solution.maxParamNum];
-				break;
-			case "b":
-				HFDerivs = new double[s
-						.getUniqueZs().length][Solution.maxParamNum];
+		HFDerivs = new double[s
+				.getUniqueZs().length][Solution.maxParamNum];
+		if (datum[2] != 0) {
+			if (datum[1] != 0) {
 				dipoleDerivs =
 						new double[s
 								.getUniqueZs().length][Solution.maxParamNum];
+			}
+			IEDerivs = new double[s
+					.getUniqueZs().length][Solution.maxParamNum];
 
-				if (this.analytical) {
-					densityDerivs = new DoubleMatrix[s
+			if (analytical) initializeIntermediates();
+		}
+		else if (datum[1] != 0) {
+			dipoleDerivs =
+					new double[s
 							.getUniqueZs().length][Solution.maxParamNum];
-					staticDerivs = new DoubleMatrix[s
-							.getUniqueZs().length][Solution.maxParamNum][2];
-					xLimited = new DoubleMatrix[s
-							.getUniqueZs().length][Solution.maxParamNum];
-				}
-				break;
-			case "c":
-				HFDerivs = new double[s
-						.getUniqueZs().length][Solution.maxParamNum];
-				IEDerivs = new double[s
-						.getUniqueZs().length][Solution.maxParamNum];
 
-				if (analytical) initializeIntermediates();
-				break;
-			case "d":
-				HFDerivs = new double[s
+			if (this.analytical) {
+				densityDerivs = new DoubleMatrix[s
 						.getUniqueZs().length][Solution.maxParamNum];
-				dipoleDerivs =
-						new double[s
-								.getUniqueZs().length][Solution.maxParamNum];
-				IEDerivs = new double[s
+				staticDerivs = new DoubleMatrix[s
+						.getUniqueZs().length][Solution.maxParamNum][2];
+				xLimited = new DoubleMatrix[s
 						.getUniqueZs().length][Solution.maxParamNum];
-
-				if (analytical) initializeIntermediates();
-				break;
+			}
 		}
 	}
 
@@ -110,8 +94,7 @@ public abstract class ParamGradient {
 	public void computeGradients() {
 		totalGradients =
 				new double[s.getUniqueZs().length][Solution.maxParamNum];
-		if (analytical &&
-				(kind.equals("b") || kind.equals("c") || kind.equals("d")))
+		if (analytical && (datum[1] != 0 || datum[2] != 0))
 			computeBatchedDerivs(0, 0);
 		for (int Z = 0; Z < s.getUniqueZs().length; Z++) {
 			for (int paramNum : s.getNeededParams()[s.getUniqueZs()[Z]]) {
@@ -122,22 +105,18 @@ public abstract class ParamGradient {
 
 	public void computeGradient(int Z, int paramNum) {
 		if (!analytical) constructSPrime(Z, paramNum);
-		switch (kind) {
-			case "a":
-				computeHFDeriv(Z, paramNum);
-				break;
-			case "b":
-				computeDipoleDeriv(Z, paramNum, true);
-				break;
-			case "c":
-				computeDipoleDeriv(Z, paramNum, false);
-				computeIEDeriv(Z, paramNum);
-				break;
-			case "d":
-				computeDipoleDeriv(Z, paramNum, true);
-				computeIEDeriv(Z, paramNum);
-				break;
+
+		computeHFDeriv(Z, paramNum);
+		if (datum[1] != 0 && datum[2] != 0){
+			computeDipoleDeriv(Z, paramNum, true);
+			computeIEDeriv(Z, paramNum);
 		}
+		else if (datum[1] != 0) computeDipoleDeriv(Z, paramNum, true);
+		else if (datum[2] != 0) {
+			computeDipoleDeriv(Z, paramNum, false);
+			computeIEDeriv(Z, paramNum);
+		}
+
 		if (isExpAvail) computeGeomDeriv(Z, paramNum);
 	}
 

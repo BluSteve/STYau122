@@ -9,11 +9,9 @@ public class ParamGradientU extends ParamGradient {
 			"Analytical derivatives have yet to be implemented for " +
 					"unrestricted!";
 
-	public ParamGradientU(SolutionU s, String kind,
-						  double[] datum,
-						  SolutionU sExp,
+	public ParamGradientU(SolutionU s, double[] datum, SolutionU sExp,
 						  boolean analytical) {
-		super(s, kind, datum, sExp, analytical);
+		super(s, datum, sExp, analytical);
 		initializeArrays();
 
 		e = new ParamErrorFunctionU(s, datum[0]);
@@ -76,7 +74,6 @@ public class ParamGradientU extends ParamGradient {
 
 	@Override
 	protected void constructSExpPrime(int Z, int paramNum) {
-		// TODO sExp.charge or s.charge?
 		sExpPrime = new SolutionU(
 				Utils.perturbAtomParams(sExp.atoms, s.getUniqueZs()[Z],
 						paramNum),

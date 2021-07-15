@@ -48,7 +48,7 @@ public class MoleculeRunR extends MoleculeRun {
 
 	@Override
 	protected void constructG() {
-		g = new ParamGradientR((SolutionR) getOpt().s, getKind(), datum,
+		g = new ParamGradientR((SolutionR) getOpt().s, datum,
 				(SolutionR) getExpS(), true);
 	}
 

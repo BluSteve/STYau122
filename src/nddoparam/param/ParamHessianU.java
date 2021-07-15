@@ -8,7 +8,7 @@ public class ParamHessianU extends ParamHessian {
 						 double[] datum, SolutionU sExp,
 						 boolean analytical) {
 		super(s, kind, datum, sExp, analytical);
-		g = new ParamGradientU(s, kind, datum, sExp, analytical);
+		g = new ParamGradientU(s, datum, sExp, analytical);
 		g.computeGradients();
 	}
 
@@ -23,6 +23,6 @@ public class ParamHessianU extends ParamHessian {
 				new SolutionU(Utils.perturbAtomParams(s.atoms,
 						s.getUniqueZs()[ZIndex], paramNum), s.charge,
 						s.multiplicity),
-				kind, datum, (SolutionU) sExp, analytical);
+				datum, (SolutionU) sExp, analytical);
 	}
 }

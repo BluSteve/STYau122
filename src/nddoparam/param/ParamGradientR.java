@@ -12,9 +12,9 @@ import java.util.Collections;
 
 public class ParamGradientR extends ParamGradient {
 
-	public ParamGradientR(SolutionR s, String kind, double[] datum,
-						  SolutionR sExp, boolean analytical) {
-		super(s, kind, datum, sExp, analytical);
+	public ParamGradientR(SolutionR s, double[] datum, SolutionR sExp,
+						  boolean analytical) {
+		super(s, datum, sExp, analytical);
 		initializeArrays();
 
 		e = new ParamErrorFunctionR(s, datum[0]);
@@ -155,7 +155,6 @@ public class ParamGradientR extends ParamGradient {
 
 	@Override
 	protected void constructSExpPrime(int Z, int paramNum) {
-		// TODO sExp.charge or s.charge?
 		sExpPrime = new SolutionR(
 				Utils.perturbAtomParams(sExp.atoms, s.getUniqueZs()[Z],
 						paramNum),
