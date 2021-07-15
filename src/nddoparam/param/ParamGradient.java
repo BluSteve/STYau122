@@ -224,6 +224,19 @@ public abstract class ParamGradient {
 		}
 		double[] res = new double[a.size()];
 		for (int i = 0; i < res.length; i++) res[i] = a.get(i);
+
+		for (int i = 0; i < atomTypes.length; i++) {
+			int j =0;
+			for (j =0; j < s.getUniqueZs().length; j++){
+				if (atomTypes[i]== s.getUniqueZs()[j]){  break;};
+			}
+			if (j < s.getUniqueZs().length) {
+				if (i > j) { // Z greater than highest of this
+
+				}
+			}
+		}
+
 		return res;
 	}
 

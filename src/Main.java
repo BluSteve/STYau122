@@ -127,10 +127,9 @@ public class Main {
 			}
 
 			ParamOptimizer o = new ParamOptimizer();
-			int paramLength =
-					results.get(0).getG().combine(results.get(0).getG()
-							.depad(results.get(0).getG()
-									.getTotalGradients())).length;
+			int paramLength = 0;
+			for (int[] param: neededParams) paramLength += param.length;
+
 			double[] ttGradient = new double[paramLength];
 			double[][] ttHessian = null;
 			if (isRunHessian) ttHessian =
