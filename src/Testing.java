@@ -195,7 +195,6 @@ public class Testing {
 		}
 
 		System.out.println("MOLECULERUN TIME TAKEN: " + time / 1);
-		System.out.println(m.hessianStr);
 	}
 
 }

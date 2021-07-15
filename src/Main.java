@@ -5,7 +5,6 @@ import optimize.ParamOptimizer;
 import optimize.ReferenceData;
 import org.apache.commons.lang3.time.StopWatch;
 import org.jblas.DoubleMatrix;
-import org.jblas.Eigen;
 import runcycle.MoleculeRun;
 import runcycle.MoleculeRunR;
 import runcycle.MoleculeRunU;
@@ -176,15 +175,14 @@ public class Main {
 					}
 				}
 
-				System.out.println(Arrays.toString(dir));
-				System.out.println(Eigen.symmetricEigenvalues(B));
-
 				OutputHandler.output(mos, OUTPUT_FILENAME);
 				InputHandler.updateInput(ri, INPUT_FILENAME);
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
+
 		sw.stop();
 		System.out.println("Time taken: " + sw.getTime());
 	}

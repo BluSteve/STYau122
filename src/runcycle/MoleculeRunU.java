@@ -34,8 +34,6 @@ public class MoleculeRunU extends MoleculeRun {
 
 		opt = new GeometryOptimizationU(getAtoms(), getCharge(), getMult());
 
-		newGeomCoords = "UHF\n" + "CHARGE=" + getCharge() + "\nMULT=" +
-				getMult() + "\n";
 		generateGeomCoords();
 		if (this.getExpGeom() != null)
 			expS = new SolutionU(this.getExpGeom(), getCharge(), getMult());

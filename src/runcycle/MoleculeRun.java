@@ -8,15 +8,6 @@ import nddoparam.param.ParamHessian;
 import runcycle.input.RawMolecule;
 
 public abstract class MoleculeRun {
-	public String[] output;
-	public String hessianStr, newGeomCoords;
-	public String totalHeatDeriv = "";
-	public String totalIonizationDeriv = "";
-	public String totalDipoleDeriv = "";
-	public String totalGeomDeriv = "";
-	public String totalExcelStr = "";
-	public String excelStr = "";
-	public String excelStr2 = "";
 	protected int[] atomTypes;
 	// TODO CHANGE THE ONES BELOW BACK TO PROTECTED
 	protected NDDOAtom[] atoms;
@@ -35,10 +26,6 @@ public abstract class MoleculeRun {
 	protected ParamGradient g;
 	protected ParamHessian h;
 	protected boolean isExpAvail;
-
-	public boolean isExpAvail() {
-		return isExpAvail;
-	}
 
 	public MoleculeRun(NDDOAtom[] atoms, int charge, NDDOAtom[] expGeom,
 					   double[] datum,
@@ -60,11 +47,8 @@ public abstract class MoleculeRun {
 		this.setKind(kind);
 	}
 
-	private static void appendToSB(double[] array, StringBuilder sb) {
-		if (sb.length() > 0) sb.append(',');
-		for (int i = 0; i < array.length - 1; i++)
-			sb.append(array[i]).append(',');
-		sb.append(array[array.length - 1]);
+	public boolean isExpAvail() {
+		return isExpAvail;
 	}
 
 	public RawMolecule getRawMolecule() {
@@ -89,11 +73,7 @@ public abstract class MoleculeRun {
 
 	protected void routine() {
 		runGradient(); // ~ 100 ms
-
 		if (isRunHessian()) runHessian(); // ~ 700-800 ms
-		else hessianStr = "";
-
-		outputErrorFunction();
 	}
 
 	protected void generateGeomCoords() {
@@ -105,67 +85,11 @@ public abstract class MoleculeRun {
 	protected void runHessian() {
 		constructH();
 		h.computeHessian(); // time intensive step
-		StringBuilder hessianSB = new StringBuilder();
-		appendToSB(h.getHessianUT(), hessianSB);
-		hessianStr = hessianSB.toString();
 	}
 
 	protected void runGradient() {
 		constructG();
 		g.computeGradients(); // time intensive step
-		StringBuilder HFDerivsSB =
-				new StringBuilder(datum[0] + "," + g.getS().hf);
-		StringBuilder dipoleDerivsSB =
-				new StringBuilder(datum[1] + "," + g.getS().dipole);
-		StringBuilder IEDerivsSB =
-				new StringBuilder(datum[2] + "," + -g.getS().homo);
-		StringBuilder geomDerivsSB =
-				new StringBuilder("0," + g.getE().geomGradient);
-		StringBuilder mainDataSB = new StringBuilder();
-		mainDataSB.append(g.getE().getTotalError());
-
-		for (int i = 0; i < g.getS().getUniqueZs().length; i++) {
-			switch (getKind()) {
-				case "a":
-					appendToSB(g.depad(g.getHFDerivs())[i], HFDerivsSB);
-					break;
-				case "b":
-					appendToSB(g.depad(g.getHFDerivs())[i], HFDerivsSB);
-					appendToSB(g.depad(g.getDipoleDerivs())[i],
-							dipoleDerivsSB);
-					break;
-				case "c":
-					appendToSB(g.depad(g.getHFDerivs())[i], HFDerivsSB);
-					appendToSB(g.depad(g.getIEDerivs())[i], IEDerivsSB);
-					break;
-				case "d":
-					appendToSB(g.depad(g.getHFDerivs())[i], HFDerivsSB);
-					appendToSB(g.depad(g.getDipoleDerivs())[i],
-							dipoleDerivsSB);
-					appendToSB(g.depad(g.getIEDerivs())[i], IEDerivsSB);
-					break;
-			}
-			if (getExpS() != null)
-				appendToSB(g.depad(g.getGeomDerivs())[i], geomDerivsSB);
-			appendToSB(g.depad(g.getTotalGradients())[i], mainDataSB);
-		}
-
-		appendToSB(
-				new double[]{datum[0], g.getS().hf, datum[1], g.getS().dipole,
-						datum[2], g.getS().homo, 0, g.getE().geomGradient},
-				mainDataSB);
-
-		totalHeatDeriv = HFDerivsSB.toString();
-		totalDipoleDeriv = dipoleDerivsSB.toString();
-		totalIonizationDeriv = IEDerivsSB.toString();
-		totalGeomDeriv = geomDerivsSB.toString();
-		totalExcelStr = mainDataSB.toString();
-	}
-
-	protected void outputErrorFunction() {
-		System.out.println("Error function: " + g.getE().getTotalError());
-		output = new String[]{totalExcelStr, totalHeatDeriv, totalDipoleDeriv,
-				totalIonizationDeriv, totalGeomDeriv};
 	}
 
 	protected abstract void constructG();
