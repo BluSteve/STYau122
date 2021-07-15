@@ -6,9 +6,8 @@ import org.jblas.Solve;
 import java.util.ArrayList;
 
 public class ParamOptimizer {
-
 	private final ArrayList<ReferenceData> datum;
-	public double[] changes;
+	private double[] changes;
 	private double value;
 
 	public ParamOptimizer() {
@@ -20,8 +19,7 @@ public class ParamOptimizer {
 		this.value += data.getValue();
 	}
 
-	public double[] optimize(DoubleMatrix B, DoubleMatrix gradient)
-			throws Exception {
+	public double[] optimize(DoubleMatrix B, DoubleMatrix gradient) {
 		DoubleMatrix searchdir = Solve.pinv(B).mmul(gradient);
 		double sum = 0;
 		for (int i = 0; i < searchdir.rows; i++) {
