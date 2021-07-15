@@ -98,8 +98,8 @@ public class Main {
 				NDDOParams[] finalNddoParams = nddoParams;
 				results = threadPool
 						.submit(() -> parallelRequests.parallelStream()
-								.map(rawMolecule -> new MoleculeRun(
-										rawMolecule,
+								.map(request -> new MoleculeRun(
+										request,
 										finalNddoParams,
 										ri.atomTypes,
 										isRunHessian)))

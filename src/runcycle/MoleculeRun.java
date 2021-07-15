@@ -49,7 +49,8 @@ public class MoleculeRun {
 			try {
 				FileWriter fw = new FileWriter("errored.txt", true);
 				fw.write(e.getClass() + " " +
-						Arrays.toString(e.getStackTrace()) + " " + rawMolecule.index + " " +
+						Arrays.toString(e.getStackTrace()) + " " +
+						rawMolecule.index + " " +
 						rawMolecule.name + "\n");
 				fw.close();
 			} catch (IOException ioException) {

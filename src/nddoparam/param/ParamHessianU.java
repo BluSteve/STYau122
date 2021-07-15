@@ -19,11 +19,12 @@ public class ParamHessianU extends ParamHessian {
 	}
 
 	@Override
-	protected void constructGPrime(int ZIndex, int paramNum) {
-		gPrime = new ParamGradientU(
+	protected ParamGradient constructGPrime(int ZIndex, int paramNum) {
+		ParamGradient gPrime = new ParamGradientU(
 				new SolutionU(Utils.perturbAtomParams(s.atoms,
 						s.getUniqueZs()[ZIndex], paramNum), s.charge,
 						s.multiplicity),
 				datum, (SolutionU) sExp, analytical, atomTypes);
+		return gPrime;
 	}
 }
