@@ -31,13 +31,14 @@ public class MoleculeRunR extends MoleculeRun {
 		StopWatch sw = new StopWatch();
 		sw.start();
 
-		opt = new GeometryOptimizationR(atoms,
-				charge); // ~ 74 ms for CH4 type d with expsoln
+		opt = new GeometryOptimizationR(getAtoms(),
+				getCharge()); // ~ 74 ms for CH4 type d with expsoln
+		S = getOpt().s; // NOT a clone
 
 		generateGeomCoords();
 
-		if (expGeom != null)
-			expSolution = new SolutionR(this.expGeom, charge); // ~ 60 ms
+		if (getExpGeom() != null)
+			expS = new SolutionR(this.getExpGeom(), getCharge()); // ~ 60 ms
 
 		routine(); // ~700-800 ms
 
@@ -47,8 +48,8 @@ public class MoleculeRunR extends MoleculeRun {
 
 	@Override
 	protected void constructG() {
-		g = new ParamGradientR((SolutionR) opt.s, kind, datum,
-				(SolutionR) expSolution, true);
+		g = new ParamGradientR((SolutionR) getOpt().s, getKind(), datum,
+				(SolutionR) getExpS(), true);
 	}
 
 	@Override

@@ -1,35 +1,26 @@
-package datum;
+package optimize;
 
-public abstract class ReferenceData {
-
+public class ReferenceData {
 	private double[] derivatives;
-
 	private double weight;
-
 	private double reference;
-
 	private double actual;
-
 	private double value;
-
 	private double updated;
+	public static final double HF_WEIGHT = 1;
+	public static final double DIPOLE_WEIGHT = 20;
+	public static final double GEOM_WEIGHT = 0.007;
+	public static final double IE_WEIGHT = 10;
 
-	public ReferenceData(double[] derivatives, double weight, double reference,
-						 double actual) {
-
+	public ReferenceData(double reference, double actual, double[] derivatives,
+						 double weight) {
 		this.derivatives = derivatives;
-
 		this.weight = weight;
-
 		this.reference = reference;
-
 		this.actual = actual;
-
 		this.value =
 				(reference - actual) * (reference - actual) * weight * weight;
-
 		this.updated = actual;
-
 	}
 
 	public void update(double[] changes) {

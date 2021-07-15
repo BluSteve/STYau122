@@ -1,6 +1,8 @@
 import nddoparam.NDDOParams;
 import nddoparam.mndo.MNDOParams;
+import nddoparam.param.ParamHessian;
 import optimize.ParamOptimizer;
+import optimize.ReferenceData;
 import org.apache.commons.lang3.time.StopWatch;
 import org.jblas.DoubleMatrix;
 import org.jblas.Eigen;
@@ -30,11 +32,13 @@ public class Main {
 		StopWatch sw = new StopWatch();
 		sw.start();
 //        System.out.close();
-		AtomHandler.populateAtoms();
 
 		for (int numRuns = 0; numRuns < 1; numRuns++) {
 			boolean runHessian = numRuns % 2 == 0; // Hessian every other run
+
+			AtomHandler.populateAtoms();
 			InputHandler.processInput(INPUT_FILENAME);
+
 			RawInput ri = InputHandler.ri;
 			System.out.println(
 					"MNDO Parameterization, updated 13 July. " +
@@ -46,6 +50,15 @@ public class Main {
 			// TODO change the following line if AM1
 			for (int i = 0; i < ri.params.nddoParams.length; i++)
 				nddoParams[i] = new MNDOParams(ri.params.nddoParams[i]);
+
+			int[][] neededParams = new int[ri.atomTypes.length][];
+			int w = 0;
+			for (int atomType : ri.atomTypes) {
+				if (atomType == 1)
+					neededParams[w] = MNDOParams.T1ParamNums;
+				else neededParams[w] = MNDOParams.T2ParamNums;
+				w++;
+			}
 
 			try {
 				List<RawMolecule> requests =
@@ -87,9 +100,8 @@ public class Main {
 				for (int i = 0; i < results.size(); i++) {
 					mos[i] = OutputHandler.toMoleculeOutput(results.get(i));
 				}
-				OutputHandler.output(mos, OUTPUT_FILENAME);
-				InputHandler.updateInput(ri, INPUT_FILENAME);
 
+				ParamOptimizer o = new ParamOptimizer();
 				int paramLength =
 						results.get(0).getG().combine(results.get(0).getG()
 								.depad(results.get(0).getG()
@@ -102,6 +114,34 @@ public class Main {
 								[results.get(0).getH()
 								.getHessianUnpadded()[0].length];
 				for (MoleculeRun result : results) {
+					o.addData(new ReferenceData(result.getDatum()[0],
+							result.getS().hf,
+							result.getG().combine(
+									result.getG().depad(result.getG()
+											.getHFDerivs())),
+							ReferenceData.HF_WEIGHT));
+					if (result.getDatum()[1] != 0)
+						o.addData(new ReferenceData(result.getDatum()[1],
+								result.getS().dipole,
+								result.getG().combine(
+										result.getG().depad(result.getG()
+												.getDipoleDerivs())),
+								ReferenceData.DIPOLE_WEIGHT));
+					if (result.getDatum()[2] != 0)
+						o.addData(new ReferenceData(result.getDatum()[2],
+								-result.getS().homo,
+								result.getG()
+										.combine(result.getG()
+												.depad(result.getG()
+														.getIEDerivs())),
+								ReferenceData.IE_WEIGHT));
+					if (result.isExpAvail()) o.addData(new ReferenceData(0,
+							-result.getG().getE().geomGradient,
+							result.getG()
+									.combine(result.getG().depad(result.getG()
+											.getGeomDerivs())),
+							ReferenceData.GEOM_WEIGHT));
+
 					double[] g =
 							result.getG().combine(result.getG()
 									.depad(result.getG().getTotalGradients()));
@@ -116,69 +156,31 @@ public class Main {
 						}
 					}
 				}
+				DoubleMatrix newGradient = new DoubleMatrix(ttGradient);
 				DoubleMatrix B = runHessian ? new DoubleMatrix(ttHessian) :
-						findMockHessian(ttGradient,
+						findMockHessian(newGradient,
 								ri.params.lastHessian,
 								ri.params.lastGradient, ri.params.lastDir,
 								paramLength);
+				double[] dir = o.optimize(B, newGradient);
 
-				ParamOptimizer o = new ParamOptimizer();
-//				for (String[] j : outputValues) {
-//                    String[] strs = j[1].strip().split(",");
-//
-//                    double[] derivs = new double[strs.length - 2];
-//
-//                    for (int i = 2; i < strs.length; i++) {
-//                        derivs[i - 2] = Double.parseDouble(strs[i]);
-//                    }
-//
-//                    o.addData(new HeatData(derivs, Double.parseDouble
-//                    (strs[0]),
-//                    Double.parseDouble(strs[1])));
-//
-//                    if (!j[3].equals("")) {
-//                        strs = j[3].strip().split(",");
-//
-//                        derivs = new double[strs.length - 2];
-//
-//                        for (int i = 2; i < strs.length; i++) {
-//                            derivs[i - 2] = Double.parseDouble(strs[i]);
-//                        }
-//
-//                        o.addData(new IonizationData(derivs, Double
-//                        .parseDouble
-//                        (strs[0]), Double.parseDouble(strs[1])));
-//                    }
-//
-//                    if (!j[2].equals("")) {
-//                        strs = j[2].strip().split(",");
-//
-//                        derivs = new double[strs.length - 2];
-//
-//                        for (int i = 2; i < strs.length; i++) {
-//                            derivs[i - 2] = Double.parseDouble(strs[i]);
-//                        }
-//
-//                        o.addData(new DipoleData(derivs, Double.parseDouble
-//                        (strs[0]),
-//                        Double.parseDouble(strs[1])));
-//                    }
-//
-//                    if (!j[4].equals("")) {
-//                        strs = j[4].strip().split(",");
-//
-//                        derivs = new double[strs.length - 2];
-//
-//                        for (int i = 2; i < strs.length; i++) {
-//                            derivs[i - 2] = Double.parseDouble(strs[i]);
-//                        }
-//
-//                        o.addData(new GeometricalData(derivs, Double
-//                        .parseDouble
-//                        (strs[0]), Double.parseDouble(strs[1])));
-//                    }
-//                }
+				ri.params.lastGradient  = ttGradient;
+				ri.params.lastHessian = ParamHessian.getHessianUT(ttHessian);
+				ri.params.lastDir = dir;
+
+				int n = 0;
+				for (int atomI = 0; atomI < neededParams.length; atomI++) {
+					for (int paramI : neededParams[atomI]) {
+						ri.params.nddoParams[atomI][paramI] += dir[n];
+						n++;
+					}
+				}
+
+				System.out.println(Arrays.toString(dir));
 				System.out.println(Eigen.symmetricEigenvalues(B));
+
+				OutputHandler.output(mos, OUTPUT_FILENAME);
+				InputHandler.updateInput(ri, INPUT_FILENAME);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -187,7 +189,7 @@ public class Main {
 		System.out.println("Time taken: " + sw.getTime());
 	}
 
-	private static DoubleMatrix findMockHessian(double[] newGradient,
+	private static DoubleMatrix findMockHessian(DoubleMatrix newGradient,
 												double[] oldHessian,
 												double[] oldGradient,
 												double[] oldDir, int size) {
@@ -203,9 +205,7 @@ public class Main {
 			}
 			count++;
 		}
-		DoubleMatrix y =
-				new DoubleMatrix(newGradient)
-						.sub(new DoubleMatrix(oldGradient));
+		DoubleMatrix y = newGradient.sub(new DoubleMatrix(oldGradient));
 
 		double b = y.transpose().mmul(s).get(0);
 		DoubleMatrix A = y.mmul(y.transpose()).mmul(1 / b);

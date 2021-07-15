@@ -101,7 +101,10 @@ public abstract class ParamHessian {
 	}
 
 	public double[] getHessianUT() {
-		double[][] unpadded = getHessianUnpadded();
+		return getHessianUT(getHessianUnpadded());
+	}
+
+	public static double[] getHessianUT(double[][] unpadded) {
 		double[] hessianUT =
 				new double[(unpadded.length + 1) * unpadded.length / 2];
 		for (int i = 0; i < unpadded.length; i++) {
@@ -139,6 +142,10 @@ public abstract class ParamHessian {
 
 	public ParamErrorFunction getE() {
 		return g.getE();
+	}
+
+	public ParamGradient getG() {
+		return g;
 	}
 
 	public boolean isAnalytical() {

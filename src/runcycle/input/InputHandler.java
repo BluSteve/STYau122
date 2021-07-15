@@ -78,6 +78,7 @@ public class InputHandler {
 
 			ri.params = new RawParams();
 			ri.params.nddoParams = new double[ri.atomTypes.length][];
+//			ri.params.nddoParams = mp;
 			double[] kmn =
 					Utils.toDoubles(
 							hud.get(0).split(":")[1].strip().split(","));

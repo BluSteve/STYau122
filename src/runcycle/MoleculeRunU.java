@@ -32,12 +32,13 @@ public class MoleculeRunU extends MoleculeRun {
 		StopWatch sw = new StopWatch();
 		sw.start();
 
-		opt = new GeometryOptimizationU(atoms, charge, mult);
+		opt = new GeometryOptimizationU(getAtoms(), getCharge(), getMult());
 
-		newGeomCoords = "UHF\n" + "CHARGE=" + charge + "\nMULT=" + mult + "\n";
+		newGeomCoords = "UHF\n" + "CHARGE=" + getCharge() + "\nMULT=" +
+				getMult() + "\n";
 		generateGeomCoords();
-		if (this.expGeom != null)
-			expSolution = new SolutionU(this.expGeom, charge, mult);
+		if (this.getExpGeom() != null)
+			expS = new SolutionU(this.getExpGeom(), getCharge(), getMult());
 
 		routine();
 
@@ -50,8 +51,8 @@ public class MoleculeRunU extends MoleculeRun {
 		// TODO Change this line's hardcoding once analytical has been
 		//  implemented for
 		//  unrestricted.
-		g = new ParamGradientU((SolutionU) opt.s, kind, datum,
-				(SolutionU) expSolution, false);
+		g = new ParamGradientU((SolutionU) getOpt().s, getKind(), datum,
+				(SolutionU) getExpS(), false);
 	}
 
 	@Override
