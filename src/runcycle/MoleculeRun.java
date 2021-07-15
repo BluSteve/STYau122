@@ -1,48 +1,39 @@
 package runcycle;
 
-import nddoparam.GeometryOptimization;
-import nddoparam.NDDOAtom;
-import nddoparam.Solution;
-import nddoparam.param.ParamGradient;
-import nddoparam.param.ParamHessian;
+import nddoparam.*;
+import nddoparam.mndo.MNDOParams;
+import nddoparam.param.*;
+import org.apache.commons.lang3.time.StopWatch;
 import runcycle.input.RawMolecule;
 
-public abstract class MoleculeRun {
+public class MoleculeRun {
 	protected int[] atomTypes;
-	// TODO CHANGE THE ONES BELOW BACK TO PROTECTED
-	protected NDDOAtom[] atoms;
-	protected NDDOAtom[] expGeom;
-	protected boolean isRunHessian;
-	protected int charge;
-	protected int size;
-	protected int mult;
-	protected GeometryOptimization opt;
-	protected Solution expS;
-	protected Solution S;
-	protected RawMolecule rawMolecule;
-	protected long time;
 	protected double[] datum;
+	protected NDDOAtom[] atoms, expGeom;
+	protected Solution S, expS;
+	protected GeometryOptimization opt;
 	protected ParamGradient g;
 	protected ParamHessian h;
-	protected boolean isExpAvail;
+	protected boolean isRunHessian, isExpAvail, restricted;
+	protected int charge, mult;
+	protected RawMolecule rawMolecule;
+	protected long time;
 
-	public MoleculeRun(NDDOAtom[] atoms, int charge, NDDOAtom[] expGeom,
-					   double[] datum,
-					   boolean isRunHessian, int[] atomTypes,
-					   int mult,
-					   RawMolecule rawMolecule) {
-		this.rawMolecule = rawMolecule;
+	public MoleculeRun(RawMolecule rm, NDDOParams[] mp, int[] atomTypes,
+					   boolean isRunHessian) {
+		// todo change for am1
+		atoms = RawMolecule.toMNDOAtoms(rm.atoms, (MNDOParams[]) mp);
+		expGeom = RawMolecule.toMNDOAtoms(rm.expGeom, (MNDOParams[]) mp);
+		charge = rm.charge;
+		mult = rm.mult;
+		datum = rm.datum.clone();
+		rawMolecule = rm;
+		restricted = rm.restricted;
 		this.atomTypes = atomTypes;
-		this.atoms = atoms;
-		this.expGeom = expGeom;
+		this.isRunHessian = isRunHessian;
 		isExpAvail = expGeom != null;
-		this.charge = charge;
-		this.setRunHessian(isRunHessian);
-		this.datum =
-				datum; // reference heat + dipole + ionization. size = 1, 2
-		// or 3
-		this.size = atomTypes.length;
-		this.mult = mult;
+
+		run();
 	}
 
 	public boolean isExpAvail() {
@@ -69,41 +60,50 @@ public abstract class MoleculeRun {
 		return h;
 	}
 
-	protected void routine() {
-		runGradient(); // ~ 100 ms
-		if (isRunHessian()) runHessian(); // ~ 700-800 ms
-	}
+	private void run() {
+		StopWatch sw = new StopWatch();
+		sw.start();
 
-	protected void generateGeomCoords() {
+		opt = restricted ?
+				new GeometryOptimizationR(atoms, charge) :
+				new GeometryOptimizationU(atoms, charge, mult);
+		S = getOpt().s; // NOT a clone
+
+		// updates geom coords
 		for (int i = 0; i < getAtoms().length; i++) {
 			rawMolecule.atoms[i].coords = getAtoms()[i].getCoordinates();
 		}
-	}
 
-	protected void runHessian() {
-		constructH();
-		h.computeHessian(); // time intensive step
-	}
+		if (this.getExpGeom() != null)
+			expS = restricted ?
+					new SolutionR(expGeom, charge) :
+					new SolutionU(expGeom, charge, mult);
 
-	protected void runGradient() {
-		constructG();
-		g.computeGradients(); // time intensive step
-	}
+		g = restricted ?
+				new ParamGradientR((SolutionR) getOpt().s, datum,
+						(SolutionR) getExpS(), true) :
+				new ParamGradientU((SolutionU) getOpt().s, datum,
+						(SolutionU) getExpS(), false);
+		h = restricted ?
+				new ParamHessianR((ParamGradientR) g, true) :
+				new ParamHessianU((ParamGradientU) g, false);
 
-	protected abstract void constructG();
+
+		g.computeGradients(); // time intensive step ~ 100 ms
+		if (isRunHessian) {
+			h.computeHessian(); // time intensive step ~ 700-800 ms
+		}
+
+		sw.stop();
+		time = sw.getTime();
+	}
 
 	public Solution getS() {
 		return S;
 	}
 
-	protected abstract void constructH();
-
 	public int getCharge() {
 		return charge;
-	}
-
-	public int getSize() {
-		return size;
 	}
 
 	public int getMult() {
@@ -116,14 +116,6 @@ public abstract class MoleculeRun {
 
 	public Solution getExpS() {
 		return expS;
-	}
-
-	public boolean isRunHessian() {
-		return isRunHessian;
-	}
-
-	public void setRunHessian(boolean runHessian) {
-		isRunHessian = runHessian;
 	}
 
 	public NDDOAtom[] getAtoms() {

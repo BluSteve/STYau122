@@ -67,6 +67,7 @@ public class InputHandler {
 							.split(", ");
 			double[] mp = Utils.toDoubles(mndoParamsS);
 
+			ri.model = "mndo"; // TODO change this for AM1
 			ri.trainingSet = lines.get(0).split("=")[1];
 			ri.atomTypes = new int[ri.trainingSet.length()];
 			for (int x = 0; x < ri.trainingSet.length(); x++) {
@@ -217,6 +218,4 @@ public class InputHandler {
 	public static void main(String[] args) {
 		InputHandler.convertFromTXT("inputtesting.txt");
 	}
-
-	// TODO ADD CHARGE TO NAME
 }

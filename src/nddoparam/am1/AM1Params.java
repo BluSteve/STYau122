@@ -6,6 +6,10 @@ import java.util.Arrays;
 
 public class AM1Params extends NDDOParams {
 	double[] params2;
+	// TODO to change later!
+	public static final int[] T1ParamNums = {0, 1, 3, 5, 7};
+	public static final int[] T2ParamNums = {0, 1, 2, 3, 4, 5, 6, 7};
+
 
 	public AM1Params(double alpha, double betas, double betap, double uss,
 					 double upp,

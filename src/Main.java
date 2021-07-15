@@ -1,4 +1,5 @@
 import nddoparam.NDDOParams;
+import nddoparam.am1.AM1Params;
 import nddoparam.mndo.MNDOParams;
 import nddoparam.param.ParamHessian;
 import optimize.ParamOptimizer;
@@ -6,8 +7,6 @@ import optimize.ReferenceData;
 import org.apache.commons.lang3.time.StopWatch;
 import org.jblas.DoubleMatrix;
 import runcycle.MoleculeRun;
-import runcycle.MoleculeRunR;
-import runcycle.MoleculeRunU;
 import runcycle.input.InputHandler;
 import runcycle.input.RawInput;
 import runcycle.input.RawMolecule;
@@ -26,6 +25,7 @@ public class Main {
 
 	private static final String INPUT_FILENAME = "input.json";
 	private static final String OUTPUT_FILENAME = "output.json";
+	private static RawInput ri;
 
 	public static void main(String[] args) {
 		StopWatch sw = new StopWatch();
@@ -33,29 +33,52 @@ public class Main {
 //        System.out.close();
 
 		for (int numRuns = 0; numRuns < 1; numRuns++) {
-			boolean runHessian = numRuns % 2 == 0; // Hessian every other run
+			boolean isRunHessian = numRuns % 2 == 0; // Hessian every other run
 
 			AtomHandler.populateAtoms();
 			InputHandler.processInput(INPUT_FILENAME);
 
-			RawInput ri = InputHandler.ri;
+			ri = InputHandler.ri;
 			System.out.println(
 					"MNDO Parameterization, updated 13 July. " +
 							ri.trainingSet +
 							" training set (PM7)");
 
-			NDDOParams[] nddoParams =
-					new MNDOParams[ri.params.nddoParams.length];
-			// TODO change the following line if AM1
-			for (int i = 0; i < ri.params.nddoParams.length; i++)
-				nddoParams[i] = new MNDOParams(ri.params.nddoParams[i]);
+			NDDOParams[] nddoParams = null;
+
+			switch (ri.model) {
+				case "mndo":
+					nddoParams =
+							new MNDOParams[ri.params.nddoParams.length];
+					for (int i = 0; i < ri.params.nddoParams.length; i++)
+						nddoParams[i] =
+								new MNDOParams(ri.params.nddoParams[i]);
+					break;
+				case "am1":
+					nddoParams =
+							new AM1Params[ri.params.nddoParams.length];
+					for (int i = 0; i < ri.params.nddoParams.length; i++)
+						nddoParams[i] = new AM1Params(ri.params.nddoParams[i]);
+					break;
+			}
+
 
 			int[][] neededParams = new int[ri.atomTypes.length][];
 			int w = 0;
 			for (int atomType : ri.atomTypes) {
-				if (atomType == 1)
-					neededParams[w] = MNDOParams.T1ParamNums;
-				else neededParams[w] = MNDOParams.T2ParamNums;
+				switch (ri.model) {
+					case "mndo":
+						if (atomType == 1)
+							neededParams[w] = MNDOParams.T1ParamNums;
+						else neededParams[w] = MNDOParams.T2ParamNums;
+						break;
+					case "am1":
+						if (atomType == 1)
+							neededParams[w] = AM1Params.T1ParamNums;
+						else neededParams[w] = AM1Params.T2ParamNums;
+						break;
+				}
+
 				w++;
 			}
 
@@ -71,27 +94,22 @@ public class Main {
 						requests.subList(0, maxParallel);
 				ForkJoinPool threadPool = new ForkJoinPool(cores);
 
+				NDDOParams[] finalNddoParams = nddoParams;
 				List<MoleculeRun> results = threadPool
 						.submit(() -> parallelRequests.parallelStream()
-								.map(request -> {
-									MoleculeRun result = request.restricted ?
-											new MoleculeRunR(request,
-													nddoParams,
-													ri.atomTypes, runHessian) :
-											new MoleculeRunU(request,
-													nddoParams,
-													ri.atomTypes, runHessian);
-									return result;
-								})).get().collect(Collectors.toList());
+								.map(rawMolecule -> new MoleculeRun(
+										rawMolecule,
+										finalNddoParams,
+										ri.atomTypes,
+										isRunHessian)))
+						.get()
+						.collect(Collectors.toList());
 
-				for (RawMolecule request : requests
+				for (RawMolecule rawMolecule : requests
 						.subList(maxParallel, requests.size())) {
-					MoleculeRun result = request.restricted ?
-							new MoleculeRunR(request, nddoParams, ri.atomTypes,
-									runHessian) :
-							new MoleculeRunU(request, nddoParams,
-									ri.atomTypes,
-									runHessian);
+					MoleculeRun result =
+							new MoleculeRun(rawMolecule, finalNddoParams,
+									ri.atomTypes, isRunHessian);
 					results.add(result);
 				}
 
@@ -107,7 +125,7 @@ public class Main {
 										.getTotalGradients())).length;
 				double[] ttGradient = new double[paramLength];
 				double[][] ttHessian = null;
-				if (runHessian) ttHessian =
+				if (isRunHessian) ttHessian =
 						new double[results.get(0).getH()
 								.getHessianUnpadded().length]
 								[results.get(0).getH()
@@ -147,7 +165,7 @@ public class Main {
 					for (int i = 0; i < g.length; i++) {
 						ttGradient[i] += g[i];
 					}
-					if (runHessian) {
+					if (isRunHessian) {
 						double[][] h = result.getH().getHessianUnpadded();
 						for (int i = 0; i < h.length; i++) {
 							for (int j = 0; j < h[0].length; j++)
@@ -156,15 +174,18 @@ public class Main {
 					}
 				}
 				DoubleMatrix newGradient = new DoubleMatrix(ttGradient);
-				DoubleMatrix B = runHessian ? new DoubleMatrix(ttHessian) :
-						findMockHessian(newGradient,
-								ri.params.lastHessian,
-								ri.params.lastGradient, ri.params.lastDir,
-								paramLength);
-				double[] dir = o.optimize(B, newGradient);
+				DoubleMatrix newHessian =
+						isRunHessian ? new DoubleMatrix(ttHessian) :
+								findMockHessian(newGradient,
+										ri.params.lastHessian,
+										ri.params.lastGradient,
+										ri.params.lastDir,
+										paramLength);
+				double[] dir = o.optimize(newHessian, newGradient);
 
-				ri.params.lastGradient  = ttGradient;
-				ri.params.lastHessian = ParamHessian.getHessianUT(ttHessian);
+				ri.params.lastGradient = ttGradient;
+				ri.params.lastHessian = ParamHessian.getHessianUT(
+						newHessian.toArray2());
 				ri.params.lastDir = dir;
 
 				int n = 0;
@@ -213,4 +234,5 @@ public class Main {
 
 		return hessian.add(A).sub(C);
 	}
+
 }
