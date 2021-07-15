@@ -35,13 +35,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Testing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianU.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputtesting.txt" beforeDir="false" afterPath="$PROJECT_DIR$/inputtesting.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -313,7 +307,7 @@
       <recent name="nddoparam.param" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Testing">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="InputHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="runcycle.input.InputHandler" />
       <module name="MNDOParam" />
@@ -364,9 +358,9 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Testing" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.InputHandler" />
+        <item itemvalue="Application.Testing" />
       </list>
     </recent_temporary>
   </component>
@@ -464,14 +458,7 @@
       <workItem from="1626269235170" duration="410000" />
       <workItem from="1626270856281" duration="1172000" />
       <workItem from="1626332270700" duration="22387000" />
-      <workItem from="1626361098914" duration="3924000" />
-    </task>
-    <task id="LOCAL-00054" summary="MoleculeRun working now 2.0">
-      <created>1626089051746</created>
-      <option name="number" value="00054" />
-      <option name="presentableId" value="LOCAL-00054" />
-      <option name="project" value="LOCAL" />
-      <updated>1626089051746</updated>
+      <workItem from="1626361098914" duration="4247000" />
     </task>
     <task id="LOCAL-00055" summary="Merged NDDOSolution from mergelater">
       <created>1626089414632</created>
@@ -809,7 +796,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626351315022</updated>
     </task>
-    <option name="localTasksCounter" value="103" />
+    <task id="LOCAL-00103" summary="Multithreaded Hessian">
+      <created>1626365306276</created>
+      <option name="number" value="00103" />
+      <option name="presentableId" value="LOCAL-00103" />
+      <option name="project" value="LOCAL" />
+      <updated>1626365306278</updated>
+    </task>
+    <option name="localTasksCounter" value="104" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -877,7 +871,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Fixed analytical vs finite difference decision bug" />
     <MESSAGE value="Debug weird H2 bug" />
     <MESSAGE value="Adrian fix NDDO Solution Restricted" />
     <MESSAGE value="input.json" />
@@ -902,7 +895,8 @@
     <MESSAGE value="Everything no kind + minor changes" />
     <MESSAGE value="No more MoleculeRunRU" />
     <MESSAGE value="most classes can now have a copy of atomtypes" />
-    <option name="LAST_COMMIT_MESSAGE" value="most classes can now have a copy of atomtypes" />
+    <MESSAGE value="Multithreaded Hessian" />
+    <option name="LAST_COMMIT_MESSAGE" value="Multithreaded Hessian" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

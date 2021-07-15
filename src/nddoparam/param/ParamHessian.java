@@ -56,8 +56,7 @@ public abstract class ParamHessian {
 		hessian = new double[s.getUniqueZs().length * Solution.maxParamNum]
 				[s.getUniqueZs().length * Solution.maxParamNum];
 		try {
-			int cores = Runtime.getRuntime().availableProcessors();
-			ForkJoinPool threadPool = new ForkJoinPool(cores);
+			ForkJoinPool threadPool = new ForkJoinPool(hessian.length);
 
 			List<int[]> ZandPNs = new ArrayList<>(hessian.length);
 
