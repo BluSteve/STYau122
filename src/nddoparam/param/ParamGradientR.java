@@ -29,17 +29,17 @@ public class ParamGradientR extends ParamGradient {
 	protected void computeBatchedDerivs(int firstZIndex, int firstParamIndex) {
 		ArrayList<DoubleMatrix> aggregate =
 				new ArrayList<>(s.getUniqueZs().length * Solution.maxParamNum);
-		for (int Z = firstZIndex; Z < s.getUniqueZs().length; Z++) {
-			if (Z == firstZIndex)
-				staticDerivs[Z] = ParamDerivative
+		// TODO BUG IS HERE!
+		for (int ZI = 0; ZI < s.getUniqueZs().length; ZI++) {
+			if (ZI == firstZIndex)
+				staticDerivs[ZI] = ParamDerivative
 						.MNDOStaticMatrixDeriv((SolutionR) s,
-								s.getUniqueZs()[Z],
+								s.getUniqueZs()[ZI],
 								firstParamIndex);
-			else staticDerivs[Z] = ParamDerivative
+			else staticDerivs[ZI] = ParamDerivative
 					.MNDOStaticMatrixDeriv((SolutionR) s,
-							s.getUniqueZs()[Z],
-							0);
-			Collections.addAll(aggregate, staticDerivs[Z][1]);
+							s.getUniqueZs()[ZI], 0);
+			Collections.addAll(aggregate, staticDerivs[ZI][1]);
 		}
 
 		DoubleMatrix[] aggregateArray = new DoubleMatrix[aggregate.size()];

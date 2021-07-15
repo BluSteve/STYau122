@@ -129,10 +129,10 @@ public class ParamDerivative {
 	private static double qQpipi(double p01, double p11, double p21,
 								 double D11,
 								 double D21, double p02, double p12,
-								  double p22,
+								 double p22,
 								 double D12, double D22, double R, int num,
 								 double D1deriv, double D2deriv,
-								  double p1deriv,
+								 double p1deriv,
 								 double p2deriv) {
 		double a02 = p01 + p22;
 
@@ -189,10 +189,10 @@ public class ParamDerivative {
 	private static double upiupi(double p01, double p11, double p21,
 								 double D11,
 								 double D21, double p02, double p12,
-double p22,
+								 double p22,
 								 double D12, double D22, double R, int num,
 								 double D1deriv, double D2deriv,
-								  double p1deriv,
+								 double p1deriv,
 								 double p2deriv) {
 		double a11 = p11 + p12;
 		if (num == 0) {
@@ -522,12 +522,12 @@ double p22,
 	}
 
 	private static double QxxQyy(double p01, double p11, double p21,
-	 double D11,
+								 double D11,
 								 double D21, double p02, double p12,
-								  double p22,
+								 double p22,
 								 double D12, double D22, double R, int num,
 								 double D1deriv, double D2deriv,
-								  double p1deriv,
+								 double p1deriv,
 								 double p2deriv) {
 		double a22 = p21 + p22;
 		if (num == 0) {
@@ -644,12 +644,12 @@ double p22,
 	}
 
 	private static double QzzQzz(double p01, double p11, double p21,
-	 double D11,
+								 double D11,
 								 double D21, double p02, double p12,
-								  double p22,
+								 double p22,
 								 double D12, double D22, double R, int num,
 								 double D1deriv, double D2deriv,
-								  double p1deriv,
+								 double p1deriv,
 								 double p2deriv) {
 		double a22 = p21 + p22;
 		if (num == 0) {
@@ -889,7 +889,7 @@ double p22,
 				D1deriv,
 				D2deriv, p1deriv, p2deriv) +
 				qQpipi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R,
- num,
+						num,
 						D1deriv,
 						D2deriv, p1deriv, p2deriv);
 	}
@@ -899,7 +899,7 @@ double p22,
 									  double D21, double p02, double p12,
 									  double p22,
 									  double D12, double D22, double R,
-									   int num,
+									  int num,
 									  double D1deriv, double D2deriv,
 									  double p1deriv,
 									  double p2deriv) {
@@ -933,7 +933,7 @@ double p22,
 									  double D21, double p02, double p12,
 									  double p22,
 									  double D12, double D22, double R,
-									   int num,
+									  int num,
 									  double D1deriv, double D2deriv,
 									  double p1deriv,
 									  double p2deriv) {
@@ -988,7 +988,7 @@ double p22,
 						f(num),
 						D1deriv, D2deriv, p1deriv, p2deriv) +
 				QxxQyy(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R,
-				 num,
+						num,
 						D1deriv,
 						D2deriv, p1deriv, p2deriv);
 	}
@@ -1029,7 +1029,7 @@ double p22,
 				D1deriv,
 				D2deriv, p1deriv, p2deriv) +
 				qQpipi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R,
-				 num,
+						num,
 						D1deriv,
 						D2deriv, p1deriv, p2deriv) +
 				qQzz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R,
@@ -1075,7 +1075,7 @@ double p22,
 									 double p1deriv,
 									 double p2deriv) {
 		return -quz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R,
- f(num),
+				f(num),
 				D1deriv,
 				D2deriv, p1deriv, p2deriv);
 	}
@@ -1090,7 +1090,7 @@ double p22,
 										 double p1deriv,
 										 double p2deriv) {
 		return -quz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R,
-		 f(num),
+				f(num),
 				D1deriv,
 				D2deriv, p1deriv, p2deriv) +
 				uzQpipi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R,
@@ -1183,7 +1183,7 @@ double p22,
 									  double D21, double p02, double p12,
 									  double p22,
 									  double D12, double D22, double R,
-									   int num,
+									  int num,
 									  double D1deriv, double D2deriv,
 									  double p1deriv,
 									  double p2deriv) {
@@ -1202,7 +1202,7 @@ double p22,
 										 double p1deriv,
 										 double p2deriv) {
 		return upiQpiz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R,
-		 num,
+				num,
 				D1deriv,
 				D2deriv, p1deriv, p2deriv);
 	}
@@ -1269,7 +1269,7 @@ double p22,
 
 
 	protected static double LocalTwoCenterERIderiv(NDDO6G a, NDDO6G b,
-	 NDDO6G c,
+												   NDDO6G c,
 												   NDDO6G d,
 												   double D1deriv,
 												   double D2deriv,
@@ -2233,7 +2233,7 @@ double p22,
 
 
 	public static double getGderivfinite(NDDO6G a, NDDO6G b, NDDO6G c,
-	 NDDO6G d,
+										 NDDO6G d,
 										 int num,
 										 int type) {
 
@@ -2260,7 +2260,7 @@ double p22,
 				Class<? extends NDDOAtom> cl = A.getClass();
 				Constructor ctor =
 						cl.getDeclaredConstructor(cl,
-						 A.getParams().getClass());
+								A.getParams().getClass());
 				ctor.setAccessible(true);
 
 				A = (NDDOAtom) ctor.newInstance(A, params);
@@ -2277,7 +2277,7 @@ double p22,
 				Class<? extends NDDOAtom> cl = C.getClass();
 				Constructor ctor =
 						cl.getDeclaredConstructor(cl,
-						 C.getParams().getClass());
+								C.getParams().getClass());
 				ctor.setAccessible(true);
 
 				C = (NDDOAtom) ctor.newInstance(C, params);
@@ -2318,7 +2318,7 @@ double p22,
 				Class<? extends NDDOAtom> cl = A.getClass();
 				Constructor ctor =
 						cl.getDeclaredConstructor(cl,
-						 A.getParams().getClass());
+								A.getParams().getClass());
 				ctor.setAccessible(true);
 
 				A = (NDDOAtom) ctor.newInstance(A, params);
@@ -2335,7 +2335,7 @@ double p22,
 				Class<? extends NDDOAtom> cl = B.getClass();
 				Constructor ctor =
 						cl.getDeclaredConstructor(cl,
-						 B.getParams().getClass());
+								B.getParams().getClass());
 				ctor.setAccessible(true);
 
 				B = (NDDOAtom) ctor.newInstance(B, params);
@@ -2366,7 +2366,7 @@ double p22,
 				Class<? extends NDDOAtom> cl = A.getClass();
 				Constructor ctor =
 						cl.getDeclaredConstructor(cl,
-						 A.getParams().getClass());
+								A.getParams().getClass());
 				ctor.setAccessible(true);
 
 				A = (NDDOAtom) ctor.newInstance(A, params);
@@ -2383,7 +2383,7 @@ double p22,
 				Class<? extends NDDOAtom> cl = B.getClass();
 				Constructor ctor =
 						cl.getDeclaredConstructor(cl,
-						 B.getParams().getClass());
+								B.getParams().getClass());
 				ctor.setAccessible(true);
 
 				B = (NDDOAtom) ctor.newInstance(B, params);
@@ -2755,7 +2755,7 @@ double p22,
 				}
 				else { // case 3
 					double Huk = NDDO6G.betaparamderiv(orbitals[j],
-orbitals[k],
+							orbitals[k],
 							getNum(atomicnumbers[atomNumber[j]],
 									atomicnumbers[atomNumber[k]], Z), type);
 					H.put(j, k, Huk);
@@ -2906,7 +2906,7 @@ orbitals[k],
 
 					double H = betaderiv(atomicnumbers[atomNumber[j]],
 							atomicnumbers[atomNumber[k]], Z,
-orbitals[j].getL(),
+							orbitals[j].getL(),
 							orbitals[k].getL(), type);
 
 					if (H != 0) {
@@ -2939,7 +2939,7 @@ orbitals[j].getL(),
 
 					double H = betaderiv(atomicnumbers[atomNumber[j]],
 							atomicnumbers[atomNumber[k]], Z,
-							 orbitals[j].getL(),
+							orbitals[j].getL(),
 							orbitals[k].getL(), type);
 
 					if (H != 0) {
@@ -3058,7 +3058,7 @@ orbitals[j].getL(),
 					for (int l : soln.missingIndex[soln.atomNumber[j]]) {
 						if (l > -1) {
 							for (int m :
-							 soln.missingIndex[soln.atomNumber[j]]) {
+									soln.missingIndex[soln.atomNumber[j]]) {
 								if (m > -1) {
 									if (soln.atomNumber[l] ==
 											soln.atomNumber[m]) {
@@ -3080,7 +3080,7 @@ orbitals[j].getL(),
 					for (int l : soln.missingIndex[soln.atomNumber[j]]) {
 						if (l > -1) {
 							for (int m :
-							 soln.missingIndex[soln.atomNumber[j]]) {
+									soln.missingIndex[soln.atomNumber[j]]) {
 								if (m > -1) {
 									if (soln.atomNumber[l] ==
 											soln.atomNumber[m]) {
@@ -3169,7 +3169,7 @@ orbitals[j].getL(),
 					for (int l : soln.missingIndex[soln.atomNumber[j]]) {
 						if (l > -1) {
 							for (int m :
-							 soln.missingIndex[soln.atomNumber[j]]) {
+									soln.missingIndex[soln.atomNumber[j]]) {
 								if (m > -1) {
 									if (soln.atomNumber[l] ==
 											soln.atomNumber[m]) {
@@ -3191,7 +3191,7 @@ orbitals[j].getL(),
 					for (int l : soln.missingIndex[soln.atomNumber[j]]) {
 						if (l > -1) {
 							for (int m :
-							 soln.missingIndex[soln.atomNumber[j]]) {
+									soln.missingIndex[soln.atomNumber[j]]) {
 								if (m > -1) {
 									if (soln.atomNumber[l] ==
 											soln.atomNumber[m]) {
@@ -3267,210 +3267,211 @@ orbitals[j].getL(),
 	// fockDerivStatic is 1x8
 	public static DoubleMatrix[] xArrayLimitedPople(SolutionR soln,
 													DoubleMatrix[] fockDerivStaticPadded) {
-		int size = numNotNull(fockDerivStaticPadded);
-		DoubleMatrix[] fockDerivStatic = new DoubleMatrix[size];
-		size = 0;
-		for (DoubleMatrix dm : fockDerivStaticPadded) {
-			if (dm != null) {
-				fockDerivStatic[size] = dm.dup();
-				size++;
-			}
-		}
-		if (fockDerivStatic.length == 0)
-			return new DoubleMatrix[fockDerivStaticPadded.length];
-
-		int NOcc = (int) (soln.nElectrons / 2.0);
-		int NVirt = soln.orbitals.length - NOcc;
-
-		DoubleMatrix[] xArray = new DoubleMatrix[fockDerivStatic.length];
-		DoubleMatrix[] barray = new DoubleMatrix[fockDerivStatic.length];
-		DoubleMatrix[] parray = new DoubleMatrix[fockDerivStatic.length];
-		DoubleMatrix[] Farray = new DoubleMatrix[fockDerivStatic.length];
-		DoubleMatrix[] rarray = new DoubleMatrix[fockDerivStatic.length];
-
-		DoubleMatrix preconditioner = DoubleMatrix.zeros(NOcc * NVirt, 1);
-		DoubleMatrix preconditionerinv = DoubleMatrix.zeros(NOcc * NVirt, 1);
-
-		int counter = 0;
-
-		for (int i = 0; i < NOcc; i++) {
-			for (int j = 0; j < NVirt; j++) {
-
-				double e = (-soln.E.get(i) + soln.E.get(NOcc + j));
-
-				preconditioner.put(counter, Math.pow(e, -0.5));
-
-				preconditionerinv.put(counter, Math.pow(e, 0.5));
-
-				counter++;
-
-			}
-		}
-
-		DoubleMatrix D = DoubleMatrix.diag(preconditioner);
-
-		DoubleMatrix Dinv = DoubleMatrix.diag(preconditionerinv);
-
-		for (int a = 0; a < xArray.length; a++) {
-			DoubleMatrix F = DoubleMatrix.zeros(NOcc * NVirt, 1);
-
-			int count1 = 0;
-
-			for (int i = 0; i < NOcc; i++) {
-				for (int j = 0; j < NVirt; j++) {
-					double element = 0;
-
-					for (int u = 0; u < soln.orbitals.length; u++) {
-						for (int v = 0; v < soln.orbitals.length; v++) {
-							element +=
-									soln.C.get(i, u) * soln.C.get(j + NOcc,
-											v) *
-											fockDerivStatic[a].get(u, v);
-						}
-					}
-
-					element = element / (soln.E.get(j + NOcc) - soln.E.get(i));
-					F.put(count1, 0, element);
-					count1++;
-				}
-			}
-
-			F = D.mmul(F);
-			xArray[a] = DoubleMatrix.zeros(NOcc * NVirt, 1);
-			rarray[a] = xArray[a].dup();
-			barray[a] = F.dup();
-			Farray[a] = F.dup();
-		}
-
-
-		if (barray[0].rows == 0) {
-			DoubleMatrix[] densityderivs =
-					new DoubleMatrix[fockDerivStatic.length];
-
-			for (int i = 0; i < densityderivs.length; i++) {
-				densityderivs[i] = DoubleMatrix.zeros(0, 0);
-			}
-
-			return densityderivs;
-		}
-
-
-		ArrayList<DoubleMatrix> b = new ArrayList<>();
-
-		ArrayList<DoubleMatrix> p = new ArrayList<>();
-
-		int[] iterable = new int[barray.length];
-
-
-		DoubleMatrix F = DoubleMatrix.zeros(NOcc * NVirt, Farray.length);
-		for (int i = 0; i < Farray.length; i++) {
-			F.putColumn(i, Farray[i]);
-		}
-
-		while (GeometrySecondDerivative.numIterable(iterable) > 0) {
-
-			GeometrySecondDerivative.orthogonalise(barray);
-
-//            System.err.println("only " + GeometrySecondDerivative
-//            .numIterable(iterable) +
-//            " left to go!");
-
-			for (int i = 0; i < barray.length; i++) {
-
-				b.add(barray[i].dup());
-				parray[i] = D.mmul(GeometrySecondDerivative
-						.computeResponseVectorsPople(Dinv.mmul(barray[i].dup()),
-								soln));
-				p.add(parray[i].dup());
-			}
-
-			for (int i = 0; i < barray.length; i++) {
-				DoubleMatrix newb = parray[i];
-
-				for (int j = 0; j < b.size(); j++) {
-					double num = b.get(j).transpose().mmul(parray[i]).get(0) /
-							b.get(j).transpose().mmul(b.get(j)).get(0);
-					newb = newb.sub(b.get(j).mmul(num));
-				}
-
-				barray[i] = newb.dup();
-			}
-
-			DoubleMatrix B = DoubleMatrix.zeros(NOcc * NVirt, b.size());
-			DoubleMatrix P = DoubleMatrix.zeros(NOcc * NVirt, b.size());
-
-			for (int i = 0; i < b.size(); i++) {
-				B.putColumn(i, b.get(i));
-
-				P.putColumn(i, b.get(i).sub(p.get(i)));
-			}
-
-
-			DoubleMatrix lhs = B.transpose().mmul(P);
-
-			DoubleMatrix rhs = B.transpose().mmul(F);
-			DoubleMatrix alpha;
-
-			try {
-				alpha = Solve.solve(lhs, rhs);
-			} catch (LapackException e) {
-				alpha = DoubleMatrix.ones(lhs.columns, rhs.columns);
-//                System.err.println(Arrays.toString(fockDerivStatic));
-//                System.err.println(lhs);
-//                System.err.println(rhs);
-			}
-
-			for (int a = 0; a < xArray.length; a++) {
-
-				rarray[a] = DoubleMatrix.zeros(NOcc * NVirt, 1);
-				xArray[a] = DoubleMatrix.zeros(NOcc * NVirt, 1);
-			}
-
-			for (int i = 0; i < alpha.rows; i++) {
-				for (int j = 0; j < alpha.columns; j++) {
-
-					rarray[j] =
-							rarray[j].add((b.get(i).sub(p.get(i)))
-									.mmul(alpha.get(i,
-											j)));
-					xArray[j] = xArray[j].add(b.get(i).mmul(alpha.get(i, j)));
-				}
-			}
-
-			for (int j = 0; j < alpha.columns; j++) {
-				rarray[j] = rarray[j].sub(Farray[j]);
-
-				xArray[j] = Dinv.mmul(xArray[j]);
-
-				if (mag(rarray[j]) < 1E-10) { //todo play with this
-					iterable[j] = 1;
-				}
-				else if (Double.isNaN(mag(rarray[j]))) {
-					System.err.println(
-							"Pople algorithm fails; reverting to Thiel " +
-							 "algorithm " +
-									"(don't" +
-									" " +
-									"panic)...");
-					return xArrayLimitedThiel(soln, fockDerivStaticPadded);
-				}
-				else {
-					iterable[j] = 0;
-//                    System.err.println("convergence test: " + mag(rarray[j]));
-				}
-			}
-		}
-
-		DoubleMatrix[] xArrayPadded =
-				new DoubleMatrix[fockDerivStaticPadded.length];
-		size = 0;
-		for (int i = 0; i < fockDerivStaticPadded.length; i++) {
-			if (fockDerivStaticPadded[i] != null) {
-				xArrayPadded[i] = xArray[size];
-				size++;
-			}
-		}
-		return xArrayPadded;
+		return xArrayLimitedThiel(soln, fockDerivStaticPadded);
+//		int size = numNotNull(fockDerivStaticPadded);
+//		DoubleMatrix[] fockDerivStatic = new DoubleMatrix[size];
+//		size = 0;
+//		for (DoubleMatrix dm : fockDerivStaticPadded) {
+//			if (dm != null) {
+//				fockDerivStatic[size] = dm.dup();
+//				size++;
+//			}
+//		}
+//		if (fockDerivStatic.length == 0)
+//			return new DoubleMatrix[fockDerivStaticPadded.length];
+//
+//		int NOcc = (int) (soln.nElectrons / 2.0);
+//		int NVirt = soln.orbitals.length - NOcc;
+//
+//		DoubleMatrix[] xArray = new DoubleMatrix[fockDerivStatic.length];
+//		DoubleMatrix[] barray = new DoubleMatrix[fockDerivStatic.length];
+//		DoubleMatrix[] parray = new DoubleMatrix[fockDerivStatic.length];
+//		DoubleMatrix[] Farray = new DoubleMatrix[fockDerivStatic.length];
+//		DoubleMatrix[] rarray = new DoubleMatrix[fockDerivStatic.length];
+//
+//		DoubleMatrix preconditioner = DoubleMatrix.zeros(NOcc * NVirt, 1);
+//		DoubleMatrix preconditionerinv = DoubleMatrix.zeros(NOcc * NVirt, 1);
+//
+//		int counter = 0;
+//
+//		for (int i = 0; i < NOcc; i++) {
+//			for (int j = 0; j < NVirt; j++) {
+//
+//				double e = (-soln.E.get(i) + soln.E.get(NOcc + j));
+//
+//				preconditioner.put(counter, Math.pow(e, -0.5));
+//
+//				preconditionerinv.put(counter, Math.pow(e, 0.5));
+//
+//				counter++;
+//
+//			}
+//		}
+//
+//		DoubleMatrix D = DoubleMatrix.diag(preconditioner);
+//
+//		DoubleMatrix Dinv = DoubleMatrix.diag(preconditionerinv);
+//
+//		for (int a = 0; a < xArray.length; a++) {
+//			DoubleMatrix F = DoubleMatrix.zeros(NOcc * NVirt, 1);
+//
+//			int count1 = 0;
+//
+//			for (int i = 0; i < NOcc; i++) {
+//				for (int j = 0; j < NVirt; j++) {
+//					double element = 0;
+//
+//					for (int u = 0; u < soln.orbitals.length; u++) {
+//						for (int v = 0; v < soln.orbitals.length; v++) {
+//							element +=
+//									soln.C.get(i, u) * soln.C.get(j + NOcc,
+//											v) *
+//											fockDerivStatic[a].get(u, v);
+//						}
+//					}
+//
+//					element = element / (soln.E.get(j + NOcc) - soln.E.get(i));
+//					F.put(count1, 0, element);
+//					count1++;
+//				}
+//			}
+//
+//			F = D.mmul(F);
+//			xArray[a] = DoubleMatrix.zeros(NOcc * NVirt, 1);
+//			rarray[a] = xArray[a].dup();
+//			barray[a] = F.dup();
+//			Farray[a] = F.dup();
+//		}
+//
+//
+//		if (barray[0].rows == 0) {
+//			DoubleMatrix[] densityderivs =
+//					new DoubleMatrix[fockDerivStatic.length];
+//
+//			for (int i = 0; i < densityderivs.length; i++) {
+//				densityderivs[i] = DoubleMatrix.zeros(0, 0);
+//			}
+//
+//			return densityderivs;
+//		}
+//
+//
+//		ArrayList<DoubleMatrix> b = new ArrayList<>();
+//
+//		ArrayList<DoubleMatrix> p = new ArrayList<>();
+//
+//		int[] iterable = new int[barray.length];
+//
+//
+//		DoubleMatrix F = DoubleMatrix.zeros(NOcc * NVirt, Farray.length);
+//		for (int i = 0; i < Farray.length; i++) {
+//			F.putColumn(i, Farray[i]);
+//		}
+//
+//		while (GeometrySecondDerivative.numIterable(iterable) > 0) {
+//
+//			GeometrySecondDerivative.orthogonalise(barray);
+//
+////            System.err.println("only " + GeometrySecondDerivative
+////            .numIterable(iterable) +
+////            " left to go!");
+//
+//			for (int i = 0; i < barray.length; i++) {
+//
+//				b.add(barray[i].dup());
+//				parray[i] = D.mmul(GeometrySecondDerivative
+//						.computeResponseVectorsPople(Dinv.mmul(barray[i].dup()),
+//								soln));
+//				p.add(parray[i].dup());
+//			}
+//
+//			for (int i = 0; i < barray.length; i++) {
+//				DoubleMatrix newb = parray[i];
+//
+//				for (int j = 0; j < b.size(); j++) {
+//					double num = b.get(j).transpose().mmul(parray[i]).get(0) /
+//							b.get(j).transpose().mmul(b.get(j)).get(0);
+//					newb = newb.sub(b.get(j).mmul(num));
+//				}
+//
+//				barray[i] = newb.dup();
+//			}
+//
+//			DoubleMatrix B = DoubleMatrix.zeros(NOcc * NVirt, b.size());
+//			DoubleMatrix P = DoubleMatrix.zeros(NOcc * NVirt, b.size());
+//
+//			for (int i = 0; i < b.size(); i++) {
+//				B.putColumn(i, b.get(i));
+//
+//				P.putColumn(i, b.get(i).sub(p.get(i)));
+//			}
+//
+//
+//			DoubleMatrix lhs = B.transpose().mmul(P);
+//
+//			DoubleMatrix rhs = B.transpose().mmul(F);
+//			DoubleMatrix alpha;
+//
+//			try {
+//				alpha = Solve.solve(lhs, rhs);
+//			} catch (LapackException e) {
+//				alpha = DoubleMatrix.ones(lhs.columns, rhs.columns);
+////                System.err.println(Arrays.toString(fockDerivStatic));
+////                System.err.println(lhs);
+////                System.err.println(rhs);
+//			}
+//
+//			for (int a = 0; a < xArray.length; a++) {
+//
+//				rarray[a] = DoubleMatrix.zeros(NOcc * NVirt, 1);
+//				xArray[a] = DoubleMatrix.zeros(NOcc * NVirt, 1);
+//			}
+//
+//			for (int i = 0; i < alpha.rows; i++) {
+//				for (int j = 0; j < alpha.columns; j++) {
+//
+//					rarray[j] =
+//							rarray[j].add((b.get(i).sub(p.get(i)))
+//									.mmul(alpha.get(i,
+//											j)));
+//					xArray[j] = xArray[j].add(b.get(i).mmul(alpha.get(i, j)));
+//				}
+//			}
+//
+//			for (int j = 0; j < alpha.columns; j++) {
+//				rarray[j] = rarray[j].sub(Farray[j]);
+//
+//				xArray[j] = Dinv.mmul(xArray[j]);
+//
+//				if (mag(rarray[j]) < 1E-10) { //todo play with this
+//					iterable[j] = 1;
+//				}
+//				else if (Double.isNaN(mag(rarray[j]))) {
+//					System.err.println(
+//							"Pople algorithm fails; reverting to Thiel " +
+//									"algorithm " +
+//									"(don't" +
+//									" " +
+//									"panic)...");
+//					return xArrayLimitedThiel(soln, fockDerivStaticPadded);
+//				}
+//				else {
+//					iterable[j] = 0;
+////                    System.err.println("convergence test: " + mag(rarray[j]));
+//				}
+//			}
+//		}
+//
+//		DoubleMatrix[] xArrayPadded =
+//				new DoubleMatrix[fockDerivStaticPadded.length];
+//		size = 0;
+//		for (int i = 0; i < fockDerivStaticPadded.length; i++) {
+//			if (fockDerivStaticPadded[i] != null) {
+//				xArrayPadded[i] = xArray[size];
+//				size++;
+//			}
+//		}
+//		return xArrayPadded;
 	}
 
 	private static DoubleMatrix[] xArrayLimitedThiel(SolutionR soln,
@@ -3491,7 +3492,7 @@ orbitals[j].getL(),
 		DoubleMatrix[] dirs = new DoubleMatrix[fockDerivStatic.length];
 
 		for (int a = 0; a < Farray.length; a++) {
-			if (fockDerivStatic[a] != null) { // TODO null check
+			if (fockDerivStatic[a] != null) {
 				DoubleMatrix F = DoubleMatrix.zeros(NOcc * NVirt, 1);
 
 				int count1 = 0;
@@ -3572,7 +3573,7 @@ orbitals[j].getL(),
 				for (int j = i; j < solver.rows; j++) {
 
 					double val = p.get(j).transpose().mmul(d.get(i)).get(0,
- 0) +
+							0) +
 							p.get(i).transpose().mmul(d.get(j)).get(0, 0);
 					solver.put(i, j, val);
 					solver.put(j, i, val);
@@ -3675,7 +3676,7 @@ orbitals[j].getL(),
 				}
 			}
 			x.put(count1, 0,
-			 -element / (soln.E.get(NOcc - 1) - soln.E.get(j)));
+					-element / (soln.E.get(NOcc - 1) - soln.E.get(j)));
 			count1++;
 		}
 		return x;
@@ -3699,7 +3700,7 @@ orbitals[j].getL(),
 				for (int i = 0; i < NOcc; i++) {
 					for (int j = 0; j < NVirt; j++) {
 						sum -= 2 * (soln.C.get(i, u) * soln.C.get(j + NOcc,
- v) +
+								v) +
 								soln.C.get(j + NOcc, u) * soln.C.get(i, v)) *
 								x.get(count, 0);
 						count++;

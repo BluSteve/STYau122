@@ -25,14 +25,13 @@ import java.util.stream.Collectors;
 public class Main {
 
 	private static final String INPUT_FILENAME = "input.json";
-	private static final String OUTPUT_FILENAME = "output.json";
 	private static final int NUM_RUNS = 100;
 	private static RawInput ri;
 
 	public static void main(String[] args) {
 		StopWatch sw = new StopWatch();
 		sw.start();
-        System.out.close();
+		System.out.close();
 
 		for (int runNum = 0; runNum < NUM_RUNS; runNum++) {
 			StopWatch lsw = new StopWatch();
@@ -205,9 +204,14 @@ public class Main {
 				}
 			}
 
-			OutputHandler.output(mos, OUTPUT_FILENAME);
+			OutputHandler.output(mos, "output.json");
+			OutputHandler.output(mos,
+					"outputs/run-" + String.format("%04d", runNum) +
+							"-output.json");
 			InputHandler.updateInput(ri, INPUT_FILENAME);
-			System.err.println("\nRun " + runNum + " time taken: " + lsw.getTime());
+			System.err.println(
+					"\nRun " + runNum + " time taken: " + lsw.getTime() +
+							"\n\n---\n");
 		}
 
 		sw.stop();

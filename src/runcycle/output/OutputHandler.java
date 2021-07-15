@@ -35,7 +35,7 @@ public class OutputHandler {
 
 	public static void output(MoleculeOutput[] mos, String output) {
 		GsonBuilder builder = new GsonBuilder();
-//		builder.setPrettyPrinting();
+		builder.setPrettyPrinting();
 		Gson gson = builder.create();
 		try {
 			FileWriter fw = new FileWriter(output);

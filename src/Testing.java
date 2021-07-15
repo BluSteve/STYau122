@@ -11,6 +11,7 @@ import scf.AtomHandler;
 import scf.Utils;
 
 import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
 
 public class Testing {
 	public static void main(String[] args) {
@@ -91,7 +92,13 @@ public class Testing {
 		G.computeGradients();
 
 		H = new ParamHessianR((ParamGradientR) G, true, atomTypes);
-		H.computeHessian();
+		try {
+			H.computeHessian();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		sw.stop();
 
 		System.out.println(Arrays.toString(H.getHessianUT()));

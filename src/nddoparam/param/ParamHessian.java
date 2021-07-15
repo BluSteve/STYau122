@@ -5,6 +5,7 @@ import scf.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
@@ -53,11 +54,14 @@ public abstract class ParamHessian {
 		}
 	}
 
-	public void computeHessian() {
+	public void computeHessian()
+			throws ExecutionException, InterruptedException {
 		hessian = new double[s.getUniqueZs().length * Solution.maxParamNum]
 				[s.getUniqueZs().length * Solution.maxParamNum];
-		try {
-			ExecutorService threadPool = Executors.newFixedThreadPool(hessian.length);
+			int cores = Runtime.getRuntime().availableProcessors();
+			ExecutorService threadPool =
+					Executors.newFixedThreadPool(hessian.length > cores ?
+							hessian.length : cores);
 
 			List<int[]> ZandPNs = new ArrayList<>(hessian.length);
 
@@ -79,9 +83,6 @@ public abstract class ParamHessian {
 					}))
 					.get().collect(Collectors.toList());
 			threadPool.shutdown();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	protected void computeHessianRow(int ZIndex2, int paramNum2) {
@@ -164,19 +165,23 @@ public abstract class ParamHessian {
 
 	// Gets the mse between analytical and finite difference.
 	public double getAnalyticalError() {
-		this.computeHessian();
-		double[] a = getHessianUT().clone();
-		double[][] b = new double[hessian.length][0];
-		for (int i = 0; i < hessian.length; i++) b[i] = hessian[i].clone();
+		double sum = 0;
+		try {
+			this.computeHessian();
+			double[] a = getHessianUT().clone();
+			double[][] b = new double[hessian.length][0];
+			for (int i = 0; i < hessian.length; i++) b[i] = hessian[i].clone();
 
-		analytical = !analytical;
-		this.computeHessian();
-		double sum = IntStream.range(0, a.length)
-				.mapToDouble(i -> (a[i] - getHessianUT()[i]) *
-						(a[i] - getHessianUT()[i]))
-				.sum();
-		analytical = !analytical;
-		hessian = b;
+			analytical = !analytical;
+			this.computeHessian();
+			sum = IntStream.range(0, a.length)
+					.mapToDouble(i -> (a[i] - getHessianUT()[i]) *
+							(a[i] - getHessianUT()[i]))
+					.sum();
+			analytical = !analytical;
+			hessian = b;
+		}
+		catch (Exception e) {}
 		return sum;
 	}
 

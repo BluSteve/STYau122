@@ -36,12 +36,17 @@
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/errored.txt" beforeDir="false" afterPath="$PROJECT_DIR$/errored.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/input.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputtesting.txt" beforeDir="false" afterPath="$PROJECT_DIR$/inputtesting.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/output.json" beforeDir="false" afterPath="$PROJECT_DIR$/output.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Testing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/output/OutputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/output/OutputHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -343,15 +348,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -359,8 +362,8 @@
     <list>
       <item itemvalue="Application.InputHandler" />
       <item itemvalue="Application.Main" />
-      <item itemvalue="Shell Script.blusteve" />
       <item itemvalue="Application.Testing" />
+      <item itemvalue="Shell Script.blusteve" />
     </list>
     <recent_temporary>
       <list>
@@ -464,14 +467,8 @@
       <workItem from="1626269235170" duration="410000" />
       <workItem from="1626270856281" duration="1172000" />
       <workItem from="1626332270700" duration="22387000" />
-      <workItem from="1626361098914" duration="6274000" />
-    </task>
-    <task id="LOCAL-00056" summary="Merged DIIS and NDDOAtom from mergelater">
-      <created>1626089675510</created>
-      <option name="number" value="00056" />
-      <option name="presentableId" value="LOCAL-00056" />
-      <option name="project" value="LOCAL" />
-      <updated>1626089675510</updated>
+      <workItem from="1626361098914" duration="6947000" />
+      <workItem from="1626368124079" duration="3853000" />
     </task>
     <task id="LOCAL-00057" summary="Minor changes">
       <created>1626089799744</created>
@@ -809,7 +806,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626365562184</updated>
     </task>
-    <option name="localTasksCounter" value="105" />
+    <task id="LOCAL-00105" summary="Multiple runs working + insane speedup from multithreaded hessian">
+      <created>1626367633207</created>
+      <option name="number" value="00105" />
+      <option name="presentableId" value="LOCAL-00105" />
+      <option name="project" value="LOCAL" />
+      <updated>1626367633207</updated>
+    </task>
+    <option name="localTasksCounter" value="106" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -877,7 +881,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Adrian fix NDDO Solution Restricted" />
     <MESSAGE value="input.json" />
     <MESSAGE value="mndo-update.sh" />
     <MESSAGE value="more input handler stuff" />
@@ -902,9 +905,24 @@
     <MESSAGE value="most classes can now have a copy of atomtypes" />
     <MESSAGE value="Multithreaded Hessian" />
     <MESSAGE value="Minor bug fix for multithreaded hessian" />
-    <option name="LAST_COMMIT_MESSAGE" value="Minor bug fix for multithreaded hessian" />
+    <MESSAGE value="Multiple runs working + insane speedup from multithreaded hessian" />
+    <option name="LAST_COMMIT_MESSAGE" value="Multiple runs working + insane speedup from multithreaded hessian" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java</url>
+          <line>49</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java</url>
+          <line>42</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="nddoparam.param.ParamHessianRestricted" memberName="gPrime" />
