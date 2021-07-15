@@ -18,7 +18,6 @@ public abstract class MoleculeRun {
 	protected int mult;
 	protected GeometryOptimization opt;
 	protected Solution expS;
-	protected String kind;
 	protected Solution S;
 	protected RawMolecule rawMolecule;
 	protected long time;
@@ -29,7 +28,7 @@ public abstract class MoleculeRun {
 
 	public MoleculeRun(NDDOAtom[] atoms, int charge, NDDOAtom[] expGeom,
 					   double[] datum,
-					   boolean isRunHessian, String kind, int[] atomTypes,
+					   boolean isRunHessian, int[] atomTypes,
 					   int mult,
 					   RawMolecule rawMolecule) {
 		this.rawMolecule = rawMolecule;
@@ -44,7 +43,6 @@ public abstract class MoleculeRun {
 		// or 3
 		this.size = atomTypes.length;
 		this.mult = mult;
-		this.setKind(kind);
 	}
 
 	public boolean isExpAvail() {
@@ -126,14 +124,6 @@ public abstract class MoleculeRun {
 
 	public void setRunHessian(boolean runHessian) {
 		isRunHessian = runHessian;
-	}
-
-	public String getKind() {
-		return kind;
-	}
-
-	public void setKind(String kind) {
-		this.kind = kind;
 	}
 
 	public NDDOAtom[] getAtoms() {

@@ -4,16 +4,16 @@ import nddoparam.SolutionU;
 import scf.Utils;
 
 public class ParamHessianU extends ParamHessian {
-	public ParamHessianU(SolutionU s, String kind,
+	public ParamHessianU(SolutionU s,
 						 double[] datum, SolutionU sExp,
 						 boolean analytical) {
-		super(s, kind, datum, sExp, analytical);
+		super(s, datum, sExp, analytical);
 		g = new ParamGradientU(s, datum, sExp, analytical);
 		g.computeGradients();
 	}
 
 	public ParamHessianU(ParamGradientU g, boolean analytical) {
-		super(g.s, g.kind, g.datum, g.sExp, analytical);
+		super(g.s, g.datum, g.sExp, analytical);
 		this.g = g;
 	}
 

@@ -12,7 +12,6 @@ public class RawMolecule {
 	public boolean restricted;
 	public int charge, mult, nElectrons;
 	public double[] datum;
-	public String kind;
 	public int[] uniqueZs;
 	public RawAtom[] atoms, expGeom;
 
@@ -36,7 +35,6 @@ public class RawMolecule {
 				", mult=" + mult +
 				", nElectrons=" + nElectrons +
 				", datum=" + Arrays.toString(datum) +
-				", kind='" + kind + '\'' +
 				", uniqueZs=" + Arrays.toString(uniqueZs) +
 				", atoms=" + Arrays.toString(atoms) +
 				", expGeom=" + Arrays.toString(expGeom) +

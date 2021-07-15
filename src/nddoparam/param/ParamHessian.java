@@ -8,15 +8,13 @@ import java.util.stream.IntStream;
 public abstract class ParamHessian {
 	protected ParamGradient g, gPrime;
 	protected Solution s, sExp;
-	protected String kind;
 	protected double[] datum;
 	protected double[][] hessian;
 	protected boolean analytical;
 
-	public ParamHessian(Solution s, String kind, double[] datum,
+	public ParamHessian(Solution s, double[] datum,
 						Solution sExp, boolean analytical) {
 		this.s = s;
-		this.kind = kind;
 		this.datum = datum;
 		this.sExp = sExp;
 		this.analytical = analytical;
@@ -31,9 +29,7 @@ public abstract class ParamHessian {
 					.getUniqueZs()[ZIndex2]]) {
 				constructGPrime(ZIndex2, paramNum2);
 
-				if (analytical &&
-						(kind.equals("b") || kind.equals("c") ||
-								kind.equals("d")))
+				if (analytical && (datum[1] != 0 || datum[2] != 0))
 					gPrime.computeBatchedDerivs(ZIndex2, paramNum2);
 
 				boolean needed;

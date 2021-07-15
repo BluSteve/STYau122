@@ -4,15 +4,15 @@ import nddoparam.SolutionR;
 import scf.Utils;
 
 public class ParamHessianR extends ParamHessian {
-	public ParamHessianR(SolutionR s, String kind, double[] datum,
+	public ParamHessianR(SolutionR s, double[] datum,
 						 SolutionR sExp, boolean analytical) {
-		super(s, kind, datum, sExp, analytical);
+		super(s, datum, sExp, analytical);
 		g = new ParamGradientR(s, datum, sExp, analytical);
 		g.computeGradients();
 	}
 
 	public ParamHessianR(ParamGradientR g, boolean analytical) {
-		super(g.s, g.kind, g.datum, g.sExp, analytical);
+		super(g.s, g.datum, g.sExp, analytical);
 		this.g = g;
 	}
 

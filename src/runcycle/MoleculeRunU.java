@@ -13,9 +13,9 @@ import runcycle.input.RawMolecule;
 public class MoleculeRunU extends MoleculeRun {
 	public MoleculeRunU(NDDOAtom[] atoms2, int charge, int mult,
 						NDDOAtom[] expGeom,
-						double[] datum, boolean isRunHessian, String kind,
+						double[] datum, boolean isRunHessian,
 						int[] atomTypes) {
-		super(atoms2, charge, expGeom, datum, isRunHessian, kind, atomTypes,
+		super(atoms2, charge, expGeom, datum, isRunHessian, atomTypes,
 				mult, null);
 		metaRoutine();
 	}
@@ -24,7 +24,7 @@ public class MoleculeRunU extends MoleculeRun {
 						boolean isRunHessian) {
 		super(RawMolecule.toMNDOAtoms(rm.atoms, (MNDOParams[]) mp), rm.charge,
 				RawMolecule.toMNDOAtoms(rm.expGeom, (MNDOParams[]) mp),
-				rm.datum, isRunHessian, rm.kind, atomTypes, rm.mult, rm);
+				rm.datum, isRunHessian, atomTypes, rm.mult, rm);
 		metaRoutine();
 	}
 

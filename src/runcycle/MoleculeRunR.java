@@ -12,9 +12,9 @@ import runcycle.input.RawMolecule;
 
 public class MoleculeRunR extends MoleculeRun {
 	public MoleculeRunR(NDDOAtom[] atoms2, int charge, NDDOAtom[] expGeom,
-						double[] datum, boolean isRunHessian, String kind,
+						double[] datum, boolean isRunHessian,
 						int[] atomTypes) {
-		super(atoms2, charge, expGeom, datum, isRunHessian, kind, atomTypes, 1,
+		super(atoms2, charge, expGeom, datum, isRunHessian, atomTypes, 1,
 				null);
 		metaRoutine();
 	}
@@ -23,7 +23,7 @@ public class MoleculeRunR extends MoleculeRun {
 						boolean isRunHessian) {
 		super(RawMolecule.toMNDOAtoms(rm.atoms, (MNDOParams[]) mp), rm.charge,
 				RawMolecule.toMNDOAtoms(rm.expGeom, (MNDOParams[]) mp),
-				rm.datum, isRunHessian, rm.kind, atomTypes, 1, rm);
+				rm.datum, isRunHessian, atomTypes, 1, rm);
 		metaRoutine();
 	}
 
