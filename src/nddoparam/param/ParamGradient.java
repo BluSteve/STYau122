@@ -4,6 +4,7 @@ import nddoparam.Solution;
 import org.jblas.DoubleMatrix;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class ParamGradient {
 	protected static final double LAMBDA = 1E-7;
@@ -160,10 +161,26 @@ public abstract class ParamGradient {
 				new double[s.getUniqueZs().length][Solution.maxParamNum];
 		if (analytical && (datum[1] != 0 || datum[2] != 0))
 			computeBatchedDerivs(0, 0);
-		for (int Z = 0; Z < s.getUniqueZs().length; Z++) {
-			for (int paramNum : s.getNeededParams()[s.getUniqueZs()[Z]]) {
-				computeGradient(Z, paramNum);
+
+		// if geom finite difference computations are not needed, overhead
+		// for multithreading exceeds potential gain.
+		if (!isExpAvail) {
+			for (int Z = 0; Z < s.getUniqueZs().length; Z++) {
+				for (int paramNum : s.getNeededParams()[s.getUniqueZs()[Z]]) {
+					computeGradient(Z, paramNum);
+				}
 			}
+		}
+		else {
+			List<int[]> ZandPNs = new ArrayList<>();
+			for (int Z = 0; Z < s.getUniqueZs().length; Z++) {
+				for (int paramNum : s.getNeededParams()[s.getUniqueZs()[Z]]) {
+					ZandPNs.add(new int[] {Z, paramNum});
+				}
+			}
+			ZandPNs.parallelStream().forEach(request -> {
+				computeGradient(request[0], request[1]);
+			});
 		}
 	}
 

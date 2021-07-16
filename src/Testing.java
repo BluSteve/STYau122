@@ -5,13 +5,11 @@ import nddoparam.mndo.MNDOParams;
 import nddoparam.param.ParamGradient;
 import nddoparam.param.ParamGradientR;
 import nddoparam.param.ParamHessian;
-import nddoparam.param.ParamHessianR;
 import org.apache.commons.lang3.time.StopWatch;
 import scf.AtomHandler;
 import scf.Utils;
 
 import java.util.Arrays;
-import java.util.concurrent.ExecutionException;
 
 public class Testing {
 	public static void main(String[] args) {
@@ -88,24 +86,11 @@ public class Testing {
 		ParamGradient G;
 		ParamHessian H;
 		G = new ParamGradientR(
-				(SolutionR) opt.s, datum, null, true, atomTypes);
+				(SolutionR) opt.s, datum, expsoln, true, atomTypes);
 		G.computeGradients();
-
-		H = new ParamHessianR((ParamGradientR) G, true, atomTypes);
-		try {
-			H.computeHessian();
-		} catch (ExecutionException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		sw.stop();
 
-		System.out.println(Arrays.toString(H.getHessianUT()));
-
+		System.out.println(Arrays.deepToString(G.getTotalGradients()));
 		System.out.println(sw.getTime());
-
 	}
-
-
 }

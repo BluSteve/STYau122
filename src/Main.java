@@ -137,8 +137,6 @@ public class Main {
 						for (int j = 0; j < h[0].length; j++)
 							ttHessian[i][j] += h[i][j];
 					}
-					System.err.println(Arrays.deepToString(h));
-
 				}
 			}
 
@@ -251,5 +249,4 @@ public class Main {
 
 		return hessian.add(A).sub(C);
 	}
-
 }
