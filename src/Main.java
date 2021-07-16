@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 public class Main {
 
 	private static final String INPUT_FILENAME = "input.json";
-	private static final int NUM_RUNS = 100;
+	private static final int NUM_RUNS = 1;
 	private static RawInput ri;
 
 	public static void main(String[] args) {
@@ -87,28 +87,10 @@ public class Main {
 			List<RawMolecule> requests =
 					new ArrayList<>(Arrays.asList(ri.molecules));
 
-			int cores = Runtime.getRuntime().availableProcessors();
-			int remainingNonParallel = 0;
-			int maxParallel = remainingNonParallel < requests.size() ?
-					requests.size() - remainingNonParallel : 1;
-			List<RawMolecule> parallelRequests =
-					requests.subList(0, maxParallel);
-//			ForkJoinPool threadPool = new ForkJoinPool(cores);
-
 			List<MoleculeRun> results = null;
 			try {
 				NDDOParams[] finalNddoParams = nddoParams;
-//				results = threadPool
-//						.submit(() -> parallelRequests.parallelStream()
-//								.map(request -> new MoleculeRun(
-//										request,
-//										finalNddoParams,
-//										ri.atomTypes,
-//										isRunHessian)))
-//						.get()
-//						.collect(Collectors.toList());
-//				threadPool.shutdown();
-				results = parallelRequests.parallelStream()
+				results = requests.parallelStream()
 						.map(request -> new MoleculeRun(
 								request,
 								finalNddoParams,
@@ -117,15 +99,6 @@ public class Main {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
-			for (RawMolecule rawMolecule : requests
-					.subList(maxParallel, requests.size())) {
-				MoleculeRun result =
-						new MoleculeRun(rawMolecule, nddoParams,
-								ri.atomTypes, isRunHessian);
-				results.add(result);
-			}
-
 
 			ParamOptimizer o = new ParamOptimizer();
 			// combined length of all differentiated params
@@ -164,6 +137,8 @@ public class Main {
 						for (int j = 0; j < h[0].length; j++)
 							ttHessian[i][j] += h[i][j];
 					}
+					System.err.println(Arrays.deepToString(h));
+
 				}
 			}
 

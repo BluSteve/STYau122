@@ -40,8 +40,8 @@ public abstract class ParamHessian {
 	}
 
 	public void computeHessianSequential() {
-		hessian = new double[s.getUniqueZs().length * Solution.maxParamNum]
-				[s.getUniqueZs().length * Solution.maxParamNum];
+		hessian = new double[atomTypes.length * Solution.maxParamNum]
+				[atomTypes.length * Solution.maxParamNum];
 
 		for (int ZIndex2 = 0; ZIndex2 < s.getUniqueZs().length; ZIndex2++) {
 			for (int paramNum2 : s.getNeededParams()[s
@@ -53,31 +53,16 @@ public abstract class ParamHessian {
 
 	public void computeHessian()
 			throws ExecutionException, InterruptedException {
-		hessian = new double[s.getUniqueZs().length * Solution.maxParamNum]
-				[s.getUniqueZs().length * Solution.maxParamNum];
-		int cores = Runtime.getRuntime().availableProcessors();
-//		ForkJoinPool threadPool = new ForkJoinPool(hessian.length > cores ?
-//						hessian.length : cores);
-
+		hessian = new double[atomTypes.length * Solution.maxParamNum]
+				[atomTypes.length * Solution.maxParamNum];
 		List<int[]> ZandPNs = new ArrayList<>(hessian.length);
 
 		for (int ZIndex2 = 0; ZIndex2 < s.getUniqueZs().length; ZIndex2++) {
 			for (int paramNum2 : s.getNeededParams()
 					[s.getUniqueZs()[ZIndex2]]) {
 				ZandPNs.add(new int[]{ZIndex2, paramNum2});
-
 			}
 		}
-
-		// todo make this more elegant
-//		threadPool.submit(() -> ZandPNs.parallelStream()
-//				.forEach(request -> {
-//					int ZIndex2 = request[0];
-//					int paramNum2 = request[1];
-//					computeHessianRow(ZIndex2, paramNum2);
-//				}))
-//				.get();
-//		threadPool.shutdown();
 
 		ZandPNs.parallelStream()
 				.forEach(request -> {
@@ -140,7 +125,7 @@ public abstract class ParamHessian {
 										 int paramLength) {
 		ArrayList<Integer> pList = new ArrayList<>();
 		int last = -1;
-		for (int[] i : s.getNeededParams()) {
+		for (int[] i : neededParams) {
 			for (int i1 : i) {
 				pList.add(last + i1 + 1);
 			}
@@ -157,8 +142,6 @@ public abstract class ParamHessian {
 			q++;
 		}
 
-		// TODO PAD HESSIAN
-//		if (atomTypes == null || neededParams == null || paramLength == 0)
 		return unpadded;
 	}
 
