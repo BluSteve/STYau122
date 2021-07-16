@@ -94,5 +94,6 @@ public class Testing {
 		System.out.println(sw.getTime());
 		System.out.println(Arrays.toString(Utils.findTightestTriplet(128,
 				4)));
+		System.out.println(Utils.getFCores(2));
 	}
 }

@@ -181,7 +181,7 @@ public abstract class ParamGradient {
 				}
 			}
 
-			ForkJoinPool pool = Utils.getPool(0);
+			ForkJoinPool pool = new ForkJoinPool(Utils.getFCores(0));
 
 			pool.submit(() -> ZandPNs.parallelStream().forEach(request -> {
 				computeGradient(request[0], request[1]);

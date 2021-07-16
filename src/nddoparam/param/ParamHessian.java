@@ -51,7 +51,7 @@ public abstract class ParamHessian {
 			}
 		}
 
-		ForkJoinPool pool = Utils.getPool(1);
+		ForkJoinPool pool = new ForkJoinPool(Utils.getFCores(1));
 
 		pool.submit(() -> ZandPNs.parallelStream()
 				.forEach(request -> {

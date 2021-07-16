@@ -8,7 +8,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ForkJoinPool;
 
 public class Utils {
 	public static final double LAMBDA = 1E-7;
@@ -63,12 +62,11 @@ public class Utils {
 		return F;
 	}
 
-	public static ForkJoinPool getPool(int index) {
+	public static int getFCores(int index) {
 		int cores = Runtime.getRuntime().availableProcessors();
 		int[] a = Utils.findTightestTriplet(cores, 4);
 		// allocates extra cores to MoleculeRuns to account for geom opt.
-		int fcores = index == 2 ? a[0] * a[3] : a[index+1];
-		return new ForkJoinPool(fcores);
+		return index == 2 ? a[0] * a[3] : a[index+1];
 	}
 
 	public static NDDOAtom[] perturbAtomParams(NDDOAtom[] atoms, int Z,

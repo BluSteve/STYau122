@@ -34,7 +34,15 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="" />
+    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/input.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Testing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scf/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/Utils.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -305,7 +313,7 @@
       <recent name="nddoparam.param" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Application.Testing">
     <configuration name="InputHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="runcycle.input.InputHandler" />
       <module name="MNDOParam" />
@@ -343,9 +351,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Testing" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.InputHandler" />
-        <item itemvalue="Application.Testing" />
       </list>
     </recent_temporary>
   </component>
@@ -446,14 +454,7 @@
       <workItem from="1626361098914" duration="6947000" />
       <workItem from="1626368124079" duration="7524000" />
       <workItem from="1626417806438" duration="13025000" />
-      <workItem from="1626441865697" duration="8912000" />
-    </task>
-    <task id="LOCAL-00066" summary="Gcloud script">
-      <created>1626153438944</created>
-      <option name="number" value="00066" />
-      <option name="presentableId" value="LOCAL-00066" />
-      <option name="project" value="LOCAL" />
-      <updated>1626153438944</updated>
+      <workItem from="1626441865697" duration="9840000" />
     </task>
     <task id="LOCAL-00067" summary="Hybrid DIIS inserted">
       <created>1626155100162</created>
@@ -791,7 +792,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626451566942</updated>
     </task>
-    <option name="localTasksCounter" value="115" />
+    <task id="LOCAL-00115" summary="remove unused utils methods">
+      <created>1626451726071</created>
+      <option name="number" value="00115" />
+      <option name="presentableId" value="LOCAL-00115" />
+      <option name="project" value="LOCAL" />
+      <updated>1626451726071</updated>
+    </task>
+    <option name="localTasksCounter" value="116" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -859,7 +867,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Refactor" />
     <MESSAGE value="MNDOHessianUpdate jsonify" />
     <MESSAGE value="nMolecules added as RawInput param" />
     <MESSAGE value="Middle of nowhere" />
@@ -884,7 +891,8 @@
     <MESSAGE value="Multithreaded ParamGradient" />
     <MESSAGE value="more core optimization with tightest triplet alg" />
     <MESSAGE value="more multithreading optimizations" />
-    <option name="LAST_COMMIT_MESSAGE" value="more multithreading optimizations" />
+    <MESSAGE value="remove unused utils methods" />
+    <option name="LAST_COMMIT_MESSAGE" value="remove unused utils methods" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

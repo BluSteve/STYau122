@@ -47,6 +47,13 @@ public class Main {
 					"MNDO Parameterization, updated 16 July. " +
 							ri.trainingSet +
 							" training set (PM7)");
+			int[] coresToBeUsed = new int[]{Utils.getFCores(0),
+					Utils.getFCores(1), Utils.getFCores(2)};
+			System.err.println(
+					"System has " + Runtime.getRuntime().availableProcessors() +
+							" cores. ParamGradient/ParamHessian/MoleculeRun " +
+							"core distribution: " +
+							Arrays.toString(coresToBeUsed));
 
 			NDDOParams[] nddoParams = null;
 
@@ -93,7 +100,7 @@ public class Main {
 			try {
 				NDDOParams[] finalNddoParams = nddoParams;
 
-				ForkJoinPool pool = Utils.getPool(2);
+				ForkJoinPool pool = new ForkJoinPool(Utils.getFCores(2));
 
 				results = pool.submit(() -> requests.parallelStream()
 						.map(request -> new MoleculeRun(
