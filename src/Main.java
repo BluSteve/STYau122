@@ -18,8 +18,6 @@ import scf.AtomHandler;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 
@@ -43,8 +41,8 @@ public class Main {
 			InputHandler.processInput(INPUT_FILENAME);
 
 			ri = InputHandler.ri;
-			System.out.println(
-					"MNDO Parameterization, updated 13 July. " +
+			System.err.println(
+					"MNDO Parameterization, updated 16 July. " +
 							ri.trainingSet +
 							" training set (PM7)");
 
@@ -95,21 +93,27 @@ public class Main {
 					requests.size() - remainingNonParallel : 1;
 			List<RawMolecule> parallelRequests =
 					requests.subList(0, maxParallel);
-			ExecutorService threadPool = Executors.newFixedThreadPool(cores);
+//			ForkJoinPool threadPool = new ForkJoinPool(cores);
 
 			List<MoleculeRun> results = null;
 			try {
 				NDDOParams[] finalNddoParams = nddoParams;
-				results = threadPool
-						.submit(() -> parallelRequests.parallelStream()
-								.map(request -> new MoleculeRun(
-										request,
-										finalNddoParams,
-										ri.atomTypes,
-										isRunHessian)))
-						.get()
-						.collect(Collectors.toList());
-				threadPool.shutdown();
+//				results = threadPool
+//						.submit(() -> parallelRequests.parallelStream()
+//								.map(request -> new MoleculeRun(
+//										request,
+//										finalNddoParams,
+//										ri.atomTypes,
+//										isRunHessian)))
+//						.get()
+//						.collect(Collectors.toList());
+//				threadPool.shutdown();
+				results = parallelRequests.parallelStream()
+						.map(request -> new MoleculeRun(
+								request,
+								finalNddoParams,
+								ri.atomTypes,
+								isRunHessian)).collect(Collectors.toList());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

@@ -6,9 +6,6 @@ import scf.Utils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public abstract class ParamHessian {
@@ -59,9 +56,8 @@ public abstract class ParamHessian {
 		hessian = new double[s.getUniqueZs().length * Solution.maxParamNum]
 				[s.getUniqueZs().length * Solution.maxParamNum];
 		int cores = Runtime.getRuntime().availableProcessors();
-		ExecutorService threadPool =
-				Executors.newFixedThreadPool(hessian.length > cores ?
-						hessian.length : cores);
+//		ForkJoinPool threadPool = new ForkJoinPool(hessian.length > cores ?
+//						hessian.length : cores);
 
 		List<int[]> ZandPNs = new ArrayList<>(hessian.length);
 
@@ -74,15 +70,21 @@ public abstract class ParamHessian {
 		}
 
 		// todo make this more elegant
-		threadPool.submit(() -> ZandPNs.parallelStream()
-				.map(request -> {
+//		threadPool.submit(() -> ZandPNs.parallelStream()
+//				.forEach(request -> {
+//					int ZIndex2 = request[0];
+//					int paramNum2 = request[1];
+//					computeHessianRow(ZIndex2, paramNum2);
+//				}))
+//				.get();
+//		threadPool.shutdown();
+
+		ZandPNs.parallelStream()
+				.forEach(request -> {
 					int ZIndex2 = request[0];
 					int paramNum2 = request[1];
 					computeHessianRow(ZIndex2, paramNum2);
-					return 1;
-				}))
-				.get().collect(Collectors.toList());
-		threadPool.shutdown();
+				});
 	}
 
 	protected void computeHessianRow(int ZIndex2, int paramNum2) {
@@ -142,7 +144,7 @@ public abstract class ParamHessian {
 			for (int i1 : i) {
 				pList.add(last + i1 + 1);
 			}
-			if (pList.size() > 0) last = pList.get(pList.size()-1);
+			if (pList.size() > 0) last = pList.get(pList.size() - 1);
 		}
 		double[][] unpadded = new double[pList.size()][pList.size()];
 		int q = 0;
@@ -155,86 +157,13 @@ public abstract class ParamHessian {
 			q++;
 		}
 
-
-		if (atomTypes == null || neededParams == null || paramLength == 0)
-			return unpadded;
-
-		double[][] padded = new double[paramLength][paramLength];
-		int[] atomTypesI = new int[atomTypes.length];
-		for (int i = 0; i < atomTypes.length; i++) {
-			atomTypesI[i]=i;
-		}
-
-		int pi = 0;
-		int i = 0;
-		for (int atomTypeI : atomTypesI) {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//			boolean in = false;
-//			for (int Z : s.getUniqueZs()) {
-//				if (Z == atomType) {
-//					in = true;
-//					break;
-//				}
-//			}
-//
-//			if (in) {
-//				int pj = 0;
-//				int j = 0;
-//				for (int atomType2 : atomTypesI) {
-//					boolean in2 = false;
-//					for (int Z : s.getUniqueZs()) {
-//						if (Z == atomType2) {
-//							in2 = true;
-//							break;
-//						}
-//					}
-//
-//					if (in2) {
-//						for (int paramI = 0;
-//							 paramI < s.getNeededParams()[atomType2].length;
-//							 paramI++) {
-//							j++;
-//							pj++;
-//							padded[pi][pj] = unpadded[i][j];
-//						}
-//					}
-//					else {
-//						for (int pparamI = 0;
-//							 pparamI < neededParams[atomType2].length;
-//							 pparamI++) {
-//							padded[pi][pj] = 0;
-//							pj++;
-//						}
-//					}
-//				}
-//			}
-//			else {
-//				padded[pi] = new double[neededParams[atomType].length];
-//				pi++;
-//			}
-		}
-
-		return padded;
+		// TODO PAD HESSIAN
+//		if (atomTypes == null || neededParams == null || paramLength == 0)
+		return unpadded;
 	}
 
 	public double[] getHessianUT() {
-		return getHessianUT(getHessianUnpadded(null,null,0));
+		return getHessianUT(getHessianUnpadded(null, null, 0));
 	}
 
 	public double[][] getHessian() {

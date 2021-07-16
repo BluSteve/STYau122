@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="MNDOParam:jar">
+  <artifact type="jar" build-on-make="true" name="MNDOParam:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/MNDOParam_jar</output-path>
     <root id="archive" name="MNDOParam.jar">
       <element id="module-output" name="MNDOParam" />
