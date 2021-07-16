@@ -14,10 +14,12 @@ import runcycle.input.RawMolecule;
 import runcycle.output.MoleculeOutput;
 import runcycle.output.OutputHandler;
 import scf.AtomHandler;
+import scf.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ForkJoinPool;
 import java.util.stream.Collectors;
 
 
@@ -90,12 +92,18 @@ public class Main {
 			List<MoleculeRun> results = null;
 			try {
 				NDDOParams[] finalNddoParams = nddoParams;
-				results = requests.parallelStream()
+
+				int cores = Runtime.getRuntime().availableProcessors();
+				ForkJoinPool pool =
+						new ForkJoinPool(Utils.findTightestTriplet(cores)[2]);
+
+				results = pool.submit(() -> requests.parallelStream()
 						.map(request -> new MoleculeRun(
 								request,
 								finalNddoParams,
 								ri.atomTypes,
-								isRunHessian)).collect(Collectors.toList());
+								isRunHessian))).get()
+						.collect(Collectors.toList());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

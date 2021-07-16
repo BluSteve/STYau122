@@ -2,9 +2,12 @@ package scf;
 
 import nddoparam.NDDOAtom;
 import nddoparam.NDDOParams;
+import org.apache.commons.math3.primes.Primes;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+import java.util.List;
 
 public class Utils {
 	public static final double LAMBDA = 1E-7;
@@ -31,6 +34,31 @@ public class Utils {
 		return res;
 	}
 
+	public static int[] findTightestTriplet(int n) {
+		List<Integer> primeFactors = Primes.primeFactors(n);
+		primeFactors.sort((a, b) -> b - a);
+		double r = Math.pow(n, 1.0 / 3.0);
+		int[] F = new int[]{1, 1, 1};
+		for (int prime : primeFactors) {
+			int i;
+			boolean broken  = false;
+			int iSmallest = 0;
+			for (i = 0; i < F.length; i++) {
+				int t = prime * F[i];
+				if (F[i] < F[iSmallest]) iSmallest = i;
+				if (t <= r) {
+					F[i] = F[i] * prime;
+					broken = true;
+					break;
+				}
+			}
+			if (!broken) {
+				F[iSmallest] = F[iSmallest] * prime;
+			}
+		}
+		Arrays.sort(F);
+		return F;
+	}
 
 	public static NDDOAtom[] perturbAtomParams(NDDOAtom[] atoms, int Z,
 											   int paramNum) { // Z is proton

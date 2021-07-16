@@ -5,7 +5,7 @@ import scf.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ForkJoinPool;
 import java.util.stream.IntStream;
 
 public abstract class ParamHessian {
@@ -39,20 +39,7 @@ public abstract class ParamHessian {
 		return hessianUT;
 	}
 
-	public void computeHessianSequential() {
-		hessian = new double[atomTypes.length * Solution.maxParamNum]
-				[atomTypes.length * Solution.maxParamNum];
-
-		for (int ZIndex2 = 0; ZIndex2 < s.getUniqueZs().length; ZIndex2++) {
-			for (int paramNum2 : s.getNeededParams()[s
-					.getUniqueZs()[ZIndex2]]) {
-				computeHessianRow(ZIndex2, paramNum2);
-			}
-		}
-	}
-
-	public void computeHessian()
-			throws ExecutionException, InterruptedException {
+	public void computeHessian() {
 		hessian = new double[atomTypes.length * Solution.maxParamNum]
 				[atomTypes.length * Solution.maxParamNum];
 		List<int[]> ZandPNs = new ArrayList<>(hessian.length);
@@ -64,12 +51,16 @@ public abstract class ParamHessian {
 			}
 		}
 
-		ZandPNs.parallelStream()
+		int cores = Runtime.getRuntime().availableProcessors();
+		ForkJoinPool pool =
+				new ForkJoinPool(Utils.findTightestTriplet(cores)[1]);
+
+		pool.submit(() -> ZandPNs.parallelStream()
 				.forEach(request -> {
 					int ZIndex2 = request[0];
 					int paramNum2 = request[1];
 					computeHessianRow(ZIndex2, paramNum2);
-				});
+				}));
 	}
 
 	protected void computeHessianRow(int ZIndex2, int paramNum2) {
@@ -112,6 +103,18 @@ public abstract class ParamHessian {
 									[ZIndex1 * Solution.maxParamNum +
 									paramNum1];
 				}
+			}
+		}
+	}
+
+	public void computeHessianSequential() {
+		hessian = new double[atomTypes.length * Solution.maxParamNum]
+				[atomTypes.length * Solution.maxParamNum];
+
+		for (int ZIndex2 = 0; ZIndex2 < s.getUniqueZs().length; ZIndex2++) {
+			for (int paramNum2 : s.getNeededParams()[s
+					.getUniqueZs()[ZIndex2]]) {
+				computeHessianRow(ZIndex2, paramNum2);
 			}
 		}
 	}

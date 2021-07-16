@@ -2,9 +2,11 @@ package nddoparam.param;
 
 import nddoparam.Solution;
 import org.jblas.DoubleMatrix;
+import scf.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ForkJoinPool;
 
 public abstract class ParamGradient {
 	protected static final double LAMBDA = 1E-7;
@@ -175,12 +177,17 @@ public abstract class ParamGradient {
 			List<int[]> ZandPNs = new ArrayList<>();
 			for (int Z = 0; Z < s.getUniqueZs().length; Z++) {
 				for (int paramNum : s.getNeededParams()[s.getUniqueZs()[Z]]) {
-					ZandPNs.add(new int[] {Z, paramNum});
+					ZandPNs.add(new int[]{Z, paramNum});
 				}
 			}
-			ZandPNs.parallelStream().forEach(request -> {
+
+			int cores = Runtime.getRuntime().availableProcessors();
+			ForkJoinPool pool =
+					new ForkJoinPool(Utils.findTightestTriplet(cores)[0]);
+
+			pool.submit(() -> ZandPNs.parallelStream().forEach(request -> {
 				computeGradient(request[0], request[1]);
-			});
+			}));
 		}
 	}
 
