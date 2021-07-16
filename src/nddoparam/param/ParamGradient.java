@@ -27,6 +27,63 @@ public abstract class ParamGradient {
 		this.atomTypes = atomTypes;
 	}
 
+	public static double[][] depad(double[][] derivs, int[][] neededParams,
+								   int[] uniqueZs) {
+		double[][] res = new double[derivs.length][0];
+		for (int i = 0; i < derivs.length; i++) {
+			double[] depadded =
+					new double[neededParams[uniqueZs[i]].length];
+			int u = 0;
+			for (int j = 0; j < derivs[i].length; j++) {
+				for (int p : neededParams[uniqueZs[i]]) {
+					if (j == p) {
+						depadded[u] = derivs[i][j];
+						u++;
+						break;
+					}
+				}
+			}
+			res[i] = depadded;
+		}
+		return res;
+	}
+
+	// also pads atomTypes that this molecule doesn't contain with zeros, for
+	// consistency's sake.
+	public static double[] combine(double[][] derivs, int[] atomTypes,
+								   int[][] neededParams, int[] uniqueZs,
+								   int[][] moleculeNP, boolean isDepad) {
+		if (isDepad) derivs = depad(derivs, moleculeNP, uniqueZs);
+
+		// confusingly, this is a different kind of padding from the above
+		// depad method. depad removes the zeros which represent
+		// non-differentiated parameters, but this adds padding for the atoms
+		// that are in the training set but not this particular molecule.
+		double[][] paddedDerivs = new double[atomTypes.length][];
+		for (int i = 0; i < atomTypes.length; i++) {
+			for (int j = 0; j < uniqueZs.length; j++) {
+				if (atomTypes[i] == uniqueZs[j]) {
+					paddedDerivs[i] = derivs[j];
+				}
+				else {
+					paddedDerivs[i] =
+							new double[neededParams[i].length];
+				}
+			}
+		}
+
+		ArrayList<Double> a = new ArrayList<>();
+		for (double[] deriv : paddedDerivs) {
+			for (double d : deriv) {
+				a.add(d);
+			}
+		}
+		double[] res = new double[a.size()];
+		for (int i = 0; i < res.length; i++) res[i] = a.get(i);
+
+		return res;
+	}
+
 	protected void errorFunctionRoutine() {
 		if (datum[1] != 0) e.addDipoleError(datum[1]);
 		if (datum[2] != 0) e.addIEError(datum[2]);
@@ -193,51 +250,6 @@ public abstract class ParamGradient {
 
 	public void setAnalytical(boolean analytical) {
 		this.analytical = analytical;
-	}
-
-	public double[][] depad(double[][] derivs) {
-		double[][] res = new double[derivs.length][0];
-		for (int i = 0; i < derivs.length; i++) {
-			double[] depadded =
-					new double[s.getNeededParams()[s.getUniqueZs()[i]].length];
-			int u = 0;
-			for (int j = 0; j < derivs[i].length; j++) {
-				for (int p : s.getNeededParams()[s.getUniqueZs()[i]]) {
-					if (j == p) {
-						depadded[u] = derivs[i][j];
-						u++;
-						break;
-					}
-				}
-			}
-			res[i] = depadded;
-		}
-		return res;
-	}
-
-	public double[] combine(double[][] derivs) {
-		ArrayList<Double> a = new ArrayList<>();
-		for (double[] deriv : derivs) {
-			for (double d : deriv) {
-				a.add(d);
-			}
-		}
-		double[] res = new double[a.size()];
-		for (int i = 0; i < res.length; i++) res[i] = a.get(i);
-
-		for (int i = 0; i < atomTypes.length; i++) {
-			int j =0;
-			for (j =0; j < s.getUniqueZs().length; j++){
-				if (atomTypes[i]== s.getUniqueZs()[j]){  break;};
-			}
-			if (j < s.getUniqueZs().length) {
-				if (i > j) { // Z greater than highest of this
-
-				}
-			}
-		}
-
-		return res;
 	}
 
 	public double getAnalyticalError() {

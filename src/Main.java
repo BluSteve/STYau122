@@ -1,6 +1,7 @@
 import nddoparam.NDDOParams;
 import nddoparam.am1.AM1Params;
 import nddoparam.mndo.MNDOParams;
+import nddoparam.param.ParamGradient;
 import nddoparam.param.ParamHessian;
 import optimize.ParamOptimizer;
 import optimize.ReferenceData;
@@ -128,47 +129,64 @@ public class Main {
 
 			ParamOptimizer o = new ParamOptimizer();
 			int paramLength = 0;
-			for (int[] param: neededParams) paramLength += param.length;
+			for (int[] param : neededParams) paramLength += param.length;
 
 			double[] ttGradient = new double[paramLength];
 			double[][] ttHessian = null;
+			// todo pad hessian
 			if (isRunHessian) ttHessian =
 					new double[results.get(0).getH()
 							.getHessianUnpadded().length]
 							[results.get(0).getH()
 							.getHessianUnpadded()[0].length];
 			for (MoleculeRun result : results) {
+				int[] moleculeUZ = result.getS().getUniqueZs();
+				int[][] moleculeNP = result.getS().getNeededParams();
+				boolean isDepad = true;
+
 				o.addData(new ReferenceData(result.getDatum()[0],
 						result.getS().hf,
-						result.getG().combine(
-								result.getG().depad(result.getG()
-										.getHFDerivs())),
+						ParamGradient.combine(
+								result.getG().getHFDerivs(),
+								ri.atomTypes, neededParams,
+								moleculeUZ, moleculeNP,
+								isDepad),
 						ReferenceData.HF_WEIGHT));
 				if (result.getDatum()[1] != 0)
 					o.addData(new ReferenceData(result.getDatum()[1],
 							result.getS().dipole,
-							result.getG().combine(
-									result.getG().depad(result.getG()
-											.getDipoleDerivs())),
+							ParamGradient.combine(
+									result.getG().getDipoleDerivs(),
+									ri.atomTypes, neededParams,
+									moleculeUZ, moleculeNP,
+									isDepad),
 							ReferenceData.DIPOLE_WEIGHT));
 				if (result.getDatum()[2] != 0)
 					o.addData(new ReferenceData(result.getDatum()[2],
 							-result.getS().homo,
-							result.getG()
-									.combine(result.getG()
-											.depad(result.getG()
-													.getIEDerivs())),
+							ParamGradient.combine(
+									result.getG().getIEDerivs(),
+									ri.atomTypes, neededParams,
+									moleculeUZ, moleculeNP,
+									isDepad),
 							ReferenceData.IE_WEIGHT));
 				if (result.isExpAvail()) o.addData(new ReferenceData(0,
 						-result.getG().getE().geomGradient,
-						result.getG()
-								.combine(result.getG().depad(result.getG()
-										.getGeomDerivs())),
+						ParamGradient.combine(
+								result.getG().getGeomDerivs(),
+								ri.atomTypes, neededParams,
+								moleculeUZ, moleculeNP,
+								isDepad),
 						ReferenceData.GEOM_WEIGHT));
 
 				double[] g =
-						result.getG().combine(result.getG()
-								.depad(result.getG().getTotalGradients()));
+						ParamGradient.combine(
+								result.getG().getTotalGradients(),
+								ri.atomTypes, neededParams,
+								moleculeUZ, moleculeNP,
+								isDepad);
+
+				// ttGradient is sum of totalGradients across molecules
 				for (int i = 0; i < g.length; i++) {
 					ttGradient[i] += g[i];
 				}
@@ -180,6 +198,7 @@ public class Main {
 					}
 				}
 			}
+
 			DoubleMatrix newGradient = new DoubleMatrix(ttGradient);
 			DoubleMatrix newHessian =
 					isRunHessian ? new DoubleMatrix(ttHessian) :
