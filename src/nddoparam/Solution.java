@@ -11,7 +11,7 @@ import static nddoparam.mndo.MNDOParams.T1ParamNums;
 import static nddoparam.mndo.MNDOParams.T2ParamNums;
 
 public abstract class Solution {
-	private static final int[][] neededParams = new int[Utils.maxAtomNum][0];
+	private int[][] neededParams = new int[Utils.maxAtomNum][0];
 	// TODO make most of these private
 	public static int maxParamNum = 8;
 	private final int[] uniqueZs;

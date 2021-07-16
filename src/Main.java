@@ -122,62 +122,24 @@ public class Main {
 				results.add(result);
 			}
 
-			MoleculeOutput[] mos = new MoleculeOutput[results.size()];
-			for (int i = 0; i < results.size(); i++) {
-				mos[i] = OutputHandler.toMoleculeOutput(results.get(i));
-			}
 
 			ParamOptimizer o = new ParamOptimizer();
+			// combined length of all differentiated params
 			int paramLength = 0;
 			for (int[] param : neededParams) paramLength += param.length;
 
 			double[] ttGradient = new double[paramLength];
 			double[][] ttHessian = null;
 			// todo pad hessian
-			if (isRunHessian) ttHessian =
-					new double[results.get(0).getH()
-							.getHessianUnpadded().length]
-							[results.get(0).getH()
-							.getHessianUnpadded()[0].length];
+			if (isRunHessian) ttHessian = new double[paramLength][paramLength];
+
 			for (MoleculeRun result : results) {
 				int[] moleculeUZ = result.getS().getUniqueZs();
 				int[][] moleculeNP = result.getS().getNeededParams();
 				boolean isDepad = true;
 
-				o.addData(new ReferenceData(result.getDatum()[0],
-						result.getS().hf,
-						ParamGradient.combine(
-								result.getG().getHFDerivs(),
-								ri.atomTypes, neededParams,
-								moleculeUZ, moleculeNP,
-								isDepad),
-						ReferenceData.HF_WEIGHT));
-				if (result.getDatum()[1] != 0)
-					o.addData(new ReferenceData(result.getDatum()[1],
-							result.getS().dipole,
-							ParamGradient.combine(
-									result.getG().getDipoleDerivs(),
-									ri.atomTypes, neededParams,
-									moleculeUZ, moleculeNP,
-									isDepad),
-							ReferenceData.DIPOLE_WEIGHT));
-				if (result.getDatum()[2] != 0)
-					o.addData(new ReferenceData(result.getDatum()[2],
-							-result.getS().homo,
-							ParamGradient.combine(
-									result.getG().getIEDerivs(),
-									ri.atomTypes, neededParams,
-									moleculeUZ, moleculeNP,
-									isDepad),
-							ReferenceData.IE_WEIGHT));
-				if (result.isExpAvail()) o.addData(new ReferenceData(0,
-						-result.getG().getE().geomGradient,
-						ParamGradient.combine(
-								result.getG().getGeomDerivs(),
-								ri.atomTypes, neededParams,
-								moleculeUZ, moleculeNP,
-								isDepad),
-						ReferenceData.GEOM_WEIGHT));
+				initializePO(neededParams, o, result, moleculeUZ, moleculeNP,
+						isDepad);
 
 				double[] g =
 						ParamGradient.combine(
@@ -191,7 +153,9 @@ public class Main {
 					ttGradient[i] += g[i];
 				}
 				if (isRunHessian) {
-					double[][] h = result.getH().getHessianUnpadded();
+					double[][] h =
+							result.getH().getHessianUnpadded(ri.atomTypes,
+									neededParams, paramLength);
 					for (int i = 0; i < h.length; i++) {
 						for (int j = 0; j < h[0].length; j++)
 							ttHessian[i][j] += h[i][j];
@@ -222,11 +186,18 @@ public class Main {
 				}
 			}
 
+
+			MoleculeOutput[] mos = new MoleculeOutput[results.size()];
+			for (int i = 0; i < results.size(); i++) {
+				mos[i] = OutputHandler.toMoleculeOutput(results.get(i));
+			}
 			OutputHandler.output(mos, "output.json");
 			OutputHandler.output(mos,
 					"outputs/run-" + String.format("%04d", runNum) +
 							"-output.json");
+
 			InputHandler.updateInput(ri, INPUT_FILENAME);
+
 			System.err.println(
 					"\nRun " + runNum + " time taken: " + lsw.getTime() +
 							"\n\n---\n");
@@ -234,6 +205,45 @@ public class Main {
 
 		sw.stop();
 		System.err.println("\nTotal time taken: " + sw.getTime());
+	}
+
+	private static void initializePO(int[][] neededParams, ParamOptimizer o,
+									 MoleculeRun result, int[] moleculeUZ,
+									 int[][] moleculeNP, boolean isDepad) {
+		o.addData(new ReferenceData(result.getDatum()[0],
+				result.getS().hf,
+				ParamGradient.combine(
+						result.getG().getHFDerivs(),
+						ri.atomTypes, neededParams,
+						moleculeUZ, moleculeNP,
+						isDepad),
+				ReferenceData.HF_WEIGHT));
+		if (result.getDatum()[1] != 0)
+			o.addData(new ReferenceData(result.getDatum()[1],
+					result.getS().dipole,
+					ParamGradient.combine(
+							result.getG().getDipoleDerivs(),
+							ri.atomTypes, neededParams,
+							moleculeUZ, moleculeNP,
+							isDepad),
+					ReferenceData.DIPOLE_WEIGHT));
+		if (result.getDatum()[2] != 0)
+			o.addData(new ReferenceData(result.getDatum()[2],
+					-result.getS().homo,
+					ParamGradient.combine(
+							result.getG().getIEDerivs(),
+							ri.atomTypes, neededParams,
+							moleculeUZ, moleculeNP,
+							isDepad),
+					ReferenceData.IE_WEIGHT));
+		if (result.isExpAvail()) o.addData(new ReferenceData(0,
+				-result.getG().getE().geomGradient,
+				ParamGradient.combine(
+						result.getG().getGeomDerivs(),
+						ri.atomTypes, neededParams,
+						moleculeUZ, moleculeNP,
+						isDepad),
+				ReferenceData.GEOM_WEIGHT));
 	}
 
 	private static DoubleMatrix findMockHessian(DoubleMatrix newGradient,
