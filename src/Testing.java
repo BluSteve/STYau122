@@ -92,6 +92,7 @@ public class Testing {
 
 		System.out.println(Arrays.deepToString(G.getTotalGradients()));
 		System.out.println(sw.getTime());
-		System.out.println(Arrays.toString(Utils.findTightestTriplet(17550)));
+		System.out.println(Arrays.toString(Utils.findTightestTriplet(128,
+				4)));
 	}
 }

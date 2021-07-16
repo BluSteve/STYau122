@@ -51,9 +51,7 @@ public abstract class ParamHessian {
 			}
 		}
 
-		int cores = Runtime.getRuntime().availableProcessors();
-		ForkJoinPool pool =
-				new ForkJoinPool(Utils.findTightestTriplet(cores)[1]);
+		ForkJoinPool pool = Utils.getPool(1);
 
 		pool.submit(() -> ZandPNs.parallelStream()
 				.forEach(request -> {

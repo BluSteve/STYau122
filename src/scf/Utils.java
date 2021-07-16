@@ -8,6 +8,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ForkJoinPool;
 
 public class Utils {
 	public static final double LAMBDA = 1E-7;
@@ -34,14 +35,16 @@ public class Utils {
 		return res;
 	}
 
-	public static int[] findTightestTriplet(int n) {
+	public static int[] findTightestTriplet(int n, int c) {
 		List<Integer> primeFactors = Primes.primeFactors(n);
 		primeFactors.sort((a, b) -> b - a);
-		double r = Math.pow(n, 1.0 / 3.0);
-		int[] F = new int[]{1, 1, 1};
+		double r = Math.pow(n, 1.0 / c);
+		int[] F = new int[c];
+		for (int i = 0; i < c; i++) F[i] = 1;
+
 		for (int prime : primeFactors) {
 			int i;
-			boolean broken  = false;
+			boolean broken = false;
 			int iSmallest = 0;
 			for (i = 0; i < F.length; i++) {
 				int t = prime * F[i];
@@ -58,6 +61,14 @@ public class Utils {
 		}
 		Arrays.sort(F);
 		return F;
+	}
+
+	public static ForkJoinPool getPool(int index) {
+		int cores = Runtime.getRuntime().availableProcessors();
+		int[] a = Utils.findTightestTriplet(cores, 4);
+		// allocates extra cores to MoleculeRuns to account for geom opt.
+		int fcores = index == 2 ? a[0] * a[3] : a[index+1];
+		return new ForkJoinPool(fcores);
 	}
 
 	public static NDDOAtom[] perturbAtomParams(NDDOAtom[] atoms, int Z,

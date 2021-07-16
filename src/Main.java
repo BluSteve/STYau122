@@ -93,9 +93,7 @@ public class Main {
 			try {
 				NDDOParams[] finalNddoParams = nddoParams;
 
-				int cores = Runtime.getRuntime().availableProcessors();
-				ForkJoinPool pool =
-						new ForkJoinPool(Utils.findTightestTriplet(cores)[2]);
+				ForkJoinPool pool = Utils.getPool(2);
 
 				results = pool.submit(() -> requests.parallelStream()
 						.map(request -> new MoleculeRun(

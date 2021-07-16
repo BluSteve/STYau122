@@ -13,8 +13,7 @@ public class SolutionR extends Solution {
 	public double[] integralArray;
 	public DoubleMatrix C, F, G, E;
 	//H - core matrix, G = 2-electron matrix, F = fock matrix, C = coeffecient
-	// matrix
-// (transposed for easier reading), E = eigenvalues
+	// matrix (transposed for easier reading), E = eigenvalues
 	private DoubleMatrix densityMatrix;
 
 	public SolutionR(NDDOAtom[] atoms, int charge) {
@@ -845,21 +844,7 @@ public class SolutionR extends Solution {
 					}
 
 				}
-
-//				try {
-					DIIS = bestDIIS.dup();
-//				} catch (Exception e) {
-//					System.err.println("NP Error: " + moleculeName);
-//					try {
-//						FileWriter fw = new FileWriter("errored.txt", true);
-//						fw.write(moleculeName + " " + charge + " " +
-//								Arrays.toString(atoms[0].getCoordinates()) +
-//								"\n");
-//						fw.close();
-//					} catch (IOException ioException) {
-//						ioException.printStackTrace();
-//					}
-//				}
+				DIIS = bestDIIS.dup();
 
 				DoubleMatrix F =
 						DoubleMatrix.zeros(densityMatrix.rows,

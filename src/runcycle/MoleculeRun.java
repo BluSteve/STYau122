@@ -42,6 +42,7 @@ public class MoleculeRun {
 		try {
 			run();
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.err.println(
 					"ERROR! " + e.getClass() + " " +
 							Arrays.toString(e.getStackTrace()) + " " +

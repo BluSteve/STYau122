@@ -35,17 +35,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/commons-math3-3.6.1.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/artifacts/MNDOParam_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/MNDOParam_jar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MNDOParam.iml" beforeDir="false" afterPath="$PROJECT_DIR$/MNDOParam.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/input.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inputtesting.txt" beforeDir="false" afterPath="$PROJECT_DIR$/inputtesting.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/output.json" beforeDir="false" afterPath="$PROJECT_DIR$/output.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Testing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/scf/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/Utils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -318,7 +317,7 @@
       <recent name="nddoparam.param" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.InputHandler">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="InputHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="runcycle.input.InputHandler" />
       <module name="MNDOParam" />
@@ -356,8 +355,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.InputHandler" />
         <item itemvalue="Application.Main" />
+        <item itemvalue="Application.InputHandler" />
         <item itemvalue="Application.Testing" />
       </list>
     </recent_temporary>
@@ -459,14 +458,7 @@
       <workItem from="1626361098914" duration="6947000" />
       <workItem from="1626368124079" duration="7524000" />
       <workItem from="1626417806438" duration="13025000" />
-      <workItem from="1626441865697" duration="6009000" />
-    </task>
-    <task id="LOCAL-00064" summary="Shell script">
-      <created>1626107696233</created>
-      <option name="number" value="00064" />
-      <option name="presentableId" value="LOCAL-00064" />
-      <option name="project" value="LOCAL" />
-      <updated>1626107696233</updated>
+      <workItem from="1626441865697" duration="8611000" />
     </task>
     <task id="LOCAL-00065" summary="Minor changes">
       <created>1626107861222</created>
@@ -804,7 +796,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626443941528</updated>
     </task>
-    <option name="localTasksCounter" value="113" />
+    <task id="LOCAL-00113" summary="more core optimization with tightest triplet alg">
+      <created>1626448589508</created>
+      <option name="number" value="00113" />
+      <option name="presentableId" value="LOCAL-00113" />
+      <option name="project" value="LOCAL" />
+      <updated>1626448589508</updated>
+    </task>
+    <option name="localTasksCounter" value="114" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -872,7 +871,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Major refactor." />
     <MESSAGE value="Minor formatting." />
     <MESSAGE value="Refactor" />
     <MESSAGE value="MNDOHessianUpdate jsonify" />
@@ -897,7 +895,8 @@
     <MESSAGE value="minor changes but not reversible" />
     <MESSAGE value="Hessian padding fixed" />
     <MESSAGE value="Multithreaded ParamGradient" />
-    <option name="LAST_COMMIT_MESSAGE" value="Multithreaded ParamGradient" />
+    <MESSAGE value="more core optimization with tightest triplet alg" />
+    <option name="LAST_COMMIT_MESSAGE" value="more core optimization with tightest triplet alg" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

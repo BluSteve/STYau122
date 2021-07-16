@@ -181,9 +181,7 @@ public abstract class ParamGradient {
 				}
 			}
 
-			int cores = Runtime.getRuntime().availableProcessors();
-			ForkJoinPool pool =
-					new ForkJoinPool(Utils.findTightestTriplet(cores)[0]);
+			ForkJoinPool pool = Utils.getPool(0);
 
 			pool.submit(() -> ZandPNs.parallelStream().forEach(request -> {
 				computeGradient(request[0], request[1]);
