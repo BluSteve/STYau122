@@ -87,6 +87,37 @@ public abstract class ParamGradient {
 		return res;
 	}
 
+	public void computeGradients() {
+		totalGradients =
+				new double[s.getUniqueZs().length][Solution.maxParamNum];
+		if (analytical && (datum[1] != 0 || datum[2] != 0))
+			computeBatchedDerivs(0, 0);
+
+		// if geom finite difference computations are not needed, overhead
+		// for multithreading exceeds potential gain.
+		if (!isExpAvail) {
+			for (int Z = 0; Z < s.getUniqueZs().length; Z++) {
+				for (int paramNum : s.getNeededParams()[s.getUniqueZs()[Z]]) {
+					computeGradient(Z, paramNum);
+				}
+			}
+		}
+		else {
+			List<int[]> ZandPNs = new ArrayList<>();
+			for (int Z = 0; Z < s.getUniqueZs().length; Z++) {
+				for (int paramNum : s.getNeededParams()[s.getUniqueZs()[Z]]) {
+					ZandPNs.add(new int[]{Z, paramNum});
+				}
+			}
+
+			ForkJoinPool pool = new ForkJoinPool(Utils.getFCores(0));
+
+			pool.submit(() -> ZandPNs.parallelStream().forEach(request -> {
+				computeGradient(request[0], request[1]);
+			}));
+		}
+	}
+
 	protected void errorFunctionRoutine() {
 		if (datum[1] != 0) e.addDipoleError(datum[1]);
 		if (datum[2] != 0) e.addIEError(datum[2]);
@@ -155,37 +186,6 @@ public abstract class ParamGradient {
 				xLimited = new DoubleMatrix[s
 						.getUniqueZs().length][Solution.maxParamNum];
 			}
-		}
-	}
-
-	public void computeGradients() {
-		totalGradients =
-				new double[s.getUniqueZs().length][Solution.maxParamNum];
-		if (analytical && (datum[1] != 0 || datum[2] != 0))
-			computeBatchedDerivs(0, 0);
-
-		// if geom finite difference computations are not needed, overhead
-		// for multithreading exceeds potential gain.
-		if (!isExpAvail) {
-			for (int Z = 0; Z < s.getUniqueZs().length; Z++) {
-				for (int paramNum : s.getNeededParams()[s.getUniqueZs()[Z]]) {
-					computeGradient(Z, paramNum);
-				}
-			}
-		}
-		else {
-			List<int[]> ZandPNs = new ArrayList<>();
-			for (int Z = 0; Z < s.getUniqueZs().length; Z++) {
-				for (int paramNum : s.getNeededParams()[s.getUniqueZs()[Z]]) {
-					ZandPNs.add(new int[]{Z, paramNum});
-				}
-			}
-
-			ForkJoinPool pool = new ForkJoinPool(Utils.getFCores(0));
-
-			pool.submit(() -> ZandPNs.parallelStream().forEach(request -> {
-				computeGradient(request[0], request[1]);
-			}));
 		}
 	}
 

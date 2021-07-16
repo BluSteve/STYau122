@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class OutputHandler {
+	// todo convert to csv
 	public static MoleculeOutput toMoleculeOutput(MoleculeRun result) {
 		MoleculeOutput mo = new MoleculeOutput();
 		mo.index = result.getRawMolecule().index;
