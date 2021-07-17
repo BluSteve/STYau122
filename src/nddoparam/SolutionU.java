@@ -20,7 +20,7 @@ public class SolutionU extends Solution {
 					"Please check multiplicity and charge: " + nElectrons +
 							", " +
 							multiplicity);
-			System.exit(0);
+//			System.exit(0);
 		}
 
 		nElectrons -= (multiplicity - 1);
@@ -435,7 +435,7 @@ public class SolutionU extends Solution {
 								" " +
 								Arrays.toString(a.getCoordinates()));
 					}
-					System.exit(0);
+//					System.exit(0);
 
 				}
 			}
@@ -469,7 +469,7 @@ public class SolutionU extends Solution {
 			System.err.println("I knew it!");
 			System.err.println(checksum);
 			System.err.println(e);
-			System.exit(0);
+//			System.exit(0);
 		}
 
 

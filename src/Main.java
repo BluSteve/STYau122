@@ -15,6 +15,7 @@ import runcycle.output.MoleculeOutput;
 import runcycle.output.OutputHandler;
 import scf.AtomHandler;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -42,6 +43,12 @@ public class Main {
 
 			AtomHandler.populateAtoms();
 			InputHandler.processInput(INPUT_FILENAME);
+			try {
+				FileWriter fw = new FileWriter("errored-molecules.log");
+				fw.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			ri = InputHandler.ri;
 			System.err.println(
 					"MNDO Parameterization, updated 17 July 2021. " +

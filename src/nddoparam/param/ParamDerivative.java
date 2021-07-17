@@ -2266,7 +2266,7 @@ public class ParamDerivative {
 				A = (NDDOAtom) ctor.newInstance(A, params);
 			} catch (Exception e) {
 				e.printStackTrace();
-				System.exit(0);
+//				System.exit(0);
 			}
 		}
 		if (num == 1 || num == 2) {
@@ -2283,7 +2283,7 @@ public class ParamDerivative {
 				C = (NDDOAtom) ctor.newInstance(C, params);
 			} catch (Exception e) {
 				e.printStackTrace();
-				System.exit(0);
+//				System.exit(0);
 			}
 		}
 
@@ -2324,7 +2324,7 @@ public class ParamDerivative {
 				A = (NDDOAtom) ctor.newInstance(A, params);
 			} catch (Exception e) {
 				e.printStackTrace();
-				System.exit(0);
+//				System.exit(0);
 			}
 		}
 		if (num == 1 || num == 2) {
@@ -2341,7 +2341,7 @@ public class ParamDerivative {
 				B = (NDDOAtom) ctor.newInstance(B, params);
 			} catch (Exception e) {
 				e.printStackTrace();
-				System.exit(0);
+//				System.exit(0);
 			}
 		}
 
@@ -2372,7 +2372,7 @@ public class ParamDerivative {
 				A = (NDDOAtom) ctor.newInstance(A, params);
 			} catch (Exception e) {
 				e.printStackTrace();
-				System.exit(0);
+//				System.exit(0);
 			}
 		}
 		if (num == 1 || num == 2) {
@@ -2389,7 +2389,7 @@ public class ParamDerivative {
 				B = (NDDOAtom) ctor.newInstance(B, params);
 			} catch (Exception e) {
 				e.printStackTrace();
-				System.exit(0);
+//				System.exit(0);
 			}
 		}
 
@@ -2420,7 +2420,7 @@ public class ParamDerivative {
 		}
 
 		System.err.println("oh no! This isn't MNDO!");
-		System.exit(0);
+//		System.exit(0);
 		return 0;
 
 	}
