@@ -121,6 +121,7 @@ public class InputHandler {
 					RawMolecule rm = new RawMolecule();
 					ArrayList<RawAtom> atomsL = new ArrayList<>();
 					ArrayList<RawAtom> expGeomL = new ArrayList<>();
+					rm.isUsing = true;
 
 					rm.restricted = lines.get(i).equals("RHF");
 					i++;

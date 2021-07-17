@@ -15,7 +15,7 @@ public class AtomHandler {
 
 	public static void populateAtoms() {
 		try {
-			String json = Files.readString(Path.of("atom_properties.json"));
+			String json = Files.readString(Path.of("atom-properties.json"));
 			Gson gson = new Gson();
 			AtomProperties[] unindexedAtoms = gson.fromJson(json,
 					AtomProperties[].class);
