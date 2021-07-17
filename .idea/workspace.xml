@@ -37,15 +37,7 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations/blusteve.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/runConfigurations/blusteve.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/errored-molecules.log" beforeDir="false" afterPath="$PROJECT_DIR$/errored-molecules.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mndo-update.sh" beforeDir="false" afterPath="$PROJECT_DIR$/mndo-update.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionU.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" afterDir="false" />
-    </list>
+    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -290,7 +282,7 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="reference.settings.ide.settings.file-colors" />
+    <property name="settings.editor.selected.configurable" value="Console" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -470,14 +462,7 @@
       <workItem from="1626417806438" duration="13025000" />
       <workItem from="1626441865697" duration="9840000" />
       <workItem from="1626501531906" duration="21400000" />
-      <workItem from="1626530653882" duration="7666000" />
-    </task>
-    <task id="LOCAL-00077" summary="Adrian fix NDDO Solution Restricted">
-      <created>1626180286887</created>
-      <option name="number" value="00077" />
-      <option name="presentableId" value="LOCAL-00077" />
-      <option name="project" value="LOCAL" />
-      <updated>1626180286887</updated>
+      <workItem from="1626530653882" duration="7988000" />
     </task>
     <task id="LOCAL-00078" summary="input.json">
       <created>1626195084470</created>
@@ -815,7 +800,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626537299951</updated>
     </task>
-    <option name="localTasksCounter" value="126" />
+    <task id="LOCAL-00126" summary="minor changes">
+      <created>1626538445594</created>
+      <option name="number" value="00126" />
+      <option name="presentableId" value="LOCAL-00126" />
+      <option name="project" value="LOCAL" />
+      <updated>1626538445594</updated>
+    </task>
+    <option name="localTasksCounter" value="127" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -907,7 +899,6 @@
     <MESSAGE value="more core optimization with tightest triplet alg" />
     <MESSAGE value="more multithreading optimizations" />
     <MESSAGE value="remove unused utils methods" />
-    <MESSAGE value="minor changes" />
     <MESSAGE value="Minor changes" />
     <MESSAGE value="Minor moleculerun + main refactor" />
     <MESSAGE value="ForkJoinPool implementation" />
@@ -917,7 +908,8 @@
     <MESSAGE value="fixed adrian's stupid stupid bug" />
     <MESSAGE value="minor io changes" />
     <MESSAGE value="commenting and io changes. also adds feature where errored molecules are ignored for future runs and would not cause the program to terminate outright." />
-    <option name="LAST_COMMIT_MESSAGE" value="commenting and io changes. also adds feature where errored molecules are ignored for future runs and would not cause the program to terminate outright." />
+    <MESSAGE value="minor changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="minor changes" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
