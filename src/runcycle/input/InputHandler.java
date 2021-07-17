@@ -163,7 +163,8 @@ public class InputHandler {
 					for (int u = 0; u < tempZs.size(); u++)
 						uniqueZs[u] = tempZs.get(u);
 					rm.uniqueZs = uniqueZs;
-					rm.name = nameBuilder + "_" + rm.charge;
+					String ruhf = rm.restricted ? "RHF" : "UHF";
+					rm.name = nameBuilder + "_" + rm.charge + "_" + ruhf;
 
 					if (lines.get(i).equals("EXPGEOM")) {
 						i++;
