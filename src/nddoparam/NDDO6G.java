@@ -13,8 +13,7 @@ public class NDDO6G extends STO6G {
 	private NDDO6G[] orbitalArray;
 
 	public NDDO6G(NDDOAtom a, OrbitalProperties orbital, double zeta,
-				  double beta,
-				  double U) {
+				  double beta, double U) {
 		super(zeta, a, orbital);
 
 		this.a = a;
@@ -147,9 +146,8 @@ public class NDDO6G extends STO6G {
 
 	public static double betaparamderiv(NDDO6G a, NDDO6G b, int num,
 										int type) {
-		return 0.5 * (a.beta + b.beta) *
-				ParamDerivative.getSderivfinite(a, b, num,
-						type);
+		return 0.5 * (a.beta + b.beta) * ParamDerivative
+				.getSderivfinite(a, b, num, type);
 	}
 
 	public static double betaderiv2(NDDO6G a, NDDO6G b, int tau1, int tau2) {
@@ -157,19 +155,15 @@ public class NDDO6G extends STO6G {
 	}
 
 	private static double qq(double p01, double p11, double p21, double D11,
-							 double D21,
-							 double p02, double p12, double p22, double D12,
-							 double D22,
-							 double R) {
+							 double D21, double p02, double p12, double p22,
+							 double D12, double D22, double R) {
 		double a00 = p01 + p02;
 		return Math.pow(R * R + a00 * a00, -0.5);
 	}
 
 	private static double quz(double p01, double p11, double p21, double D11,
-							  double D21,
-							  double p02, double p12, double p22, double D12,
-							  double D22,
-							  double R) {
+							  double D21, double p02, double p12, double p22,
+							  double D12, double D22, double R) {
 		double a01 = p01 + p12;
 		return 0.5 * Math.pow((R + D12) * (R + D12) + a01 * a01, -0.5)
 				- 0.5 * Math.pow((R - D12) * (R - D12) + a01 * a01, -0.5);
@@ -186,10 +180,8 @@ public class NDDO6G extends STO6G {
 	}
 
 	private static double qQzz(double p01, double p11, double p21, double D11,
-							   double D21,
-							   double p02, double p12, double p22, double D12,
-							   double D22,
-							   double R) {
+							   double D21, double p02, double p12, double p22,
+							   double D12, double D22, double R) {
 		double a02 = p01 + p22;
 		return 0.25 * Math.pow((R + 2 * D22) * (R + 2 * D22) + a02 * a02, -0.5)
 				+
@@ -211,10 +203,8 @@ public class NDDO6G extends STO6G {
 	}
 
 	private static double uzuz(double p01, double p11, double p21, double D11,
-							   double D21,
-							   double p02, double p12, double p22, double D12,
-							   double D22,
-							   double R) {
+							   double D21, double p02, double p12, double p22,
+							   double D12, double D22, double R) {
 		double a11 = p11 + p12;
 		return 0.25 *
 				Math.pow((R + D11 - D12) * (R + D11 - D12) + a11 * a11, -0.5)
@@ -227,34 +217,28 @@ public class NDDO6G extends STO6G {
 	}
 
 	private static double upiQpiz(double p01, double p11, double p21,
-								  double D11,
-								  double D21, double p02, double p12,
-								  double p22,
-								  double D12, double D22, double R) {
+								  double D11, double D21, double p02,
+								  double p12, double p22, double D12,
+								  double D22, double R) {
 		double a12 = p11 + p22;
-		return -0.25 *
-				Math.pow((R - D22) * (R - D22) + (D11 - D22) * (D11 - D22) +
-								a12 * a12,
-						-0.5)
-				+ 0.25 *
-				Math.pow((R - D22) * (R - D22) + (D11 + D22) * (D11 + D22) +
-								a12 * a12,
-						-0.5)
-				+ 0.25 *
-				Math.pow((R + D22) * (R + D22) + (D11 - D22) * (D11 - D22) +
-								a12 * a12,
-						-0.5)
-				- 0.25 *
-				Math.pow((R + D22) * (R + D22) + (D11 + D22) * (D11 + D22) +
-								a12 * a12,
-						-0.5);
+		return -0.25 * Math.pow(
+				(R - D22) * (R - D22) + (D11 - D22) * (D11 - D22) + a12 * a12,
+				-0.5)
+				+ 0.25 * Math.pow(
+				(R - D22) * (R - D22) + (D11 + D22) * (D11 + D22) + a12 * a12,
+				-0.5)
+				+ 0.25 * Math.pow(
+				(R + D22) * (R + D22) + (D11 - D22) * (D11 - D22) + a12 * a12,
+				-0.5)
+				- 0.25 * Math.pow(
+				(R + D22) * (R + D22) + (D11 + D22) * (D11 + D22) + a12 * a12,
+				-0.5);
 	}
 
 	private static double uzQpipi(double p01, double p11, double p21,
-								  double D11,
-								  double D21, double p02, double p12,
-								  double p22,
-								  double D12, double D22, double R) {
+								  double D11, double D21, double p02,
+								  double p12, double p22, double D12,
+								  double D22, double R) {
 		double a12 = p11 + p22;
 		return -0.25 *
 				Math.pow((R + D11) * (R + D11) + 4 * D22 * D22 + a12 * a12,
@@ -287,17 +271,15 @@ public class NDDO6G extends STO6G {
 	}
 
 	private static double QpipiQpipi(double p01, double p11, double p21,
-									 double D11,
-									 double D21, double p02, double p12,
-									 double p22,
-									 double D12, double D22, double R) {
+									 double D11, double D21, double p02,
+									 double p12, double p22, double D12,
+									 double D22, double R) {
 		double a22 = p21 + p22;
 		return 0.125 *
 				Math.pow(R * R + 4 * (D21 - D22) * (D21 - D22) + a22 * a22,
 						-0.5)
-				+
-				0.125 * Math.pow(
-						R * R + 4 * (D21 + D22) * (D21 + D22) + a22 * a22,
+				+ 0.125 *
+				Math.pow(R * R + 4 * (D21 + D22) * (D21 + D22) + a22 * a22,
 						-0.5)
 				- 0.25 * Math.pow(R * R + 4 * D21 * D21 + a22 * a22, -0.5)
 				- 0.25 * Math.pow(R * R + 4 * D22 * D22 + a22 * a22, -0.5)
@@ -319,17 +301,16 @@ public class NDDO6G extends STO6G {
 	}
 
 	private static double QpipiQzz(double p01, double p11, double p21,
-								   double D11,
-								   double D21, double p02, double p12,
-								   double p22,
-								   double D12, double D22, double R) {
+								   double D11, double D21, double p02,
+								   double p12, double p22, double D12,
+								   double D22, double R) {
 		double a22 = p21 + p22;
-		return 0.125 *
-				Math.pow((R - 2 * D22) * (R - 2 * D22) + 4 * D21 * D21 +
-						a22 * a22, -0.5)
-				+ 0.125 *
-				Math.pow((R + 2 * D22) * (R + 2 * D22) + 4 * D21 * D21 +
-						a22 * a22, -0.5)
+		return 0.125 * Math.pow(
+				(R - 2 * D22) * (R - 2 * D22) + 4 * D21 * D21 + a22 * a22,
+				-0.5)
+				+ 0.125 * Math.pow(
+				(R + 2 * D22) * (R + 2 * D22) + 4 * D21 * D21 + a22 * a22,
+				-0.5)
 				- 0.125 *
 				Math.pow((R - 2 * D22) * (R - 2 * D22) + a22 * a22, -0.5)
 				- 0.125 *
@@ -344,22 +325,18 @@ public class NDDO6G extends STO6G {
 								 double p22,
 								 double D12, double D22, double R) {
 		double a22 = p21 + p22;
-		return 0.0625 *
-				Math.pow((R + 2 * D21 - 2 * D22) * (R + 2 * D21 - 2 * D22) +
-								a22 * a22,
-						-0.5)
-				+ 0.0625 *
-				Math.pow((R + 2 * D21 + 2 * D22) * (R + 2 * D21 + 2 * D22) +
-								a22 * a22,
-						-0.5)
-				+ 0.0625 *
-				Math.pow((R - 2 * D21 - 2 * D22) * (R - 2 * D21 - 2 * D22) +
-								a22 * a22,
-						-0.5)
-				+ 0.0625 *
-				Math.pow((R - 2 * D21 + 2 * D22) * (R - 2 * D21 + 2 * D22) +
-								a22 * a22,
-						-0.5)
+		return 0.0625 * Math.pow(
+				(R + 2 * D21 - 2 * D22) * (R + 2 * D21 - 2 * D22) + a22 * a22,
+				-0.5)
+				+ 0.0625 * Math.pow(
+				(R + 2 * D21 + 2 * D22) * (R + 2 * D21 + 2 * D22) + a22 * a22,
+				-0.5)
+				+ 0.0625 * Math.pow(
+				(R - 2 * D21 - 2 * D22) * (R - 2 * D21 - 2 * D22) + a22 * a22,
+				-0.5)
+				+ 0.0625 * Math.pow(
+				(R - 2 * D21 + 2 * D22) * (R - 2 * D21 + 2 * D22) + a22 * a22,
+				-0.5)
 				- 0.125 *
 				Math.pow((R + 2 * D21) * (R + 2 * D21) + a22 * a22, -0.5)
 				- 0.125 *
@@ -372,58 +349,46 @@ public class NDDO6G extends STO6G {
 	}
 
 	private static double QpizQpiz(double p01, double p11, double p21,
-								   double D11,
-								   double D21, double p02, double p12,
-								   double p22,
-								   double D12, double D22, double R) {
+								   double D11, double D21, double p02,
+								   double p12, double p22, double D12,
+								   double D22, double R) {
 		double a22 = p21 + p22;
 		return 0.125 * Math.pow(
 				(R + D21 - D22) * (R + D21 - D22) + (D21 - D22) * (D21 - D22) +
-						a22 * a22,
-				-0.5)
+						a22 * a22, -0.5)
 				- 0.125 * Math.pow(
 				(R + D21 - D22) * (R + D21 - D22) + (D21 + D22) * (D21 + D22) +
-						a22 * a22,
-				-0.5)
+						a22 * a22, -0.5)
 				- 0.125 * Math.pow(
 				(R + D21 + D22) * (R + D21 + D22) + (D21 - D22) * (D21 - D22) +
-						a22 * a22,
-				-0.5)
+						a22 * a22, -0.5)
 				+ 0.125 * Math.pow(
 				(R + D21 + D22) * (R + D21 + D22) + (D21 + D22) * (D21 + D22) +
-						a22 * a22,
-				-0.5)
+						a22 * a22, -0.5)
 				- 0.125 * Math.pow(
 				(R - D21 - D22) * (R - D21 - D22) + (D21 - D22) * (D21 - D22) +
-						a22 * a22,
-				-0.5)
+						a22 * a22, -0.5)
 				+ 0.125 * Math.pow(
 				(R - D21 - D22) * (R - D21 - D22) + (D21 + D22) * (D21 + D22) +
-						a22 * a22,
-				-0.5)
+						a22 * a22, -0.5)
 				+ 0.125 * Math.pow(
 				(R - D21 + D22) * (R - D21 + D22) + (D21 - D22) * (D21 - D22) +
-						a22 * a22,
-				-0.5)
+						a22 * a22, -0.5)
 				- 0.125 * Math.pow(
 				(R - D21 + D22) * (R - D21 + D22) + (D21 + D22) * (D21 + D22) +
-						a22 * a22,
-				-0.5);
+						a22 * a22, -0.5);
 	}
 
 	private static double ssss(double p01, double p11, double p21, double D11,
-							   double D21,
-							   double p02, double p12, double p22, double D12,
-							   double D22,
-							   double R) {
+							   double D21, double p02, double p12, double p22,
+							   double D12, double D22, double R) {
 		return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R);
 	}
 
 	private static double ssppippi(double p01, double p11, double p21,
-								   double D11,
-								   double D21, double p02, double p12,
-								   double p22,
-								   double D12, double D22, double R) {
+								   double D11, double D21, double p02,
+								   double p12, double p22, double D12,
+								   double D22, double R) {
 		return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R) +
 				qQpipi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R);
 	}
@@ -438,10 +403,9 @@ public class NDDO6G extends STO6G {
 	}
 
 	private static double ppippiss(double p01, double p11, double p21,
-								   double D11,
-								   double D21, double p02, double p12,
-								   double p22,
-								   double D12, double D22, double R) {
+								   double D11, double D21, double p02,
+								   double p12, double p22, double D12,
+								   double D22, double R) {
 		return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R) +
 				qQpipi(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R);
 	}
@@ -456,10 +420,9 @@ public class NDDO6G extends STO6G {
 	}
 
 	private static double ppippippippi(double p01, double p11, double p21,
-									   double D11,
-									   double D21, double p02, double p12,
-									   double p22,
-									   double D12, double D22, double R) {
+									   double D11, double D21, double p02,
+									   double p12, double p22, double D12,
+									   double D22, double R) {
 		return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R) +
 				qQpipi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R) +
 				qQpipi(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R) +
@@ -468,10 +431,9 @@ public class NDDO6G extends STO6G {
 	}
 
 	private static double pxpxpypy(double p01, double p11, double p21,
-								   double D11,
-								   double D21, double p02, double p12,
-								   double p22,
-								   double D12, double D22, double R) {
+								   double D11, double D21, double p02,
+								   double p12, double p22, double D12,
+								   double D22, double R) {
 		return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R) +
 				qQpipi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R) +
 				qQpipi(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R) +
@@ -479,10 +441,9 @@ public class NDDO6G extends STO6G {
 	}
 
 	private static double ppippipzpz(double p01, double p11, double p21,
-									 double D11,
-									 double D21, double p02, double p12,
-									 double p22,
-									 double D12, double D22, double R) {
+									 double D11, double D21, double p02,
+									 double p12, double p22, double D12,
+									 double D22, double R) {
 		return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R) +
 				qQzz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R) +
 				qQpipi(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R) +
@@ -490,10 +451,9 @@ public class NDDO6G extends STO6G {
 	}
 
 	private static double pzpzppippi(double p01, double p11, double p21,
-									 double D11,
-									 double D21, double p02, double p12,
-									 double p22,
-									 double D12, double D22, double R) {
+									 double D11, double D21, double p02,
+									 double p12, double p22, double D12,
+									 double D22, double R) {
 		return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R) +
 				qQpipi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R) +
 				qQzz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R) +
@@ -501,10 +461,9 @@ public class NDDO6G extends STO6G {
 	}
 
 	private static double pzpzpzpz(double p01, double p11, double p21,
-								   double D11,
-								   double D21, double p02, double p12,
-								   double p22,
-								   double D12, double D22, double R) {
+								   double D11, double D21, double p02,
+								   double p12, double p22, double D12,
+								   double D22, double R) {
 		return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R) +
 				qQzz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R) +
 				qQzz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R) +
@@ -518,19 +477,17 @@ public class NDDO6G extends STO6G {
 	}
 
 	private static double spzppippi(double p01, double p11, double p21,
-									double D11,
-									double D21, double p02, double p12,
-									double p22,
-									double D12, double D22, double R) {
+									double D11, double D21, double p02,
+									double p12, double p22, double D12,
+									double D22, double R) {
 		return -quz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R) +
 				uzQpipi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R);
 	}
 
 	private static double spzpzpz(double p01, double p11, double p21,
-								  double D11,
-								  double D21, double p02, double p12,
-								  double p22,
-								  double D12, double D22, double R) {
+								  double D11, double D21, double p02,
+								  double p12, double p22, double D12,
+								  double D22, double R) {
 		return -quz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R) +
 				uzQzz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R);
 	}
@@ -542,28 +499,25 @@ public class NDDO6G extends STO6G {
 	}
 
 	private static double ppippispz(double p01, double p11, double p21,
-									double D11,
-									double D21, double p02, double p12,
-									double p22,
-									double D12, double D22, double R) {
+									double D11, double D21, double p02,
+									double p12, double p22, double D12,
+									double D22, double R) {
 		return quz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R) -
 				uzQpipi(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R);
 	}
 
 	private static double pzpzspz(double p01, double p11, double p21,
-								  double D11,
-								  double D21, double p02, double p12,
-								  double p22,
-								  double D12, double D22, double R) {
+								  double D11, double D21, double p02,
+								  double p12, double p22, double D12,
+								  double D22, double R) {
 		return quz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R) -
 				uzQzz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R);
 	}
 
 	private static double sppisppi(double p01, double p11, double p21,
-								   double D11,
-								   double D21, double p02, double p12,
-								   double p22,
-								   double D12, double D22, double R) {
+								   double D11, double D21, double p02,
+								   double p12, double p22, double D12,
+								   double D22, double R) {
 		return upiupi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R);
 	}
 
@@ -576,34 +530,30 @@ public class NDDO6G extends STO6G {
 	}
 
 	private static double sppippipz(double p01, double p11, double p21,
-									double D11,
-									double D21, double p02, double p12,
-									double p22,
-									double D12, double D22, double R) {
+									double D11, double D21, double p02,
+									double p12, double p22, double D12,
+									double D22, double R) {
 		return upiQpiz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R);
 	}
 
 	private static double ppipzsppi(double p01, double p11, double p21,
-									double D11,
-									double D21, double p02, double p12,
-									double p22,
-									double D12, double D22, double R) {
+									double D11, double D21, double p02,
+									double p12, double p22, double D12,
+									double D22, double R) {
 		return -upiQpiz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R);
 	}
 
 	private static double ppipzppipz(double p01, double p11, double p21,
-									 double D11,
-									 double D21, double p02, double p12,
-									 double p22,
-									 double D12, double D22, double R) {
+									 double D11, double D21, double p02,
+									 double p12, double p22, double D12,
+									 double D22, double R) {
 		return QpizQpiz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R);
 	}
 
 	private static double pxpypxpy(double p01, double p11, double p21,
-								   double D11,
-								   double D21, double p02, double p12,
-								   double p22,
-								   double D12, double D22, double R) {
+								   double D11, double D21, double p02,
+								   double p12, double p22, double D12,
+								   double D22, double R) {
 		return 0.5 *
 				(ppippippippi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22,
 						R) -
@@ -632,16 +582,15 @@ public class NDDO6G extends STO6G {
 
 									case 0://(ss|ss)
 										return ssss(a.p0, a.p1, a.p2, a.D1,
-												a.D2, c.p0,
-												c.p1, c.p2, c.D1, c.D2, R);
+												a.D2, c.p0, c.p1, c.p2, c.D1,
+												c.D2, R);
 
 									case 1:
 										if (d.k == 1) {//(ss|spz)
 											return ssspz(a.p0, a.p1, a.p2,
 													a.D1,
-													a.D2,
-													c.p0, c.p1, c.p2, c.D1,
-													c.D2, R);
+													a.D2, c.p0, c.p1, c.p2,
+													c.D1, c.D2, R);
 										}
 										else {//(ss|sppi) = 0
 											return 0;
@@ -659,17 +608,14 @@ public class NDDO6G extends STO6G {
 										case 0://(ss|pzs)
 											return ssspz(a.p0, a.p1, a.p2,
 													a.D1,
-													a.D2,
-													c.p0, c.p1, c.p2, c.D1,
-													c.D2, R);
+													a.D2, c.p0, c.p1, c.p2,
+													c.D1, c.D2, R);
 
 										case 1:
 											if (d.k == 1) {//(ss|pzpz)
 												return sspzpz(a.p0, a.p1, a.p2,
-														a.D1,
-														a.D2, c.p0, c.p1, c.p2,
-														c.D1,
-														c.D2, R);
+														a.D1, a.D2, c.p0, c.p1,
+														c.p2, c.D1, c.D2, R);
 											}
 											else {//(ss|pzppi) = 0
 												return 0;
@@ -683,9 +629,8 @@ public class NDDO6G extends STO6G {
 									if (d.L == 1 && d.k == 0 && c.i == d.i &&
 											c.j == d.j) {//(ss|ppippi)
 										return ssppippi(a.p0, a.p1, a.p2, a.D1,
-												a.D2,
-												c.p0, c.p1, c.p2, c.D1, c.D2,
-												R);
+												a.D2, c.p0, c.p1, c.p2, c.D1,
+												c.D2, R);
 									}
 									else {//all others are 0
 										return 0;
@@ -709,17 +654,14 @@ public class NDDO6G extends STO6G {
 										case 0://(spz|ss)
 											return spzss(a.p0, a.p1, a.p2,
 													a.D1,
-													a.D2,
-													c.p0, c.p1, c.p2, c.D1,
-													c.D2, R);
+													a.D2, c.p0, c.p1, c.p2,
+													c.D1, c.D2, R);
 
 										case 1:
 											if (d.k == 1) {//(spz|spz)
 												return spzspz(a.p0, a.p1, a.p2,
-														a.D1,
-														a.D2, c.p0, c.p1, c.p2,
-														c.D1,
-														c.D2, R);
+														a.D1, a.D2, c.p0, c.p1,
+														c.p2, c.D1, c.D2, R);
 											}
 											else {
 												return 0;
@@ -733,19 +675,15 @@ public class NDDO6G extends STO6G {
 
 											case 0://(spz|pzs)
 												return spzspz(a.p0, a.p1, a.p2,
-														a.D1,
-														a.D2, c.p0, c.p1, c.p2,
-														c.D1,
-														c.D2, R);
+														a.D1, a.D2, c.p0, c.p1,
+														c.p2, c.D1, c.D2, R);
 
 											case 1:
 												if (d.k == 1) {//(spz|pzpz)
 													return spzpzpz(a.p0, a.p1,
-															a.p2,
-															a.D1,
-															a.D2, c.p0, c.p1,
-															c.p2, c.D1,
-															c.D2, R);
+															a.p2, a.D1, a.D2,
+															c.p0, c.p1, c.p2,
+															c.D1, c.D2, R);
 												}
 												else {//(spz|pzppi) = 0
 													return 0;
@@ -756,10 +694,8 @@ public class NDDO6G extends STO6G {
 										if (d.i == c.i && d.j == c.j &&
 												d.k == 0) {
 											return spzppippi(a.p0, a.p1, a.p2,
-													a.D1,
-													a.D2,
-													c.p0, c.p1, c.p2, c.D1,
-													c.D2, R);
+													a.D1, a.D2, c.p0, c.p1,
+													c.p2, c.D1, c.D2, R);
 										}
 										else {
 											return 0;
@@ -777,9 +713,8 @@ public class NDDO6G extends STO6G {
 									if (d.i == b.i && d.j == b.j &&
 											d.k == 0) {//(sppi|sppi)
 										return sppisppi(a.p0, a.p1, a.p2, a.D1,
-												a.D2,
-												c.p0, c.p1, c.p2, c.D1, c.D2,
-												R);
+												a.D2, c.p0, c.p1, c.p2, c.D1,
+												c.D2, R);
 									}
 									else {
 										return 0;
@@ -789,10 +724,8 @@ public class NDDO6G extends STO6G {
 										if (d.i == b.i && d.j == b.j &&
 												d.k == 0) {//(sppi|pzppi)
 											return sppippipz(a.p0, a.p1, a.p2,
-													a.D1,
-													a.D2,
-													c.p0, c.p1, c.p2, c.D1,
-													c.D2, R);
+													a.D1, a.D2, c.p0, c.p1,
+													c.p2, c.D1, c.D2, R);
 										}
 										else {
 											return 0;
@@ -804,15 +737,13 @@ public class NDDO6G extends STO6G {
 											switch (d.L) {
 												case 0:
 													return sppisppi(a.p0, a.p1,
-															a.p2,
-															a.D1, a.D2, c.p0,
-															c.p1, c.p2,
+															a.p2, a.D1, a.D2,
+															c.p0, c.p1, c.p2,
 															c.D1, c.D2, R);
 												case 1:
 													if (d.k == 1) {
 														return sppippipz(a.p0,
-																a.p1,
-																a.p2,
+																a.p1, a.p2,
 																a.D1, a.D2,
 																c.p0, c.p1,
 																c.p2, c.D1,
@@ -852,17 +783,14 @@ public class NDDO6G extends STO6G {
 										case 0://(pzs|ss)
 											return spzss(a.p0, a.p1, a.p2,
 													a.D1,
-													a.D2,
-													c.p0, c.p1, c.p2, c.D1,
-													c.D2, R);
+													a.D2, c.p0, c.p1, c.p2,
+													c.D1, c.D2, R);
 
 										case 1:
 											if (d.k == 1) {//(pzs|spz)
 												return spzspz(a.p0, a.p1, a.p2,
-														a.D1,
-														a.D2, c.p0, c.p1, c.p2,
-														c.D1,
-														c.D2, R);
+														a.D1, a.D2, c.p0, c.p1,
+														c.p2, c.D1, c.D2, R);
 											}
 											else {
 												return 0;
@@ -876,19 +804,15 @@ public class NDDO6G extends STO6G {
 
 											case 0://(pzs|pzs)
 												return spzspz(a.p0, a.p1, a.p2,
-														a.D1,
-														a.D2, c.p0, c.p1, c.p2,
-														c.D1,
-														c.D2, R);
+														a.D1, a.D2, c.p0, c.p1,
+														c.p2, c.D1, c.D2, R);
 
 											case 1:
 												if (d.k == 1) {//(pzs|pzpz)
 													return spzpzpz(a.p0, a.p1,
-															a.p2,
-															a.D1,
-															a.D2, c.p0, c.p1,
-															c.p2, c.D1,
-															c.D2, R);
+															a.p2, a.D1, a.D2,
+															c.p0, c.p1, c.p2,
+															c.D1, c.D2, R);
 												}
 												else {//(pzs|pzppi) = 0
 													return 0;
@@ -899,10 +823,8 @@ public class NDDO6G extends STO6G {
 										if (d.i == c.i && d.j == c.j &&
 												d.k == 0) {
 											return spzppippi(a.p0, a.p1, a.p2,
-													a.D1,
-													a.D2,
-													c.p0, c.p1, c.p2, c.D1,
-													c.D2, R);
+													a.D1, a.D2, c.p0, c.p1,
+													c.p2, c.D1, c.D2, R);
 										}
 										else {
 											return 0;
@@ -924,19 +846,15 @@ public class NDDO6G extends STO6G {
 
 											case 0://(pzpz|ss)
 												return pzpzss(a.p0, a.p1, a.p2,
-														a.D1,
-														a.D2, c.p0, c.p1, c.p2,
-														c.D1,
-														c.D2, R);
+														a.D1, a.D2, c.p0, c.p1,
+														c.p2, c.D1, c.D2, R);
 
 											case 1:
 												if (d.k == 1) {//(pzpz|spz)
 													return pzpzspz(a.p0, a.p1,
-															a.p2,
-															a.D1,
-															a.D2, c.p0, c.p1,
-															c.p2, c.D1,
-															c.D2, R);
+															a.p2, a.D1, a.D2,
+															c.p0, c.p1, c.p2,
+															c.D1, c.D2, R);
 												}
 												else {
 													return 0;
@@ -950,11 +868,9 @@ public class NDDO6G extends STO6G {
 
 												case 0://(pzpz|pzs)
 													return pzpzspz(a.p0, a.p1,
-															a.p2,
-															a.D1,
-															a.D2, c.p0, c.p1,
-															c.p2, c.D1,
-															c.D2, R);
+															a.p2, a.D1, a.D2,
+															c.p0, c.p1, c.p2,
+															c.D1, c.D2, R);
 
 												case 1:
 													if (d.k == 1) {//(pzpz
@@ -975,10 +891,9 @@ public class NDDO6G extends STO6G {
 											if (d.i == c.i && d.j == c.j &&
 													d.k == 0) {
 												return pzpzppippi(a.p0, a.p1,
-														a.p2, a.D1,
-														a.D2, c.p0, c.p1, c.p2,
-														c.D1,
-														c.D2, R);
+														a.p2, a.D1, a.D2, c.p0,
+														c.p1, c.p2, c.D1, c.D2,
+														R);
 											}
 											else {
 												return 0;
@@ -996,10 +911,8 @@ public class NDDO6G extends STO6G {
 										if (d.i == b.i && d.j == b.j &&
 												d.k == 0) {//(pzppi|sppi)
 											return ppipzsppi(a.p0, a.p1, a.p2,
-													a.D1,
-													a.D2,
-													c.p0, c.p1, c.p2, c.D1,
-													c.D2, R);
+													a.D1, a.D2, c.p0, c.p1,
+													c.p2, c.D1, c.D2, R);
 										}
 										else {
 											return 0;
@@ -1009,10 +922,9 @@ public class NDDO6G extends STO6G {
 											if (d.i == b.i && d.j == b.j &&
 													d.k == 0) {//(pzppi|pzppi)
 												return ppipzppipz(a.p0, a.p1,
-														a.p2, a.D1,
-														a.D2, c.p0, c.p1, c.p2,
-														c.D1,
-														c.D2, R);
+														a.p2, a.D1, a.D2, c.p0,
+														c.p1, c.p2, c.D1, c.D2,
+														R);
 											}
 											else {
 												return 0;
@@ -1024,8 +936,7 @@ public class NDDO6G extends STO6G {
 												switch (d.L) {
 													case 0:
 														return ppipzsppi(a.p0,
-																a.p1,
-																a.p2,
+																a.p1, a.p2,
 																a.D1, a.D2,
 																c.p0, c.p1,
 																c.p2, c.D1,
@@ -1035,9 +946,8 @@ public class NDDO6G extends STO6G {
 															return ppipzppipz(
 																	a.p0, a.p1,
 																	a.p2, a.D1,
-																	a.D2,
-																	c.p0, c.p1,
-																	c.p2,
+																	a.D2, c.p0,
+																	c.p1, c.p2,
 																	c.D1, c.D2,
 																	R);
 														}
@@ -1069,9 +979,8 @@ public class NDDO6G extends STO6G {
 									if (d.i == a.i && d.j == a.j &&
 											d.k == 0) {//(ppis|sppi)
 										return sppisppi(a.p0, a.p1, a.p2, a.D1,
-												a.D2,
-												c.p0, c.p1, c.p2, c.D1, c.D2,
-												R);
+												a.D2, c.p0, c.p1, c.p2, c.D1,
+												c.D2, R);
 									}
 									else {
 										return 0;
@@ -1081,10 +990,8 @@ public class NDDO6G extends STO6G {
 										if (d.i == a.i && d.j == a.j &&
 												d.k == 0) {//(ppis|pzppi)
 											return sppippipz(a.p0, a.p1, a.p2,
-													a.D1,
-													a.D2,
-													c.p0, c.p1, c.p2, c.D1,
-													c.D2, R);
+													a.D1, a.D2, c.p0, c.p1,
+													c.p2, c.D1, c.D2, R);
 										}
 										else {
 											return 0;
@@ -1096,15 +1003,13 @@ public class NDDO6G extends STO6G {
 											switch (d.L) {
 												case 0:
 													return sppisppi(a.p0, a.p1,
-															a.p2,
-															a.D1, a.D2, c.p0,
-															c.p1, c.p2,
+															a.p2, a.D1, a.D2,
+															c.p0, c.p1, c.p2,
 															c.D1, c.D2, R);
 												case 1:
 													if (d.k == 1) {
 														return sppippipz(a.p0,
-																a.p1,
-																a.p2,
+																a.p1, a.p2,
 																a.D1, a.D2,
 																c.p0, c.p1,
 																c.p2, c.D1,
@@ -1132,10 +1037,8 @@ public class NDDO6G extends STO6G {
 										if (d.i == a.i && d.j == a.j &&
 												d.k == 0) {//(ppipz|sppi)
 											return ppipzsppi(a.p0, a.p1, a.p2,
-													a.D1,
-													a.D2,
-													c.p0, c.p1, c.p2, c.D1,
-													c.D2, R);
+													a.D1, a.D2, c.p0, c.p1,
+													c.p2, c.D1, c.D2, R);
 										}
 										else {
 											return 0;
@@ -1145,10 +1048,9 @@ public class NDDO6G extends STO6G {
 											if (d.i == a.i && d.j == a.j &&
 													d.k == 0) {//(ppipz|pzppi)
 												return ppipzppipz(a.p0, a.p1,
-														a.p2, a.D1,
-														a.D2, c.p0, c.p1, c.p2,
-														c.D1,
-														c.D2, R);
+														a.p2, a.D1, a.D2, c.p0,
+														c.p1, c.p2, c.D1, c.D2,
+														R);
 											}
 											else {
 												return 0;
@@ -1160,8 +1062,7 @@ public class NDDO6G extends STO6G {
 												switch (d.L) {
 													case 0:
 														return ppipzsppi(a.p0,
-																a.p1,
-																a.p2,
+																a.p1, a.p2,
 																a.D1, a.D2,
 																c.p0, c.p1,
 																c.p2, c.D1,
@@ -1171,9 +1072,8 @@ public class NDDO6G extends STO6G {
 															return ppipzppipz(
 																	a.p0, a.p1,
 																	a.p2, a.D1,
-																	a.D2,
-																	c.p0, c.p1,
-																	c.p2,
+																	a.D2, c.p0,
+																	c.p1, c.p2,
 																	c.D1, c.D2,
 																	R);
 														}
@@ -1202,9 +1102,8 @@ public class NDDO6G extends STO6G {
 											case 0://(ppippi|ss)
 												if (a.i == b.i && a.j == b.j) {
 													return ppippiss(a.p0, a.p1,
-															a.p2,
-															a.D1, a.D2, c.p0,
-															c.p1, c.p2,
+															a.p2, a.D1, a.D2,
+															c.p0, c.p1, c.p2,
 															c.D1, c.D2, R);
 												}
 												else {
@@ -1215,9 +1114,8 @@ public class NDDO6G extends STO6G {
 														a.j == b.j) {
 													return ppippispz(a.p0,
 															a.p1,
-															a.p2,
-															a.D1, a.D2, c.p0,
-															c.p1, c.p2,
+															a.p2, a.D1, a.D2,
+															c.p0, c.p1, c.p2,
 															c.D1, c.D2, R);
 												}
 												else {
@@ -1232,8 +1130,7 @@ public class NDDO6G extends STO6G {
 													if (a.i == b.i &&
 															a.j == b.j) {
 														return ppippispz(a.p0,
-																a.p1,
-																a.p2,
+																a.p1, a.p2,
 																a.D1, a.D2,
 																c.p0, c.p1,
 																c.p2, c.D1,
@@ -1245,17 +1142,15 @@ public class NDDO6G extends STO6G {
 
 												case 1:
 													if (d.k == 1 &&
-															a.i == b.i &&
-															a.j ==
-																	b.j) {//
-														// (ppippi|pzpz)
+															a.i == b.i && a.j ==
+															b.j) {//(ppippi
+														// |pzpz)
 														return ppippipzpz(a.p0,
-																a.p1,
-																a.p2, a.D1,
-																a.D2, c.p0,
-																c.p1, c.p2,
-																c.D1, c.D2,
-																R);
+																a.p1, a.p2,
+																a.D1, a.D2,
+																c.p0, c.p1,
+																c.p2, c.D1,
+																c.D2, R);
 													}
 													else {
 														return 0;
@@ -1263,10 +1158,9 @@ public class NDDO6G extends STO6G {
 											}
 										}
 										else {
-											if (a.i == b.i &&
-													a.j ==
-															b.j) {//(pxpx|??)
-												// or (pypy|??)
+											if (a.i == b.i && a.j ==
+													b.j) {//(pxpx|??) or
+												// (pypy|??)
 
 												if (c.L == d.L && c.i == d.i &&
 														c.j == d.j &&
@@ -1277,8 +1171,7 @@ public class NDDO6G extends STO6G {
 																a.p2, a.D1,
 																a.D2, c.p0,
 																c.p1, c.p2,
-																c.D1, c.D2,
-																R);
+																c.D1, c.D2, R);
 													}
 													else {
 														return pxpxpypy(a.p0,
@@ -1299,9 +1192,8 @@ public class NDDO6G extends STO6G {
 														c.j != d.j &&
 														c.k == 0) {
 													return pxpypxpy(a.p0, a.p1,
-															a.p2,
-															a.D1, a.D2, c.p0,
-															c.p1, c.p2,
+															a.p2, a.D1, a.D2,
+															c.p0, c.p1, c.p2,
 															c.D1, c.D2, R);
 												}
 											}

@@ -39,8 +39,7 @@
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/am1/AM1Params.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/am1/AM1Params.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -467,14 +466,7 @@
       <workItem from="1626368124079" duration="7524000" />
       <workItem from="1626417806438" duration="13025000" />
       <workItem from="1626441865697" duration="9840000" />
-      <workItem from="1626501531906" duration="14545000" />
-    </task>
-    <task id="LOCAL-00072" summary="Fixed analytical vs finite difference decision bug">
-      <created>1626174692382</created>
-      <option name="number" value="00072" />
-      <option name="presentableId" value="LOCAL-00072" />
-      <option name="project" value="LOCAL" />
-      <updated>1626174692382</updated>
+      <workItem from="1626501531906" duration="15357000" />
     </task>
     <task id="LOCAL-00073" summary="Debug weird H2 bug">
       <created>1626177595394</created>
@@ -812,7 +804,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626516661984</updated>
     </task>
-    <option name="localTasksCounter" value="121" />
+    <task id="LOCAL-00121" summary="Legit AM1 param numbers">
+      <created>1626517556622</created>
+      <option name="number" value="00121" />
+      <option name="presentableId" value="LOCAL-00121" />
+      <option name="project" value="LOCAL" />
+      <updated>1626517556622</updated>
+    </task>
+    <option name="localTasksCounter" value="122" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -886,7 +885,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Working? hessian b" />
     <MESSAGE value="Steve thinks it's working but it's probably not&#10;Major refactor of param opt + finished hessian" />
     <MESSAGE value="remove old moleculerun" />
     <MESSAGE value="Param gradient no kind" />
@@ -911,7 +909,8 @@
     <MESSAGE value="Minor moleculerun + main refactor" />
     <MESSAGE value="ForkJoinPool implementation" />
     <MESSAGE value="hash functions for io" />
-    <option name="LAST_COMMIT_MESSAGE" value="hash functions for io" />
+    <MESSAGE value="Legit AM1 param numbers" />
+    <option name="LAST_COMMIT_MESSAGE" value="Legit AM1 param numbers" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
