@@ -85,8 +85,13 @@ public class Main {
 						break;
 					case "am1":
 						if (atomType == 1)
-							neededParams[w] = AM1Params.T1ParamNums;
-						else neededParams[w] = AM1Params.T2ParamNums;
+							neededParams[w] = AM1Params.HParamNums;
+						if (atomType == 5) neededParams[w] =
+								AM1Params.NParamNums;
+						if (atomType == 6) neededParams[w] =
+								AM1Params.CParamNums;
+						if (atomType == 8) neededParams[w] =
+								AM1Params.OParamNums;
 						break;
 				}
 				w++;

@@ -6,17 +6,24 @@ import java.util.Arrays;
 
 public class AM1Params extends NDDOParams {
 	// TODO to change later!
-	public static final int[] T1ParamNums = {0, 1, 3, 5, 7};
-	public static final int[] T2ParamNums = {0, 1, 2, 3, 4, 5, 6, 7};
+	public static final int[] HParamNums =
+			{0, 1, 3, 5, 7, 8, 9, 10, 12, 13, 14, 16, 17, 18};
+	public static final int[] NParamNums =
+			{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 16, 17, 18};
+	public static final int[] OParamNums =
+			{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 13, 16, 17};
+	public static final int[] CParamNums =
+			{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 16, 17, 18, 19};
+
 	double[] params2;
 
 
 	public AM1Params(double alpha, double betas, double betap, double uss,
 					 double upp, double zetas, double zetap, double eisol,
-					 double gss, double gsp, double hsp, double gpp, double gp2,
-					 double K1, double K2, double K3, double K4, double L1,
-					 double L2, double L3, double L4, double M1, double M2,
-					 double M3, double M4) {
+					 double gss, double gsp, double hsp, double gpp,
+					 double gp2, double K1, double K2, double K3, double K4,
+					 double L1, double L2, double L3, double L4, double M1,
+					 double M2, double M3, double M4) {
 		super(alpha, betas, betap, uss, upp, zetas, zetap, eisol, gss, gsp,
 				hsp,
 				gpp,
