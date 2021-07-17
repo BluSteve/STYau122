@@ -25,7 +25,7 @@ public class InputHandler {
 			for (RawMolecule rm : ri.molecules) {
 				for (int i = 0; i < rm.atoms.length; i++) {
 					rm.atoms[i].coords = Utils.bohr(rm.atoms[i].coords);
-					if (rm.expGeom!=null)
+					if (rm.expGeom != null)
 						rm.expGeom[i].coords =
 								Utils.bohr(rm.expGeom[i].coords);
 				}
@@ -58,8 +58,14 @@ public class InputHandler {
 
 		try {
 			FileWriter fw = new FileWriter(input + ".json");
+			Files.createDirectories(Path.of("pastinputs"));
+			FileWriter fwarchive =
+					new FileWriter(
+							"pastinputs/" + input + "-" + hash + ".json");
+			gson.toJson(ri, fwarchive);
 			gson.toJson(ri, fw);
 			fw.close();
+			fwarchive.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

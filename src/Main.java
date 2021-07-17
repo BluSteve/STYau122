@@ -16,6 +16,9 @@ import runcycle.output.OutputHandler;
 import scf.AtomHandler;
 import scf.Utils;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -148,8 +151,8 @@ public class Main {
 				}
 				if (isRunHessian) {
 					double[][] h =
-							result.getH().getHessianUnpadded(ri.atomTypes,
-									neededParams, paramLength);
+							result.getH().getHessianUnpadded(
+									neededParams);
 					for (int i = 0; i < h.length; i++) {
 						for (int j = 0; j < h[0].length; j++)
 							ttHessian[i][j] += h[i][j];
@@ -189,6 +192,12 @@ public class Main {
 				mos[i] = OutputHandler.toMoleculeOutput(results.get(i));
 			}
 			OutputHandler.output(ri, mos, "output");
+
+			try {
+				Files.createDirectories(Path.of("outputs"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			OutputHandler.output(ri, mos,
 					"outputs/run-" + String.format("%04d", runNum) +
 							"-output");
