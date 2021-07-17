@@ -126,8 +126,7 @@ public class MoleculeRun {
 						rawMolecule.name);
 
 				rawMolecule.isUsing = false;
-			} finally {
-				executorService.shutdown();
+
 				try {
 					FileWriter fw = new FileWriter("errored-molecules.txt",
 							true);
@@ -137,6 +136,8 @@ public class MoleculeRun {
 				} catch (IOException ioException) {
 					ioException.printStackTrace();
 				}
+			} finally {
+				executorService.shutdown();
 			}
 		} catch (Exception e) {
 			System.err.println(

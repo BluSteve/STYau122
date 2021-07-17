@@ -37,14 +37,7 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/errored-molecules.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/output/OutputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/output/OutputHandler.java" afterDir="false" />
-    </list>
+    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -469,14 +462,7 @@
       <workItem from="1626417806438" duration="13025000" />
       <workItem from="1626441865697" duration="9840000" />
       <workItem from="1626501531906" duration="21400000" />
-      <workItem from="1626530653882" duration="10717000" />
-    </task>
-    <task id="LOCAL-00079" summary="mndo-update.sh">
-      <created>1626195279682</created>
-      <option name="number" value="00079" />
-      <option name="presentableId" value="LOCAL-00079" />
-      <option name="project" value="LOCAL" />
-      <updated>1626195279682</updated>
+      <workItem from="1626530653882" duration="11023000" />
     </task>
     <task id="LOCAL-00080" summary="mndo-update.sh">
       <created>1626195439602</created>
@@ -814,7 +800,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626539020639</updated>
     </task>
-    <option name="localTasksCounter" value="128" />
+    <task id="LOCAL-00128" summary="added error handling for moleculerun (timeout too)">
+      <created>1626545374666</created>
+      <option name="number" value="00128" />
+      <option name="presentableId" value="LOCAL-00128" />
+      <option name="project" value="LOCAL" />
+      <updated>1626545374666</updated>
+    </task>
+    <option name="localTasksCounter" value="129" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -891,7 +884,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="most classes can now have a copy of atomtypes" />
     <MESSAGE value="Multithreaded Hessian" />
     <MESSAGE value="Minor bug fix for multithreaded hessian" />
     <MESSAGE value="Multiple runs working + insane speedup from multithreaded hessian" />
@@ -916,7 +908,8 @@
     <MESSAGE value="commenting and io changes. also adds feature where errored molecules are ignored for future runs and would not cause the program to terminate outright." />
     <MESSAGE value="minor changes" />
     <MESSAGE value="minor change" />
-    <option name="LAST_COMMIT_MESSAGE" value="minor change" />
+    <MESSAGE value="added error handling for moleculerun (timeout too)" />
+    <option name="LAST_COMMIT_MESSAGE" value="added error handling for moleculerun (timeout too)" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
