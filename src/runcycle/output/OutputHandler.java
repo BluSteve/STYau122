@@ -3,6 +3,7 @@ package runcycle.output;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import runcycle.MoleculeRun;
+import runcycle.input.RawInput;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -34,13 +35,23 @@ public class OutputHandler {
 		return mo;
 	}
 
-	public static void output(MoleculeOutput[] mos, String output) {
+	public static void output(RawInput ri, MoleculeOutput[] mos,
+							  String output) {
 		GsonBuilder builder = new GsonBuilder();
 		builder.setPrettyPrinting();
 		Gson gson = builder.create();
 		try {
-			FileWriter fw = new FileWriter(output);
-			gson.toJson(mos, fw);
+			String jsoned = gson.toJson(mos);
+			double ttError = 0;
+			for (MoleculeOutput mo : mos) {
+				ttError += mo.totalError;
+			}
+			System.err.println("\nTotal Error: " + ttError);
+
+			// uses the hash of input to distinguish outputs. if the program is
+			// working correctly inputs should map to outputs one-to-one.
+			FileWriter fw = new FileWriter(output + "-" + ri.hash + ".json");
+			fw.write(jsoned);
 			fw.close();
 		} catch (IOException e) {
 			e.printStackTrace();

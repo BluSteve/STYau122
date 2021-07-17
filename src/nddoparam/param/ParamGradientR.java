@@ -29,7 +29,7 @@ public class ParamGradientR extends ParamGradient {
 	protected void computeBatchedDerivs(int firstZIndex, int firstParamIndex) {
 		ArrayList<DoubleMatrix> aggregate =
 				new ArrayList<>(s.getUniqueZs().length * Solution.maxParamNum);
-		// TODO BUG IS HERE!
+		// TODO bug could be here
 		for (int ZI = 0; ZI < s.getUniqueZs().length; ZI++) {
 			if (ZI == firstZIndex)
 				staticDerivs[ZI] = ParamDerivative

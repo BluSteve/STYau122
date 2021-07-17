@@ -25,14 +25,14 @@ import java.util.concurrent.RecursiveTask;
 
 public class Main {
 
-	private static final String INPUT_FILENAME = "input.json";
+	private static final String INPUT_FILENAME = "input";
 	private static final int NUM_RUNS = 1;
 	private static RawInput ri;
 
 	public static void main(String[] args) {
 		StopWatch sw = new StopWatch();
 		sw.start();
-		System.out.close();
+//		System.out.close();
 
 		for (int runNum = 0; runNum < NUM_RUNS; runNum++) {
 			StopWatch lsw = new StopWatch();
@@ -89,7 +89,6 @@ public class Main {
 						else neededParams[w] = AM1Params.T2ParamNums;
 						break;
 				}
-
 				w++;
 			}
 
@@ -176,21 +175,20 @@ public class Main {
 				}
 			}
 
+			System.err.println(
+					"\nRun " + runNum + " time taken: " + lsw.getTime() +
+							"\n\n---\n");
 
 			MoleculeOutput[] mos = new MoleculeOutput[results.size()];
 			for (int i = 0; i < results.size(); i++) {
 				mos[i] = OutputHandler.toMoleculeOutput(results.get(i));
 			}
-			OutputHandler.output(mos, "output.json");
-			OutputHandler.output(mos,
+			OutputHandler.output(ri, mos, "output");
+			OutputHandler.output(ri, mos,
 					"outputs/run-" + String.format("%04d", runNum) +
-							"-output.json");
+							"-output");
 
 			InputHandler.updateInput(ri, INPUT_FILENAME);
-
-			System.err.println(
-					"\nRun " + runNum + " time taken: " + lsw.getTime() +
-							"\n\n---\n");
 		}
 
 		sw.stop();

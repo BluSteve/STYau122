@@ -3,7 +3,7 @@ package runcycle.input;
 import java.util.Arrays;
 
 public class RawInput {
-	public String model, trainingSet;
+	public String hash, model, trainingSet;
 	public int nMolecules;
 	public int[] atomTypes;
 	public RawParams params;

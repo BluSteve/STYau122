@@ -9,16 +9,19 @@ import scf.Utils;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.zip.CRC32;
 
 public class InputHandler {
 	public static RawInput ri;
 
 	public static void processInput(String path) {
 		try {
-			ri = (new Gson()).fromJson(new FileReader(path), RawInput.class);
+			ri = (new Gson()).fromJson(new FileReader(path + ".json"),
+					RawInput.class);
 			for (RawMolecule rm : ri.molecules) {
 				for (int i = 0; i < rm.atoms.length; i++) {
 					rm.atoms[i].coords = Utils.bohr(rm.atoms[i].coords);
@@ -47,8 +50,14 @@ public class InputHandler {
 		GsonBuilder builder = new GsonBuilder();
 		builder.setPrettyPrinting();
 		Gson gson = builder.serializeNulls().create();
+		String jsoned = gson.toJson(ri);
+		CRC32 crc32 = new CRC32();
+		crc32.update(jsoned.getBytes(StandardCharsets.UTF_8));
+		String hash = Long.toHexString(crc32.getValue()).toUpperCase();
+		ri.hash = hash;
+
 		try {
-			FileWriter fw = new FileWriter(input);
+			FileWriter fw = new FileWriter(input + ".json");
 			gson.toJson(ri, fw);
 			fw.close();
 		} catch (IOException e) {
@@ -198,7 +207,7 @@ public class InputHandler {
 				ri.molecules[j].index = j;
 			ri.nMolecules = ri.molecules.length;
 
-			makeInput(ri, "input.json");
+			makeInput(ri, "input");
 		} catch (
 				IOException e) {
 			e.printStackTrace();

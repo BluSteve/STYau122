@@ -771,7 +771,7 @@ public class SolutionR extends Solution {
 
 									for (int n = m + 1; n < mat.rows - 2; n++) {
 
-										for (int o = 0; o < mat.rows - 2; o++) {
+										for (int o = n+1; o < mat.rows - 2; o++) {
 											try {
 
 												DoubleMatrix newmat =

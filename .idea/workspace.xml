@@ -37,17 +37,21 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="Minor moleculeru">
+    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="hash functions for io">
       <change beforePath="$PROJECT_DIR$/.idea/artifacts/MNDOParam_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/MNDOParam_jar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gcloud.txt" beforeDir="false" afterPath="$PROJECT_DIR$/gcloud.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/input.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output.json" beforeDir="false" afterPath="$PROJECT_DIR$/output.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputtesting.txt" beforeDir="false" afterPath="$PROJECT_DIR$/inputtesting.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Testing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianU.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/am1/AM1Params.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/am1/AM1Params.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/input/RawInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/input/RawInput.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/output/OutputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/output/OutputHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -286,14 +290,14 @@
     <property name="create.test.in.the.same.root" value="true" />
     <property name="extract.method.default.visibility" value="private" />
     <property name="full.screen.before.presentation.mode" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/commons-math3-3.6.1.jar" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/commons-codec-1.15.jar" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="editing.templates" />
+    <property name="settings.editor.selected.configurable" value="reference.settings.ide.settings.file-colors" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -474,14 +478,7 @@
       <workItem from="1626368124079" duration="7524000" />
       <workItem from="1626417806438" duration="13025000" />
       <workItem from="1626441865697" duration="9840000" />
-      <workItem from="1626501531906" duration="4794000" />
-    </task>
-    <task id="LOCAL-00070" summary="No debug">
-      <created>1626172628589</created>
-      <option name="number" value="00070" />
-      <option name="presentableId" value="LOCAL-00070" />
-      <option name="project" value="LOCAL" />
-      <updated>1626172628589</updated>
+      <workItem from="1626501531906" duration="13632000" />
     </task>
     <task id="LOCAL-00071" summary="Some refactoring">
       <created>1626174169754</created>
@@ -819,7 +816,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626505053427</updated>
     </task>
-    <option name="localTasksCounter" value="119" />
+    <task id="LOCAL-00119" summary="ForkJoinPool implementation">
+      <created>1626506577993</created>
+      <option name="number" value="00119" />
+      <option name="presentableId" value="LOCAL-00119" />
+      <option name="project" value="LOCAL" />
+      <updated>1626506577993</updated>
+    </task>
+    <option name="localTasksCounter" value="120" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -893,7 +897,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Middle of nowhere" />
     <MESSAGE value="Working B" />
     <MESSAGE value="Working? hessian b" />
     <MESSAGE value="Steve thinks it's working but it's probably not&#10;Major refactor of param opt + finished hessian" />
@@ -918,7 +921,8 @@
     <MESSAGE value="minor changes" />
     <MESSAGE value="Minor changes" />
     <MESSAGE value="Minor moleculerun + main refactor" />
-    <option name="LAST_COMMIT_MESSAGE" value="Minor moleculerun + main refactor" />
+    <MESSAGE value="ForkJoinPool implementation" />
+    <option name="LAST_COMMIT_MESSAGE" value="ForkJoinPool implementation" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
