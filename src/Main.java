@@ -103,11 +103,15 @@ public class Main {
 				ForkJoinPool pool = new ForkJoinPool(Utils.getFCores(2));
 
 				results = pool.submit(() -> requests.parallelStream()
-						.map(request -> new MoleculeRun(
-								request,
-								finalNddoParams,
-								ri.atomTypes,
-								isRunHessian))).get()
+						.map(request -> {
+							MoleculeRun mr = new MoleculeRun(
+									request,
+									finalNddoParams,
+									ri.atomTypes,
+									isRunHessian);
+							mr.run();
+							return mr;
+						})).get()
 						.collect(Collectors.toList());
 			} catch (Exception e) {
 				e.printStackTrace();
