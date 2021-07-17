@@ -110,11 +110,12 @@ public abstract class ParamGradient {
 				}
 			}
 
+			// todo change this dynamically based on cores and number
+			//  of molecules remaining
 			ForkJoinPool pool = new ForkJoinPool(Utils.getFCores(0));
 
-			pool.submit(() -> ZandPNs.parallelStream().forEach(request -> {
-				computeGradient(request[0], request[1]);
-			}));
+			pool.submit(() -> ZandPNs.parallelStream().forEach(request ->
+					computeGradient(request[0], request[1])));
 		}
 	}
 

@@ -37,14 +37,11 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
+    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="minor changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/input.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/output.json" beforeDir="false" afterPath="$PROJECT_DIR$/output.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/output/OutputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/output/OutputHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -346,17 +343,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <list>
       <item itemvalue="Application.InputHandler" />
       <item itemvalue="Application.Main" />
@@ -469,13 +455,6 @@
       <workItem from="1626368124079" duration="7524000" />
       <workItem from="1626417806438" duration="13025000" />
       <workItem from="1626441865697" duration="9840000" />
-    </task>
-    <task id="LOCAL-00067" summary="Hybrid DIIS inserted">
-      <created>1626155100162</created>
-      <option name="number" value="00067" />
-      <option name="presentableId" value="LOCAL-00067" />
-      <option name="project" value="LOCAL" />
-      <updated>1626155100163</updated>
     </task>
     <task id="LOCAL-00068" summary="Minor changes">
       <created>1626170578953</created>
@@ -813,7 +792,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626451726071</updated>
     </task>
-    <option name="localTasksCounter" value="116" />
+    <task id="LOCAL-00116" summary="minor changes">
+      <created>1626459909665</created>
+      <option name="number" value="00116" />
+      <option name="presentableId" value="LOCAL-00116" />
+      <option name="project" value="LOCAL" />
+      <updated>1626459909665</updated>
+    </task>
+    <option name="localTasksCounter" value="117" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -887,7 +873,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="MNDOHessianUpdate jsonify" />
     <MESSAGE value="nMolecules added as RawInput param" />
     <MESSAGE value="Middle of nowhere" />
     <MESSAGE value="Working B" />
@@ -912,7 +897,8 @@
     <MESSAGE value="more core optimization with tightest triplet alg" />
     <MESSAGE value="more multithreading optimizations" />
     <MESSAGE value="remove unused utils methods" />
-    <option name="LAST_COMMIT_MESSAGE" value="remove unused utils methods" />
+    <MESSAGE value="minor changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="minor changes" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

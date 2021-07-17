@@ -53,12 +53,8 @@ public abstract class ParamHessian {
 
 		ForkJoinPool pool = new ForkJoinPool(Utils.getFCores(1));
 
-		pool.submit(() -> ZandPNs.parallelStream()
-				.forEach(request -> {
-					int ZIndex2 = request[0];
-					int paramNum2 = request[1];
-					computeHessianRow(ZIndex2, paramNum2);
-				}));
+		pool.submit(() -> ZandPNs.parallelStream().forEach(request ->
+						computeHessianRow(request[0], request[1])));
 	}
 
 	protected void computeHessianRow(int ZIndex2, int paramNum2) {
