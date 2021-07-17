@@ -167,6 +167,8 @@ public class ParamGradientR extends ParamGradient {
 //		}
 //		System.out.println();
 //		try {
+//		int[] asdf = new int[0];
+//		asdf[203] = 0;
 		SolutionR sExpPrime = new SolutionR(
 				Utils.perturbAtomParams(sExp.atoms, sExp.getUniqueZs()[ZI],
 						paramNum), sExp.charge);

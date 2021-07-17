@@ -165,7 +165,6 @@ public class InputHandler {
 					rm.uniqueZs = uniqueZs;
 					rm.name = nameBuilder + "_" + rm.charge;
 
-
 					if (lines.get(i).equals("EXPGEOM")) {
 						i++;
 						while (!lines.get(i).equals("---")) {

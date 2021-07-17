@@ -5,10 +5,12 @@ import nddoparam.mndo.MNDOParams;
 import nddoparam.param.*;
 import org.apache.commons.lang3.time.StopWatch;
 import runcycle.input.RawMolecule;
+import runcycle.output.OutputHandler;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.concurrent.*;
 
 public class MoleculeRun {
 	protected int[] atomTypes;
@@ -64,45 +66,78 @@ public class MoleculeRun {
 	}
 
 	public void run() {
-		System.err.println(rawMolecule.index + " " + rawMolecule.name + " " +
-				"started");
 		try {
-			StopWatch sw = new StopWatch();
-			sw.start();
+			System.err
+					.println(rawMolecule.index + " " + rawMolecule.name + " " +
+							"started");
+			ExecutorService executorService =
+					Executors.newSingleThreadExecutor();
+			Future future = executorService.submit(() -> {
+				StopWatch sw = new StopWatch();
+				sw.start();
 
-			opt = restricted ?
-					new GeometryOptimizationR(atoms, charge) :
-					new GeometryOptimizationU(atoms, charge, mult);
-			S = getOpt().s; // NOT a clone
-//			S = new SolutionR(atoms, charge);
+				opt = restricted ?
+						new GeometryOptimizationR(atoms, charge) :
+						new GeometryOptimizationU(atoms, charge, mult);
+				S = getOpt().s; // NOT a clone
 
-			// updates geom coords
-			for (int i = 0; i < getAtoms().length; i++) {
-				rawMolecule.atoms[i].coords = getAtoms()[i].getCoordinates();
+				// updates geom coords
+				for (int i = 0; i < getAtoms().length; i++) {
+					rawMolecule.atoms[i].coords =
+							getAtoms()[i].getCoordinates();
+				}
+
+				if (this.getExpGeom() != null)
+					expS = restricted ?
+							new SolutionR(expGeom, charge) :
+							new SolutionU(expGeom, charge, mult);
+
+				g = restricted ?
+						new ParamGradientR((SolutionR) S, datum,
+								(SolutionR) expS, true) :
+						new ParamGradientU((SolutionU) S, datum,
+								(SolutionU) expS, false);
+				h = restricted ?
+						new ParamHessianR((ParamGradientR) g, true,
+								atomTypes) :
+						new ParamHessianU((ParamGradientU) g, false,
+								atomTypes);
+
+
+				g.compute(); // time intensive step ~ 100 ms
+				if (isRunHessian) {
+					h.compute(); // time intensive step ~ 700-800 ms
+				}
+
+				sw.stop();
+				time = sw.getTime();
+				OutputHandler.outputOne(OutputHandler.toMoleculeOutput(this),
+						"dynamic-output");
+				System.err.println(rawMolecule.index + " " + rawMolecule.name +
+						" finished in " + time);
+			});
+
+			try {
+				future.get(300, TimeUnit.SECONDS);
+			} catch (TimeoutException e) {
+				assert future != null;
+				future.cancel(true);
+				System.err.println("TIMEOUT! " + rawMolecule.index + " " +
+						rawMolecule.name);
+
+				rawMolecule.isUsing = false;
+			} finally {
+				executorService.shutdown();
+				try {
+					FileWriter fw = new FileWriter("errored-molecules.txt",
+							true);
+					fw.write("TIMEOUT! " + rawMolecule.index + " " +
+							rawMolecule.name + "\n");
+					fw.close();
+				} catch (IOException ioException) {
+					ioException.printStackTrace();
+				}
 			}
-
-			if (this.getExpGeom() != null)
-				expS = restricted ?
-						new SolutionR(expGeom, charge) :
-						new SolutionU(expGeom, charge, mult);
-
-			g = restricted ?
-					new ParamGradientR((SolutionR) S, datum,
-							(SolutionR) expS, true) :
-					new ParamGradientU((SolutionU) S, datum,
-							(SolutionU) expS, false);
-			h = restricted ?
-					new ParamHessianR((ParamGradientR) g, true, atomTypes) :
-					new ParamHessianU((ParamGradientU) g, false, atomTypes);
-
-
-			g.compute(); // time intensive step ~ 100 ms
-			if (isRunHessian) {
-				h.compute(); // time intensive step ~ 700-800 ms
-			}
-
-			sw.stop();
-			time = sw.getTime();
 		} catch (Exception e) {
 			System.err.println(
 					"ERROR! " + e.getClass() + " " +
@@ -111,8 +146,8 @@ public class MoleculeRun {
 							rawMolecule.name);
 			rawMolecule.isUsing = false;
 			try {
-				FileWriter fw = new FileWriter("errored-molecules.log", true);
-				fw.write(e.getClass() + " " +
+				FileWriter fw = new FileWriter("errored-molecules.txt", true);
+				fw.write("ERROR! " + e.getClass() + " " +
 						Arrays.toString(e.getStackTrace()) + " " +
 						rawMolecule.index + " " +
 						rawMolecule.name + "\n");
@@ -121,8 +156,6 @@ public class MoleculeRun {
 				ioException.printStackTrace();
 			}
 		}
-		System.err.println(rawMolecule.index + " " + rawMolecule.name +
-				" finished in " + time);
 	}
 
 	public Solution getS() {

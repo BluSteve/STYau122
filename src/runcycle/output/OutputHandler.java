@@ -57,4 +57,19 @@ public class OutputHandler {
 			e.printStackTrace();
 		}
 	}
+	public static void outputOne(MoleculeOutput mo, String output) {
+		GsonBuilder builder = new GsonBuilder();
+		builder.setPrettyPrinting();
+		Gson gson = builder.create();
+		try {
+			String jsoned = gson.toJson(mo);
+			// uses the hash of input to distinguish outputs. if the program is
+			// working correctly inputs should map to outputs one-to-one.
+			FileWriter fw = new FileWriter(output + ".json", true);
+			fw.write(jsoned + ",\n");
+			fw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
