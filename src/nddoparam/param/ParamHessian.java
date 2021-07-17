@@ -61,6 +61,7 @@ public abstract class ParamHessian {
 		ForkJoinTask.invokeAll(subtasks);
 	}
 
+	// ZIndex2 and paramNum2 together denote the row number
 	protected void computeHessianRow(int ZIndex2, int paramNum2) {
 		ParamGradient gPrime = constructGPrime(ZIndex2, paramNum2);
 
@@ -104,8 +105,6 @@ public abstract class ParamHessian {
 							hessian[i1][i2] = hessian[i2][i1];
 						}
 					});
-
-
 				}
 			}
 		}
@@ -128,9 +127,7 @@ public abstract class ParamHessian {
 
 	// returns hessian with all non-differentiated terms removed.
 	// length is Main's paramLength ** 2.
-	public double[][] getHessianUnpadded(int[] atomTypes,
-										 int[][] neededParams,
-										 int paramLength) {
+	public double[][] getHessianUnpadded(int[][] neededParams) {
 		ArrayList<Integer> pList = new ArrayList<>();
 		int last = -1;
 		for (int[] i : neededParams) {
@@ -155,7 +152,7 @@ public abstract class ParamHessian {
 
 	@Deprecated
 	public double[] getHessianUT() {
-		return getHessianUT(getHessianUnpadded(null, null, 0));
+		return getHessianUT(getHessianUnpadded(null));
 	}
 
 	public double[][] getHessian() {

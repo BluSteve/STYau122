@@ -13,8 +13,8 @@ import java.util.Collections;
 public class ParamGradientR extends ParamGradient {
 
 	public ParamGradientR(SolutionR s, double[] datum, SolutionR sExp,
-						  boolean analytical, int[] atomTypes) {
-		super(s, datum, sExp, analytical, atomTypes);
+						  boolean analytical) {
+		super(s, datum, sExp, analytical);
 		initializeArrays();
 
 		e = new ParamErrorFunctionR(s, datum[0]);
@@ -155,20 +155,30 @@ public class ParamGradientR extends ParamGradient {
 	protected void constructSPrime(int ZI, int paramNum) {
 		sPrime = new SolutionR(
 				Utils.perturbAtomParams(s.atoms, s.getUniqueZs()[ZI],
-						paramNum),
-				s.charge);
+						paramNum), s.charge);
 	}
 
 	@Override
-	protected void constructSExpPrime(int Z, int paramNum) {
-		sExpPrime = new SolutionR(
-				Utils.perturbAtomParams(sExp.atoms, s.getUniqueZs()[Z],
-						paramNum),
-				s.charge);
+	protected SolutionR constructSExpPrime(int ZI, int paramNum) {
+//		SolutionR sExpPrime = null;
+//		NDDOAtom[] newAtoms = new NDDOAtom[sExp.atoms.length];
+//		for (int i = 0; i < sExp.atoms.length; i++) {
+//			newAtoms[i] = new MNDOAtom((MNDOAtom) sExp.atoms[i]);
+//		}
+//		System.out.println();
+//		try {
+		SolutionR sExpPrime = new SolutionR(
+				Utils.perturbAtomParams(sExp.atoms, sExp.getUniqueZs()[ZI],
+						paramNum), sExp.charge);
+//		} catch (Exception e) {
+//			System.out.println(ZI + " " + paramNum);
+//			e.printStackTrace();
+//		}
+		return sExpPrime;
 	}
 
 	@Override
-	protected double findGrad(int i, int j) {
+	protected double findGrad(Solution sExpPrime, int i, int j) {
 		return GeometryDerivative.grad((SolutionR) sExpPrime, i, j);
 	}
 }

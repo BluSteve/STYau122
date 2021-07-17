@@ -15,6 +15,11 @@ public class SolutionRDIIS extends Solution {
 // (transposed for easier reading), E = eigenvalues
 	private DoubleMatrix densityMatrix;
 
+	@Override
+	public Solution clone() {
+		return null;
+	}
+
 	public SolutionRDIIS(NDDOAtom[] atoms, int charge) {
 		super(atoms, charge);
 

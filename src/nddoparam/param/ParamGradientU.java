@@ -1,6 +1,7 @@
 package nddoparam.param;
 
 import nddoparam.GeometryDerivative;
+import nddoparam.Solution;
 import nddoparam.SolutionU;
 import scf.Utils;
 
@@ -10,8 +11,8 @@ public class ParamGradientU extends ParamGradient {
 					"unrestricted!";
 
 	public ParamGradientU(SolutionU s, double[] datum, SolutionU sExp,
-						  boolean analytical, int[] atomTypes) {
-		super(s, datum, sExp, analytical, atomTypes);
+						  boolean analytical) {
+		super(s, datum, sExp, analytical);
 		initializeArrays();
 
 		e = new ParamErrorFunctionU(s, datum[0]);
@@ -73,16 +74,17 @@ public class ParamGradientU extends ParamGradient {
 	}
 
 	@Override
-	protected void constructSExpPrime(int Z, int paramNum) {
-		sExpPrime = new SolutionU(
-				Utils.perturbAtomParams(sExp.atoms, s.getUniqueZs()[Z],
+	protected SolutionU constructSExpPrime(int Z, int paramNum) {
+		SolutionU sExpPrime = new SolutionU(
+				Utils.perturbAtomParams(sExp.atoms, sExp.getUniqueZs()[Z],
 						paramNum),
-				s.charge,
-				s.multiplicity);
+				sExp.charge,
+				sExp.multiplicity);
+		return sExpPrime;
 	}
 
 	@Override
-	protected double findGrad(int i, int j) {
+	protected double findGrad(Solution sExpPrime, int i, int j) {
 		return GeometryDerivative.grad((SolutionU) sExpPrime, i, j);
 	}
 }

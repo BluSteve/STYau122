@@ -72,6 +72,7 @@ public class MoleculeRun {
 					new GeometryOptimizationR(atoms, charge) :
 					new GeometryOptimizationU(atoms, charge, mult);
 			S = getOpt().s; // NOT a clone
+//			S = new SolutionR(atoms, charge);
 
 			// updates geom coords
 			for (int i = 0; i < getAtoms().length; i++) {
@@ -84,10 +85,10 @@ public class MoleculeRun {
 						new SolutionU(expGeom, charge, mult);
 
 			g = restricted ?
-					new ParamGradientR((SolutionR) getOpt().s, datum,
-							(SolutionR) getExpS(), true, atomTypes) :
-					new ParamGradientU((SolutionU) getOpt().s, datum,
-							(SolutionU) getExpS(), false, atomTypes);
+					new ParamGradientR((SolutionR) S, datum,
+							(SolutionR) expS, true) :
+					new ParamGradientU((SolutionU) S, datum,
+							(SolutionU) expS, false);
 			h = restricted ?
 					new ParamHessianR((ParamGradientR) g, true, atomTypes) :
 					new ParamHessianU((ParamGradientU) g, false, atomTypes);

@@ -1,5 +1,6 @@
 package nddoparam;
 
+import nddoparam.mndo.MNDOAtom;
 import org.apache.commons.lang3.time.StopWatch;
 import org.jblas.DoubleMatrix;
 import org.jblas.Eigen;
@@ -165,7 +166,8 @@ public class SolutionR extends Solution {
 		DoubleMatrix[] matrices = Eigen.symmetricEigenvectors(H);
 
 		System.out.println(moleculeName +
-				" Initial diagonalization completed, beginning SCF iterations." +
+				" Initial diagonalization completed, beginning SCF iterations" +
+				"." +
 				"..");
 
 		E = matrices[1].diag();
@@ -771,7 +773,8 @@ public class SolutionR extends Solution {
 
 									for (int n = m + 1; n < mat.rows - 2; n++) {
 
-										for (int o = n+1; o < mat.rows - 2; o++) {
+										for (int o = n + 1; o < mat.rows - 2;
+											 o++) {
 											try {
 
 												DoubleMatrix newmat =
@@ -842,17 +845,17 @@ public class SolutionR extends Solution {
 							}
 						}
 					}
-
 				}
-				DIIS = bestDIIS.dup();
+				// todo wtf
+				if (bestDIIS == null) bestDIIS = DIIS.dup();
+				DoubleMatrix finalDIIS = bestDIIS.dup();
 
-				DoubleMatrix F =
-						DoubleMatrix.zeros(densityMatrix.rows,
-								densityMatrix.columns);
+				DoubleMatrix F = DoubleMatrix.zeros(densityMatrix.rows,
+						densityMatrix.columns);
 
 
-				for (int i = 0; i < DIIS.length - 1; i++) {
-					F = F.add(Farray[i].mmul(DIIS.get(i)));
+				for (int i = 0; i < finalDIIS.length - 1; i++) {
+					F = F.add(Farray[i].mmul(finalDIIS.get(i)));
 				}
 
 
@@ -1160,6 +1163,14 @@ public class SolutionR extends Solution {
 		}
 
 		return newarray;
+	}
+
+	public SolutionR clone() {
+		NDDOAtom[] newAtoms = new NDDOAtom[atoms.length];
+		for (int i = 0; i < atoms.length; i++) {
+			newAtoms[i] = new MNDOAtom((MNDOAtom) atoms[i]);
+		}
+		return new SolutionR(newAtoms, charge);
 	}
 
 	private double E(int atomnum, int[][] index) {

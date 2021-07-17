@@ -13,9 +13,7 @@ public class MNDOParams extends NDDOParams {
 					  double gss, double gsp, double hsp, double gpp,
 					  double gp2) {
 		super(alpha, betas, betap, uss, upp, zetas, zetap, eisol, gss, gsp,
-				hsp,
-				gpp,
-				gp2);
+				hsp, gpp, gp2);
 	}
 
 	public MNDOParams(double[] params) {
@@ -25,10 +23,8 @@ public class MNDOParams extends NDDOParams {
 	@Override
 	public MNDOParams clone() {
 		return new MNDOParams(getAlpha(), getBetas(), getBetap(), getUss(),
-				getUpp(),
-				getZetas(), getZetap(), getEisol(), getGss(), getGsp(),
-				getHsp(),
-				getGpp(), getGp2());
+				getUpp(), getZetas(), getZetap(), getEisol(), getGss(),
+				getGsp(), getHsp(), getGpp(), getGp2());
 	}
 
 	@Override

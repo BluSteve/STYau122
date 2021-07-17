@@ -4,13 +4,14 @@ import org.jblas.DoubleMatrix;
 import scf.Utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 
 import static nddoparam.mndo.MNDOParams.T1ParamNums;
 import static nddoparam.mndo.MNDOParams.T2ParamNums;
 
-public abstract class Solution {
+public abstract class Solution implements Cloneable{
 	private int[][] neededParams = new int[Utils.maxAtomNum][0];
 	// TODO make most of these private
 	public static int maxParamNum = 8;
@@ -28,6 +29,8 @@ public abstract class Solution {
 	public NDDO6G[] orbitals;
 	public String moleculeName;
 	public int[] atomicNumbers;
+
+	public abstract Solution clone();
 
 	public Solution(NDDOAtom[] atoms, int charge) {
 		// TODO move this to MoleculeRun
@@ -185,5 +188,33 @@ public abstract class Solution {
 
 	public String getMoleculeName() {
 		return moleculeName;
+	}
+
+	@Override
+	public String toString() {
+		return "Solution{" +
+				"neededParams=" + Arrays.toString(neededParams) +
+				", uniqueZs=" + Arrays.toString(uniqueZs) +
+				", energy=" + energy +
+				", homo=" + homo +
+				", lumo=" + lumo +
+				", hf=" + hf +
+				", dipole=" + dipole +
+				", chargedip=" + Arrays.toString(chargedip) +
+				", hybridip=" + Arrays.toString(hybridip) +
+				", dipoletot=" + Arrays.toString(dipoletot) +
+				", charge=" + charge +
+				", multiplicity=" + multiplicity +
+				", missingIndex=" + Arrays.toString(missingIndex) +
+				", index=" + Arrays.toString(index) +
+				", atoms=" + Arrays.toString(atoms) +
+				", atomNumber=" + Arrays.toString(atomNumber) +
+				", damp=" + damp +
+				", nElectrons=" + nElectrons +
+				", H=" + H +
+				", orbitals=" + Arrays.toString(orbitals) +
+				", moleculeName='" + moleculeName + '\'' +
+				", atomicNumbers=" + Arrays.toString(atomicNumbers) +
+				'}';
 	}
 }

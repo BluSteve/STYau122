@@ -2893,7 +2893,7 @@ public class GeometrySecondDerivative {
 			densityMatrixDerivs[a] = densityMatrixDeriv;
 		}
 
-		System.err.println("Time: " + sw.getTime());
+//		System.err.println("Time: " + sw.getTime());
 
 
 		return densityMatrixDerivs;
@@ -3145,7 +3145,7 @@ public class GeometrySecondDerivative {
 			densityMatrixDerivs[a] = densityMatrixDeriv;
 		}
 
-		System.err.println("Time: " + sw.getTime());
+//		System.err.println("Time: " + sw.getTime());
 
 
 		return densityMatrixDerivs;

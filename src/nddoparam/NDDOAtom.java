@@ -22,7 +22,6 @@ public abstract class NDDOAtom extends AtomFixed {
 		this.p1 = p1();
 		this.p2 = p2();
 
-
 		if (this.atomProperties.getZ() == 1) {
 			this.p1 = 0;
 			this.p2 = 0;

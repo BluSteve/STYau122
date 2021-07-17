@@ -87,11 +87,10 @@ public class Utils {
 				if (atoms[i].getAtomProperties().getZ() == Z) {
 					NDDOParams params = atoms[i].getParams();
 					params.modifyParam(paramNum, Utils.LAMBDA);
-					perturbed[i] =
-							(NDDOAtom) ctor.newInstance(atoms[i], params);
+					perturbed[i] = ctor.newInstance(atoms[i], params);
 				}
 				else {
-					perturbed[i] = (NDDOAtom) ctor2.newInstance(atoms[i]);
+					perturbed[i] = ctor2.newInstance(atoms[i]);
 				}
 			}
 		} catch (NoSuchMethodException | IllegalAccessException |

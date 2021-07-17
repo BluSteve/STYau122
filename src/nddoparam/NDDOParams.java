@@ -6,17 +6,11 @@ public class NDDOParams implements Serializable {
 	protected double[] params;
 
 	public NDDOParams(double alpha, double betas, double betap, double uss,
-					  double upp,
-					  double zetas, double zetap,
-					  double eisol, double gss, double gsp, double hsp,
-					  double gpp,
+					  double upp, double zetas, double zetap, double eisol,
+					  double gss, double gsp, double hsp, double gpp,
 					  double gp2) {
-		params =
-				new double[]{alpha, betas, betap, uss, upp, zetas, zetap,
-						eisol,
-						gss,
-						gsp,
-						hsp, gpp, gp2};
+		params = new double[]{alpha, betas, betap, uss, upp, zetas, zetap,
+						eisol, gss, gsp, hsp, gpp, gp2};
 	}
 
 	public NDDOParams(double[] params) {
@@ -85,9 +79,7 @@ public class NDDOParams implements Serializable {
 	@Override
 	public NDDOParams clone() {
 		return new NDDOParams(getAlpha(), getBetas(), getBetap(), getUss(),
-				getUpp(),
-				getZetas(), getZetap(), getEisol(), getGss(), getGsp(),
-				getHsp(),
-				getGpp(), getGp2());
+				getUpp(), getZetas(), getZetap(), getEisol(), getGss(),
+				getGsp(), getHsp(), getGpp(), getGp2());
 	}
 }

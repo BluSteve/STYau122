@@ -1,5 +1,6 @@
 package nddoparam;
 
+import nddoparam.mndo.MNDOAtom;
 import org.jblas.DoubleMatrix;
 import org.jblas.Eigen;
 
@@ -686,6 +687,15 @@ public class SolutionU extends Solution {
 			}
 		}
 		return densityMatrix;
+	}
+
+	@Override
+	public SolutionU clone() {
+		NDDOAtom[] newAtoms = new NDDOAtom[atoms.length];
+		for (int i = 0; i < atoms.length; i++) {
+			newAtoms[i] = new MNDOAtom((MNDOAtom) atoms[i]);
+		}
+		return new SolutionU(newAtoms, charge, multiplicity);
 	}
 
 	@Override

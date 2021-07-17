@@ -87,7 +87,7 @@ public class Testing {
 		ParamGradient G;
 		ParamHessian H;
 		G = new ParamGradientR(
-				(SolutionR) opt.s, datum, expsoln, true, atomTypes);
+				(SolutionR) opt.s, datum, expsoln, true);
 		G.compute();
 		H = new ParamHessianR((ParamGradientR) G, true, atomTypes);
 		H.compute();

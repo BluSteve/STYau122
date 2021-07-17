@@ -11,11 +11,10 @@ import java.util.concurrent.RecursiveAction;
 public abstract class ParamGradient {
 	// the action is filling up the derivs 2darrays
 	protected static final double LAMBDA = 1E-7;
-	protected Solution s, sPrime, sExpPrime, sExp;
+	protected Solution s, sPrime, sExp;
 	protected ParamErrorFunction e;
 	protected boolean isExpAvail, analytical;
 	protected double[] datum;
-	protected int[] atomTypes;
 	protected double[][] HFDerivs, dipoleDerivs, IEDerivs, geomDerivs,
 			totalGradients;
 	protected DoubleMatrix[][] densityDerivs, xLimited, xComplementary, xForIE,
@@ -23,12 +22,11 @@ public abstract class ParamGradient {
 	protected DoubleMatrix[][][] staticDerivs;
 
 	public ParamGradient(Solution s, double[] datum,
-						 Solution sExp, boolean analytical, int[] atomTypes) {
+						 Solution sExp, boolean analytical) {
 		this.s = s;
 		this.datum = datum;
 		this.sExp = sExp;
 		this.analytical = analytical;
-		this.atomTypes = atomTypes;
 	}
 
 	public static double[][] depad(double[][] derivs, int[][] neededParams,
@@ -117,9 +115,26 @@ public abstract class ParamGradient {
 					});
 				}
 			}
-
 			ForkJoinTask.invokeAll(subtasks);
 		}
+	}
+
+	public void computeGradient(int Z, int paramNum) {
+		// TODO NOT THREAD SAFE
+		if (!analytical) constructSPrime(Z, paramNum);
+
+		computeHFDeriv(Z, paramNum);
+		if (datum[1] != 0 && datum[2] != 0) {
+			computeDipoleDeriv(Z, paramNum, true);
+			computeIEDeriv(Z, paramNum);
+		}
+		else if (datum[1] != 0) computeDipoleDeriv(Z, paramNum, true);
+		else if (datum[2] != 0) {
+			computeDipoleDeriv(Z, paramNum, false);
+			computeIEDeriv(Z, paramNum);
+		}
+
+		if (isExpAvail) computeGeomDeriv(Z, paramNum);
 	}
 
 	protected void errorFunctionRoutine() {
@@ -193,30 +208,13 @@ public abstract class ParamGradient {
 		}
 	}
 
-	public void computeGradient(int Z, int paramNum) {
-		if (!analytical) constructSPrime(Z, paramNum);
-
-		computeHFDeriv(Z, paramNum);
-		if (datum[1] != 0 && datum[2] != 0) {
-			computeDipoleDeriv(Z, paramNum, true);
-			computeIEDeriv(Z, paramNum);
-		}
-		else if (datum[1] != 0) computeDipoleDeriv(Z, paramNum, true);
-		else if (datum[2] != 0) {
-			computeDipoleDeriv(Z, paramNum, false);
-			computeIEDeriv(Z, paramNum);
-		}
-
-		if (isExpAvail) computeGeomDeriv(Z, paramNum);
-	}
-
 	protected void computeGeomDeriv(int Z, int paramNum) {
-		constructSExpPrime(Z, paramNum);
+		Solution sExpPrime = constructSExpPrime(Z, paramNum);
 		double sum = 0;
 		double d;
 		for (int i = 0; i < sExpPrime.atoms.length; i++) {
 			for (int j = 0; j < 3; j++) {
-				d = findGrad(i, j);
+				d = findGrad(sExpPrime, i, j);
 				sum += d * d;
 			}
 		}
@@ -238,9 +236,9 @@ public abstract class ParamGradient {
 
 	protected abstract void computeIEDeriv(int Z, int paramNum);
 
-	protected abstract void constructSExpPrime(int Z, int paramNum);
+	protected abstract Solution constructSExpPrime(int Z, int paramNum);
 
-	protected abstract double findGrad(int i, int j);
+	protected abstract double findGrad(Solution sExpPrime, int i, int j);
 
 	public ParamErrorFunction getE() {
 		return this.e;
