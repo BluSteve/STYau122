@@ -5,7 +5,8 @@ import scf.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ForkJoinTask;
+import java.util.concurrent.RecursiveAction;
 import java.util.stream.IntStream;
 
 public abstract class ParamHessian {
@@ -16,8 +17,8 @@ public abstract class ParamHessian {
 	protected double[][] hessian;
 	protected boolean analytical;
 
-	public ParamHessian(Solution s, double[] datum,
-						Solution sExp, boolean analytical, int[] atomTypes) {
+	public ParamHessian(Solution s, double[] datum, Solution sExp,
+						boolean analytical, int[] atomTypes) {
 		this.s = s;
 		this.datum = datum;
 		this.sExp = sExp;
@@ -39,22 +40,25 @@ public abstract class ParamHessian {
 		return hessianUT;
 	}
 
-	public void computeHessian() {
+	public void compute() {
 		hessian = new double[atomTypes.length * Solution.maxParamNum]
 				[atomTypes.length * Solution.maxParamNum];
-		List<int[]> ZandPNs = new ArrayList<>(hessian.length);
+		List<RecursiveAction> subtasks = new ArrayList<>();
 
 		for (int ZIndex2 = 0; ZIndex2 < s.getUniqueZs().length; ZIndex2++) {
 			for (int paramNum2 : s.getNeededParams()
 					[s.getUniqueZs()[ZIndex2]]) {
-				ZandPNs.add(new int[]{ZIndex2, paramNum2});
+				int finalZIndex = ZIndex2;
+				subtasks.add(new RecursiveAction() {
+					@Override
+					protected void compute() {
+						computeHessianRow(finalZIndex, paramNum2);
+					}
+				});
 			}
 		}
 
-		ForkJoinPool pool = new ForkJoinPool(Utils.getFCores(1));
-
-		pool.submit(() -> ZandPNs.parallelStream().forEach(request ->
-						computeHessianRow(request[0], request[1])));
+		ForkJoinTask.invokeAll(subtasks);
 	}
 
 	protected void computeHessianRow(int ZIndex2, int paramNum2) {
@@ -63,15 +67,15 @@ public abstract class ParamHessian {
 		if (analytical && (datum[1] != 0 || datum[2] != 0))
 			gPrime.computeBatchedDerivs(ZIndex2, paramNum2);
 
+		// todo don't multithread for fewer fewer computations
+		List<RecursiveAction> subtasks = new ArrayList<>();
 		boolean needed;
 		for (int ZIndex1 = ZIndex2; ZIndex1 < s.getUniqueZs().length;
 			 ZIndex1++) {
-			for (int paramNum1 = paramNum2;
-				 paramNum1 < Solution.maxParamNum;
+			for (int paramNum1 = paramNum2; paramNum1 < Solution.maxParamNum;
 				 paramNum1++) {
 				needed = false;
-				for (int p : s.getNeededParams()[s
-						.getUniqueZs()[ZIndex1]]) {
+				for (int p : s.getNeededParams()[s.getUniqueZs()[ZIndex1]]) {
 					if (paramNum1 == p) {
 						needed = true;
 						break;
@@ -79,26 +83,33 @@ public abstract class ParamHessian {
 				}
 
 				if (needed) {
-					gPrime.computeGradient(ZIndex1, paramNum1);
-					hessian[ZIndex2 * Solution.maxParamNum + paramNum2]
-							[ZIndex1 * Solution.maxParamNum +
-							paramNum1] =
-							(gPrime.getTotalGradients()
-									[ZIndex1][paramNum1] -
-									g.getTotalGradients()
-											[ZIndex1][paramNum1]) /
-									Utils.LAMBDA;
+					int finalZIndex = ZIndex1;
+					int finalParamNum = paramNum1;
+					subtasks.add(new RecursiveAction() {
+						@Override
+						protected void compute() {
+							gPrime.computeGradient(finalZIndex,
+									finalParamNum);
+							int i2 =
+									ZIndex2 * Solution.maxParamNum + paramNum2;
+							int i1 = finalZIndex * Solution.maxParamNum +
+									finalParamNum;
 
-					hessian[ZIndex1 * Solution.maxParamNum + paramNum1]
-							[ZIndex2 * Solution.maxParamNum +
-							paramNum2] =
-							hessian[ZIndex2 * Solution.maxParamNum +
-									paramNum2]
-									[ZIndex1 * Solution.maxParamNum +
-									paramNum1];
+							hessian[i2][i1] =
+									(gPrime.getTotalGradients()[finalZIndex]
+											[finalParamNum] -
+											g.getTotalGradients()[finalZIndex]
+													[finalParamNum]) /
+											Utils.LAMBDA;
+							hessian[i1][i2] = hessian[i2][i1];
+						}
+					});
+
+
 				}
 			}
 		}
+		ForkJoinTask.invokeAll(subtasks);
 	}
 
 	public void computeHessianSequential() {
@@ -142,6 +153,7 @@ public abstract class ParamHessian {
 		return unpadded;
 	}
 
+	@Deprecated
 	public double[] getHessianUT() {
 		return getHessianUT(getHessianUnpadded(null, null, 0));
 	}
@@ -154,13 +166,13 @@ public abstract class ParamHessian {
 	public double getAnalyticalError() {
 		double sum = 0;
 		try {
-			this.computeHessian();
+			this.compute();
 			double[] a = getHessianUT().clone();
 			double[][] b = new double[hessian.length][0];
 			for (int i = 0; i < hessian.length; i++) b[i] = hessian[i].clone();
 
 			analytical = !analytical;
-			this.computeHessian();
+			this.compute();
 			sum = IntStream.range(0, a.length)
 					.mapToDouble(i -> (a[i] - getHessianUT()[i]) *
 							(a[i] - getHessianUT()[i]))

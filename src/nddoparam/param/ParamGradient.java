@@ -2,13 +2,14 @@ package nddoparam.param;
 
 import nddoparam.Solution;
 import org.jblas.DoubleMatrix;
-import scf.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ForkJoinTask;
+import java.util.concurrent.RecursiveAction;
 
 public abstract class ParamGradient {
+	// the action is filling up the derivs 2darrays
 	protected static final double LAMBDA = 1E-7;
 	protected Solution s, sPrime, sExpPrime, sExp;
 	protected ParamErrorFunction e;
@@ -87,7 +88,7 @@ public abstract class ParamGradient {
 		return res;
 	}
 
-	public void computeGradients() {
+	public void compute() {
 		totalGradients =
 				new double[s.getUniqueZs().length][Solution.maxParamNum];
 		if (analytical && (datum[1] != 0 || datum[2] != 0))
@@ -103,19 +104,21 @@ public abstract class ParamGradient {
 			}
 		}
 		else {
-			List<int[]> ZandPNs = new ArrayList<>();
+			List<RecursiveAction> subtasks = new ArrayList<>();
+
 			for (int Z = 0; Z < s.getUniqueZs().length; Z++) {
 				for (int paramNum : s.getNeededParams()[s.getUniqueZs()[Z]]) {
-					ZandPNs.add(new int[]{Z, paramNum});
+					int finalZ = Z;
+					subtasks.add(new RecursiveAction() {
+						@Override
+						protected void compute() {
+							computeGradient(finalZ, paramNum);
+						}
+					});
 				}
 			}
 
-			// todo change this dynamically based on cores and number
-			//  of molecules remaining
-			ForkJoinPool pool = new ForkJoinPool(Utils.getFCores(0));
-
-			pool.submit(() -> ZandPNs.parallelStream().forEach(request ->
-					computeGradient(request[0], request[1])));
+			ForkJoinTask.invokeAll(subtasks);
 		}
 	}
 
@@ -276,12 +279,12 @@ public abstract class ParamGradient {
 	}
 
 	public double getAnalyticalError() {
-		this.computeGradients();
+		this.compute();
 		double[][] a = new double[totalGradients.length][0];
 		for (int i = 0; i < totalGradients.length; i++)
 			a[i] = totalGradients[i].clone();
 		analytical = !analytical;
-		this.computeGradients();
+		this.compute();
 		double sum = 0;
 		for (int i = 0; i < totalGradients.length; i++) {
 			for (int j = 0; j < totalGradients[0].length; j++) {

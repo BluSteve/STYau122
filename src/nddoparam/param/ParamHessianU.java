@@ -9,7 +9,7 @@ public class ParamHessianU extends ParamHessian {
 						 boolean analytical, int[] atomTypes) {
 		super(s, datum, sExp, analytical, atomTypes);
 		g = new ParamGradientU(s, datum, sExp, analytical, atomTypes);
-		g.computeGradients();
+		g.compute();
 	}
 
 	public ParamHessianU(ParamGradientU g, boolean analytical,

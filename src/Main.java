@@ -19,8 +19,8 @@ import scf.Utils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ForkJoinPool;
-import java.util.stream.Collectors;
+import java.util.concurrent.ForkJoinTask;
+import java.util.concurrent.RecursiveTask;
 
 
 public class Main {
@@ -93,29 +93,25 @@ public class Main {
 				w++;
 			}
 
-			List<RawMolecule> requests =
-					new ArrayList<>(Arrays.asList(ri.molecules));
-
-			List<MoleculeRun> results = null;
-			try {
+			List<RecursiveTask> moleculeTasks = new ArrayList<>();
+			for (RawMolecule request : ri.molecules) {
 				NDDOParams[] finalNddoParams = nddoParams;
-
-				ForkJoinPool pool = new ForkJoinPool(Utils.getFCores(2));
-
-				results = pool.submit(() -> requests.parallelStream()
-						.map(request -> {
-							MoleculeRun mr = new MoleculeRun(
-									request,
-									finalNddoParams,
-									ri.atomTypes,
-									isRunHessian);
-							mr.run();
-							return mr;
-						})).get()
-						.collect(Collectors.toList());
-			} catch (Exception e) {
-				e.printStackTrace();
+				moleculeTasks.add(new RecursiveTask() {
+					@Override
+					protected MoleculeRun compute() {
+						MoleculeRun mr = new MoleculeRun(
+								request,
+								finalNddoParams,
+								ri.atomTypes,
+								isRunHessian);
+						mr.run();
+						return mr;
+					}
+				});
 			}
+			List<MoleculeRun> results = new ArrayList<>();
+			for (ForkJoinTask task : ForkJoinTask.invokeAll(moleculeTasks))
+				results.add((MoleculeRun) task.join());
 
 			ParamOptimizer o = new ParamOptimizer();
 			// combined length of all differentiated params

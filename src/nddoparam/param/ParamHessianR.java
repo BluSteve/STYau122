@@ -8,7 +8,7 @@ public class ParamHessianR extends ParamHessian {
 						 SolutionR sExp, boolean analytical, int[] atomTypes) {
 		super(s, datum, sExp, analytical, atomTypes);
 		g = new ParamGradientR(s, datum, sExp, analytical, atomTypes);
-		g.computeGradients();
+		g.compute();
 	}
 
 	public ParamHessianR(ParamGradientR g, boolean analytical,

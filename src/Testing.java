@@ -5,6 +5,7 @@ import nddoparam.mndo.MNDOParams;
 import nddoparam.param.ParamGradient;
 import nddoparam.param.ParamGradientR;
 import nddoparam.param.ParamHessian;
+import nddoparam.param.ParamHessianR;
 import org.apache.commons.lang3.time.StopWatch;
 import scf.AtomHandler;
 import scf.Utils;
@@ -78,22 +79,22 @@ public class Testing {
 //        Solution expsoln = new SolutionU(exp, 0,1 );
 		GeometryOptimizationR opt = new GeometryOptimizationR(exp1, 0);
 //        GeometryOptimizationU opt = new GeometryOptimizationU(exp1, 0, 1);
+		int[] atomTypes = new int[]{1, 6};
 
 		StopWatch sw = new StopWatch();
 		sw.start();
-		int[] atomTypes = new int[]{1, 6};
 
 		ParamGradient G;
 		ParamHessian H;
 		G = new ParamGradientR(
 				(SolutionR) opt.s, datum, expsoln, true, atomTypes);
-		G.computeGradients();
+		G.compute();
+		H = new ParamHessianR((ParamGradientR) G, true, atomTypes);
+		H.compute();
 		sw.stop();
 
 		System.out.println(Arrays.deepToString(G.getTotalGradients()));
+		System.out.println(Arrays.deepToString(H.getHessian()));
 		System.out.println(sw.getTime());
-		System.out.println(Arrays.toString(Utils.findTightestTriplet(128,
-				4)));
-		System.out.println(Utils.getFCores(2));
 	}
 }
