@@ -39,11 +39,10 @@
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamErrorFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamErrorFunction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamErrorFunctionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamErrorFunctionR.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientU.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -289,7 +288,7 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -341,6 +340,19 @@
     <configuration name="Testing" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Testing" />
       <module name="MNDOParam" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -459,14 +471,7 @@
       <workItem from="1626441865697" duration="9840000" />
       <workItem from="1626501531906" duration="21400000" />
       <workItem from="1626530653882" duration="12671000" />
-      <workItem from="1626617825423" duration="10836000" />
-    </task>
-    <task id="LOCAL-00085" summary="Minor changes">
-      <created>1626233018683</created>
-      <option name="number" value="00085" />
-      <option name="presentableId" value="LOCAL-00085" />
-      <option name="project" value="LOCAL" />
-      <updated>1626233018683</updated>
+      <workItem from="1626617825423" duration="12012000" />
     </task>
     <task id="LOCAL-00086" summary="output.json">
       <created>1626235295964</created>
@@ -804,7 +809,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626627513418</updated>
     </task>
-    <option name="localTasksCounter" value="134" />
+    <task id="LOCAL-00134" summary="Made param gradient thread safe">
+      <created>1626628776722</created>
+      <option name="number" value="00134" />
+      <option name="presentableId" value="LOCAL-00134" />
+      <option name="project" value="LOCAL" />
+      <updated>1626628776722</updated>
+    </task>
+    <option name="localTasksCounter" value="135" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -881,7 +893,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="weird param gradient batched deriv index bug debugged. gosh that took a long time. it's 3am" />
     <MESSAGE value="Padded gradient" />
     <MESSAGE value="i hate padding" />
     <MESSAGE value="minor changes but not reversible" />
@@ -906,7 +917,8 @@
     <MESSAGE value="some refactoring and javadocing" />
     <MESSAGE value="Fixed hessian padding and multithreading" />
     <MESSAGE value="minor hessian fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="minor hessian fixes" />
+    <MESSAGE value="Made param gradient thread safe" />
+    <option name="LAST_COMMIT_MESSAGE" value="Made param gradient thread safe" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

@@ -26,6 +26,7 @@ public abstract class ParamGradient {
 		this.datum = datum;
 		this.sExp = sExp;
 		this.analytical = analytical;
+		initializeArrays();
 	}
 
 	public static double[][] depad(double[][] derivs, int[][] neededParams,
@@ -170,61 +171,26 @@ public abstract class ParamGradient {
 	}
 
 	protected void initializeArrays() {
-		totalGradients =
-				new double[s.getUniqueZs().length][Solution.maxParamNum];
-		HFDerivs = new double[s
-				.getUniqueZs().length][Solution.maxParamNum];
-		if (datum[2] != 0) {
-			if (datum[1] != 0) {
-				dipoleDerivs =
-						new double[s
-								.getUniqueZs().length][Solution.maxParamNum];
-			}
-			IEDerivs = new double[s
-					.getUniqueZs().length][Solution.maxParamNum];
+		int atomLength = s.getUniqueZs().length;
+		int paramLength = Solution.maxParamNum;
+		totalGradients = new double[atomLength][paramLength];
+		HFDerivs = new double[atomLength][paramLength];
+		if (datum[1] != 0) dipoleDerivs = new double[atomLength][paramLength];
+		if (datum[2] != 0) IEDerivs = new double[atomLength][paramLength];
 
-			if (analytical) {
-				densityDerivs =
-						new DoubleMatrix[s
-								.getUniqueZs().length][Solution.maxParamNum];
-				staticDerivs =
-						new DoubleMatrix[s
-								.getUniqueZs().length][2][Solution.maxParamNum];
-				xLimited =
-						new DoubleMatrix[s
-								.getUniqueZs().length][Solution.maxParamNum];
-
-				xComplementary =
-						new DoubleMatrix[s
-								.getUniqueZs().length][Solution.maxParamNum];
-				xForIE =
-						new DoubleMatrix[s
-								.getUniqueZs().length][Solution.maxParamNum];
-				coeffDerivs =
-						new DoubleMatrix[s
-								.getUniqueZs().length][Solution.maxParamNum];
-				responseDerivs =
-						new DoubleMatrix[s
-								.getUniqueZs().length][Solution.maxParamNum];
-				fockDerivs =
-						new DoubleMatrix[s
-								.getUniqueZs().length][Solution.maxParamNum];
+		if (analytical && (datum[1] != 0 || datum[2] != 0)) {
+			densityDerivs = new DoubleMatrix[atomLength][paramLength];
+			staticDerivs = new DoubleMatrix[atomLength][2][paramLength];
+			xLimited = new DoubleMatrix[atomLength][paramLength];
+			if (datum[2] != 0) {
+				xComplementary = new DoubleMatrix[atomLength][paramLength];
+				xForIE = new DoubleMatrix[atomLength][paramLength];
+				coeffDerivs = new DoubleMatrix[atomLength][paramLength];
+				responseDerivs = new DoubleMatrix[atomLength][paramLength];
+				fockDerivs = new DoubleMatrix[atomLength][paramLength];
 			}
 		}
-		else if (datum[1] != 0) {
-			dipoleDerivs =
-					new double[s
-							.getUniqueZs().length][Solution.maxParamNum];
 
-			if (this.analytical) {
-				densityDerivs = new DoubleMatrix[s
-						.getUniqueZs().length][Solution.maxParamNum];
-				staticDerivs = new DoubleMatrix[s
-						.getUniqueZs().length][Solution.maxParamNum][2];
-				xLimited = new DoubleMatrix[s
-						.getUniqueZs().length][Solution.maxParamNum];
-			}
-		}
 	}
 
 	protected abstract Solution constructSPrime(int Z, int paramNum);

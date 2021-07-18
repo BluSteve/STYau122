@@ -101,7 +101,7 @@ public abstract class ParamHessian {
 	 * @param paramNum2 The param number of the row, together with the atom
 	 *                  index can determine the absolute row number.
 	 */
-	protected void computeHessianRow(int ZIndex2, int paramNum2) {
+	private void computeHessianRow(int ZIndex2, int paramNum2) {
 		ParamGradient gPrime = constructGPrime(ZIndex2, paramNum2);
 
 		if (analytical && (datum[1] != 0 || datum[2] != 0))
@@ -110,7 +110,6 @@ public abstract class ParamHessian {
 		List<RecursiveAction> subtasks = new ArrayList<>();
 		for (int ZIndex1 = ZIndex2; ZIndex1 < s.getUniqueZs().length;
 			 ZIndex1++) {
-			List<int[]> ZandPNs = new ArrayList<>();
 			for (int paramNum1 = paramNum2; paramNum1 < Solution.maxParamNum;
 				 paramNum1++) {
 				boolean needed = false;
@@ -121,53 +120,43 @@ public abstract class ParamHessian {
 					}
 				}
 
-				if (needed) ZandPNs.add(new int[]{ZIndex1, paramNum1});
-			}
-
-			// Multithread only if there is expGeom and at least 5 gradient
-			// computations are needed
-			if (sExp != null && ZandPNs.size() >= 5) {
-				for (int[] ZandPN : ZandPNs) {
-					int ZIndex = ZandPN[0];
-					int paramNum = ZandPN[1];
-					subtasks.add(new RecursiveAction() {
-						@Override
-						protected void compute() {
-							gPrime.computeGradient(ZIndex,
-									paramNum);
-							int i2 =
-									ZIndex2 * Solution.maxParamNum + paramNum2;
-							int i1 = ZIndex * Solution.maxParamNum +
-									paramNum;
-
-							hessian[i2][i1] =
-									(gPrime.getTotalGradients()
-											[ZIndex]
-											[paramNum] -
-											g.getTotalGradients()
-													[ZIndex]
-													[paramNum])
-											/ Utils.LAMBDA;
-							hessian[i1][i2] = hessian[i2][i1];
-						}
-					});
-				}
-			}
-			else {
-				for (int[] ZandPN : ZandPNs) {
-					gPrime.computeGradient(ZandPN[0], ZandPN[1]);
-					int i2 = ZIndex2 * Solution.maxParamNum + paramNum2;
-					int i1 = ZandPN[0] * Solution.maxParamNum + ZandPN[1];
-
-					hessian[i2][i1] =
-							(gPrime.getTotalGradients()[ZandPN[0]][ZandPN[1]] -
-									g.getTotalGradients()[ZandPN[0]][ZandPN[1]])
-									/ Utils.LAMBDA;
-					hessian[i1][i2] = hessian[i2][i1];
+				if (needed) {
+					// Multithread only if there is expGeom
+					if (sExp != null) {
+						int ZIndex = ZIndex1;
+						int paramNum = paramNum1;
+						subtasks.add(new RecursiveAction() {
+							@Override
+							protected void compute() {
+								computeHessianElement(gPrime, ZIndex2,
+										paramNum2, ZIndex, paramNum);
+							}
+						});
+					}
+					else {
+						computeHessianElement(gPrime, ZIndex2, paramNum2,
+								ZIndex1, paramNum1);
+					}
 				}
 			}
 		}
-		if (subtasks.size() > 1) ForkJoinTask.invokeAll(subtasks);
+		if (subtasks.size() > 0) ForkJoinTask.invokeAll(subtasks);
+	}
+
+	private void computeHessianElement(ParamGradient gPrime, int ZIndex2,
+									   int paramNum2, int ZIndex1,
+									   int paramNum1) {
+		gPrime.computeGradient(ZIndex1, paramNum1);
+		int i2 = ZIndex2 * Solution.maxParamNum +
+				paramNum2;
+		int i1 = ZIndex1 * Solution.maxParamNum +
+				paramNum1;
+
+		hessian[i2][i1] =
+				(gPrime.getTotalGradients()[ZIndex1][paramNum1] -
+						g.getTotalGradients()[ZIndex1][paramNum1])
+						/ Utils.LAMBDA;
+		hessian[i1][i2] = hessian[i2][i1];
 	}
 
 	/**

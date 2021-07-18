@@ -15,7 +15,6 @@ public class ParamGradientR extends ParamGradient {
 	public ParamGradientR(SolutionR s, double[] datum, SolutionR sExp,
 						  boolean analytical) {
 		super(s, datum, sExp, analytical);
-		initializeArrays();
 
 		e = new ParamErrorFunctionR(s, datum[0]);
 		errorFunctionRoutine();
@@ -165,23 +164,9 @@ public class ParamGradientR extends ParamGradient {
 
 	@Override
 	protected SolutionR constructSExpPrime(int ZI, int paramNum) {
-//		SolutionR sExpPrime = null;
-//		NDDOAtom[] newAtoms = new NDDOAtom[sExp.atoms.length];
-//		for (int i = 0; i < sExp.atoms.length; i++) {
-//			newAtoms[i] = new MNDOAtom((MNDOAtom) sExp.atoms[i]);
-//		}
-//		System.out.println();
-//		try {
-//		int[] asdf = new int[0];
-//		asdf[203] = 0;
-		SolutionR sExpPrime = new SolutionR(
+		return new SolutionR(
 				Utils.perturbAtomParams(sExp.atoms, sExp.getUniqueZs()[ZI],
 						paramNum), sExp.charge);
-//		} catch (Exception e) {
-//			System.out.println(ZI + " " + paramNum);
-//			e.printStackTrace();
-//		}
-		return sExpPrime;
 	}
 
 	@Override

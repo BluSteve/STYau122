@@ -13,7 +13,6 @@ public class ParamGradientU extends ParamGradient {
 	public ParamGradientU(SolutionU s, double[] datum, SolutionU sExp,
 						  boolean analytical) {
 		super(s, datum, sExp, analytical);
-		initializeArrays();
 
 		e = new ParamErrorFunctionU(s, datum[0]);
 		errorFunctionRoutine();
@@ -77,12 +76,11 @@ public class ParamGradientU extends ParamGradient {
 
 	@Override
 	protected SolutionU constructSExpPrime(int Z, int paramNum) {
-		SolutionU sExpPrime = new SolutionU(
+		return new SolutionU(
 				Utils.perturbAtomParams(sExp.atoms, sExp.getUniqueZs()[Z],
 						paramNum),
 				sExp.charge,
 				sExp.multiplicity);
-		return sExpPrime;
 	}
 
 	@Override
