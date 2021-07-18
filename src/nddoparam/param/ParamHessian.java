@@ -1,9 +1,11 @@
 package nddoparam.param;
 
 import nddoparam.Solution;
+import org.apache.commons.lang3.ArrayUtils;
 import scf.Utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.RecursiveAction;
@@ -12,13 +14,12 @@ import java.util.stream.IntStream;
 public abstract class ParamHessian {
 	protected ParamGradient g;
 	protected Solution s, sExp;
-	protected int[] atomTypes;
 	protected double[] datum;
 	protected double[][] hessian;
 	protected boolean analytical;
 
 	/**
-	 * Constructs a ParamHessian class, not a time-intensive process.
+	 * Constructs a ParamHessian object, not a time-intensive process.
 	 *
 	 * @param s          The point of this class is to find the Hessian matrix
 	 *                   of the total error (that is, the errors of heat of
@@ -35,18 +36,13 @@ public abstract class ParamHessian {
 	 * @param analytical Boolean indicating whether analytical derivatives
 	 *                   should be used when available. Should be true by
 	 *                   default.
-	 * @param atomTypes  The atom types contained in the training set. This is
-	 *                   required on construction due to the Hessian matrix
-	 *                   having to be constructed with padding for speed
-	 *                   enhancements.
 	 */
 	public ParamHessian(Solution s, double[] datum, Solution sExp,
-						boolean analytical, int[] atomTypes) {
+						boolean analytical) {
 		this.s = s;
 		this.datum = datum;
 		this.sExp = sExp;
 		this.analytical = analytical;
-		this.atomTypes = atomTypes;
 	}
 
 	/**
@@ -75,18 +71,18 @@ public abstract class ParamHessian {
 	 * Computes each row of the Hessian in a parallel manner.
 	 */
 	public void compute() {
-		hessian = new double[atomTypes.length * Solution.maxParamNum]
-				[atomTypes.length * Solution.maxParamNum];
+		hessian = new double[s.getUniqueZs().length * Solution.maxParamNum]
+				[s.getUniqueZs().length * Solution.maxParamNum];
 		List<RecursiveAction> subtasks = new ArrayList<>();
 
 		for (int ZIndex2 = 0; ZIndex2 < s.getUniqueZs().length; ZIndex2++) {
 			for (int paramNum2 : s.getNeededParams()
 					[s.getUniqueZs()[ZIndex2]]) {
-				int finalZIndex = ZIndex2;
+				int finalZIndex2 = ZIndex2;
 				subtasks.add(new RecursiveAction() {
 					@Override
 					protected void compute() {
-						computeHessianRow(finalZIndex, paramNum2);
+						computeHessianRow(finalZIndex2, paramNum2);
 					}
 				});
 			}
@@ -101,8 +97,9 @@ public abstract class ParamHessian {
 	 * elements need to be computed, the overhead from multithreading becomes
 	 * significant and sequential computation is preferred.
 	 *
-	 * @param ZIndex2
-	 * @param paramNum2
+	 * @param ZIndex2   The atom index of the row.
+	 * @param paramNum2 The param number of the row, together with the atom
+	 *                  index can determine the absolute row number.
 	 */
 	protected void computeHessianRow(int ZIndex2, int paramNum2) {
 		ParamGradient gPrime = constructGPrime(ZIndex2, paramNum2);
@@ -173,40 +170,75 @@ public abstract class ParamHessian {
 		if (subtasks.size() > 1) ForkJoinTask.invokeAll(subtasks);
 	}
 
-	protected abstract ParamGradient constructGPrime(int ZIndex, int paramNum);
-
 	/**
-	 * Returns hessian with all non-differentiated terms removed.
+	 * Returns hessian with all non-differentiated terms removed, padded for a
+	 * particular training set.
 	 *
+	 * @param atomTypes    This is NOT the atom types of this particular
+	 *                     molecule, but rather the atom types of the
+	 *                     training set.
 	 * @param neededParams This is NOT the neededParams of this particular
 	 *                     molecule, but rather the neededParams of all the
-	 *                     atoms in the training set. This is needed as the
-	 *                     Hessian is padded based on what atoms are in the
-	 *                     training set.
+	 *                     atoms in the training set.
 	 * @return A Hessian matrix with all undifferentiated parameter elements
 	 * (all of these are 0.0, but not all 0.0 elements are undifferentiated).
 	 */
-	public double[][] getHessianUnpadded(int[][] neededParams) {
+	public double[][] getHessianForTS(int[] atomTypes, int[][] neededParams) {
+		List<List<Double>> padded = new ArrayList<>();
+		int currentRowIndex = 0;
+		for (int rowAT : atomTypes) {
+			if (Utils.hasAtomType(s, rowAT)) {
+				for (int j = 0; j < Solution.maxParamNum; j++) {
+					ArrayList<Double> row = new ArrayList<>();
+					int currentColIndex = 0;
+					for (int colAT : atomTypes) {
+						if (Utils.hasAtomType(s, colAT)) {
+							for (int l = 0; l < Solution.maxParamNum; l++) {
+								row.add(hessian[currentRowIndex][currentColIndex]);
+								currentColIndex++;
+							}
+						}
+						else {
+							for (int l = 0; l < Solution.maxParamNum; l++) {
+								row.add(0.0);
+							}
+						}
+					}
+					padded.add(row);
+					currentRowIndex++;
+				}
+			}
+			else {
+				for (int j = 0; j < Solution.maxParamNum; j++) {
+					padded.add(Arrays.asList(ArrayUtils.toObject(
+							new double[Solution.maxParamNum *
+									atomTypes.length])));
+				}
+			}
+		}
+
 		/*
-		 * All parameters that are needed in the Hessian stored linearly. I.e.
+		 * All parameters that are needed in the Hessian, stored linearly. I.e.
 		 * can exceed MaxParamNum but not exceed MaxParamNum * number of
 		 * different atoms.
 		 */
-		ArrayList<Integer> pList = new ArrayList<>();
-
+		List<Integer> flattenedNPs = new ArrayList<>(Solution.maxParamNum *
+				neededParams.length);
 		int last = -1;
-		for (int[] i : neededParams) {
-			for (int i1 : i) {
-				pList.add(last + i1 + 1);
+		for (int[] nps : neededParams) {
+			for (int np : nps) {
+				flattenedNPs.add(last + np + 1);
 			}
-			if (pList.size() > 0) last = pList.get(pList.size() - 1);
+			if (flattenedNPs.size() > 0)
+				last = flattenedNPs.get(flattenedNPs.size() - 1);
 		}
-		double[][] unpadded = new double[pList.size()][pList.size()];
+		double[][] unpadded =
+				new double[flattenedNPs.size()][flattenedNPs.size()];
 		int q = 0;
-		for (int i : pList) {
+		for (int i : flattenedNPs) {
 			int w = 0;
-			for (int j : pList) {
-				unpadded[q][w] = hessian[i][j];
+			for (int j : flattenedNPs) {
+				unpadded[q][w] = padded.get(i).get(j);
 				w++;
 			}
 			q++;
@@ -214,6 +246,8 @@ public abstract class ParamHessian {
 
 		return unpadded;
 	}
+
+	protected abstract ParamGradient constructGPrime(int ZIndex, int paramNum);
 
 	public double[][] getHessian() {
 		return hessian;
@@ -229,8 +263,8 @@ public abstract class ParamHessian {
 
 	@Deprecated
 	public void computeSequentially() {
-		hessian = new double[atomTypes.length * Solution.maxParamNum]
-				[atomTypes.length * Solution.maxParamNum];
+		hessian = new double[s.getUniqueZs().length * Solution.maxParamNum]
+				[s.getUniqueZs().length * Solution.maxParamNum];
 
 		// ZIndex2 and paramNum2 together denote the row number
 		for (int ZIndex2 = 0; ZIndex2 < s.getUniqueZs().length; ZIndex2++) {
@@ -241,11 +275,6 @@ public abstract class ParamHessian {
 		}
 	}
 
-	@Deprecated
-	public double[] getHessianUT() {
-		return getHessianUT(getHessianUnpadded(s.getNeededParams()));
-	}
-
 	/**
 	 * Gets the mse between analytical and finite difference.
 	 */
@@ -254,15 +283,16 @@ public abstract class ParamHessian {
 		double sum = 0;
 		try {
 			this.compute();
-			double[] a = getHessianUT().clone();
+			double[] a = ParamHessian.getHessianUT(this.hessian);
 			double[][] b = new double[hessian.length][0];
 			for (int i = 0; i < hessian.length; i++) b[i] = hessian[i].clone();
 
 			analytical = !analytical;
 			this.compute();
 			sum = IntStream.range(0, a.length)
-					.mapToDouble(i -> (a[i] - getHessianUT()[i]) *
-							(a[i] - getHessianUT()[i]))
+					.mapToDouble(i -> (a[i] -
+							ParamHessian.getHessianUT(this.hessian)[i]) *
+							(a[i] - ParamHessian.getHessianUT(this.hessian)[i]))
 					.sum();
 			analytical = !analytical;
 			hessian = b;

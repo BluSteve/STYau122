@@ -124,8 +124,8 @@ public class Main {
 					}
 					if (isRunHessian) {
 						double[][] h =
-								result.getH().getHessianUnpadded(
-										neededParams);
+								result.getH().getHessianForTS(
+										moleculeUZ, neededParams);
 						for (int i = 0; i < h.length; i++) {
 							for (int j = 0; j < h[0].length; j++)
 								ttHessian[i][j] += h[i][j];

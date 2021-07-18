@@ -9,7 +9,7 @@ public class ParamHessianR extends ParamHessian {
 	 */
 	public ParamHessianR(SolutionR s, double[] datum, SolutionR sExp,
 						 boolean analytical, int[] atomTypes) {
-		super(s, datum, sExp, analytical, atomTypes);
+		super(s, datum, sExp, analytical);
 		g = new ParamGradientR(s, datum, sExp, analytical);
 		g.compute();
 	}
@@ -30,7 +30,7 @@ public class ParamHessianR extends ParamHessian {
 	 */
 	public ParamHessianR(ParamGradientR g, boolean analytical,
 						 int[] atomTypes) {
-		super(g.s, g.datum, g.sExp, analytical, atomTypes);
+		super(g.s, g.datum, g.sExp, analytical);
 		this.g = g;
 	}
 

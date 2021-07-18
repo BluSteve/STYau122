@@ -2,6 +2,7 @@ package scf;
 
 import nddoparam.NDDOAtom;
 import nddoparam.NDDOParams;
+import nddoparam.Solution;
 import org.apache.commons.math3.primes.Primes;
 
 import java.lang.reflect.Constructor;
@@ -66,7 +67,27 @@ public class Utils {
 		int cores = Runtime.getRuntime().availableProcessors();
 		int[] a = Utils.findTightestTriplet(cores, 4);
 		// allocates extra cores to MoleculeRuns to account for geom opt.
-		return index == 2 ? a[0] * a[3] : a[index+1];
+		return index == 2 ? a[0] * a[3] : a[index + 1];
+	}
+
+	public static boolean hasAtomType(Solution s, int atomType) {
+		for (int p : s.getUniqueZs()) {
+			if (atomType == p) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static double[][] to2dArray(List<List<Double>> input) {
+		int size = input.size();
+		double[][] array = new double[size][size];
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				array[i][j] = input.get(i).get(j);
+			}
+		}
+		return array;
 	}
 
 	public static NDDOAtom[] perturbAtomParams(NDDOAtom[] atoms, int Z,
