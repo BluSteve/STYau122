@@ -124,7 +124,7 @@ public class Main {
 					}
 					if (isRunHessian) {
 						double[][] h =
-								result.getH().getHessianForTS(
+								result.getH().getHessian(
 										moleculeUZ, neededParams);
 						for (int i = 0; i < h.length; i++) {
 							for (int j = 0; j < h[0].length; j++)

@@ -183,7 +183,7 @@ public abstract class ParamHessian {
 	 * @return A Hessian matrix with all undifferentiated parameter elements
 	 * (all of these are 0.0, but not all 0.0 elements are undifferentiated).
 	 */
-	public double[][] getHessianForTS(int[] atomTypes, int[][] neededParams) {
+	public double[][] getHessian(int[] atomTypes, int[][] neededParams) {
 		List<List<Double>> padded = new ArrayList<>();
 		int currentRowIndex = 0;
 		for (int rowAT : atomTypes) {
@@ -247,9 +247,7 @@ public abstract class ParamHessian {
 		return unpadded;
 	}
 
-	protected abstract ParamGradient constructGPrime(int ZIndex, int paramNum);
-
-	public double[][] getHessian() {
+	public double[][] getHessianRaw() {
 		return hessian;
 	}
 
@@ -260,6 +258,8 @@ public abstract class ParamHessian {
 	public ParamErrorFunction getE() {
 		return g.getE();
 	}
+
+	protected abstract ParamGradient constructGPrime(int ZIndex, int paramNum);
 
 	@Deprecated
 	public void computeSequentially() {

@@ -98,10 +98,10 @@ public class MoleculeRun {
 						new ParamGradientU((SolutionU) S, datum,
 								(SolutionU) expS, false);
 				h = restricted ?
-						new ParamHessianR((ParamGradientR) g, true,
-								atomTypes) :
-						new ParamHessianU((ParamGradientU) g, false,
-								atomTypes);
+						new ParamHessianR((ParamGradientR) g, true
+						) :
+						new ParamHessianU((ParamGradientU) g, false
+						);
 
 
 				g.compute(); // time intensive step ~ 100 ms

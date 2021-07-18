@@ -89,12 +89,12 @@ public class Testing {
 		G = new ParamGradientR(
 				(SolutionR) opt.s, datum, expsoln, true);
 		G.compute();
-		H = new ParamHessianR((ParamGradientR) G, true, atomTypes);
+		H = new ParamHessianR((ParamGradientR) G, true);
 		H.compute();
 		sw.stop();
-		System.out.println(Arrays.deepToString(H.getHessian()));
+		System.out.println(Arrays.deepToString(H.getHessianRaw()));
 		System.out.println(
-				Arrays.deepToString(H.getHessianForTS(new int[]{1, 5, 6},
+				Arrays.deepToString(H.getHessian(new int[]{1, 5, 6},
 						new int[][]{MNDOParams.T1ParamNums,
 								MNDOParams.T2ParamNums,
 								MNDOParams.T2ParamNums})));
