@@ -25,26 +25,29 @@ public class ParamGradientU extends ParamGradient {
 	}
 
 	@Override
-	protected void computeHFDeriv(int ZI, int paramNum) {
+	protected void computeHFDeriv(int ZI, int paramNum,
+								  Solution sPrime) {
 		if (analytical) {
 			System.err.println(errorMessage);
 		}
-		else
-			HFDerivs[ZI][paramNum] = (sPrime.hf - s.hf) / Utils.LAMBDA;
+		else {
+			HFDerivs[ZI][paramNum] = (this.sPrime.hf - s.hf) / Utils.LAMBDA;
+		}
+
 		totalGradients[ZI][paramNum] +=
 				2 * (s.hf - datum[0]) * HFDerivs[ZI][paramNum];
 	}
 
 	@Override
-	protected void computeDipoleDeriv(int ZI, int paramNum, boolean full) {
+	protected void computeDipoleDeriv(int ZI, int paramNum, boolean full,
+									  Solution sPrime) {
 		if (analytical) {
 			System.err.println(errorMessage);
 		}
 		else {
-			HFDerivs[ZI][paramNum] = (sPrime.hf - s.hf) / Utils.LAMBDA;
-			if (full)
-				dipoleDerivs[ZI][paramNum] =
-						(sPrime.dipole - s.dipole) / Utils.LAMBDA;
+			HFDerivs[ZI][paramNum] = (this.sPrime.hf - s.hf) / Utils.LAMBDA;
+			if (full) dipoleDerivs[ZI][paramNum] =
+					(this.sPrime.dipole - s.dipole) / Utils.LAMBDA;
 		}
 		totalGradients[ZI][paramNum] +=
 				2 * (s.hf - datum[0]) * HFDerivs[ZI][paramNum];
@@ -53,24 +56,23 @@ public class ParamGradientU extends ParamGradient {
 	}
 
 	@Override
-	protected void computeIEDeriv(int ZI, int paramNum) {
+	protected void computeIEDeriv(int ZI, int paramNum,
+								  Solution sPrime) {
 		if (analytical) {
 			System.err.println(errorMessage);
 		}
 		else {
-			IEDerivs[ZI][paramNum] = -(sPrime.homo - s.homo) / Utils.LAMBDA;
+			IEDerivs[ZI][paramNum] = -(this.sPrime.homo - s.homo) / Utils.LAMBDA;
 		}
 		totalGradients[ZI][paramNum] +=
 				200 * -(s.homo + datum[2]) * IEDerivs[ZI][paramNum];
 	}
 
 	@Override
-	protected void constructSPrime(int ZI, int paramNum) {
-		sPrime = new SolutionU(
+	protected Solution constructSPrime(int ZI, int paramNum) {
+		return new SolutionU(
 				Utils.perturbAtomParams(s.atoms, s.getUniqueZs()[ZI],
-						paramNum),
-				s.charge,
-				s.multiplicity);
+						paramNum), s.charge, s.multiplicity);
 	}
 
 	@Override

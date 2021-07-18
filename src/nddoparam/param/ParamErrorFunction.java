@@ -86,6 +86,7 @@ public abstract class ParamErrorFunction {
 	}
 
 	// requires exp
+	@Deprecated
 	public void addBondError(int atom1, int atom2, double ref) {
 		double deriv = getDeriv(getR(atom1, atom2), atom2);
 		this.bondDerivatives.add(deriv);
@@ -93,6 +94,7 @@ public abstract class ParamErrorFunction {
 	}
 
 	// requires exp
+	@Deprecated
 	public void addAngleError(int atom1, int atom2, int atom3, double ref) {
 		double[] coeff = getCoeff(atom1, atom2, atom3);
 		double deriv = getDeriv(coeff, atom2);

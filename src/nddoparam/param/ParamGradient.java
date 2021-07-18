@@ -9,7 +9,6 @@ import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.RecursiveAction;
 
 public abstract class ParamGradient {
-	// the action is filling up the derivs 2darrays
 	protected static final double LAMBDA = 1E-7;
 	protected Solution s, sPrime, sExp;
 	protected ParamErrorFunction e;
@@ -21,8 +20,8 @@ public abstract class ParamGradient {
 			coeffDerivs, responseDerivs, fockDerivs;
 	protected DoubleMatrix[][][] staticDerivs;
 
-	public ParamGradient(Solution s, double[] datum,
-						 Solution sExp, boolean analytical) {
+	public ParamGradient(Solution s, double[] datum, Solution sExp,
+						 boolean analytical) {
 		this.s = s;
 		this.datum = datum;
 		this.sExp = sExp;
@@ -119,22 +118,42 @@ public abstract class ParamGradient {
 		}
 	}
 
-	public void computeGradient(int Z, int paramNum) {
-		// TODO NOT THREAD SAFE
-		if (!analytical) constructSPrime(Z, paramNum);
-
-		computeHFDeriv(Z, paramNum);
-		if (datum[1] != 0 && datum[2] != 0) {
-			computeDipoleDeriv(Z, paramNum, true);
-			computeIEDeriv(Z, paramNum);
+	protected void computeGradient(int Z, int paramNum) {
+		Solution sPrime = null;
+		if (!analytical) {
+			sPrime = constructSPrime(Z, paramNum);
 		}
-		else if (datum[1] != 0) computeDipoleDeriv(Z, paramNum, true);
+
+		computeHFDeriv(Z, paramNum, sPrime);
+		if (datum[1] != 0 && datum[2] != 0) {
+			computeDipoleDeriv(Z, paramNum, true, sPrime);
+			computeIEDeriv(Z, paramNum, sPrime);
+		}
+		else if (datum[1] != 0) {
+			computeDipoleDeriv(Z, paramNum, true, sPrime);
+		}
 		else if (datum[2] != 0) {
-			computeDipoleDeriv(Z, paramNum, false);
-			computeIEDeriv(Z, paramNum);
+			computeDipoleDeriv(Z, paramNum, false, sPrime);
+			computeIEDeriv(Z, paramNum, sPrime);
 		}
 
 		if (isExpAvail) computeGeomDeriv(Z, paramNum);
+	}
+
+	protected void computeGeomDeriv(int Z, int paramNum) {
+		Solution sExpPrime = constructSExpPrime(Z, paramNum);
+		double sum = 0;
+		double d;
+		for (int i = 0; i < sExpPrime.atoms.length; i++) {
+			for (int j = 0; j < 3; j++) {
+				d = findGrad(sExpPrime, i, j);
+				sum += d * d;
+			}
+		}
+		double geomGradient = 627.5 * Math.sqrt(sum);
+		geomDerivs[Z][paramNum] = 1 / LAMBDA * (geomGradient - e.geomGradient);
+		totalGradients[Z][paramNum] +=
+				0.000098 * e.geomGradient * geomDerivs[Z][paramNum];
 	}
 
 	protected void errorFunctionRoutine() {
@@ -208,33 +227,20 @@ public abstract class ParamGradient {
 		}
 	}
 
-	protected void computeGeomDeriv(int Z, int paramNum) {
-		Solution sExpPrime = constructSExpPrime(Z, paramNum);
-		double sum = 0;
-		double d;
-		for (int i = 0; i < sExpPrime.atoms.length; i++) {
-			for (int j = 0; j < 3; j++) {
-				d = findGrad(sExpPrime, i, j);
-				sum += d * d;
-			}
-		}
-		double geomGradient = 627.5 * Math.sqrt(sum);
-		geomDerivs[Z][paramNum] = 1 / LAMBDA * (geomGradient - e.geomGradient);
-		totalGradients[Z][paramNum] +=
-				0.000098 * e.geomGradient * geomDerivs[Z][paramNum];
-	}
-
-	protected abstract void constructSPrime(int Z, int paramNum);
+	protected abstract Solution constructSPrime(int Z, int paramNum);
 
 	protected abstract void computeBatchedDerivs(int firstZIndex,
 												 int firstParamIndex);
 
-	protected abstract void computeHFDeriv(int Z, int paramNum);
+	protected abstract void computeHFDeriv(int Z, int paramNum,
+										   Solution sPrime);
 
 	protected abstract void computeDipoleDeriv(int Z, int paramNum,
-											   boolean full);
+											   boolean full,
+											   Solution sPrime);
 
-	protected abstract void computeIEDeriv(int Z, int paramNum);
+	protected abstract void computeIEDeriv(int Z, int paramNum,
+										   Solution sPrime);
 
 	protected abstract Solution constructSExpPrime(int Z, int paramNum);
 
@@ -268,14 +274,7 @@ public abstract class ParamGradient {
 		return totalGradients;
 	}
 
-	public boolean isAnalytical() {
-		return analytical;
-	}
-
-	public void setAnalytical(boolean analytical) {
-		this.analytical = analytical;
-	}
-
+	@Deprecated
 	public double getAnalyticalError() {
 		this.compute();
 		double[][] a = new double[totalGradients.length][0];

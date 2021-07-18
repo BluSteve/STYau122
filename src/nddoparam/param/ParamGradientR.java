@@ -66,12 +66,14 @@ public class ParamGradientR extends ParamGradient {
 	}
 
 	@Override
-	protected void computeHFDeriv(int ZI, int paramNum) {
+	protected void computeHFDeriv(int ZI, int paramNum, Solution sPrime) {
 		if (analytical)
 			HFDerivs[ZI][paramNum] = ParamDerivative
 					.HFDeriv((SolutionR) s, s.getUniqueZs()[ZI], paramNum);
-		else
-			HFDerivs[ZI][paramNum] = (sPrime.hf - s.hf) / Utils.LAMBDA;
+		else {
+			assert sPrime != null;
+			HFDerivs[ZI][paramNum] = (this.sPrime.hf - s.hf) / Utils.LAMBDA;
+		}
 		totalGradients[ZI][paramNum] +=
 				2 * (s.hf - datum[0]) * HFDerivs[ZI][paramNum];
 	}
@@ -79,7 +81,8 @@ public class ParamGradientR extends ParamGradient {
 	// `full` sets whether dipole itself is actually computed
 	// also computes HF
 	@Override
-	protected void computeDipoleDeriv(int ZI, int paramNum, boolean full) {
+	protected void computeDipoleDeriv(int ZI, int paramNum, boolean full,
+									  Solution sPrime) {
 		if (analytical) {
 			// alpha and eisol have to be computed apart from the rest of
 			// HFDerivs. I.e not as a part of dipole.
@@ -105,10 +108,10 @@ public class ParamGradientR extends ParamGradient {
 			}
 		}
 		else {
-			HFDerivs[ZI][paramNum] = (sPrime.hf - s.hf) / Utils.LAMBDA;
-			if (full)
-				dipoleDerivs[ZI][paramNum] =
-						(sPrime.dipole - s.dipole) / Utils.LAMBDA;
+			assert sPrime != null;
+			HFDerivs[ZI][paramNum] = (this.sPrime.hf - s.hf) / Utils.LAMBDA;
+			if (full) dipoleDerivs[ZI][paramNum] =
+					(this.sPrime.dipole - s.dipole) / Utils.LAMBDA;
 		}
 		totalGradients[ZI][paramNum] +=
 				2 * (s.hf - datum[0]) * HFDerivs[ZI][paramNum];
@@ -117,7 +120,7 @@ public class ParamGradientR extends ParamGradient {
 	}
 
 	@Override
-	protected void computeIEDeriv(int ZI, int paramNum) {
+	protected void computeIEDeriv(int ZI, int paramNum, Solution sPrime) {
 		if (analytical) {
 			if (staticDerivs[ZI][0][paramNum] != null ||
 					staticDerivs[ZI][1][paramNum] != null) {
@@ -145,15 +148,17 @@ public class ParamGradientR extends ParamGradient {
 			}
 		}
 		else {
-			IEDerivs[ZI][paramNum] = -(sPrime.homo - s.homo) / Utils.LAMBDA;
+			assert sPrime != null;
+			IEDerivs[ZI][paramNum] =
+					-(this.sPrime.homo - s.homo) / Utils.LAMBDA;
 		}
 		totalGradients[ZI][paramNum] +=
 				200 * -(s.homo + datum[2]) * IEDerivs[ZI][paramNum];
 	}
 
 	@Override
-	protected void constructSPrime(int ZI, int paramNum) {
-		sPrime = new SolutionR(
+	protected Solution constructSPrime(int ZI, int paramNum) {
+		return new SolutionR(
 				Utils.perturbAtomParams(s.atoms, s.getUniqueZs()[ZI],
 						paramNum), s.charge);
 	}
