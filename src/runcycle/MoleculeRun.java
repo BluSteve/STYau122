@@ -118,10 +118,10 @@ public class MoleculeRun {
 			});
 
 			try {
-				future.get(300, TimeUnit.SECONDS);
+				future.get(600, TimeUnit.SECONDS);
 			} catch (TimeoutException e) {
-				assert future != null;
 				future.cancel(true);
+
 				System.err.println("TIMEOUT! " + rawMolecule.index + " " +
 						rawMolecule.name);
 

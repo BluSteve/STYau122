@@ -37,7 +37,14 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="" />
+    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/input.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianR.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianU.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -282,7 +289,7 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="Console" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -334,17 +341,6 @@
     <configuration name="Testing" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Testing" />
       <module name="MNDOParam" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -462,21 +458,8 @@
       <workItem from="1626417806438" duration="13025000" />
       <workItem from="1626441865697" duration="9840000" />
       <workItem from="1626501531906" duration="21400000" />
-      <workItem from="1626530653882" duration="11023000" />
-    </task>
-    <task id="LOCAL-00080" summary="mndo-update.sh">
-      <created>1626195439602</created>
-      <option name="number" value="00080" />
-      <option name="presentableId" value="LOCAL-00080" />
-      <option name="project" value="LOCAL" />
-      <updated>1626195439602</updated>
-    </task>
-    <task id="LOCAL-00081" summary="mndo-update.sh">
-      <created>1626225922041</created>
-      <option name="number" value="00081" />
-      <option name="presentableId" value="LOCAL-00081" />
-      <option name="project" value="LOCAL" />
-      <updated>1626225922042</updated>
+      <workItem from="1626530653882" duration="12671000" />
+      <workItem from="1626617825423" duration="4873000" />
     </task>
     <task id="LOCAL-00082" summary="more input handler stuff">
       <created>1626227304099</created>
@@ -807,7 +790,21 @@
       <option name="project" value="LOCAL" />
       <updated>1626545374666</updated>
     </task>
-    <option name="localTasksCounter" value="129" />
+    <task id="LOCAL-00129" summary="stupid bug fix">
+      <created>1626545475005</created>
+      <option name="number" value="00129" />
+      <option name="presentableId" value="LOCAL-00129" />
+      <option name="project" value="LOCAL" />
+      <updated>1626545475005</updated>
+    </task>
+    <task id="LOCAL-00130" summary="minor changes">
+      <created>1626545614637</created>
+      <option name="number" value="00130" />
+      <option name="presentableId" value="LOCAL-00130" />
+      <option name="project" value="LOCAL" />
+      <updated>1626545614637</updated>
+    </task>
+    <option name="localTasksCounter" value="131" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -884,7 +881,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Multithreaded Hessian" />
     <MESSAGE value="Minor bug fix for multithreaded hessian" />
     <MESSAGE value="Multiple runs working + insane speedup from multithreaded hessian" />
     <MESSAGE value="debugging weird indexoutofbounds error, not done yet" />
@@ -906,10 +902,11 @@
     <MESSAGE value="fixed adrian's stupid stupid bug" />
     <MESSAGE value="minor io changes" />
     <MESSAGE value="commenting and io changes. also adds feature where errored molecules are ignored for future runs and would not cause the program to terminate outright." />
-    <MESSAGE value="minor changes" />
     <MESSAGE value="minor change" />
     <MESSAGE value="added error handling for moleculerun (timeout too)" />
-    <option name="LAST_COMMIT_MESSAGE" value="added error handling for moleculerun (timeout too)" />
+    <MESSAGE value="stupid bug fix" />
+    <MESSAGE value="minor changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="minor changes" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
