@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import runcycle.MoleculeRun;
 import runcycle.input.RawInput;
 
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -30,6 +31,16 @@ public class OutputHandler {
 
 		mo.gradient = pgo;
 		return mo;
+	}
+
+	public static MoleculeOutput[] importMoleculeOutputs(String inputPath) {
+		MoleculeOutput[] mos = null;
+		try {
+			mos = new Gson().fromJson(new FileReader(inputPath + ".json"),
+					MoleculeOutput[].class);
+		} catch (Exception ignored) {
+		}
+		return mos;
 	}
 
 	public static void output(RawInput ri, MoleculeOutput[] mos,
@@ -67,5 +78,9 @@ public class OutputHandler {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static void main(String[] args) {
+		MoleculeOutput[] ranMolecules = OutputHandler.importMoleculeOutputs("dynamic-output");
 	}
 }

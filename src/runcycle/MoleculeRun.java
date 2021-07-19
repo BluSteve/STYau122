@@ -41,11 +41,12 @@ public class MoleculeRun {
 	}
 
 	public void run() {
+		Future<?> future = null;
+		ExecutorService executorService = null;
 		try {
 			System.err.println(rm.index + " " + rm.name + " started");
-			ExecutorService executorService =
-					Executors.newSingleThreadExecutor();
-			Future<?> future = executorService.submit(() -> {
+			executorService = Executors.newSingleThreadExecutor();
+			future = executorService.submit(() -> {
 				StopWatch sw = new StopWatch();
 				sw.start();
 
@@ -54,6 +55,7 @@ public class MoleculeRun {
 						new GeometryOptimizationU(atoms, charge, mult);
 				s = opt.s.setRm(rm); // NOT a clone
 //				s = new SolutionR(atoms, charge).setRm(rm);
+
 				// updates geom coords
 				for (int i = 0; i < atoms.length; i++) {
 					rm.atoms[i].coords = atoms[i].getCoordinates();
@@ -75,25 +77,27 @@ public class MoleculeRun {
 						" finished in " + time);
 			});
 
-			try {
-				future.get(600, TimeUnit.SECONDS);
-			} catch (TimeoutException e) {
-				e.printStackTrace();
-				future.cancel(true);
+			future.get(600, TimeUnit.SECONDS);
+		} catch (TimeoutException e) {
+			future.cancel(true);
 
-				String timeoutMessage = "TIMEOUT! " + rm.index + " " + rm.name;
+			e.printStackTrace();
 
-				logError(timeoutMessage);
-			} finally {
-				executorService.shutdown();
-			}
+			String timeoutMessage = "TIMEOUT! " + rm.index + " " + rm.name;
+
+			logError(timeoutMessage);
 		} catch (Exception e) {
 			e.printStackTrace();
+
 			String errorMessage = "ERROR! " + e.getClass() + " " +
 					Arrays.toString(e.getStackTrace()) + " " +
 					rm.index + " " + rm.name;
 
 			logError(errorMessage);
+		}
+		finally {
+			assert executorService != null;
+			executorService.shutdown();
 		}
 	}
 
