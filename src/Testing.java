@@ -3,6 +3,7 @@ import nddoparam.Solution;
 import nddoparam.SolutionR;
 import nddoparam.mndo.MNDOAtom;
 import nddoparam.mndo.MNDOParams;
+import nddoparam.param.ParamGradient;
 import nddoparam.param.ParamHessian;
 import org.apache.commons.lang3.time.StopWatch;
 import runcycle.input.RawMolecule;
@@ -87,8 +88,8 @@ public class Testing {
 
 		Solution S = opt.s.setRm(rm);
 		sw.start();
-//		ParamGradient G = ParamGradient.of(S, datum, expsoln).compute();
-		ParamHessian H = ParamHessian.of(S, datum, expsoln).compute();
+		ParamGradient G = ParamGradient.of(S, datum, expsoln).compute();
+		ParamHessian H = ParamHessian.from(G).compute();
 		sw.stop();
 		System.err.println(Arrays.deepToString(H.getHessianRaw()));
 //		System.err.println(

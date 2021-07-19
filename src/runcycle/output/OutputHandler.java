@@ -11,17 +11,15 @@ import java.io.IOException;
 public class OutputHandler {
 	public static MoleculeOutput toMoleculeOutput(MoleculeRun result) {
 		MoleculeOutput mo = new MoleculeOutput();
-		mo.index = result.getRm().index;
-		mo.name = result.getRm().name;
+		mo.rawMolecule = result.getRm();
 		mo.time = result.getTime();
-		mo.datum = result.getDatum();
 		if (result.getH() != null) mo.hessian = result.getH().getHessianRaw();
 
-		mo.hf = result.getG().getS().hf;
-		mo.dipole = result.getG().getS().dipole;
-		mo.ie = -result.getG().getS().homo;
-		mo.geomGradient = result.getG().getE().geomGradient;
-		mo.totalError = result.getG().getE().getTotalError();
+		mo.hf = result.getS().hf;
+		mo.dipole = result.getS().dipole;
+		mo.ie = -result.getS().homo;
+		mo.geomGradient = result.getE().getGeomGradient();
+		mo.totalError = result.getE().getTotalError();
 
 		ParamGradientOutput pgo = new ParamGradientOutput();
 		pgo.hf = result.getG().getHFDerivs();

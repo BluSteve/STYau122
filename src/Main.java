@@ -55,8 +55,7 @@ public class Main {
 			ri = InputHandler.ri;
 			System.err.println(
 					"MNDO Parameterization, updated 17 July 2021. " +
-							ri.trainingSet +
-							" training set (PM7)");
+							ri.trainingSet + " training set (PM7)");
 			System.err.println("input.json hash: " + ri.hash);
 
 			// converts raw params array to NDDOParams classes and finds
@@ -106,8 +105,7 @@ public class Main {
 					initializePO(o, result, ri.neededParams, moleculeATs,
 							moleculeNPs, isDepad);
 
-					double[] g =
-							ParamGradient.combine(
+					double[] g = ParamGradient.combine(
 									result.getG().getTotalGradients(),
 									ri.atomTypes, ri.neededParams,
 									moleculeATs, moleculeNPs,
@@ -205,7 +203,7 @@ public class Main {
 							isDepad),
 					ReferenceData.IE_WEIGHT));
 		if (result.isExpAvail()) o.addData(new ReferenceData(0,
-				-result.getG().getE().geomGradient,
+				-result.getG().getE().getGeomGradient(),
 				ParamGradient.combine(
 						result.getG().getGeomDerivs(),
 						ri.atomTypes, neededParams,

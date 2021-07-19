@@ -1055,11 +1055,14 @@ public class SolutionR extends Solution {
 
 			if (orbitalIndices[j][1] != -1) {//exclude hydrogen
 				hybridip[0] = hybridip[0] - 2.5416 * 2 * atoms[j].D1 *
-						densityMatrix.get(orbitalIndices[j][0], orbitalIndices[j][1]);
+						densityMatrix.get(orbitalIndices[j][0],
+								orbitalIndices[j][1]);
 				hybridip[1] = hybridip[1] - 2.5416 * 2 * atoms[j].D1 *
-						densityMatrix.get(orbitalIndices[j][0], orbitalIndices[j][2]);
+						densityMatrix.get(orbitalIndices[j][0],
+								orbitalIndices[j][2]);
 				hybridip[2] = hybridip[2] - 2.5416 * 2 * atoms[j].D1 *
-						densityMatrix.get(orbitalIndices[j][0], orbitalIndices[j][3]);
+						densityMatrix.get(orbitalIndices[j][0],
+								orbitalIndices[j][3]);
 			}
 		}
 
@@ -1143,7 +1146,7 @@ public class SolutionR extends Solution {
 	}
 
 	private static DoubleMatrix addrow(DoubleMatrix original,
-									   int[] indices) { // add  zero row at
+									   int[] indices) { // add zero row at
 		// indices
 
 		DoubleMatrix newarray =

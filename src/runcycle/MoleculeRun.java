@@ -2,6 +2,7 @@ package runcycle;
 
 import nddoparam.*;
 import nddoparam.mndo.MNDOParams;
+import nddoparam.param.ParamErrorFunction;
 import nddoparam.param.ParamGradient;
 import nddoparam.param.ParamHessian;
 import org.apache.commons.lang3.time.StopWatch;
@@ -37,30 +38,6 @@ public class MoleculeRun {
 		this.rm = rm;
 		this.isRunHessian = isRunHessian;
 		isExpAvail = expGeom != null;
-	}
-
-	public boolean isExpAvail() {
-		return isExpAvail;
-	}
-
-	public RawMolecule getRm() {
-		return rm;
-	}
-
-	public long getTime() {
-		return time;
-	}
-
-	public double[] getDatum() {
-		return datum;
-	}
-
-	public ParamGradient getG() {
-		return g;
-	}
-
-	public ParamHessian getH() {
-		return h;
 	}
 
 	public void run() {
@@ -104,8 +81,7 @@ public class MoleculeRun {
 				e.printStackTrace();
 				future.cancel(true);
 
-				String timeoutMessage = "TIMEOUT! " + rm.index + " " +
-						rm.name;
+				String timeoutMessage = "TIMEOUT! " + rm.index + " " + rm.name;
 
 				logError(timeoutMessage);
 			} finally {
@@ -115,11 +91,34 @@ public class MoleculeRun {
 			e.printStackTrace();
 			String errorMessage = "ERROR! " + e.getClass() + " " +
 					Arrays.toString(e.getStackTrace()) + " " +
-					rm.index + " " +
-					rm.name;
+					rm.index + " " + rm.name;
 
 			logError(errorMessage);
 		}
+	}
+
+	public boolean isExpAvail() {
+		return isExpAvail;
+	}
+
+	public RawMolecule getRm() {
+		return rm;
+	}
+
+	public long getTime() {
+		return time;
+	}
+
+	public double[] getDatum() {
+		return datum;
+	}
+
+	public ParamGradient getG() {
+		return g;
+	}
+
+	public ParamHessian getH() {
+		return h;
 	}
 
 	/**
@@ -142,5 +141,9 @@ public class MoleculeRun {
 
 	public Solution getS() {
 		return s;
+	}
+
+	public ParamErrorFunction getE() {
+		return g.getE();
 	}
 }

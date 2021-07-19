@@ -9,9 +9,8 @@ import scf.GTO;
 import java.util.ArrayList;
 
 public abstract class ParamErrorFunction {
-	public double geomGradient;
-	public Solution soln, expSoln;
-	protected double HeatError, dipoleError, IEError, geomError;
+	protected Solution soln, expSoln;
+	protected double HeatError, dipoleError, IEError, geomError, geomGradient;
 	protected NDDOAtom[] atoms, expAtoms;
 	protected ArrayList<Double> bondErrors, angleErrors, bonds, angles,
 			bondDerivatives,
@@ -120,6 +119,10 @@ public abstract class ParamErrorFunction {
 			sum += d;
 		}
 		return sum;
+	}
+
+	public double getGeomGradient() {
+		return geomGradient;
 	}
 
 	protected abstract double getDeriv(double[] coeff, int atom2);

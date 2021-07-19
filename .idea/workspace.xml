@@ -39,6 +39,13 @@
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputtesting.txt" beforeDir="false" afterPath="$PROJECT_DIR$/inputtesting.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Testing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamErrorFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamErrorFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/output/MoleculeOutput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/output/MoleculeOutput.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/output/OutputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/output/OutputHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -313,7 +320,7 @@
       <recent name="nddoparam.param" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Application.InputHandler">
     <configuration name="InputHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="runcycle.input.InputHandler" />
       <module name="MNDOParam" />
@@ -343,17 +350,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <list>
       <item itemvalue="Application.InputHandler" />
       <item itemvalue="Application.Main" />
@@ -362,8 +358,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
         <item itemvalue="Application.InputHandler" />
+        <item itemvalue="Application.Main" />
         <item itemvalue="Application.Testing" />
       </list>
     </recent_temporary>
@@ -469,14 +465,8 @@
       <workItem from="1626501531906" duration="21400000" />
       <workItem from="1626530653882" duration="12671000" />
       <workItem from="1626617825423" duration="12012000" />
-      <workItem from="1626665170977" duration="25888000" />
-    </task>
-    <task id="LOCAL-00100" summary="Everything no kind + minor changes">
-      <created>1626347284339</created>
-      <option name="number" value="00100" />
-      <option name="presentableId" value="LOCAL-00100" />
-      <option name="project" value="LOCAL" />
-      <updated>1626347284339</updated>
+      <workItem from="1626665170977" duration="26708000" />
+      <workItem from="1626699761384" duration="2157000" />
     </task>
     <task id="LOCAL-00101" summary="No more MoleculeRunRU">
       <created>1626350312308</created>
@@ -814,7 +804,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626697718633</updated>
     </task>
-    <option name="localTasksCounter" value="149" />
+    <task id="LOCAL-00149" summary="minor moleculerun refactor">
+      <created>1626698952412</created>
+      <option name="number" value="00149" />
+      <option name="presentableId" value="LOCAL-00149" />
+      <option name="project" value="LOCAL" />
+      <updated>1626698952412</updated>
+    </task>
+    <option name="localTasksCounter" value="150" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -891,7 +888,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="fixed adrian's stupid stupid bug" />
     <MESSAGE value="minor io changes" />
     <MESSAGE value="commenting and io changes. also adds feature where errored molecules are ignored for future runs and would not cause the program to terminate outright." />
     <MESSAGE value="minor change" />
@@ -916,17 +912,12 @@
     <MESSAGE value="Fixed main" />
     <MESSAGE value="further refactoring of param, especially error function" />
     <MESSAGE value="Some major bug fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Some major bug fixes" />
+    <MESSAGE value="minor moleculerun refactor" />
+    <option name="LAST_COMMIT_MESSAGE" value="minor moleculerun refactor" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <condition expression="s.getClass()!=sExp.getClass()" language="JAVA" />
-          <url>file://$PROJECT_DIR$/src/runcycle/MoleculeRun.java</url>
-          <line>92</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <condition expression="s instanceof SolutionR" language="JAVA" />
           <url>file://$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java</url>

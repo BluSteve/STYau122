@@ -1,10 +1,10 @@
 package runcycle.output;
 
+import runcycle.input.RawMolecule;
+
 public class MoleculeOutput {
-	public int index;
-	public String name;
+	public RawMolecule rawMolecule;
 	public long time;
-	public double[] datum;
 	public double hf, dipole, ie, geomGradient, totalError;
 	public ParamGradientOutput gradient;
 	public double[][] hessian;
