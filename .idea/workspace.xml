@@ -39,9 +39,9 @@
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/src/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Testing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianU.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianR.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianU.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -344,6 +344,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="Application.InputHandler" />
       <item itemvalue="Application.Main" />
@@ -459,14 +470,7 @@
       <workItem from="1626501531906" duration="21400000" />
       <workItem from="1626530653882" duration="12671000" />
       <workItem from="1626617825423" duration="12012000" />
-      <workItem from="1626665170977" duration="15238000" />
-    </task>
-    <task id="LOCAL-00095" summary="Working? hessian b">
-      <created>1626262423981</created>
-      <option name="number" value="00095" />
-      <option name="presentableId" value="LOCAL-00095" />
-      <option name="project" value="LOCAL" />
-      <updated>1626262423982</updated>
+      <workItem from="1626665170977" duration="16219000" />
     </task>
     <task id="LOCAL-00096" summary="Steve thinks it's working but it's probably not&#10;Major refactor of param opt + finished hessian">
       <created>1626344982179</created>
@@ -804,7 +808,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626685320333</updated>
     </task>
-    <option name="localTasksCounter" value="144" />
+    <task id="LOCAL-00144" summary="More docs">
+      <created>1626685658573</created>
+      <option name="number" value="00144" />
+      <option name="presentableId" value="LOCAL-00144" />
+      <option name="project" value="LOCAL" />
+      <updated>1626685658575</updated>
+    </task>
+    <option name="localTasksCounter" value="145" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -881,7 +892,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Minor moleculerun + main refactor" />
     <MESSAGE value="ForkJoinPool implementation" />
     <MESSAGE value="hash functions for io" />
     <MESSAGE value="Legit AM1 param numbers" />
@@ -906,7 +916,8 @@
     <MESSAGE value="Improved hessian static factory methods further. omg it's so clean" />
     <MESSAGE value="Clamp down on client permissions" />
     <MESSAGE value="Minor changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Minor changes" />
+    <MESSAGE value="More docs" />
+    <option name="LAST_COMMIT_MESSAGE" value="More docs" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

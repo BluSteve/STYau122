@@ -13,38 +13,31 @@ import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.RecursiveAction;
 import java.util.stream.IntStream;
 
-public abstract class ParamHessian {
+public class ParamHessian {
 	protected ParamGradient g;
 	protected Solution s, sExp;
 	protected double[] datum;
 	protected double[][] hessian;
-	protected boolean analytical;
+	protected boolean analytical, restricted;
 
 	/**
 	 * Constructs a ParamHessian object, not a time-intensive process.
 	 *
-	 * @param s          The point of this class is to find the Hessian matrix
-	 *                   of the total error (that is, the errors of heat of
-	 *                   formation, dipole, ionization energy, and optionally
-	 *                   experimental geometry) with respect to various
-	 *                   parameters. This Solution object represents what the
-	 *                   program thinks is an optimal solution to this
-	 *                   molecule, and is not altered throughout the process.
-	 * @param datum      Reference data using which we can derive the errors
-	 *                   of heat of formation, dipole, and I.E.
-	 * @param sExp       Solution created using the experimental geometry of
-	 *                   the molecule. Used to compute the geometry error
-	 *                   and gradients.
-	 * @param analytical Boolean indicating whether analytical derivatives
-	 *                   should be used when available. Should be true by
-	 *                   default.
+	 * @param g The point of this class is to find the Hessian matrix
+	 *          of the total error (that is, the errors of heat of
+	 *          formation, dipole, ionization energy, and optionally
+	 *          experimental geometry) with respect to various
+	 *          parameters. g contains a Solution object which
+	 *          represents what the program thinks is an optimal
+	 *          solution to this molecule, and is not altered
+	 *          throughout the process.
 	 */
-	protected ParamHessian(Solution s, double[] datum, Solution sExp,
-						   boolean analytical) {
-		this.s = s;
-		this.datum = datum;
-		this.sExp = sExp;
-		this.analytical = analytical;
+	protected ParamHessian(ParamGradient g) {
+		this.g = g;
+		s = g.s;
+		datum = g.datum;
+		sExp = g.sExp;
+		analytical = g.analytical;
 	}
 
 	/**
@@ -57,10 +50,13 @@ public abstract class ParamHessian {
 	 * of g.
 	 */
 	public static ParamHessian from(ParamGradient g) {
-		if (g instanceof ParamGradientR)
-			return new ParamHessianR((ParamGradientR) g);
-		assert g instanceof ParamGradientU;
-		return new ParamHessianU((ParamGradientU) g);
+		ParamHessian h = new ParamHessian(g);
+		if (g instanceof ParamGradientR) h.restricted = true;
+		else {
+			assert g instanceof ParamGradientU;
+			h.restricted = false;
+		}
+		return h;
 	}
 
 	/**
@@ -69,17 +65,12 @@ public abstract class ParamHessian {
 	 * @param s     Primary Solution object.
 	 * @param datum Reference data of Hf, dipole, I.E.
 	 * @param sExp  Optional experimental geometry Solution object, may be
-	 *                 null.
+	 *              null.
 	 * @return Uncomputed ParamHessian object, either restricted or not
 	 * depending on type of s and sExp.
 	 */
 	public static ParamHessian of(Solution s, double[] datum, Solution sExp) {
-		if (s instanceof SolutionR && sExp instanceof SolutionR)
-			return new ParamHessianR((SolutionR) s, datum, (SolutionR) sExp,
-					true);
-		assert s instanceof SolutionU && sExp instanceof SolutionU;
-		return new ParamHessianU((SolutionU) s, datum, (SolutionU) sExp,
-				false);
+		return ParamHessian.from(ParamGradient.of(s, datum, sExp).compute());
 	}
 
 	/**
@@ -108,7 +99,8 @@ public abstract class ParamHessian {
 	}
 
 	/**
-	 * Computes each row of the Hessian in a parallel manner.
+	 * Computes each row of the Hessian in a parallel manner. Very
+	 * time-intensive.
 	 *
 	 * @return this
 	 */
@@ -183,6 +175,19 @@ public abstract class ParamHessian {
 			}
 		}
 		if (subtasks.size() > 0) ForkJoinTask.invokeAll(subtasks);
+	}
+
+	private ParamGradient constructGPrime(int ZIndex, int paramNum) {
+		if (restricted) {
+			return ParamGradient.of(
+					new SolutionR(Utils.perturbAtomParams(s.atoms,
+							s.getRm().mats[ZIndex], paramNum), s.charge)
+							.setRm(s.getRm()), datum, sExp);
+		}
+		return ParamGradient.of(
+				new SolutionU(Utils.perturbAtomParams(s.atoms,
+						s.getRm().mats[ZIndex], paramNum), s.charge,
+						s.multiplicity).setRm(s.getRm()), datum, sExp);
 	}
 
 	/**
@@ -295,8 +300,6 @@ public abstract class ParamHessian {
 	public ParamErrorFunction getE() {
 		return g.getE();
 	}
-
-	protected abstract ParamGradient constructGPrime(int ZIndex, int paramNum);
 
 	@Deprecated
 	public void computeSequentially() {
