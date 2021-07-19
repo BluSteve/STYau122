@@ -54,15 +54,14 @@ public abstract class ParamHessian {
 		return new ParamHessianU((ParamGradientU) g);
 	}
 
-	public static ParamHessian of(Solution s, double[] datum, Solution sExp,
-								  boolean analytical) {
+	public static ParamHessian of(Solution s, double[] datum, Solution sExp) {
 		if (s instanceof SolutionR && sExp instanceof SolutionR)
 			return new ParamHessianR((SolutionR) s, datum, (SolutionR) sExp,
-					analytical);
+					true);
 		assert s instanceof SolutionU;
 		assert sExp instanceof SolutionU;
 		return new ParamHessianU((SolutionU) s, datum, (SolutionU) sExp,
-				analytical);
+				false);
 	}
 
 	/**

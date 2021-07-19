@@ -10,8 +10,7 @@ class ParamHessianU extends ParamHessian {
 	protected ParamHessianU(SolutionU s, double[] datum, SolutionU sExp,
 						 boolean analytical) {
 		super(s, datum, sExp, analytical);
-		g = new ParamGradientU(s, datum, sExp, analytical);
-		g.compute();
+		g = new ParamGradientU(s, datum, sExp, analytical).compute();
 	}
 
 	/**
