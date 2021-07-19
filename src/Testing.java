@@ -1,4 +1,5 @@
 import nddoparam.GeometryOptimizationR;
+import nddoparam.Solution;
 import nddoparam.SolutionR;
 import nddoparam.mndo.MNDOAtom;
 import nddoparam.mndo.MNDOParams;
@@ -7,6 +8,7 @@ import nddoparam.param.ParamGradientR;
 import nddoparam.param.ParamHessian;
 import nddoparam.param.ParamHessianR;
 import org.apache.commons.lang3.time.StopWatch;
+import runcycle.input.RawMolecule;
 import scf.AtomHandler;
 import scf.Utils;
 
@@ -74,30 +76,33 @@ public class Testing {
 				new MNDOAtom(AtomHandler.atomsMap.get("C"),
 						new double[]{0, 0, 0}, c)};
 		double[] datum = new double[]{-17.9, 0, 13.6};
-
-		SolutionR expsoln = new SolutionR(exp, 0);
-//        Solution expsoln = new SolutionU(exp, 0,1 );
+		System.out.close();
 		GeometryOptimizationR opt = new GeometryOptimizationR(exp1, 0);
 //        GeometryOptimizationU opt = new GeometryOptimizationU(exp1, 0, 1);
 		int[] atomTypes = new int[]{1, 6};
 
 		StopWatch sw = new StopWatch();
 		sw.start();
+		RawMolecule rm = new RawMolecule();
+		rm.mats = atomTypes;
+		rm.mnps = new int[][] {MNDOParams.T1ParamNums, MNDOParams.T2ParamNums};
+		SolutionR expsoln = (new SolutionR(exp, 0)).setRm(rm);
+//		SolutionU expsoln = (new SolutionU(exp, 0,1 )).setRm(rm);
 
+		Solution S = opt.s.setRm(rm);
 		ParamGradient G;
 		ParamHessian H;
-		G = new ParamGradientR(
-				(SolutionR) opt.s, datum, expsoln, true);
+		G = new ParamGradientR((SolutionR) S, datum, expsoln, true);
 		G.compute();
-		H = new ParamHessianR((ParamGradientR) G, true);
+		H = new ParamHessianR((ParamGradientR) G);
 		H.compute();
 		sw.stop();
-		System.out.println(Arrays.deepToString(H.getHessian()));
-		System.out.println(
-				Arrays.deepToString(H.getHessian(new int[]{1, 5, 6},
-						new int[][]{MNDOParams.T1ParamNums,
-								MNDOParams.T2ParamNums,
-								MNDOParams.T2ParamNums})));
-		System.out.println(sw.getTime());
+		System.err.println(Arrays.deepToString(H.getHessianRaw()));
+//		System.err.println(
+//				Arrays.deepToString(H.getHessian(new int[]{1, 5, 6},
+//						new int[][]{MNDOParams.T1ParamNums,
+//								MNDOParams.T2ParamNums,
+//								MNDOParams.T2ParamNums})));
+		System.err.println(sw.getTime());
 	}
 }

@@ -27,13 +27,13 @@ public class ParamGradientR extends ParamGradient {
 	@Override
 	protected void computeBatchedDerivs(int firstZIndex, int firstParamIndex) {
 		ArrayList<DoubleMatrix> aggregate =
-				new ArrayList<>(s.getUniqueZs().length * Solution.maxParamNum);
+				new ArrayList<>(s.getRm().mats.length * Solution.maxParamNum);
 		// TODO bug could be here
-		for (int ZI = 0; ZI < s.getUniqueZs().length; ZI++) {
+		for (int ZI = 0; ZI < s.getRm().mats.length; ZI++) {
 			if (ZI == firstZIndex)
 				staticDerivs[ZI] = ParamDerivative
 						.MNDOStaticMatrixDeriv((SolutionR) s,
-								s.getUniqueZs()[ZI],
+								s.getRm().mats[ZI],
 								firstParamIndex);
 			else if (ZI < firstZIndex) {
 				staticDerivs[ZI] =
@@ -43,7 +43,7 @@ public class ParamGradientR extends ParamGradient {
 			}
 			else staticDerivs[ZI] = ParamDerivative
 						.MNDOStaticMatrixDeriv((SolutionR) s,
-								s.getUniqueZs()[ZI], 0);
+								s.getRm().mats[ZI], 0);
 			Collections.addAll(aggregate, staticDerivs[ZI][1]);
 		}
 
@@ -55,7 +55,7 @@ public class ParamGradientR extends ParamGradient {
 				ParamDerivative.xArrayLimitedPople((SolutionR) s,
 						aggregateArray);
 		int i = 0;
-		for (int Z = 0; Z < s.getUniqueZs().length; Z++) {
+		for (int Z = 0; Z < s.getRm().mats.length; Z++) {
 			xLimited[Z] =
 					Arrays.copyOfRange(xLimitedAggregate,
 							i * Solution.maxParamNum,
@@ -68,10 +68,10 @@ public class ParamGradientR extends ParamGradient {
 	protected void computeHFDeriv(int ZI, int paramNum, Solution sPrime) {
 		if (analytical)
 			HFDerivs[ZI][paramNum] = ParamDerivative
-					.HFDeriv((SolutionR) s, s.getUniqueZs()[ZI], paramNum);
+					.HFDeriv((SolutionR) s, s.getRm().mats[ZI], paramNum);
 		else {
 			assert sPrime != null;
-			HFDerivs[ZI][paramNum] = (this.sPrime.hf - s.hf) / Utils.LAMBDA;
+			HFDerivs[ZI][paramNum] = (sPrime.hf - s.hf) / Utils.LAMBDA;
 		}
 		totalGradients[ZI][paramNum] +=
 				2 * (s.hf - datum[0]) * HFDerivs[ZI][paramNum];
@@ -87,7 +87,7 @@ public class ParamGradientR extends ParamGradient {
 			// HFDerivs. I.e not as a part of dipole.
 			if (paramNum == 0 || paramNum == 7) {
 				HFDerivs[ZI][paramNum] = ParamDerivative
-						.HFDeriv((SolutionR) s, s.getUniqueZs()[ZI],
+						.HFDeriv((SolutionR) s, s.getRm().mats[ZI],
 								paramNum);
 			}
 			else if (staticDerivs[ZI][0][paramNum] != null ||
@@ -102,15 +102,15 @@ public class ParamGradientR extends ParamGradient {
 				if (full) dipoleDerivs[ZI][paramNum] =
 						ParamDerivative.MNDODipoleDeriv((SolutionR) s,
 								densityDerivs[ZI][paramNum],
-								s.getUniqueZs()[ZI],
+								s.getRm().mats[ZI],
 								paramNum);
 			}
 		}
 		else {
 			assert sPrime != null;
-			HFDerivs[ZI][paramNum] = (this.sPrime.hf - s.hf) / Utils.LAMBDA;
+			HFDerivs[ZI][paramNum] = (sPrime.hf - s.hf) / Utils.LAMBDA;
 			if (full) dipoleDerivs[ZI][paramNum] =
-					(this.sPrime.dipole - s.dipole) / Utils.LAMBDA;
+					(sPrime.dipole - s.dipole) / Utils.LAMBDA;
 		}
 		totalGradients[ZI][paramNum] +=
 				2 * (s.hf - datum[0]) * HFDerivs[ZI][paramNum];
@@ -149,7 +149,7 @@ public class ParamGradientR extends ParamGradient {
 		else {
 			assert sPrime != null;
 			IEDerivs[ZI][paramNum] =
-					-(this.sPrime.homo - s.homo) / Utils.LAMBDA;
+					-(sPrime.homo - s.homo) / Utils.LAMBDA;
 		}
 		totalGradients[ZI][paramNum] +=
 				200 * -(s.homo + datum[2]) * IEDerivs[ZI][paramNum];
@@ -158,14 +158,14 @@ public class ParamGradientR extends ParamGradient {
 	@Override
 	protected Solution constructSPrime(int ZI, int paramNum) {
 		return new SolutionR(
-				Utils.perturbAtomParams(s.atoms, s.getUniqueZs()[ZI],
+				Utils.perturbAtomParams(s.atoms, s.getRm().mats[ZI],
 						paramNum), s.charge);
 	}
 
 	@Override
 	protected SolutionR constructSExpPrime(int ZI, int paramNum) {
 		return new SolutionR(
-				Utils.perturbAtomParams(sExp.atoms, sExp.getUniqueZs()[ZI],
+				Utils.perturbAtomParams(sExp.atoms, sExp.getRm().mats[ZI],
 						paramNum), sExp.charge);
 	}
 

@@ -4,6 +4,7 @@ import org.apache.commons.lang3.time.StopWatch;
 import org.jblas.DoubleMatrix;
 import org.jblas.Eigen;
 import org.jblas.Solve;
+import runcycle.input.RawMolecule;
 
 
 public class SolutionRDIIS extends Solution {
@@ -168,9 +169,9 @@ public class SolutionRDIIS extends Solution {
 
 		DoubleMatrix[] matrices = Eigen.symmetricEigenvectors(H);
 
-		System.out.println(moleculeName +
-				" Initial diagonalization completed, beginning SCF iterations." +
-				"..");
+//		System.out.println(moleculeName +
+//				" Initial diagonalization completed, beginning SCF iterations." +
+//				"..");
 
 		E = matrices[1].diag();
 
@@ -416,9 +417,9 @@ public class SolutionRDIIS extends Solution {
 		}
 
 
-		System.out
-				.println(moleculeName + " SCF completed: " + numIt +
-						" iterations used");
+//		System.out
+//				.println(moleculeName + " SCF completed: " + numIt +
+//						" iterations used");
 
 		System.err.println("DIIS took: " + sw.getTime());
 
@@ -545,6 +546,12 @@ public class SolutionRDIIS extends Solution {
 						dipoletot[2] * dipoletot[2]);
 
 
+	}
+
+	@Override
+	public SolutionRDIIS setRm(RawMolecule rm) {
+		this.rm = rm;
+		return this;
 	}
 
 	private static DoubleMatrix commutator(DoubleMatrix F, DoubleMatrix D) {

@@ -18,12 +18,10 @@ public class ParamHessianR extends ParamHessian {
 	 * Takes in a pre-computed ParamGradient object.
 	 *  @param g          ParamGradient object that contains the Solution
 	 *                   object required.
-	 * @param analytical Boolean indicating whether analytical derivatives
-	 *                   should be used when available. Should be true by
-	 *                   default.
+	 *
 	 */
-	public ParamHessianR(ParamGradientR g, boolean analytical) {
-		super(g.s, g.datum, g.sExp, analytical);
+	public ParamHessianR(ParamGradientR g) {
+		super(g.s, g.datum, g.sExp, g.analytical);
 		this.g = g;
 	}
 
@@ -31,7 +29,8 @@ public class ParamHessianR extends ParamHessian {
 	protected ParamGradient constructGPrime(int ZIndex, int paramNum) {
 		return new ParamGradientR(
 				new SolutionR(Utils.perturbAtomParams(s.atoms,
-						s.getUniqueZs()[ZIndex], paramNum), s.charge),
+						s.getRm().mats[ZIndex], paramNum), s.charge)
+						.setRm(s.getRm()),
 				datum, (SolutionR) sExp, analytical);
 	}
 }

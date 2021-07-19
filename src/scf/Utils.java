@@ -71,7 +71,7 @@ public class Utils {
 	}
 
 	public static boolean hasAtomType(Solution s, int atomType) {
-		for (int p : s.getUniqueZs()) {
+		for (int p : s.getRm().mats) {
 			if (atomType == p) {
 				return true;
 			}

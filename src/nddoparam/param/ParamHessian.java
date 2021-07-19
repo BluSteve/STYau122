@@ -71,13 +71,12 @@ public abstract class ParamHessian {
 	 * Computes each row of the Hessian in a parallel manner.
 	 */
 	public void compute() {
-		hessian = new double[s.getUniqueZs().length * Solution.maxParamNum]
-				[s.getUniqueZs().length * Solution.maxParamNum];
+		hessian = new double[s.getRm().mnps.length * Solution.maxParamNum]
+				[s.getRm().mnps.length * Solution.maxParamNum];
 		List<RecursiveAction> subtasks = new ArrayList<>();
 
-		for (int ZIndex2 = 0; ZIndex2 < s.getUniqueZs().length; ZIndex2++) {
-			for (int paramNum2 : s.getNeededParams()
-					[s.getUniqueZs()[ZIndex2]]) {
+		for (int ZIndex2 = 0; ZIndex2 < s.getRm().mats.length; ZIndex2++) {
+			for (int paramNum2 : s.getRm().mnps[ZIndex2]) {
 				int finalZIndex2 = ZIndex2;
 				subtasks.add(new RecursiveAction() {
 					@Override
@@ -106,13 +105,14 @@ public abstract class ParamHessian {
 		if (analytical && (datum[1] != 0 || datum[2] != 0))
 			gPrime.computeBatchedDerivs(ZIndex2, paramNum2);
 
-		List<RecursiveAction> subtasks = new ArrayList<>();
-		for (int ZIndex1 = ZIndex2; ZIndex1 < s.getUniqueZs().length;
+		List<RecursiveAction> subtasks =
+				new ArrayList<>(s.getRm().mats.length * Solution.maxParamNum);
+		for (int ZIndex1 = ZIndex2; ZIndex1 < s.getRm().mats.length;
 			 ZIndex1++) {
 			for (int paramNum1 = paramNum2; paramNum1 < Solution.maxParamNum;
 				 paramNum1++) {
 				boolean needed = false;
-				for (int p : s.getNeededParams()[s.getUniqueZs()[ZIndex1]]) {
+				for (int p : s.getRm().mnps[ZIndex1]) {
 					if (paramNum1 == p) {
 						needed = true;
 						break;
@@ -240,7 +240,7 @@ public abstract class ParamHessian {
 		return unpadded;
 	}
 
-	public double[][] getHessian() {
+	public double[][] getHessianRaw() {
 		return hessian;
 	}
 
@@ -256,13 +256,12 @@ public abstract class ParamHessian {
 
 	@Deprecated
 	public void computeSequentially() {
-		hessian = new double[s.getUniqueZs().length * Solution.maxParamNum]
-				[s.getUniqueZs().length * Solution.maxParamNum];
+		hessian = new double[s.getRm().mats.length * Solution.maxParamNum]
+				[s.getRm().mats.length * Solution.maxParamNum];
 
 		// ZIndex2 and paramNum2 together denote the row number
-		for (int ZIndex2 = 0; ZIndex2 < s.getUniqueZs().length; ZIndex2++) {
-			for (int paramNum2 : s.getNeededParams()[s
-					.getUniqueZs()[ZIndex2]]) {
+		for (int ZIndex2 = 0; ZIndex2 < s.getRm().mats.length; ZIndex2++) {
+			for (int paramNum2 : s.getRm().mnps[ZIndex2]) {
 				computeRow(ZIndex2, paramNum2);
 			}
 		}

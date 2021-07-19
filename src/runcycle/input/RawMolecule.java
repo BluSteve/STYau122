@@ -12,7 +12,8 @@ public class RawMolecule {
 	public boolean isUsing, restricted;
 	public int charge, mult, nElectrons;
 	public double[] datum;
-	public int[] uniqueZs;
+	public int[] mats; // molecule atom types
+	public int[][] mnps; // molecule needed params
 	public RawAtom[] atoms, expGeom;
 
 	public static MNDOAtom[] toMNDOAtoms(RawAtom[] atoms,
@@ -35,7 +36,7 @@ public class RawMolecule {
 				", mult=" + mult +
 				", nElectrons=" + nElectrons +
 				", datum=" + Arrays.toString(datum) +
-				", uniqueZs=" + Arrays.toString(uniqueZs) +
+				", uniqueZs=" + Arrays.toString(mats) +
 				", atoms=" + Arrays.toString(atoms) +
 				", expGeom=" + Arrays.toString(expGeom) +
 				'}';

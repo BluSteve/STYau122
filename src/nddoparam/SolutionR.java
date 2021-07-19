@@ -5,6 +5,7 @@ import org.apache.commons.lang3.time.StopWatch;
 import org.jblas.DoubleMatrix;
 import org.jblas.Eigen;
 import org.jblas.Solve;
+import runcycle.input.RawMolecule;
 
 import java.util.ArrayList;
 
@@ -165,10 +166,11 @@ public class SolutionR extends Solution {
 
 		DoubleMatrix[] matrices = Eigen.symmetricEigenvectors(H);
 
-		System.out.println(moleculeName +
-				" Initial diagonalization completed, beginning SCF iterations" +
-				"." +
-				"..");
+//		System.out.println( +
+//				" Initial diagonalization completed, beginning SCF " +
+//				"iterations" +
+//				"." +
+//				"..");
 
 		E = matrices[1].diag();
 
@@ -1163,6 +1165,12 @@ public class SolutionR extends Solution {
 		}
 
 		return newarray;
+	}
+
+	@Override
+	public SolutionR setRm(RawMolecule rm) {
+		this.rm = rm;
+		return this;
 	}
 
 	public SolutionR clone() {

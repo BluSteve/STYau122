@@ -47,7 +47,7 @@ public class Main {
 				FileWriter fw1 = new FileWriter("errored-molecules.txt");
 				fw1.write("");
 				FileWriter fw2 = new FileWriter("dynamic-output.json");
-				fw2.write("");
+				fw2.write("[");
 				fw1.close();
 				fw2.close();
 			} catch (IOException e) {
@@ -102,20 +102,20 @@ public class Main {
 					new double[paramLength][paramLength] : null;
 			for (MoleculeRun result : results) {
 				// if it has not errored
-				if (result.getRawMolecule().isUsing) {
-					int[] moleculeUZ = result.getS().getUniqueZs();
-					int[][] moleculeNP = result.getS().getNeededParams();
+				if (result.getRm().isUsing) {
+					int[] moleculeATs = result.getRm().mats;
+					int[][] moleculeNPs = result.getRm().mnps;
 					boolean isDepad = true;
 
-					initializePO(neededParams, o, result, moleculeUZ,
-							moleculeNP,
+					initializePO(neededParams, o, result, moleculeATs,
+							moleculeNPs,
 							isDepad);
 
 					double[] g =
 							ParamGradient.combine(
 									result.getG().getTotalGradients(),
 									ri.atomTypes, neededParams,
-									moleculeUZ, moleculeNP,
+									moleculeATs, moleculeNPs,
 									isDepad);
 
 					// ttGradient is sum of totalGradients across molecules
@@ -125,7 +125,7 @@ public class Main {
 					if (isRunHessian) {
 						double[][] h =
 								result.getH().getHessian(
-										moleculeUZ, neededParams);
+										moleculeATs, neededParams);
 						for (int i = 0; i < h.length; i++) {
 							for (int j = 0; j < h[0].length; j++)
 								ttHessian[i][j] += h[i][j];
@@ -250,15 +250,12 @@ public class Main {
 		NDDOParams[] nddoParams = null;
 		switch (ri.model) {
 			case "mndo":
-				nddoParams =
-						new MNDOParams[ri.params.nddoParams.length];
+				nddoParams = new MNDOParams[ri.params.nddoParams.length];
 				for (int i = 0; i < ri.params.nddoParams.length; i++)
-					nddoParams[i] =
-							new MNDOParams(ri.params.nddoParams[i]);
+					nddoParams[i] = new MNDOParams(ri.params.nddoParams[i]);
 				break;
 			case "am1":
-				nddoParams =
-						new AM1Params[ri.params.nddoParams.length];
+				nddoParams = new AM1Params[ri.params.nddoParams.length];
 				for (int i = 0; i < ri.params.nddoParams.length; i++)
 					nddoParams[i] = new AM1Params(ri.params.nddoParams[i]);
 				break;

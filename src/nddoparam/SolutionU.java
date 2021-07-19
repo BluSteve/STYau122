@@ -3,6 +3,7 @@ package nddoparam;
 import nddoparam.mndo.MNDOAtom;
 import org.jblas.DoubleMatrix;
 import org.jblas.Eigen;
+import runcycle.input.RawMolecule;
 
 import java.util.Arrays;
 
@@ -212,9 +213,9 @@ public class SolutionU extends Solution {
 
 		DoubleMatrix[] matrices = Eigen.symmetricEigenvectors(H);
 
-		System.out.println(
-				moleculeName +
-						" All ERIs evaluated, beginning SCF iterations...");
+//		System.out.println(
+//				moleculeName +
+//						" All ERIs evaluated, beginning SCF iterations...");
 
 		Ea = matrices[1].diag();
 
@@ -426,7 +427,8 @@ public class SolutionU extends Solution {
 
 				if (damp >= 1) {
 					System.err.println(
-							"Damping Coefficient Cannot Be Increased Further. " +
+							"Damping Coefficient Cannot Be Increased Further." +
+									" " +
 									"Exiting " +
 									"program...");
 
@@ -488,7 +490,7 @@ public class SolutionU extends Solution {
 
 		this.homo = Ea.get(nalpha - 1, 0);
 		this.lumo = 0.001 * Math.round(Eb.get(nbeta, 0) * 1000);
-		System.out.println(moleculeName + " SCF completed");
+//		System.out.println(moleculeName + " SCF completed");
 
 		double[] populations = new double[atoms.length];
 
@@ -564,6 +566,11 @@ public class SolutionU extends Solution {
 
 	}
 
+	@Override
+	public SolutionU setRm(RawMolecule rm) {
+		this.rm = rm;
+		return this;
+	}
 
 	private double E(int atomnum, int[][] index) {
 

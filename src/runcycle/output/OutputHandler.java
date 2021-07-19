@@ -12,11 +12,11 @@ public class OutputHandler {
 	// todo convert to csv
 	public static MoleculeOutput toMoleculeOutput(MoleculeRun result) {
 		MoleculeOutput mo = new MoleculeOutput();
-		mo.index = result.getRawMolecule().index;
-		mo.name = result.getRawMolecule().name;
+		mo.index = result.getRm().index;
+		mo.name = result.getRm().name;
 		mo.time = result.getTime();
 		mo.datum = result.getDatum();
-		mo.hessian = result.getH().getHessian();
+		mo.hessian = result.getH().getHessianRaw();
 
 		mo.hf = result.getG().getS().hf;
 		mo.dipole = result.getG().getS().dipole;

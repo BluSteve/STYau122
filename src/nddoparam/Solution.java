@@ -1,22 +1,13 @@
 package nddoparam;
 
 import org.jblas.DoubleMatrix;
-import scf.Utils;
+import runcycle.input.RawMolecule;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
 
-import static nddoparam.mndo.MNDOParams.T1ParamNums;
-import static nddoparam.mndo.MNDOParams.T2ParamNums;
-
-public abstract class Solution implements Cloneable{
-	private int[][] neededParams = new int[Utils.maxAtomNum][0];
+public abstract class Solution implements Cloneable {
 	// TODO make most of these private
 	public static int maxParamNum = 8;
-	private final int[] uniqueZs;
-	// NOT THE SAME AS ATOMTYPES, THIS ONE IS JUST FOR THIS MOLECULE
 	public double energy, homo, lumo, hf, dipole;
 	public double[] chargedip, hybridip, dipoletot;
 	public int charge, multiplicity;
@@ -27,49 +18,22 @@ public abstract class Solution implements Cloneable{
 	public int nElectrons;
 	public DoubleMatrix H;
 	public NDDO6G[] orbitals;
-	public String moleculeName;
 	public int[] atomicNumbers;
-
-	public abstract Solution clone();
+	protected RawMolecule rm;
 
 	public Solution(NDDOAtom[] atoms, int charge) {
 		// TODO move this to MoleculeRun
-		StringBuilder nameBuilder = new StringBuilder();
-		HashMap<String, Integer> nameOccurrences = new HashMap<>();
-		ArrayList<Integer> tempZs = new ArrayList<>(Utils.maxAtomNum);
 		for (NDDOAtom a : atoms) {
 			nElectrons += a.getAtomProperties().getQ();
-			if (!tempZs.contains(a.getAtomProperties().getZ())) {
-				tempZs.add(a.getAtomProperties().getZ());
-				if (a.getAtomProperties().getZ() == 1)
-					neededParams[a.getAtomProperties().getZ()] = T1ParamNums;
-				else neededParams[a.getAtomProperties().getZ()] = T2ParamNums;
-			}
-			if (!nameOccurrences.containsKey(a.getName()))
-				nameOccurrences.put(a.getName(), 1);
-			else nameOccurrences
-					.put(a.getName(), nameOccurrences.get(a.getName()) + 1);
 		}
-		for (String key : nameOccurrences.keySet()) {
-			nameBuilder.append(key).append(nameOccurrences.get(key));
-		}
-		moleculeName = nameBuilder.toString();
-		Collections.sort(tempZs);
-		uniqueZs = new int[tempZs.size()];
-		for (int i = 0; i < tempZs.size(); i++) uniqueZs[i] = tempZs.get(i);
-
 		this.atoms = atoms;
-
 		atomicNumbers = new int[atoms.length];
-
 		nElectrons -= charge;
-
 		this.charge = charge;
 		int i = 0;
 
 		for (NDDOAtom a : atoms) {
 			i += a.getOrbitals().length;
-
 		}
 
 		for (int num = 0; num < atoms.length; num++) {
@@ -172,13 +136,13 @@ public abstract class Solution implements Cloneable{
 		return true;
 	}
 
-	public int[][] getNeededParams() {
-		return neededParams;
+	public RawMolecule getRm() {
+		return rm;
 	}
 
-	public int[] getUniqueZs() {
-		return uniqueZs;
-	}
+	public abstract Solution setRm(RawMolecule rm);
+
+	public abstract Solution clone();
 
 	public abstract DoubleMatrix alphaDensity();
 
@@ -186,15 +150,10 @@ public abstract class Solution implements Cloneable{
 
 	public abstract DoubleMatrix densityMatrix();
 
-	public String getMoleculeName() {
-		return moleculeName;
-	}
 
 	@Override
 	public String toString() {
 		return "Solution{" +
-				"neededParams=" + Arrays.toString(neededParams) +
-				", uniqueZs=" + Arrays.toString(uniqueZs) +
 				", energy=" + energy +
 				", homo=" + homo +
 				", lumo=" + lumo +
@@ -213,7 +172,6 @@ public abstract class Solution implements Cloneable{
 				", nElectrons=" + nElectrons +
 				", H=" + H +
 				", orbitals=" + Arrays.toString(orbitals) +
-				", moleculeName='" + moleculeName + '\'' +
 				", atomicNumbers=" + Arrays.toString(atomicNumbers) +
 				'}';
 	}

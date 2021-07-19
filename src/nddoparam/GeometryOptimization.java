@@ -21,11 +21,11 @@ public abstract class GeometryOptimization {
 		updateNDDOSolution();
 		refEnergy = s.energy;
 		System.out.println(
-				"\n" + s.getMoleculeName() + " Current heat of formation: " +
+				"\n Current heat of formation: " +
 						s.hf +
 						"kcal/mol");
 		System.out
-				.println(s.getMoleculeName() + " Current HOMO energy: " +
+				.println(" Current HOMO energy: " +
 						s.homo + " " +
 						"eV");
 		System.out.println("-----------------------------------------------");

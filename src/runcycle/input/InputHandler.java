@@ -15,6 +15,9 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.zip.CRC32;
 
+import static nddoparam.mndo.MNDOParams.T1ParamNums;
+import static nddoparam.mndo.MNDOParams.T2ParamNums;
+
 public class InputHandler {
 	public static RawInput ri;
 
@@ -142,11 +145,18 @@ public class InputHandler {
 					HashMap<String, Integer> nameOccurrences = new HashMap<>();
 					ArrayList<Integer> tempZs =
 							new ArrayList<>(Utils.maxAtomNum);
+					HashMap<Integer, int[]> tempNPs = new HashMap<>();
 					for (RawAtom a : atomsL) {
 						AtomProperties ap = AtomHandler.atomsMap.get(a.name);
 						rm.nElectrons += ap.getQ();
 						if (!tempZs.contains(ap.getZ())) {
 							tempZs.add(ap.getZ());
+							if (ri.model.equals("mndo")) {
+								if (ap.getZ() == 1)
+									tempNPs.put(ap.getZ(), T1ParamNums);
+								else tempNPs.put(ap.getZ(), T2ParamNums);
+							}
+							// todo implement for am1
 						}
 						if (!nameOccurrences.containsKey(a.name))
 							nameOccurrences.put(a.name, 1);
@@ -160,9 +170,15 @@ public class InputHandler {
 					}
 					Collections.sort(tempZs);
 					int[] uniqueZs = new int[tempZs.size()];
-					for (int u = 0; u < tempZs.size(); u++)
+					int[][] neededParams = new int[tempNPs.size()][];
+					for (int u = 0; u < tempZs.size(); u++) {
 						uniqueZs[u] = tempZs.get(u);
-					rm.uniqueZs = uniqueZs;
+					}
+					for (int j = 0; j < neededParams.length; j++) {
+						neededParams[j] = tempNPs.get(tempZs.get(j));
+					}
+					rm.mnps = neededParams;
+					rm.mats = uniqueZs;
 					String ruhf = rm.restricted ? "RHF" : "UHF";
 					rm.name = nameBuilder + "_" + rm.charge + "_" + ruhf;
 

@@ -30,7 +30,7 @@ public class ParamGradientU extends ParamGradient {
 			System.err.println(errorMessage);
 		}
 		else {
-			HFDerivs[ZI][paramNum] = (this.sPrime.hf - s.hf) / Utils.LAMBDA;
+			HFDerivs[ZI][paramNum] = (sPrime.hf - s.hf) / Utils.LAMBDA;
 		}
 
 		totalGradients[ZI][paramNum] +=
@@ -44,9 +44,9 @@ public class ParamGradientU extends ParamGradient {
 			System.err.println(errorMessage);
 		}
 		else {
-			HFDerivs[ZI][paramNum] = (this.sPrime.hf - s.hf) / Utils.LAMBDA;
+			HFDerivs[ZI][paramNum] = (sPrime.hf - s.hf) / Utils.LAMBDA;
 			if (full) dipoleDerivs[ZI][paramNum] =
-					(this.sPrime.dipole - s.dipole) / Utils.LAMBDA;
+					(sPrime.dipole - s.dipole) / Utils.LAMBDA;
 		}
 		totalGradients[ZI][paramNum] +=
 				2 * (s.hf - datum[0]) * HFDerivs[ZI][paramNum];
@@ -61,7 +61,7 @@ public class ParamGradientU extends ParamGradient {
 			System.err.println(errorMessage);
 		}
 		else {
-			IEDerivs[ZI][paramNum] = -(this.sPrime.homo - s.homo) / Utils.LAMBDA;
+			IEDerivs[ZI][paramNum] = -(sPrime.homo - s.homo) / Utils.LAMBDA;
 		}
 		totalGradients[ZI][paramNum] +=
 				200 * -(s.homo + datum[2]) * IEDerivs[ZI][paramNum];
@@ -70,14 +70,14 @@ public class ParamGradientU extends ParamGradient {
 	@Override
 	protected Solution constructSPrime(int ZI, int paramNum) {
 		return new SolutionU(
-				Utils.perturbAtomParams(s.atoms, s.getUniqueZs()[ZI],
+				Utils.perturbAtomParams(s.atoms, s.getRm().mats[ZI],
 						paramNum), s.charge, s.multiplicity);
 	}
 
 	@Override
 	protected SolutionU constructSExpPrime(int Z, int paramNum) {
 		return new SolutionU(
-				Utils.perturbAtomParams(sExp.atoms, sExp.getUniqueZs()[Z],
+				Utils.perturbAtomParams(sExp.atoms, sExp.getRm().mats[Z],
 						paramNum),
 				sExp.charge,
 				sExp.multiplicity);

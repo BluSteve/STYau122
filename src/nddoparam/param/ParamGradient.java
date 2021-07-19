@@ -108,7 +108,7 @@ public abstract class ParamGradient {
 
 	public void compute() {
 		totalGradients =
-				new double[s.getUniqueZs().length][Solution.maxParamNum];
+				new double[s.getRm().mats.length][Solution.maxParamNum];
 		if (analytical && (datum[1] != 0 || datum[2] != 0))
 			computeBatchedDerivs(0, 0);
 
@@ -117,8 +117,8 @@ public abstract class ParamGradient {
 		if (!analytical || isExpAvail) {
 			List<RecursiveAction> subtasks = new ArrayList<>();
 
-			for (int Z = 0; Z < s.getUniqueZs().length; Z++) {
-				for (int paramNum : s.getNeededParams()[s.getUniqueZs()[Z]]) {
+			for (int Z = 0; Z < s.getRm().mats.length; Z++) {
+				for (int paramNum : s.getRm().mnps[Z]) {
 					int finalZ = Z;
 					subtasks.add(new RecursiveAction() {
 						@Override
@@ -131,8 +131,8 @@ public abstract class ParamGradient {
 			ForkJoinTask.invokeAll(subtasks);
 		}
 		else {
-			for (int Z = 0; Z < s.getUniqueZs().length; Z++) {
-				for (int paramNum : s.getNeededParams()[s.getUniqueZs()[Z]]) {
+			for (int Z = 0; Z < s.getRm().mats.length; Z++) {
+				for (int paramNum : s.getRm().mnps[Z]) {
 					computeGradient(Z, paramNum);
 				}
 			}
@@ -183,7 +183,7 @@ public abstract class ParamGradient {
 
 		if (this.sExp != null) {
 			isExpAvail = true;
-			geomDerivs = new double[s.getUniqueZs().length]
+			geomDerivs = new double[s.getRm().mats.length]
 					[Solution.maxParamNum];
 			e.createExpGeom(this.sExp);
 			e.addGeomError();
@@ -191,7 +191,7 @@ public abstract class ParamGradient {
 	}
 
 	protected void initializeArrays() {
-		int atomLength = s.getUniqueZs().length;
+		int atomLength = s.getRm().mats.length;
 		int paramLength = Solution.maxParamNum;
 		totalGradients = new double[atomLength][paramLength];
 		HFDerivs = new double[atomLength][paramLength];
