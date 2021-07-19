@@ -93,7 +93,7 @@ public class Testing {
 		ParamHessian H;
 		G = new ParamGradientR((SolutionR) S, datum, expsoln, true);
 		G.compute();
-		H = ParamHessian.from((ParamGradientR) G);
+		H = ParamHessian.from(G);
 		H.compute();
 		sw.stop();
 		System.err.println(Arrays.deepToString(H.getHessianRaw()));

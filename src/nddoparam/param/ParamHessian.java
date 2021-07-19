@@ -47,22 +47,19 @@ public abstract class ParamHessian {
 		this.analytical = analytical;
 	}
 
-	public static ParamHessian from(ParamGradientR g) {
-		return new ParamHessianR(g);
+	public static ParamHessian from(ParamGradient g) {
+		if (g instanceof ParamGradientR)
+			return new ParamHessianR((ParamGradientR) g);
+		else return new ParamHessianU((ParamGradientU) g);
 	}
 
-	public static ParamHessian from(ParamGradientU g) {
-		return new ParamHessianU(g);
-	}
-
-	public static ParamHessian of(SolutionR s, double[] datum, SolutionR sExp,
+	public static ParamHessian of(Solution s, double[] datum, Solution sExp,
 								  boolean analytical) {
-		return new ParamHessianR(s, datum, sExp, analytical);
-	}
-
-	public static ParamHessian of(SolutionU s, double[] datum, SolutionU sExp,
-								  boolean analytical) {
-		return new ParamHessianU(s, datum, sExp, analytical);
+		if (s instanceof SolutionR && sExp instanceof SolutionR)
+			return new ParamHessianR((SolutionR) s, datum, (SolutionR) sExp,
+					analytical);
+		else return new ParamHessianU((SolutionU) s, datum, (SolutionU) sExp,
+				analytical);
 	}
 
 	/**
