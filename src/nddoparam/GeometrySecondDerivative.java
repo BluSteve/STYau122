@@ -2813,8 +2813,8 @@ public class GeometrySecondDerivative {
 						rarray[a] = null;
 					}
 					else {
-//						System.err
-//								.println("convergence test: " + mag(rarray[a]));
+						System.out
+								.println("convergence test: " + mag(rarray[a]));
 					}
 				}
 			}
@@ -3022,8 +3022,8 @@ public class GeometrySecondDerivative {
 
 				orthogonalise(barray);
 
-//				System.err.println(
-//						"only " + numIterable(iterable) + " left to go!");
+				System.out.println(
+						"only " + numIterable(iterable) + " left to go!");
 
 				for (int i = 0; i < barray.length; i++) {
 
@@ -3105,7 +3105,7 @@ public class GeometrySecondDerivative {
 				}
 				else {
 					iterable[j] = 0;
-//					System.err.println("convergence test: " + mag(rarray[j]));
+					System.out.println("convergence test: " + mag(rarray[j]));
 				}
 
 			}
@@ -3153,7 +3153,7 @@ public class GeometrySecondDerivative {
 
 	}
 
-	private static int numIterable(int[] iterable) {
+	public static int numIterable(int[] iterable) {
 
 		int count = 0;
 
@@ -3315,8 +3315,8 @@ public class GeometrySecondDerivative {
 		return p;
 	}
 
-	private static DoubleMatrix computeResponseVectorsPople(DoubleMatrix x,
-															SolutionR soln) {
+	public static DoubleMatrix computeResponseVectorsPople(DoubleMatrix x,
+														   SolutionR soln) {
 
 		int NOcc = (int) (soln.nElectrons / 2.0);
 
@@ -3562,7 +3562,7 @@ public class GeometrySecondDerivative {
 
 	}
 
-	private static void orthogonalise(DoubleMatrix[] vectors) {
+	public static void orthogonalise(DoubleMatrix[] vectors) {
 
 		for (int i = 0; i < vectors.length; i++) {
 

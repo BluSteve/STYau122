@@ -80,10 +80,8 @@ public class SolutionR extends Solution {
 		}
 		integralArray = new double[size];
 		//The idea of the integralarray is to simply store all the integrals
-		// in order
-		// they are called. It's basically my way of avoiding having to
-		// perform a
-		// Yoshemine sort.
+		// in order they are called. It's basically my way of avoiding
+		// having to perform a Yoshemine sort.
 		// TODO re-implement HashMap
 		int integralcount = 0;
 		for (int j = 0; j < orbitals.length; j++) {
@@ -198,8 +196,7 @@ public class SolutionR extends Solution {
 		int numIt = 0;
 
 		double DIISError = 10;
-		while (DIISError >
-				1E-10) {//density matrix convergence criteria; since each
+		while (DIISError >1E-10) {//density matrix convergence criteria; since each
 			// iteration
 			// takes place within a fraction of a second I figured why not
 
@@ -325,6 +322,7 @@ public class SolutionR extends Solution {
 						commutator(F.dup(), densityMatrix.dup());
 				DIISError = commutatorarray[Darray.length - 1].norm2();
 
+				// B is dy/dx sort of, make dy/dx 0
 				DoubleMatrix newB = DoubleMatrix.zeros(8, 8);
 
 				DoubleMatrix newBforediis = DoubleMatrix.zeros(8, 8);
@@ -367,6 +365,7 @@ public class SolutionR extends Solution {
 
 			if (commutatorarray[Math.min(Farray.length - 1, numIt)].max() >
 					0.01) {
+				// if true do EDIIS else DIIS
 
 				DoubleMatrix mat = DoubleMatrix
 						.zeros(Math.min(Farray.length + 1, numIt + 2),

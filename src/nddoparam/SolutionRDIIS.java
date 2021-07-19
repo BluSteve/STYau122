@@ -421,7 +421,7 @@ public class SolutionRDIIS extends Solution {
 //				.println(moleculeName + " SCF completed: " + numIt +
 //						" iterations used");
 
-		System.err.println("DIIS took: " + sw.getTime());
+//		System.err.println("DIIS took: " + sw.getTime());
 
 		double e = 0;
 

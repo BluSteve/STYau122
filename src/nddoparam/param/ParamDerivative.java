@@ -21,9 +21,8 @@ public class ParamDerivative {
 			return 0;
 		}
 
-		return -a.p1 * a.p1 * a.D1 /
-				(a.p1 * a.p1 * a.p1 -
-						Math.pow(a.D1 * a.D1 + a.p1 * a.p1, 1.5)) * D1deriv;
+		return -a.p1 * a.p1 * a.D1 / (a.p1 * a.p1 * a.p1 -
+				Math.pow(a.D1 * a.D1 + a.p1 * a.p1, 1.5)) * D1deriv;
 	}
 
 
@@ -90,21 +89,18 @@ public class ParamDerivative {
 	}
 
 	private static double qq(double p01, double p11, double p21, double D11,
-							 double D21,
-							 double p02, double p12, double p22, double D12,
-							 double D22,
-							 double R, int num, double D1deriv, double D2deriv,
-							 double p1deriv, double p2deriv) {
+							 double D21, double p02, double p12, double p22,
+							 double D12, double D22, double R, int num,
+							 double D1deriv, double D2deriv, double p1deriv,
+							 double p2deriv) {
 		return 0;
 	}
 
 	private static double quz(double p01, double p11, double p21, double D11,
-							  double D21,
-							  double p02, double p12, double p22, double D12,
-							  double D22,
-							  double R, int num, double D1deriv,
-							  double D2deriv,
-							  double p1deriv, double p2deriv) {
+							  double D21, double p02, double p12, double p22,
+							  double D12, double D22, double R, int num,
+							  double D1deriv, double D2deriv, double p1deriv,
+							  double p2deriv) {
 		double a01 = p01 + p12;
 
 		if (num == 0) {
@@ -155,12 +151,10 @@ public class ParamDerivative {
 	}
 
 	private static double qQzz(double p01, double p11, double p21, double D11,
-							   double D21,
-							   double p02, double p12, double p22, double D12,
-							   double D22,
-							   double R, int num, double D1deriv,
-							   double D2deriv,
-							   double p1deriv, double p2deriv) {
+							   double D21, double p02, double p12, double p22,
+							   double D12, double D22, double R, int num,
+							   double D1deriv, double D2deriv, double p1deriv,
+							   double p2deriv) {
 		double a02 = p01 + p22;
 
 		if (num == 0) {
@@ -223,12 +217,10 @@ public class ParamDerivative {
 	}
 
 	private static double uzuz(double p01, double p11, double p21, double D11,
-							   double D21,
-							   double p02, double p12, double p22, double D12,
-							   double D22,
-							   double R, int num, double D1deriv,
-							   double D2deriv,
-							   double p1deriv, double p2deriv) {
+							   double D21, double p02, double p12, double p22,
+							   double D12, double D22, double R, int num,
+							   double D1deriv, double D2deriv, double p1deriv,
+							   double p2deriv) {
 		double a11 = p11 + p12;
 
 		if (num == 0) {
@@ -273,12 +265,11 @@ public class ParamDerivative {
 	}
 
 	private static double upiQpiz(double p01, double p11, double p21,
-								  double D11,
-								  double D21, double p02, double p12,
-								  double p22,
-								  double D12, double D22, double R, int num,
-								  double D1deriv, double D2deriv,
-								  double p1deriv,
+								  double D11, double D21, double p02,
+								  double p12, double p22, double D12,
+								  double D22, double R, int num,
+								  double D1deriv,
+								  double D2deriv, double p1deriv,
 								  double p2deriv) {
 		double a12 = p11 + p22;
 
@@ -298,21 +289,17 @@ public class ParamDerivative {
 		}
 		if (num == 1) {
 			return 0.25 * ((2 * D22 - R - D11) * D2deriv + a12 * p2deriv) *
-					Math.pow(
-							(R - D22) * (R - D22) + (D11 - D22) * (D11 - D22) +
-									a12 * a12, -1.5)
+					Math.pow((R - D22) * (R - D22) + (D11 - D22) * (D11 - D22) +
+							a12 * a12, -1.5)
 					- 0.25 * ((2 * D22 + D11 - R) * D2deriv + a12 * p2deriv) *
-					Math.pow(
-							(R - D22) * (R - D22) + (D11 + D22) * (D11 + D22) +
-									a12 * a12, -1.5)
+					Math.pow((R - D22) * (R - D22) + (D11 + D22) * (D11 + D22) +
+							a12 * a12, -1.5)
 					- 0.25 * ((2 * D22 + R - D11) * D2deriv + a12 * p2deriv) *
-					Math.pow(
-							(R + D22) * (R + D22) + (D11 - D22) * (D11 - D22) +
-									a12 * a12, -1.5)
+					Math.pow((R + D22) * (R + D22) + (D11 - D22) * (D11 - D22) +
+							a12 * a12, -1.5)
 					+ 0.25 * ((2 * D22 + D11 + R) * D2deriv + a12 * p2deriv) *
-					Math.pow(
-							(R + D22) * (R + D22) + (D11 + D22) * (D11 + D22) +
-									a12 * a12, -1.5);
+					Math.pow((R + D22) * (R + D22) + (D11 + D22) * (D11 + D22) +
+							a12 * a12, -1.5);
 		}
 
 		if (num == 2) {
@@ -343,12 +330,11 @@ public class ParamDerivative {
 	}
 
 	private static double uzQpipi(double p01, double p11, double p21,
-								  double D11,
-								  double D21, double p02, double p12,
-								  double p22,
-								  double D12, double D22, double R, int num,
-								  double D1deriv, double D2deriv,
-								  double p1deriv,
+								  double D11, double D21, double p02,
+								  double p12, double p22, double D12,
+								  double D22, double R, int num,
+								  double D1deriv,
+								  double D2deriv, double p1deriv,
 								  double p2deriv) {
 		double a12 = p11 + p22;
 
@@ -399,8 +385,7 @@ public class ParamDerivative {
 	private static double uzQzz(double p01, double p11, double p21, double D11,
 								double D21, double p02, double p12, double p22,
 								double D12, double D22, double R, int num,
-								double D1deriv,
-								double D2deriv, double p1deriv,
+								double D1deriv, double D2deriv, double p1deriv,
 								double p2deriv) {
 		double a12 = p11 + p22;
 
@@ -447,21 +432,21 @@ public class ParamDerivative {
 
 		if (num == 2) {
 			return +0.125 * ((R + D11 - 2 * D21) * (D1deriv - 2 * D2deriv) +
-					a12 * (p1deriv + p2deriv)) *
-					Math.pow((R + D11 - 2 * D21) * (R + D11 - 2 * D21) +
-							a12 * a12, -1.5)
+					a12 * (p1deriv + p2deriv)) * Math.pow(
+					(R + D11 - 2 * D21) * (R + D11 - 2 * D21) + a12 * a12,
+					-1.5)
 					- 0.125 * ((D11 + 2 * D21 - R) * (D1deriv + 2 * D2deriv) +
-					a12 * (p1deriv + p2deriv)) *
-					Math.pow((R - D11 - 2 * D21) * (R - D11 - 2 * D21) +
-							a12 * a12, -1.5)
+					a12 * (p1deriv + p2deriv)) * Math.pow(
+					(R - D11 - 2 * D21) * (R - D11 - 2 * D21) + a12 * a12,
+					-1.5)
 					+ 0.125 * ((R + D11 + 2 * D21) * (D1deriv + 2 * D2deriv) +
-					a12 * (p1deriv + p2deriv)) *
-					Math.pow((R + D11 + 2 * D21) * (R + D11 + 2 * D21) +
-							a12 * a12, -1.5)
+					a12 * (p1deriv + p2deriv)) * Math.pow(
+					(R + D11 + 2 * D21) * (R + D11 + 2 * D21) + a12 * a12,
+					-1.5)
 					- 0.125 * ((R - D11 + 2 * D21) * (2 * D2deriv - D1deriv) +
-					a12 * (p1deriv + p2deriv)) *
-					Math.pow((R - D11 + 2 * D21) * (R - D11 + 2 * D21) +
-							a12 * a12, -1.5)
+					a12 * (p1deriv + p2deriv)) * Math.pow(
+					(R - D11 + 2 * D21) * (R - D11 + 2 * D21) + a12 * a12,
+					-1.5)
 					- 0.25 * ((R + D11) * D1deriv + a12 * (p1deriv + p2deriv)) *
 					Math.pow((R + D11) * (R + D11) + a12 * a12, -1.5)
 					+ 0.25 * ((D11 - R) * D1deriv + a12 * (p1deriv + p2deriv)) *
@@ -473,13 +458,11 @@ public class ParamDerivative {
 	}
 
 	private static double QpipiQpipi(double p01, double p11, double p21,
-									 double D11,
-									 double D21, double p02, double p12,
-									 double p22,
-									 double D12, double D22, double R, int num,
+									 double D11, double D21, double p02,
+									 double p12, double p22, double D12,
+									 double D22, double R, int num,
 									 double D1deriv, double D2deriv,
-									 double p1deriv,
-									 double p2deriv) {
+									 double p1deriv, double p2deriv) {
 		double a22 = p21 + p22;
 		if (num == 0) {
 			return -0.125 * (4 * (D21 - D22) * D2deriv + a22 * p2deriv) *
@@ -567,23 +550,19 @@ public class ParamDerivative {
 	}
 
 	private static double QpipiQzz(double p01, double p11, double p21,
-								   double D11,
-								   double D21, double p02, double p12,
-								   double p22,
-								   double D12, double D22, double R, int num,
+								   double D11, double D21, double p02,
+								   double p12, double p22, double D12,
+								   double D22, double R, int num,
 								   double D1deriv, double D2deriv,
-								   double p1deriv,
-								   double p2deriv) {
+								   double p1deriv, double p2deriv) {
 		double a22 = p21 + p22;
 		if (num == 0) {
-			return -0.125 * (4 * D21 * D2deriv + a22 * p2deriv) *
-					Math.pow((R - 2 * D22) * (R - 2 * D22) + 4 * D21 * D21 +
-									a22 * a22,
-							-1.5)
-					- 0.125 * (4 * D21 * D2deriv + a22 * p2deriv) *
-					Math.pow((R + 2 * D22) * (R + 2 * D22) + 4 * D21 * D21 +
-									a22 * a22,
-							-1.5)
+			return -0.125 * (4 * D21 * D2deriv + a22 * p2deriv) * Math.pow(
+					(R - 2 * D22) * (R - 2 * D22) + 4 * D21 * D21 + a22 * a22,
+					-1.5)
+					- 0.125 * (4 * D21 * D2deriv + a22 * p2deriv) * Math.pow(
+					(R + 2 * D22) * (R + 2 * D22) + 4 * D21 * D21 + a22 * a22,
+					-1.5)
 					+ 0.125 * (a22 * p2deriv) *
 					Math.pow((R - 2 * D22) * (R - 2 * D22) + a22 * a22, -1.5)
 					+ 0.125 * (a22 * p2deriv) *
@@ -596,12 +575,10 @@ public class ParamDerivative {
 		if (num == 1) {
 			return -0.125 * (2 * (2 * D22 - R) * D2deriv + a22 * p2deriv) *
 					Math.pow((R - 2 * D22) * (R - 2 * D22) + 4 * D21 * D21 +
-									a22 * a22,
-							-1.5)
+							a22 * a22, -1.5)
 					- 0.125 * (2 * (2 * D22 + R) * D2deriv + a22 * p2deriv) *
 					Math.pow((R + 2 * D22) * (R + 2 * D22) + 4 * D21 * D21 +
-									a22 * a22,
-							-1.5)
+							a22 * a22, -1.5)
 					+ 0.125 * (2 * (2 * D22 - R) * D2deriv + a22 * p2deriv) *
 					Math.pow((R - 2 * D22) * (R - 2 * D22) + a22 * a22, -1.5)
 					+ 0.125 * (2 * (2 * D22 + R) * D2deriv + a22 * p2deriv) *
@@ -613,18 +590,14 @@ public class ParamDerivative {
 		}
 
 		if (num == 2) {
-			return -0.125 *
-					((2 * (2 * D21 - R) + 4 * D21) * D2deriv +
-							2 * a22 * p2deriv) *
-					Math.pow((R - 2 * D21) * (R - 2 * D21) + 4 * D21 * D21 +
-									a22 * a22,
-							-1.5)
-					- 0.125 *
-					((2 * (2 * D21 + R) + 4 * D21) * D2deriv +
-							2 * a22 * p2deriv) *
-					Math.pow((R + 2 * D21) * (R + 2 * D21) + 4 * D21 * D21 +
-									a22 * a22,
-							-1.5)
+			return -0.125 * ((2 * (2 * D21 - R) + 4 * D21) * D2deriv +
+					2 * a22 * p2deriv) * Math.pow(
+					(R - 2 * D21) * (R - 2 * D21) + 4 * D21 * D21 + a22 * a22,
+					-1.5)
+					- 0.125 * ((2 * (2 * D21 + R) + 4 * D21) * D2deriv +
+					2 * a22 * p2deriv) * Math.pow(
+					(R + 2 * D21) * (R + 2 * D21) + 4 * D21 * D21 + a22 * a22,
+					-1.5)
 					+
 					0.125 * (2 * (2 * D21 - R) * D2deriv + 2 * a22 * p2deriv) *
 							Math.pow((R - 2 * D21) * (R - 2 * D21) + a22 * a22,
@@ -656,28 +629,20 @@ public class ParamDerivative {
 
 			return -0.0625 *
 					(2 * (R + 2 * D21 - 2 * D22) * D2deriv + a22 * p2deriv) *
-					Math.pow(
-							(R + 2 * D21 - 2 * D22) * (R + 2 * D21 - 2 * D22) +
-									a22 * a22,
-							-1.5)
+					Math.pow((R + 2 * D21 - 2 * D22) * (R + 2 * D21 - 2 * D22) +
+							a22 * a22, -1.5)
 					- 0.0625 *
 					(2 * (R + 2 * D21 + 2 * D22) * D2deriv + a22 * p2deriv) *
-					Math.pow(
-							(R + 2 * D21 + 2 * D22) * (R + 2 * D21 + 2 * D22) +
-									a22 * a22,
-							-1.5)
+					Math.pow((R + 2 * D21 + 2 * D22) * (R + 2 * D21 + 2 * D22) +
+							a22 * a22, -1.5)
 					- 0.0625 *
 					(2 * (2 * D21 + 2 * D22 - R) * D2deriv + a22 * p2deriv) *
-					Math.pow(
-							(R - 2 * D21 - 2 * D22) * (R - 2 * D21 - 2 * D22) +
-									a22 * a22,
-							-1.5)
+					Math.pow((R - 2 * D21 - 2 * D22) * (R - 2 * D21 - 2 * D22) +
+							a22 * a22, -1.5)
 					- 0.0625 *
 					(2 * (2 * D21 - R - 2 * D22) * D2deriv + a22 * p2deriv) *
-					Math.pow(
-							(R - 2 * D21 + 2 * D22) * (R - 2 * D21 + 2 * D22) +
-									a22 * a22,
-							-1.5)
+					Math.pow((R - 2 * D21 + 2 * D22) * (R - 2 * D21 + 2 * D22) +
+							a22 * a22, -1.5)
 					+ 0.125 * (2 * (R + 2 * D21) * D2deriv + a22 * p2deriv) *
 					Math.pow((R + 2 * D21) * (R + 2 * D21) + a22 * a22, -1.5)
 					+ 0.125 * (2 * (2 * D21 - R) * D2deriv + a22 * p2deriv) *
@@ -694,28 +659,20 @@ public class ParamDerivative {
 
 			return -0.0625 *
 					(2 * (2 * D22 - R - 2 * D21) * D2deriv + a22 * p2deriv) *
-					Math.pow(
-							(R + 2 * D21 - 2 * D22) * (R + 2 * D21 - 2 * D22) +
-									a22 * a22,
-							-1.5)
+					Math.pow((R + 2 * D21 - 2 * D22) * (R + 2 * D21 - 2 * D22) +
+							a22 * a22, -1.5)
 					- 0.0625 *
 					(2 * (R + 2 * D21 + 2 * D22) * D2deriv + a22 * p2deriv) *
-					Math.pow(
-							(R + 2 * D21 + 2 * D22) * (R + 2 * D21 + 2 * D22) +
-									a22 * a22,
-							-1.5)
+					Math.pow((R + 2 * D21 + 2 * D22) * (R + 2 * D21 + 2 * D22) +
+							a22 * a22, -1.5)
 					- 0.0625 *
 					(2 * (2 * D21 + 2 * D22 - R) * D2deriv + a22 * p2deriv) *
-					Math.pow(
-							(R - 2 * D21 - 2 * D22) * (R - 2 * D21 - 2 * D22) +
-									a22 * a22,
-							-1.5)
+					Math.pow((R - 2 * D21 - 2 * D22) * (R - 2 * D21 - 2 * D22) +
+							a22 * a22, -1.5)
 					- 0.0625 *
 					(2 * (R - 2 * D21 + 2 * D22) * D2deriv + a22 * p2deriv) *
-					Math.pow(
-							(R - 2 * D21 + 2 * D22) * (R - 2 * D21 + 2 * D22) +
-									a22 * a22,
-							-1.5)
+					Math.pow((R - 2 * D21 + 2 * D22) * (R - 2 * D21 + 2 * D22) +
+							a22 * a22, -1.5)
 					+ 0.125 * (a22 * p2deriv) *
 					Math.pow((R + 2 * D21) * (R + 2 * D21) + a22 * a22, -1.5)
 					+ 0.125 * (a22 * p2deriv) *
@@ -747,13 +704,11 @@ public class ParamDerivative {
 	}
 
 	private static double QpizQpiz(double p01, double p11, double p21,
-								   double D11,
-								   double D21, double p02, double p12,
-								   double p22,
-								   double D12, double D22, double R, int num,
+								   double D11, double D21, double p02,
+								   double p12, double p22, double D12,
+								   double D22, double R, int num,
 								   double D1deriv, double D2deriv,
-								   double p1deriv,
-								   double p2deriv) {
+								   double p1deriv, double p2deriv) {
 		double a22 = p21 + p22;
 		if (num == 0) {
 			return -0.125 *
@@ -761,24 +716,18 @@ public class ParamDerivative {
 					Math.pow((R + D21 - D22) * (R + D21 - D22) +
 							(D21 - D22) * (D21 - D22) + a22 * a22, -1.5)
 					+ 0.125 * ((R + 2 * D21) * D2deriv + a22 * p2deriv) *
-					Math.pow(
-							(R + D21 - D22) * (R + D21 - D22) +
-									(D21 + D22) * (D21 + D22) +
-									a22 * a22, -1.5)
+					Math.pow((R + D21 - D22) * (R + D21 - D22) +
+							(D21 + D22) * (D21 + D22) + a22 * a22, -1.5)
 					+ 0.125 * ((R + 2 * D21) * D2deriv + a22 * p2deriv) *
-					Math.pow(
-							(R + D21 + D22) * (R + D21 + D22) +
-									(D21 - D22) * (D21 - D22) +
-									a22 * a22, -1.5)
+					Math.pow((R + D21 + D22) * (R + D21 + D22) +
+							(D21 - D22) * (D21 - D22) + a22 * a22, -1.5)
 					- 0.125 *
 					((R + 2 * D21 + 2 * D22) * D2deriv + a22 * p2deriv) *
 					Math.pow((R + D21 + D22) * (R + D21 + D22) +
 							(D21 + D22) * (D21 + D22) + a22 * a22, -1.5)
 					+ 0.125 * ((2 * D21 - R) * D2deriv + a22 * p2deriv) *
-					Math.pow(
-							(R - D21 - D22) * (R - D21 - D22) +
-									(D21 - D22) * (D21 - D22) +
-									a22 * a22, -1.5)
+					Math.pow((R - D21 - D22) * (R - D21 - D22) +
+							(D21 - D22) * (D21 - D22) + a22 * a22, -1.5)
 					- 0.125 *
 					((2 * D21 + 2 * D22 - R) * D2deriv + a22 * p2deriv) *
 					Math.pow((R - D21 - D22) * (R - D21 - D22) +
@@ -788,10 +737,8 @@ public class ParamDerivative {
 					Math.pow((R - D21 + D22) * (R - D21 + D22) +
 							(D21 - D22) * (D21 - D22) + a22 * a22, -1.5)
 					+ 0.125 * ((2 * D21 - R) * D2deriv + a22 * p2deriv) *
-					Math.pow(
-							(R - D21 + D22) * (R - D21 + D22) +
-									(D21 + D22) * (D21 + D22) +
-									a22 * a22, -1.5);
+					Math.pow((R - D21 + D22) * (R - D21 + D22) +
+							(D21 + D22) * (D21 + D22) + a22 * a22, -1.5);
 		}
 		if (num == 1) {
 			return -0.125 *
@@ -799,24 +746,18 @@ public class ParamDerivative {
 					Math.pow((R + D21 - D22) * (R + D21 - D22) +
 							(D21 - D22) * (D21 - D22) + a22 * a22, -1.5)
 					+ 0.125 * ((2 * D22 - R) * D2deriv + a22 * p2deriv) *
-					Math.pow(
-							(R + D21 - D22) * (R + D21 - D22) +
-									(D21 + D22) * (D21 + D22) +
-									a22 * a22, -1.5)
+					Math.pow((R + D21 - D22) * (R + D21 - D22) +
+							(D21 + D22) * (D21 + D22) + a22 * a22, -1.5)
 					+ 0.125 * ((R + 2 * D22) * D2deriv + a22 * p2deriv) *
-					Math.pow(
-							(R + D21 + D22) * (R + D21 + D22) +
-									(D21 - D22) * (D21 - D22) +
-									a22 * a22, -1.5)
+					Math.pow((R + D21 + D22) * (R + D21 + D22) +
+							(D21 - D22) * (D21 - D22) + a22 * a22, -1.5)
 					- 0.125 *
 					((R + 2 * D21 + 2 * D22) * D2deriv + a22 * p2deriv) *
 					Math.pow((R + D21 + D22) * (R + D21 + D22) +
 							(D21 + D22) * (D21 + D22) + a22 * a22, -1.5)
 					+ 0.125 * ((2 * D22 - R) * D2deriv + a22 * p2deriv) *
-					Math.pow(
-							(R - D21 - D22) * (R - D21 - D22) +
-									(D21 - D22) * (D21 - D22) +
-									a22 * a22, -1.5)
+					Math.pow((R - D21 - D22) * (R - D21 - D22) +
+							(D21 - D22) * (D21 - D22) + a22 * a22, -1.5)
 					- 0.125 *
 					((2 * D21 + 2 * D22 - R) * D2deriv + a22 * p2deriv) *
 					Math.pow((R - D21 - D22) * (R - D21 - D22) +
@@ -826,10 +767,8 @@ public class ParamDerivative {
 					Math.pow((R - D21 + D22) * (R - D21 + D22) +
 							(D21 - D22) * (D21 - D22) + a22 * a22, -1.5)
 					+ 0.125 * ((R + 2 * D22) * D2deriv + a22 * p2deriv) *
-					Math.pow(
-							(R - D21 + D22) * (R - D21 + D22) +
-									(D21 + D22) * (D21 + D22) +
-									a22 * a22, -1.5);
+					Math.pow((R - D21 + D22) * (R - D21 + D22) +
+							(D21 + D22) * (D21 + D22) + a22 * a22, -1.5);
 		}
 
 		if (num == 2) {
@@ -844,18 +783,14 @@ public class ParamDerivative {
 					0.125 * (2 * (2 * D21 - R) * D2deriv + 2 * a22 * p2deriv) *
 							Math.pow((R - 2 * D21) * (R - 2 * D21) + a22 * a22,
 									-1.5)
-					- 0.125 *
-					((2 * (2 * D21 + R) + 4 * D21) * D2deriv +
-							2 * a22 * p2deriv) *
-					Math.pow((R + 2 * D21) * (R + 2 * D21) + 4 * D21 * D21 +
-									a22 * a22,
-							-1.5)
-					- 0.125 *
-					((2 * (2 * D21 - R) + 4 * D21) * D2deriv +
-							2 * a22 * p2deriv) *
-					Math.pow((R - 2 * D21) * (R - 2 * D21) + 4 * D21 * D21 +
-									a22 * a22,
-							-1.5);
+					- 0.125 * ((2 * (2 * D21 + R) + 4 * D21) * D2deriv +
+					2 * a22 * p2deriv) * Math.pow(
+					(R + 2 * D21) * (R + 2 * D21) + 4 * D21 * D21 + a22 * a22,
+					-1.5)
+					- 0.125 * ((2 * (2 * D21 - R) + 4 * D21) * D2deriv +
+					2 * a22 * p2deriv) * Math.pow(
+					(R - 2 * D21) * (R - 2 * D21) + 4 * D21 * D21 + a22 * a22,
+					-1.5);
 
 
 		}
@@ -864,395 +799,283 @@ public class ParamDerivative {
 	}
 
 	private static double ssssderiv(double p01, double p11, double p21,
-									double D11,
-									double D21, double p02, double p12,
-									double p22,
-									double D12, double D22, double R, int num,
+									double D11, double D21, double p02,
+									double p12, double p22, double D12,
+									double D22, double R, int num,
 									double D1deriv, double D2deriv,
-									double p1deriv,
-									double p2deriv) {
+									double p1deriv, double p2deriv) {
 		return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num,
-				D1deriv,
-				D2deriv, p1deriv, p2deriv);
+				D1deriv, D2deriv, p1deriv, p2deriv);
 	}
 
 	private static double ssppippideriv(double p01, double p11, double p21,
-										double D11,
-										double D21, double p02, double p12,
-										double p22,
-										double D12, double D22, double R,
-										int num,
+										double D11, double D21, double p02,
+										double p12, double p22, double D12,
+										double D22, double R, int num,
 										double D1deriv, double D2deriv,
-										double p1deriv,
-										double p2deriv) {
+										double p1deriv, double p2deriv) {
 		return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num,
-				D1deriv,
-				D2deriv, p1deriv, p2deriv) +
+				D1deriv, D2deriv, p1deriv, p2deriv) +
 				qQpipi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R,
 						num,
-						D1deriv,
-						D2deriv, p1deriv, p2deriv);
-	}
-
-	private static double sspzpzderiv(double p01, double p11, double p21,
-									  double D11,
-									  double D21, double p02, double p12,
-									  double p22,
-									  double D12, double D22, double R,
-									  int num,
-									  double D1deriv, double D2deriv,
-									  double p1deriv,
-									  double p2deriv) {
-		return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num,
-				D1deriv,
-				D2deriv, p1deriv, p2deriv) +
-				qQzz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num,
-						D1deriv,
-						D2deriv, p1deriv, p2deriv);
-	}
-
-	private static double ppippissderiv(double p01, double p11, double p21,
-										double D11,
-										double D21, double p02, double p12,
-										double p22,
-										double D12, double D22, double R,
-										int num,
-										double D1deriv, double D2deriv,
-										double p1deriv,
-										double p2deriv) {
-		return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num,
-				D1deriv,
-				D2deriv, p1deriv, p2deriv) +
-				qQpipi(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R,
-						f(num),
 						D1deriv, D2deriv, p1deriv, p2deriv);
 	}
 
-	private static double pzpzssderiv(double p01, double p11, double p21,
-									  double D11,
-									  double D21, double p02, double p12,
-									  double p22,
-									  double D12, double D22, double R,
-									  int num,
+	private static double sspzpzderiv(double p01, double p11, double p21,
+									  double D11, double D21, double p02,
+									  double p12, double p22, double D12,
+									  double D22, double R, int num,
 									  double D1deriv, double D2deriv,
-									  double p1deriv,
-									  double p2deriv) {
+									  double p1deriv, double p2deriv) {
 		return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num,
-				D1deriv,
-				D2deriv, p1deriv, p2deriv) +
+				D1deriv, D2deriv, p1deriv, p2deriv) +
+				qQzz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num,
+						D1deriv, D2deriv, p1deriv, p2deriv);
+	}
+
+	private static double ppippissderiv(double p01, double p11, double p21,
+										double D11, double D21, double p02,
+										double p12, double p22, double D12,
+										double D22, double R, int num,
+										double D1deriv, double D2deriv,
+										double p1deriv, double p2deriv) {
+		return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num,
+				D1deriv, D2deriv, p1deriv, p2deriv) +
+				qQpipi(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R,
+						f(num), D1deriv, D2deriv, p1deriv, p2deriv);
+	}
+
+	private static double pzpzssderiv(double p01, double p11, double p21,
+									  double D11, double D21, double p02,
+									  double p12, double p22, double D12,
+									  double D22, double R, int num,
+									  double D1deriv, double D2deriv,
+									  double p1deriv, double p2deriv) {
+		return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num,
+				D1deriv, D2deriv, p1deriv, p2deriv) +
 				qQzz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R,
-						f(num),
-						D1deriv,
-						D2deriv, p1deriv, p2deriv);
+						f(num), D1deriv, D2deriv, p1deriv, p2deriv);
 	}
 
 	private static double ppippippippideriv(double p01, double p11, double p21,
 											double D11, double D21, double p02,
 											double p12, double p22, double D12,
 											double D22, double R, int num,
-											double D1deriv,
-											double D2deriv, double p1deriv,
-											double p2deriv) {
+											double D1deriv, double D2deriv,
+											double p1deriv, double p2deriv) {
 		return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num,
-				D1deriv,
-				D2deriv, p1deriv, p2deriv) +
+				D1deriv, D2deriv, p1deriv, p2deriv) +
 				qQpipi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R,
 						num,
-						D1deriv,
-						D2deriv, p1deriv, p2deriv) +
-				qQpipi(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R,
-						f(num),
 						D1deriv, D2deriv, p1deriv, p2deriv) +
+				qQpipi(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R,
+						f(num), D1deriv, D2deriv, p1deriv, p2deriv) +
 				QpipiQpipi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R,
-						num,
-						D1deriv, D2deriv, p1deriv, p2deriv);
+						num, D1deriv, D2deriv, p1deriv, p2deriv);
 	}
 
 	private static double pxpxpypyderiv(double p01, double p11, double p21,
-										double D11,
-										double D21, double p02, double p12,
-										double p22,
-										double D12, double D22, double R,
-										int num,
+										double D11, double D21, double p02,
+										double p12, double p22, double D12,
+										double D22, double R, int num,
 										double D1deriv, double D2deriv,
-										double p1deriv,
-										double p2deriv) {
+										double p1deriv, double p2deriv) {
 		return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num,
-				D1deriv,
-				D2deriv, p1deriv, p2deriv) +
+				D1deriv, D2deriv, p1deriv, p2deriv) +
 				qQpipi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R,
 						num,
-						D1deriv,
-						D2deriv, p1deriv, p2deriv) +
-				qQpipi(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R,
-						f(num),
 						D1deriv, D2deriv, p1deriv, p2deriv) +
+				qQpipi(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R,
+						f(num), D1deriv, D2deriv, p1deriv, p2deriv) +
 				QxxQyy(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R,
 						num,
-						D1deriv,
-						D2deriv, p1deriv, p2deriv);
+						D1deriv, D2deriv, p1deriv, p2deriv);
 	}
 
 	private static double ppippipzpzderiv(double p01, double p11, double p21,
-										  double D11,
-										  double D21, double p02, double p12,
-										  double p22,
-										  double D12, double D22, double R,
-										  int num,
+										  double D11, double D21, double p02,
+										  double p12, double p22, double D12,
+										  double D22, double R, int num,
 										  double D1deriv, double D2deriv,
-										  double p1deriv,
-										  double p2deriv) {
+										  double p1deriv, double p2deriv) {
 		return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num,
-				D1deriv,
-				D2deriv, p1deriv, p2deriv) +
+				D1deriv, D2deriv, p1deriv, p2deriv) +
 				qQzz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num,
-						D1deriv,
-						D2deriv, p1deriv, p2deriv) +
-				qQpipi(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R,
-						f(num),
 						D1deriv, D2deriv, p1deriv, p2deriv) +
+				qQpipi(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R,
+						f(num), D1deriv, D2deriv, p1deriv, p2deriv) +
 				QpipiQzz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R,
-						num,
-						D1deriv, D2deriv, p1deriv, p2deriv);
+						num, D1deriv, D2deriv, p1deriv, p2deriv);
 	}
 
 	private static double pzpzppippideriv(double p01, double p11, double p21,
-										  double D11,
-										  double D21, double p02, double p12,
-										  double p22,
-										  double D12, double D22, double R,
-										  int num,
+										  double D11, double D21, double p02,
+										  double p12, double p22, double D12,
+										  double D22, double R, int num,
 										  double D1deriv, double D2deriv,
-										  double p1deriv,
-										  double p2deriv) {
+										  double p1deriv, double p2deriv) {
 		return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num,
-				D1deriv,
-				D2deriv, p1deriv, p2deriv) +
+				D1deriv, D2deriv, p1deriv, p2deriv) +
 				qQpipi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R,
 						num,
-						D1deriv,
-						D2deriv, p1deriv, p2deriv) +
+						D1deriv, D2deriv, p1deriv, p2deriv) +
 				qQzz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R,
-						f(num),
-						D1deriv,
-						D2deriv, p1deriv, p2deriv) +
+						f(num), D1deriv, D2deriv, p1deriv, p2deriv) +
 				QpipiQzz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R,
-						f(num),
-						D1deriv, D2deriv, p1deriv, p2deriv);
+						f(num), D1deriv, D2deriv, p1deriv, p2deriv);
 	}
 
 	private static double pzpzpzpzderiv(double p01, double p11, double p21,
-										double D11,
-										double D21, double p02, double p12,
-										double p22,
-										double D12, double D22, double R,
-										int num,
+										double D11, double D21, double p02,
+										double p12, double p22, double D12,
+										double D22, double R, int num,
 										double D1deriv, double D2deriv,
-										double p1deriv,
-										double p2deriv) {
+										double p1deriv, double p2deriv) {
 		return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num,
-				D1deriv,
-				D2deriv, p1deriv, p2deriv) +
+				D1deriv, D2deriv, p1deriv, p2deriv) +
 				qQzz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num,
-						D1deriv,
-						D2deriv, p1deriv, p2deriv) +
+						D1deriv, D2deriv, p1deriv, p2deriv) +
 				qQzz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R,
-						f(num),
-						D1deriv,
-						D2deriv, p1deriv, p2deriv) +
+						f(num), D1deriv, D2deriv, p1deriv, p2deriv) +
 				QzzQzz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R,
 						num,
-						D1deriv,
-						D2deriv, p1deriv, p2deriv);
+						D1deriv, D2deriv, p1deriv, p2deriv);
 	}
 
 	private static double spzssderiv(double p01, double p11, double p21,
-									 double D11,
-									 double D21, double p02, double p12,
-									 double p22,
-									 double D12, double D22, double R, int num,
+									 double D11, double D21, double p02,
+									 double p12, double p22, double D12,
+									 double D22, double R, int num,
 									 double D1deriv, double D2deriv,
-									 double p1deriv,
-									 double p2deriv) {
+									 double p1deriv, double p2deriv) {
 		return -quz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R,
-				f(num),
-				D1deriv,
-				D2deriv, p1deriv, p2deriv);
-	}
-
-	private static double spzppippideriv(double p01, double p11, double p21,
-										 double D11,
-										 double D21, double p02, double p12,
-										 double p22,
-										 double D12, double D22, double R,
-										 int num,
-										 double D1deriv, double D2deriv,
-										 double p1deriv,
-										 double p2deriv) {
-		return -quz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R,
-				f(num),
-				D1deriv,
-				D2deriv, p1deriv, p2deriv) +
-				uzQpipi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R,
-						num,
-						D1deriv,
-						D2deriv, p1deriv, p2deriv);
-	}
-
-	private static double spzpzpzderiv(double p01, double p11, double p21,
-									   double D11,
-									   double D21, double p02, double p12,
-									   double p22,
-									   double D12, double D22, double R,
-									   int num,
-									   double D1deriv, double D2deriv,
-									   double p1deriv,
-									   double p2deriv) {
-		return -quz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R,
-				f(num),
-				D1deriv,
-				D2deriv, p1deriv, p2deriv) +
-				uzQzz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num,
-						D1deriv,
-						D2deriv, p1deriv, p2deriv);
-	}
-
-	private static double ssspzderiv(double p01, double p11, double p21,
-									 double D11,
-									 double D21, double p02, double p12,
-									 double p22,
-									 double D12, double D22, double R, int num,
-									 double D1deriv, double D2deriv,
-									 double p1deriv,
-									 double p2deriv) {
-		return quz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num,
-				D1deriv,
-				D2deriv, p1deriv, p2deriv);
-	}
-
-	private static double ppippispzderiv(double p01, double p11, double p21,
-										 double D11,
-										 double D21, double p02, double p12,
-										 double p22,
-										 double D12, double D22, double R,
-										 int num,
-										 double D1deriv, double D2deriv,
-										 double p1deriv,
-										 double p2deriv) {
-		return quz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num,
-				D1deriv,
-				D2deriv, p1deriv, p2deriv) -
-				uzQpipi(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R,
-						f(num),
-						D1deriv, D2deriv, p1deriv, p2deriv);
-	}
-
-	private static double pzpzspzderiv(double p01, double p11, double p21,
-									   double D11,
-									   double D21, double p02, double p12,
-									   double p22,
-									   double D12, double D22, double R,
-									   int num,
-									   double D1deriv, double D2deriv,
-									   double p1deriv,
-									   double p2deriv) {
-		return quz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num,
-				D1deriv,
-				D2deriv, p1deriv, p2deriv) -
-				uzQzz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R,
-						f(num),
-						D1deriv, D2deriv, p1deriv, p2deriv);
-	}
-
-	private static double sppisppideriv(double p01, double p11, double p21,
-										double D11,
-										double D21, double p02, double p12,
-										double p22,
-										double D12, double D22, double R,
-										int num,
-										double D1deriv, double D2deriv,
-										double p1deriv,
-										double p2deriv) {
-		return upiupi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num,
-				D1deriv,
-				D2deriv, p1deriv, p2deriv);
-	}
-
-	private static double spzspzderiv(double p01, double p11, double p21,
-									  double D11,
-									  double D21, double p02, double p12,
-									  double p22,
-									  double D12, double D22, double R,
-									  int num,
-									  double D1deriv, double D2deriv,
-									  double p1deriv,
-									  double p2deriv) {
-		return uzuz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num,
-				D1deriv,
-				D2deriv, p1deriv, p2deriv);
-	}
-
-	private static double sppippipzderiv(double p01, double p11, double p21,
-										 double D11,
-										 double D21, double p02, double p12,
-										 double p22,
-										 double D12, double D22, double R,
-										 int num,
-										 double D1deriv, double D2deriv,
-										 double p1deriv,
-										 double p2deriv) {
-		return upiQpiz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R,
-				num,
-				D1deriv,
-				D2deriv, p1deriv, p2deriv);
-	}
-
-	private static double ppipzsppideriv(double p01, double p11, double p21,
-										 double D11,
-										 double D21, double p02, double p12,
-										 double p22,
-										 double D12, double D22, double R,
-										 int num,
-										 double D1deriv, double D2deriv,
-										 double p1deriv,
-										 double p2deriv) {
-		return -upiQpiz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R,
 				f(num),
 				D1deriv, D2deriv, p1deriv, p2deriv);
 	}
 
-	private static double ppipzppipzderiv(double p01, double p11, double p21,
-										  double D11,
-										  double D21, double p02, double p12,
-										  double p22,
-										  double D12, double D22, double R,
-										  int num,
-										  double D1deriv, double D2deriv,
-										  double p1deriv,
-										  double p2deriv) {
-		return QpizQpiz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R,
+	private static double spzppippideriv(double p01, double p11, double p21,
+										 double D11, double D21, double p02,
+										 double p12, double p22, double D12,
+										 double D22, double R, int num,
+										 double D1deriv, double D2deriv,
+										 double p1deriv, double p2deriv) {
+		return -quz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R,
+				f(num),
+				D1deriv, D2deriv, p1deriv, p2deriv) +
+				uzQpipi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R,
+						num, D1deriv, D2deriv, p1deriv, p2deriv);
+	}
+
+	private static double spzpzpzderiv(double p01, double p11, double p21,
+									   double D11, double D21, double p02,
+									   double p12, double p22, double D12,
+									   double D22, double R, int num,
+									   double D1deriv, double D2deriv,
+									   double p1deriv, double p2deriv) {
+		return -quz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R,
+				f(num),
+				D1deriv, D2deriv, p1deriv, p2deriv) +
+				uzQzz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num,
+						D1deriv, D2deriv, p1deriv, p2deriv);
+	}
+
+	private static double ssspzderiv(double p01, double p11, double p21,
+									 double D11, double D21, double p02,
+									 double p12, double p22, double D12,
+									 double D22, double R, int num,
+									 double D1deriv, double D2deriv,
+									 double p1deriv, double p2deriv) {
+		return quz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num,
+				D1deriv, D2deriv, p1deriv, p2deriv);
+	}
+
+	private static double ppippispzderiv(double p01, double p11, double p21,
+										 double D11, double D21, double p02,
+										 double p12, double p22, double D12,
+										 double D22, double R, int num,
+										 double D1deriv, double D2deriv,
+										 double p1deriv, double p2deriv) {
+		return quz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num,
+				D1deriv, D2deriv, p1deriv, p2deriv) -
+				uzQpipi(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R,
+						f(num), D1deriv, D2deriv, p1deriv, p2deriv);
+	}
+
+	private static double pzpzspzderiv(double p01, double p11, double p21,
+									   double D11, double D21, double p02,
+									   double p12, double p22, double D12,
+									   double D22, double R, int num,
+									   double D1deriv, double D2deriv,
+									   double p1deriv, double p2deriv) {
+		return quz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num,
+				D1deriv, D2deriv, p1deriv, p2deriv) -
+				uzQzz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R,
+						f(num), D1deriv, D2deriv, p1deriv, p2deriv);
+	}
+
+	private static double sppisppideriv(double p01, double p11, double p21,
+										double D11, double D21, double p02,
+										double p12, double p22, double D12,
+										double D22, double R, int num,
+										double D1deriv, double D2deriv,
+										double p1deriv, double p2deriv) {
+		return upiupi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num,
+				D1deriv, D2deriv, p1deriv, p2deriv);
+	}
+
+	private static double spzspzderiv(double p01, double p11, double p21,
+									  double D11, double D21, double p02,
+									  double p12, double p22, double D12,
+									  double D22, double R, int num,
+									  double D1deriv, double D2deriv,
+									  double p1deriv, double p2deriv) {
+		return uzuz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num,
+				D1deriv, D2deriv, p1deriv, p2deriv);
+	}
+
+	private static double sppippipzderiv(double p01, double p11, double p21,
+										 double D11, double D21, double p02,
+										 double p12, double p22, double D12,
+										 double D22, double R, int num,
+										 double D1deriv, double D2deriv,
+										 double p1deriv, double p2deriv) {
+		return upiQpiz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R,
 				num,
-				D1deriv,
-				D2deriv, p1deriv, p2deriv);
+				D1deriv, D2deriv, p1deriv, p2deriv);
+	}
+
+	private static double ppipzsppideriv(double p01, double p11, double p21,
+										 double D11, double D21, double p02,
+										 double p12, double p22, double D12,
+										 double D22, double R, int num,
+										 double D1deriv, double D2deriv,
+										 double p1deriv, double p2deriv) {
+		return -upiQpiz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R,
+				f(num), D1deriv, D2deriv, p1deriv, p2deriv);
+	}
+
+	private static double ppipzppipzderiv(double p01, double p11, double p21,
+										  double D11, double D21, double p02,
+										  double p12, double p22, double D12,
+										  double D22, double R, int num,
+										  double D1deriv, double D2deriv,
+										  double p1deriv, double p2deriv) {
+		return QpizQpiz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R,
+				num, D1deriv, D2deriv, p1deriv, p2deriv);
 	}
 
 	private static double pxpypxpyderiv(double p01, double p11, double p21,
-										double D11,
-										double D21, double p02, double p12,
-										double p22,
-										double D12, double D22, double R,
-										int num,
+										double D11, double D21, double p02,
+										double p12, double p22, double D12,
+										double D22, double R, int num,
 										double D1deriv, double D2deriv,
-										double p1deriv,
-										double p2deriv) {
+										double p1deriv, double p2deriv) {
 		return 0.5 *
 				(ppippippippideriv(p01, p11, p21, D11, D21, p02, p12, p22, D12,
-						D22, R,
-						num, D1deriv, D2deriv, p1deriv, p2deriv) -
+						D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv) -
 						pxpxpypyderiv(p01, p11, p21, D11, D21, p02, p12, p22,
-								D12, D22
-								, R,
-								num, D1deriv, D2deriv, p1deriv, p2deriv));
+								D12, D22, R, num, D1deriv, D2deriv, p1deriv,
+								p2deriv));
 	}
 
 	private static int f(int num) {
@@ -3097,7 +2920,8 @@ public class ParamDerivative {
 				else {
 					for (int l : soln.orbitalIndices[soln.atomNumber[j]]) {
 						if (l > -1) {
-							for (int m : soln.orbitalIndices[soln.atomNumber[k]]) {
+							for (int m :
+									soln.orbitalIndices[soln.atomNumber[k]]) {
 								if (m > -1) {
 									val += densityMatrixDeriv.get(l, m) *
 											integralArray[integralcount];
@@ -3208,7 +3032,8 @@ public class ParamDerivative {
 				else {
 					for (int l : soln.orbitalIndices[soln.atomNumber[j]]) {
 						if (l > -1) {
-							for (int m : soln.orbitalIndices[soln.atomNumber[k]]) {
+							for (int m :
+									soln.orbitalIndices[soln.atomNumber[k]]) {
 								if (m > -1) {
 									val += densityMatrixDeriv.get(l, m) *
 											integralArray[integralcount];
@@ -3267,211 +3092,210 @@ public class ParamDerivative {
 	// fockDerivStatic is 1x8
 	public static DoubleMatrix[] xArrayLimitedPople(SolutionR soln,
 													DoubleMatrix[] fockDerivStaticPadded) {
-		return xArrayLimitedThiel(soln, fockDerivStaticPadded);
-//		int size = numNotNull(fockDerivStaticPadded);
-//		DoubleMatrix[] fockDerivStatic = new DoubleMatrix[size];
-//		size = 0;
-//		for (DoubleMatrix dm : fockDerivStaticPadded) {
-//			if (dm != null) {
-//				fockDerivStatic[size] = dm.dup();
-//				size++;
-//			}
-//		}
-//		if (fockDerivStatic.length == 0)
-//			return new DoubleMatrix[fockDerivStaticPadded.length];
-//
-//		int NOcc = (int) (soln.nElectrons / 2.0);
-//		int NVirt = soln.orbitals.length - NOcc;
-//
-//		DoubleMatrix[] xArray = new DoubleMatrix[fockDerivStatic.length];
-//		DoubleMatrix[] barray = new DoubleMatrix[fockDerivStatic.length];
-//		DoubleMatrix[] parray = new DoubleMatrix[fockDerivStatic.length];
-//		DoubleMatrix[] Farray = new DoubleMatrix[fockDerivStatic.length];
-//		DoubleMatrix[] rarray = new DoubleMatrix[fockDerivStatic.length];
-//
-//		DoubleMatrix preconditioner = DoubleMatrix.zeros(NOcc * NVirt, 1);
-//		DoubleMatrix preconditionerinv = DoubleMatrix.zeros(NOcc * NVirt, 1);
-//
-//		int counter = 0;
-//
-//		for (int i = 0; i < NOcc; i++) {
-//			for (int j = 0; j < NVirt; j++) {
-//
-//				double e = (-soln.E.get(i) + soln.E.get(NOcc + j));
-//
-//				preconditioner.put(counter, Math.pow(e, -0.5));
-//
-//				preconditionerinv.put(counter, Math.pow(e, 0.5));
-//
-//				counter++;
-//
-//			}
-//		}
-//
-//		DoubleMatrix D = DoubleMatrix.diag(preconditioner);
-//
-//		DoubleMatrix Dinv = DoubleMatrix.diag(preconditionerinv);
-//
-//		for (int a = 0; a < xArray.length; a++) {
-//			DoubleMatrix F = DoubleMatrix.zeros(NOcc * NVirt, 1);
-//
-//			int count1 = 0;
-//
-//			for (int i = 0; i < NOcc; i++) {
-//				for (int j = 0; j < NVirt; j++) {
-//					double element = 0;
-//
-//					for (int u = 0; u < soln.orbitals.length; u++) {
-//						for (int v = 0; v < soln.orbitals.length; v++) {
-//							element +=
-//									soln.C.get(i, u) * soln.C.get(j + NOcc,
-//											v) *
-//											fockDerivStatic[a].get(u, v);
-//						}
-//					}
-//
-//					element = element / (soln.E.get(j + NOcc) - soln.E.get(i));
-//					F.put(count1, 0, element);
-//					count1++;
-//				}
-//			}
-//
-//			F = D.mmul(F);
-//			xArray[a] = DoubleMatrix.zeros(NOcc * NVirt, 1);
-//			rarray[a] = xArray[a].dup();
-//			barray[a] = F.dup();
-//			Farray[a] = F.dup();
-//		}
-//
-//
-//		if (barray[0].rows == 0) {
-//			DoubleMatrix[] densityderivs =
-//					new DoubleMatrix[fockDerivStatic.length];
-//
-//			for (int i = 0; i < densityderivs.length; i++) {
-//				densityderivs[i] = DoubleMatrix.zeros(0, 0);
-//			}
-//
-//			return densityderivs;
-//		}
-//
-//
-//		ArrayList<DoubleMatrix> b = new ArrayList<>();
-//
-//		ArrayList<DoubleMatrix> p = new ArrayList<>();
-//
-//		int[] iterable = new int[barray.length];
-//
-//
-//		DoubleMatrix F = DoubleMatrix.zeros(NOcc * NVirt, Farray.length);
-//		for (int i = 0; i < Farray.length; i++) {
-//			F.putColumn(i, Farray[i]);
-//		}
-//
-//		while (GeometrySecondDerivative.numIterable(iterable) > 0) {
-//
-//			GeometrySecondDerivative.orthogonalise(barray);
-//
-////            System.err.println("only " + GeometrySecondDerivative
-////            .numIterable(iterable) +
-////            " left to go!");
-//
-//			for (int i = 0; i < barray.length; i++) {
-//
-//				b.add(barray[i].dup());
-//				parray[i] = D.mmul(GeometrySecondDerivative
-//						.computeResponseVectorsPople(Dinv.mmul(barray[i].dup()),
-//								soln));
-//				p.add(parray[i].dup());
-//			}
-//
-//			for (int i = 0; i < barray.length; i++) {
-//				DoubleMatrix newb = parray[i];
-//
-//				for (int j = 0; j < b.size(); j++) {
-//					double num = b.get(j).transpose().mmul(parray[i]).get(0) /
-//							b.get(j).transpose().mmul(b.get(j)).get(0);
-//					newb = newb.sub(b.get(j).mmul(num));
-//				}
-//
-//				barray[i] = newb.dup();
-//			}
-//
-//			DoubleMatrix B = DoubleMatrix.zeros(NOcc * NVirt, b.size());
-//			DoubleMatrix P = DoubleMatrix.zeros(NOcc * NVirt, b.size());
-//
-//			for (int i = 0; i < b.size(); i++) {
-//				B.putColumn(i, b.get(i));
-//
-//				P.putColumn(i, b.get(i).sub(p.get(i)));
-//			}
-//
-//
-//			DoubleMatrix lhs = B.transpose().mmul(P);
-//
-//			DoubleMatrix rhs = B.transpose().mmul(F);
-//			DoubleMatrix alpha;
-//
-//			try {
-//				alpha = Solve.solve(lhs, rhs);
-//			} catch (LapackException e) {
-//				alpha = DoubleMatrix.ones(lhs.columns, rhs.columns);
-////                System.err.println(Arrays.toString(fockDerivStatic));
-////                System.err.println(lhs);
-////                System.err.println(rhs);
-//			}
-//
-//			for (int a = 0; a < xArray.length; a++) {
-//
-//				rarray[a] = DoubleMatrix.zeros(NOcc * NVirt, 1);
-//				xArray[a] = DoubleMatrix.zeros(NOcc * NVirt, 1);
-//			}
-//
-//			for (int i = 0; i < alpha.rows; i++) {
-//				for (int j = 0; j < alpha.columns; j++) {
-//
-//					rarray[j] =
-//							rarray[j].add((b.get(i).sub(p.get(i)))
-//									.mmul(alpha.get(i,
-//											j)));
-//					xArray[j] = xArray[j].add(b.get(i).mmul(alpha.get(i, j)));
-//				}
-//			}
-//
-//			for (int j = 0; j < alpha.columns; j++) {
-//				rarray[j] = rarray[j].sub(Farray[j]);
-//
-//				xArray[j] = Dinv.mmul(xArray[j]);
-//
-//				if (mag(rarray[j]) < 1E-10) { //todo play with this
-//					iterable[j] = 1;
-//				}
-//				else if (Double.isNaN(mag(rarray[j]))) {
-//					System.err.println(
-//							"Pople algorithm fails; reverting to Thiel " +
-//									"algorithm " +
-//									"(don't" +
-//									" " +
-//									"panic)...");
-//					return xArrayLimitedThiel(soln, fockDerivStaticPadded);
-//				}
-//				else {
-//					iterable[j] = 0;
-////                    System.err.println("convergence test: " + mag(rarray[j]));
-//				}
-//			}
-//		}
-//
-//		DoubleMatrix[] xArrayPadded =
-//				new DoubleMatrix[fockDerivStaticPadded.length];
-//		size = 0;
-//		for (int i = 0; i < fockDerivStaticPadded.length; i++) {
-//			if (fockDerivStaticPadded[i] != null) {
-//				xArrayPadded[i] = xArray[size];
-//				size++;
-//			}
-//		}
-//		return xArrayPadded;
+		int size = numNotNull(fockDerivStaticPadded);
+		DoubleMatrix[] fockDerivStatic = new DoubleMatrix[size];
+		size = 0;
+		for (DoubleMatrix dm : fockDerivStaticPadded) {
+			if (dm != null) {
+				fockDerivStatic[size] = dm.dup();
+				size++;
+			}
+		}
+		if (fockDerivStatic.length == 0)
+			return new DoubleMatrix[fockDerivStaticPadded.length];
+
+		int NOcc = (int) (soln.nElectrons / 2.0);
+		int NVirt = soln.orbitals.length - NOcc;
+
+		DoubleMatrix[] xArray = new DoubleMatrix[fockDerivStatic.length];
+		DoubleMatrix[] barray = new DoubleMatrix[fockDerivStatic.length];
+		DoubleMatrix[] parray = new DoubleMatrix[fockDerivStatic.length];
+		DoubleMatrix[] Farray = new DoubleMatrix[fockDerivStatic.length];
+		DoubleMatrix[] rarray = new DoubleMatrix[fockDerivStatic.length];
+
+		DoubleMatrix preconditioner = DoubleMatrix.zeros(NOcc * NVirt, 1);
+		DoubleMatrix preconditionerinv = DoubleMatrix.zeros(NOcc * NVirt, 1);
+
+		int counter = 0;
+
+		for (int i = 0; i < NOcc; i++) {
+			for (int j = 0; j < NVirt; j++) {
+
+				double e = (-soln.E.get(i) + soln.E.get(NOcc + j));
+
+				preconditioner.put(counter, Math.pow(e, -0.5));
+
+				preconditionerinv.put(counter, Math.pow(e, 0.5));
+
+				counter++;
+
+			}
+		}
+
+		DoubleMatrix D = DoubleMatrix.diag(preconditioner);
+
+		DoubleMatrix Dinv = DoubleMatrix.diag(preconditionerinv);
+
+		for (int a = 0; a < xArray.length; a++) {
+			DoubleMatrix F = DoubleMatrix.zeros(NOcc * NVirt, 1);
+
+			int count1 = 0;
+
+			for (int i = 0; i < NOcc; i++) {
+				for (int j = 0; j < NVirt; j++) {
+					double element = 0;
+
+					for (int u = 0; u < soln.orbitals.length; u++) {
+						for (int v = 0; v < soln.orbitals.length; v++) {
+							element +=
+									soln.C.get(i, u) * soln.C.get(j + NOcc,
+											v) *
+											fockDerivStatic[a].get(u, v);
+						}
+					}
+
+					element = element / (soln.E.get(j + NOcc) - soln.E.get(i));
+					F.put(count1, 0, element);
+					count1++;
+				}
+			}
+
+			F = D.mmul(F);
+			xArray[a] = DoubleMatrix.zeros(NOcc * NVirt, 1);
+			rarray[a] = xArray[a].dup();
+			barray[a] = F.dup();
+			Farray[a] = F.dup();
+		}
+
+
+		if (barray[0].rows == 0) {
+			DoubleMatrix[] densityderivs =
+					new DoubleMatrix[fockDerivStatic.length];
+
+			for (int i = 0; i < densityderivs.length; i++) {
+				densityderivs[i] = DoubleMatrix.zeros(0, 0);
+			}
+
+			return densityderivs;
+		}
+
+
+		ArrayList<DoubleMatrix> b = new ArrayList<>();
+
+		ArrayList<DoubleMatrix> p = new ArrayList<>();
+
+		int[] iterable = new int[barray.length];
+
+
+		DoubleMatrix F = DoubleMatrix.zeros(NOcc * NVirt, Farray.length);
+		for (int i = 0; i < Farray.length; i++) {
+			F.putColumn(i, Farray[i]);
+		}
+
+		while (GeometrySecondDerivative.numIterable(iterable) > 0) {
+
+			GeometrySecondDerivative.orthogonalise(barray);
+
+//            System.err.println("only " + GeometrySecondDerivative
+//            .numIterable(iterable) +
+//            " left to go!");
+
+			for (int i = 0; i < barray.length; i++) {
+
+				b.add(barray[i].dup());
+				parray[i] = D.mmul(GeometrySecondDerivative
+						.computeResponseVectorsPople(Dinv.mmul(barray[i].dup()),
+								soln));
+				p.add(parray[i].dup());
+			}
+
+			for (int i = 0; i < barray.length; i++) {
+				DoubleMatrix newb = parray[i];
+
+				for (int j = 0; j < b.size(); j++) {
+					double num = b.get(j).transpose().mmul(parray[i]).get(0) /
+							b.get(j).transpose().mmul(b.get(j)).get(0);
+					newb = newb.sub(b.get(j).mmul(num));
+				}
+
+				barray[i] = newb.dup();
+			}
+
+			DoubleMatrix B = DoubleMatrix.zeros(NOcc * NVirt, b.size());
+			DoubleMatrix P = DoubleMatrix.zeros(NOcc * NVirt, b.size());
+
+			for (int i = 0; i < b.size(); i++) {
+				B.putColumn(i, b.get(i));
+
+				P.putColumn(i, b.get(i).sub(p.get(i)));
+			}
+
+
+			DoubleMatrix lhs = B.transpose().mmul(P);
+
+			DoubleMatrix rhs = B.transpose().mmul(F);
+			DoubleMatrix alpha;
+
+			try {
+				alpha = Solve.solve(lhs, rhs);
+			} catch (LapackException e) {
+				alpha = DoubleMatrix.ones(lhs.columns, rhs.columns);
+//                System.err.println(Arrays.toString(fockDerivStatic));
+//                System.err.println(lhs);
+//                System.err.println(rhs);
+			}
+
+			for (int a = 0; a < xArray.length; a++) {
+
+				rarray[a] = DoubleMatrix.zeros(NOcc * NVirt, 1);
+				xArray[a] = DoubleMatrix.zeros(NOcc * NVirt, 1);
+			}
+
+			for (int i = 0; i < alpha.rows; i++) {
+				for (int j = 0; j < alpha.columns; j++) {
+
+					rarray[j] =
+							rarray[j].add((b.get(i).sub(p.get(i)))
+									.mmul(alpha.get(i,
+											j)));
+					xArray[j] = xArray[j].add(b.get(i).mmul(alpha.get(i, j)));
+				}
+			}
+
+			for (int j = 0; j < alpha.columns; j++) {
+				rarray[j] = rarray[j].sub(Farray[j]);
+
+				xArray[j] = Dinv.mmul(xArray[j]);
+
+				if (mag(rarray[j]) < 1E-10) { //todo play with this
+					iterable[j] = 1;
+				}
+				else if (Double.isNaN(mag(rarray[j]))) {
+					System.err.println(
+							"Pople algorithm fails; reverting to Thiel " +
+									"algorithm " +
+									"(don't" +
+									" " +
+									"panic)...");
+					return xArrayLimitedThiel(soln, fockDerivStaticPadded);
+				}
+				else {
+					iterable[j] = 0;
+					System.err.println("convergence test: " + mag(rarray[j]));
+				}
+			}
+		}
+
+		DoubleMatrix[] xArrayPadded =
+				new DoubleMatrix[fockDerivStaticPadded.length];
+		size = 0;
+		for (int i = 0; i < fockDerivStaticPadded.length; i++) {
+			if (fockDerivStaticPadded[i] != null) {
+				xArrayPadded[i] = xArray[size];
+				size++;
+			}
+		}
+		return xArrayPadded;
 	}
 
 	private static DoubleMatrix[] xArrayLimitedThiel(SolutionR soln,
@@ -3703,14 +3527,14 @@ public class ParamDerivative {
 				int count = 0;
 				for (int i = 0; i < NOcc; i++) {
 					for (int j = 0; j < NVirt; j++) {
-							sum -= 2 * (soln.C.get(i, u) * soln.C.get(j + NOcc,
-									v) +
-									soln.C.get(j + NOcc, u) *
-											soln.C.get(i, v)) *
-									x.get(count, 0);
-							count++;
-						}
+						sum -= 2 * (soln.C.get(i, u) * soln.C.get(j + NOcc,
+								v) +
+								soln.C.get(j + NOcc, u) *
+										soln.C.get(i, v)) *
+								x.get(count, 0);
+						count++;
 					}
+				}
 				densityMatrixDeriv.put(u, v, sum);
 			}
 		}

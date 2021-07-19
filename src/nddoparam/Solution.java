@@ -22,6 +22,15 @@ public abstract class Solution {
 	protected RawMolecule rm;
 
 	public Solution(NDDOAtom[] atoms, int charge) {
+		/*
+		 solution give 2 things
+		 1. query arrays - atomNumber returns which atom an orbital
+		 corresponds to. orbitalIndices returns all orbitals which are from
+		 a particular atom. missingIndex returns all orbitals which are not
+		 from that atom.
+
+		 2. Fill up H.
+		*/
 		this.atoms = atoms;
 		this.charge = charge;
 		int numOrbitals = 0;
@@ -118,6 +127,13 @@ public abstract class Solution {
 		}
 	}
 
+	/**
+	 * Checks if two DoubleMatrices are similar below a threshold.
+	 * @param x
+	 * @param y
+	 * @param limit
+	 * @return
+	 */
 	public static boolean isSimilar(DoubleMatrix x, DoubleMatrix y,
 									double limit) {
 		for (int i = 0; i < y.rows; i++) {

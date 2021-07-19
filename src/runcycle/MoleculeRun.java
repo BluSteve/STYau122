@@ -53,7 +53,7 @@ public class MoleculeRun {
 						new GeometryOptimizationR(atoms, charge) :
 						new GeometryOptimizationU(atoms, charge, mult);
 				s = opt.s.setRm(rm); // NOT a clone
-
+//				s = new SolutionR(atoms, charge).setRm(rm);
 				// updates geom coords
 				for (int i = 0; i < atoms.length; i++) {
 					rm.atoms[i].coords = atoms[i].getCoordinates();

@@ -177,6 +177,7 @@ public abstract class ParamGradient {
 	 * @param paramNum Param number.
 	 */
 	protected void computeGradient(int ZI, int paramNum) {
+		System.out.println("computing: " + ZI + " " + paramNum);
 		Solution sPrime = null;
 		if (!analytical) {
 			sPrime = constructSPrime(ZI, paramNum);
@@ -194,6 +195,7 @@ public abstract class ParamGradient {
 			computeDipoleDeriv(ZI, paramNum, false, sPrime);
 			computeIEDeriv(ZI, paramNum, sPrime);
 		}
+		System.out.println("computing2: " + ZI + " " + paramNum);
 
 		if (isExpAvail) computeGeomDeriv(ZI, paramNum);
 	}
@@ -206,6 +208,7 @@ public abstract class ParamGradient {
 	 */
 	protected void computeGeomDeriv(int ZI, int paramNum) {
 		Solution sExpPrime = constructSExpPrime(ZI, paramNum);
+		System.out.println("computing3: " + ZI + " " + paramNum);
 		double sum = 0;
 		for (int i = 0; i < sExpPrime.atoms.length; i++) {
 			for (int j = 0; j < 3; j++) {

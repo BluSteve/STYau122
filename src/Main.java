@@ -27,13 +27,13 @@ import java.util.concurrent.RecursiveTask;
 
 public class Main {
 	private static final String INPUT_FILENAME = "input";
-	private static final int NUM_RUNS = 10;
+	private static final int NUM_RUNS = 1;
 	private static RawInput ri;
 
 	public static void main(String[] args) {
 		StopWatch sw = new StopWatch();
 		sw.start();
-		System.out.close();
+//		System.out.close();
 
 		for (int runNum = 0; runNum < NUM_RUNS; runNum++) {
 			StopWatch lsw = new StopWatch();
@@ -115,6 +115,7 @@ public class Main {
 					for (int i = 0; i < g.length; i++) {
 						ttGradient[i] += g[i];
 					}
+
 					if (isRunHessian) {
 						double[][] h = result.getH().getHessian(
 								ri.atomTypes, ri.neededParams);
