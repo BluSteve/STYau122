@@ -7,7 +7,7 @@ public class ParamHessianR extends ParamHessian {
 	/**
 	 * @see ParamHessian
 	 */
-	public ParamHessianR(SolutionR s, double[] datum, SolutionR sExp,
+	protected ParamHessianR(SolutionR s, double[] datum, SolutionR sExp,
 						 boolean analytical) {
 		super(s, datum, sExp, analytical);
 		g = new ParamGradientR(s, datum, sExp, analytical);
@@ -20,7 +20,7 @@ public class ParamHessianR extends ParamHessian {
 	 * @param g ParamGradient object that contains the primary Solution
 	 *          object.
 	 */
-	public ParamHessianR(ParamGradientR g) {
+	protected ParamHessianR(ParamGradientR g) {
 		super(g.s, g.datum, g.sExp, g.analytical);
 		this.g = g;
 	}

@@ -149,7 +149,7 @@ public class Main {
 
 			// updating params and other input information
 			ri.params.lastGradient = ttGradient;
-			ri.params.lastHessian = ParamHessian.getHessianUT(
+			ri.params.lastHessian = ParamHessian.utify(
 					newHessian.toArray2());
 			ri.params.lastDir = dir;
 			int n = 0;

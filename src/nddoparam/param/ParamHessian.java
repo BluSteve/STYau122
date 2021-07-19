@@ -1,6 +1,8 @@
 package nddoparam.param;
 
 import nddoparam.Solution;
+import nddoparam.SolutionR;
+import nddoparam.SolutionU;
 import org.apache.commons.lang3.ArrayUtils;
 import scf.Utils;
 
@@ -45,14 +47,35 @@ public abstract class ParamHessian {
 		this.analytical = analytical;
 	}
 
+	public static ParamHessian from(ParamGradientR g) {
+		return new ParamHessianR(g);
+	}
+
+	public static ParamHessian from(ParamGradientU g) {
+		return new ParamHessianU(g);
+	}
+
+	public static ParamHessian of(SolutionR s, double[] datum, SolutionR sExp,
+								  boolean analytical) {
+		return new ParamHessianR(s, datum, sExp, analytical);
+	}
+
+	public static ParamHessian of(SolutionU s, double[] datum, SolutionU sExp,
+								  boolean analytical) {
+		return new ParamHessianU(s, datum, sExp, analytical);
+	}
+
 	/**
-	 * Gets flattened upper triangular matrix of Hessian.
+	 * Gets flattened upper triangular matrix of
+	 * Hessian.
 	 *
-	 * @param hessian 2dArray representing the Hessian matrix. Should be
+	 * @param hessian 2dArray representing the
+	 *                Hessian matrix. Should be
 	 *                symmetrical.
-	 * @return The upper triangular matrix flattened.
+	 * @return The upper triangular
+	 * matrix flattened.
 	 */
-	public static double[] getHessianUT(double[][] hessian) {
+	public static double[] utify(double[][] hessian) {
 		double[] hessianUT =
 				new double[(hessian.length + 1) * hessian.length / 2];
 		for (int i = 0; i < hessian.length; i++) {
@@ -275,7 +298,7 @@ public abstract class ParamHessian {
 		double sum = 0;
 		try {
 			this.compute();
-			double[] a = ParamHessian.getHessianUT(this.hessian);
+			double[] a = ParamHessian.utify(this.hessian);
 			double[][] b = new double[hessian.length][0];
 			for (int i = 0; i < hessian.length; i++) b[i] = hessian[i].clone();
 
@@ -283,8 +306,8 @@ public abstract class ParamHessian {
 			this.compute();
 			sum = IntStream.range(0, a.length)
 					.mapToDouble(i -> (a[i] -
-							ParamHessian.getHessianUT(this.hessian)[i]) *
-							(a[i] - ParamHessian.getHessianUT(this.hessian)[i]))
+							ParamHessian.utify(this.hessian)[i]) *
+							(a[i] - ParamHessian.utify(this.hessian)[i]))
 					.sum();
 			analytical = !analytical;
 			hessian = b;

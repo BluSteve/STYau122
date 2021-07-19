@@ -6,7 +6,6 @@ import nddoparam.mndo.MNDOParams;
 import nddoparam.param.ParamGradient;
 import nddoparam.param.ParamGradientR;
 import nddoparam.param.ParamHessian;
-import nddoparam.param.ParamHessianR;
 import org.apache.commons.lang3.time.StopWatch;
 import runcycle.input.RawMolecule;
 import scf.AtomHandler;
@@ -94,7 +93,7 @@ public class Testing {
 		ParamHessian H;
 		G = new ParamGradientR((SolutionR) S, datum, expsoln, true);
 		G.compute();
-		H = new ParamHessianR((ParamGradientR) G);
+		H = ParamHessian.from((ParamGradientR) G);
 		H.compute();
 		sw.stop();
 		System.err.println(Arrays.deepToString(H.getHessianRaw()));

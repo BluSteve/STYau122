@@ -2,7 +2,10 @@ package runcycle;
 
 import nddoparam.*;
 import nddoparam.mndo.MNDOParams;
-import nddoparam.param.*;
+import nddoparam.param.ParamGradient;
+import nddoparam.param.ParamGradientR;
+import nddoparam.param.ParamGradientU;
+import nddoparam.param.ParamHessian;
 import org.apache.commons.lang3.time.StopWatch;
 import runcycle.input.RawMolecule;
 import runcycle.output.OutputHandler;
@@ -97,8 +100,8 @@ public class MoleculeRun {
 						new ParamGradientU((SolutionU) S, datum,
 								(SolutionU) expS, false);
 				h = restricted ?
-						new ParamHessianR((ParamGradientR) g) :
-						new ParamHessianU((ParamGradientU) g);
+						ParamHessian.from((ParamGradientR) g) :
+						ParamHessian.from((ParamGradientU) g);
 
 
 				g.compute(); // time intensive step ~ 100 ms
