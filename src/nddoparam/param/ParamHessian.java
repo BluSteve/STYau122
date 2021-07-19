@@ -147,9 +147,9 @@ public abstract class ParamHessian {
 	 * @param gPrime    The perturbed ParamGradient object used for this row
 	 *                  of the Hessian
 	 * @param ZIndex2   The row atom index.
-	 * @param paramNum2 The row param index.
+	 * @param paramNum2 The row param number.
 	 * @param ZIndex1   The column atom index.
-	 * @param paramNum1 The column param index.
+	 * @param paramNum1 The column param number.
 	 */
 	private void computeElement(ParamGradient gPrime, int ZIndex2,
 								int paramNum2, int ZIndex1, int paramNum1) {

@@ -10,7 +10,7 @@ import java.util.concurrent.RecursiveAction;
 
 public abstract class ParamGradient {
 	protected static final double LAMBDA = 1E-7;
-	protected Solution s, sPrime, sExp;
+	protected Solution s, sExp;
 	protected ParamErrorFunction e;
 	protected boolean isExpAvail, analytical;
 	protected double[] datum;
@@ -72,20 +72,20 @@ public abstract class ParamGradient {
 	 * @param atomTypes    Array of atom types.
 	 * @param neededParams Array of params needed in the same order as atom
 	 *                     types.
-	 * @param uniqueZs     Array of this particular molecule's atom types.
-	 * @param moleculeNP   The needed params of this molecule.
+	 * @param moleculeATs  Array of this particular molecule's atom types.
+	 * @param moleculeNPs  The needed params of this molecule.
 	 * @param isDepad      Whether to depad the output.
 	 * @return Flattened 2d deriv array.
 	 */
 	public static double[] combine(double[][] derivs, int[] atomTypes,
-								   int[][] neededParams, int[] uniqueZs,
-								   int[][] moleculeNP, boolean isDepad) {
-		if (isDepad) derivs = depad(derivs, uniqueZs, moleculeNP);
+								   int[][] neededParams, int[] moleculeATs,
+								   int[][] moleculeNPs, boolean isDepad) {
+		if (isDepad) derivs = depad(derivs, moleculeATs, moleculeNPs);
 
 		double[][] paddedDerivs = new double[atomTypes.length][];
 		for (int i = 0; i < atomTypes.length; i++) {
-			for (int j = 0; j < uniqueZs.length; j++) {
-				if (atomTypes[i] == uniqueZs[j]) {
+			for (int j = 0; j < moleculeATs.length; j++) {
+				if (atomTypes[i] == moleculeATs[j]) {
 					paddedDerivs[i] = derivs[j];
 				}
 				else {
@@ -106,14 +106,17 @@ public abstract class ParamGradient {
 		return res;
 	}
 
+	/**
+	 * Fills up all gradient matrices, will be multithreaded if experimental
+	 * geometry gradient computations are required as those take lots of time
+	 * for they cannot be computed analytically.
+	 */
 	public void compute() {
 		totalGradients =
 				new double[s.getRm().mats.length][Solution.maxParamNum];
 		if (analytical && (datum[1] != 0 || datum[2] != 0))
 			computeBatchedDerivs(0, 0);
 
-		// if geom finite difference computations are not needed, overhead
-		// for multithreading exceeds potential gain.
 		if (!analytical || isExpAvail) {
 			List<RecursiveAction> subtasks = new ArrayList<>();
 
@@ -139,44 +142,61 @@ public abstract class ParamGradient {
 		}
 	}
 
-	protected void computeGradient(int Z, int paramNum) {
+	/**
+	 * Computes the gradients for one atom index or paramNum either
+	 * analytically or by finite difference. Will also compute geometry
+	 * derivatives if available.
+	 *
+	 * @param ZI       Atom index.
+	 * @param paramNum Param number.
+	 */
+	protected void computeGradient(int ZI, int paramNum) {
 		Solution sPrime = null;
 		if (!analytical) {
-			sPrime = constructSPrime(Z, paramNum);
+			sPrime = constructSPrime(ZI, paramNum);
 		}
 
-		computeHFDeriv(Z, paramNum, sPrime);
+		computeHFDeriv(ZI, paramNum, sPrime);
 		if (datum[1] != 0 && datum[2] != 0) {
-			computeDipoleDeriv(Z, paramNum, true, sPrime);
-			computeIEDeriv(Z, paramNum, sPrime);
+			computeDipoleDeriv(ZI, paramNum, true, sPrime);
+			computeIEDeriv(ZI, paramNum, sPrime);
 		}
 		else if (datum[1] != 0) {
-			computeDipoleDeriv(Z, paramNum, true, sPrime);
+			computeDipoleDeriv(ZI, paramNum, true, sPrime);
 		}
 		else if (datum[2] != 0) {
-			computeDipoleDeriv(Z, paramNum, false, sPrime);
-			computeIEDeriv(Z, paramNum, sPrime);
+			computeDipoleDeriv(ZI, paramNum, false, sPrime);
+			computeIEDeriv(ZI, paramNum, sPrime);
 		}
 
-		if (isExpAvail) computeGeomDeriv(Z, paramNum);
+		if (isExpAvail) computeGeomDeriv(ZI, paramNum);
 	}
 
-	protected void computeGeomDeriv(int Z, int paramNum) {
-		Solution sExpPrime = constructSExpPrime(Z, paramNum);
+	/**
+	 * Computes geometry derivative for one parameter of one atom.
+	 *
+	 * @param ZI       Atom index.
+	 * @param paramNum Param number.
+	 */
+	private void computeGeomDeriv(int ZI, int paramNum) {
+		Solution sExpPrime = constructSExpPrime(ZI, paramNum);
 		double sum = 0;
-		double d;
 		for (int i = 0; i < sExpPrime.atoms.length; i++) {
 			for (int j = 0; j < 3; j++) {
-				d = findGrad(sExpPrime, i, j);
+				double d = findGrad(sExpPrime, i, j);
 				sum += d * d;
 			}
 		}
 		double geomGradient = 627.5 * Math.sqrt(sum);
-		geomDerivs[Z][paramNum] = 1 / LAMBDA * (geomGradient - e.geomGradient);
-		totalGradients[Z][paramNum] +=
-				0.000098 * e.geomGradient * geomDerivs[Z][paramNum];
+		geomDerivs[ZI][paramNum] =
+				1 / LAMBDA * (geomGradient - e.geomGradient);
+		totalGradients[ZI][paramNum] +=
+				0.000098 * e.geomGradient * geomDerivs[ZI][paramNum];
 	}
 
+	/**
+	 * Computes error function of primary Solution object.
+	 */
 	protected void errorFunctionRoutine() {
 		if (datum[1] != 0) e.addDipoleError(datum[1]);
 		if (datum[2] != 0) e.addIEError(datum[2]);
@@ -190,6 +210,10 @@ public abstract class ParamGradient {
 		}
 	}
 
+	/**
+	 * Initializes result arrays as needed, so as to cut down on
+	 * initialization time.
+	 */
 	protected void initializeArrays() {
 		int atomLength = s.getRm().mats.length;
 		int paramLength = Solution.maxParamNum;
@@ -213,24 +237,78 @@ public abstract class ParamGradient {
 
 	}
 
-	protected abstract Solution constructSPrime(int Z, int paramNum);
-
+	/**
+	 * Compiles all necessary fock matrices into one array before using the
+	 * Pople algorithm, for faster computation. This function is the only
+	 * thing that's not computed on a Z, paramNum level. Will not compute
+	 * anything before the firstZIndex and the firstParamNum. Has not been
+	 * implemented for unrestricted yet.
+	 *
+	 * @param firstZIndex   First atom index to compute, inclusive.
+	 * @param firstParamNum First param number to compute, inclusive.
+	 */
 	protected abstract void computeBatchedDerivs(int firstZIndex,
-												 int firstParamIndex);
+												 int firstParamNum);
 
-	protected abstract void computeHFDeriv(int Z, int paramNum,
+	/**
+	 * Computes heat of formation derivative for one parameter of one atom.
+	 *
+	 * @param ZI       Atom index.
+	 * @param paramNum Param number.
+	 * @param sPrime   Perturbed s, used for finite difference if `analytical`
+	 *                 is false.
+	 */
+	protected abstract void computeHFDeriv(int ZI, int paramNum,
 										   Solution sPrime);
 
-	protected abstract void computeDipoleDeriv(int Z, int paramNum,
+	/**
+	 * Computes dipole derivative for one parameter of one atom. Also computes
+	 * Hf derivs.
+	 *
+	 * @param ZI       Atom index.
+	 * @param paramNum Param number.
+	 * @param full     Sets whether dipole derivatives themselves are computed.
+	 * @param sPrime   Perturbed s, used for finite difference if `analytical`
+	 *                 is false.
+	 */
+	protected abstract void computeDipoleDeriv(int ZI, int paramNum,
 											   boolean full,
 											   Solution sPrime);
 
-	protected abstract void computeIEDeriv(int Z, int paramNum,
+	/**
+	 * Computes ionization energy derivative for one parameter of one atom.
+	 * Requires computeDipoleDeriv to be called previously.
+	 *
+	 * @param ZI       Atom index.
+	 * @param paramNum Param number.
+	 * @param sPrime   Perturbed s, used for finite difference if `analytical`
+	 *                 is false.
+	 */
+	protected abstract void computeIEDeriv(int ZI, int paramNum,
 										   Solution sPrime);
 
-	protected abstract Solution constructSExpPrime(int Z, int paramNum);
+	/**
+	 * @param ZI       Atom index.
+	 * @param paramNum Param number.
+	 * @return Perturbed s for a certain param number of a certain atom index.
+	 */
+	protected abstract Solution constructSPrime(int ZI, int paramNum);
 
-	protected abstract double findGrad(Solution sExpPrime, int i, int j);
+	/**
+	 * @param ZI       Atom index.
+	 * @param paramNum Param number.
+	 * @return Perturbed sExp for a certain param number of a certain atom
+	 * index.
+	 */
+	protected abstract Solution constructSExpPrime(int ZI, int paramNum);
+
+	/**
+	 * @param sExpPrime Perturbed sExp object.
+	 * @param i         Index of atom, NOT unique atoms.
+	 * @param xyz       Coordinate to find gradient of.
+	 * @return Geometry gradient for that coordinate of that atom.
+	 */
+	protected abstract double findGrad(Solution sExpPrime, int i, int xyz);
 
 	public ParamErrorFunction getE() {
 		return this.e;

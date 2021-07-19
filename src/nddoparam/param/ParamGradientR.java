@@ -11,7 +11,6 @@ import java.util.Arrays;
 import java.util.Collections;
 
 public class ParamGradientR extends ParamGradient {
-
 	public ParamGradientR(SolutionR s, double[] datum, SolutionR sExp,
 						  boolean analytical) {
 		super(s, datum, sExp, analytical);
@@ -20,21 +19,16 @@ public class ParamGradientR extends ParamGradient {
 		errorFunctionRoutine();
 	}
 
-	// Compiles all necessary fock matrices into one array before using the
-	// Pople algorithm, for faster computation. This function is the only thing
-	// that's not computed on a Z, paramNum level. Will not compute anything
-	// before the firstZIndex and the firstParamIndex.
 	@Override
-	protected void computeBatchedDerivs(int firstZIndex, int firstParamIndex) {
+	protected void computeBatchedDerivs(int firstZIndex, int firstParamNum) {
 		ArrayList<DoubleMatrix> aggregate =
 				new ArrayList<>(s.getRm().mats.length * Solution.maxParamNum);
-		// TODO bug could be here
 		for (int ZI = 0; ZI < s.getRm().mats.length; ZI++) {
 			if (ZI == firstZIndex)
 				staticDerivs[ZI] = ParamDerivative
 						.MNDOStaticMatrixDeriv((SolutionR) s,
 								s.getRm().mats[ZI],
-								firstParamIndex);
+								firstParamNum);
 			else if (ZI < firstZIndex) {
 				staticDerivs[ZI] =
 						new DoubleMatrix[][]{
@@ -77,8 +71,6 @@ public class ParamGradientR extends ParamGradient {
 				2 * (s.hf - datum[0]) * HFDerivs[ZI][paramNum];
 	}
 
-	// `full` sets whether dipole itself is actually computed
-	// also computes HF
 	@Override
 	protected void computeDipoleDeriv(int ZI, int paramNum, boolean full,
 									  Solution sPrime) {
@@ -170,7 +162,7 @@ public class ParamGradientR extends ParamGradient {
 	}
 
 	@Override
-	protected double findGrad(Solution sExpPrime, int i, int j) {
-		return GeometryDerivative.grad((SolutionR) sExpPrime, i, j);
+	protected double findGrad(Solution sExpPrime, int i, int xyz) {
+		return GeometryDerivative.grad((SolutionR) sExpPrime, i, xyz);
 	}
 }

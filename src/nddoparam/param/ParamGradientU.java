@@ -19,13 +19,12 @@ public class ParamGradientU extends ParamGradient {
 	}
 
 	@Override
-	protected void computeBatchedDerivs(int firstZIndex, int firstParamIndex) {
+	protected void computeBatchedDerivs(int firstZIndex, int firstParamNum) {
 		System.err.println(errorMessage);
 	}
 
 	@Override
-	protected void computeHFDeriv(int ZI, int paramNum,
-								  Solution sPrime) {
+	protected void computeHFDeriv(int ZI, int paramNum, Solution sPrime) {
 		if (analytical) {
 			System.err.println(errorMessage);
 		}
@@ -55,8 +54,7 @@ public class ParamGradientU extends ParamGradient {
 	}
 
 	@Override
-	protected void computeIEDeriv(int ZI, int paramNum,
-								  Solution sPrime) {
+	protected void computeIEDeriv(int ZI, int paramNum, Solution sPrime) {
 		if (analytical) {
 			System.err.println(errorMessage);
 		}
@@ -75,16 +73,14 @@ public class ParamGradientU extends ParamGradient {
 	}
 
 	@Override
-	protected SolutionU constructSExpPrime(int Z, int paramNum) {
+	protected SolutionU constructSExpPrime(int ZI, int paramNum) {
 		return new SolutionU(
-				Utils.perturbAtomParams(sExp.atoms, sExp.getRm().mats[Z],
-						paramNum),
-				sExp.charge,
-				sExp.multiplicity);
+				Utils.perturbAtomParams(sExp.atoms, sExp.getRm().mats[ZI],
+						paramNum), sExp.charge, sExp.multiplicity);
 	}
 
 	@Override
-	protected double findGrad(Solution sExpPrime, int i, int j) {
-		return GeometryDerivative.grad((SolutionU) sExpPrime, i, j);
+	protected double findGrad(Solution sExpPrime, int i, int xyz) {
+		return GeometryDerivative.grad((SolutionU) sExpPrime, i, xyz);
 	}
 }

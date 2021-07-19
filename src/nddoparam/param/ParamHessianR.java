@@ -16,9 +16,9 @@ public class ParamHessianR extends ParamHessian {
 
 	/**
 	 * Takes in a pre-computed ParamGradient object.
-	 *  @param g          ParamGradient object that contains the Solution
-	 *                   object required.
 	 *
+	 * @param g ParamGradient object that contains the primary Solution
+	 *          object.
 	 */
 	public ParamHessianR(ParamGradientR g) {
 		super(g.s, g.datum, g.sExp, g.analytical);
