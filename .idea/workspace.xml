@@ -38,11 +38,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Testing.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/output/OutputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/output/OutputHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -459,14 +455,7 @@
       <workItem from="1626501531906" duration="21400000" />
       <workItem from="1626530653882" duration="12671000" />
       <workItem from="1626617825423" duration="12012000" />
-      <workItem from="1626665170977" duration="2924000" />
-    </task>
-    <task id="LOCAL-00086" summary="output.json">
-      <created>1626235295964</created>
-      <option name="number" value="00086" />
-      <option name="presentableId" value="LOCAL-00086" />
-      <option name="project" value="LOCAL" />
-      <updated>1626235295964</updated>
+      <workItem from="1626665170977" duration="3921000" />
     </task>
     <task id="LOCAL-00087" summary="Formatting">
       <created>1626247904248</created>
@@ -804,7 +793,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626628776722</updated>
     </task>
-    <option name="localTasksCounter" value="135" />
+    <task id="LOCAL-00135" summary="more doc and minor bug fixes for hessian and gradient">
+      <created>1626668410644</created>
+      <option name="number" value="00135" />
+      <option name="presentableId" value="LOCAL-00135" />
+      <option name="project" value="LOCAL" />
+      <updated>1626668410645</updated>
+    </task>
+    <option name="localTasksCounter" value="136" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -881,7 +877,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Padded gradient" />
     <MESSAGE value="i hate padding" />
     <MESSAGE value="minor changes but not reversible" />
     <MESSAGE value="Hessian padding fixed" />
@@ -906,7 +901,8 @@
     <MESSAGE value="Fixed hessian padding and multithreading" />
     <MESSAGE value="minor hessian fixes" />
     <MESSAGE value="Made param gradient thread safe" />
-    <option name="LAST_COMMIT_MESSAGE" value="Made param gradient thread safe" />
+    <MESSAGE value="more doc and minor bug fixes for hessian and gradient" />
+    <option name="LAST_COMMIT_MESSAGE" value="more doc and minor bug fixes for hessian and gradient" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

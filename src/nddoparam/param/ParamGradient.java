@@ -29,15 +29,24 @@ public abstract class ParamGradient {
 		initializeArrays();
 	}
 
-	public static double[][] depad(double[][] derivs, int[][] neededParams,
-								   int[] uniqueZs) {
+	/**
+	 * Depads any 2d deriv array based on arrays of atom types and their
+	 * corresponding params required.
+	 *
+	 * @param derivs       2d deriv array. (e.g. HFDerivs, totalGradients, ...)
+	 * @param atomTypes    Array of atom types.
+	 * @param neededParams Array of params needed in the same order as atom
+	 *                     types.
+	 * @return Depadded 2d-array of the input derivs.
+	 */
+	public static double[][] depad(double[][] derivs, int[] atomTypes,
+								   int[][] neededParams) {
 		double[][] res = new double[derivs.length][0];
 		for (int i = 0; i < derivs.length; i++) {
-			double[] depadded =
-					new double[neededParams[uniqueZs[i]].length];
+			double[] depadded = new double[neededParams[atomTypes[i]].length];
 			int u = 0;
 			for (int j = 0; j < derivs[i].length; j++) {
-				for (int p : neededParams[uniqueZs[i]]) {
+				for (int p : neededParams[atomTypes[i]]) {
 					if (j == p) {
 						depadded[u] = derivs[i][j];
 						u++;
@@ -50,17 +59,29 @@ public abstract class ParamGradient {
 		return res;
 	}
 
-	// also pads atomTypes that this molecule doesn't contain with zeros, for
-	// consistency's sake.
+	/**
+	 * Depads, pads, and flattens any 2d deriv array to make for easier
+	 * comparison when outputted.
+	 * <p/>
+	 * Confusingly, padding is very different from depadding. depad removes
+	 * the zeros which represent non-differentiated parameters, but this adds
+	 * padding for the atoms that are in the training set but not this
+	 * particular molecule.
+	 *
+	 * @param derivs       2d deriv array. (e.g. HFDerivs, totalGradients, ...)
+	 * @param atomTypes    Array of atom types.
+	 * @param neededParams Array of params needed in the same order as atom
+	 *                     types.
+	 * @param uniqueZs     Array of this particular molecule's atom types.
+	 * @param moleculeNP   The needed params of this molecule.
+	 * @param isDepad      Whether to depad the output.
+	 * @return Flattened 2d deriv array.
+	 */
 	public static double[] combine(double[][] derivs, int[] atomTypes,
 								   int[][] neededParams, int[] uniqueZs,
 								   int[][] moleculeNP, boolean isDepad) {
-		if (isDepad) derivs = depad(derivs, moleculeNP, uniqueZs);
+		if (isDepad) derivs = depad(derivs, uniqueZs, moleculeNP);
 
-		// confusingly, this is a different kind of padding from the above
-		// depad method. depad removes the zeros which represent
-		// non-differentiated parameters, but this adds padding for the atoms
-		// that are in the training set but not this particular molecule.
 		double[][] paddedDerivs = new double[atomTypes.length][];
 		for (int i = 0; i < atomTypes.length; i++) {
 			for (int j = 0; j < uniqueZs.length; j++) {
@@ -68,8 +89,7 @@ public abstract class ParamGradient {
 					paddedDerivs[i] = derivs[j];
 				}
 				else {
-					paddedDerivs[i] =
-							new double[neededParams[i].length];
+					paddedDerivs[i] = new double[neededParams[i].length];
 				}
 			}
 		}
