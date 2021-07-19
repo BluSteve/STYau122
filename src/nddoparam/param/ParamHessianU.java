@@ -13,12 +13,7 @@ class ParamHessianU extends ParamHessian {
 		g = new ParamGradientU(s, datum, sExp, analytical).compute();
 	}
 
-	/**
-	 * Takes in a pre-computed ParamGradient object.
-	 *
-	 * @param g ParamGradient object that contains the primary Solution
-	 *          object.
-	 */
+
 	protected ParamHessianU(ParamGradientU g) {
 		super(g.s, g.datum, g.sExp, g.analytical);
 		this.g = g;

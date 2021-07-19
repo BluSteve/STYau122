@@ -47,6 +47,15 @@ public abstract class ParamHessian {
 		this.analytical = analytical;
 	}
 
+	/**
+	 * Takes in a pre-computed ParamGradient object.
+	 *
+	 * @param g ParamGradient object that contains the primary Solution
+	 *          object.
+	 * @return Uncomputed ParamHessian object, either restricted or not
+	 * depending on type
+	 * of g.
+	 */
 	public static ParamHessian from(ParamGradient g) {
 		if (g instanceof ParamGradientR)
 			return new ParamHessianR((ParamGradientR) g);
@@ -54,6 +63,16 @@ public abstract class ParamHessian {
 		return new ParamHessianU((ParamGradientU) g);
 	}
 
+	/**
+	 * Get Hessian matrix from basic ingredients.
+	 *
+	 * @param s     Primary Solution object.
+	 * @param datum Reference data of Hf, dipole, I.E.
+	 * @param sExp  Optional experimental geometry Solution object, may be
+	 *                 null.
+	 * @return Uncomputed ParamHessian object, either restricted or not
+	 * depending on type of s and sExp.
+	 */
 	public static ParamHessian of(Solution s, double[] datum, Solution sExp) {
 		if (s instanceof SolutionR && sExp instanceof SolutionR)
 			return new ParamHessianR((SolutionR) s, datum, (SolutionR) sExp,

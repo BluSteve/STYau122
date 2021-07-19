@@ -31,6 +31,16 @@ public abstract class ParamGradient {
 		initializeArrays();
 	}
 
+	/**
+	 * Get gradients from basic ingredients.
+	 *
+	 * @param s     Primary Solution object.
+	 * @param datum Reference data of Hf, dipole, I.E.
+	 * @param sExp  Optional experimental geometry Solution object, may be
+	 *                 null.
+	 * @return Uncomputed ParamGradient object, either restricted or not
+	 * depending on type of s and sExp.
+	 */
 	public static ParamGradient of(Solution s, double[] datum, Solution sExp) {
 		if (s instanceof SolutionR && sExp instanceof SolutionR)
 			return new ParamGradientR((SolutionR) s, datum, (SolutionR) sExp,

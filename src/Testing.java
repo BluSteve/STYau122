@@ -88,10 +88,8 @@ public class Testing {
 //		SolutionU expsoln = (new SolutionU(exp, 0,1 )).setRm(rm);
 
 		Solution S = opt.s.setRm(rm);
-		ParamGradient G;
-		ParamHessian H;
-		G = ParamGradient.of(S, datum, expsoln).compute();
-		H = ParamHessian.from(G).compute();
+		ParamGradient G = ParamGradient.of(S, datum, expsoln).compute();
+		ParamHessian H = ParamHessian.from(G).compute();
 		sw.stop();
 		System.err.println(Arrays.deepToString(H.getHessianRaw()));
 //		System.err.println(

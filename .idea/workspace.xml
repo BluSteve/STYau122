@@ -38,8 +38,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/src/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Testing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianR.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessianU.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -458,21 +459,7 @@
       <workItem from="1626501531906" duration="21400000" />
       <workItem from="1626530653882" duration="12671000" />
       <workItem from="1626617825423" duration="12012000" />
-      <workItem from="1626665170977" duration="14769000" />
-    </task>
-    <task id="LOCAL-00093" summary="Middle of nowhere">
-      <created>1626259873649</created>
-      <option name="number" value="00093" />
-      <option name="presentableId" value="LOCAL-00093" />
-      <option name="project" value="LOCAL" />
-      <updated>1626259873649</updated>
-    </task>
-    <task id="LOCAL-00094" summary="Working B">
-      <created>1626260807771</created>
-      <option name="number" value="00094" />
-      <option name="presentableId" value="LOCAL-00094" />
-      <option name="project" value="LOCAL" />
-      <updated>1626260807771</updated>
+      <workItem from="1626665170977" duration="15238000" />
     </task>
     <task id="LOCAL-00095" summary="Working? hessian b">
       <created>1626262423981</created>
@@ -803,7 +790,21 @@
       <option name="project" value="LOCAL" />
       <updated>1626684834362</updated>
     </task>
-    <option name="localTasksCounter" value="142" />
+    <task id="LOCAL-00142" summary="Clamp down on client permissions">
+      <created>1626685191470</created>
+      <option name="number" value="00142" />
+      <option name="presentableId" value="LOCAL-00142" />
+      <option name="project" value="LOCAL" />
+      <updated>1626685191470</updated>
+    </task>
+    <task id="LOCAL-00143" summary="Minor changes">
+      <created>1626685320333</created>
+      <option name="number" value="00143" />
+      <option name="presentableId" value="LOCAL-00143" />
+      <option name="project" value="LOCAL" />
+      <updated>1626685320333</updated>
+    </task>
+    <option name="localTasksCounter" value="144" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -880,8 +881,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="remove unused utils methods" />
-    <MESSAGE value="Minor changes" />
     <MESSAGE value="Minor moleculerun + main refactor" />
     <MESSAGE value="ForkJoinPool implementation" />
     <MESSAGE value="hash functions for io" />
@@ -905,7 +904,9 @@
     <MESSAGE value="Added static factory methods to param hessian" />
     <MESSAGE value="Improved hessian static factory methods" />
     <MESSAGE value="Improved hessian static factory methods further. omg it's so clean" />
-    <option name="LAST_COMMIT_MESSAGE" value="Improved hessian static factory methods further. omg it's so clean" />
+    <MESSAGE value="Clamp down on client permissions" />
+    <MESSAGE value="Minor changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor changes" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
