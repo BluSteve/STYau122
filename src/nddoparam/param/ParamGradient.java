@@ -28,7 +28,10 @@ public abstract class ParamGradient {
 		this.datum = datum;
 		this.sExp = sExp;
 		this.analytical = analytical;
+		e = ParamErrorFunction.of(s, datum[0]);
+
 		initializeArrays();
+		initializeErrorFunction();
 	}
 
 	/**
@@ -220,7 +223,7 @@ public abstract class ParamGradient {
 	/**
 	 * Computes error function of primary Solution object.
 	 */
-	protected void errorFunctionRoutine() {
+	protected void initializeErrorFunction() {
 		if (datum[1] != 0) e.addDipoleError(datum[1]);
 		if (datum[2] != 0) e.addIEError(datum[2]);
 

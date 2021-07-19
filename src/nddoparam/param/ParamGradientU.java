@@ -13,9 +13,6 @@ class ParamGradientU extends ParamGradient {
 	protected ParamGradientU(SolutionU s, double[] datum, SolutionU sExp,
 						  boolean analytical) {
 		super(s, datum, sExp, analytical);
-
-		e = new ParamErrorFunctionU(s, datum[0]);
-		errorFunctionRoutine();
 	}
 
 	@Override

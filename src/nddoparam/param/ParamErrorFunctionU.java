@@ -4,8 +4,8 @@ import nddoparam.GeometryDerivative;
 import nddoparam.Solution;
 import nddoparam.SolutionU;
 
-public class ParamErrorFunctionU extends ParamErrorFunction {
-	public ParamErrorFunctionU(Solution soln, double refHeat) {
+class ParamErrorFunctionU extends ParamErrorFunction {
+	protected ParamErrorFunctionU(Solution soln, double refHeat) {
 		super(soln, refHeat);
 	}
 

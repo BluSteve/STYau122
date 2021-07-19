@@ -39,12 +39,14 @@
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/input.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inputtesting.txt" beforeDir="false" afterPath="$PROJECT_DIR$/inputtesting.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/Solution.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamErrorFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamErrorFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamErrorFunctionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamErrorFunctionR.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamErrorFunctionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamErrorFunctionU.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/input/RawInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/input/RawInput.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientU.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -264,6 +266,7 @@
     </panes>
   </component>
   <component name="ProjectViewState">
+    <option name="abbreviatePackageNames" value="true" />
     <option name="autoscrollFromSource" value="true" />
     <option name="autoscrollToSource" value="true" />
     <option name="flattenPackages" value="true" />
@@ -474,14 +477,7 @@
       <workItem from="1626501531906" duration="21400000" />
       <workItem from="1626530653882" duration="12671000" />
       <workItem from="1626617825423" duration="12012000" />
-      <workItem from="1626665170977" duration="17424000" />
-    </task>
-    <task id="LOCAL-00097" summary="remove old moleculerun">
-      <created>1626345411377</created>
-      <option name="number" value="00097" />
-      <option name="presentableId" value="LOCAL-00097" />
-      <option name="project" value="LOCAL" />
-      <updated>1626345411377</updated>
+      <workItem from="1626665170977" duration="18804000" />
     </task>
     <task id="LOCAL-00098" summary="Minor changes">
       <created>1626345419333</created>
@@ -819,7 +815,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626686748609</updated>
     </task>
-    <option name="localTasksCounter" value="146" />
+    <task id="LOCAL-00146" summary="Fixed main">
+      <created>1626688102804</created>
+      <option name="number" value="00146" />
+      <option name="presentableId" value="LOCAL-00146" />
+      <option name="project" value="LOCAL" />
+      <updated>1626688102804</updated>
+    </task>
+    <option name="localTasksCounter" value="147" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -896,7 +899,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="hash functions for io" />
     <MESSAGE value="Legit AM1 param numbers" />
     <MESSAGE value="minor reformat" />
     <MESSAGE value="fixed adrian's stupid stupid bug" />
@@ -921,7 +923,8 @@
     <MESSAGE value="Minor changes" />
     <MESSAGE value="More docs" />
     <MESSAGE value="Removed ParamHessian subclasses" />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed ParamHessian subclasses" />
+    <MESSAGE value="Fixed main" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed main" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

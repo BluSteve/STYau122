@@ -22,7 +22,6 @@ public abstract class Solution implements Cloneable {
 	protected RawMolecule rm;
 
 	public Solution(NDDOAtom[] atoms, int charge) {
-		// TODO move this to MoleculeRun
 		for (NDDOAtom a : atoms) {
 			nElectrons += a.getAtomProperties().getQ();
 		}

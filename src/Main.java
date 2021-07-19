@@ -26,7 +26,6 @@ import java.util.concurrent.RecursiveTask;
 
 
 public class Main {
-
 	private static final String INPUT_FILENAME = "input";
 	private static final int NUM_RUNS = 1;
 	private static RawInput ri;

@@ -2,6 +2,8 @@ package nddoparam.param;
 
 import nddoparam.NDDOAtom;
 import nddoparam.Solution;
+import nddoparam.SolutionR;
+import nddoparam.SolutionU;
 import scf.GTO;
 
 import java.util.ArrayList;
@@ -28,6 +30,13 @@ public abstract class ParamErrorFunction {
 		this.angles = new ArrayList<>();
 		this.bondDerivatives = new ArrayList<>();
 		this.angleDerivatives = new ArrayList<>();
+	}
+
+	public static ParamErrorFunction of(Solution s, double refHeat) {
+		if (s instanceof SolutionR)
+			return new ParamErrorFunctionR(s, refHeat);
+		assert s instanceof SolutionU;
+		return new ParamErrorFunctionU(s, refHeat);
 	}
 
 	private static double theta(double x1, double y1, double z1, double x2,
