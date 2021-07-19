@@ -63,19 +63,17 @@ public class Main {
 			// converts raw params array to NDDOParams classes and finds
 			// params which need to be differentiated
 			NDDOParams[] nddoParams = convertToNDDOParams(ri);
-			int[][] neededParams = getNeededParams(ri);
 
 			// creates tasks to run in parallel and then runs them
 			List<RecursiveTask> moleculeTasks = new ArrayList<>();
 			for (RawMolecule request : ri.molecules) {
 				if (request.isUsing) {
-					NDDOParams[] finalNddoParams = nddoParams;
 					moleculeTasks.add(new RecursiveTask() {
 						@Override
 						protected MoleculeRun compute() {
 							MoleculeRun mr = new MoleculeRun(
 									request,
-									finalNddoParams,
+									nddoParams,
 									ri.atomTypes,
 									isRunHessian);
 							mr.run();
@@ -90,7 +88,7 @@ public class Main {
 
 			// combined length of all differentiated params
 			int paramLength = 0;
-			for (int[] param : neededParams) paramLength += param.length;
+			for (int[] param : ri.neededParams) paramLength += param.length;
 
 			// outputs output files for reference purposes, not read again in
 			// this program
@@ -107,14 +105,13 @@ public class Main {
 					int[][] moleculeNPs = result.getRm().mnps;
 					boolean isDepad = true;
 
-					initializePO(neededParams, o, result, moleculeATs,
-							moleculeNPs,
-							isDepad);
+					initializePO(o, result, ri.neededParams, moleculeATs,
+							moleculeNPs, isDepad);
 
 					double[] g =
 							ParamGradient.combine(
 									result.getG().getTotalGradients(),
-									ri.atomTypes, neededParams,
+									ri.atomTypes, ri.neededParams,
 									moleculeATs, moleculeNPs,
 									isDepad);
 
@@ -123,9 +120,8 @@ public class Main {
 						ttGradient[i] += g[i];
 					}
 					if (isRunHessian) {
-						double[][] h =
-								result.getH().getHessian(
-										moleculeATs, neededParams);
+						double[][] h = result.getH().getHessian(
+								ri.atomTypes, ri.neededParams);
 						for (int i = 0; i < h.length; i++) {
 							for (int j = 0; j < h[0].length; j++)
 								ttHessian[i][j] += h[i][j];
@@ -153,8 +149,8 @@ public class Main {
 					newHessian.toArray2());
 			ri.params.lastDir = dir;
 			int n = 0;
-			for (int atomI = 0; atomI < neededParams.length; atomI++) {
-				for (int paramI : neededParams[atomI]) {
+			for (int atomI = 0; atomI < ri.neededParams.length; atomI++) {
+				for (int paramI : ri.neededParams[atomI]) {
 					ri.params.nddoParams[atomI][paramI] += dir[n];
 					n++;
 				}
@@ -180,15 +176,16 @@ public class Main {
 		System.err.println("\nTotal time taken: " + sw.getTime());
 	}
 
-	private static void initializePO(int[][] neededParams, ParamOptimizer o,
-									 MoleculeRun result, int[] moleculeUZ,
+	private static void initializePO(ParamOptimizer o, MoleculeRun result,
+									 int[][] neededParams,
+									 int[] moleculeATs,
 									 int[][] moleculeNP, boolean isDepad) {
 		o.addData(new ReferenceData(result.getDatum()[0],
 				result.getS().hf,
 				ParamGradient.combine(
 						result.getG().getHFDerivs(),
 						ri.atomTypes, neededParams,
-						moleculeUZ, moleculeNP,
+						moleculeATs, moleculeNP,
 						isDepad),
 				ReferenceData.HF_WEIGHT));
 		if (result.getDatum()[1] != 0)
@@ -197,7 +194,7 @@ public class Main {
 					ParamGradient.combine(
 							result.getG().getDipoleDerivs(),
 							ri.atomTypes, neededParams,
-							moleculeUZ, moleculeNP,
+							moleculeATs, moleculeNP,
 							isDepad),
 					ReferenceData.DIPOLE_WEIGHT));
 		if (result.getDatum()[2] != 0)
@@ -206,7 +203,7 @@ public class Main {
 					ParamGradient.combine(
 							result.getG().getIEDerivs(),
 							ri.atomTypes, neededParams,
-							moleculeUZ, moleculeNP,
+							moleculeATs, moleculeNP,
 							isDepad),
 					ReferenceData.IE_WEIGHT));
 		if (result.isExpAvail()) o.addData(new ReferenceData(0,
@@ -214,7 +211,7 @@ public class Main {
 				ParamGradient.combine(
 						result.getG().getGeomDerivs(),
 						ri.atomTypes, neededParams,
-						moleculeUZ, moleculeNP,
+						moleculeATs, moleculeNP,
 						isDepad),
 				ReferenceData.GEOM_WEIGHT));
 	}
@@ -263,31 +260,5 @@ public class Main {
 
 		assert nddoParams != null;
 		return nddoParams;
-	}
-
-	private static int[][] getNeededParams(RawInput ri) {
-		int[][] neededParams = new int[ri.atomTypes.length][];
-		int w = 0;
-		for (int atomType : ri.atomTypes) {
-			switch (ri.model) {
-				case "mndo":
-					if (atomType == 1)
-						neededParams[w] = MNDOParams.T1ParamNums;
-					else neededParams[w] = MNDOParams.T2ParamNums;
-					break;
-				case "am1":
-					if (atomType == 1)
-						neededParams[w] = AM1Params.HParamNums;
-					if (atomType == 5) neededParams[w] =
-							AM1Params.NParamNums;
-					if (atomType == 6) neededParams[w] =
-							AM1Params.CParamNums;
-					if (atomType == 8) neededParams[w] =
-							AM1Params.OParamNums;
-					break;
-			}
-			w++;
-		}
-		return neededParams;
 	}
 }

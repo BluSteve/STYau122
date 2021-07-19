@@ -2,6 +2,8 @@ package runcycle.input;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import nddoparam.am1.AM1Params;
+import nddoparam.mndo.MNDOParams;
 import scf.AtomHandler;
 import scf.AtomProperties;
 import scf.Utils;
@@ -96,6 +98,29 @@ public class InputHandler {
 						.get(Character.toString(ri.trainingSet.charAt(x)))
 						.getZ();
 			}
+			int[][] neededParams = new int[ri.atomTypes.length][];
+			int w = 0;
+			for (int atomType : ri.atomTypes) {
+				switch (ri.model) {
+					case "mndo":
+						if (atomType == 1)
+							neededParams[w] = MNDOParams.T1ParamNums;
+						else neededParams[w] = MNDOParams.T2ParamNums;
+						break;
+					case "am1":
+						if (atomType == 1)
+							neededParams[w] = AM1Params.HParamNums;
+						if (atomType == 5) neededParams[w] =
+								AM1Params.NParamNums;
+						if (atomType == 6) neededParams[w] =
+								AM1Params.CParamNums;
+						if (atomType == 8) neededParams[w] =
+								AM1Params.OParamNums;
+						break;
+				}
+				w++;
+			}
+			ri.neededParams = neededParams;
 			int PARAMLENGTH = 13;
 
 			ri.params = new RawParams();
@@ -169,16 +194,16 @@ public class InputHandler {
 								.append(nameOccurrences.get(key));
 					}
 					Collections.sort(tempZs);
-					int[] uniqueZs = new int[tempZs.size()];
-					int[][] neededParams = new int[tempNPs.size()][];
+					int[] moleculeATs = new int[tempZs.size()];
+					int[][] moleculeNPs = new int[tempNPs.size()][];
 					for (int u = 0; u < tempZs.size(); u++) {
-						uniqueZs[u] = tempZs.get(u);
+						moleculeATs[u] = tempZs.get(u);
 					}
-					for (int j = 0; j < neededParams.length; j++) {
-						neededParams[j] = tempNPs.get(tempZs.get(j));
+					for (int j = 0; j < moleculeNPs.length; j++) {
+						moleculeNPs[j] = tempNPs.get(tempZs.get(j));
 					}
-					rm.mnps = neededParams;
-					rm.mats = uniqueZs;
+					rm.mnps = moleculeNPs;
+					rm.mats = moleculeATs;
 					String ruhf = rm.restricted ? "RHF" : "UHF";
 					rm.name = nameBuilder + "_" + rm.charge + "_" + ruhf;
 

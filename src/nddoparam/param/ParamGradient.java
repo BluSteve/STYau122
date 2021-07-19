@@ -55,19 +55,18 @@ public abstract class ParamGradient {
 	 * corresponding params required.
 	 *
 	 * @param derivs       2d deriv array. (e.g. HFDerivs, totalGradients, ...)
-	 * @param atomTypes    Array of atom types.
 	 * @param neededParams Array of params needed in the same order as atom
-	 *                     types.
+	 *                     types. Assumes neededParams.length = derivs.length.
 	 * @return Depadded 2d-array of the input derivs.
 	 */
-	public static double[][] depad(double[][] derivs, int[] atomTypes,
-								   int[][] neededParams) {
+	public static double[][] depad(double[][] derivs, int[][] neededParams) {
+		assert derivs.length == neededParams.length;
 		double[][] res = new double[derivs.length][0];
 		for (int i = 0; i < derivs.length; i++) {
-			double[] depadded = new double[neededParams[atomTypes[i]].length];
+			double[] depadded = new double[neededParams[i].length];
 			int u = 0;
 			for (int j = 0; j < derivs[i].length; j++) {
-				for (int p : neededParams[atomTypes[i]]) {
+				for (int p : neededParams[i]) {
 					if (j == p) {
 						depadded[u] = derivs[i][j];
 						u++;
@@ -101,7 +100,7 @@ public abstract class ParamGradient {
 	public static double[] combine(double[][] derivs, int[] atomTypes,
 								   int[][] neededParams, int[] moleculeATs,
 								   int[][] moleculeNPs, boolean isDepad) {
-		if (isDepad) derivs = depad(derivs, moleculeATs, moleculeNPs);
+		if (isDepad) derivs = depad(derivs, moleculeNPs);
 
 		double[][] paddedDerivs = new double[atomTypes.length][];
 		for (int i = 0; i < atomTypes.length; i++) {
@@ -126,6 +125,7 @@ public abstract class ParamGradient {
 
 		return res;
 	}
+
 	/**
 	 * Fills up all gradient matrices, will be multithreaded if experimental
 	 * geometry gradient computations are required as those take lots of time

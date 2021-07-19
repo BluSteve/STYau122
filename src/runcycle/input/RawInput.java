@@ -6,6 +6,7 @@ public class RawInput {
 	public String hash, model, trainingSet;
 	public int nMolecules;
 	public int[] atomTypes;
+	public int[][] neededParams;
 	public RawParams params;
 	public RawMolecule[] molecules;
 
