@@ -1,6 +1,8 @@
 package nddoparam.param;
 
 import nddoparam.Solution;
+import nddoparam.SolutionR;
+import nddoparam.SolutionU;
 import org.jblas.DoubleMatrix;
 
 import java.util.ArrayList;
@@ -20,13 +22,23 @@ public abstract class ParamGradient {
 			coeffDerivs, responseDerivs, fockDerivs;
 	protected DoubleMatrix[][][] staticDerivs;
 
-	public ParamGradient(Solution s, double[] datum, Solution sExp,
-						 boolean analytical) {
+	protected ParamGradient(Solution s, double[] datum, Solution sExp,
+							boolean analytical) {
 		this.s = s;
 		this.datum = datum;
 		this.sExp = sExp;
 		this.analytical = analytical;
 		initializeArrays();
+	}
+
+	public static ParamGradient of(Solution s, double[] datum, Solution sExp) {
+		if (s instanceof SolutionR && sExp instanceof SolutionR)
+			return new ParamGradientR((SolutionR) s, datum, (SolutionR) sExp,
+					true);
+		assert s instanceof SolutionU;
+		assert sExp instanceof SolutionU;
+		return new ParamGradientU((SolutionU) s, datum, (SolutionU) sExp,
+				false);
 	}
 
 	/**
@@ -105,13 +117,13 @@ public abstract class ParamGradient {
 
 		return res;
 	}
-
 	/**
 	 * Fills up all gradient matrices, will be multithreaded if experimental
 	 * geometry gradient computations are required as those take lots of time
 	 * for they cannot be computed analytically.
+	 * @return this
 	 */
-	public void compute() {
+	public ParamGradient compute() {
 		totalGradients =
 				new double[s.getRm().mats.length][Solution.maxParamNum];
 		if (analytical && (datum[1] != 0 || datum[2] != 0))
@@ -140,6 +152,8 @@ public abstract class ParamGradient {
 				}
 			}
 		}
+
+		return this;
 	}
 
 	/**
@@ -178,7 +192,7 @@ public abstract class ParamGradient {
 	 * @param ZI       Atom index.
 	 * @param paramNum Param number.
 	 */
-	private void computeGeomDeriv(int ZI, int paramNum) {
+	protected void computeGeomDeriv(int ZI, int paramNum) {
 		Solution sExpPrime = constructSExpPrime(ZI, paramNum);
 		double sum = 0;
 		for (int i = 0; i < sExpPrime.atoms.length; i++) {

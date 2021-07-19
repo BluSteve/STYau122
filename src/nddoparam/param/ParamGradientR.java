@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
-public class ParamGradientR extends ParamGradient {
-	public ParamGradientR(SolutionR s, double[] datum, SolutionR sExp,
+class ParamGradientR extends ParamGradient {
+	protected ParamGradientR(SolutionR s, double[] datum, SolutionR sExp,
 						  boolean analytical) {
 		super(s, datum, sExp, analytical);
 

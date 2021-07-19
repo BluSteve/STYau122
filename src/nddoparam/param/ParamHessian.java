@@ -50,7 +50,8 @@ public abstract class ParamHessian {
 	public static ParamHessian from(ParamGradient g) {
 		if (g instanceof ParamGradientR)
 			return new ParamHessianR((ParamGradientR) g);
-		else return new ParamHessianU((ParamGradientU) g);
+		assert g instanceof ParamGradientU;
+		return new ParamHessianU((ParamGradientU) g);
 	}
 
 	public static ParamHessian of(Solution s, double[] datum, Solution sExp,
@@ -58,7 +59,9 @@ public abstract class ParamHessian {
 		if (s instanceof SolutionR && sExp instanceof SolutionR)
 			return new ParamHessianR((SolutionR) s, datum, (SolutionR) sExp,
 					analytical);
-		else return new ParamHessianU((SolutionU) s, datum, (SolutionU) sExp,
+		assert s instanceof SolutionU;
+		assert sExp instanceof SolutionU;
+		return new ParamHessianU((SolutionU) s, datum, (SolutionU) sExp,
 				analytical);
 	}
 
@@ -89,8 +92,10 @@ public abstract class ParamHessian {
 
 	/**
 	 * Computes each row of the Hessian in a parallel manner.
+	 *
+	 * @return this
 	 */
-	public void compute() {
+	public ParamHessian compute() {
 		hessian = new double[s.getRm().mnps.length * Solution.maxParamNum]
 				[s.getRm().mnps.length * Solution.maxParamNum];
 		List<RecursiveAction> subtasks = new ArrayList<>();
@@ -108,6 +113,8 @@ public abstract class ParamHessian {
 		}
 
 		ForkJoinTask.invokeAll(subtasks);
+
+		return this;
 	}
 
 	/**

@@ -3,8 +3,6 @@ package runcycle;
 import nddoparam.*;
 import nddoparam.mndo.MNDOParams;
 import nddoparam.param.ParamGradient;
-import nddoparam.param.ParamGradientR;
-import nddoparam.param.ParamGradientU;
 import nddoparam.param.ParamHessian;
 import org.apache.commons.lang3.time.StopWatch;
 import runcycle.input.RawMolecule;
@@ -19,7 +17,7 @@ public class MoleculeRun {
 	protected int[] atomTypes;
 	protected double[] datum;
 	protected NDDOAtom[] atoms, expGeom;
-	protected Solution S, expS;
+	protected Solution s, sExp;
 	protected GeometryOptimization opt;
 	protected ParamGradient g;
 	protected ParamHessian h;
@@ -37,8 +35,8 @@ public class MoleculeRun {
 		charge = rm.charge;
 		mult = rm.mult;
 		datum = rm.datum.clone();
-		this.rm = rm;
 		restricted = rm.restricted;
+		this.rm = rm;
 		this.atomTypes = atomTypes;
 		this.isRunHessian = isRunHessian;
 		isExpAvail = expGeom != null;
@@ -70,44 +68,30 @@ public class MoleculeRun {
 
 	public void run() {
 		try {
-			System.err.println(
-					rm.index + " " + rm.name + " started");
+			System.err.println(rm.index + " " + rm.name + " started");
 			ExecutorService executorService =
 					Executors.newSingleThreadExecutor();
-			Future future = executorService.submit(() -> {
+			Future<?> future = executorService.submit(() -> {
 				StopWatch sw = new StopWatch();
 				sw.start();
 
 				opt = restricted ?
 						new GeometryOptimizationR(atoms, charge) :
 						new GeometryOptimizationU(atoms, charge, mult);
-				S = getOpt().s; // NOT a clone
-				S.setRm(rm);
+				s = opt.s.setRm(rm); // NOT a clone
 
 				// updates geom coords
-				for (int i = 0; i < getAtoms().length; i++) {
-					rm.atoms[i].coords = getAtoms()[i].getCoordinates();
+				for (int i = 0; i < atoms.length; i++) {
+					rm.atoms[i].coords = atoms[i].getCoordinates();
 				}
 
-				if (this.getExpGeom() != null)
-					expS = restricted ?
+				if (expGeom != null)
+					sExp = restricted ?
 							(new SolutionR(expGeom, charge)).setRm(rm) :
 							(new SolutionU(expGeom, charge, mult)).setRm(rm);
 
-				g = restricted ?
-						new ParamGradientR((SolutionR) S, datum,
-								(SolutionR) expS, true) :
-						new ParamGradientU((SolutionU) S, datum,
-								(SolutionU) expS, false);
-				h = restricted ?
-						ParamHessian.from((ParamGradientR) g) :
-						ParamHessian.from((ParamGradientU) g);
-
-
-				g.compute(); // time intensive step ~ 100 ms
-				if (isRunHessian) {
-					h.compute(); // time intensive step ~ 700-800 ms
-				}
+				g = ParamGradient.of(s, datum, sExp).compute();
+				if (isRunHessian) h = ParamHessian.from(g).compute();
 
 				sw.stop();
 				time = sw.getTime();
@@ -122,68 +106,42 @@ public class MoleculeRun {
 			} catch (TimeoutException e) {
 				future.cancel(true);
 
-				System.err.println("TIMEOUT! " + rm.index + " " +
-						rm.name);
+				String timeoutMessage = "TIMEOUT! " + rm.index + " " +
+						rm.name;
 
-				rm.isUsing = false;
-
-				try {
-					FileWriter fw = new FileWriter("errored-molecules.txt",
-							true);
-					fw.write("TIMEOUT! " + rm.index + " " +
-							rm.name + "\n");
-					fw.close();
-				} catch (IOException ioException) {
-					ioException.printStackTrace();
-				}
+				logError(timeoutMessage);
 			} finally {
 				executorService.shutdown();
 			}
 		} catch (Exception e) {
-			System.err.println(
-					"ERROR! " + e.getClass() + " " +
-							Arrays.toString(e.getStackTrace()) + " " +
-							rm.index + " " +
-							rm.name);
-			rm.isUsing = false;
-			try {
-				FileWriter fw = new FileWriter("errored-molecules.txt", true);
-				fw.write("ERROR! " + e.getClass() + " " +
-						Arrays.toString(e.getStackTrace()) + " " +
-						rm.index + " " +
-						rm.name + "\n");
-				fw.close();
-			} catch (IOException ioException) {
-				ioException.printStackTrace();
-			}
+			String errorMessage = "ERROR! " + e.getClass() + " " +
+					Arrays.toString(e.getStackTrace()) + " " +
+					rm.index + " " +
+					rm.name;
+
+			logError(errorMessage);
+		}
+	}
+
+	/**
+	 * Logs the error and prevents this molecule from being run in the future
+	 * by changing the isUsing parameter.
+	 *
+	 * @param errorMessage What to print to the console and log file.
+	 */
+	private void logError(String errorMessage) {
+		System.err.println(errorMessage);
+		rm.isUsing = false;
+		try {
+			FileWriter fw = new FileWriter("errored-molecules.txt", true);
+			fw.write(errorMessage + "\n");
+			fw.close();
+		} catch (IOException ioException) {
+			ioException.printStackTrace();
 		}
 	}
 
 	public Solution getS() {
-		return S;
-	}
-
-	public int getCharge() {
-		return charge;
-	}
-
-	public int getMult() {
-		return mult;
-	}
-
-	public GeometryOptimization getOpt() {
-		return opt;
-	}
-
-	public Solution getExpS() {
-		return expS;
-	}
-
-	public NDDOAtom[] getAtoms() {
-		return atoms;
-	}
-
-	public NDDOAtom[] getExpGeom() {
-		return expGeom;
+		return s;
 	}
 }

@@ -3,7 +3,7 @@ package nddoparam.param;
 import nddoparam.SolutionR;
 import scf.Utils;
 
-public class ParamHessianR extends ParamHessian {
+class ParamHessianR extends ParamHessian {
 	/**
 	 * @see ParamHessian
 	 */
