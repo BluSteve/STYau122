@@ -37,8 +37,8 @@ public abstract class ParamHessian {
 	 *                   should be used when available. Should be true by
 	 *                   default.
 	 */
-	public ParamHessian(Solution s, double[] datum, Solution sExp,
-						boolean analytical) {
+	protected ParamHessian(Solution s, double[] datum, Solution sExp,
+						   boolean analytical) {
 		this.s = s;
 		this.datum = datum;
 		this.sExp = sExp;
@@ -82,7 +82,7 @@ public abstract class ParamHessian {
 				subtasks.add(new RecursiveAction() {
 					@Override
 					protected void compute() {
-						computeHessianRow(finalZIndex2, paramNum2);
+						computeRow(finalZIndex2, paramNum2);
 					}
 				});
 			}
@@ -92,16 +92,15 @@ public abstract class ParamHessian {
 	}
 
 	/**
-	 * Computes one row of the Hessian in a parallel manner the row has enough
-	 * elements. Note that Hessian matrices are symmetrical, so if too few
-	 * elements need to be computed, the overhead from multithreading becomes
-	 * significant and sequential computation is preferred.
+	 * Computes one row of the Hessian in a parallel manner if each row would
+	 * take a substantial amount of time to evaluate, i.e. analytical
+	 * evaluation is turned off or experimental geometry is available.
 	 *
 	 * @param ZIndex2   The atom index of the row.
 	 * @param paramNum2 The param number of the row, together with the atom
 	 *                  index can determine the absolute row number.
 	 */
-	private void computeHessianRow(int ZIndex2, int paramNum2) {
+	private void computeRow(int ZIndex2, int paramNum2) {
 		ParamGradient gPrime = constructGPrime(ZIndex2, paramNum2);
 
 		if (analytical && (datum[1] != 0 || datum[2] != 0))
@@ -121,21 +120,20 @@ public abstract class ParamHessian {
 				}
 
 				if (needed) {
-					// Multithread only if there is expGeom
-					if (sExp != null) {
+					if (!analytical || gPrime.isExpAvail) {
 						int ZIndex = ZIndex1;
 						int paramNum = paramNum1;
 						subtasks.add(new RecursiveAction() {
 							@Override
 							protected void compute() {
-								computeHessianElement(gPrime, ZIndex2,
-										paramNum2, ZIndex, paramNum);
+								computeElement(gPrime, ZIndex2, paramNum2,
+										ZIndex, paramNum);
 							}
 						});
 					}
 					else {
-						computeHessianElement(gPrime, ZIndex2, paramNum2,
-								ZIndex1, paramNum1);
+						computeElement(gPrime, ZIndex2, paramNum2, ZIndex1,
+								paramNum1);
 					}
 				}
 			}
@@ -143,19 +141,25 @@ public abstract class ParamHessian {
 		if (subtasks.size() > 0) ForkJoinTask.invokeAll(subtasks);
 	}
 
-	private void computeHessianElement(ParamGradient gPrime, int ZIndex2,
-									   int paramNum2, int ZIndex1,
-									   int paramNum1) {
+	/**
+	 * Computes one element of the Hessian matrix.
+	 *
+	 * @param gPrime    The perturbed ParamGradient object used for this row
+	 *                  of the Hessian
+	 * @param ZIndex2   The row atom index.
+	 * @param paramNum2 The row param index.
+	 * @param ZIndex1   The column atom index.
+	 * @param paramNum1 The column param index.
+	 */
+	private void computeElement(ParamGradient gPrime, int ZIndex2,
+								int paramNum2, int ZIndex1, int paramNum1) {
 		gPrime.computeGradient(ZIndex1, paramNum1);
-		int i2 = ZIndex2 * Solution.maxParamNum +
-				paramNum2;
-		int i1 = ZIndex1 * Solution.maxParamNum +
-				paramNum1;
+		int i2 = ZIndex2 * Solution.maxParamNum + paramNum2;
+		int i1 = ZIndex1 * Solution.maxParamNum + paramNum1;
 
-		hessian[i2][i1] =
-				(gPrime.getTotalGradients()[ZIndex1][paramNum1] -
-						g.getTotalGradients()[ZIndex1][paramNum1])
-						/ Utils.LAMBDA;
+		hessian[i2][i1] = (gPrime.getTotalGradients()[ZIndex1][paramNum1] -
+				g.getTotalGradients()[ZIndex1][paramNum1])
+				/ Utils.LAMBDA;
 		hessian[i1][i2] = hessian[i2][i1];
 	}
 
@@ -236,7 +240,7 @@ public abstract class ParamHessian {
 		return unpadded;
 	}
 
-	public double[][] getHessianRaw() {
+	public double[][] getHessian() {
 		return hessian;
 	}
 
@@ -259,7 +263,7 @@ public abstract class ParamHessian {
 		for (int ZIndex2 = 0; ZIndex2 < s.getUniqueZs().length; ZIndex2++) {
 			for (int paramNum2 : s.getNeededParams()[s
 					.getUniqueZs()[ZIndex2]]) {
-				computeHessianRow(ZIndex2, paramNum2);
+				computeRow(ZIndex2, paramNum2);
 			}
 		}
 	}

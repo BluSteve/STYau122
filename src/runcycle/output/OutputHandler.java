@@ -16,7 +16,7 @@ public class OutputHandler {
 		mo.name = result.getRawMolecule().name;
 		mo.time = result.getTime();
 		mo.datum = result.getDatum();
-		mo.hessian = result.getH().getHessianRaw();
+		mo.hessian = result.getH().getHessian();
 
 		mo.hf = result.getG().getS().hf;
 		mo.dipole = result.getG().getS().dipole;

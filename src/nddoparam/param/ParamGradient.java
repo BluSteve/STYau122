@@ -94,14 +94,7 @@ public abstract class ParamGradient {
 
 		// if geom finite difference computations are not needed, overhead
 		// for multithreading exceeds potential gain.
-		if (!isExpAvail) {
-			for (int Z = 0; Z < s.getUniqueZs().length; Z++) {
-				for (int paramNum : s.getNeededParams()[s.getUniqueZs()[Z]]) {
-					computeGradient(Z, paramNum);
-				}
-			}
-		}
-		else {
+		if (!analytical || isExpAvail) {
 			List<RecursiveAction> subtasks = new ArrayList<>();
 
 			for (int Z = 0; Z < s.getUniqueZs().length; Z++) {
@@ -116,6 +109,13 @@ public abstract class ParamGradient {
 				}
 			}
 			ForkJoinTask.invokeAll(subtasks);
+		}
+		else {
+			for (int Z = 0; Z < s.getUniqueZs().length; Z++) {
+				for (int paramNum : s.getNeededParams()[s.getUniqueZs()[Z]]) {
+					computeGradient(Z, paramNum);
+				}
+			}
 		}
 	}
 
@@ -163,8 +163,8 @@ public abstract class ParamGradient {
 
 		if (this.sExp != null) {
 			isExpAvail = true;
-			geomDerivs =
-					new double[s.getUniqueZs().length][Solution.maxParamNum];
+			geomDerivs = new double[s.getUniqueZs().length]
+					[Solution.maxParamNum];
 			e.createExpGeom(this.sExp);
 			e.addGeomError();
 		}

@@ -92,7 +92,7 @@ public class Testing {
 		H = new ParamHessianR((ParamGradientR) G, true);
 		H.compute();
 		sw.stop();
-		System.out.println(Arrays.deepToString(H.getHessianRaw()));
+		System.out.println(Arrays.deepToString(H.getHessian()));
 		System.out.println(
 				Arrays.deepToString(H.getHessian(new int[]{1, 5, 6},
 						new int[][]{MNDOParams.T1ParamNums,
