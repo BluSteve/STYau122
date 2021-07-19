@@ -73,7 +73,6 @@ public class Main {
 							MoleculeRun mr = new MoleculeRun(
 									request,
 									nddoParams,
-									ri.atomTypes,
 									isRunHessian);
 							mr.run();
 							return mr;

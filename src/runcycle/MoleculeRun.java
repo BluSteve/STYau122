@@ -14,7 +14,6 @@ import java.util.Arrays;
 import java.util.concurrent.*;
 
 public class MoleculeRun {
-	protected int[] atomTypes;
 	protected double[] datum;
 	protected NDDOAtom[] atoms, expGeom;
 	protected Solution s, sExp;
@@ -26,8 +25,7 @@ public class MoleculeRun {
 	protected RawMolecule rm;
 	protected long time;
 
-	public MoleculeRun(RawMolecule rm, NDDOParams[] mp, int[] atomTypes,
-					   boolean isRunHessian) {
+	public MoleculeRun(RawMolecule rm, NDDOParams[] mp, boolean isRunHessian) {
 		// todo change for am1
 		atoms = RawMolecule.toMNDOAtoms(rm.atoms, (MNDOParams[]) mp);
 		expGeom = rm.expGeom != null ? RawMolecule.toMNDOAtoms(rm.expGeom,
@@ -37,7 +35,6 @@ public class MoleculeRun {
 		datum = rm.datum.clone();
 		restricted = rm.restricted;
 		this.rm = rm;
-		this.atomTypes = atomTypes;
 		this.isRunHessian = isRunHessian;
 		isExpAvail = expGeom != null;
 	}
