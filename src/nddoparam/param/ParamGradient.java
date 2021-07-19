@@ -35,8 +35,7 @@ public abstract class ParamGradient {
 		if (s instanceof SolutionR && sExp instanceof SolutionR)
 			return new ParamGradientR((SolutionR) s, datum, (SolutionR) sExp,
 					true);
-		assert s instanceof SolutionU;
-		assert sExp instanceof SolutionU;
+		assert s instanceof SolutionU && sExp instanceof SolutionU;
 		return new ParamGradientU((SolutionU) s, datum, (SolutionU) sExp,
 				false);
 	}

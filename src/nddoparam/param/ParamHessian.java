@@ -58,8 +58,7 @@ public abstract class ParamHessian {
 		if (s instanceof SolutionR && sExp instanceof SolutionR)
 			return new ParamHessianR((SolutionR) s, datum, (SolutionR) sExp,
 					true);
-		assert s instanceof SolutionU;
-		assert sExp instanceof SolutionU;
+		assert s instanceof SolutionU && sExp instanceof SolutionU;
 		return new ParamHessianU((SolutionU) s, datum, (SolutionU) sExp,
 				false);
 	}
