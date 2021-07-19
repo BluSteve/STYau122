@@ -9,14 +9,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class OutputHandler {
-	// todo convert to csv
 	public static MoleculeOutput toMoleculeOutput(MoleculeRun result) {
 		MoleculeOutput mo = new MoleculeOutput();
 		mo.index = result.getRm().index;
 		mo.name = result.getRm().name;
 		mo.time = result.getTime();
 		mo.datum = result.getDatum();
-		mo.hessian = result.getH().getHessianRaw();
+		if (result.getH() != null) mo.hessian = result.getH().getHessianRaw();
 
 		mo.hf = result.getG().getS().hf;
 		mo.dipole = result.getG().getS().dipole;
@@ -57,14 +56,13 @@ public class OutputHandler {
 			e.printStackTrace();
 		}
 	}
+
 	public static void outputOne(MoleculeOutput mo, String output) {
 		GsonBuilder builder = new GsonBuilder();
 		builder.setPrettyPrinting();
 		Gson gson = builder.create();
 		try {
 			String jsoned = gson.toJson(mo);
-			// uses the hash of input to distinguish outputs. if the program is
-			// working correctly inputs should map to outputs one-to-one.
 			FileWriter fw = new FileWriter(output + ".json", true);
 			fw.write(jsoned + ",\n");
 			fw.close();

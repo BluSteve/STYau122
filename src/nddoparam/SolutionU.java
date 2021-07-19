@@ -39,7 +39,7 @@ public class SolutionU extends Solution {
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
 				if (j == k) {
-					for (int l : index[atomNumber[j]]) {
+					for (int l : orbitalIndices[atomNumber[j]]) {
 						if (l > -1) {
 							size++;
 						}
@@ -78,7 +78,7 @@ public class SolutionU extends Solution {
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
 				if (j == k) {
-					for (int l : index[atomNumber[j]]) {
+					for (int l : orbitalIndices[atomNumber[j]]) {
 						if (l > -1) {
 							integralArrayCoulomb[integralCount] =
 									NDDO6G.OneCenterERI(orbitals[j],
@@ -140,7 +140,7 @@ public class SolutionU extends Solution {
 				//System.err.println ("(" + j + ", " + k + ")");
 				if (j == k) {
 
-					for (int l : index[atomNumber[j]]) {
+					for (int l : orbitalIndices[atomNumber[j]]) {
 						if (l > -1) {
 							size++;
 						}
@@ -150,9 +150,9 @@ public class SolutionU extends Solution {
 					size++;
 				}
 				else {
-					for (int l : index[atomNumber[j]]) {
+					for (int l : orbitalIndices[atomNumber[j]]) {
 						if (l > -1) {
-							for (int m : index[atomNumber[k]]) {
+							for (int m : orbitalIndices[atomNumber[k]]) {
 								if (m > -1) {
 									size++;
 								}
@@ -170,7 +170,7 @@ public class SolutionU extends Solution {
 				//System.err.println ("(" + j + ", " + k + ")");
 				if (j == k) {
 
-					for (int l : index[atomNumber[j]]) {
+					for (int l : orbitalIndices[atomNumber[j]]) {
 						if (l > -1) {
 							integralArrayExchange[integralCount] = -1 *
 									NDDO6G.OneCenterERI(orbitals[j],
@@ -194,9 +194,9 @@ public class SolutionU extends Solution {
 					integralCount++;
 				}
 				else {
-					for (int l : index[atomNumber[j]]) {
+					for (int l : orbitalIndices[atomNumber[j]]) {
 						if (l > -1) {
-							for (int m : index[atomNumber[k]]) {
+							for (int m : orbitalIndices[atomNumber[k]]) {
 								if (m > -1) {
 									integralArrayExchange[integralCount] = -1 *
 											NDDO6G.getG(orbitals[j],
@@ -261,7 +261,7 @@ public class SolutionU extends Solution {
 					double val = 0;
 					if (j == k) {
 
-						for (int l : index[atomNumber[j]]) {
+						for (int l : orbitalIndices[atomNumber[j]]) {
 							if (l > -1) {
 								val += (alphaDensity.get(l, l) +
 										betaDensity.get(l, l)) *
@@ -321,7 +321,7 @@ public class SolutionU extends Solution {
 					double valb = 0;
 					if (j == k) {
 
-						for (int l : index[atomNumber[j]]) {
+						for (int l : orbitalIndices[atomNumber[j]]) {
 							if (l > -1) {
 								vala += alphaDensity.get(l, l) *
 										integralArrayExchange[Kcount];
@@ -341,9 +341,9 @@ public class SolutionU extends Solution {
 
 					}
 					else {
-						for (int l : index[atomNumber[j]]) {
+						for (int l : orbitalIndices[atomNumber[j]]) {
 							if (l > -1) {
-								for (int m : index[atomNumber[k]]) {
+								for (int m : orbitalIndices[atomNumber[k]]) {
 									if (m > -1) {
 										vala += alphaDensity.get(l, m) *
 												integralArrayExchange[Kcount];
@@ -458,12 +458,12 @@ public class SolutionU extends Solution {
 		double checksum = 0;
 
 		for (int a = 0; a < atoms.length; a++) {
-			checksum += E(a, index);
+			checksum += E(a, orbitalIndices);
 		}
 
 		for (int a = 0; a < atoms.length; a++) {
 			for (int b = a + 1; b < atoms.length; b++) {
-				checksum += E(a, b, index);
+				checksum += E(a, b, orbitalIndices);
 			}
 		}
 
@@ -496,7 +496,7 @@ public class SolutionU extends Solution {
 
 		for (int j = 0; j < atoms.length; j++) {
 			double sum = 0;
-			for (int k : index[j]) {
+			for (int k : orbitalIndices[j]) {
 				if (k > -1) {
 					sum += alphaDensity.get(k, k) + betaDensity.get(k, k);
 				}
@@ -541,16 +541,16 @@ public class SolutionU extends Solution {
 
 		for (int j = 0; j < atoms.length; j++) {
 
-			if (index[j][1] != -1) {//exclude hydrogen
+			if (orbitalIndices[j][1] != -1) {//exclude hydrogen
 				hybridip[0] = hybridip[0] - 2.5416 * 2 * atoms[j].D1 *
-						(alphaDensity.get(index[j][0], index[j][1]) +
-								betaDensity.get(index[j][0], index[j][1]));
+						(alphaDensity.get(orbitalIndices[j][0], orbitalIndices[j][1]) +
+								betaDensity.get(orbitalIndices[j][0], orbitalIndices[j][1]));
 				hybridip[1] = hybridip[1] - 2.5416 * 2 * atoms[j].D1 *
-						(alphaDensity.get(index[j][0], index[j][2]) +
-								betaDensity.get(index[j][0], index[j][2]));
+						(alphaDensity.get(orbitalIndices[j][0], orbitalIndices[j][2]) +
+								betaDensity.get(orbitalIndices[j][0], orbitalIndices[j][2]));
 				hybridip[2] = hybridip[2] - 2.5416 * 2 * atoms[j].D1 *
-						(alphaDensity.get(index[j][0], index[j][3]) +
-								betaDensity.get(index[j][0], index[j][3]));
+						(alphaDensity.get(orbitalIndices[j][0], orbitalIndices[j][3]) +
+								betaDensity.get(orbitalIndices[j][0], orbitalIndices[j][3]));
 			}
 		}
 

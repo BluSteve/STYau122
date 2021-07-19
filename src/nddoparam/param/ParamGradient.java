@@ -45,10 +45,10 @@ public abstract class ParamGradient {
 	 * depending on type of s and sExp.
 	 */
 	public static ParamGradient of(Solution s, double[] datum, Solution sExp) {
-		if (s instanceof SolutionR && sExp instanceof SolutionR)
+		if (s instanceof SolutionR)
 			return new ParamGradientR((SolutionR) s, datum, (SolutionR) sExp,
 					true);
-		assert s instanceof SolutionU && sExp instanceof SolutionU;
+		assert s instanceof SolutionU;
 		return new ParamGradientU((SolutionU) s, datum, (SolutionU) sExp,
 				false);
 	}

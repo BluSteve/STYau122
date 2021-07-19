@@ -5,13 +5,13 @@ import runcycle.input.RawMolecule;
 
 import java.util.Arrays;
 
-public abstract class Solution implements Cloneable {
+public abstract class Solution {
 	// TODO make most of these private
 	public static int maxParamNum = 8;
 	public double energy, homo, lumo, hf, dipole;
 	public double[] chargedip, hybridip, dipoletot;
 	public int charge, multiplicity;
-	public int[][] missingIndex, index;
+	public int[][] missingIndex, orbitalIndices;
 	public NDDOAtom[] atoms;
 	public int[] atomNumber;
 	public double damp = 0.8;
@@ -22,48 +22,42 @@ public abstract class Solution implements Cloneable {
 	protected RawMolecule rm;
 
 	public Solution(NDDOAtom[] atoms, int charge) {
+		this.atoms = atoms;
+		this.charge = charge;
+		int numOrbitals = 0;
+
 		for (NDDOAtom a : atoms) {
 			nElectrons += a.getAtomProperties().getQ();
+			numOrbitals += a.getOrbitals().length;
 		}
-		this.atoms = atoms;
-		atomicNumbers = new int[atoms.length];
 		nElectrons -= charge;
-		this.charge = charge;
-		int i = 0;
 
-		for (NDDOAtom a : atoms) {
-			i += a.getOrbitals().length;
-		}
-
+		atomicNumbers = new int[atoms.length];
 		for (int num = 0; num < atoms.length; num++) {
 			atomicNumbers[num] = atoms[num].getAtomProperties().getZ();
 		}
 
-		orbitals = new NDDO6G[i];
-
-		i = 0;
-
-		index = new int[atoms.length][4];
+		orbitals = new NDDO6G[numOrbitals];
+		orbitalIndices = new int[atoms.length][4];
 		atomNumber = new int[orbitals.length];
-		int count = 0;
-		int count2;
-		for (NDDOAtom a : atoms) {
-			count2 = 0;
-			for (NDDO6G orbital : a.getOrbitals()) {
-				orbitals[i] = orbital;
-				index[count][count2] = i;
-				atomNumber[i] = count;
-				i++;
-				count2++;
+		int atomIndex = 0;
+		int overallIndex = 0;
+		for (NDDOAtom atom : atoms) {
+			int orbitalIndex = 0;
+			for (NDDO6G orbital : atom.getOrbitals()) {
+				orbitals[overallIndex] = orbital;
+				orbitalIndices[atomIndex][orbitalIndex] = overallIndex;
+				atomNumber[overallIndex] = atomIndex;
+				overallIndex++;
+				orbitalIndex++;
 			}
 
-
-			if (a.getAtomProperties().getZ() == 1) {
-				index[count][1] = -1;
-				index[count][2] = -1;
-				index[count][3] = -1;
+			if (atom.getAtomProperties().getZ() == 1) {
+				orbitalIndices[atomIndex][1] = -1;
+				orbitalIndices[atomIndex][2] = -1;
+				orbitalIndices[atomIndex][3] = -1;
 			}
-			count++;
+			atomIndex++;
 		}
 
 		missingIndex = new int[atoms.length][4 * atoms.length - 4];
@@ -75,8 +69,9 @@ public abstract class Solution implements Cloneable {
 		}
 
 		for (int j = 0; j < atoms.length; j++) {
-			int[] nums = new int[]{index[j][0], index[j][1], index[j][2],
-					index[j][3]};
+			int[] nums = new int[]{orbitalIndices[j][0], orbitalIndices[j][1],
+					orbitalIndices[j][2],
+					orbitalIndices[j][3]};
 			int counter = 0;
 			for (int k = 0; k < orbitals.length; k++) {
 				if (nums[0] != k && nums[1] != k && nums[2] != k &&
@@ -141,14 +136,11 @@ public abstract class Solution implements Cloneable {
 
 	public abstract Solution setRm(RawMolecule rm);
 
-	public abstract Solution clone();
-
 	public abstract DoubleMatrix alphaDensity();
 
 	public abstract DoubleMatrix betaDensity();
 
 	public abstract DoubleMatrix densityMatrix();
-
 
 	@Override
 	public String toString() {
@@ -164,7 +156,7 @@ public abstract class Solution implements Cloneable {
 				", charge=" + charge +
 				", multiplicity=" + multiplicity +
 				", missingIndex=" + Arrays.toString(missingIndex) +
-				", index=" + Arrays.toString(index) +
+				", index=" + Arrays.toString(orbitalIndices) +
 				", atoms=" + Arrays.toString(atoms) +
 				", atomNumber=" + Arrays.toString(atomNumber) +
 				", damp=" + damp +

@@ -2506,7 +2506,7 @@ public class ParamDerivative {
 
 		NDDO6G[] orbitals = soln.orbitals;
 
-		int[][] index = soln.index;
+		int[][] index = soln.orbitalIndices;
 
 		int[][] missingIndex = soln.missingIndex;
 
@@ -2623,7 +2623,7 @@ public class ParamDerivative {
 
 		NDDO6G[] orbitals = soln.orbitals;
 
-		int[][] index = soln.index;
+		int[][] index = soln.orbitalIndices;
 
 		int[][] missingIndex = soln.missingIndex;
 
@@ -2774,7 +2774,7 @@ public class ParamDerivative {
 
 		NDDO6G[] orbitals = soln.orbitals;
 
-		int[][] index = soln.index;
+		int[][] index = soln.orbitalIndices;
 
 		int[][] missingIndex = soln.missingIndex;
 
@@ -3047,7 +3047,7 @@ public class ParamDerivative {
 				double val = 0;
 				if (j == k) {
 
-					for (int l : soln.index[soln.atomNumber[j]]) {
+					for (int l : soln.orbitalIndices[soln.atomNumber[j]]) {
 						if (l > -1) {
 							val += densityMatrixDeriv.get(l, l) *
 									integralArray[integralcount];
@@ -3095,9 +3095,9 @@ public class ParamDerivative {
 					}
 				}
 				else {
-					for (int l : soln.index[soln.atomNumber[j]]) {
+					for (int l : soln.orbitalIndices[soln.atomNumber[j]]) {
 						if (l > -1) {
-							for (int m : soln.index[soln.atomNumber[k]]) {
+							for (int m : soln.orbitalIndices[soln.atomNumber[k]]) {
 								if (m > -1) {
 									val += densityMatrixDeriv.get(l, m) *
 											integralArray[integralcount];
@@ -3158,7 +3158,7 @@ public class ParamDerivative {
 				double val = 0;
 				if (j == k) {
 
-					for (int l : soln.index[soln.atomNumber[j]]) {
+					for (int l : soln.orbitalIndices[soln.atomNumber[j]]) {
 						if (l > -1) {
 							val += densityMatrixDeriv.get(l, l) *
 									integralArray[integralcount];
@@ -3206,9 +3206,9 @@ public class ParamDerivative {
 					}
 				}
 				else {
-					for (int l : soln.index[soln.atomNumber[j]]) {
+					for (int l : soln.orbitalIndices[soln.atomNumber[j]]) {
 						if (l > -1) {
-							for (int m : soln.index[soln.atomNumber[k]]) {
+							for (int m : soln.orbitalIndices[soln.atomNumber[k]]) {
 								if (m > -1) {
 									val += densityMatrixDeriv.get(l, m) *
 											integralArray[integralcount];
@@ -3825,7 +3825,7 @@ public class ParamDerivative {
 			}
 		}
 
-		int[][] index = soln.index;
+		int[][] index = soln.orbitalIndices;
 
 		DoubleMatrix densityMatrix = soln.densityMatrix();
 

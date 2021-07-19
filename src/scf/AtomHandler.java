@@ -27,7 +27,6 @@ public class AtomHandler {
 				atoms[atom.getZ()] = atom;
 				atomsMap.put(atom.getName(), atom);
 			}
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

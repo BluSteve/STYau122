@@ -64,9 +64,8 @@ public class InputHandler {
 		try {
 			FileWriter fw = new FileWriter(input + ".json");
 			Files.createDirectories(Path.of("pastinputs"));
-			FileWriter fwarchive =
-					new FileWriter(
-							"pastinputs/" + input + "-" + hash + ".json");
+			FileWriter fwarchive = new FileWriter(
+					"pastinputs/" + input + "-" + hash + ".json");
 			gson.toJson(ri, fwarchive);
 			gson.toJson(ri, fw);
 			fw.close();

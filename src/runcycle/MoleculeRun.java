@@ -104,6 +104,7 @@ public class MoleculeRun {
 			try {
 				future.get(600, TimeUnit.SECONDS);
 			} catch (TimeoutException e) {
+				e.printStackTrace();
 				future.cancel(true);
 
 				String timeoutMessage = "TIMEOUT! " + rm.index + " " +
@@ -114,6 +115,7 @@ public class MoleculeRun {
 				executorService.shutdown();
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			String errorMessage = "ERROR! " + e.getClass() + " " +
 					Arrays.toString(e.getStackTrace()) + " " +
 					rm.index + " " +

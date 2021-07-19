@@ -1897,7 +1897,7 @@ public class GeometryDerivative {
 
 		NDDO6G[] orbitals = soln.orbitals;
 
-		int[][] index = soln.index;
+		int[][] index = soln.orbitalIndices;
 
 		int[] atomnumber = soln.atomNumber;
 
@@ -2077,7 +2077,7 @@ public class GeometryDerivative {
 
 		NDDO6G[] orbitals = soln.orbitals;
 
-		int[][] index = soln.index;
+		int[][] index = soln.orbitalIndices;
 
 		int[] atomnumber = soln.atomNumber;
 
@@ -2404,7 +2404,8 @@ public class GeometryDerivative {
 
 		for (int a = 0; a < soln.atoms.length; a++) {
 			if (a != atomnum) {
-				e += Ederiv(atomnum, a, soln.index, soln.densityMatrix(),
+				e += Ederiv(atomnum, a, soln.orbitalIndices,
+						soln.densityMatrix(),
 						soln.atoms,
 						soln.orbitals, tau);
 				e += soln.atoms[atomnum].crfDeriv(soln.atoms[a], tau);
@@ -2420,7 +2421,8 @@ public class GeometryDerivative {
 
 		for (int a = 0; a < soln.atoms.length; a++) {
 			if (a != atomnum) {
-				e += Ederiv(atomnum, a, soln.index, soln.alphaDensity(),
+				e += Ederiv(atomnum, a, soln.orbitalIndices,
+						soln.alphaDensity(),
 						soln.betaDensity(), soln.atoms, soln.orbitals, tau);
 				e += soln.atoms[atomnum].crfDeriv(soln.atoms[a], tau);
 			}
@@ -2564,7 +2566,7 @@ public class GeometryDerivative {
 
 		NDDO6G[] orbitals = soln.orbitals;
 
-		int[][] index = soln.index;
+		int[][] index = soln.orbitalIndices;
 
 		int[] atomnumber = soln.atomNumber;
 
@@ -2720,7 +2722,7 @@ public class GeometryDerivative {
 
 		NDDO6G[] orbitals = soln.orbitals;
 
-		int[][] index = soln.index;
+		int[][] index = soln.orbitalIndices;
 
 		int[] atomnumber = soln.atomNumber;
 
@@ -2782,8 +2784,10 @@ public class GeometryDerivative {
 									if (l > -1) {
 										for (int m : index[a]) {
 											if (m > -1) {
-												sum += (alphadensity.get(l, m) +
-														betadensity.get(l, m)) *
+												sum += (alphadensity.get(l,
+														m) +
+														betadensity.get(l,
+																m)) *
 														GeometryDerivative
 																.getGderiv(
 																		orbitals[j],

@@ -35,7 +35,7 @@ public class SolutionREDIIS extends Solution {
 			for (int k = j; k < orbitals.length; k++) {
 				if (j == k) {
 
-					for (int l : index[atomNumber[j]]) {
+					for (int l : orbitalIndices[atomNumber[j]]) {
 						if (l > -1) {
 							size++;
 						}
@@ -71,9 +71,9 @@ public class SolutionREDIIS extends Solution {
 					}
 				}
 				else {
-					for (int l : index[atomNumber[j]]) {
+					for (int l : orbitalIndices[atomNumber[j]]) {
 						if (l > -1) {
-							for (int m : index[atomNumber[k]]) {
+							for (int m : orbitalIndices[atomNumber[k]]) {
 								if (m > -1) {
 									size++;
 								}
@@ -94,7 +94,7 @@ public class SolutionREDIIS extends Solution {
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
 				if (j == k) { // case 1
-					for (int l : index[atomNumber[j]]) {
+					for (int l : orbitalIndices[atomNumber[j]]) {
 						if (l > -1) {
 							integralArray[integralcount] =
 									(NDDO6G.OneCenterERI(orbitals[j],
@@ -152,9 +152,9 @@ public class SolutionREDIIS extends Solution {
 					}
 				}
 				else { // case 3
-					for (int l : index[atomNumber[j]]) {
+					for (int l : orbitalIndices[atomNumber[j]]) {
 						if (l > -1) {
-							for (int m : index[atomNumber[k]]) {
+							for (int m : orbitalIndices[atomNumber[k]]) {
 								if (m > -1) {
 									integralArray[integralcount] = (-0.5 *
 											NDDO6G.getG(orbitals[j],
@@ -214,7 +214,7 @@ public class SolutionREDIIS extends Solution {
 					double val = 0;
 					if (j == k) {
 
-						for (int l : index[atomNumber[j]]) {
+						for (int l : orbitalIndices[atomNumber[j]]) {
 							if (l > -1) {
 								val += densityMatrix.get(l, l) *
 										integralArray[integralcount];
@@ -258,9 +258,9 @@ public class SolutionREDIIS extends Solution {
 						}
 					}
 					else {
-						for (int l : index[atomNumber[j]]) {
+						for (int l : orbitalIndices[atomNumber[j]]) {
 							if (l > -1) {
-								for (int m : index[atomNumber[k]]) {
+								for (int m : orbitalIndices[atomNumber[k]]) {
 									if (m > -1) {
 										val += densityMatrix.get(l, m) *
 												integralArray[integralcount];
@@ -780,7 +780,7 @@ public class SolutionREDIIS extends Solution {
 
 		for (int j = 0; j < atoms.length; j++) {
 			double sum = 0;
-			for (int k : index[j]) {
+			for (int k : orbitalIndices[j]) {
 				if (k > -1) {
 					sum += densityMatrix.get(k, k);
 				}
@@ -825,13 +825,13 @@ public class SolutionREDIIS extends Solution {
 
 		for (int j = 0; j < atoms.length; j++) {
 
-			if (index[j][1] != -1) {//exclude hydrogen
+			if (orbitalIndices[j][1] != -1) {//exclude hydrogen
 				hybridip[0] = hybridip[0] - 2.5416 * 2 * atoms[j].D1 *
-						densityMatrix.get(index[j][0], index[j][1]);
+						densityMatrix.get(orbitalIndices[j][0], orbitalIndices[j][1]);
 				hybridip[1] = hybridip[1] - 2.5416 * 2 * atoms[j].D1 *
-						densityMatrix.get(index[j][0], index[j][2]);
+						densityMatrix.get(orbitalIndices[j][0], orbitalIndices[j][2]);
 				hybridip[2] = hybridip[2] - 2.5416 * 2 * atoms[j].D1 *
-						densityMatrix.get(index[j][0], index[j][3]);
+						densityMatrix.get(orbitalIndices[j][0], orbitalIndices[j][3]);
 			}
 		}
 
