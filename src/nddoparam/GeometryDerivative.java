@@ -2311,7 +2311,7 @@ public class GeometryDerivative {
 		return e;
 	}
 
-	public static DoubleMatrix[][] gradientroutine(NDDOAtom[] atoms,
+	public static DoubleMatrix[][] gradientRoutine(NDDOAtom[] atoms,
 												   SolutionR soln) {
 
 		DoubleMatrix[] fockderivatives = new DoubleMatrix[atoms.length * 3];
@@ -2350,7 +2350,7 @@ public class GeometryDerivative {
 		return new DoubleMatrix[][]{new DoubleMatrix[]{grad}, fockderivatives};
 	}
 
-	public static DoubleMatrix[][] gradientroutine(NDDOAtom[] atoms,
+	public static DoubleMatrix[][] gradientRoutine(NDDOAtom[] atoms,
 												   SolutionU soln) {
 
 		DoubleMatrix[] fockderivativesalpha =

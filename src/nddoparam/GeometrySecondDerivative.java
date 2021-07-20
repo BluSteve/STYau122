@@ -2565,7 +2565,7 @@ public class GeometrySecondDerivative {
 
 	}
 
-	public static DoubleMatrix hessianroutine(NDDOAtom[] atoms, SolutionR soln,
+	public static DoubleMatrix hessianRoutine(NDDOAtom[] atoms, SolutionR soln,
 											  DoubleMatrix[] fockderivstatic) {//todo play around with it if you want
 
 		DoubleMatrix[] densityderivs =
@@ -3483,7 +3483,7 @@ public class GeometrySecondDerivative {
 		return count;
 	}
 
-	public static DoubleMatrix hessianroutine(NDDOAtom[] atoms, SolutionU soln,
+	public static DoubleMatrix hessianRoutine(NDDOAtom[] atoms, SolutionU soln,
 											  DoubleMatrix[] fockderivstaticalpha,
 											  DoubleMatrix[] fockderivstaticbeta) {
 

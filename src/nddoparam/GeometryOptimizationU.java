@@ -9,28 +9,30 @@ public class GeometryOptimizationU extends GeometryOptimization {
 	}
 
 	@Override
-	protected void updateNDDOSolution() {
+	protected void updateSolution() {
 		s = new SolutionU(atoms, charge, mult);
 	}
 
-	protected double derivative(int i, int j) {
+	protected double findDerivative(int i, int j) {
 		return GeometryDerivative.grad((SolutionU) s, i, j);
 	}
 
-	protected DoubleMatrix[] routine() {
+	protected DoubleMatrix[] findGH() {
 		DoubleMatrix[][] matrices =
-				GeometryDerivative.gradientroutine(atoms, (SolutionU) s);
+				GeometryDerivative.gradientRoutine(atoms, (SolutionU) s);
 
 		DoubleMatrix gradient = matrices[0][0];
+		DoubleMatrix hessian;
 
-		DoubleMatrix hessian = GeometrySecondDerivative
-				.hessianroutine(atoms, (SolutionU) s, matrices[1],
-						matrices[2]);
-
-		//DoubleMatrix hessian = DoubleMatrix.eye(gradient.length);
+		// dunno if this is ok for unrestricted
+		try {
+			 hessian = GeometrySecondDerivative
+					.hessianRoutine(atoms, (SolutionU) s, matrices[1],
+							matrices[2]);
+		} catch (Exception e) {
+			hessian = DoubleMatrix.eye(gradient.length);
+		}
 
 		return new DoubleMatrix[]{gradient, hessian};
 	}
-
-
 }

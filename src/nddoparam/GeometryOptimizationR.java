@@ -9,24 +9,24 @@ public class GeometryOptimizationR extends GeometryOptimization {
 	}
 
 	@Override
-	protected void updateNDDOSolution() {
+	protected void updateSolution() {
 		s = new SolutionR(atoms, charge);
 	}
 
-	protected double derivative(int i, int j) {
+	protected double findDerivative(int i, int j) {
 		return GeometryDerivative.grad((SolutionR) s, i, j);
 	}
 
-	protected DoubleMatrix[] routine() {
+	protected DoubleMatrix[] findGH() {
 		DoubleMatrix[][] matrices =
-				GeometryDerivative.gradientroutine(atoms, (SolutionR) s);
+				GeometryDerivative.gradientRoutine(atoms, (SolutionR) s);
 
 		DoubleMatrix gradient = matrices[0][0];
 		DoubleMatrix hessian;
 
 		try {
 			hessian = GeometrySecondDerivative
-					.hessianroutine(atoms, (SolutionR) s, matrices[1]);
+					.hessianRoutine(atoms, (SolutionR) s, matrices[1]);
 		} catch (Exception e) {
 			hessian = DoubleMatrix.eye(gradient.length);
 		}

@@ -38,22 +38,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRan.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/runcycle/MoleculeResult.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/input.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inputtesting.txt" beforeDir="false" afterPath="$PROJECT_DIR$/inputtesting.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Testing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/optimize/ParamOptimizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/optimize/ParamOptimizer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/output/MoleculeOutput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/output/MoleculeOutput.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/output/OutputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/output/OutputHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scf/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationR.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationU.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -502,14 +492,7 @@
       <workItem from="1626617825423" duration="12012000" />
       <workItem from="1626665170977" duration="26708000" />
       <workItem from="1626699761384" duration="12722000" />
-      <workItem from="1626747807563" duration="6932000" />
-    </task>
-    <task id="LOCAL-00104" summary="Minor bug fix for multithreaded hessian">
-      <created>1626365562184</created>
-      <option name="number" value="00104" />
-      <option name="presentableId" value="LOCAL-00104" />
-      <option name="project" value="LOCAL" />
-      <updated>1626365562184</updated>
+      <workItem from="1626747807563" duration="10414000" />
     </task>
     <task id="LOCAL-00105" summary="Multiple runs working + insane speedup from multithreaded hessian">
       <created>1626367633207</created>
@@ -847,7 +830,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626714910799</updated>
     </task>
-    <option name="localTasksCounter" value="153" />
+    <task id="LOCAL-00153" summary="MoleculeRan added, discovered weird hessian NaN error stemming from xComplementary -Infinity">
+      <created>1626756922419</created>
+      <option name="number" value="00153" />
+      <option name="presentableId" value="LOCAL-00153" />
+      <option name="project" value="LOCAL" />
+      <updated>1626756922419</updated>
+    </task>
+    <option name="localTasksCounter" value="154" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -924,7 +914,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="minor change" />
     <MESSAGE value="added error handling for moleculerun (timeout too)" />
     <MESSAGE value="stupid bug fix" />
     <MESSAGE value="some refactoring and javadocing" />
@@ -949,7 +938,8 @@
     <MESSAGE value="minor changes" />
     <MESSAGE value="Major debug" />
     <MESSAGE value="not working start where you left off" />
-    <option name="LAST_COMMIT_MESSAGE" value="not working start where you left off" />
+    <MESSAGE value="MoleculeRan added, discovered weird hessian NaN error stemming from xComplementary -Infinity" />
+    <option name="LAST_COMMIT_MESSAGE" value="MoleculeRan added, discovered weird hessian NaN error stemming from xComplementary -Infinity" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
