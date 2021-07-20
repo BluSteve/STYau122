@@ -185,10 +185,13 @@ public class GeometrySecondDerivative {
 		double R = GTO.R(xA, xB);
 		if (tau1 == tau2) {
 			sum =
-					generalizedform2(+D11, 4 * D22 * D22 + a12 * a12, R) * -0.25 +
-					generalizedform2(-D11, 4 * D22 * D22 + a12 * a12, R) *
-							0.25 + generalizedform2(+D11, a12 * a12, R) * 0.25 +
-					generalizedform2(-D11, a12 * a12, R) * -0.25;
+					generalizedform2(+D11, 4 * D22 * D22 + a12 * a12, R) *
+							-0.25 +
+							generalizedform2(-D11, 4 * D22 * D22 + a12 * a12,
+									R) *
+									0.25 +
+							generalizedform2(+D11, a12 * a12, R) * 0.25 +
+							generalizedform2(-D11, a12 * a12, R) * -0.25;
 		}
 		return sum + (xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) *
 				generalizedform(+D11, 4 * D22 * D22 + a12 * a12, R) * -0.25
@@ -1483,7 +1486,7 @@ public class GeometrySecondDerivative {
 
 							returnval[2] =
 									3 * x * x * x / (R * R * R * R * R) -
-									3 * x / (R * R * R);
+											3 * x / (R * R * R);
 
 
 							return returnval;
@@ -1504,7 +1507,7 @@ public class GeometrySecondDerivative {
 
 							returnval[2] =
 									3 * x * x * y / (R * R * R * R * R) -
-									y / (R * R * R);
+											y / (R * R * R);
 
 
 							return returnval;
@@ -1523,7 +1526,7 @@ public class GeometrySecondDerivative {
 
 							returnval[2] =
 									3 * x * x * z / (R * R * R * R * R) -
-									z / (R * R * R);
+											z / (R * R * R);
 
 
 							return returnval;
@@ -1550,7 +1553,7 @@ public class GeometrySecondDerivative {
 
 							returnval[2] =
 									3 * x * y * y / (R * R * R * R * R) -
-									x / (R * R * R);
+											x / (R * R * R);
 
 							return returnval;
 
@@ -1606,7 +1609,7 @@ public class GeometrySecondDerivative {
 
 							returnval[2] =
 									3 * x * x * y / (R * R * R * R * R) -
-									y / (R * R * R);
+											y / (R * R * R);
 
 							return returnval;
 
@@ -1626,7 +1629,7 @@ public class GeometrySecondDerivative {
 
 							returnval[2] =
 									3 * x * y * y / (R * R * R * R * R) -
-									x / (R * R * R);
+											x / (R * R * R);
 
 
 							return returnval;
@@ -1669,7 +1672,7 @@ public class GeometrySecondDerivative {
 
 							returnval[2] =
 									3 * y * y * y / (R * R * R * R * R) -
-									3 * y / (R * R * R);
+											3 * y / (R * R * R);
 
 							return returnval;
 
@@ -1687,7 +1690,7 @@ public class GeometrySecondDerivative {
 
 							returnval[2] =
 									3 * y * y * z / (R * R * R * R * R) -
-									z / (R * R * R);
+											z / (R * R * R);
 
 
 							return returnval;
@@ -1725,7 +1728,7 @@ public class GeometrySecondDerivative {
 
 							returnval[2] =
 									3 * x * x * z / (R * R * R * R * R) -
-									z / (R * R * R);
+											z / (R * R * R);
 
 							return returnval;
 
@@ -1752,7 +1755,7 @@ public class GeometrySecondDerivative {
 
 							returnval[2] =
 									3 * x * z * z / (R * R * R * R * R) -
-									x / (R * R * R);
+											x / (R * R * R);
 
 
 							return returnval;
@@ -1774,7 +1777,7 @@ public class GeometrySecondDerivative {
 
 							returnval[2] =
 									3 * y * y * z / (R * R * R * R * R) -
-									z / (R * R * R);
+											z / (R * R * R);
 
 							return returnval;
 
@@ -1788,7 +1791,7 @@ public class GeometrySecondDerivative {
 
 							returnval[2] =
 									3 * y * z * z / (R * R * R * R * R) -
-									y / (R * R * R);
+											y / (R * R * R);
 
 
 							return returnval;
@@ -1881,7 +1884,7 @@ public class GeometrySecondDerivative {
 
 							returnval[2] =
 									3 * x * x * x / (R * R * R * R * R) -
-									3 * x / (R * R * R);
+											3 * x / (R * R * R);
 
 
 							return returnval;
@@ -1899,7 +1902,7 @@ public class GeometrySecondDerivative {
 
 							returnval[2] =
 									3 * x * x * y / (R * R * R * R * R) -
-									y / (R * R * R);
+											y / (R * R * R);
 
 
 							return returnval;
@@ -1921,7 +1924,7 @@ public class GeometrySecondDerivative {
 
 							returnval[2] =
 									3 * x * x * z / (R * R * R * R * R) -
-									z / (R * R * R);
+											z / (R * R * R);
 
 
 							return returnval;
@@ -1941,7 +1944,7 @@ public class GeometrySecondDerivative {
 
 							returnval[2] =
 									3 * x * y * y / (R * R * R * R * R) -
-									x / (R * R * R);
+											x / (R * R * R);
 
 							return returnval;
 
@@ -1964,11 +1967,12 @@ public class GeometrySecondDerivative {
 				case 2:
 					returnval[0] =
 							3 * x * y * z * z / (R * R * R * R * R * Rxz)
-							+ 3 * x * y * z * z /
-							(R * Rxz * Rxz * Rxz * Rxz * Rxz)
-							+ 2 * x * y * z * z / (R * R * R * Rxz * Rxz * Rxz)
-							- x * y / (R * Rxz * Rxz * Rxz) -
-							x * y / (R * R * R * Rxz);
+									+ 3 * x * y * z * z /
+									(R * Rxz * Rxz * Rxz * Rxz * Rxz)
+									+ 2 * x * y * z * z /
+									(R * R * R * Rxz * Rxz * Rxz)
+									- x * y / (R * Rxz * Rxz * Rxz) -
+									x * y / (R * R * R * Rxz);
 
 					returnval[1] = 3 * z / (Rxz * Rxz * Rxz) -
 							3 * z * z * z / (Rxz * Rxz * Rxz * Rxz * Rxz);
@@ -1996,7 +2000,7 @@ public class GeometrySecondDerivative {
 
 							returnval[2] =
 									3 * x * x * y / (R * R * R * R * R) -
-									y / (R * R * R);
+											y / (R * R * R);
 
 							return returnval;
 
@@ -2008,7 +2012,7 @@ public class GeometrySecondDerivative {
 
 							returnval[2] =
 									3 * x * y * y / (R * R * R * R * R) -
-									x / (R * R * R);
+											x / (R * R * R);
 
 
 							return returnval;
@@ -2040,7 +2044,7 @@ public class GeometrySecondDerivative {
 
 							returnval[2] =
 									3 * y * y * y / (R * R * R * R * R) -
-									3 * y / (R * R * R);
+											3 * y / (R * R * R);
 
 							return returnval;
 
@@ -2052,7 +2056,7 @@ public class GeometrySecondDerivative {
 
 							returnval[2] =
 									3 * y * y * z / (R * R * R * R * R) -
-									z / (R * R * R);
+											z / (R * R * R);
 
 
 							return returnval;
@@ -2097,7 +2101,7 @@ public class GeometrySecondDerivative {
 
 							returnval[2] =
 									3 * x * x * z / (R * R * R * R * R) -
-									z / (R * R * R);
+											z / (R * R * R);
 
 							return returnval;
 
@@ -2133,7 +2137,7 @@ public class GeometrySecondDerivative {
 
 							returnval[2] =
 									3 * x * z * z / (R * R * R * R * R) -
-									x / (R * R * R);
+											x / (R * R * R);
 
 
 							return returnval;
@@ -2153,7 +2157,7 @@ public class GeometrySecondDerivative {
 
 							returnval[2] =
 									3 * y * y * z / (R * R * R * R * R) -
-									z / (R * R * R);
+											z / (R * R * R);
 
 							return returnval;
 
@@ -2171,7 +2175,7 @@ public class GeometrySecondDerivative {
 
 							returnval[2] =
 									3 * y * z * z / (R * R * R * R * R) -
-									y / (R * R * R);
+											y / (R * R * R);
 
 
 							return returnval;
@@ -2566,40 +2570,24 @@ public class GeometrySecondDerivative {
 	}
 
 	public static DoubleMatrix hessianRoutine(NDDOAtom[] atoms, SolutionR soln,
-											  DoubleMatrix[] fockderivstatic) {//todo play around with it if you want
-
+											  DoubleMatrix[] fockderivstatic) {
+		//todo play around with it if you want
 		DoubleMatrix[] densityderivs =
 				new DoubleMatrix[fockderivstatic.length];
-
-
 		int count = 0;
-
 		int size = 24;
 
 		while (densityderivs[fockderivstatic.length - 1] == null) {
-			DoubleMatrix[] output = densityderivpople(soln,
+			DoubleMatrix[] subset =
 					Arrays.copyOfRange(fockderivstatic, count,
-							Math.min(fockderivstatic.length, count + size)));
+							Math.min(fockderivstatic.length, count + size));
+			DoubleMatrix[] output = densityderivpople(soln, subset);
 
-			if (output == null) {
-				output = densityderivthiel(soln,
-						Arrays.copyOfRange(fockderivstatic, count,
-								Math.min(fockderivstatic.length,
-										count + size)));
-			}
-			//DoubleMatrix[] test = densityderivthiel(soln, Arrays.copyOfRange
-			// (fockderivstatic, count, Math.min(fockderivstatic.length, count
-			// + size)));
+			if (output == null)
+				output = densityderivthiel(soln, subset);
+
 			for (int i = 0; i < output.length; i++) {
 				densityderivs[count + i] = output[i].dup();
-//
-//                if (!NDDOSolution.isSimilar(output[i], test[i], 1E-5)) {
-//                    System.err.println ("oh no");
-//                    System.err.println (output[i].getRow(0));
-//                    System.err.println (test[i].getRow(0));
-//                    System.exit(0);
-//                }
-
 			}
 
 			count += size;
@@ -2653,10 +2641,7 @@ public class GeometrySecondDerivative {
 				hessian.put(j, i, E);
 			}
 		}
-
 		return hessian;
-
-
 	}
 
 	public static DoubleMatrix[] densityderivthiel(SolutionR soln,
@@ -3220,7 +3205,8 @@ public class GeometrySecondDerivative {
 
 					for (int l : soln.missingIndex[soln.atomNumber[j]]) {
 						if (l > -1) {
-							for (int m : soln.missingIndex[soln.atomNumber[j]]) {
+							for (int m :
+									soln.missingIndex[soln.atomNumber[j]]) {
 								if (m > -1) {
 									if (soln.atomNumber[l] ==
 											soln.atomNumber[m]) {
@@ -3241,7 +3227,8 @@ public class GeometrySecondDerivative {
 
 					for (int l : soln.missingIndex[soln.atomNumber[j]]) {
 						if (l > -1) {
-							for (int m : soln.missingIndex[soln.atomNumber[j]]) {
+							for (int m :
+									soln.missingIndex[soln.atomNumber[j]]) {
 								if (m > -1) {
 									if (soln.atomNumber[l] ==
 											soln.atomNumber[m]) {
@@ -3258,7 +3245,8 @@ public class GeometrySecondDerivative {
 				else {
 					for (int l : soln.orbitalIndices[soln.atomNumber[j]]) {
 						if (l > -1) {
-							for (int m : soln.orbitalIndices[soln.atomNumber[k]]) {
+							for (int m :
+									soln.orbitalIndices[soln.atomNumber[k]]) {
 								if (m > -1) {
 									val += densityMatrixDeriv.get(l, m) *
 											integralArray[integralcount];
@@ -3331,7 +3319,8 @@ public class GeometrySecondDerivative {
 				int count = 0;
 				for (int i = 0; i < NOcc; i++) {
 					for (int j = 0; j < NVirt; j++) {
-						sum -= 2 * (soln.C.get(i, u) * soln.C.get(j + NOcc, v) +
+						sum -= 2 * (soln.C.get(i, u) * soln.C.get(j + NOcc,
+								v) +
 								soln.C.get(j + NOcc, u) * soln.C.get(i, v)) *
 								x.get(count, 0);
 						count++;
@@ -3366,7 +3355,8 @@ public class GeometrySecondDerivative {
 
 					for (int l : soln.missingIndex[soln.atomNumber[j]]) {
 						if (l > -1) {
-							for (int m : soln.missingIndex[soln.atomNumber[j]]) {
+							for (int m :
+									soln.missingIndex[soln.atomNumber[j]]) {
 								if (m > -1) {
 									if (soln.atomNumber[l] ==
 											soln.atomNumber[m]) {
@@ -3387,7 +3377,8 @@ public class GeometrySecondDerivative {
 
 					for (int l : soln.missingIndex[soln.atomNumber[j]]) {
 						if (l > -1) {
-							for (int m : soln.missingIndex[soln.atomNumber[j]]) {
+							for (int m :
+									soln.missingIndex[soln.atomNumber[j]]) {
 								if (m > -1) {
 									if (soln.atomNumber[l] ==
 											soln.atomNumber[m]) {
@@ -3404,7 +3395,8 @@ public class GeometrySecondDerivative {
 				else {
 					for (int l : soln.orbitalIndices[soln.atomNumber[j]]) {
 						if (l > -1) {
-							for (int m : soln.orbitalIndices[soln.atomNumber[k]]) {
+							for (int m :
+									soln.orbitalIndices[soln.atomNumber[k]]) {
 								if (m > -1) {
 									val += densityMatrixDeriv.get(l, m) *
 											integralArray[integralcount];

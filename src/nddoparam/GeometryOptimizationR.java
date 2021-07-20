@@ -1,6 +1,7 @@
 package nddoparam;
 
 import org.jblas.DoubleMatrix;
+import runcycle.input.RawMolecule;
 
 public class GeometryOptimizationR extends GeometryOptimization {
 
@@ -10,7 +11,9 @@ public class GeometryOptimizationR extends GeometryOptimization {
 
 	@Override
 	protected void updateSolution() {
+		RawMolecule rm = s.getRm();
 		s = new SolutionR(s.atoms, s.charge);
+		if (rm != null) s.setRm(rm);
 	}
 
 	protected double findDerivative(int i, int j) {
