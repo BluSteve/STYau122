@@ -9,6 +9,9 @@ import scf.Utils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.ForkJoinTask;
+import java.util.concurrent.RecursiveAction;
 
 class ParamGradientR extends ParamGradient {
 	protected ParamGradientR(SolutionR s, double[] datum, SolutionR sExp,
@@ -16,41 +19,74 @@ class ParamGradientR extends ParamGradient {
 		super(s, datum, sExp, analytical);
 	}
 
+	/**
+	 * Repartitions derivatives into batches that are friendlier to the
+	 * current number of cores.
+	 *
+	 * @param firstZIndex   First atom index to compute, inclusive.
+	 * @param firstParamNum First param number to compute, inclusive.
+	 */
 	@Override
 	protected void computeBatchedDerivs(int firstZIndex, int firstParamNum) {
+		// aggregate everything together for batched computation
 		ArrayList<DoubleMatrix> aggregate =
 				new ArrayList<>(s.getRm().mats.length * Solution.maxParamNum);
 		for (int ZI = 0; ZI < s.getRm().mats.length; ZI++) {
 			if (ZI == firstZIndex)
-				staticDerivs[ZI] = ParamDerivative
-						.MNDOStaticMatrixDeriv((SolutionR) s,
-								s.getRm().mats[ZI],
-								firstParamNum);
+				// only compute from firstParamNum onwards
+				staticDerivs[ZI] = ParamDerivative.MNDOStaticMatrixDeriv(
+						(SolutionR) s, s.getRm().mats[ZI], firstParamNum);
 			else if (ZI < firstZIndex) {
-				staticDerivs[ZI] =
-						new DoubleMatrix[][]{
-								new DoubleMatrix[Solution.maxParamNum],
-								new DoubleMatrix[Solution.maxParamNum]};
+				// don't compute at all
+				staticDerivs[ZI] = new DoubleMatrix[][]{
+						new DoubleMatrix[Solution.maxParamNum],
+						new DoubleMatrix[Solution.maxParamNum]};
 			}
-			else staticDerivs[ZI] = ParamDerivative
-						.MNDOStaticMatrixDeriv((SolutionR) s,
-								s.getRm().mats[ZI], 0);
+			// compute all
+			else staticDerivs[ZI] = ParamDerivative.MNDOStaticMatrixDeriv(
+						(SolutionR) s, s.getRm().mats[ZI], 0);
 			Collections.addAll(aggregate, staticDerivs[ZI][1]);
 		}
 
-		DoubleMatrix[] aggregateArray = new DoubleMatrix[aggregate.size()];
-		for (int x = 0; x < aggregate.size(); x++) {
-			aggregateArray[x] = aggregate.get(x);
-		}
+		DoubleMatrix[] aggregateArray = aggregate.toArray(new DoubleMatrix[0]);
+//		DoubleMatrix[] xLimitedAggregate = ParamDerivative.xArrayLimitedPople(
+//				(SolutionR) s, aggregateArray);
 		DoubleMatrix[] xLimitedAggregate =
-				ParamDerivative.xArrayLimitedPople((SolutionR) s,
-						aggregateArray);
+				new DoubleMatrix[aggregateArray.length];
+		int elapsedSize = 0;
+		double cores = Runtime.getRuntime().availableProcessors();
+		int size = Math.max((int) Math.ceil(aggregateArray.length / cores), 2);
+
+		System.err.println(size);
+
+		List<RecursiveAction> subtasks = new ArrayList<>();
+		while (elapsedSize < aggregateArray.length) {
+			int finalElapsedSize = elapsedSize;
+			subtasks.add(new RecursiveAction() {
+				@Override
+				protected void compute() {
+					DoubleMatrix[] subset = Arrays.copyOfRange(aggregateArray,
+							finalElapsedSize,
+							Math.min(aggregateArray.length,
+									finalElapsedSize + size));
+					DoubleMatrix[] output = ParamDerivative
+							.xArrayLimitedPople((SolutionR) s, subset);
+
+//					 removed .dup() here
+					System.arraycopy(output, 0, xLimitedAggregate,
+							finalElapsedSize, output.length);
+				}
+			});
+			elapsedSize += size;
+		}
+		ForkJoinTask.invokeAll(subtasks);
+
+
 		int i = 0;
 		for (int Z = 0; Z < s.getRm().mats.length; Z++) {
-			xLimited[Z] =
-					Arrays.copyOfRange(xLimitedAggregate,
-							i * Solution.maxParamNum,
-							i * Solution.maxParamNum + Solution.maxParamNum);
+			xLimited[Z] = Arrays.copyOfRange(xLimitedAggregate,
+					i * Solution.maxParamNum,
+					i * Solution.maxParamNum + Solution.maxParamNum);
 			i++;
 		}
 	}

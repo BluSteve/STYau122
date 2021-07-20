@@ -2574,12 +2574,13 @@ public class GeometrySecondDerivative {
 
 	public static DoubleMatrix hessianRoutine(NDDOAtom[] atoms, SolutionR soln,
 											  DoubleMatrix[] fockDerivStatic) {
+		@SuppressWarnings("DuplicatedCode")
 		DoubleMatrix[] densityDerivs =
 				new DoubleMatrix[fockDerivStatic.length];
 		int elapsedSize = 0;
 		double cores = Runtime.getRuntime().availableProcessors();
-		int size = (int) Math.ceil(fockDerivStatic.length / cores);
-
+		int size = Math.max((int) Math.ceil(fockDerivStatic.length / cores),
+				2);
 		List<RecursiveAction> subtasks = new ArrayList<>();
 		// partitions densityDerivs into batches.
 		while (elapsedSize < fockDerivStatic.length) {
@@ -2587,22 +2588,19 @@ public class GeometrySecondDerivative {
 			subtasks.add(new RecursiveAction() {
 				@Override
 				protected void compute() {
-					DoubleMatrix[] fockSubset =
-							Arrays.copyOfRange(fockDerivStatic,
-									finalElapsedSize,
-									Math.min(fockDerivStatic.length,
-											finalElapsedSize + size));
-					DoubleMatrix[] output = densityDerivPople(soln,
-							fockSubset);
+					DoubleMatrix[] subset = Arrays.copyOfRange(fockDerivStatic,
+							finalElapsedSize,
+							Math.min(fockDerivStatic.length,
+									finalElapsedSize + size));
+					DoubleMatrix[] output = densityDerivPople(soln, subset);
 
 					// todo throw exception instead of null
 					if (output == null)
-						output = densityDerivThiel(soln, fockSubset);
+						output = densityDerivThiel(soln, subset);
 
-					for (int i = 0; i < output.length; i++) {
-						densityDerivs[finalElapsedSize + i] = output[i].dup();
-					}
-
+					// removed .dup() here
+					System.arraycopy(output, 0, densityDerivs,
+							finalElapsedSize, output.length);
 				}
 			});
 			elapsedSize += size;
@@ -2806,8 +2804,8 @@ public class GeometrySecondDerivative {
 						rarray[a] = null;
 					}
 					else {
-//						System.out
-//								.println("convergence test: " + mag(rarray[a]));
+//						System.out.println("convergence test: " + mag
+//								(rarray[a]));
 					}
 				}
 			}

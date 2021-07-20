@@ -3273,15 +3273,12 @@ public class ParamDerivative {
 				else if (Double.isNaN(mag(rarray[j]))) {
 					System.err.println(
 							"Pople algorithm fails; reverting to Thiel " +
-									"algorithm " +
-									"(don't" +
-									" " +
-									"panic)...");
+									"algorithm (don't panic)...");
 					return xArrayLimitedThiel(soln, fockDerivStaticPadded);
 				}
 				else {
 					iterable[j] = 0;
-					System.err.println("convergence test: " + mag(rarray[j]));
+					System.out.println("convergence test: " + mag(rarray[j]));
 				}
 			}
 		}
@@ -3300,14 +3297,14 @@ public class ParamDerivative {
 
 	private static DoubleMatrix[] xArrayLimitedThiel(SolutionR soln,
 													 DoubleMatrix[] fockDerivStatic) {
-		boolean bad = true;
+		boolean empty = true;
 		for (DoubleMatrix dm : fockDerivStatic) {
 			if (dm != null) {
-				bad = false;
+				empty = false;
 				break;
 			}
 		}
-		if (bad) return new DoubleMatrix[fockDerivStatic.length];
+		if (empty) return new DoubleMatrix[fockDerivStatic.length];
 		int NOcc = (int) (soln.nElectrons / 2.0);
 		int NVirt = soln.orbitals.length - NOcc;
 		DoubleMatrix[] Farray = new DoubleMatrix[fockDerivStatic.length];
