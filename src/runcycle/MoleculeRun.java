@@ -50,11 +50,12 @@ public class MoleculeRun implements MoleculeResult {
 				StopWatch sw = new StopWatch();
 				sw.start();
 
-				opt = restricted ?
-						new GeometryOptimizationR(atoms, charge) :
-						new GeometryOptimizationU(atoms, charge, mult);
-				s = opt.s.setRm(rm); // NOT a clone
-//				s = new SolutionR(atoms, charge).setRm(rm);
+				s = restricted ? new SolutionR(atoms, charge) :
+						new SolutionU(atoms, charge, mult);
+				s.setRm(rm);
+
+				opt = GeometryOptimization.of(s).compute();
+				s = opt.getS();
 
 				// updates geom coords
 				for (int i = 0; i < atoms.length; i++) {
@@ -135,7 +136,7 @@ public class MoleculeRun implements MoleculeResult {
 	}
 
 	@Override
-	public double[][] getHessian() throws IllegalStateException {
+	public double[][] getHessian() {
 		if (isRunHessian) return h.getHessian();
 		else throw new IllegalStateException(
 				"Hessian not found for molecule: " + rm.index + " " + rm.name);

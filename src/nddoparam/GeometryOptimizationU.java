@@ -4,13 +4,13 @@ import org.jblas.DoubleMatrix;
 
 public class GeometryOptimizationU extends GeometryOptimization {
 
-	public GeometryOptimizationU(NDDOAtom[] atoms, int charge, int mult) {
-		super(atoms, charge, mult);
+	protected GeometryOptimizationU(SolutionU s) {
+		super(s);
 	}
 
 	@Override
 	protected void updateSolution() {
-		s = new SolutionU(atoms, charge, mult);
+		s = new SolutionU(s.atoms, s.charge, s.multiplicity);
 	}
 
 	protected double findDerivative(int i, int j) {
@@ -19,7 +19,7 @@ public class GeometryOptimizationU extends GeometryOptimization {
 
 	protected DoubleMatrix[] findGH() {
 		DoubleMatrix[][] matrices =
-				GeometryDerivative.gradientRoutine(atoms, (SolutionU) s);
+				GeometryDerivative.gradientRoutine(s.atoms, (SolutionU) s);
 
 		DoubleMatrix gradient = matrices[0][0];
 		DoubleMatrix hessian;
@@ -27,7 +27,7 @@ public class GeometryOptimizationU extends GeometryOptimization {
 		// dunno if this is ok for unrestricted
 		try {
 			 hessian = GeometrySecondDerivative
-					.hessianRoutine(atoms, (SolutionU) s, matrices[1],
+					.hessianRoutine(s.atoms, (SolutionU) s, matrices[1],
 							matrices[2]);
 		} catch (Exception e) {
 			hessian = DoubleMatrix.eye(gradient.length);

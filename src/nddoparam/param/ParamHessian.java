@@ -52,10 +52,14 @@ public class ParamHessian {
 	public static ParamHessian from(ParamGradient g) {
 		ParamHessian h = new ParamHessian(g);
 		if (g instanceof ParamGradientR) h.restricted = true;
-		else {
-			assert g instanceof ParamGradientU;
+		else if (g instanceof ParamGradientU) {
 			h.restricted = false;
 		}
+		else throw new IllegalArgumentException(
+					"ParamGradient g is neither restricted nor unrestricted! " +
+							"Molecule: " +
+							g.getS().getRm().index + " " +
+							g.getS().getRm().name);
 		return h;
 	}
 

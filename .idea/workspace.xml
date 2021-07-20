@@ -37,13 +37,16 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
+    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="MoleculeRan added, discovered weird hessian NaN error stemming from xComplementary -Infinity">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/input.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Testing.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationR.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationU.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -384,8 +387,8 @@
       <list>
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.InputHandler" />
-        <item itemvalue="Application.OutputHandler" />
         <item itemvalue="Application.Testing" />
+        <item itemvalue="Application.OutputHandler" />
       </list>
     </recent_temporary>
   </component>
@@ -492,14 +495,7 @@
       <workItem from="1626617825423" duration="12012000" />
       <workItem from="1626665170977" duration="26708000" />
       <workItem from="1626699761384" duration="12722000" />
-      <workItem from="1626747807563" duration="10414000" />
-    </task>
-    <task id="LOCAL-00105" summary="Multiple runs working + insane speedup from multithreaded hessian">
-      <created>1626367633207</created>
-      <option name="number" value="00105" />
-      <option name="presentableId" value="LOCAL-00105" />
-      <option name="project" value="LOCAL" />
-      <updated>1626367633207</updated>
+      <workItem from="1626747807563" duration="12121000" />
     </task>
     <task id="LOCAL-00106" summary="debugging weird indexoutofbounds error, not done yet">
       <created>1626372231768</created>
@@ -837,7 +833,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626756922419</updated>
     </task>
-    <option name="localTasksCounter" value="154" />
+    <task id="LOCAL-00154" summary="geom opt work in progress">
+      <created>1626760150178</created>
+      <option name="number" value="00154" />
+      <option name="presentableId" value="LOCAL-00154" />
+      <option name="project" value="LOCAL" />
+      <updated>1626760150178</updated>
+    </task>
+    <option name="localTasksCounter" value="155" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -914,7 +917,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="added error handling for moleculerun (timeout too)" />
     <MESSAGE value="stupid bug fix" />
     <MESSAGE value="some refactoring and javadocing" />
     <MESSAGE value="Fixed hessian padding and multithreading" />
@@ -939,17 +941,12 @@
     <MESSAGE value="Major debug" />
     <MESSAGE value="not working start where you left off" />
     <MESSAGE value="MoleculeRan added, discovered weird hessian NaN error stemming from xComplementary -Infinity" />
-    <option name="LAST_COMMIT_MESSAGE" value="MoleculeRan added, discovered weird hessian NaN error stemming from xComplementary -Infinity" />
+    <MESSAGE value="geom opt work in progress" />
+    <option name="LAST_COMMIT_MESSAGE" value="geom opt work in progress" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <condition expression="s instanceof SolutionR" language="JAVA" />
-          <url>file://$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java</url>
-          <line>51</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/runcycle/output/OutputHandler.java</url>
           <line>87</line>
@@ -959,18 +956,6 @@
           <url>file://$PROJECT_DIR$/src/optimize/ParamOptimizer.java</url>
           <line>27</line>
           <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <condition expression="element != element" language="JAVA" />
-          <url>file://$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java</url>
-          <line>290</line>
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <condition expression="totalGradients[ZI][paramNum] != totalGradients[ZI][paramNum] " language="JAVA" />
-          <url>file://$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java</url>
-          <line>200</line>
-          <option name="timeStamp" value="15" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

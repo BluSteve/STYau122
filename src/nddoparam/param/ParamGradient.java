@@ -40,7 +40,7 @@ public abstract class ParamGradient {
 	 * @param s     Primary Solution object.
 	 * @param datum Reference data of Hf, dipole, I.E.
 	 * @param sExp  Optional experimental geometry Solution object, may be
-	 *                 null.
+	 *              null.
 	 * @return Uncomputed ParamGradient object, either restricted or not
 	 * depending on type of s and sExp.
 	 */
@@ -48,9 +48,12 @@ public abstract class ParamGradient {
 		if (s instanceof SolutionR)
 			return new ParamGradientR((SolutionR) s, datum, (SolutionR) sExp,
 					true);
-		assert s instanceof SolutionU;
-		return new ParamGradientU((SolutionU) s, datum, (SolutionU) sExp,
-				false);
+		else if (s instanceof SolutionU)
+			return new ParamGradientU((SolutionU) s, datum, (SolutionU) sExp,
+					false);
+		else throw new IllegalArgumentException(
+				"Solution is neither restricted nor unrestricted! Molecule: "
+						+ s.getRm().index + " " + s.getRm().name);
 	}
 
 	/**
@@ -133,6 +136,7 @@ public abstract class ParamGradient {
 	 * Fills up all gradient matrices, will be multithreaded if experimental
 	 * geometry gradient computations are required as those take lots of time
 	 * for they cannot be computed analytically.
+	 *
 	 * @return this
 	 */
 	public ParamGradient compute() {

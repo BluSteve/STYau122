@@ -1,16 +1,10 @@
-import nddoparam.GeometryOptimizationR;
+import nddoparam.GeometryOptimization;
 import nddoparam.Solution;
 import nddoparam.SolutionR;
 import nddoparam.mndo.MNDOAtom;
 import nddoparam.mndo.MNDOParams;
-import nddoparam.param.ParamGradient;
-import nddoparam.param.ParamHessian;
-import org.apache.commons.lang3.time.StopWatch;
-import runcycle.input.RawMolecule;
 import scf.AtomHandler;
 import scf.Utils;
-
-import java.util.Arrays;
 
 public class Testing {
 	public static void main(String[] args) {
@@ -74,10 +68,12 @@ public class Testing {
 				new MNDOAtom(AtomHandler.atomsMap.get("C"),
 						new double[]{0, 0, 0}, c)};
 		double[] datum = new double[]{-17.9, 0, 13.6};
-		System.out.close();
-		GeometryOptimizationR opt = new GeometryOptimizationR(exp1, 0);
-//        GeometryOptimizationU opt = new GeometryOptimizationU(exp1, 0, 1);
-		int[] atomTypes = new int[]{1, 6};
+		Solution sr = new SolutionR(exp1, 0);
+		GeometryOptimization opt = GeometryOptimization.of(sr);
+
+
+
+		/*int[] atomTypes = new int[]{1, 6};
 
 		StopWatch sw = new StopWatch();
 		RawMolecule rm = new RawMolecule();
@@ -97,6 +93,6 @@ public class Testing {
 //						new int[][]{MNDOParams.T1ParamNums,
 //								MNDOParams.T2ParamNums,
 //								MNDOParams.T2ParamNums})));
-		System.err.println(sw.getTime());
+		System.err.println(sw.getTime());*/
 	}
 }
