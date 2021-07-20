@@ -2,7 +2,6 @@ package scf;
 
 import nddoparam.NDDOAtom;
 import nddoparam.NDDOParams;
-import nddoparam.Solution;
 import org.apache.commons.math3.primes.Primes;
 
 import java.lang.reflect.Constructor;
@@ -70,8 +69,8 @@ public class Utils {
 		return index == 2 ? a[0] * a[3] : a[index + 1];
 	}
 
-	public static boolean hasAtomType(Solution s, int atomType) {
-		for (int p : s.getRm().mats) {
+	public static boolean hasAtomType(int[] mats, int atomType) {
+		for (int p : mats) {
 			if (atomType == p) {
 				return true;
 			}

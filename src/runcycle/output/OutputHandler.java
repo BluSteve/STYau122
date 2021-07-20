@@ -2,7 +2,7 @@ package runcycle.output;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import runcycle.MoleculeRun;
+import runcycle.MoleculeResult;
 import runcycle.input.RawInput;
 
 import java.io.FileReader;
@@ -10,26 +10,29 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class OutputHandler {
-	public static MoleculeOutput toMoleculeOutput(MoleculeRun result) {
+	public static MoleculeOutput toMoleculeOutput(MoleculeResult result) {
 		MoleculeOutput mo = new MoleculeOutput();
 		mo.rawMolecule = result.getRm();
 		mo.time = result.getTime();
-		if (result.getH() != null) mo.hessian = result.getH().getHessianRaw();
+		mo.isExpAvail = result.isExpAvail();
 
-		mo.hf = result.getS().hf;
-		mo.dipole = result.getS().dipole;
-		mo.ie = -result.getS().homo;
-		mo.geomGradient = result.getE().getGeomGradient();
-		mo.totalError = result.getE().getTotalError();
+		mo.hf = result.getHF();
+		mo.dipole = result.getDipole();
+		mo.ie = -result.getIE();
+		mo.geomGradient = result.getGeomGradient();
+		mo.totalError = result.getTotalError();
 
 		ParamGradientOutput pgo = new ParamGradientOutput();
-		pgo.hf = result.getG().getHFDerivs();
-		pgo.dipole = result.getG().getDipoleDerivs();
-		pgo.ie = result.getG().getIEDerivs();
-		pgo.geom = result.getG().getGeomDerivs();
-		pgo.total = result.getG().getTotalGradients();
+		pgo.hf = result.getHFDerivs();
+		pgo.dipole = result.getDipoleDerivs();
+		pgo.ie = result.getIEDerivs();
+		pgo.geom = result.getGeomDerivs();
+		pgo.total = result.getTotalGradients();
 
 		mo.gradient = pgo;
+
+		if (result.getHessian() != null) mo.hessian = result.getHessian();
+
 		return mo;
 	}
 
@@ -68,6 +71,8 @@ public class OutputHandler {
 
 	public static void outputOne(MoleculeOutput mo, String output) {
 		GsonBuilder builder = new GsonBuilder();
+		builder.serializeNulls();
+		builder.serializeSpecialFloatingPointValues();
 		builder.setPrettyPrinting();
 		Gson gson = builder.create();
 		try {
@@ -77,6 +82,10 @@ public class OutputHandler {
 			fw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+		catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			System.err.println(mo.toString());
 		}
 	}
 

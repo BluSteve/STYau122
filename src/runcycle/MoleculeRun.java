@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.concurrent.*;
 
-public class MoleculeRun {
+public class MoleculeRun implements MoleculeResult {
 	protected double[] datum;
 	protected NDDOAtom[] atoms, expGeom;
 	protected Solution s, sExp;
@@ -94,10 +94,27 @@ public class MoleculeRun {
 					rm.index + " " + rm.name;
 
 			logError(errorMessage);
-		}
-		finally {
+		} finally {
 			assert executorService != null;
 			executorService.shutdown();
+		}
+	}
+
+	/**
+	 * Logs the error and prevents this molecule from being run in the future
+	 * by changing the isUsing parameter.
+	 *
+	 * @param errorMessage What to print to the console and log file.
+	 */
+	private void logError(String errorMessage) {
+		System.err.println(errorMessage);
+		rm.isUsing = false;
+		try {
+			FileWriter fw = new FileWriter("errored-molecules.txt", true);
+			fw.write(errorMessage + "\n");
+			fw.close();
+		} catch (IOException ioException) {
+			ioException.printStackTrace();
 		}
 	}
 
@@ -117,30 +134,69 @@ public class MoleculeRun {
 		return datum;
 	}
 
+	@Override
+	public double[][] getHessian() throws IllegalStateException {
+		if (isRunHessian) return h.getHessian();
+		else throw new IllegalStateException(
+				"Hessian not found for molecule: " + rm.index + " " + rm.name);
+	}
+
+	@Override
+	public double getHF() {
+		return getS().hf;
+	}
+
+	@Override
+	public double getDipole() {
+		return getS().dipole;
+	}
+
+	@Override
+	public double getIE() {
+		return -getS().homo;
+	}
+
+	@Override
+	public double getGeomGradient() {
+		return getE().getGeomGradient();
+	}
+
+	@Override
+	public double getTotalError() {
+		return getE().getTotalError();
+	}
+
+	@Override
+	public double[][] getHFDerivs() {
+		return getG().getHFDerivs();
+	}
+
+	@Override
+	public double[][] getDipoleDerivs() {
+		return getG().getDipoleDerivs();
+	}
+
+	@Override
+	public double[][] getIEDerivs() {
+		return getG().getIEDerivs();
+	}
+
+	@Override
+	public double[][] getGeomDerivs() {
+		return getG().getGeomDerivs();
+	}
+
+	@Override
+	public double[][] getTotalGradients() {
+		return getG().getTotalGradients();
+	}
+
 	public ParamGradient getG() {
 		return g;
 	}
 
 	public ParamHessian getH() {
 		return h;
-	}
-
-	/**
-	 * Logs the error and prevents this molecule from being run in the future
-	 * by changing the isUsing parameter.
-	 *
-	 * @param errorMessage What to print to the console and log file.
-	 */
-	private void logError(String errorMessage) {
-		System.err.println(errorMessage);
-		rm.isUsing = false;
-		try {
-			FileWriter fw = new FileWriter("errored-molecules.txt", true);
-			fw.write(errorMessage + "\n");
-			fw.close();
-		} catch (IOException ioException) {
-			ioException.printStackTrace();
-		}
 	}
 
 	public Solution getS() {

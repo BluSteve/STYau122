@@ -99,6 +99,85 @@ public class ParamHessian {
 	}
 
 	/**
+	 * Returns hessian with all non-differentiated terms removed, padded for a
+	 * particular training set.
+	 *
+	 * @param atomTypes    This is NOT the atom types of this particular
+	 *                     molecule, but rather the atom types of the
+	 *                     training set.
+	 * @param neededParams This is NOT the neededParams of this particular
+	 *                     molecule, but rather the neededParams of all the
+	 *                     atoms in the training set.
+	 * @return A Hessian matrix with all undifferentiated parameter elements
+	 * (all of these are 0.0, but not all 0.0 elements are undifferentiated).
+	 */
+	public static double[][] padHessian(double[][] hessian, int[] mats,
+										int[] atomTypes,
+										int[][] neededParams) {
+		List<List<Double>> padded = new ArrayList<>();
+		int currentRowIndex = 0;
+		for (int rowAT : atomTypes) {
+			if (Utils.hasAtomType(mats, rowAT)) {
+				for (int j = 0; j < Solution.maxParamNum; j++) {
+					ArrayList<Double> row = new ArrayList<>();
+					int currentColIndex = 0;
+					for (int colAT : atomTypes) {
+						if (Utils.hasAtomType(mats, colAT)) {
+							for (int l = 0; l < Solution.maxParamNum; l++) {
+								row.add(hessian[currentRowIndex][currentColIndex]);
+								currentColIndex++;
+							}
+						}
+						else {
+							for (int l = 0; l < Solution.maxParamNum; l++) {
+								row.add(0.0);
+							}
+						}
+					}
+					padded.add(row);
+					currentRowIndex++;
+				}
+			}
+			else {
+				for (int j = 0; j < Solution.maxParamNum; j++) {
+					padded.add(Arrays.asList(ArrayUtils.toObject(
+							new double[Solution.maxParamNum *
+									atomTypes.length])));
+				}
+			}
+		}
+
+		/*
+		 * All parameters that are needed in the Hessian, stored linearly. I.e.
+		 * can exceed MaxParamNum but not exceed MaxParamNum * number of
+		 * different atoms.
+		 */
+		List<Integer> flattenedNPs = new ArrayList<>(Solution.maxParamNum *
+				neededParams.length);
+		int last = -1;
+		for (int[] nps : neededParams) {
+			for (int np : nps) {
+				flattenedNPs.add(last + np + 1);
+			}
+			if (flattenedNPs.size() > 0)
+				last = flattenedNPs.get(flattenedNPs.size() - 1);
+		}
+		double[][] unpadded =
+				new double[flattenedNPs.size()][flattenedNPs.size()];
+		int q = 0;
+		for (int i : flattenedNPs) {
+			int w = 0;
+			for (int j : flattenedNPs) {
+				unpadded[q][w] = padded.get(i).get(j);
+				w++;
+			}
+			q++;
+		}
+
+		return unpadded;
+	}
+
+	/**
 	 * Computes each row of the Hessian in a parallel manner. Very
 	 * time-intensive.
 	 *
@@ -206,90 +285,14 @@ public class ParamHessian {
 		int i2 = ZIndex2 * Solution.maxParamNum + paramNum2;
 		int i1 = ZIndex1 * Solution.maxParamNum + paramNum1;
 
-		hessian[i2][i1] = (gPrime.getTotalGradients()[ZIndex1][paramNum1] -
+		double element = (gPrime.getTotalGradients()[ZIndex1][paramNum1] -
 				g.getTotalGradients()[ZIndex1][paramNum1])
 				/ Utils.LAMBDA;
-		hessian[i1][i2] = hessian[i2][i1];
+		hessian[i2][i1] = element;
+		hessian[i1][i2] = element;
 	}
 
-	/**
-	 * Returns hessian with all non-differentiated terms removed, padded for a
-	 * particular training set.
-	 *
-	 * @param atomTypes    This is NOT the atom types of this particular
-	 *                     molecule, but rather the atom types of the
-	 *                     training set.
-	 * @param neededParams This is NOT the neededParams of this particular
-	 *                     molecule, but rather the neededParams of all the
-	 *                     atoms in the training set.
-	 * @return A Hessian matrix with all undifferentiated parameter elements
-	 * (all of these are 0.0, but not all 0.0 elements are undifferentiated).
-	 */
-	public double[][] getHessian(int[] atomTypes, int[][] neededParams) {
-		List<List<Double>> padded = new ArrayList<>();
-		int currentRowIndex = 0;
-		for (int rowAT : atomTypes) {
-			if (Utils.hasAtomType(s, rowAT)) {
-				for (int j = 0; j < Solution.maxParamNum; j++) {
-					ArrayList<Double> row = new ArrayList<>();
-					int currentColIndex = 0;
-					for (int colAT : atomTypes) {
-						if (Utils.hasAtomType(s, colAT)) {
-							for (int l = 0; l < Solution.maxParamNum; l++) {
-								row.add(hessian[currentRowIndex][currentColIndex]);
-								currentColIndex++;
-							}
-						}
-						else {
-							for (int l = 0; l < Solution.maxParamNum; l++) {
-								row.add(0.0);
-							}
-						}
-					}
-					padded.add(row);
-					currentRowIndex++;
-				}
-			}
-			else {
-				for (int j = 0; j < Solution.maxParamNum; j++) {
-					padded.add(Arrays.asList(ArrayUtils.toObject(
-							new double[Solution.maxParamNum *
-									atomTypes.length])));
-				}
-			}
-		}
-
-		/*
-		 * All parameters that are needed in the Hessian, stored linearly. I.e.
-		 * can exceed MaxParamNum but not exceed MaxParamNum * number of
-		 * different atoms.
-		 */
-		List<Integer> flattenedNPs = new ArrayList<>(Solution.maxParamNum *
-				neededParams.length);
-		int last = -1;
-		for (int[] nps : neededParams) {
-			for (int np : nps) {
-				flattenedNPs.add(last + np + 1);
-			}
-			if (flattenedNPs.size() > 0)
-				last = flattenedNPs.get(flattenedNPs.size() - 1);
-		}
-		double[][] unpadded =
-				new double[flattenedNPs.size()][flattenedNPs.size()];
-		int q = 0;
-		for (int i : flattenedNPs) {
-			int w = 0;
-			for (int j : flattenedNPs) {
-				unpadded[q][w] = padded.get(i).get(j);
-				w++;
-			}
-			q++;
-		}
-
-		return unpadded;
-	}
-
-	public double[][] getHessianRaw() {
+	public double[][] getHessian() {
 		return hessian;
 	}
 

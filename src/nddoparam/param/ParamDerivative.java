@@ -3571,8 +3571,7 @@ public class ParamDerivative {
 
 
 	public static DoubleMatrix HOMOCoefficientDerivativeComplementary(
-			DoubleMatrix x,
-			SolutionR soln) {
+			DoubleMatrix x, SolutionR soln) {
 
 
 		DoubleMatrix CDeriv = DoubleMatrix.zeros(1, soln.orbitals.length);

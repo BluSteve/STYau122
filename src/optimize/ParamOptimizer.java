@@ -20,7 +20,13 @@ public class ParamOptimizer {
 	}
 
 	public double[] optimize(DoubleMatrix B, DoubleMatrix gradient) {
-		DoubleMatrix searchdir = Solve.pinv(B).mmul(gradient);
+		DoubleMatrix searchdir = null;
+		try {
+			 searchdir= Solve.pinv(B).mmul(gradient);
+
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		}
 		double sum = 0;
 		for (int i = 0; i < searchdir.rows; i++) {
 			sum += searchdir.get(i) * searchdir.get(i);

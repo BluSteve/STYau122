@@ -12,7 +12,7 @@ import java.util.Collections;
 
 class ParamGradientR extends ParamGradient {
 	protected ParamGradientR(SolutionR s, double[] datum, SolutionR sExp,
-						  boolean analytical) {
+							 boolean analytical) {
 		super(s, datum, sExp, analytical);
 	}
 
@@ -112,26 +112,22 @@ class ParamGradientR extends ParamGradient {
 		if (analytical) {
 			if (staticDerivs[ZI][0][paramNum] != null ||
 					staticDerivs[ZI][1][paramNum] != null) {
-				responseDerivs[ZI][paramNum] =
-						ParamDerivative.responseMatrix((SolutionR)
-								s, densityDerivs[ZI][paramNum]);
-				fockDerivs[ZI][paramNum] =
-						staticDerivs[ZI][1][paramNum]
-								.add(responseDerivs[ZI][paramNum]);
-				xComplementary[ZI][paramNum] =
-						ParamDerivative.xArrayComplementary((SolutionR) s,
+				responseDerivs[ZI][paramNum] = ParamDerivative
+						.responseMatrix((SolutionR) s,
+								densityDerivs[ZI][paramNum]);
+				fockDerivs[ZI][paramNum] = staticDerivs[ZI][1][paramNum]
+						.add(responseDerivs[ZI][paramNum]);
+				xComplementary[ZI][paramNum] = ParamDerivative
+						.xArrayComplementary((SolutionR) s,
 								fockDerivs[ZI][paramNum]);
-				xForIE[ZI][paramNum] =
-						ParamDerivative.xarrayForIE((SolutionR) s,
-								xLimited[ZI][paramNum],
+				xForIE[ZI][paramNum] = ParamDerivative
+						.xarrayForIE((SolutionR) s, xLimited[ZI][paramNum],
 								xComplementary[ZI][paramNum]);
 				coeffDerivs[ZI][paramNum] = ParamDerivative
 						.HOMOCoefficientDerivativeComplementary(
-								xForIE[ZI][paramNum],
-								(SolutionR) s);
-				IEDerivs[ZI][paramNum] =
-						-ParamDerivative.MNDOIEDeriv((SolutionR) s,
-								coeffDerivs[ZI][paramNum],
+								xForIE[ZI][paramNum], (SolutionR) s);
+				IEDerivs[ZI][paramNum] = -ParamDerivative
+						.MNDOIEDeriv((SolutionR) s, coeffDerivs[ZI][paramNum],
 								fockDerivs[ZI][paramNum]);
 			}
 		}

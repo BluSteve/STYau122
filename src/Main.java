@@ -7,6 +7,8 @@ import optimize.ParamOptimizer;
 import optimize.ReferenceData;
 import org.apache.commons.lang3.time.StopWatch;
 import org.jblas.DoubleMatrix;
+import runcycle.MoleculeRan;
+import runcycle.MoleculeResult;
 import runcycle.MoleculeRun;
 import runcycle.input.InputHandler;
 import runcycle.input.RawInput;
@@ -21,6 +23,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.RecursiveTask;
 
@@ -41,11 +44,22 @@ public class Main {
 			ranMolecules =
 					OutputHandler.importMoleculeOutputs("dynamic-output");
 			if (ranMolecules != null) {
-				System.err.println(ranMolecules.length +
-						" molecules successfully imported from last" +
-						" incomplete run!");
+				Scanner s = new Scanner(System.in);
+				System.err.print(ranMolecules.length +
+						" molecules from last run found, would you like to " +
+						"import them? (Y/n) ");
+				if (s.next().equals("n")) {
+					System.err.println("Last ran molecules import cancelled!");
+					ranMolecules = null;
+				}
+				else {
+					System.err.println(ranMolecules.length +
+							" molecules successfully imported from last" +
+							" incomplete run!");
+				}
 			}
-			else System.err.println("Last run molecule import failed!");
+			else System.err.println("Last ran molecules import failed!");
+			System.err.println();
 		}
 
 		for (int runNum = 0; runNum < NUM_RUNS; runNum++) {
@@ -106,9 +120,15 @@ public class Main {
 				}
 			}
 
-			List<MoleculeRun> results = new ArrayList<>();
-			for (ForkJoinTask task : ForkJoinTask.invokeAll(moleculeTasks))
+			List<MoleculeResult> results = new ArrayList<>();
+			for (ForkJoinTask task : ForkJoinTask.invokeAll(moleculeTasks)) {
 				results.add((MoleculeRun) task.join()); // time intensive step
+			}
+			if (ranMolecules!=null) {
+				for (MoleculeOutput mr : ranMolecules) {
+					results.add(new MoleculeRan(mr));
+				}
+			}
 
 			// outputs output files for reference purposes, not read again in
 			// this program
@@ -119,7 +139,7 @@ public class Main {
 			double[] ttGradient = new double[paramLength];
 			double[][] ttHessian = isRunHessian ?
 					new double[paramLength][paramLength] : null;
-			for (MoleculeRun result : results) {
+			for (MoleculeResult result : results) {
 				// if it has not errored
 				if (result.getRm().isUsing) {
 					int[] moleculeATs = result.getRm().mats;
@@ -130,7 +150,7 @@ public class Main {
 							moleculeNPs, isDepad);
 
 					double[] g = ParamGradient.combine(
-							result.getG().getTotalGradients(),
+							result.getTotalGradients(),
 							ri.atomTypes, ri.neededParams,
 							moleculeATs, moleculeNPs,
 							isDepad);
@@ -141,40 +161,10 @@ public class Main {
 					}
 
 					if (isRunHessian) {
-						double[][] h = result.getH().getHessian(
-								ri.atomTypes, ri.neededParams);
-						for (int i = 0; i < h.length; i++) {
-							for (int j = 0; j < h[0].length; j++)
-								ttHessian[i][j] += h[i][j];
-						}
-					}
-
-					mos.add(OutputHandler.toMoleculeOutput(result));
-				}
-			}
-			if (ranMolecules != null) {
-				for (MoleculeOutput mo: ranMolecules) {
-					int[] moleculeATs = mo.rawMolecule.mats;
-					int[][] moleculeNPs = mo.rawMolecule.mnps;
-					boolean isDepad = true;
-
-					addToPO(o, result, ri.neededParams, moleculeATs,
-							moleculeNPs, isDepad);
-
-					double[] g = ParamGradient.combine(
-							result.getG().getTotalGradients(),
-							ri.atomTypes, ri.neededParams,
-							moleculeATs, moleculeNPs,
-							isDepad);
-
-					// ttGradient is sum of totalGradients across molecules
-					for (int i = 0; i < g.length; i++) {
-						ttGradient[i] += g[i];
-					}
-
-					if (isRunHessian) {
-						double[][] h = result.getH().getHessian(
-								ri.atomTypes, ri.neededParams);
+						double[][] h =
+								ParamHessian.padHessian(result.getHessian(),
+										result.getRm().mats,
+										ri.atomTypes, ri.neededParams);
 						for (int i = 0; i < h.length; i++) {
 							for (int j = 0; j < h[0].length; j++)
 								ttHessian[i][j] += h[i][j];
@@ -229,40 +219,40 @@ public class Main {
 		System.err.println("\nTotal time taken: " + sw.getTime());
 	}
 
-	private static void addToPO(ParamOptimizer o, MoleculeRun result,
+	private static void addToPO(ParamOptimizer o, MoleculeResult result,
 								int[][] neededParams,
 								int[] moleculeATs,
 								int[][] moleculeNP, boolean isDepad) {
 		o.addData(new ReferenceData(result.getDatum()[0],
-				result.getS().hf,
+				result.getHF(),
 				ParamGradient.combine(
-						result.getG().getHFDerivs(),
+						result.getHFDerivs(),
 						ri.atomTypes, neededParams,
 						moleculeATs, moleculeNP,
 						isDepad),
 				ReferenceData.HF_WEIGHT));
 		if (result.getDatum()[1] != 0)
 			o.addData(new ReferenceData(result.getDatum()[1],
-					result.getS().dipole,
+					result.getDipole(),
 					ParamGradient.combine(
-							result.getG().getDipoleDerivs(),
+							result.getDipoleDerivs(),
 							ri.atomTypes, neededParams,
 							moleculeATs, moleculeNP,
 							isDepad),
 					ReferenceData.DIPOLE_WEIGHT));
 		if (result.getDatum()[2] != 0)
 			o.addData(new ReferenceData(result.getDatum()[2],
-					-result.getS().homo,
+					result.getIE(),
 					ParamGradient.combine(
-							result.getG().getIEDerivs(),
+							result.getIEDerivs(),
 							ri.atomTypes, neededParams,
 							moleculeATs, moleculeNP,
 							isDepad),
 					ReferenceData.IE_WEIGHT));
 		if (result.isExpAvail()) o.addData(new ReferenceData(0,
-				-result.getE().getGeomGradient(),
+				result.getGeomGradient(),
 				ParamGradient.combine(
-						result.getG().getGeomDerivs(),
+						result.getGeomDerivs(),
 						ri.atomTypes, neededParams,
 						moleculeATs, moleculeNP,
 						isDepad),

@@ -91,7 +91,7 @@ public class Testing {
 		ParamGradient G = ParamGradient.of(S, datum, expsoln).compute();
 		ParamHessian H = ParamHessian.from(G).compute();
 		sw.stop();
-		System.err.println(Arrays.deepToString(H.getHessianRaw()));
+		System.err.println(Arrays.deepToString(H.getHessian()));
 //		System.err.println(
 //				Arrays.deepToString(H.getHessian(new int[]{1, 5, 6},
 //						new int[][]{MNDOParams.T1ParamNums,
