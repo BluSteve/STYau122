@@ -50,9 +50,8 @@ public class MoleculeRun implements MoleculeResult {
 				StopWatch sw = new StopWatch();
 				sw.start();
 
-				s = restricted ? new SolutionR(atoms, charge) :
-						new SolutionU(atoms, charge, mult);
-				s.setRm(rm);
+				s = restricted ? new SolutionR(atoms, charge).setRm(rm) :
+						new SolutionU(atoms, charge, mult).setRm(rm);
 
 				opt = GeometryOptimization.of(s).compute();
 				s = opt.getS();
@@ -62,10 +61,11 @@ public class MoleculeRun implements MoleculeResult {
 					rm.atoms[i].coords = atoms[i].getCoordinates();
 				}
 
-				if (expGeom != null)
+				if (expGeom != null) {
 					sExp = restricted ?
 							(new SolutionR(expGeom, charge)).setRm(rm) :
 							(new SolutionU(expGeom, charge, mult)).setRm(rm);
+				}
 
 				g = ParamGradient.of(s, datum, sExp).compute();
 				if (isRunHessian) h = ParamHessian.from(g).compute();
@@ -79,13 +79,13 @@ public class MoleculeRun implements MoleculeResult {
 			});
 
 			future.get(600, TimeUnit.SECONDS);
+
 		} catch (TimeoutException e) {
 			future.cancel(true);
 
 			e.printStackTrace();
 
 			String timeoutMessage = "TIMEOUT! " + rm.index + " " + rm.name;
-
 			logError(timeoutMessage);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -93,7 +93,6 @@ public class MoleculeRun implements MoleculeResult {
 			String errorMessage = "ERROR! " + e.getClass() + " " +
 					Arrays.toString(e.getStackTrace()) + " " +
 					rm.index + " " + rm.name;
-
 			logError(errorMessage);
 		} finally {
 			assert executorService != null;

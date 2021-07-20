@@ -8,6 +8,9 @@ import scf.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.ForkJoinTask;
+import java.util.concurrent.RecursiveAction;
 
 
 public class GeometrySecondDerivative {
@@ -2570,44 +2573,50 @@ public class GeometrySecondDerivative {
 	}
 
 	public static DoubleMatrix hessianRoutine(NDDOAtom[] atoms, SolutionR soln,
-											  DoubleMatrix[] fockderivstatic) {
-		//todo play around with it if you want
-		DoubleMatrix[] densityderivs =
-				new DoubleMatrix[fockderivstatic.length];
-		int count = 0;
-		int size = 24;
+											  DoubleMatrix[] fockDerivStatic) {
+		DoubleMatrix[] densityDerivs =
+				new DoubleMatrix[fockDerivStatic.length];
+		int elapsedSize = 0;
+		double cores = Runtime.getRuntime().availableProcessors();
+		int size = (int) Math.ceil(fockDerivStatic.length / cores);
 
-		while (densityderivs[fockderivstatic.length - 1] == null) {
-			DoubleMatrix[] subset =
-					Arrays.copyOfRange(fockderivstatic, count,
-							Math.min(fockderivstatic.length, count + size));
-			DoubleMatrix[] output = densityderivpople(soln, subset);
+		List<RecursiveAction> subtasks = new ArrayList<>();
+		// partitions densityDerivs into batches.
+		while (elapsedSize < fockDerivStatic.length) {
+			int finalElapsedSize = elapsedSize;
+			subtasks.add(new RecursiveAction() {
+				@Override
+				protected void compute() {
+					DoubleMatrix[] fockSubset =
+							Arrays.copyOfRange(fockDerivStatic,
+									finalElapsedSize,
+									Math.min(fockDerivStatic.length,
+											finalElapsedSize + size));
+					DoubleMatrix[] output = densityDerivPople(soln,
+							fockSubset);
 
-			if (output == null)
-				output = densityderivthiel(soln, subset);
+					// todo throw exception instead of null
+					if (output == null)
+						output = densityDerivThiel(soln, fockSubset);
 
-			for (int i = 0; i < output.length; i++) {
-				densityderivs[count + i] = output[i].dup();
-			}
+					for (int i = 0; i < output.length; i++) {
+						densityDerivs[finalElapsedSize + i] = output[i].dup();
+					}
 
-			count += size;
+				}
+			});
+			elapsedSize += size;
 		}
+		ForkJoinTask.invokeAll(subtasks);
 
-
-		DoubleMatrix hessian =
-				new DoubleMatrix(densityderivs.length, densityderivs.length);
-
+		DoubleMatrix hessian = new DoubleMatrix(densityDerivs.length,
+				densityDerivs.length);
 		for (int i = 0; i < hessian.rows; i++) {
 			for (int j = i; j < hessian.rows; j++) {
-
 				double E = 0;
-
 				int atomnum1 = i / 3;
-
 				int atomnum2 = j / 3;
-
 				int tau1 = i - 3 * atomnum1;
-
 				int tau2 = j - 3 * atomnum2;
 
 				if (atomnum1 == atomnum2) {
@@ -2629,11 +2638,10 @@ public class GeometrySecondDerivative {
 
 				}
 
-
 				for (int I = 0; I < soln.orbitals.length; I++) {
 					for (int J = 0; J < soln.orbitals.length; J++) {
-						E += fockderivstatic[i].get(I, J) *
-								densityderivs[j].get(I, J);
+						E += fockDerivStatic[i].get(I, J) *
+								densityDerivs[j].get(I, J);
 					}
 				}
 
@@ -2644,7 +2652,7 @@ public class GeometrySecondDerivative {
 		return hessian;
 	}
 
-	public static DoubleMatrix[] densityderivthiel(SolutionR soln,
+	public static DoubleMatrix[] densityDerivThiel(SolutionR soln,
 												   DoubleMatrix[] fockderivstatic) {
 
 		StopWatch sw = new StopWatch();
@@ -2798,8 +2806,8 @@ public class GeometrySecondDerivative {
 						rarray[a] = null;
 					}
 					else {
-						System.out
-								.println("convergence test: " + mag(rarray[a]));
+//						System.out
+//								.println("convergence test: " + mag(rarray[a]));
 					}
 				}
 			}
@@ -2886,7 +2894,7 @@ public class GeometrySecondDerivative {
 
 	}
 
-	public static DoubleMatrix[] densityderivpople(SolutionR soln,
+	public static DoubleMatrix[] densityDerivPople(SolutionR soln,
 												   DoubleMatrix[] fockderivstatic) {
 
 		StopWatch sw = new StopWatch();
@@ -3090,7 +3098,7 @@ public class GeometrySecondDerivative {
 				}
 				else {
 					iterable[j] = 0;
-					System.out.println("convergence test: " + mag(rarray[j]));
+//					System.out.println("convergence test: " + mag(rarray[j]));
 				}
 
 			}

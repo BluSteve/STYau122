@@ -38,10 +38,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/input.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationU.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -490,14 +491,7 @@
       <workItem from="1626617825423" duration="12012000" />
       <workItem from="1626665170977" duration="26708000" />
       <workItem from="1626699761384" duration="12722000" />
-      <workItem from="1626747807563" duration="12548000" />
-    </task>
-    <task id="LOCAL-00107" summary="weird param gradient batched deriv index bug debugged. gosh that took a long time. it's 3am">
-      <created>1626374966672</created>
-      <option name="number" value="00107" />
-      <option name="presentableId" value="LOCAL-00107" />
-      <option name="project" value="LOCAL" />
-      <updated>1626374966672</updated>
+      <workItem from="1626747807563" duration="15060000" />
     </task>
     <task id="LOCAL-00108" summary="Padded gradient">
       <created>1626421362506</created>
@@ -835,7 +829,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626761944072</updated>
     </task>
-    <option name="localTasksCounter" value="156" />
+    <task id="LOCAL-00156" summary="geom opt bug fix">
+      <created>1626762306078</created>
+      <option name="number" value="00156" />
+      <option name="presentableId" value="LOCAL-00156" />
+      <option name="project" value="LOCAL" />
+      <updated>1626762306078</updated>
+    </task>
+    <option name="localTasksCounter" value="157" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -912,7 +913,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="some refactoring and javadocing" />
     <MESSAGE value="Fixed hessian padding and multithreading" />
     <MESSAGE value="minor hessian fixes" />
     <MESSAGE value="Made param gradient thread safe" />
@@ -937,7 +937,8 @@
     <MESSAGE value="MoleculeRan added, discovered weird hessian NaN error stemming from xComplementary -Infinity" />
     <MESSAGE value="geom opt work in progress" />
     <MESSAGE value="Geom opt further rewrite + Hessian and gradient now throw error instead of failing silent on classcastexception" />
-    <option name="LAST_COMMIT_MESSAGE" value="Geom opt further rewrite + Hessian and gradient now throw error instead of failing silent on classcastexception" />
+    <MESSAGE value="geom opt bug fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="geom opt bug fix" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

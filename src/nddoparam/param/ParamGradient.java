@@ -202,7 +202,6 @@ public abstract class ParamGradient {
 //		System.out.println("computing2: " + ZI + " " + paramNum);
 
 		if (isExpAvail) computeGeomDeriv(ZI, paramNum);
-		System.out.println();
 	}
 
 	/**
