@@ -1,7 +1,6 @@
 import jcuda.Pointer;
 import jcuda.Sizeof;
 import jcuda.jcublas.JCublas;
-import jcuda.runtime.JCuda;
 import nddoparam.GeometryOptimization;
 import nddoparam.Solution;
 import nddoparam.SolutionR;
@@ -14,49 +13,49 @@ import scf.Utils;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 public class Testing {
 	public static void main(String[] args) {
 		try {
 			testOther();
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private static void testOther() throws IOException {
-		JCuda.setExceptionsEnabled(true);
-//		int N = 10000;
-		for (int i = 0; i < 5; i++) {
-//				DoubleMatrix.rand(10, 10).mmul(DoubleMatrix.rand(10, 10));
-			gpuMmul(DoubleMatrix.rand(5000, 5000), DoubleMatrix.rand(5000, 5000));
-		}
-		for (int N = 1000; N <= 10000; N+=1000) {
+	private static void testOther() throws IOException, InterruptedException {
+//		JCuda.setExceptionsEnabled(true);
+//		for (int i = 0; i < 5; i++) {
+//			DoubleMatrix.rand(1000, 1000).mmul(DoubleMatrix.rand(1000));
+//			gpuMmul(DoubleMatrix.rand(1000, 1000),
+//					DoubleMatrix.rand(1000, 1000));
+//		}
+		for (int N = 2; N <= 1021; N += 50) {
 			System.out.println("N = " + N);
 			DoubleMatrix adm = DoubleMatrix.rand(N, N);
 			DoubleMatrix bdm = DoubleMatrix.rand(N, N);
 
 			StopWatch sw = new StopWatch();
-//			sw.start();
-//			DoubleMatrix cdm = adm.mmul(bdm);
-//			sw.stop();
-//			long cpu = sw.getTime();
-//			System.out.println("CPU: " + cpu);
-//
-//			sw.reset();
+			sw.start();
+			DoubleMatrix cdm = adm.mmul(bdm);
+			sw.stop();
+			long cpu = sw.getTime();
+			System.out.println("CPU: " + cpu);
+
+			sw.reset();
 			sw.start();
 			DoubleMatrix cdmgpu = gpuMmul(adm, bdm);
 			sw.stop();
 			long gpu = sw.getTime();
 			System.out.println("GPU: " + gpu);
 			System.out.println();
-			FileWriter fw = new FileWriter("cpuvsgpu.csv",true);
-			fw.write(N + "," + -1 + "," + gpu + "\n");
+			FileWriter fw = new FileWriter("cpuvsgpu2.csv", true);
+			fw.write(N + "," + cpu + "," + gpu + "\n");
 			fw.close();
+			TimeUnit.SECONDS.sleep(1);
 		}
 
-//		System.out.println(cdm);
-//		System.out.println(cdmgpu);
 		JCublas.cublasShutdown();
 	}
 
