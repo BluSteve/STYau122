@@ -37,13 +37,7 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/JCublasSample.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MNDOParam.iml" beforeDir="false" afterPath="$PROJECT_DIR$/MNDOParam.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Testing.java" afterDir="false" />
-    </list>
+    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -293,7 +287,7 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -370,15 +364,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -504,13 +496,6 @@
       <workItem from="1626778069334" duration="1302000" />
       <workItem from="1626790758691" duration="10376000" />
       <workItem from="1626801705004" duration="31000" />
-    </task>
-    <task id="LOCAL-00112" summary="Multithreaded ParamGradient">
-      <created>1626443941528</created>
-      <option name="number" value="00112" />
-      <option name="presentableId" value="LOCAL-00112" />
-      <option name="project" value="LOCAL" />
-      <updated>1626443941528</updated>
     </task>
     <task id="LOCAL-00113" summary="more core optimization with tightest triplet alg">
       <created>1626448589508</created>
@@ -848,7 +833,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626790948530</updated>
     </task>
-    <option name="localTasksCounter" value="161" />
+    <task id="LOCAL-00161" summary="gpu code">
+      <created>1626804256588</created>
+      <option name="number" value="00161" />
+      <option name="presentableId" value="LOCAL-00161" />
+      <option name="project" value="LOCAL" />
+      <updated>1626804256589</updated>
+    </task>
+    <option name="localTasksCounter" value="162" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -923,8 +915,8 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="docs for ParamGradient" />
     <MESSAGE value="major refactor of paramnum and atom type on the molecule level" />
     <MESSAGE value="more docs and minor changes" />
     <MESSAGE value="Added static factory methods to param hessian" />
@@ -949,7 +941,8 @@
     <MESSAGE value="multithreaded batched derivs" />
     <MESSAGE value="a lot of changes" />
     <MESSAGE value="Added retrying molecules upon failure as an option" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added retrying molecules upon failure as an option" />
+    <MESSAGE value="gpu code" />
+    <option name="LAST_COMMIT_MESSAGE" value="gpu code" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
