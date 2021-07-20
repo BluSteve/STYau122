@@ -55,7 +55,7 @@ class ParamGradientR extends ParamGradient {
 				new DoubleMatrix[aggregateArray.length];
 		int elapsedSize = 0;
 		double cores = Runtime.getRuntime().availableProcessors();
-		int size = Math.max((int) Math.ceil(aggregateArray.length / cores), 2);
+		int size = Math.max((int) Math.ceil(aggregateArray.length / cores), 3);
 
 		System.err.println(size);
 
@@ -80,7 +80,6 @@ class ParamGradientR extends ParamGradient {
 			elapsedSize += size;
 		}
 		ForkJoinTask.invokeAll(subtasks);
-
 
 		int i = 0;
 		for (int Z = 0; Z < s.getRm().mats.length; Z++) {

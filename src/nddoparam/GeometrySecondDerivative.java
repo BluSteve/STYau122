@@ -2580,7 +2580,8 @@ public class GeometrySecondDerivative {
 		int elapsedSize = 0;
 		double cores = Runtime.getRuntime().availableProcessors();
 		int size = Math.max((int) Math.ceil(fockDerivStatic.length / cores),
-				2);
+				6);
+
 		List<RecursiveAction> subtasks = new ArrayList<>();
 		// partitions densityDerivs into batches.
 		while (elapsedSize < fockDerivStatic.length) {
