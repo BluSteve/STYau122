@@ -57,8 +57,6 @@ class ParamGradientR extends ParamGradient {
 		double cores = Runtime.getRuntime().availableProcessors();
 		int size = Math.max((int) Math.ceil(aggregateArray.length / cores), 3);
 
-		System.err.println(size);
-
 		List<RecursiveAction> subtasks = new ArrayList<>();
 		while (elapsedSize < aggregateArray.length) {
 			int finalElapsedSize = elapsedSize;

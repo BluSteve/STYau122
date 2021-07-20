@@ -21,10 +21,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.ForkJoinTask;
+import java.util.concurrent.RecursiveAction;
 import java.util.concurrent.RecursiveTask;
 
 
@@ -32,13 +31,15 @@ public class Main {
 	private static final String INPUT_FILENAME = "input";
 	private static final int NUM_RUNS = 1;
 	private static final boolean isImportLastRun = true;
+	private static final int MAX_RETRIES = 2;
 	private static RawInput ri;
 	private static MoleculeOutput[] ranMolecules;
+	private static boolean isRetryFailed = true;
 
 	public static void main(String[] args) {
 		StopWatch sw = new StopWatch();
 		sw.start();
-//		System.out.close();
+		System.out.close();
 
 		if (isImportLastRun) {
 			ranMolecules =
@@ -94,6 +95,7 @@ public class Main {
 			for (int[] param : ri.neededParams) paramLength += param.length;
 
 			// creates tasks to run in parallel and then runs them
+			int failedCount = 0;
 			List<RecursiveTask> moleculeTasks = new ArrayList<>();
 			for (RawMolecule request : ri.molecules) {
 				if (request.isUsing) {
@@ -118,13 +120,18 @@ public class Main {
 						});
 					}
 				}
+				else failedCount++;
 			}
 
+			System.err.println(
+					failedCount + " previously failed molecules skipped");
+
+			Collections.shuffle(moleculeTasks, new Random(123));
 			List<MoleculeResult> results = new ArrayList<>();
 			for (ForkJoinTask task : ForkJoinTask.invokeAll(moleculeTasks)) {
-				results.add((MoleculeRun) task.join()); // time intensive step
+				results.add((MoleculeRun) task.join());
 			}
-			if (ranMolecules!=null) {
+			if (ranMolecules != null) {
 				for (MoleculeOutput mr : ranMolecules) {
 					results.add(new MoleculeRan(mr));
 				}
@@ -139,6 +146,44 @@ public class Main {
 			double[] ttGradient = new double[paramLength];
 			double[][] ttHessian = isRunHessian ?
 					new double[paramLength][paramLength] : null;
+
+			if (isRetryFailed) {
+				// retries failed molecules until they succeed
+				failedCount = 0;
+				for (MoleculeResult result : results) {
+					if (!result.getRm().isUsing) failedCount++;
+				}
+				int retries = 0;
+				while (failedCount > 0 && retries < MAX_RETRIES) {
+					System.err.println(
+							"Rerunning " + failedCount +
+									" failed molecules for the " + retries +
+									"th time.");
+					List<RecursiveAction> moleculeReruns = new ArrayList<>();
+					for (MoleculeResult result : results) {
+						// if isUsing is false here then that means the
+						// molecule failed during this run, not a previous one
+						if (result instanceof MoleculeRun &&
+								!result.getRm().isUsing) {
+							result.getRm().isUsing = true;
+							moleculeReruns.add(new RecursiveAction() {
+								@Override
+								protected void compute() {
+									((MoleculeRun) result).run();
+								}
+							});
+
+						}
+					}
+					ForkJoinTask.invokeAll(moleculeReruns);
+					failedCount = 0;
+					for (MoleculeResult result : results) {
+						if (!result.getRm().isUsing) failedCount++;
+					}
+					retries++;
+				}
+			}
+
 			for (MoleculeResult result : results) {
 				// if it has not errored
 				if (result.getRm().isUsing) {

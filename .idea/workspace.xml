@@ -38,13 +38,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/input.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inputtesting.txt" beforeDir="false" afterPath="$PROJECT_DIR$/inputtesting.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -319,7 +319,7 @@
       <recent name="nddoparam.param" />
     </key>
   </component>
-  <component name="RunManager" selected="Shell Script.blusteve">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="InputHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="runcycle.input.InputHandler" />
       <module name="MNDOParam" />
@@ -363,17 +363,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <list>
       <item itemvalue="Application.InputHandler" />
       <item itemvalue="Application.Main" />
@@ -383,8 +372,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.InputHandler" />
         <item itemvalue="Application.Main" />
+        <item itemvalue="Application.InputHandler" />
         <item itemvalue="Application.Testing" />
         <item itemvalue="Application.OutputHandler" />
       </list>
@@ -493,14 +482,8 @@
       <workItem from="1626617825423" duration="12012000" />
       <workItem from="1626665170977" duration="26708000" />
       <workItem from="1626699761384" duration="12722000" />
-      <workItem from="1626747807563" duration="24781000" />
-    </task>
-    <task id="LOCAL-00110" summary="minor changes but not reversible">
-      <created>1626442023154</created>
-      <option name="number" value="00110" />
-      <option name="presentableId" value="LOCAL-00110" />
-      <option name="project" value="LOCAL" />
-      <updated>1626442023157</updated>
+      <workItem from="1626747807563" duration="27979000" />
+      <workItem from="1626778069334" duration="1302000" />
     </task>
     <task id="LOCAL-00111" summary="Hessian padding fixed">
       <created>1626443257708</created>
@@ -838,7 +821,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626769303767</updated>
     </task>
-    <option name="localTasksCounter" value="159" />
+    <task id="LOCAL-00159" summary="a lot of changes">
+      <created>1626774854645</created>
+      <option name="number" value="00159" />
+      <option name="presentableId" value="LOCAL-00159" />
+      <option name="project" value="LOCAL" />
+      <updated>1626774854645</updated>
+    </task>
+    <option name="localTasksCounter" value="160" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -915,7 +905,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Made param gradient thread safe" />
     <MESSAGE value="more doc and minor bug fixes for hessian and gradient" />
     <MESSAGE value="docs for ParamGradient" />
     <MESSAGE value="major refactor of paramnum and atom type on the molecule level" />
@@ -940,7 +929,8 @@
     <MESSAGE value="geom opt bug fix" />
     <MESSAGE value="multithreaded geom opt" />
     <MESSAGE value="multithreaded batched derivs" />
-    <option name="LAST_COMMIT_MESSAGE" value="multithreaded batched derivs" />
+    <MESSAGE value="a lot of changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="a lot of changes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -3201,8 +3201,7 @@ public class ParamDerivative {
 			GeometrySecondDerivative.orthogonalise(barray);
 
 			System.out.println("only " + GeometrySecondDerivative
-					.numIterable(iterable) +
-					" left to go!");
+					.numIterable(iterable) + " left to go!");
 
 			for (int i = 0; i < barray.length; i++) {
 				b.add(barray[i].dup());

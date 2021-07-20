@@ -40,6 +40,12 @@ public class MoleculeRun implements MoleculeResult {
 		isExpAvail = expGeom != null;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof MoleculeRun)) return false;
+		else return ((MoleculeRun) obj).rm.index == this.rm.index;
+	}
+
 	public void run() {
 		Future<?> future = null;
 		ExecutorService executorService = null;
@@ -77,8 +83,11 @@ public class MoleculeRun implements MoleculeResult {
 				System.err.println(rm.index + " " + rm.name +
 						" finished in " + time);
 			});
-
-			future.get(600, TimeUnit.SECONDS);
+//			if (rm.index == 0) {
+//				int[] asdf = new int[3];
+//				int a = asdf[100];
+//			}
+			future.get(300, TimeUnit.SECONDS);
 
 		} catch (TimeoutException e) {
 			future.cancel(true);
