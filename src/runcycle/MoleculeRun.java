@@ -11,7 +11,8 @@ import runcycle.output.OutputHandler;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
@@ -83,10 +84,11 @@ public class MoleculeRun implements MoleculeResult {
 					" finished in " + time);
 		} catch (Exception e) {
 			e.printStackTrace();
+			StringWriter errors = new StringWriter();
+			e.printStackTrace(new PrintWriter(errors));
 
 			String errorMessage = "ERROR! " + e.getClass() + " " +
-					Arrays.toString(e.getStackTrace()) + " " +
-					rm.index + " " + rm.name;
+					errors + " " + rm.index + " " + rm.name;
 			logError(errorMessage);
 		} finally {
 			assert executorService != null;

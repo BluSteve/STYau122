@@ -39,12 +39,6 @@
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/input.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Testing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -510,14 +504,7 @@
       <workItem from="1626801705004" duration="31000" />
       <workItem from="1626805162395" duration="315000" />
       <workItem from="1626837601008" duration="3862000" />
-      <workItem from="1626852408240" duration="11255000" />
-    </task>
-    <task id="LOCAL-00115" summary="remove unused utils methods">
-      <created>1626451726071</created>
-      <option name="number" value="00115" />
-      <option name="presentableId" value="LOCAL-00115" />
-      <option name="project" value="LOCAL" />
-      <updated>1626451726071</updated>
+      <workItem from="1626852408240" duration="12579000" />
     </task>
     <task id="LOCAL-00116" summary="minor changes">
       <created>1626459909665</created>
@@ -855,7 +842,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626840607789</updated>
     </task>
-    <option name="localTasksCounter" value="164" />
+    <task id="LOCAL-00164" summary="various changes + remove timeout">
+      <created>1626864020356</created>
+      <option name="number" value="00164" />
+      <option name="presentableId" value="LOCAL-00164" />
+      <option name="project" value="LOCAL" />
+      <updated>1626864020357</updated>
+    </task>
+    <option name="localTasksCounter" value="165" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -932,7 +926,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="more docs and minor changes" />
     <MESSAGE value="Added static factory methods to param hessian" />
     <MESSAGE value="Improved hessian static factory methods" />
     <MESSAGE value="Improved hessian static factory methods further. omg it's so clean" />
@@ -957,7 +950,8 @@
     <MESSAGE value="Added retrying molecules upon failure as an option" />
     <MESSAGE value="gpu code" />
     <MESSAGE value="more gpu code" />
-    <option name="LAST_COMMIT_MESSAGE" value="more gpu code" />
+    <MESSAGE value="various changes + remove timeout" />
+    <option name="LAST_COMMIT_MESSAGE" value="various changes + remove timeout" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
