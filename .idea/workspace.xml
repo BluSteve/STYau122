@@ -500,14 +500,7 @@
       <workItem from="1626790758691" duration="10376000" />
       <workItem from="1626801705004" duration="31000" />
       <workItem from="1626805162395" duration="315000" />
-      <workItem from="1626837601008" duration="1556000" />
-    </task>
-    <task id="LOCAL-00113" summary="more core optimization with tightest triplet alg">
-      <created>1626448589508</created>
-      <option name="number" value="00113" />
-      <option name="presentableId" value="LOCAL-00113" />
-      <option name="project" value="LOCAL" />
-      <updated>1626448589508</updated>
+      <workItem from="1626837601008" duration="2819000" />
     </task>
     <task id="LOCAL-00114" summary="more multithreading optimizations">
       <created>1626451566942</created>
@@ -845,7 +838,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626804256589</updated>
     </task>
-    <option name="localTasksCounter" value="162" />
+    <task id="LOCAL-00162" summary="more gpu code">
+      <created>1626839214886</created>
+      <option name="number" value="00162" />
+      <option name="presentableId" value="LOCAL-00162" />
+      <option name="project" value="LOCAL" />
+      <updated>1626839214886</updated>
+    </task>
+    <option name="localTasksCounter" value="163" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -922,7 +922,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="major refactor of paramnum and atom type on the molecule level" />
     <MESSAGE value="more docs and minor changes" />
     <MESSAGE value="Added static factory methods to param hessian" />
     <MESSAGE value="Improved hessian static factory methods" />
@@ -947,7 +946,8 @@
     <MESSAGE value="a lot of changes" />
     <MESSAGE value="Added retrying molecules upon failure as an option" />
     <MESSAGE value="gpu code" />
-    <option name="LAST_COMMIT_MESSAGE" value="gpu code" />
+    <MESSAGE value="more gpu code" />
+    <option name="LAST_COMMIT_MESSAGE" value="more gpu code" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

@@ -27,7 +27,7 @@ public class Testing {
 		JCuda.setExceptionsEnabled(true);
 		StopWatch sw = new StopWatch();
 		// warmup
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 10; i++) {
 			DoubleMatrix.rand(1000, 1000).mmul(DoubleMatrix.rand(1000));
 			gpuMmul(DoubleMatrix.rand(1000, 1000),
 					DoubleMatrix.rand(1000, 1000));
@@ -57,26 +57,39 @@ public class Testing {
 //			TimeUnit.SECONDS.sleep(1);
 //		}
 
-		int s = 100;
-		int n = 100;
+		int s = 1000;
+		int n = 432;
 		DoubleMatrix[] dms = new DoubleMatrix[n];
 		for (int i = 0; i < dms.length; i++) {
-			dms[i] = DoubleMatrix.rand(s,s);
+			dms[i] = DoubleMatrix.rand(s, s);
 		}
-		long nano = System.current
-		DoubleMatrix dmres = dms[0];
-		for (int i = 1; i < dms.length; i++) {
-			dmres = dmres.mmul(dms[i]);
-		}
-		double[][] dms1d = new double[dms.length][];
+		long start = System.nanoTime();
 
+		// 2 seconds just to convert from 1d lmao, s=1000,n=432
+		double[][] dms1d = new double[dms.length][];
 		for (int i = 0; i < dms.length; i++) {
 			dms1d[i] = to1d(dms[i]);
 		}
+		long gpu = System.nanoTime() - start;
+
+		// 4 seconds
 		double[] result = gpuMmul(dms1d);
+
 		DoubleMatrix dmresgpu = from1d(result);
-		System.out.println(dmres);
-		System.out.println(dmresgpu);
+		System.out.println("GPU = " + gpu/1E6 + " " );
+
+
+		DoubleMatrix dmres = dms[0];
+		dmres = dmres.mmul(dms[1]);
+
+		start = System.nanoTime();
+		dmres = dms[0];
+		for (int i = 1; i < dms.length; i++) {
+			dmres = dmres.mmul(dms[i]);
+		}
+		long cpu = System.nanoTime() - start;
+
+		System.out.println("CPU = " + cpu/1E6 + " " );
 		JCublas.cublasShutdown();
 	}
 
