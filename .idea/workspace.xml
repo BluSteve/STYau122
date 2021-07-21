@@ -367,6 +367,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="Application.InputHandler" />
       <item itemvalue="Application.JCublasSample" />
@@ -489,6 +500,7 @@
       <workItem from="1626790758691" duration="10376000" />
       <workItem from="1626801705004" duration="31000" />
       <workItem from="1626805162395" duration="315000" />
+      <workItem from="1626837601008" duration="1556000" />
     </task>
     <task id="LOCAL-00113" summary="more core optimization with tightest triplet alg">
       <created>1626448589508</created>
