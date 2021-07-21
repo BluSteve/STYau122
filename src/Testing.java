@@ -13,14 +13,61 @@ import scf.AtomHandler;
 import scf.Utils;
 
 import java.io.IOException;
+import java.util.Random;
 
 public class Testing {
 	public static void main(String[] args) {
 		try {
-			testOther();
+			testTransferSpeed();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private static void testTransferSpeed() throws Exception {
+		JCuda.setExceptionsEnabled(true);
+		for (int i = 0; i < 5; i++) {
+			gpuMmul(DoubleMatrix.rand(1000, 1000),
+					DoubleMatrix.rand(1000, 1000));
+		}
+		Random r = new Random(123);
+		int n2 = 10;
+		int x = 20;
+		double[][] arrays = new double[x][n2];
+		double[] array = new double[x * n2];
+		for (int j = 0; j < x; j++) {
+			for (int i = 0; i < n2; i++) {
+				arrays[j][i] = r.nextDouble();
+			}
+		}
+
+		long start= System.nanoTime();
+		Pointer[] pointers = new Pointer[x];
+		for (int i = 0; i < pointers.length; i++){
+			pointers[i] =new Pointer();
+			JCublas.cublasAlloc(n2, Sizeof.DOUBLE, pointers[i]);
+			JCublas.cublasSetVector(n2, Sizeof.DOUBLE, Pointer.to(arrays[i]), 1,
+					pointers[i], 1);
+		}
+		long separate = System.nanoTime()-start;
+		System.out.println("separate = " + separate/1e6);
+
+		start = System.nanoTime();
+		for (int j = 0; j < x; j++) {
+			System.arraycopy(arrays[j], 0, array, j * n2, n2);
+		}
+		Pointer gpuPointerB = new Pointer();
+		JCublas.cublasAlloc(n2*x, Sizeof.DOUBLE, gpuPointerB);
+		JCublas.cublasSetVector(n2*x, Sizeof.DOUBLE, Pointer.to(array), 1,
+				gpuPointerB, 1);
+		pointers = new Pointer[x];
+		for (int i = 0; i < pointers.length; i++){
+			pointers[i] =new Pointer();
+//			JCuda.cudaMemcpy(
+//			JCublas.cublasZcopy(
+		}
+		long together = System.nanoTime()-start;
+		System.out.println("together = " + together/1e6);
 	}
 
 	private static void testOther() throws IOException, InterruptedException {
@@ -63,20 +110,20 @@ public class Testing {
 		for (int i = 0; i < dms.length; i++) {
 			dms[i] = DoubleMatrix.rand(s, s);
 		}
-		long start = System.nanoTime();
 
 		// 2 seconds just to convert from 1d lmao, s=1000,n=432
 		double[][] dms1d = new double[dms.length][];
 		for (int i = 0; i < dms.length; i++) {
 			dms1d[i] = to1d(dms[i]);
 		}
-		long gpu = System.nanoTime() - start;
+		long start = System.nanoTime();
 
 		// 4 seconds
 		double[] result = gpuMmul(dms1d);
+		long gpu = System.nanoTime() - start;
 
 		DoubleMatrix dmresgpu = from1d(result);
-		System.out.println("GPU = " + gpu/1E6 + " " );
+		System.out.println("GPU = " + gpu / 1E6 + " ");
 
 
 		DoubleMatrix dmres = dms[0];
@@ -89,7 +136,7 @@ public class Testing {
 		}
 		long cpu = System.nanoTime() - start;
 
-		System.out.println("CPU = " + cpu/1E6 + " " );
+		System.out.println("CPU = " + cpu / 1E6 + " ");
 		JCublas.cublasShutdown();
 	}
 

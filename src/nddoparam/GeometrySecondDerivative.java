@@ -2904,13 +2904,9 @@ public class GeometrySecondDerivative {
 		int NVirt = soln.orbitals.length - NOcc;
 
 		DoubleMatrix[] xarray = new DoubleMatrix[fockderivstatic.length];
-
 		DoubleMatrix[] barray = new DoubleMatrix[fockderivstatic.length];
-
 		DoubleMatrix[] parray = new DoubleMatrix[fockderivstatic.length];
-
 		DoubleMatrix[] Farray = new DoubleMatrix[fockderivstatic.length];
-
 		DoubleMatrix[] rarray = new DoubleMatrix[fockderivstatic.length];
 
 		DoubleMatrix preconditioner = DoubleMatrix.zeros(NOcc * NVirt, 1);
@@ -2920,21 +2916,16 @@ public class GeometrySecondDerivative {
 
 		for (int i = 0; i < NOcc; i++) {
 			for (int j = 0; j < NVirt; j++) {
-
 				double e = (-soln.E.get(i) + soln.E.get(NOcc + j));
-
 				preconditioner.put(counter, Math.pow(e, -0.5));
-
 				preconditionerinv.put(counter, Math.pow(e, 0.5));
-
 				counter++;
-
 			}
 		}
 
-		DoubleMatrix D = DoubleMatrix.diag(preconditioner);
+		final DoubleMatrix D = DoubleMatrix.diag(preconditioner);
 
-		DoubleMatrix Dinv = DoubleMatrix.diag(preconditionerinv);
+		final DoubleMatrix Dinv = DoubleMatrix.diag(preconditionerinv);
 
 //        DoubleMatrix D = DoubleMatrix.eye(NOcc * NVirt);
 //
@@ -2945,8 +2936,8 @@ public class GeometrySecondDerivative {
 
 			int count1 = 0;
 
-			for (int i = 0; i < NOcc; i++) {
-				for (int j = 0; j < NVirt; j++) {
+			for (int i = 0; i < NOcc; i++) { // kappa
+				for (int j = 0; j < NVirt; j++) { // i
 
 					double element = 0;
 
@@ -2970,14 +2961,9 @@ public class GeometrySecondDerivative {
 
 			F = D.mmul(F);
 
-
 			xarray[a] = DoubleMatrix.zeros(NOcc * NVirt, 1);
-
 			rarray[a] = xarray[a].dup();
-
 			barray[a] = F.dup();
-
-
 			Farray[a] = F.dup();
 		}
 
@@ -2994,9 +2980,9 @@ public class GeometrySecondDerivative {
 		}
 
 
-		ArrayList<DoubleMatrix> b = new ArrayList<>();
+		ArrayList<DoubleMatrix> prevBs = new ArrayList<>();
 
-		ArrayList<DoubleMatrix> p = new ArrayList<>();
+		ArrayList<DoubleMatrix> prevPs = new ArrayList<>();
 
 		int[] iterable = new int[barray.length];
 
@@ -3019,25 +3005,22 @@ public class GeometrySecondDerivative {
 
 				for (int i = 0; i < barray.length; i++) {
 
-					b.add(barray[i].dup());
+					prevBs.add(barray[i].dup());
+					// computeResponseVectorsPople = D(different D)*B, given B
 					parray[i] = D.mmul(computeResponseVectorsPople(
 							Dinv.mmul(barray[i].dup()), soln));
-					p.add(parray[i].dup());
+					prevPs.add(parray[i].dup());
 				}
 
 				for (int i = 0; i < barray.length; i++) {
 
 					DoubleMatrix newb = parray[i];
 
-					for (int j = 0; j < b.size(); j++) {
+					for (DoubleMatrix prevB : prevBs) {
+						double num = prevB.transpose().mmul(parray[i]).get(0) /
+								prevB.transpose().mmul(prevB).get(0);
 
-						double num =
-								b.get(j).transpose().mmul(parray[i]).get(0) /
-										b.get(j).transpose().mmul(b.get(j))
-												.get(0);
-
-
-						newb = newb.sub(b.get(j).mmul(num));
+						newb = newb.sub(prevB.mmul(num));
 					}
 
 					barray[i] = newb.dup();
@@ -3047,14 +3030,14 @@ public class GeometrySecondDerivative {
 
 			}
 
-			DoubleMatrix B = DoubleMatrix.zeros(NOcc * NVirt, b.size());
-			DoubleMatrix P = DoubleMatrix.zeros(NOcc * NVirt, b.size());
+			DoubleMatrix B = DoubleMatrix.zeros(NOcc * NVirt, prevBs.size());
+			DoubleMatrix P = DoubleMatrix.zeros(NOcc * NVirt, prevBs.size());
 
-			for (int i = 0; i < b.size(); i++) {
+			for (int i = 0; i < prevBs.size(); i++) {
 
-				B.putColumn(i, b.get(i));
+				B.putColumn(i, prevBs.get(i));
 
-				P.putColumn(i, b.get(i).sub(p.get(i)));
+				P.putColumn(i, prevBs.get(i).sub(prevPs.get(i)));
 
 			}
 
@@ -3073,15 +3056,18 @@ public class GeometrySecondDerivative {
 
 			for (int i = 0; i < alpha.rows; i++) {
 				for (int j = 0; j < alpha.columns; j++) {
-
-					rarray[j] = rarray[j].add((b.get(i).sub(p.get(i)))
-							.mmul(alpha.get(i, j)));
-					xarray[j] = xarray[j].add(b.get(i).mmul(alpha.get(i, j)));
+					// B with tilde
+					rarray[j] =
+							rarray[j].add((prevBs.get(i).sub(prevPs.get(i)))
+									.mmul(alpha.get(i, j)));
+					xarray[j] =
+							xarray[j].add(prevBs.get(i).mmul(alpha.get(i, j)));
 				}
 			}
 
 			for (int j = 0; j < alpha.columns; j++) {
 
+				// B0 is Farray, no tilde
 				rarray[j] = rarray[j].sub(Farray[j]);
 
 				xarray[j] = Dinv.mmul(xarray[j]);

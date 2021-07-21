@@ -34,12 +34,12 @@ public class Main {
 	private static final int MAX_RETRIES = 2;
 	private static RawInput ri;
 	private static MoleculeOutput[] ranMolecules;
-	private static boolean isRetryFailed = true;
+	private static boolean isRetryFailed = false;
 
 	public static void main(String[] args) {
 		StopWatch sw = new StopWatch();
 		sw.start();
-		System.out.close();
+//		System.out.close();
 
 		if (isImportLastRun) {
 			ranMolecules =

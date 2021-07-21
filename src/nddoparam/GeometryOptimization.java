@@ -57,6 +57,10 @@ public abstract class GeometryOptimization {
 			newGuess = initialGuess - f / fprime;
 		}
 
+		if (newGuess != newGuess) {
+			throw new IllegalStateException("RFO lambda == null!");
+		}
+
 		return newGuess;
 	}
 
@@ -100,11 +104,15 @@ public abstract class GeometryOptimization {
 
 		int numIt = 0;
 		while (mag(gradient) > 0.001) {
-			System.out.println("Gradient: " + mag(gradient));
-
 			// computes new search direction
-			double lambda =
-					lambda(h, U.transpose().mmul(gradient), h.rows - counter);
+			double lambda = 0;
+			try {
+				lambda = lambda(h, U.transpose().mmul(gradient),
+						h.rows - counter);
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.err.println(h);
+			}
 			DoubleMatrix searchDir =
 					Solve.pinv(B.sub(DoubleMatrix.eye(B.rows).mmul(lambda)))
 							.mmul(gradient)
@@ -127,6 +135,9 @@ public abstract class GeometryOptimization {
 
 			// creates new solution based on updated atom positions
 			updateSolution();
+			System.out.println(
+					s.getRm().index + " " + s.getRm().name + " Gradient: " +
+							mag(gradient));
 			logSolution(s);
 
 			/*

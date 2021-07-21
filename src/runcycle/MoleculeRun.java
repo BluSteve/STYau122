@@ -12,7 +12,8 @@ import runcycle.output.OutputHandler;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 
 public class MoleculeRun implements MoleculeResult {
 	protected double[] datum;
@@ -51,51 +52,35 @@ public class MoleculeRun implements MoleculeResult {
 		ExecutorService executorService = null;
 		try {
 			System.err.println(rm.index + " " + rm.name + " started");
-			executorService = Executors.newSingleThreadExecutor();
-			future = executorService.submit(() -> {
-				StopWatch sw = new StopWatch();
-				sw.start();
+			StopWatch sw = new StopWatch();
+			sw.start();
 
-				s = restricted ? new SolutionR(atoms, charge).setRm(rm) :
-						new SolutionU(atoms, charge, mult).setRm(rm);
+			s = restricted ? new SolutionR(atoms, charge).setRm(rm) :
+					new SolutionU(atoms, charge, mult).setRm(rm);
 
-				opt = GeometryOptimization.of(s).compute();
-				s = opt.getS();
+			opt = GeometryOptimization.of(s).compute();
+			s = opt.getS();
 
-				// updates geom coords
-				for (int i = 0; i < atoms.length; i++) {
-					rm.atoms[i].coords = atoms[i].getCoordinates();
-				}
+			// updates geom coords
+			for (int i = 0; i < atoms.length; i++) {
+				rm.atoms[i].coords = atoms[i].getCoordinates();
+			}
 
-				if (expGeom != null) {
-					sExp = restricted ?
-							(new SolutionR(expGeom, charge)).setRm(rm) :
-							(new SolutionU(expGeom, charge, mult)).setRm(rm);
-				}
+			if (expGeom != null) {
+				sExp = restricted ?
+						(new SolutionR(expGeom, charge)).setRm(rm) :
+						(new SolutionU(expGeom, charge, mult)).setRm(rm);
+			}
 
-				g = ParamGradient.of(s, datum, sExp).compute();
-				if (isRunHessian) h = ParamHessian.from(g).compute();
+			g = ParamGradient.of(s, datum, sExp).compute();
+			if (isRunHessian) h = ParamHessian.from(g).compute();
 
-				sw.stop();
-				time = sw.getTime();
-				OutputHandler.outputOne(OutputHandler.toMoleculeOutput(this),
-						"dynamic-output");
-				System.err.println(rm.index + " " + rm.name +
-						" finished in " + time);
-			});
-//			if (rm.index == 0) {
-//				int[] asdf = new int[3];
-//				int a = asdf[100];
-//			}
-			future.get(300, TimeUnit.SECONDS);
-
-		} catch (TimeoutException e) {
-			future.cancel(true);
-
-			e.printStackTrace();
-
-			String timeoutMessage = "TIMEOUT! " + rm.index + " " + rm.name;
-			logError(timeoutMessage);
+			sw.stop();
+			time = sw.getTime();
+			OutputHandler.outputOne(OutputHandler.toMoleculeOutput(this),
+					"dynamic-output");
+			System.err.println(rm.index + " " + rm.name +
+					" finished in " + time);
 		} catch (Exception e) {
 			e.printStackTrace();
 
