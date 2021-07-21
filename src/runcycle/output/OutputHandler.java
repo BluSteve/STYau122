@@ -82,14 +82,22 @@ public class OutputHandler {
 			fw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-		catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 			System.err.println(mo.toString());
 		}
 	}
 
 	public static void main(String[] args) {
-		MoleculeOutput[] ranMolecules = OutputHandler.importMoleculeOutputs("dynamic-output");
+		MoleculeOutput[] ranMolecules =
+				OutputHandler.importMoleculeOutputs("dynamic-output");
+		long time = 0;
+		long max = 0;
+		for (MoleculeOutput mo : ranMolecules) {
+			time += mo.time;
+			if (mo.time > max) max = mo.time;
+		}
+		System.out.println(time / 1e3 / 60 / 60);
+		System.out.println("max = " + max / 1e3 / 60);
 	}
 }

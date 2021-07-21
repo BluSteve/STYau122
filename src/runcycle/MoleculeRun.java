@@ -13,8 +13,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
 
 public class MoleculeRun implements MoleculeResult {
 	protected double[] datum;
@@ -49,8 +47,6 @@ public class MoleculeRun implements MoleculeResult {
 	}
 
 	public void run() {
-		Future<?> future = null;
-		ExecutorService executorService = null;
 		try {
 			System.err.println(rm.index + " " + rm.name + " started");
 			StopWatch sw = new StopWatch();
@@ -90,9 +86,6 @@ public class MoleculeRun implements MoleculeResult {
 			String errorMessage = "ERROR! " + e.getClass() + " " +
 					errors + " " + rm.index + " " + rm.name;
 			logError(errorMessage);
-		} finally {
-			assert executorService != null;
-			executorService.shutdown();
 		}
 	}
 

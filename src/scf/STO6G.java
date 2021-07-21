@@ -1,5 +1,7 @@
 package scf;
 
+import java.util.Objects;
+
 public class STO6G extends LCGTO {
 
 	private final static double[] exp1 =
@@ -28,7 +30,8 @@ public class STO6G extends LCGTO {
 
 	public STO6G(double zeta, AtomFixed atom, OrbitalProperties orbital) {
 		super(exp(orbital.getShell(), zeta),
-				coeff(orbital.getShell(), orbital.getL()),
+				Objects.requireNonNull(
+						coeff(orbital.getShell(), orbital.getL())),
 				atom, orbital);
 	}
 

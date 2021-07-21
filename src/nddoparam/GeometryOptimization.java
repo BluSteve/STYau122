@@ -29,9 +29,9 @@ public abstract class GeometryOptimization {
 		if (s.getRm() != null) {
 			str += s.getRm().index + " " + s.getRm().name + "\n";
 		}
-		str += /*"Current heat of formation: " + s.hf + "kcal/mol\n" +
-				"Current HOMO energy: " + s.homo + " eV\n" +*/
-				"Current energy: " + s.energy + "\n" +
+		str += "Current heat of formation: " + s.hf + "kcal/mol\n" +
+				/*"Current HOMO energy: " + s.homo + " eV\n" +
+				"Current energy: " + s.energy + "\n" +*/
 						"-----------------------------------------------\n";
 		System.out.println(str);
 	}

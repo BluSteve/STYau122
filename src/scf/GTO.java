@@ -9,11 +9,11 @@ import java.util.Arrays;
 // (z-coordinates[2])^k exp(-exponent * r^2)
 public class GTO {
 
-	private int i, j, k;// angular terms
-	private double N;
-	private int L; // L = i + j + k
-	private double exponent; //radial exponent
-	private double[] coordinates; //coordinates
+	private final int i, j, k;// angular terms
+	private final double N;
+	private final int L; // L = i + j + k
+	private final double exponent; //radial exponent
+	private final double[] coordinates; //coordinates
 
 	public GTO(int i, int j, int k, double exponent, double[] coordinates) {
 		this.i = i;
@@ -292,7 +292,7 @@ public class GTO {
 		return k;
 	}
 
-	public double getexponent() {
+	public double getExponent() {
 		return exponent;
 	}
 

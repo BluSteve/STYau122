@@ -3110,6 +3110,7 @@ public class ParamDerivative {
 		int NVirt = soln.orbitals.length - NOcc;
 
 		DoubleMatrix[] xArray = new DoubleMatrix[fockDerivStatic.length];
+		DoubleMatrix[] xArrayHold = new DoubleMatrix[fockDerivStatic.length];
 		DoubleMatrix[] barray = new DoubleMatrix[fockDerivStatic.length];
 		DoubleMatrix[] parray = new DoubleMatrix[fockDerivStatic.length];
 		DoubleMatrix[] Farray = new DoubleMatrix[fockDerivStatic.length];
@@ -3197,6 +3198,7 @@ public class ParamDerivative {
 		double[] oldrMags = new double[rarray.length];
 		Arrays.fill(oldrMags, 1);
 
+		bigLoop:
 		while (GeometrySecondDerivative.numIterable(iterable) > 0) {
 			GeometrySecondDerivative.orthogonalise(barray);
 
@@ -3264,27 +3266,39 @@ public class ParamDerivative {
 				rarray[j] = rarray[j].sub(Farray[j]);
 				xArray[j] = Dinv.mmul(xArray[j]);
 
-				if (mag(rarray[j]) < 1E-10) { //todo play with this
-					iterable[j] = 1;
-				}
-				else if (Double.isNaN(mag(rarray[j]))) {
-					System.err.println("Pople algorithm fails; " +
-							"reverting to Thiel " +
-							"algorithm (don't panic)...");
+				double mag = mag(rarray[j]);
+				if (mag > oldrMags[j] || mag != mag) {
+					if (numNotNull(xArrayHold) == 0) {
+						System.err.println(
+								"Some numerical instability encountered; " +
+										"returning lower precision values...");
+						break bigLoop;
+					}
+					else if (mag > oldrMags[j]) {
+						System.err.println("Numerical instability detected; " +
+								"reverting to Thiel algorithm...");
+					}
+					else if (mag != mag) {
+						System.err.println("Pople algorithm fails; " +
+								"reverting to Thiel " +
+								"algorithm (don't panic)...");
+					}
 					return xArrayLimitedThiel(soln, fockDerivStaticPadded);
 				}
 				else {
-					iterable[j] = 0;
-					System.out.println("convergence test: " + mag(rarray[j]));
+					if (mag < 1E-8) {
+						xArrayHold[j] = xArray[j];
+					}
+					if (mag < 1E-10) {
+						iterable[j] = 1;
+					}
+					else {
+						iterable[j] = 0;
+						System.out.println("Pople convergence test: " + mag);
+					}
 				}
-			}
-			for (int i = 0; i < rarray.length; i++) {
-				if (mag(rarray[i]) > oldrMags[i]) {
-					System.err.println("Numerical instability detected; " +
-							"reverting to Thiel algorithm...");
-					return xArrayLimitedThiel(soln, fockDerivStaticPadded);
-				}
-				oldrMags[i] = mag(rarray[i]);
+
+				oldrMags[j] = mag;
 			}
 		}
 
@@ -3454,15 +3468,15 @@ public class ParamDerivative {
 								rArray[a].sub(p.get(i).mmul(alpha.get(i, a)));
 					}
 
-					if (mag(rArray[a]) != mag(rArray[a])) {
+					double mag = mag(rArray[a]);
+					if (mag != mag) {
 						throw new IllegalStateException("Thiel has failed!");
 					}
-					if (mag(rArray[a]) < 1E-5) {
+					if (mag < 1E-5) {
 						rArray[a] = null;
 					}
 					else {
-						System.out.println("convergence test: " + mag
-								(rArray[a]));
+						System.out.println("Thiel convergence test: " + mag);
 					}
 				}
 			}
