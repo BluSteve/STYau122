@@ -74,7 +74,8 @@ public class MoleculeRun implements MoleculeResult {
 
 			sw.stop();
 			time = sw.getTime();
-			OutputHandler.outputOne(OutputHandler.toMoleculeOutput(this),
+			OutputHandler.outputOne(OutputHandler.toMoleculeOutput(this,
+					isRunHessian),
 					"dynamic-output");
 			System.err.println(rm.index + " " + rm.name +
 					" finished in " + time);

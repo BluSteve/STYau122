@@ -196,7 +196,8 @@ public class SolutionR extends Solution {
 		int numIt = 0;
 
 		double DIISError = 10;
-		while (DIISError >1E-10) {//density matrix convergence criteria; since each
+		while (DIISError >
+				1E-10) {//density matrix convergence criteria; since each
 			// iteration
 			// takes place within a fraction of a second I figured why not
 
@@ -860,13 +861,27 @@ public class SolutionR extends Solution {
 				}
 
 
-				this.F = F.dup();
+
 
 				matrices = Eigen.symmetricEigenvectors(F);
 
 				E = matrices[1].diag();
 
 				C = matrices[0].transpose();
+
+				if (C.get(0, 0) != C.get(0, 0)) {
+					//System.err.println(
+//							"NaN occurred at very much not DIIS iteration " + numIt);
+					//System.err.println("Exiting very much not DIIS for 1 Iteration...");
+
+					matrices = Eigen.symmetricEigenvectors(this.F);
+
+					E = matrices[1].diag();
+
+					C = matrices[0].transpose();
+
+
+				}
 
 				densityMatrix = calculateDensityMatrix(C);
 
@@ -916,14 +931,26 @@ public class SolutionR extends Solution {
 					}
 
 
-					this.F = F.dup();
-
-
 					matrices = Eigen.symmetricEigenvectors(F);
 
 					E = matrices[1].diag();
 
 					C = matrices[0].transpose();
+
+					if (C.get(0, 0) != C.get(0, 0)) {
+						//System.err.println(
+//								"NaN occurred at DIIS iteration " + numIt);
+						//
+						//System.err.println("Exiting DIIS for 1 Iteration...");
+
+						matrices = Eigen.symmetricEigenvectors(this.F);
+
+						E = matrices[1].diag();
+
+						C = matrices[0].transpose();
+
+
+					}
 
 					densityMatrix = calculateDensityMatrix(C);
 				} catch (Exception e) {
@@ -990,6 +1017,7 @@ public class SolutionR extends Solution {
 
 		energy = e;
 
+		if (energy != energy) System.err.println(densityMatrix.getRow(0));
 		heat += e;
 
 		this.hf = heat / 4.3363E-2;

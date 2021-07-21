@@ -38,17 +38,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/dynamic-output.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dynamic-output.json" beforeDir="false" afterPath="$PROJECT_DIR$/dynamic-output.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/input.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/JCublasSample.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputtesting.txt" beforeDir="false" afterPath="$PROJECT_DIR$/inputtesting.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/runcycle/output/OutputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/output/OutputHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scf/GTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/GTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scf/STO6G.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/STO6G.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scf/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/Utils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -299,7 +301,7 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Console Font" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -310,6 +312,7 @@
       <recent name="D:\Documents\Gitted CS Projects\MNDOParam\src\nddoparam\param" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="scf.Utils" />
       <recent name="Utils" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -325,7 +328,7 @@
       <recent name="nddoparam.param" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.OutputHandler">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="InputHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="runcycle.input.InputHandler" />
       <module name="MNDOParam" />
@@ -376,6 +379,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="Application.InputHandler" />
       <item itemvalue="Application.JCublasSample" />
@@ -386,9 +400,9 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.OutputHandler" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.InputHandler" />
+        <item itemvalue="Application.OutputHandler" />
         <item itemvalue="Application.Testing" />
       </list>
     </recent_temporary>
@@ -503,14 +517,7 @@
       <workItem from="1626805162395" duration="315000" />
       <workItem from="1626837601008" duration="3862000" />
       <workItem from="1626852408240" duration="19180000" />
-      <workItem from="1626872666211" duration="315000" />
-    </task>
-    <task id="LOCAL-00117" summary="Minor changes">
-      <created>1626501769410</created>
-      <option name="number" value="00117" />
-      <option name="presentableId" value="LOCAL-00117" />
-      <option name="project" value="LOCAL" />
-      <updated>1626501769410</updated>
+      <workItem from="1626872666211" duration="13731000" />
     </task>
     <task id="LOCAL-00118" summary="Minor moleculerun + main refactor">
       <created>1626505053427</created>
@@ -848,7 +855,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626865365079</updated>
     </task>
-    <option name="localTasksCounter" value="166" />
+    <task id="LOCAL-00166" summary="1e8 adaptability feature">
+      <created>1626873236027</created>
+      <option name="number" value="00166" />
+      <option name="presentableId" value="LOCAL-00166" />
+      <option name="project" value="LOCAL" />
+      <updated>1626873236028</updated>
+    </task>
+    <option name="localTasksCounter" value="167" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -925,7 +939,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Improved hessian static factory methods" />
     <MESSAGE value="Improved hessian static factory methods further. omg it's so clean" />
     <MESSAGE value="Clamp down on client permissions" />
     <MESSAGE value="Minor changes" />
@@ -950,19 +963,10 @@
     <MESSAGE value="more gpu code" />
     <MESSAGE value="various changes + remove timeout" />
     <MESSAGE value="minor changes to error printing" />
-    <option name="LAST_COMMIT_MESSAGE" value="minor changes to error printing" />
+    <MESSAGE value="1e8 adaptability feature" />
+    <option name="LAST_COMMIT_MESSAGE" value="1e8 adaptability feature" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <condition expression="energy != energy" language="JAVA" />
-          <url>file://$PROJECT_DIR$/src/nddoparam/SolutionR.java</url>
-          <line>992</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="nddoparam.param.ParamHessianRestricted" memberName="gPrime" />

@@ -49,43 +49,71 @@ class ParamGradientR extends ParamGradient {
 		}
 
 		DoubleMatrix[] aggregateArray = aggregate.toArray(new DoubleMatrix[0]);
-//		DoubleMatrix[] xLimitedAggregate = ParamDerivative.xArrayLimitedPople(
-//				(SolutionR) s, aggregateArray);
-		DoubleMatrix[] xLimitedAggregate =
-				new DoubleMatrix[aggregateArray.length];
-		int elapsedSize = 0;
-		double cores = Runtime.getRuntime().availableProcessors();
-		int size = Math.max((int) Math.ceil(aggregateArray.length / cores), 3);
 
-		List<RecursiveAction> subtasks = new ArrayList<>();
-		while (elapsedSize < aggregateArray.length) {
-			int finalElapsedSize = elapsedSize;
-			subtasks.add(new RecursiveAction() {
-				@Override
-				protected void compute() {
-					DoubleMatrix[] subset = Arrays.copyOfRange(aggregateArray,
-							finalElapsedSize,
-							Math.min(aggregateArray.length,
-									finalElapsedSize + size));
-					DoubleMatrix[] output = ParamDerivative
-							.xArrayLimitedPople((SolutionR) s, subset);
+
+		DoubleMatrix[] aggregateArrayUnpadded =
+				new DoubleMatrix[Utils.numNotNull(aggregateArray)];
+		int j = 0;
+		for (DoubleMatrix dm : aggregateArray) {
+			if (dm != null) {
+				aggregateArrayUnpadded[j] = dm;
+				j++;
+			}
+		}
+		if (aggregateArrayUnpadded.length > 0) {
+//			DoubleMatrix[] xLimitedAggregate =
+//					ParamDerivative.xArrayLimitedPople(
+//							(SolutionR) s, aggregateArrayUnpadded);
+			DoubleMatrix[] xLimitedAggregate =
+					new DoubleMatrix[aggregateArrayUnpadded.length];
+			int elapsedSize = 0;
+			double cores = Runtime.getRuntime().availableProcessors();
+			int size =
+					Math.max((int) Math
+									.ceil(aggregateArrayUnpadded.length / cores),
+							3);
+
+			List<RecursiveAction> subtasks = new ArrayList<>();
+			while (elapsedSize < aggregateArrayUnpadded.length) {
+				int finalElapsedSize = elapsedSize;
+				subtasks.add(new RecursiveAction() {
+					@Override
+					protected void compute() {
+						DoubleMatrix[] subset =
+								Arrays.copyOfRange(aggregateArrayUnpadded,
+										finalElapsedSize,
+										Math.min(aggregateArrayUnpadded.length,
+												finalElapsedSize + size));
+						DoubleMatrix[] output = ParamDerivative
+								.xArrayLimitedPople((SolutionR) s, subset);
 
 //					 removed .dup() here
-					System.arraycopy(output, 0, xLimitedAggregate,
-							finalElapsedSize, output.length);
-				}
-			});
-			elapsedSize += size;
-		}
-		ForkJoinTask.invokeAll(subtasks);
+						System.arraycopy(output, 0, xLimitedAggregate,
+								finalElapsedSize, output.length);
+					}
+				});
+				elapsedSize += size;
+			}
+			ForkJoinTask.invokeAll(subtasks);
 
-		int i = 0;
-		for (int Z = 0; Z < s.getRm().mats.length; Z++) {
-			xLimited[Z] = Arrays.copyOfRange(xLimitedAggregate,
-					i * Solution.maxParamNum,
-					i * Solution.maxParamNum + Solution.maxParamNum);
-			i++;
+			DoubleMatrix[] xLimitedPadded =
+					new DoubleMatrix[aggregateArray.length];
+			int unpaddedI = 0;
+			for (int i = 0; i < aggregateArray.length; i++) {
+				if (aggregateArray[i] != null) {
+					xLimitedPadded[i] = xLimitedAggregate[unpaddedI];
+					unpaddedI++;
+				}
+			}
+			int i = 0;
+			for (int Z = 0; Z < s.getRm().mats.length; Z++) {
+				xLimited[Z] = Arrays.copyOfRange(xLimitedPadded,
+						i * Solution.maxParamNum,
+						i * Solution.maxParamNum + Solution.maxParamNum);
+				i++;
+			}
 		}
+
 	}
 
 	@Override

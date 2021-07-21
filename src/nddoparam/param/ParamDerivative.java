@@ -1,7 +1,6 @@
 package nddoparam.param;
 
 import nddoparam.*;
-import org.apache.commons.lang3.time.StopWatch;
 import org.jblas.DoubleMatrix;
 import org.jblas.Solve;
 import org.jblas.exceptions.LapackException;
@@ -3093,19 +3092,7 @@ public class ParamDerivative {
 
 	// fockDerivStatic is 1x8
 	public static DoubleMatrix[] xArrayLimitedPople(SolutionR soln,
-													DoubleMatrix[] fockDerivStaticPadded) {
-		int size = numNotNull(fockDerivStaticPadded);
-		DoubleMatrix[] fockDerivStatic = new DoubleMatrix[size];
-		size = 0;
-		for (DoubleMatrix dm : fockDerivStaticPadded) {
-			if (dm != null) {
-				fockDerivStatic[size] = dm.dup();
-				size++;
-			}
-		}
-		if (fockDerivStatic.length == 0)
-			return new DoubleMatrix[fockDerivStaticPadded.length];
-
+													DoubleMatrix[] fockDerivStatic) {
 		int NOcc = (int) (soln.nElectrons / 2.0);
 		int NVirt = soln.orbitals.length - NOcc;
 
@@ -3262,35 +3249,43 @@ public class ParamDerivative {
 				}
 			}
 
+			int xArrayHoldNN = Utils.numNotNull(xArrayHold);
 			for (int j = 0; j < alpha.columns; j++) {
 				rarray[j] = rarray[j].sub(Farray[j]);
 				xArray[j] = Dinv.mmul(xArray[j]);
 
 				double mag = mag(rarray[j]);
 				if (mag > oldrMags[j] || mag != mag) {
-					if (numNotNull(xArrayHold) == 0) {
+					System.err.println("something has gone wrong");
+					if (xArrayHoldNN == xArrayHold.length) {
 						System.err.println(
 								"Some numerical instability encountered; " +
 										"returning lower precision values...");
+						xArray = xArrayHold;
 						break bigLoop;
 					}
-					else if (mag > oldrMags[j]) {
-						System.err.println("Numerical instability detected; " +
-								"reverting to Thiel algorithm...");
+					else {
+						if (mag > oldrMags[j]) {
+							System.err.println(
+									"Numerical instability detected; " +
+											"reverting to Thiel algorithm...");
+							return xArrayLimitedThiel(soln,
+									fockDerivStatic);
+						}
+						if (mag != mag) {
+							System.err.println("Pople algorithm fails; " +
+									"reverting to Thiel algorithm...");
+							return xArrayLimitedThiel(soln,
+									fockDerivStatic);
+						}
 					}
-					else if (mag != mag) {
-						System.err.println("Pople algorithm fails; " +
-								"reverting to Thiel " +
-								"algorithm (don't panic)...");
-					}
-					return xArrayLimitedThiel(soln, fockDerivStaticPadded);
 				}
 				else {
 					if (mag < 1E-8) {
 						xArrayHold[j] = xArray[j];
-					}
-					if (mag < 1E-10) {
-						iterable[j] = 1;
+						if (mag < 1E-10) {
+							iterable[j] = 1;
+						}
 					}
 					else {
 						iterable[j] = 0;
@@ -3301,35 +3296,11 @@ public class ParamDerivative {
 				oldrMags[j] = mag;
 			}
 		}
-
-		DoubleMatrix[] xArrayPadded =
-				new DoubleMatrix[fockDerivStaticPadded.length];
-		size = 0;
-		for (int i = 0; i < fockDerivStaticPadded.length; i++) {
-			if (fockDerivStaticPadded[i] != null) {
-				xArrayPadded[i] = xArray[size];
-				size++;
-			}
-		}
-		return xArrayPadded;
+		return xArray;
 	}
 
 	private static DoubleMatrix[] xArrayLimitedThiel(SolutionR soln,
-													 DoubleMatrix[] fockDerivStaticPadded) {
-		int size = numNotNull(fockDerivStaticPadded);
-		DoubleMatrix[] fockDerivStatic = new DoubleMatrix[size];
-		size = 0;
-		for (DoubleMatrix dm : fockDerivStaticPadded) {
-			if (dm != null) {
-				fockDerivStatic[size] = dm.dup();
-				size++;
-			}
-		}
-		if (fockDerivStatic.length == 0)
-			return new DoubleMatrix[fockDerivStaticPadded.length];
-		StopWatch sw = new StopWatch();
-		sw.start();
-
+													 DoubleMatrix[] fockDerivStatic) {
 		int NOcc = (int) (soln.nElectrons / 2.0);
 		int NVirt = soln.orbitals.length - NOcc;
 		DoubleMatrix[] xArray = new DoubleMatrix[fockDerivStatic.length];
@@ -3403,14 +3374,14 @@ public class ParamDerivative {
 		}
 
 
-		while (numNotNull(rArray) > 0) {
+		while (Utils.numNotNull(rArray) > 0) {
 
 			ArrayList<DoubleMatrix> d = new ArrayList<>();
 
 			ArrayList<DoubleMatrix> p = new ArrayList<>();
 
 			System.out.println(
-					"It's still running, don't worry: " + numNotNull(rArray));
+					"It's still running, don't worry: " + Utils.numNotNull(rArray));
 
 			for (int i = 0; i < rArray.length; i++) {
 				if (rArray[i] != null) {
@@ -3522,16 +3493,7 @@ public class ParamDerivative {
 				}
 			}
 		}
-		DoubleMatrix[] xArrayPadded =
-				new DoubleMatrix[fockDerivStaticPadded.length];
-		size = 0;
-		for (int i = 0; i < fockDerivStaticPadded.length; i++) {
-			if (fockDerivStaticPadded[i] != null) {
-				xArrayPadded[i] = xArray[size];
-				size++;
-			}
-		}
-		return xArrayPadded;
+		return xArray;
 	}
 
 
@@ -3789,18 +3751,6 @@ public class ParamDerivative {
 		}
 
 		return Math.sqrt(sum);
-	}
-
-	private static int numNotNull(DoubleMatrix[] rarray) {
-
-		int count = 0;
-		for (DoubleMatrix r : rarray) {
-			if (r != null) {
-				count++;
-			}
-		}
-
-		return count;
 	}
 
 

@@ -10,7 +10,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class OutputHandler {
-	public static MoleculeOutput toMoleculeOutput(MoleculeResult result) {
+	public static MoleculeOutput toMoleculeOutput(MoleculeResult result,
+												  boolean isRunHessian) {
 		MoleculeOutput mo = new MoleculeOutput();
 		mo.rawMolecule = result.getRm();
 		mo.time = result.getTime();
@@ -31,7 +32,7 @@ public class OutputHandler {
 
 		mo.gradient = pgo;
 
-		if (result.getHessian() != null) mo.hessian = result.getHessian();
+		if (isRunHessian) mo.hessian = result.getHessian();
 
 		return mo;
 	}
@@ -90,14 +91,18 @@ public class OutputHandler {
 
 	public static void main(String[] args) {
 		MoleculeOutput[] ranMolecules =
-				OutputHandler.importMoleculeOutputs("dynamic-output");
+				OutputHandler.importMoleculeOutputs("outputs/run-0000-output-1547508A");
 		long time = 0;
 		long max = 0;
+		double ttError = 0;
 		for (MoleculeOutput mo : ranMolecules) {
 			time += mo.time;
 			if (mo.time > max) max = mo.time;
+			ttError += mo.totalError;
+			System.out.println(mo.rawMolecule.index + "mo.totalError = " + mo.totalError);
 		}
 		System.out.println(time / 1e3 / 60 / 60);
 		System.out.println("max = " + max / 1e3 / 60);
+		System.out.println("ttError = " + ttError);
 	}
 }

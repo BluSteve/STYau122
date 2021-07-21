@@ -58,7 +58,8 @@ public abstract class GeometryOptimization {
 		}
 
 		if (newGuess != newGuess) {
-			throw new IllegalStateException("RFO lambda == null!");
+
+			throw new IllegalStateException("RFO lambda == null! \n" + h.toString());
 		}
 
 		return newGuess;
@@ -92,6 +93,11 @@ public abstract class GeometryOptimization {
 		DoubleMatrix B = matrices[1];
 
 		DoubleMatrix[] ms = Eigen.symmetricEigenvectors(B);
+
+		if (B.get(0,0) != B.get(0, 0)) {
+			System.err.println ("Hessian is NaN!");
+			System.exit(0);
+		}
 		DoubleMatrix h = ms[1].diag();
 		DoubleMatrix U = ms[0];
 
@@ -111,7 +117,6 @@ public abstract class GeometryOptimization {
 						h.rows - counter);
 			} catch (Exception e) {
 				e.printStackTrace();
-				System.err.println(h);
 			}
 			DoubleMatrix searchDir =
 					Solve.pinv(B.sub(DoubleMatrix.eye(B.rows).mmul(lambda)))

@@ -3001,7 +3001,7 @@ public class GeometrySecondDerivative {
 				orthogonalise(barray);
 
 				System.out.println(
-						"only " + numIterable(iterable) + " left to go!");
+						"Geom only " + numIterable(iterable) + " left to go!");
 
 				for (int i = 0; i < barray.length; i++) {
 

@@ -3,6 +3,7 @@ package scf;
 import nddoparam.NDDOAtom;
 import nddoparam.NDDOParams;
 import org.apache.commons.math3.primes.Primes;
+import org.jblas.DoubleMatrix;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -169,5 +170,16 @@ public class Utils {
 		}
 		result += (trainingSet.length() - removeH) * 8;
 		return result;
+	}
+
+	public static int numNotNull(DoubleMatrix[] rarray) {
+		int count = 0;
+		for (DoubleMatrix r : rarray) {
+			if (r != null) {
+				count++;
+			}
+		}
+
+		return count;
 	}
 }
