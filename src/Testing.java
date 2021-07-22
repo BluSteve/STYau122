@@ -2,8 +2,8 @@ import jcuda.Pointer;
 import jcuda.Sizeof;
 import jcuda.jcublas.JCublas;
 import jcuda.runtime.JCuda;
-import nddoparam.GeometryOptimization;
 import nddoparam.Solution;
+import nddoparam.SolutionNew;
 import nddoparam.SolutionR;
 import nddoparam.mndo.MNDOAtom;
 import nddoparam.mndo.MNDOParams;
@@ -18,7 +18,7 @@ import java.util.Random;
 public class Testing {
 	public static void main(String[] args) {
 		try {
-			testTransferSpeed();
+			testMain();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -267,6 +267,8 @@ public class Testing {
 				new double[]{-0.0021 * Utils.bohr, 0.0021 * Utils.bohr,
 						-0.0021 * Utils.bohr}, c);
 
+		MNDOAtom[] atoms = new MNDOAtom[]{atom1,atom2,atom3,atom4,carbon};
+
 		MNDOAtom[] exp = new MNDOAtom[]{
 				new MNDOAtom(AtomHandler.atomsMap.get("H"),
 						new double[]{0.6304 * Utils.bohr, 0.6304 * Utils.bohr,
@@ -300,31 +302,22 @@ public class Testing {
 				new MNDOAtom(AtomHandler.atomsMap.get("C"),
 						new double[]{0, 0, 0}, c)};
 		double[] datum = new double[]{-17.9, 0, 13.6};
-		Solution sr = new SolutionR(exp1, 0);
-		GeometryOptimization opt = GeometryOptimization.of(sr);
-
-
-
-		/*int[] atomTypes = new int[]{1, 6};
-
 		StopWatch sw = new StopWatch();
-		RawMolecule rm = new RawMolecule();
-		rm.mats = atomTypes;
-		rm.mnps = new int[][] {MNDOParams.T1ParamNums, MNDOParams.T2ParamNums};
-		SolutionR expsoln = (new SolutionR(exp, 0)).setRm(rm);
-//		SolutionU expsoln = (new SolutionU(exp, 0,1 )).setRm(rm);
+		Solution sr = new SolutionR(exp1, 0);
 
-		Solution S = opt.s.setRm(rm);
 		sw.start();
-		ParamGradient G = ParamGradient.of(S, datum, expsoln).compute();
-		ParamHessian H = ParamHessian.from(G).compute();
+		sr = new SolutionR(atoms, 0);
 		sw.stop();
-		System.err.println(Arrays.deepToString(H.getHessian()));
-//		System.err.println(
-//				Arrays.deepToString(H.getHessian(new int[]{1, 5, 6},
-//						new int[][]{MNDOParams.T1ParamNums,
-//								MNDOParams.T2ParamNums,
-//								MNDOParams.T2ParamNums})));
-		System.err.println(sw.getTime());*/
+
+		System.out.println("sr.energy = " + sr.energy);
+		System.out.println("sw.getTime() = " + sw.getTime());
+		sw.reset();
+		Solution sn = new SolutionNew(exp1, 0);
+
+		sw.start();
+		sn = new SolutionNew(atoms, 0);
+		sw.stop();
+		System.out.println("sn.energy = " + sn.energy);
+		System.out.println("sw.getTime() = " + sw.getTime());
 	}
 }
