@@ -196,11 +196,7 @@ public class SolutionR extends Solution {
 		int numIt = 0;
 
 		double DIISError = 10;
-		while (DIISError >
-				1E-10) {//density matrix convergence criteria; since each
-			// iteration
-			// takes place within a fraction of a second I figured why not
-
+		while (DIISError > 1E-10) {
 			olddensity = densityMatrix.dup();
 
 			integralcount = 0;
