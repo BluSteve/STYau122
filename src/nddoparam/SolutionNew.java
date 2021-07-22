@@ -400,7 +400,7 @@ public class SolutionNew extends Solution {
 //				}
 				EdiisTry bestDIIS =
 						findBestEdiis(mat, rhs, new ArrayList<>(8), null);
-				System.out.println("bestDIIS = " + bestDIIS.attempt);
+				System.out.println("bestDIIS = " + bestDIIS);
 
 				DoubleMatrix finalDIIS = bestDIIS.attempt;
 
@@ -748,18 +748,26 @@ public class SolutionNew extends Solution {
 								   List<Integer> tbrList,
 								   EdiisTry bestEdiis) {
 		// tbr stands for toBeRemoved
+		if (bestEdiis != null) System.out.println("bestEdiis = " + bestEdiis);
 		int n = mat.rows - 1;
-		if (bestEdiis != null && n-1==0) return bestEdiis;
-		System.out.println("n = " + n);
 		System.out.println("tbrList = " + tbrList);
 
+		if ( n-tbrList.size()==0){
+			DoubleMatrix attempt = new DoubleMatrix(n+1);
+			attempt.put(n-1,1.0);
+			System.out.println("attempt = " + attempt);
+			double e= finde(attempt);
+			System.out.println("e = " + e);
+			if (e < bestEdiis.e) bestEdiis = new EdiisTry(attempt, e);
+			return bestEdiis;
+		}
+		System.out.println("n = " + n);
 		List<Integer> array = getComplement(mat, tbrList);
 		DoubleMatrix smallmat = removeElementsSquare(mat.dup(), tbrList,
 				array);
 		DoubleMatrix smallrhs = removeElementsLinear(rhs.dup(), tbrList,
 				array);
-		System.out.println("smallmat = " + mat);
-		System.out.println("smallrhs = " + rhs);
+
 		DoubleMatrix attemptRaw = Solve.solve(smallmat, smallrhs);
 		DoubleMatrix attempt = addRows(attemptRaw, tbrList);
 
@@ -790,6 +798,7 @@ public class SolutionNew extends Solution {
 			}
 		}
 
+		System.out.println();
 		return bestEdiis;
 	}
 
@@ -845,6 +854,14 @@ public class SolutionNew extends Solution {
 		public EdiisTry(DoubleMatrix attempt, double e) {
 			this.attempt = attempt;
 			this.e = e;
+		}
+
+		@Override
+		public String toString() {
+			return "EdiisTry{" +
+					"attempt=" + attempt +
+					", e=" + e +
+					'}';
 		}
 	}
 }
