@@ -3101,7 +3101,7 @@ public class ParamDerivative {
 		DoubleMatrix[] barray = new DoubleMatrix[fockDerivStatic.length];
 		DoubleMatrix[] parray = new DoubleMatrix[fockDerivStatic.length];
 		DoubleMatrix[] Farray = new DoubleMatrix[fockDerivStatic.length];
-		DoubleMatrix[] rarray = new DoubleMatrix[fockDerivStatic.length];
+		DoubleMatrix[] rArray = new DoubleMatrix[fockDerivStatic.length];
 
 		DoubleMatrix preconditioner = DoubleMatrix.zeros(NOcc * NVirt, 1);
 		DoubleMatrix preconditionerinv = DoubleMatrix.zeros(NOcc * NVirt, 1);
@@ -3152,7 +3152,7 @@ public class ParamDerivative {
 
 			F = D.mmul(F);
 			xArray[a] = DoubleMatrix.zeros(NOcc * NVirt, 1);
-			rarray[a] = xArray[a].dup();
+			rArray[a] = xArray[a].dup();
 			barray[a] = F.dup();
 			Farray[a] = F.dup();
 		}
@@ -3182,7 +3182,7 @@ public class ParamDerivative {
 			F.putColumn(i, Farray[i]);
 		}
 
-		double[] oldrMags = new double[rarray.length];
+		double[] oldrMags = new double[rArray.length];
 		Arrays.fill(oldrMags, 1);
 
 		bigLoop:
@@ -3234,15 +3234,15 @@ public class ParamDerivative {
 			}
 
 			for (int a = 0; a < xArray.length; a++) {
-				rarray[a] = DoubleMatrix.zeros(NOcc * NVirt, 1);
+				rArray[a] = DoubleMatrix.zeros(NOcc * NVirt, 1);
 				xArray[a] = DoubleMatrix.zeros(NOcc * NVirt, 1);
 			}
 
 			for (int i = 0; i < alpha.rows; i++) {
 				for (int j = 0; j < alpha.columns; j++) {
 
-					rarray[j] =
-							rarray[j].add((b.get(i).sub(p.get(i)))
+					rArray[j] =
+							rArray[j].add((b.get(i).sub(p.get(i)))
 									.mmul(alpha.get(i,
 											j)));
 					xArray[j] = xArray[j].add(b.get(i).mmul(alpha.get(i, j)));
@@ -3251,10 +3251,10 @@ public class ParamDerivative {
 
 			int xArrayHoldNN = Utils.numNotNull(xArrayHold);
 			for (int j = 0; j < alpha.columns; j++) {
-				rarray[j] = rarray[j].sub(Farray[j]);
+				rArray[j] = rArray[j].sub(Farray[j]);
 				xArray[j] = Dinv.mmul(xArray[j]);
 
-				double mag = mag(rarray[j]);
+				double mag = mag(rArray[j]);
 				if (mag > oldrMags[j] || mag != mag) {
 					System.err.println("something has gone wrong");
 					if (xArrayHoldNN == xArrayHold.length) {
@@ -3281,7 +3281,7 @@ public class ParamDerivative {
 					}
 				}
 				else {
-					if (mag < 1E-8) {
+					if (mag < 1E-7) {
 						xArrayHold[j] = xArray[j];
 						if (mag < 1E-10) {
 							iterable[j] = 1;
@@ -3373,6 +3373,8 @@ public class ParamDerivative {
 			return densityderivs;
 		}
 
+		double[] oldrMags = new double[rArray.length];
+		Arrays.fill(oldrMags, 1);
 
 		while (Utils.numNotNull(rArray) > 0) {
 
@@ -3432,6 +3434,8 @@ public class ParamDerivative {
 
 			for (int a = 0; a < rhsvec.columns; a++) {
 				if (rArray[a] != null) {
+					double mag = mag(rArray[a]);
+
 					for (int i = 0; i < alpha.rows; i++) {
 						xArray[a] =
 								xArray[a].add(d.get(i).mmul(alpha.get(i, a)));
@@ -3439,16 +3443,17 @@ public class ParamDerivative {
 								rArray[a].sub(p.get(i).mmul(alpha.get(i, a)));
 					}
 
-					double mag = mag(rArray[a]);
-					if (mag != mag) {
+					if (mag != mag || oldrMags[a] < mag) {
 						throw new IllegalStateException("Thiel has failed!");
 					}
-					if (mag < 1E-5) {
+					if (mag < 1E5) {
 						rArray[a] = null;
 					}
 					else {
 						System.out.println("Thiel convergence test: " + mag);
 					}
+
+					oldrMags[a] = mag;
 				}
 			}
 

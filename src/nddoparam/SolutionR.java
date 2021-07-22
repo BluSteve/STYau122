@@ -1001,7 +1001,6 @@ public class SolutionR extends Solution {
 //            System.exit(0);
 //        }
 
-
 		double heat = 0;
 
 		for (int j = 0; j < atoms.length; j++) {

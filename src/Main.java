@@ -66,7 +66,7 @@ public class Main {
 		for (int runNum = 0; runNum < NUM_RUNS; runNum++) {
 			StopWatch lsw = new StopWatch();
 			lsw.start();
-			boolean isRunHessian = runNum % 2 == 1; // Hessian every other run
+			boolean isRunHessian = runNum % 2 == 0; // Hessian every other run
 
 			AtomHandler.populateAtoms();
 			InputHandler.processInput(INPUT_FILENAME);
