@@ -2440,7 +2440,8 @@ public class ParamDerivative {
 
 	}
 
-	public static DoubleMatrix zetafockderivstatic(NDDOAtom[] atoms,
+	@Deprecated
+	private static DoubleMatrix zetafockderivstatic(NDDOAtom[] atoms,
 												   SolutionR soln, int Z,
 												   int type) {
 
@@ -2547,7 +2548,7 @@ public class ParamDerivative {
 		return F;
 	}
 
-	public static DoubleMatrix zetaHderivstatic(NDDOAtom[] atoms,
+	private static DoubleMatrix zetaHderivstatic(NDDOAtom[] atoms,
 												SolutionR soln, int Z,
 												int type) {
 
@@ -2591,7 +2592,7 @@ public class ParamDerivative {
 		return H;
 	}
 
-	public static DoubleMatrix zetaGderivstatic(NDDOAtom[] atoms,
+	private static DoubleMatrix zetaGderivstatic(NDDOAtom[] atoms,
 												SolutionR soln, int Z,
 												int type) {
 
@@ -2693,7 +2694,7 @@ public class ParamDerivative {
 
 	}
 
-	public static DoubleMatrix uxxfockderivstatic(SolutionR soln, int Z,
+	private static DoubleMatrix uxxfockderivstatic(SolutionR soln, int Z,
 												  int type) {
 
 		DoubleMatrix F =
@@ -2745,7 +2746,7 @@ public class ParamDerivative {
 
 	}
 
-	public static DoubleMatrix betafockderivstatic(SolutionR soln, int Z,
+	private static DoubleMatrix betafockderivstatic(SolutionR soln, int Z,
 												   int type) {
 
 		DoubleMatrix F =
@@ -3090,7 +3091,6 @@ public class ParamDerivative {
 		return p;
 	}
 
-	// fockDerivStatic is 1x8
 	public static DoubleMatrix[] xArrayLimitedPople(SolutionR soln,
 													DoubleMatrix[] fockDerivStatic) {
 		int NOcc = (int) (soln.nElectrons / 2.0);
@@ -3186,10 +3186,10 @@ public class ParamDerivative {
 		Arrays.fill(oldrMags, 1);
 
 		bigLoop:
-		while (GeometrySecondDerivative.numIterable(iterable) > 0) {
+		while (Utils.numIterable(iterable) > 0) {
 			GeometrySecondDerivative.orthogonalise(barray);
 
-			System.out.println("only " + GeometrySecondDerivative
+			System.out.println("only " + Utils
 					.numIterable(iterable) + " left to go!");
 
 			for (int i = 0; i < barray.length; i++) {

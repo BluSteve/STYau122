@@ -1422,6 +1422,7 @@ public class GeometrySecondDerivative {
 		return (perturbed - orig) / 1E-6;
 	}
 
+	@Deprecated
 	public static double[] secondDerivativeDecompositionfinite(double[] point1,
 															   double[] point2,
 															   NDDO6G a,
@@ -1821,6 +1822,7 @@ public class GeometrySecondDerivative {
 
 	}
 
+	@Deprecated
 	public static double[] secondDerivativeDecomposition2finite(double[] point1,
 																double[] point2,
 																NDDO6G a,
@@ -2532,7 +2534,7 @@ public class GeometrySecondDerivative {
 
 	}
 
-
+	@Deprecated
 	public static double hessianfinite(NDDOAtom[] atoms, SolutionR soln,
 									   int atomnum1, int tau1, int atomnum2,
 									   int tau2) {
@@ -2651,6 +2653,85 @@ public class GeometrySecondDerivative {
 		return hessian;
 	}
 
+	public static DoubleMatrix hessianRoutine(NDDOAtom[] atoms, SolutionU soln,
+											  DoubleMatrix[] fockderivstaticalpha,
+											  DoubleMatrix[] fockderivstaticbeta) {
+
+
+		DoubleMatrix[] densityderivsalpha =
+				new DoubleMatrix[fockderivstaticalpha.length];
+		DoubleMatrix[] densityderivsbeta =
+				new DoubleMatrix[fockderivstaticbeta.length];
+
+
+		int count = 0;
+
+		for (int a = 0; a < atoms.length; a++) {
+			for (int tau = 0; tau < 3; tau++) {
+
+				DoubleMatrix[] matrices = GeometryDerivative
+						.densitymatrixderivfinite(atoms, soln, a, tau);
+				densityderivsalpha[count] = matrices[0];
+				densityderivsbeta[count] = matrices[1];
+				count++;
+			}
+		}
+
+		DoubleMatrix hessian = new DoubleMatrix(densityderivsalpha.length,
+				densityderivsalpha.length);
+
+		for (int i = 0; i < hessian.rows; i++) {
+			for (int j = i; j < hessian.rows; j++) {
+
+				double E = 0;
+
+				int atomnum1 = i / 3;
+
+				int atomnum2 = j / 3;
+
+				int tau1 = i - 3 * atomnum1;
+
+				int tau2 = j - 3 * atomnum2;
+
+				if (atomnum1 == atomnum2) {
+					for (int a = 0; a < atoms.length; a++) {
+						if (a != atomnum1) {
+							E += Ederiv2(atomnum1, a, soln.orbitalIndices,
+									soln.alphaDensity(), soln.betaDensity(),
+									atoms, soln.orbitals, tau1, tau2);
+							E += atoms[atomnum1]
+									.crfDeriv2(atoms[a], tau1, tau2);
+						}
+					}
+				}
+				else {
+					E = -Ederiv2(atomnum1, atomnum2, soln.orbitalIndices,
+							soln.alphaDensity(), soln.betaDensity(), atoms,
+							soln.orbitals, tau1, tau2) - atoms[atomnum1]
+							.crfDeriv2(atoms[atomnum2], tau1, tau2);
+
+				}
+
+
+				for (int I = 0; I < soln.orbitals.length; I++) {
+					for (int J = 0; J < soln.orbitals.length; J++) {
+						E += fockderivstaticalpha[i].get(I, J) *
+								densityderivsalpha[j].get(I, J);
+						E += fockderivstaticbeta[i].get(I, J) *
+								densityderivsbeta[j].get(I, J);
+					}
+				}
+
+				hessian.put(i, j, E);
+				hessian.put(j, i, E);
+			}
+		}
+
+		return hessian;
+
+
+	}
+
 	public static DoubleMatrix[] densityDerivThiel(SolutionR soln,
 												   DoubleMatrix[] fockderivstatic) {
 
@@ -2735,7 +2816,7 @@ public class GeometrySecondDerivative {
 		}
 
 
-		while (numNotNull(rarray) > 0) {
+		while (Utils.numNotNull(rarray) > 0) {
 
 			ArrayList<DoubleMatrix> d = new ArrayList<>();
 
@@ -2994,14 +3075,14 @@ public class GeometrySecondDerivative {
 			F.putColumn(i, Farray[i]);
 		}
 
-		while (numIterable(iterable) > 0) {
+		while (Utils.numIterable(iterable) > 0) {
 
 			for (int number = 0; number < 1; number++) {
 
 				orthogonalise(barray);
 
 				System.out.println(
-						"Geom only " + numIterable(iterable) + " left to go!");
+						"Geom only " + Utils.numIterable(iterable) + " left to go!");
 
 				for (int i = 0; i < barray.length; i++) {
 
@@ -3072,7 +3153,7 @@ public class GeometrySecondDerivative {
 
 				xarray[j] = Dinv.mmul(xarray[j]);
 
-				if (mag(rarray[j]) < 1E-10) {//todo play with this
+				if (mag(rarray[j]) < 1E-7) {
 					iterable[j] = 1;
 				}
 				else if (Double.isNaN(mag(rarray[j]))) {
@@ -3129,20 +3210,6 @@ public class GeometrySecondDerivative {
 		return densityMatrixDerivs;
 
 
-	}
-
-	public static int numIterable(int[] iterable) {
-
-		int count = 0;
-
-		for (int value : iterable) {
-
-			if (value == 0) {
-				count++;
-			}
-		}
-
-		return count;
 	}
 
 
@@ -3444,169 +3511,12 @@ public class GeometrySecondDerivative {
 		return Math.sqrt(sum);
 	}
 
-	private static double numNotNull(DoubleMatrix[] rarray) {
-
-		int count = 0;
-		for (DoubleMatrix r : rarray) {
-			if (r != null) {
-				count++;
-			}
-		}
-
-		return count;
-	}
-
-	private static double numNotNull(Double[] rarray) {
-
-		int count = 0;
-		for (Double r : rarray) {
-			if (r != null) {
-				count++;
-			}
-		}
-
-		return count;
-	}
-
-	public static DoubleMatrix hessianRoutine(NDDOAtom[] atoms, SolutionU soln,
-											  DoubleMatrix[] fockderivstaticalpha,
-											  DoubleMatrix[] fockderivstaticbeta) {
-
-
-		DoubleMatrix[] densityderivsalpha =
-				new DoubleMatrix[fockderivstaticalpha.length];
-		DoubleMatrix[] densityderivsbeta =
-				new DoubleMatrix[fockderivstaticbeta.length];
-
-
-		int count = 0;
-
-		for (int a = 0; a < atoms.length; a++) {
-			for (int tau = 0; tau < 3; tau++) {
-
-				DoubleMatrix[] matrices = GeometryDerivative
-						.densitymatrixderivfinite(atoms, soln, a, tau);
-				densityderivsalpha[count] = matrices[0];
-				densityderivsbeta[count] = matrices[1];
-				count++;
-			}
-		}
-
-		DoubleMatrix hessian = new DoubleMatrix(densityderivsalpha.length,
-				densityderivsalpha.length);
-
-		for (int i = 0; i < hessian.rows; i++) {
-			for (int j = i; j < hessian.rows; j++) {
-
-				double E = 0;
-
-				int atomnum1 = i / 3;
-
-				int atomnum2 = j / 3;
-
-				int tau1 = i - 3 * atomnum1;
-
-				int tau2 = j - 3 * atomnum2;
-
-				if (atomnum1 == atomnum2) {
-					for (int a = 0; a < atoms.length; a++) {
-						if (a != atomnum1) {
-							E += Ederiv2(atomnum1, a, soln.orbitalIndices,
-									soln.alphaDensity(), soln.betaDensity(),
-									atoms, soln.orbitals, tau1, tau2);
-							E += atoms[atomnum1]
-									.crfDeriv2(atoms[a], tau1, tau2);
-						}
-					}
-				}
-				else {
-					E = -Ederiv2(atomnum1, atomnum2, soln.orbitalIndices,
-							soln.alphaDensity(), soln.betaDensity(), atoms,
-							soln.orbitals, tau1, tau2) - atoms[atomnum1]
-							.crfDeriv2(atoms[atomnum2], tau1, tau2);
-
-				}
-
-
-				for (int I = 0; I < soln.orbitals.length; I++) {
-					for (int J = 0; J < soln.orbitals.length; J++) {
-						E += fockderivstaticalpha[i].get(I, J) *
-								densityderivsalpha[j].get(I, J);
-						E += fockderivstaticbeta[i].get(I, J) *
-								densityderivsbeta[j].get(I, J);
-					}
-				}
-
-				hessian.put(i, j, E);
-				hessian.put(j, i, E);
-			}
-		}
-
-		return hessian;
-
-
-	}
-
 	public static void orthogonalise(DoubleMatrix[] vectors) {
-
 		for (int i = 0; i < vectors.length; i++) {
-
 			for (int j = 0; j < i; j++) {
 				vectors[i] = vectors[i].sub(vectors[j]
 						.mmul(vectors[i].dot(vectors[j]) /
 								vectors[j].dot(vectors[j])));
-			}
-
-			double mag = mag(vectors[i]);
-
-//            if (mag > 1E-5) {
-//                vectors[i] = vectors[i].mmul(1 / mag);
-//            }
-		}
-
-	}
-
-	private static void orthogonalise(ArrayList<DoubleMatrix> vectors) {
-
-		for (int i = 0; i < vectors.size(); i++) {
-
-			DoubleMatrix vector = vectors.get(i);
-
-			for (int j = 0; j < i; j++) {
-				vector = vector.sub(vectors.get(j)
-						.mmul(vectors.get(i).dot(vectors.get(j)) /
-								vectors.get(j).dot(vectors.get(j))));
-
-			}
-
-			double mag = mag(vector);
-
-			if (mag > 1E-5) {
-				vector = vector.mmul(1 / mag);
-			}
-
-			vectors.set(i, vector);
-
-
-		}
-
-	}
-
-	private static void orthogonalise(ArrayList<DoubleMatrix> oldvectors,
-									  DoubleMatrix[] vectors) {
-
-		for (int i = 0; i < vectors.length; i++) {
-
-			for (int j = 0; j < oldvectors.size(); j++) {
-				vectors[i] = vectors[i].sub(oldvectors.get(j)
-						.mmul(vectors[i].dot(oldvectors.get(j)) /
-								oldvectors.get(j).dot(oldvectors.get(j))));
-			}
-
-			double mag = mag(vectors[i]);
-
-			if (mag > 1E-5) {
-				vectors[i] = vectors[i].mmul(1 / mag);
 			}
 		}
 	}

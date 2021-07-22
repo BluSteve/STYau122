@@ -182,4 +182,18 @@ public class Utils {
 
 		return count;
 	}
+
+	public static int numIterable(int[] iterable) {
+
+		int count = 0;
+
+		for (int value : iterable) {
+
+			if (value == 0) {
+				count++;
+			}
+		}
+
+		return count;
+	}
 }
