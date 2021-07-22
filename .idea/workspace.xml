@@ -38,10 +38,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/nddoparam/SolutionNew.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dynamic-output.json" beforeDir="false" afterPath="$PROJECT_DIR$/dynamic-output.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Testing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionNew.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -297,7 +295,7 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Debugger" />
+    <property name="settings.editor.selected.configurable" value="Console" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -505,14 +503,7 @@
       <workItem from="1626852408240" duration="19180000" />
       <workItem from="1626872666211" duration="13731000" />
       <workItem from="1626959601170" duration="3949000" />
-      <workItem from="1626963618602" duration="8090000" />
-    </task>
-    <task id="LOCAL-00120" summary="hash functions for io">
-      <created>1626516661984</created>
-      <option name="number" value="00120" />
-      <option name="presentableId" value="LOCAL-00120" />
-      <option name="project" value="LOCAL" />
-      <updated>1626516661984</updated>
+      <workItem from="1626963618602" duration="12654000" />
     </task>
     <task id="LOCAL-00121" summary="Legit AM1 param numbers">
       <created>1626517556622</created>
@@ -850,7 +841,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626956629283</updated>
     </task>
-    <option name="localTasksCounter" value="169" />
+    <task id="LOCAL-00169" summary="recursion done but slower by a factor of 2">
+      <created>1626971963408</created>
+      <option name="number" value="00169" />
+      <option name="presentableId" value="LOCAL-00169" />
+      <option name="project" value="LOCAL" />
+      <updated>1626971963409</updated>
+    </task>
+    <option name="localTasksCounter" value="170" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -927,7 +925,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Minor changes" />
     <MESSAGE value="More docs" />
     <MESSAGE value="Removed ParamHessian subclasses" />
     <MESSAGE value="Fixed main" />
@@ -952,45 +949,22 @@
     <MESSAGE value="1e8 adaptability feature" />
     <MESSAGE value="minor math classes refactor" />
     <MESSAGE value="adamantane still could run non-deterministically. thiel fails more readily now as i am monitoring increases in mag(rarray)" />
-    <option name="LAST_COMMIT_MESSAGE" value="adamantane still could run non-deterministically. thiel fails more readily now as i am monitoring increases in mag(rarray)" />
+    <MESSAGE value="recursion done but slower by a factor of 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="recursion done but slower by a factor of 2" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/nddoparam/SolutionNew.java</url>
-          <line>401</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/nddoparam/SolutionNew.java</url>
-          <line>805</line>
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/nddoparam/SolutionNew.java</url>
-          <line>794</line>
-          <option name="timeStamp" value="14" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/nddoparam/SolutionNew.java</url>
-          <line>768</line>
-          <option name="timeStamp" value="15" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/nddoparam/SolutionNew.java</url>
-          <line>780</line>
-          <option name="timeStamp" value="16" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/nddoparam/SolutionNew.java</url>
-          <line>790</line>
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
         <breakpoint enabled="true" type="java-exception">
           <properties class="java.lang.NullPointerException" package="java.lang" />
           <option name="timeStamp" value="7" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <condition expression="size ==5" language="JAVA" />
+          <url>file://$PROJECT_DIR$/src/nddoparam/SolutionNew.java</url>
+          <line>778</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>

@@ -7,6 +7,7 @@ import org.jblas.Solve;
 import runcycle.input.RawMolecule;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -191,6 +192,7 @@ public class SolutionNew extends Solution {
 
 		double DIISError = 10;
 		while (DIISError > 1E-10) {
+			System.out.println("numIt = " + numIt);
 			olddensity = densityMatrix.dup();
 
 			integralcount = 0;
@@ -379,7 +381,7 @@ public class SolutionNew extends Solution {
 				mat.put(mat.rows - 1, mat.columns - 1, 0);
 
 				DoubleMatrix rhs = DoubleMatrix.ones(mat.rows, 1);
-
+				System.out.println("Earray = " + Arrays.toString(Earray));
 				for (int i = 0; i < Math.min(Farray.length, numIt + 1); i++) {
 					rhs.put(i, Earray[i]);
 				}
@@ -398,6 +400,7 @@ public class SolutionNew extends Solution {
 //				}
 				EdiisTry bestDIIS =
 						findBestEdiis(mat, rhs, new ArrayList<>(8), null);
+				System.out.println("bestDIIS = " + bestDIIS.attempt);
 
 				DoubleMatrix finalDIIS = bestDIIS.attempt;
 
@@ -433,7 +436,7 @@ public class SolutionNew extends Solution {
 
 				densityMatrix = calculateDensityMatrix(C);
 
-
+				System.out.println();
 			}
 			else {
 
@@ -746,11 +749,17 @@ public class SolutionNew extends Solution {
 								   EdiisTry bestEdiis) {
 		// tbr stands for toBeRemoved
 		int n = mat.rows - 1;
-		if (tbrList.size() > n - 1) return bestEdiis;
+		if (bestEdiis != null && n-1==0) return bestEdiis;
+		System.out.println("n = " + n);
+		System.out.println("tbrList = " + tbrList);
 
 		List<Integer> array = getComplement(mat, tbrList);
-		DoubleMatrix smallmat = removeElementsSquare(mat.dup(), tbrList, array);
-		DoubleMatrix smallrhs = removeElementsLinear(rhs.dup(), tbrList, array);
+		DoubleMatrix smallmat = removeElementsSquare(mat.dup(), tbrList,
+				array);
+		DoubleMatrix smallrhs = removeElementsLinear(rhs.dup(), tbrList,
+				array);
+		System.out.println("smallmat = " + mat);
+		System.out.println("smallrhs = " + rhs);
 		DoubleMatrix attemptRaw = Solve.solve(smallmat, smallrhs);
 		DoubleMatrix attempt = addRows(attemptRaw, tbrList);
 
@@ -766,19 +775,18 @@ public class SolutionNew extends Solution {
 			}
 		}
 
-		for (int i = 0; i < n - 1 - tbrList.size(); i++) {
-			if (!tbrList.contains(i)) {
-				List<Integer> newTbrList = new ArrayList<>(tbrList);
-				newTbrList.add(i);
+		int size = tbrList.size();
+		for (int i = size == 0 ? 0 : tbrList.get(size - 1) + 1; i < n; i++) {
+			List<Integer> newTbrList = new ArrayList<>(tbrList);
+			newTbrList.add(i);
 
-				EdiisTry bestEdiisFurtherDown =
-						findBestEdiis(mat, rhs, newTbrList, bestEdiis);
+			EdiisTry bestEdiisFurtherDown =
+					findBestEdiis(mat, rhs, newTbrList, bestEdiis);
 
-				// if a best ediis further down the tree is better than the
-				// best one so far
-				if (bestEdiis == null || bestEdiisFurtherDown.e < bestEdiis.e) {
-					bestEdiis = bestEdiisFurtherDown;
-				}
+			// if a best ediis further down the tree is better than the
+			// best one so far
+			if (bestEdiis == null || bestEdiisFurtherDown.e < bestEdiis.e) {
+				bestEdiis = bestEdiisFurtherDown;
 			}
 		}
 

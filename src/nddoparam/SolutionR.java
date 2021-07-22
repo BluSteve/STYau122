@@ -197,6 +197,8 @@ public class SolutionR extends Solution {
 
 		double DIISError = 10;
 		while (DIISError > 1E-10) {
+			System.out.println("numIt = " + numIt);
+
 			olddensity = densityMatrix.dup();
 
 			integralcount = 0;
@@ -847,6 +849,7 @@ public class SolutionR extends Solution {
 				// todo wtf
 				if (bestDIIS == null) bestDIIS = DIIS.dup();
 				DoubleMatrix finalDIIS = bestDIIS.dup();
+				System.out.println("finalDIIS = " + finalDIIS);
 
 				DoubleMatrix F = DoubleMatrix.zeros(densityMatrix.rows,
 						densityMatrix.columns);
@@ -1110,7 +1113,7 @@ public class SolutionR extends Solution {
 													 int[] indices) {//remove
 		// rows and
 		// columns specified in indices and return downsized square matrix
-
+//		System.out.println("indices = " + Arrays.toString(indices));
 		DoubleMatrix newarray = DoubleMatrix
 				.zeros(original.rows - indices.length,
 						original.rows - indices.length);
@@ -1144,6 +1147,7 @@ public class SolutionR extends Solution {
 		// of the
 		// rows given in indices and return downsized vector
 
+		if (original.length == 8) System.out.println("original = " + original);
 		DoubleMatrix newarray =
 				DoubleMatrix.zeros(original.rows - indices.length, 1);
 
