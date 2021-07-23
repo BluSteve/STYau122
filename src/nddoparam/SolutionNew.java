@@ -18,63 +18,76 @@ public class SolutionNew extends SolutionR {
 	// matrix (transposed for easier reading), E = eigenvalues
 	private DoubleMatrix densityMatrix, B;
 	private double[] Earray;
-	private static final int[][] tbr =
-			new int[][]{new int[]{}, new int[]{0},
-					new int[]{1}, new int[]{2},
-					new int[]{3}, new int[]{4},
-					new int[]{5}, new int[]{6}, new int[]{0, 1},
-					new int[]{0, 2}, new int[]{0, 3}, new int[]{0, 4},
-					new int[]{0, 5}, new int[]{0, 6}, new int[]{1, 2},
-					new int[]{1, 3}, new int[]{1, 4}, new int[]{1, 5},
-					new int[]{1, 6}, new int[]{2, 3}, new int[]{2, 4},
-					new int[]{2, 5}, new int[]{2, 6}, new int[]{3, 4},
-					new int[]{3, 5}, new int[]{3, 6}, new int[]{4, 5},
-					new int[]{4, 6}, new int[]{5, 6}, new int[]{0, 1, 2},
-					new int[]{0, 1, 3}, new int[]{0, 1, 4}, new int[]{0, 1, 5},
-					new int[]{0, 1, 6}, new int[]{0, 2, 3}, new int[]{0, 2, 4},
-					new int[]{0, 2, 5}, new int[]{0, 2, 6}, new int[]{0, 3, 4},
-					new int[]{0, 3, 5}, new int[]{0, 3, 6}, new int[]{0, 4, 5},
-					new int[]{0, 4, 6}, new int[]{0, 5, 6}, new int[]{1, 2, 3},
-					new int[]{1, 2, 4}, new int[]{1, 2, 5}, new int[]{1, 2, 6},
-					new int[]{1, 3, 4}, new int[]{1, 3, 5}, new int[]{1, 3, 6},
-					new int[]{1, 4, 5}, new int[]{1, 4, 6}, new int[]{1, 5, 6},
-					new int[]{2, 3, 4}, new int[]{2, 3, 5}, new int[]{2, 3, 6},
-					new int[]{2, 4, 5}, new int[]{2, 4, 6}, new int[]{2, 5, 6},
-					new int[]{3, 4, 5}, new int[]{3, 4, 6}, new int[]{3, 5, 6},
-					new int[]{4, 5, 6}, new int[]{0, 1, 2, 3},
-					new int[]{0, 1, 2, 4}, new int[]{0, 1, 2, 5},
-					new int[]{0, 1, 2, 6}, new int[]{0, 1, 3, 4},
-					new int[]{0, 1, 3, 5}, new int[]{0, 1, 3, 6},
-					new int[]{0, 1, 4, 5}, new int[]{0, 1, 4, 6},
-					new int[]{0, 1, 5, 6}, new int[]{0, 2, 3, 4},
-					new int[]{0, 2, 3, 5}, new int[]{0, 2, 3, 6},
-					new int[]{0, 2, 4, 5}, new int[]{0, 2, 4, 6},
-					new int[]{0, 2, 5, 6}, new int[]{0, 3, 4, 5},
-					new int[]{0, 3, 4, 6}, new int[]{0, 3, 5, 6},
-					new int[]{0, 4, 5, 6}, new int[]{1, 2, 3, 4},
-					new int[]{1, 2, 3, 5}, new int[]{1, 2, 3, 6},
-					new int[]{1, 2, 4, 5}, new int[]{1, 2, 4, 6},
-					new int[]{1, 2, 5, 6}, new int[]{1, 3, 4, 5},
-					new int[]{1, 3, 4, 6}, new int[]{1, 3, 5, 6},
-					new int[]{1, 4, 5, 6}, new int[]{2, 3, 4, 5},
-					new int[]{2, 3, 4, 6}, new int[]{2, 3, 5, 6},
-					new int[]{2, 4, 5, 6}, new int[]{3, 4, 5, 6},
-					new int[]{0, 1, 2, 3, 4}, new int[]{0, 1, 2, 3, 5},
-					new int[]{0, 1, 2, 3, 6}, new int[]{0, 1, 2, 4, 5},
-					new int[]{0, 1, 2, 4, 6}, new int[]{0, 1, 2, 5, 6},
-					new int[]{0, 1, 3, 4, 5}, new int[]{0, 1, 3, 4, 6},
-					new int[]{0, 1, 3, 5, 6}, new int[]{0, 1, 4, 5, 6},
-					new int[]{0, 2, 3, 4, 5}, new int[]{0, 2, 3, 4, 6},
-					new int[]{0, 2, 3, 5, 6}, new int[]{0, 2, 4, 5, 6},
-					new int[]{0, 3, 4, 5, 6}, new int[]{1, 2, 3, 4, 5},
-					new int[]{1, 2, 3, 4, 6}, new int[]{1, 2, 3, 5, 6},
-					new int[]{1, 2, 4, 5, 6}, new int[]{1, 3, 4, 5, 6},
-					new int[]{2, 3, 4, 5, 6}, new int[]{0, 1, 2, 3, 4, 5},
-					new int[]{0, 1, 2, 3, 4, 6}, new int[]{0, 1, 2, 3, 5, 6},
-					new int[]{0, 1, 2, 4, 5, 6}, new int[]{0, 1, 3, 4, 5, 6},
-					new int[]{0, 2, 3, 4, 5, 6}, new int[]{1, 2, 3, 4, 5, 6},
-					new int[]{0, 1, 2, 3, 4, 5, 6}};
-
+	private static final int[][][] tbr =
+			new int[][][]{new int[][]{new int[]{}},
+					new int[][]{new int[]{0},
+							new int[]{1}, new int[]{2},
+							new int[]{3}, new int[]{4},
+							new int[]{5}, new int[]{6}},
+					new int[][]{new int[]{0, 1},
+							new int[]{0, 2}, new int[]{0, 3}, new int[]{0, 4},
+							new int[]{0, 5}, new int[]{0, 6}, new int[]{1, 2},
+							new int[]{1, 3}, new int[]{1, 4}, new int[]{1, 5},
+							new int[]{1, 6}, new int[]{2, 3}, new int[]{2, 4},
+							new int[]{2, 5}, new int[]{2, 6}, new int[]{3, 4},
+							new int[]{3, 5}, new int[]{3, 6}, new int[]{4, 5},
+							new int[]{4, 6}, new int[]{5, 6}},
+					new int[][]{new int[]{0, 1, 2},
+							new int[]{0, 1, 3}, new int[]{0, 1, 4},
+							new int[]{0, 1, 5}, new int[]{0, 1, 6},
+							new int[]{0, 2, 3}, new int[]{0, 2, 4},
+							new int[]{0, 2, 5}, new int[]{0, 2, 6},
+							new int[]{0, 3, 4}, new int[]{0, 3, 5},
+							new int[]{0, 3, 6}, new int[]{0, 4, 5},
+							new int[]{0, 4, 6}, new int[]{0, 5, 6},
+							new int[]{1, 2, 3}, new int[]{1, 2, 4},
+							new int[]{1, 2, 5}, new int[]{1, 2, 6},
+							new int[]{1, 3, 4}, new int[]{1, 3, 5},
+							new int[]{1, 3, 6}, new int[]{1, 4, 5},
+							new int[]{1, 4, 6}, new int[]{1, 5, 6},
+							new int[]{2, 3, 4}, new int[]{2, 3, 5},
+							new int[]{2, 3, 6}, new int[]{2, 4, 5},
+							new int[]{2, 4, 6}, new int[]{2, 5, 6},
+							new int[]{3, 4, 5}, new int[]{3, 4, 6},
+							new int[]{3, 5, 6}, new int[]{4, 5, 6}},
+					new int[][]{new int[]{0, 1, 2, 3},
+							new int[]{0, 1, 2, 4}, new int[]{0, 1, 2, 5},
+							new int[]{0, 1, 2, 6}, new int[]{0, 1, 3, 4},
+							new int[]{0, 1, 3, 5}, new int[]{0, 1, 3, 6},
+							new int[]{0, 1, 4, 5}, new int[]{0, 1, 4, 6},
+							new int[]{0, 1, 5, 6}, new int[]{0, 2, 3, 4},
+							new int[]{0, 2, 3, 5}, new int[]{0, 2, 3, 6},
+							new int[]{0, 2, 4, 5}, new int[]{0, 2, 4, 6},
+							new int[]{0, 2, 5, 6}, new int[]{0, 3, 4, 5},
+							new int[]{0, 3, 4, 6}, new int[]{0, 3, 5, 6},
+							new int[]{0, 4, 5, 6}, new int[]{1, 2, 3, 4},
+							new int[]{1, 2, 3, 5}, new int[]{1, 2, 3, 6},
+							new int[]{1, 2, 4, 5}, new int[]{1, 2, 4, 6},
+							new int[]{1, 2, 5, 6}, new int[]{1, 3, 4, 5},
+							new int[]{1, 3, 4, 6}, new int[]{1, 3, 5, 6},
+							new int[]{1, 4, 5, 6}, new int[]{2, 3, 4, 5},
+							new int[]{2, 3, 4, 6}, new int[]{2, 3, 5, 6},
+							new int[]{2, 4, 5, 6}, new int[]{3, 4, 5, 6}},
+					new int[][]{new int[]{0, 1, 2, 3, 4},
+							new int[]{0, 1, 2, 3, 5},
+							new int[]{0, 1, 2, 3, 6}, new int[]{0, 1, 2, 4, 5},
+							new int[]{0, 1, 2, 4, 6}, new int[]{0, 1, 2, 5, 6},
+							new int[]{0, 1, 3, 4, 5}, new int[]{0, 1, 3, 4, 6},
+							new int[]{0, 1, 3, 5, 6}, new int[]{0, 1, 4, 5, 6},
+							new int[]{0, 2, 3, 4, 5}, new int[]{0, 2, 3, 4, 6},
+							new int[]{0, 2, 3, 5, 6}, new int[]{0, 2, 4, 5, 6},
+							new int[]{0, 3, 4, 5, 6}, new int[]{1, 2, 3, 4, 5},
+							new int[]{1, 2, 3, 4, 6}, new int[]{1, 2, 3, 5, 6},
+							new int[]{1, 2, 4, 5, 6}, new int[]{1, 3, 4, 5, 6},
+							new int[]{2, 3, 4, 5, 6}},
+					new int[][]{new int[]{0, 1, 2, 3, 4, 5},
+							new int[]{0, 1, 2, 3, 4, 6},
+							new int[]{0, 1, 2, 3, 5, 6},
+							new int[]{0, 1, 2, 4, 5, 6},
+							new int[]{0, 1, 3, 4, 5, 6},
+							new int[]{0, 2, 3, 4, 5, 6},
+							new int[]{1, 2, 3, 4, 5, 6}},
+					new int[][]{new int[]{0, 1, 2, 3, 4, 5, 6}}};
 
 
 	public SolutionNew(NDDOAtom[] atoms, int charge) {
@@ -441,7 +454,8 @@ public class SolutionNew extends SolutionR {
 				double bestE = 0;
 				DoubleMatrix bestDIIS = null;
 				for (int[] ints : tbr) {
-					if (ints.length == 0 || ints[ints.length-1] < mat.rows - 2) {
+					if (ints.length == 0 ||
+							ints[ints.length - 1] < mat.rows - 2) {
 						DoubleMatrix newmat =
 								removeElementsSquare(mat.dup(), ints);
 						DoubleMatrix newrhs =
@@ -913,7 +927,7 @@ public class SolutionNew extends SolutionR {
 			for (int j = 0; j < tbr.length; j++) {
 				if (tbr[j].length <= i) {
 					System.out.print(Arrays.toString(tbr[j]));
-					if (j != tbr.length-1) System.out.print(",");
+					if (j != tbr.length - 1) System.out.print(",");
 
 				}
 			}

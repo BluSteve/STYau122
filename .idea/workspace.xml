@@ -38,10 +38,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Testing.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionNew.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -523,14 +520,7 @@
       <workItem from="1626872666211" duration="13731000" />
       <workItem from="1626959601170" duration="3949000" />
       <workItem from="1626963618602" duration="13621000" />
-      <workItem from="1627000054772" duration="8396000" />
-    </task>
-    <task id="LOCAL-00124" summary="minor io changes">
-      <created>1626534074661</created>
-      <option name="number" value="00124" />
-      <option name="presentableId" value="LOCAL-00124" />
-      <option name="project" value="LOCAL" />
-      <updated>1626534074661</updated>
+      <workItem from="1627000054772" duration="8782000" />
     </task>
     <task id="LOCAL-00125" summary="commenting and io changes. also adds feature where errored molecules are ignored for future runs and would not cause the program to terminate outright.">
       <created>1626537299951</created>
@@ -868,7 +858,14 @@
       <option name="project" value="LOCAL" />
       <updated>1627002755848</updated>
     </task>
-    <option name="localTasksCounter" value="173" />
+    <task id="LOCAL-00173" summary="lookup table generation">
+      <created>1627016462864</created>
+      <option name="number" value="00173" />
+      <option name="presentableId" value="LOCAL-00173" />
+      <option name="project" value="LOCAL" />
+      <updated>1627016462864</updated>
+    </task>
+    <option name="localTasksCounter" value="174" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -945,7 +942,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="further refactoring of param, especially error function" />
     <MESSAGE value="Some major bug fixes" />
     <MESSAGE value="minor moleculerun refactor" />
     <MESSAGE value="minor changes" />
@@ -970,7 +966,8 @@
     <MESSAGE value="recursion with bad memo" />
     <MESSAGE value="working recursion" />
     <MESSAGE value="recursion is slower than iteration" />
-    <option name="LAST_COMMIT_MESSAGE" value="recursion is slower than iteration" />
+    <MESSAGE value="lookup table generation" />
+    <option name="LAST_COMMIT_MESSAGE" value="lookup table generation" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -982,7 +979,7 @@
         <line-breakpoint enabled="true" type="java-line">
           <condition expression="size ==5" language="JAVA" />
           <url>file://$PROJECT_DIR$/src/nddoparam/SolutionNew.java</url>
-          <line>829</line>
+          <line>843</line>
           <option name="timeStamp" value="21" />
         </line-breakpoint>
       </breakpoints>
