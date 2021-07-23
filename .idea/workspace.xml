@@ -38,11 +38,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Testing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionNew.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -506,14 +502,7 @@
       <workItem from="1626872666211" duration="13731000" />
       <workItem from="1626959601170" duration="3949000" />
       <workItem from="1626963618602" duration="13621000" />
-      <workItem from="1627000054772" duration="2319000" />
-    </task>
-    <task id="LOCAL-00122" summary="minor reformat">
-      <created>1626518538762</created>
-      <option name="number" value="00122" />
-      <option name="presentableId" value="LOCAL-00122" />
-      <option name="project" value="LOCAL" />
-      <updated>1626518538762</updated>
+      <workItem from="1627000054772" duration="2692000" />
     </task>
     <task id="LOCAL-00123" summary="fixed adrian's stupid stupid bug">
       <created>1626534055063</created>
@@ -851,7 +840,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626976445973</updated>
     </task>
-    <option name="localTasksCounter" value="171" />
+    <task id="LOCAL-00171" summary="working recursion">
+      <created>1627002451025</created>
+      <option name="number" value="00171" />
+      <option name="presentableId" value="LOCAL-00171" />
+      <option name="project" value="LOCAL" />
+      <updated>1627002451026</updated>
+    </task>
+    <option name="localTasksCounter" value="172" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -928,7 +924,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Removed ParamHessian subclasses" />
     <MESSAGE value="Fixed main" />
     <MESSAGE value="further refactoring of param, especially error function" />
     <MESSAGE value="Some major bug fixes" />
@@ -953,7 +948,8 @@
     <MESSAGE value="adamantane still could run non-deterministically. thiel fails more readily now as i am monitoring increases in mag(rarray)" />
     <MESSAGE value="recursion done but slower by a factor of 2" />
     <MESSAGE value="recursion with bad memo" />
-    <option name="LAST_COMMIT_MESSAGE" value="recursion with bad memo" />
+    <MESSAGE value="working recursion" />
+    <option name="LAST_COMMIT_MESSAGE" value="working recursion" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -965,7 +961,7 @@
         <line-breakpoint enabled="true" type="java-line">
           <condition expression="size ==5" language="JAVA" />
           <url>file://$PROJECT_DIR$/src/nddoparam/SolutionNew.java</url>
-          <line>760</line>
+          <line>751</line>
           <option name="timeStamp" value="21" />
         </line-breakpoint>
       </breakpoints>

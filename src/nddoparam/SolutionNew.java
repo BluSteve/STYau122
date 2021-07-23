@@ -619,13 +619,22 @@ public class SolutionNew extends SolutionR {
 	}
 
 	private static DoubleMatrix removeElementsSquare(DoubleMatrix original,
-													 List<Integer> indices,
-													 List<Integer> array) {
-		// remove rows and columns specified in indices
-		// and return downsized square matrix
+													 List<Integer>indices) {//remove
+		// rows and
+		// columns specified in indices and return downsized square matrix
+//		System.out.println("indices = " + Arrays.toString(indices));
+		DoubleMatrix newarray = DoubleMatrix
+				.zeros(original.rows - indices.size(),
+						original.rows - indices.size());
 
-		int rows = original.rows - indices.size();
-		DoubleMatrix newarray = DoubleMatrix.zeros(rows, rows);
+		ArrayList<Integer> array = new ArrayList<>();
+		for (int i = 0; i < original.rows; i++) {
+			array.add(i);
+		}
+
+		for (int i : indices) {
+			array.remove(Integer.valueOf(i));
+		}
 
 		int count = 0;
 
@@ -638,16 +647,26 @@ public class SolutionNew extends SolutionR {
 
 			count++;
 		}
+
 		return newarray;
 	}
 
 	private static DoubleMatrix removeElementsLinear(DoubleMatrix original,
-													 List<Integer> indices,
-													 List<Integer> array) {
-		//get rid of the rows given in indices and return downsized vector
-//		System.out.println("indices2 = " + indices);
+													 List<Integer> indices) {//get rid
+		// of the
+		// rows given in indices and return downsized vector
+
 		DoubleMatrix newarray =
 				DoubleMatrix.zeros(original.rows - indices.size(), 1);
+
+		ArrayList<Integer> array = new ArrayList<>();
+		for (int i = 0; i < original.rows; i++) {
+			array.add(i);
+		}
+
+		for (int i : indices) {
+			array.remove(Integer.valueOf(i));
+		}
 
 		int count = 0;
 
@@ -660,54 +679,31 @@ public class SolutionNew extends SolutionR {
 		return newarray;
 	}
 
-	private static ArrayList<Integer> getComplement(DoubleMatrix original,
-													List<Integer> indices) {
-		ArrayList<Integer> array = new ArrayList<>();
-		List<Integer> newIndices = new ArrayList<>(indices);
-		for (int i = 0; i < original.rows; i++) {
-			boolean in = true;
-			for (int j = 0; j < newIndices.size(); j++) {
-				if (newIndices.get(j) == i) {
-					in = false;
-					newIndices.remove(j);
-					break;
-				}
-			}
-			if (in) array.add(i);
-		}
-		return array;
-	}
-
 	private static DoubleMatrix addRows(DoubleMatrix original,
-										List<Integer> indices) {
-		// add zero row at indices
-		DoubleMatrix res =
+										List<Integer> indices) { // add zero row at
+		// indices
+
+		DoubleMatrix newarray =
 				DoubleMatrix.zeros(original.rows + indices.size(), 1);
-		ArrayList<Double> padded = new ArrayList<>();
-		double[] old = original.toArray();
 
-		int oi = 0;
-		for (int i = 0; i < 9; i++) {
-			boolean skip = false;
-			for (int index : indices) {
-				if (index == i) {
-					padded.add(0.0);
-					skip = true;
-					break;
-				}
-			}
-			if (oi < old.length && !skip) {
-				padded.add(old[oi]);
-				oi++;
-			}
+		ArrayList<Double> array = new ArrayList<>();
+
+		for (double i : original.toArray()) {
+			array.add(i);
 		}
 
-		for (int i = 0; i < padded.size(); i++) {
-			res.put(i, padded.get(i));
+		for (int i = 0; i < indices.size(); i++) {
+
+			array.add(indices.get(i), 0.0);
 		}
 
-		return res;
+		for (int i = 0; i < array.size(); i++) {
+			newarray.put(i, array.get(i));
+		}
+
+		return newarray;
 	}
+
 
 	private double finde(DoubleMatrix ediis) {
 		double e = 0;
@@ -735,12 +731,9 @@ public class SolutionNew extends SolutionR {
 		if ( n-tbrList.size()==0){
 			return bestEdiis;
 		}
-		List<Integer> array = getComplement(mat, tbrList);
-		DoubleMatrix smallmat = removeElementsSquare(mat.dup(), tbrList,
-				array);
-		DoubleMatrix smallrhs = removeElementsLinear(rhs.dup(), tbrList,
-				array);
-
+//		List<Integer> array = getComplement(mat, tbrList);
+		DoubleMatrix smallmat = removeElementsSquare(mat.dup(), tbrList);
+		DoubleMatrix smallrhs = removeElementsLinear(rhs.dup(), tbrList);
 		DoubleMatrix attemptRaw = Solve.solve(smallmat, smallrhs);
 		DoubleMatrix attempt = addRows(attemptRaw, tbrList);
 
