@@ -197,7 +197,7 @@ public class SolutionR extends Solution {
 
 		double DIISError = 10;
 		while (DIISError > 1E-10) {
-			System.out.println("numIt = " + numIt);
+//			System.out.println("numIt = " + numIt);
 
 			olddensity = densityMatrix.dup();
 
@@ -849,7 +849,33 @@ public class SolutionR extends Solution {
 				// todo wtf
 				if (bestDIIS == null) bestDIIS = DIIS.dup();
 				DoubleMatrix finalDIIS = bestDIIS.dup();
-				System.out.println("finalDIIS = " + finalDIIS);
+//				System.out.println("finalDIIS = " + finalDIIS);
+//				double e = 0;
+//
+//
+//				for (int a = 0;
+//					 a < DIIS.length - 1;
+//					 a++) {
+//					e -= Earray[a] *
+//							DIIS.get(a);
+//				}
+//
+//				for (int a = 0;
+//					 a < DIIS.length - 1;
+//					 a++) {
+//					for (int b = 0;
+//						 b < DIIS.length -
+//								 1; b++) {
+//						e += 0.5 * DIIS.get(
+//								a) *
+//								DIIS.get(
+//										b) *
+//								0.5 *
+//								B.get(a,
+//										b);
+//					}
+//				}
+//				System.out.println("e = " + e);
 
 				DoubleMatrix F = DoubleMatrix.zeros(densityMatrix.rows,
 						densityMatrix.columns);
@@ -1147,7 +1173,6 @@ public class SolutionR extends Solution {
 		// of the
 		// rows given in indices and return downsized vector
 
-		if (original.length == 8) System.out.println("original = " + original);
 		DoubleMatrix newarray =
 				DoubleMatrix.zeros(original.rows - indices.length, 1);
 

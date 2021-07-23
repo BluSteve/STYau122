@@ -12,7 +12,7 @@ public abstract class GeometryOptimization {
 	}
 
 	public static GeometryOptimization of(Solution s) {
-		if (s instanceof SolutionR) {
+		if (s instanceof SolutionR || s instanceof SolutionNew) {
 			return new GeometryOptimizationR((SolutionR) s);
 		}
 		else if (s instanceof SolutionU) {
@@ -140,6 +140,7 @@ public abstract class GeometryOptimization {
 
 			// creates new solution based on updated atom positions
 			updateSolution();
+			if (s.getRm() != null)
 			System.out.println(
 					s.getRm().index + " " + s.getRm().name + " Gradient: " +
 							mag(gradient));

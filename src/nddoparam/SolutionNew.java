@@ -7,11 +7,10 @@ import org.jblas.Solve;
 import runcycle.input.RawMolecule;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
-public class SolutionNew extends Solution {
+public class SolutionNew extends SolutionR {
 
 	public double[] integralArray;
 	public DoubleMatrix C, F, G, E;
@@ -192,7 +191,7 @@ public class SolutionNew extends Solution {
 
 		double DIISError = 10;
 		while (DIISError > 1E-10) {
-			System.out.println("numIt = " + numIt);
+//			System.out.println("numIt = " + numIt);
 			olddensity = densityMatrix.dup();
 
 			integralcount = 0;
@@ -381,26 +380,11 @@ public class SolutionNew extends Solution {
 				mat.put(mat.rows - 1, mat.columns - 1, 0);
 
 				DoubleMatrix rhs = DoubleMatrix.ones(mat.rows, 1);
-				System.out.println("Earray = " + Arrays.toString(Earray));
 				for (int i = 0; i < Math.min(Farray.length, numIt + 1); i++) {
 					rhs.put(i, Earray[i]);
 				}
-//
-//
-//				EdiisTry firstTry = null;
-//				DoubleMatrix DIIS = Solve.solve(mat, rhs);
-//
-//				DIIS = DIIS.put(DIIS.rows - 1, 0);
-//
-//				boolean nonNegative = !(DIIS.min() < 0);
-//
-//				if (nonNegative) {
-//					double e = finde(DIIS);
-//					firstTry = new EdiisTry(DIIS, e);
-//				}
 				EdiisTry bestDIIS =
 						findBestEdiis(mat, rhs, new ArrayList<>(8), null);
-				System.out.println("bestDIIS = " + bestDIIS);
 
 				DoubleMatrix finalDIIS = bestDIIS.attempt;
 
@@ -436,7 +420,6 @@ public class SolutionNew extends Solution {
 
 				densityMatrix = calculateDensityMatrix(C);
 
-				System.out.println();
 			}
 			else {
 
@@ -661,9 +644,8 @@ public class SolutionNew extends Solution {
 	private static DoubleMatrix removeElementsLinear(DoubleMatrix original,
 													 List<Integer> indices,
 													 List<Integer> array) {
-		//get rid
-		// of the rows given in indices and return downsized vector
-
+		//get rid of the rows given in indices and return downsized vector
+//		System.out.println("indices2 = " + indices);
 		DoubleMatrix newarray =
 				DoubleMatrix.zeros(original.rows - indices.size(), 1);
 
@@ -748,20 +730,11 @@ public class SolutionNew extends Solution {
 								   List<Integer> tbrList,
 								   EdiisTry bestEdiis) {
 		// tbr stands for toBeRemoved
-		if (bestEdiis != null) System.out.println("bestEdiis = " + bestEdiis);
 		int n = mat.rows - 1;
-		System.out.println("tbrList = " + tbrList);
 
 		if ( n-tbrList.size()==0){
-			DoubleMatrix attempt = new DoubleMatrix(n+1);
-			attempt.put(n-1,1.0);
-			System.out.println("attempt = " + attempt);
-			double e= finde(attempt);
-			System.out.println("e = " + e);
-			if (e < bestEdiis.e) bestEdiis = new EdiisTry(attempt, e);
 			return bestEdiis;
 		}
-		System.out.println("n = " + n);
 		List<Integer> array = getComplement(mat, tbrList);
 		DoubleMatrix smallmat = removeElementsSquare(mat.dup(), tbrList,
 				array);
@@ -777,14 +750,13 @@ public class SolutionNew extends Solution {
 		if (nonNegative) {
 			double e = finde(attempt);
 			EdiisTry ediisTry = new EdiisTry(attempt, e);
-
 			if (bestEdiis == null || ediisTry.e < bestEdiis.e) {
 				bestEdiis = ediisTry;
 			}
 		}
 
 		int size = tbrList.size();
-		for (int i = size == 0 ? 0 : tbrList.get(size - 1) + 1; i < n; i++) {
+		for (int i = size == 0 ? 0 : tbrList.get(size - 1) + 1; i < n-1; i++) {
 			List<Integer> newTbrList = new ArrayList<>(tbrList);
 			newTbrList.add(i);
 
@@ -798,7 +770,6 @@ public class SolutionNew extends Solution {
 			}
 		}
 
-		System.out.println();
 		return bestEdiis;
 	}
 

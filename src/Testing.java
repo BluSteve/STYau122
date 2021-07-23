@@ -2,6 +2,7 @@ import jcuda.Pointer;
 import jcuda.Sizeof;
 import jcuda.jcublas.JCublas;
 import jcuda.runtime.JCuda;
+import nddoparam.GeometryOptimization;
 import nddoparam.Solution;
 import nddoparam.SolutionNew;
 import nddoparam.SolutionR;
@@ -306,7 +307,8 @@ public class Testing {
 		Solution sr = new SolutionR(exp1, 0);
 
 		sw.start();
-		sr = new SolutionR(atoms, 0);
+		sr = new SolutionNew(atoms, 0);
+		GeometryOptimization.of(sr).compute();
 		sw.stop();
 
 		System.out.println("sr.energy = " + sr.energy);
@@ -315,7 +317,9 @@ public class Testing {
 		Solution sn = new SolutionNew(exp1, 0);
 
 		sw.start();
-		sn = new SolutionNew(atoms, 0);
+		sn = new SolutionR(atoms, 0);
+		GeometryOptimization.of(sn).compute();
+
 		sw.stop();
 		System.out.println("sn.energy = " + sn.energy);
 		System.out.println("sw.getTime() = " + sw.getTime());
