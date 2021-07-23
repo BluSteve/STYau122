@@ -38,7 +38,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Testing.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionNew.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -321,7 +324,7 @@
       <recent name="nddoparam.param" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Testing">
+  <component name="RunManager" selected="Application.SolutionNew">
     <configuration name="InputHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="runcycle.input.InputHandler" />
       <module name="MNDOParam" />
@@ -331,13 +334,6 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="JCublasSample" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="JCublasSample" />
-      <module name="MNDOParam" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -365,6 +361,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="SolutionNew" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="nddoparam.SolutionNew" />
+      <module name="MNDOParam" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="nddoparam.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Testing" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Testing" />
       <module name="MNDOParam" />
@@ -372,16 +381,28 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="Application.InputHandler" />
-      <item itemvalue="Application.JCublasSample" />
       <item itemvalue="Application.Main" />
       <item itemvalue="Application.OutputHandler" />
       <item itemvalue="Application.Testing" />
       <item itemvalue="Shell Script.blusteve" />
+      <item itemvalue="Application.SolutionNew" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.SolutionNew" />
         <item itemvalue="Application.Testing" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.InputHandler" />
@@ -502,14 +523,7 @@
       <workItem from="1626872666211" duration="13731000" />
       <workItem from="1626959601170" duration="3949000" />
       <workItem from="1626963618602" duration="13621000" />
-      <workItem from="1627000054772" duration="2692000" />
-    </task>
-    <task id="LOCAL-00123" summary="fixed adrian's stupid stupid bug">
-      <created>1626534055063</created>
-      <option name="number" value="00123" />
-      <option name="presentableId" value="LOCAL-00123" />
-      <option name="project" value="LOCAL" />
-      <updated>1626534055063</updated>
+      <workItem from="1627000054772" duration="8396000" />
     </task>
     <task id="LOCAL-00124" summary="minor io changes">
       <created>1626534074661</created>
@@ -847,7 +861,14 @@
       <option name="project" value="LOCAL" />
       <updated>1627002451026</updated>
     </task>
-    <option name="localTasksCounter" value="172" />
+    <task id="LOCAL-00172" summary="recursion is slower than iteration">
+      <created>1627002755848</created>
+      <option name="number" value="00172" />
+      <option name="presentableId" value="LOCAL-00172" />
+      <option name="project" value="LOCAL" />
+      <updated>1627002755848</updated>
+    </task>
+    <option name="localTasksCounter" value="173" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -924,7 +945,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Fixed main" />
     <MESSAGE value="further refactoring of param, especially error function" />
     <MESSAGE value="Some major bug fixes" />
     <MESSAGE value="minor moleculerun refactor" />
@@ -949,7 +969,8 @@
     <MESSAGE value="recursion done but slower by a factor of 2" />
     <MESSAGE value="recursion with bad memo" />
     <MESSAGE value="working recursion" />
-    <option name="LAST_COMMIT_MESSAGE" value="working recursion" />
+    <MESSAGE value="recursion is slower than iteration" />
+    <option name="LAST_COMMIT_MESSAGE" value="recursion is slower than iteration" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -961,7 +982,7 @@
         <line-breakpoint enabled="true" type="java-line">
           <condition expression="size ==5" language="JAVA" />
           <url>file://$PROJECT_DIR$/src/nddoparam/SolutionNew.java</url>
-          <line>751</line>
+          <line>829</line>
           <option name="timeStamp" value="21" />
         </line-breakpoint>
       </breakpoints>

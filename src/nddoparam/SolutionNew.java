@@ -7,7 +7,7 @@ import org.jblas.Solve;
 import runcycle.input.RawMolecule;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 
 public class SolutionNew extends SolutionR {
@@ -18,6 +18,64 @@ public class SolutionNew extends SolutionR {
 	// matrix (transposed for easier reading), E = eigenvalues
 	private DoubleMatrix densityMatrix, B;
 	private double[] Earray;
+	private static final int[][] tbr =
+			new int[][]{new int[]{}, new int[]{0},
+					new int[]{1}, new int[]{2},
+					new int[]{3}, new int[]{4},
+					new int[]{5}, new int[]{6}, new int[]{0, 1},
+					new int[]{0, 2}, new int[]{0, 3}, new int[]{0, 4},
+					new int[]{0, 5}, new int[]{0, 6}, new int[]{1, 2},
+					new int[]{1, 3}, new int[]{1, 4}, new int[]{1, 5},
+					new int[]{1, 6}, new int[]{2, 3}, new int[]{2, 4},
+					new int[]{2, 5}, new int[]{2, 6}, new int[]{3, 4},
+					new int[]{3, 5}, new int[]{3, 6}, new int[]{4, 5},
+					new int[]{4, 6}, new int[]{5, 6}, new int[]{0, 1, 2},
+					new int[]{0, 1, 3}, new int[]{0, 1, 4}, new int[]{0, 1, 5},
+					new int[]{0, 1, 6}, new int[]{0, 2, 3}, new int[]{0, 2, 4},
+					new int[]{0, 2, 5}, new int[]{0, 2, 6}, new int[]{0, 3, 4},
+					new int[]{0, 3, 5}, new int[]{0, 3, 6}, new int[]{0, 4, 5},
+					new int[]{0, 4, 6}, new int[]{0, 5, 6}, new int[]{1, 2, 3},
+					new int[]{1, 2, 4}, new int[]{1, 2, 5}, new int[]{1, 2, 6},
+					new int[]{1, 3, 4}, new int[]{1, 3, 5}, new int[]{1, 3, 6},
+					new int[]{1, 4, 5}, new int[]{1, 4, 6}, new int[]{1, 5, 6},
+					new int[]{2, 3, 4}, new int[]{2, 3, 5}, new int[]{2, 3, 6},
+					new int[]{2, 4, 5}, new int[]{2, 4, 6}, new int[]{2, 5, 6},
+					new int[]{3, 4, 5}, new int[]{3, 4, 6}, new int[]{3, 5, 6},
+					new int[]{4, 5, 6}, new int[]{0, 1, 2, 3},
+					new int[]{0, 1, 2, 4}, new int[]{0, 1, 2, 5},
+					new int[]{0, 1, 2, 6}, new int[]{0, 1, 3, 4},
+					new int[]{0, 1, 3, 5}, new int[]{0, 1, 3, 6},
+					new int[]{0, 1, 4, 5}, new int[]{0, 1, 4, 6},
+					new int[]{0, 1, 5, 6}, new int[]{0, 2, 3, 4},
+					new int[]{0, 2, 3, 5}, new int[]{0, 2, 3, 6},
+					new int[]{0, 2, 4, 5}, new int[]{0, 2, 4, 6},
+					new int[]{0, 2, 5, 6}, new int[]{0, 3, 4, 5},
+					new int[]{0, 3, 4, 6}, new int[]{0, 3, 5, 6},
+					new int[]{0, 4, 5, 6}, new int[]{1, 2, 3, 4},
+					new int[]{1, 2, 3, 5}, new int[]{1, 2, 3, 6},
+					new int[]{1, 2, 4, 5}, new int[]{1, 2, 4, 6},
+					new int[]{1, 2, 5, 6}, new int[]{1, 3, 4, 5},
+					new int[]{1, 3, 4, 6}, new int[]{1, 3, 5, 6},
+					new int[]{1, 4, 5, 6}, new int[]{2, 3, 4, 5},
+					new int[]{2, 3, 4, 6}, new int[]{2, 3, 5, 6},
+					new int[]{2, 4, 5, 6}, new int[]{3, 4, 5, 6},
+					new int[]{0, 1, 2, 3, 4}, new int[]{0, 1, 2, 3, 5},
+					new int[]{0, 1, 2, 3, 6}, new int[]{0, 1, 2, 4, 5},
+					new int[]{0, 1, 2, 4, 6}, new int[]{0, 1, 2, 5, 6},
+					new int[]{0, 1, 3, 4, 5}, new int[]{0, 1, 3, 4, 6},
+					new int[]{0, 1, 3, 5, 6}, new int[]{0, 1, 4, 5, 6},
+					new int[]{0, 2, 3, 4, 5}, new int[]{0, 2, 3, 4, 6},
+					new int[]{0, 2, 3, 5, 6}, new int[]{0, 2, 4, 5, 6},
+					new int[]{0, 3, 4, 5, 6}, new int[]{1, 2, 3, 4, 5},
+					new int[]{1, 2, 3, 4, 6}, new int[]{1, 2, 3, 5, 6},
+					new int[]{1, 2, 4, 5, 6}, new int[]{1, 3, 4, 5, 6},
+					new int[]{2, 3, 4, 5, 6}, new int[]{0, 1, 2, 3, 4, 5},
+					new int[]{0, 1, 2, 3, 4, 6}, new int[]{0, 1, 2, 3, 5, 6},
+					new int[]{0, 1, 2, 4, 5, 6}, new int[]{0, 1, 3, 4, 5, 6},
+					new int[]{0, 2, 3, 4, 5, 6}, new int[]{1, 2, 3, 4, 5, 6},
+					new int[]{0, 1, 2, 3, 4, 5, 6}};
+
+
 
 	public SolutionNew(NDDOAtom[] atoms, int charge) {
 		super(atoms, charge);
@@ -358,7 +416,6 @@ public class SolutionNew extends SolutionR {
 			if (commutatorarray[Math.min(Farray.length - 1, numIt)].max() >
 					0.01) {
 				// if true do EDIIS else DIIS
-
 				DoubleMatrix mat = DoubleMatrix
 						.zeros(Math.min(Farray.length + 1, numIt + 2),
 								Math.min(Farray.length + 1, numIt + 2));
@@ -372,21 +429,41 @@ public class SolutionNew extends SolutionR {
 					}
 				}
 
-
 				mat.putColumn(mat.columns - 1, DoubleMatrix.ones(mat.rows, 1));
-
 				mat.putRow(mat.rows - 1, DoubleMatrix.ones(mat.columns, 1));
-
 				mat.put(mat.rows - 1, mat.columns - 1, 0);
 
 				DoubleMatrix rhs = DoubleMatrix.ones(mat.rows, 1);
 				for (int i = 0; i < Math.min(Farray.length, numIt + 1); i++) {
 					rhs.put(i, Earray[i]);
 				}
-				EdiisTry bestDIIS =
-						findBestEdiis(mat, rhs, new ArrayList<>(8), null);
 
-				DoubleMatrix finalDIIS = bestDIIS.attempt;
+				double bestE = 0;
+				DoubleMatrix bestDIIS = null;
+				for (int[] ints : tbr) {
+					if (ints.length == 0 || ints[ints.length-1] < mat.rows - 2) {
+						DoubleMatrix newmat =
+								removeElementsSquare(mat.dup(), ints);
+						DoubleMatrix newrhs =
+								removeElementsLinear(rhs.dup(), ints);
+						DoubleMatrix tempEdiis =
+								addRows(Solve.solve(newmat, newrhs),
+										ints);
+						tempEdiis = tempEdiis.put(tempEdiis.rows - 1, 0);
+						boolean nonNegative = !(tempEdiis.min() < 0);
+
+						if (nonNegative) {
+							double e = finde(tempEdiis);
+
+							if (e < bestE) {
+								bestE = e;
+								bestDIIS = tempEdiis;
+							}
+						}
+					}
+				}
+
+				DoubleMatrix finalDIIS = bestDIIS;
 
 				DoubleMatrix F = DoubleMatrix.zeros(densityMatrix.rows,
 						densityMatrix.columns);
@@ -619,13 +696,13 @@ public class SolutionNew extends SolutionR {
 	}
 
 	private static DoubleMatrix removeElementsSquare(DoubleMatrix original,
-													 List<Integer>indices) {//remove
+													 int[] indices) {//remove
 		// rows and
 		// columns specified in indices and return downsized square matrix
-//		System.out.println("indices = " + Arrays.toString(indices));
+//		System.out.print(Arrays.toString(indices) + ",");
 		DoubleMatrix newarray = DoubleMatrix
-				.zeros(original.rows - indices.size(),
-						original.rows - indices.size());
+				.zeros(original.rows - indices.length,
+						original.rows - indices.length);
 
 		ArrayList<Integer> array = new ArrayList<>();
 		for (int i = 0; i < original.rows; i++) {
@@ -652,12 +729,12 @@ public class SolutionNew extends SolutionR {
 	}
 
 	private static DoubleMatrix removeElementsLinear(DoubleMatrix original,
-													 List<Integer> indices) {//get rid
+													 int[] indices) {//get rid
 		// of the
 		// rows given in indices and return downsized vector
 
 		DoubleMatrix newarray =
-				DoubleMatrix.zeros(original.rows - indices.size(), 1);
+				DoubleMatrix.zeros(original.rows - indices.length, 1);
 
 		ArrayList<Integer> array = new ArrayList<>();
 		for (int i = 0; i < original.rows; i++) {
@@ -680,11 +757,11 @@ public class SolutionNew extends SolutionR {
 	}
 
 	private static DoubleMatrix addRows(DoubleMatrix original,
-										List<Integer> indices) { // add zero row at
+										int[] indices) { // add zero row at
 		// indices
 
 		DoubleMatrix newarray =
-				DoubleMatrix.zeros(original.rows + indices.size(), 1);
+				DoubleMatrix.zeros(original.rows + indices.length, 1);
 
 		ArrayList<Double> array = new ArrayList<>();
 
@@ -692,9 +769,9 @@ public class SolutionNew extends SolutionR {
 			array.add(i);
 		}
 
-		for (int i = 0; i < indices.size(); i++) {
+		for (int i = 0; i < indices.length; i++) {
 
-			array.add(indices.get(i), 0.0);
+			array.add(indices[i], 0.0);
 		}
 
 		for (int i = 0; i < array.size(); i++) {
@@ -721,50 +798,51 @@ public class SolutionNew extends SolutionR {
 		return e;
 	}
 
-	private EdiisTry findBestEdiis(DoubleMatrix mat,
-								   DoubleMatrix rhs,
-								   List<Integer> tbrList,
-								   EdiisTry bestEdiis) {
-		// tbr stands for toBeRemoved
-		int n = mat.rows - 1;
-
-		if ( n-tbrList.size()==0){
-			return bestEdiis;
-		}
-//		List<Integer> array = getComplement(mat, tbrList);
-		DoubleMatrix smallmat = removeElementsSquare(mat.dup(), tbrList);
-		DoubleMatrix smallrhs = removeElementsLinear(rhs.dup(), tbrList);
-		DoubleMatrix attemptRaw = Solve.solve(smallmat, smallrhs);
-		DoubleMatrix attempt = addRows(attemptRaw, tbrList);
-
-		boolean nonNegative = !(attempt.min() < 0);
-
-		// see if this try is better than best try
-		if (nonNegative) {
-			double e = finde(attempt);
-			EdiisTry ediisTry = new EdiisTry(attempt, e);
-			if (bestEdiis == null || ediisTry.e < bestEdiis.e) {
-				bestEdiis = ediisTry;
-			}
-		}
-
-		int size = tbrList.size();
-		for (int i = size == 0 ? 0 : tbrList.get(size - 1) + 1; i < n-1; i++) {
-			List<Integer> newTbrList = new ArrayList<>(tbrList);
-			newTbrList.add(i);
-
-			EdiisTry bestEdiisFurtherDown =
-					findBestEdiis(mat, rhs, newTbrList, bestEdiis);
-
-			// if a best ediis further down the tree is better than the
-			// best one so far
-			if (bestEdiis == null || bestEdiisFurtherDown.e < bestEdiis.e) {
-				bestEdiis = bestEdiisFurtherDown;
-			}
-		}
-
-		return bestEdiis;
-	}
+//	private EdiisTry findBestEdiis(DoubleMatrix mat,
+//								   DoubleMatrix rhs,
+//								   List<Integer> tbrList,
+//								   EdiisTry bestEdiis) {
+//		// tbr stands for toBeRemoved
+//		System.out.println(tbrList + ",");
+//		int n = mat.rows - 1;
+//
+//		if ( n-tbrList.size()==0){
+//			return bestEdiis;
+//		}
+////		List<Integer> array = getComplement(mat, tbrList);
+//		DoubleMatrix smallmat = removeElementsSquare(mat.dup(), tbrList);
+//		DoubleMatrix smallrhs = removeElementsLinear(rhs.dup(), tbrList);
+//		DoubleMatrix attemptRaw = Solve.solve(smallmat, smallrhs);
+//		DoubleMatrix attempt = addRows(attemptRaw, tbrList);
+//
+//		boolean nonNegative = !(attempt.min() < 0);
+//
+//		// see if this try is better than best try
+//		if (nonNegative) {
+//			double e = finde(attempt);
+//			EdiisTry ediisTry = new EdiisTry(attempt, e);
+//			if (bestEdiis == null || ediisTry.e < bestEdiis.e) {
+//				bestEdiis = ediisTry;
+//			}
+//		}
+//
+//		int size = tbrList.size();
+//		for (int i = size == 0 ? 0 : tbrList.get(size - 1) + 1; i < n-1; i++) {
+//			List<Integer> newTbrList = new ArrayList<>(tbrList);
+//			newTbrList.add(i);
+//
+//			EdiisTry bestEdiisFurtherDown =
+//					findBestEdiis(mat, rhs, newTbrList, bestEdiis);
+//
+//			// if a best ediis further down the tree is better than the
+//			// best one so far
+//			if (bestEdiis == null || bestEdiisFurtherDown.e < bestEdiis.e) {
+//				bestEdiis = bestEdiisFurtherDown;
+//			}
+//		}
+//
+//		return bestEdiis;
+//	}
 
 	@Override
 	public SolutionNew setRm(RawMolecule rm) {
@@ -827,5 +905,20 @@ public class SolutionNew extends SolutionR {
 					", e=" + e +
 					'}';
 		}
+	}
+
+	public static void main(String[] args) {
+		for (int i = 0; i < 8; i++) {
+			System.out.print("new int[] {");
+			for (int j = 0; j < tbr.length; j++) {
+				if (tbr[j].length <= i) {
+					System.out.print(Arrays.toString(tbr[j]));
+					if (j != tbr.length-1) System.out.print(",");
+
+				}
+			}
+			System.out.print("},");
+		}
+
 	}
 }

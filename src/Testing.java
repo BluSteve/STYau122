@@ -2,7 +2,6 @@ import jcuda.Pointer;
 import jcuda.Sizeof;
 import jcuda.jcublas.JCublas;
 import jcuda.runtime.JCuda;
-import nddoparam.GeometryOptimization;
 import nddoparam.Solution;
 import nddoparam.SolutionNew;
 import nddoparam.SolutionR;
@@ -304,21 +303,21 @@ public class Testing {
 						new double[]{0, 0, 0}, c)};
 		double[] datum = new double[]{-17.9, 0, 13.6};
 		StopWatch sw = new StopWatch();
-		Solution sr = new SolutionR(exp1, 0);
+		Solution sr = new SolutionNew(exp1, 0);
 
 		sw.start();
 		sr = new SolutionNew(atoms, 0);
-		GeometryOptimization.of(sr).compute();
+//		GeometryOptimization.of(sr).compute();
 		sw.stop();
 
 		System.out.println("sr.energy = " + sr.energy);
 		System.out.println("sw.getTime() = " + sw.getTime());
 		sw.reset();
-		Solution sn = new SolutionNew(exp1, 0);
+		Solution sn = new SolutionR(exp1, 0);
 
 		sw.start();
 		sn = new SolutionR(atoms, 0);
-		GeometryOptimization.of(sn).compute();
+//		GeometryOptimization.of(sn).compute();
 
 		sw.stop();
 		System.out.println("sn.energy = " + sn.energy);

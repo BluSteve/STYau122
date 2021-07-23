@@ -16,7 +16,10 @@ public class SolutionR extends Solution {
 	public DoubleMatrix C, F, G, E;
 	//H - core matrix, G = 2-electron matrix, F = fock matrix, C = coeffecient
 	// matrix (transposed for easier reading), E = eigenvalues
-	private DoubleMatrix densityMatrix;
+	private DoubleMatrix densityMatrix, B;
+	double[] Earray;
+
+
 
 	public SolutionR(NDDOAtom[] atoms, int charge) {
 		super(atoms, charge);
@@ -184,11 +187,11 @@ public class SolutionR extends Solution {
 
 		DoubleMatrix[] Farray = new DoubleMatrix[8];
 		DoubleMatrix[] Darray = new DoubleMatrix[8];
-		double[] Earray = new double[8];
+		Earray = new double[8];
 
 		DoubleMatrix Bforediis = DoubleMatrix.zeros(8, 8);
 
-		DoubleMatrix B = DoubleMatrix.zeros(8, 8);
+		B = DoubleMatrix.zeros(8, 8);
 
 		DoubleMatrix[] commutatorarray = new DoubleMatrix[8];
 
@@ -362,13 +365,12 @@ public class SolutionR extends Solution {
 			//System.err.println ("DIIS Error: " + DIISError);
 
 
+			int min = Math.min(Farray.length + 1, numIt + 2);
 			if (commutatorarray[Math.min(Farray.length - 1, numIt)].max() >
 					0.01) {
 				// if true do EDIIS else DIIS
 
-				DoubleMatrix mat = DoubleMatrix
-						.zeros(Math.min(Farray.length + 1, numIt + 2),
-								Math.min(Farray.length + 1, numIt + 2));
+				DoubleMatrix mat = DoubleMatrix.zeros(min, min);
 
 				for (int i = 0; i < Math.min(Farray.length, numIt + 1); i++) {
 					for (int j = i; j < Math.min(Farray.length, numIt + 1);
@@ -392,128 +394,64 @@ public class SolutionR extends Solution {
 					rhs.put(i, Earray[i]);
 				}
 
-
-				boolean nonNegative = false;
-
-				DoubleMatrix DIIS = null;
-
+				boolean nonNegative;
+				DoubleMatrix tempEdiis;
+				DoubleMatrix bestDIIS = null;
 				double bestE = 0;
 
-				DoubleMatrix bestDIIS = null;
+				tempEdiis = Solve.solve(mat, rhs);
+				tempEdiis = tempEdiis.put(tempEdiis.rows - 1, 0);
+				nonNegative = !(tempEdiis.min() < 0);
 
+				if (nonNegative) {
+					double e = finde(tempEdiis);
 
-				try {
-					DIIS = Solve.solve(mat, rhs);
-
-					DIIS = DIIS.put(DIIS.rows - 1, 0);
-
-					nonNegative = !(DIIS.min() < 0);
-
-					if (nonNegative) {
-						double e = 0;
-
-
-						for (int i = 0; i < DIIS.length - 1; i++) {
-							e -= Earray[i] * DIIS.get(i);
-						}
-
-						for (int i = 0; i < DIIS.length - 1; i++) {
-							for (int j = 0; j < DIIS.length - 1; j++) {
-								e += 0.5 * DIIS.get(i) * DIIS.get(j) * 0.5 *
-										B.get(i, j);
-							}
-						}
-
-						bestE = e;
-
-						bestDIIS = DIIS.dup();
-					}
-				} catch (Exception ex) {
+					bestE = e;
+					bestDIIS = tempEdiis.dup();
 				}
 
 				for (int i = 0; i < mat.rows - 2; i++) {
+					DoubleMatrix newmat =
+							removeElementsSquare(mat.dup(), new int[]{i});
+					DoubleMatrix newrhs =
+							removeElementsLinear(rhs.dup(), new int[]{i});
+					tempEdiis = addRows(Solve.solve(newmat, newrhs),
+							new int[]{i});
+					tempEdiis = tempEdiis.put(tempEdiis.rows - 1, 0);
+					nonNegative = !(tempEdiis.min() < 0);
+
+					if (nonNegative) {
+						double e = finde(tempEdiis);
+
+						if (e < bestE) {
+							bestE = e;
+							bestDIIS = tempEdiis;
+						}
+					}
+				}
 
 
-					try {
-
+				for (int i = 0; i < mat.rows - 2; i++) {
+					for (int j = i + 1; j < mat.rows - 2; j++) {
 						DoubleMatrix newmat =
-								removeElementsSquare(mat.dup(), new int[]{i});
+								removeElementsSquare(mat.dup(),
+										new int[]{i, j});
 						DoubleMatrix newrhs =
-								removeElementsLinear(rhs.dup(), new int[]{i});
-						DIIS = addRows(Solve.solve(newmat, newrhs),
-								new int[]{i});
-
-						DIIS = DIIS.put(DIIS.rows - 1, 0);
-
-						nonNegative = !(DIIS.min() < 0);
+								removeElementsLinear(rhs.dup(),
+										new int[]{i, j});
+						tempEdiis = addRows(Solve.solve(newmat, newrhs),
+								new int[]{i, j});
+						tempEdiis = tempEdiis.put(tempEdiis.rows - 1, 0);
+						nonNegative = !(tempEdiis.min() < 0);
 
 						if (nonNegative) {
-							double e = 0;
-
-
-							for (int a = 0; a < DIIS.length - 1; a++) {
-								e -= Earray[a] * DIIS.get(a);
-							}
-
-							for (int a = 0; a < DIIS.length - 1; a++) {
-								for (int b = 0; b < DIIS.length - 1; b++) {
-									e += 0.5 * DIIS.get(a) * DIIS.get(b) * 0.5 *
-											B.get(a, b);
-								}
-							}
+							double e = finde(tempEdiis);
 
 							if (e < bestE) {
 								bestE = e;
 
-								bestDIIS = DIIS.dup();
+								bestDIIS = tempEdiis.dup();
 							}
-						}
-					} catch (Exception ex) {
-					}
-				}
-
-
-				for (int i = 0; i < mat.rows - 2; i++) {
-
-					for (int j = i + 1; j < mat.rows - 2; j++) {
-						try {
-
-							DoubleMatrix newmat =
-									removeElementsSquare(mat.dup(),
-											new int[]{i, j});
-							DoubleMatrix newrhs =
-									removeElementsLinear(rhs.dup(),
-											new int[]{i, j});
-							DIIS = addRows(Solve.solve(newmat, newrhs),
-									new int[]{i, j});
-
-							DIIS = DIIS.put(DIIS.rows - 1, 0);
-
-							nonNegative = !(DIIS.min() < 0);
-
-							if (nonNegative) {
-								double e = 0;
-
-
-								for (int a = 0; a < DIIS.length - 1; a++) {
-									e -= Earray[a] * DIIS.get(a);
-								}
-
-								for (int a = 0; a < DIIS.length - 1; a++) {
-									for (int b = 0; b < DIIS.length - 1; b++) {
-										e += 0.5 * DIIS.get(a) * DIIS.get(b) *
-												0.5 *
-												B.get(a, b);
-									}
-								}
-
-								if (e < bestE) {
-									bestE = e;
-
-									bestDIIS = DIIS.dup();
-								}
-							}
-						} catch (Exception ex) {
 						}
 					}
 
@@ -532,34 +470,22 @@ public class SolutionR extends Solution {
 								DoubleMatrix newrhs =
 										removeElementsLinear(rhs.dup(),
 												new int[]{i, j, k});
-								DIIS = addRows(Solve.solve(newmat, newrhs),
+								tempEdiis = addRows(Solve.solve(newmat,
+										newrhs),
 										new int[]{i, j, k});
 
-								DIIS = DIIS.put(DIIS.rows - 1, 0);
+								tempEdiis =
+										tempEdiis.put(tempEdiis.rows - 1, 0);
 
-								nonNegative = !(DIIS.min() < 0);
+								nonNegative = !(tempEdiis.min() < 0);
 
 								if (nonNegative) {
-									double e = 0;
-
-
-									for (int a = 0; a < DIIS.length - 1; a++) {
-										e -= Earray[a] * DIIS.get(a);
-									}
-
-									for (int a = 0; a < DIIS.length - 1; a++) {
-										for (int b = 0; b < DIIS.length - 1;
-											 b++) {
-											e += 0.5 * DIIS.get(a) *
-													DIIS.get(b) * 0.5 *
-													B.get(a, b);
-										}
-									}
+									double e = finde(tempEdiis);
 
 									if (e < bestE) {
 										bestE = e;
 
-										bestDIIS = DIIS.dup();
+										bestDIIS = tempEdiis.dup();
 									}
 								}
 							} catch (Exception ex) {
@@ -584,36 +510,23 @@ public class SolutionR extends Solution {
 									DoubleMatrix newrhs =
 											removeElementsLinear(rhs.dup(),
 													new int[]{i, j, k, l});
-									DIIS = addRows(Solve.solve(newmat, newrhs),
-											new int[]{i, j, k, l});
+									tempEdiis =
+											addRows(Solve.solve(newmat,
+													newrhs),
+													new int[]{i, j, k, l});
 
-									DIIS = DIIS.put(DIIS.rows - 1, 0);
+									tempEdiis = tempEdiis
+											.put(tempEdiis.rows - 1, 0);
 
-									nonNegative = !(DIIS.min() < 0);
+									nonNegative = !(tempEdiis.min() < 0);
 
 									if (nonNegative) {
-										double e = 0;
-
-
-										for (int a = 0; a < DIIS.length - 1;
-											 a++) {
-											e -= Earray[a] * DIIS.get(a);
-										}
-
-										for (int a = 0; a < DIIS.length - 1;
-											 a++) {
-											for (int b = 0; b < DIIS.length - 1;
-												 b++) {
-												e += 0.5 * DIIS.get(a) *
-														DIIS.get(b) *
-														0.5 * B.get(a, b);
-											}
-										}
+										double e = finde(tempEdiis);
 
 										if (e < bestE) {
 											bestE = e;
 
-											bestDIIS = DIIS.dup();
+											bestDIIS = tempEdiis.dup();
 										}
 									}
 								} catch (Exception ex) {
@@ -644,38 +557,23 @@ public class SolutionR extends Solution {
 												removeElementsLinear(rhs.dup(),
 														new int[]{i, j, k, l,
 																m});
-										DIIS = addRows(Solve
+										tempEdiis = addRows(Solve
 														.solve(newmat, newrhs),
 												new int[]{i, j, k, l, m});
 
-										DIIS = DIIS.put(DIIS.rows - 1, 0);
+										tempEdiis = tempEdiis
+												.put(tempEdiis.rows - 1, 0);
 
-										nonNegative = !(DIIS.min() < 0);
+										nonNegative = !(tempEdiis.min() < 0);
 
 										if (nonNegative) {
-											double e = 0;
-
-
-											for (int a = 0; a < DIIS.length - 1;
-												 a++) {
-												e -= Earray[a] * DIIS.get(a);
-											}
-
-											for (int a = 0; a < DIIS.length - 1;
-												 a++) {
-												for (int b = 0;
-													 b < DIIS.length - 1;
-													 b++) {
-													e += 0.5 * DIIS.get(a) *
-															DIIS.get(b) *
-															0.5 * B.get(a, b);
-												}
-											}
+											double e =
+													finde(tempEdiis);
 
 											if (e < bestE) {
 												bestE = e;
 
-												bestDIIS = DIIS.dup();
+												bestDIIS = tempEdiis.dup();
 											}
 										}
 									} catch (Exception ex) {
@@ -711,44 +609,26 @@ public class SolutionR extends Solution {
 															rhs.dup(),
 															new int[]{i, j, k,
 																	l, m, n});
-											DIIS = addRows(Solve
+											tempEdiis = addRows(Solve
 															.solve(newmat,
 																	newrhs),
 													new int[]{i, j, k, l, m,
 															n});
 
-											DIIS = DIIS.put(DIIS.rows - 1, 0);
+											tempEdiis = tempEdiis
+													.put(tempEdiis.rows - 1,
+															0);
 
-											nonNegative = !(DIIS.min() < 0);
+											nonNegative =
+													!(tempEdiis.min() < 0);
 
 											if (nonNegative) {
-												double e = 0;
-
-
-												for (int a = 0;
-													 a < DIIS.length - 1;
-													 a++) {
-													e -= Earray[a] *
-															DIIS.get(a);
-												}
-
-												for (int a = 0;
-													 a < DIIS.length - 1;
-													 a++) {
-													for (int b = 0;
-														 b < DIIS.length - 1;
-														 b++) {
-														e += 0.5 * DIIS.get(a) *
-																DIIS.get(b) *
-																0.5 *
-																B.get(a, b);
-													}
-												}
+												double e = finde(tempEdiis);
 
 												if (e < bestE) {
 													bestE = e;
 
-													bestDIIS = DIIS.dup();
+													bestDIIS = tempEdiis.dup();
 												}
 											}
 										} catch (Exception ex) {
@@ -791,50 +671,29 @@ public class SolutionR extends Solution {
 																		k, l
 																		, m,
 																		n, o});
-												DIIS = addRows(Solve
+												tempEdiis = addRows(Solve
 																.solve(newmat,
 																		newrhs),
 														new int[]{i, j, k, l
 																, m,
 																n, o});
 
-												DIIS = DIIS.put(DIIS.rows - 1,
-														0);
+												tempEdiis = tempEdiis
+														.put(tempEdiis.rows - 1,
+																0);
 
 												nonNegative =
-														!(DIIS.min() < 0);
+														!(tempEdiis.min() < 0);
 
 												if (nonNegative) {
-													double e = 0;
-
-
-													for (int a = 0;
-														 a < DIIS.length - 1;
-														 a++) {
-														e -= Earray[a] *
-																DIIS.get(a);
-													}
-
-													for (int a = 0;
-														 a < DIIS.length - 1;
-														 a++) {
-														for (int b = 0;
-															 b < DIIS.length -
-																	 1; b++) {
-															e += 0.5 * DIIS.get(
-																	a) *
-																	DIIS.get(
-																			b) *
-																	0.5 *
-																	B.get(a,
-																			b);
-														}
-													}
+													double e =
+															finde(tempEdiis);
 
 													if (e < bestE) {
 														bestE = e;
 
-														bestDIIS = DIIS.dup();
+														bestDIIS =
+																tempEdiis.dup();
 													}
 												}
 											} catch (Exception ex) {
@@ -847,7 +706,7 @@ public class SolutionR extends Solution {
 					}
 				}
 				// todo wtf
-				if (bestDIIS == null) bestDIIS = DIIS.dup();
+				if (bestDIIS == null) bestDIIS = tempEdiis.dup();
 				DoubleMatrix finalDIIS = bestDIIS.dup();
 //				System.out.println("finalDIIS = " + finalDIIS);
 //				double e = 0;
@@ -886,8 +745,6 @@ public class SolutionR extends Solution {
 				}
 
 
-
-
 				matrices = Eigen.symmetricEigenvectors(F);
 
 				E = matrices[1].diag();
@@ -896,8 +753,10 @@ public class SolutionR extends Solution {
 
 				if (C.get(0, 0) != C.get(0, 0)) {
 					//System.err.println(
-//							"NaN occurred at very much not DIIS iteration " + numIt);
-					//System.err.println("Exiting very much not DIIS for 1 Iteration...");
+//							"NaN occurred at very much not DIIS iteration " +
+//							numIt);
+					//System.err.println("Exiting very much not DIIS for 1
+					// Iteration...");
 
 					matrices = Eigen.symmetricEigenvectors(this.F);
 
@@ -915,8 +774,8 @@ public class SolutionR extends Solution {
 			else {
 
 				DoubleMatrix mat = DoubleMatrix
-						.zeros(Math.min(Farray.length + 1, numIt + 2),
-								Math.min(Farray.length + 1, numIt + 2));
+						.zeros(min,
+								min);
 
 				for (int i = 0; i < Math.min(Farray.length, numIt + 1); i++) {
 					for (int j = i; j < Math.min(Farray.length, numIt + 1);
@@ -966,7 +825,8 @@ public class SolutionR extends Solution {
 						//System.err.println(
 //								"NaN occurred at DIIS iteration " + numIt);
 						//
-						//System.err.println("Exiting DIIS for 1 Iteration...");
+						//System.err.println("Exiting DIIS for 1 Iteration..
+						// .");
 
 						matrices = Eigen.symmetricEigenvectors(this.F);
 
@@ -992,6 +852,7 @@ public class SolutionR extends Solution {
 
 
 			numIt++;
+//			System.out.println("\n");
 
 		}
 
@@ -1130,6 +991,22 @@ public class SolutionR extends Solution {
 
 	}
 
+	private double finde(DoubleMatrix tempEdiis) {
+		double e = 0;
+
+		for (int a = 0; a < tempEdiis.length - 1; a++) {
+			e -= Earray[a] * tempEdiis.get(a);
+		}
+
+		for (int a = 0; a < tempEdiis.length - 1; a++) {
+			for (int b = 0; b < tempEdiis.length - 1; b++) {
+				e += 0.5 * tempEdiis.get(a) * tempEdiis.get(b) * 0.5 *
+						B.get(a, b);
+			}
+		}
+		return e;
+	}
+
 	private static DoubleMatrix commutator(DoubleMatrix F, DoubleMatrix D) {
 
 		return F.mmul(D).sub(D.mmul(F));
@@ -1139,7 +1016,7 @@ public class SolutionR extends Solution {
 													 int[] indices) {//remove
 		// rows and
 		// columns specified in indices and return downsized square matrix
-//		System.out.println("indices = " + Arrays.toString(indices));
+//		System.out.print(Arrays.toString(indices) + ",");
 		DoubleMatrix newarray = DoubleMatrix
 				.zeros(original.rows - indices.length,
 						original.rows - indices.length);
