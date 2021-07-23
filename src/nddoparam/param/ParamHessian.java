@@ -242,13 +242,15 @@ public class ParamHessian {
 					if (!analytical || gPrime.isExpAvail) {
 						int ZIndex = ZIndex1;
 						int paramNum = paramNum1;
-						subtasks.add(new RecursiveAction() {
-							@Override
-							protected void compute() {
-								computeElement(gPrime, ZIndex2, paramNum2,
-										ZIndex, paramNum);
-							}
-						});
+//						subtasks.add(new RecursiveAction() {
+//							@Override
+//							protected void compute() {
+//								computeElement(gPrime, ZIndex2, paramNum2,
+//										ZIndex, paramNum);
+//							}
+//						});
+						computeElement(gPrime, ZIndex2, paramNum2,
+								ZIndex, paramNum);
 					}
 					else {
 						computeElement(gPrime, ZIndex2, paramNum2, ZIndex1,
@@ -257,7 +259,7 @@ public class ParamHessian {
 				}
 			}
 		}
-		if (subtasks.size() > 0) ForkJoinTask.invokeAll(subtasks);
+//		if (subtasks.size() > 0) ForkJoinTask.invokeAll(subtasks);
 	}
 
 	private ParamGradient constructGPrime(int ZIndex, int paramNum) {

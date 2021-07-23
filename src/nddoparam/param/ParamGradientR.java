@@ -9,9 +9,6 @@ import scf.Utils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.ForkJoinTask;
-import java.util.concurrent.RecursiveAction;
 
 class ParamGradientR extends ParamGradient {
 	protected ParamGradientR(SolutionR s, double[] datum, SolutionR sExp,
@@ -61,38 +58,40 @@ class ParamGradientR extends ParamGradient {
 			}
 		}
 		if (aggregateArrayUnpadded.length > 0) {
-//			DoubleMatrix[] xLimitedAggregate =
-//					ParamDerivative.xArrayLimitedPople(
-//							(SolutionR) s, aggregateArrayUnpadded);
 			DoubleMatrix[] xLimitedAggregate =
-					new DoubleMatrix[aggregateArrayUnpadded.length];
-			int elapsedSize = 0;
-			double cores = Runtime.getRuntime().availableProcessors();
-			int size = Math.max((int) Math.ceil(
-					aggregateArrayUnpadded.length / cores), 3);
-
-			List<RecursiveAction> subtasks = new ArrayList<>();
-			while (elapsedSize < aggregateArrayUnpadded.length) {
-				int finalElapsedSize = elapsedSize;
-				subtasks.add(new RecursiveAction() {
-					@Override
-					protected void compute() {
-						DoubleMatrix[] subset =
-								Arrays.copyOfRange(aggregateArrayUnpadded,
-										finalElapsedSize,
-										Math.min(aggregateArrayUnpadded.length,
-												finalElapsedSize + size));
-						DoubleMatrix[] output = ParamDerivative
-								.xArrayLimitedPople((SolutionR) s, subset);
-
-//					 removed .dup() here
-						System.arraycopy(output, 0, xLimitedAggregate,
-								finalElapsedSize, output.length);
-					}
-				});
-				elapsedSize += size;
-			}
-			ForkJoinTask.invokeAll(subtasks);
+					ParamDerivative.xArrayLimitedPople(
+							(SolutionR) s, aggregateArrayUnpadded);
+//			DoubleMatrix[] xLimitedAggregate =
+//					new DoubleMatrix[aggregateArrayUnpadded.length];
+//			int elapsedSize = 0;
+//			double cores = Runtime.getRuntime().availableProcessors();
+//			int size = Math.max((int) Math.ceil(
+//					aggregateArrayUnpadded.length / cores), 3);
+//			System.out.println(
+//					"aggregateArrayUnpadded = " +
+//							Arrays.toString(aggregateArrayUnpadded));
+//			List<RecursiveAction> subtasks = new ArrayList<>();
+//			while (elapsedSize < aggregateArrayUnpadded.length) {
+//				int finalElapsedSize = elapsedSize;
+//				subtasks.add(new RecursiveAction() {
+//					@Override
+//					protected void compute() {
+//						DoubleMatrix[] subset =
+//								Arrays.copyOfRange(aggregateArrayUnpadded,
+//										finalElapsedSize,
+//										Math.min(aggregateArrayUnpadded.length,
+//												finalElapsedSize + size));
+//						DoubleMatrix[] output = ParamDerivative
+//								.xArrayLimitedPople((SolutionR) s, subset);
+//
+////					 removed .dup() here
+//						System.arraycopy(output, 0, xLimitedAggregate,
+//								finalElapsedSize, output.length);
+//					}
+//				});
+//				elapsedSize += size;
+//			}
+//			ForkJoinTask.invokeAll(subtasks);
 
 			DoubleMatrix[] xLimitedPadded =
 					new DoubleMatrix[aggregateArray.length];

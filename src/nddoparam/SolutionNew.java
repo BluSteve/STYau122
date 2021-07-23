@@ -7,17 +7,26 @@ import org.jblas.Solve;
 import runcycle.input.RawMolecule;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 
 public class SolutionNew extends SolutionR {
+	// {{}}, {{0}}, {{0},{1},{0,1}}, {{0},{1},{2},{0,1},{0,2}
+	// {{}}, {{0}}, {{1},{0,1}}, {{2},{0,2},{1,2},{0,1,2}}, {{3},{0,3},{1,3},
+	// {2,3},{0,1,3},{0,2,3},{1,2,3},{0,1,2,3}}
 
-	public double[] integralArray;
-	public DoubleMatrix C, F, G, E;
-	//H - core matrix, G = 2-electron matrix, F = fock matrix, C = coeffecient
-	// matrix (transposed for easier reading), E = eigenvalues
-	private DoubleMatrix densityMatrix, B;
-	private double[] Earray;
+	public static void main(String[] args) {
+
+	}
+
+//	static List<int[]> getC(int n) {
+//		if (n == 0) return new ArrayList<>();
+//		List<int[]> res = getC(n-1);
+//
+//		for (int i = 0; i < n; i++) {
+//			getC(n-1);
+//		}
+//	}
+
 	private static final int[][][] tbr =
 			new int[][][]{new int[][]{new int[]{}},
 					new int[][]{new int[]{0},
@@ -88,6 +97,12 @@ public class SolutionNew extends SolutionR {
 							new int[]{0, 2, 3, 4, 5, 6},
 							new int[]{1, 2, 3, 4, 5, 6}},
 					new int[][]{new int[]{0, 1, 2, 3, 4, 5, 6}}};
+	public double[] integralArray;
+	public DoubleMatrix C, F, G, E;
+	//H - core matrix, G = 2-electron matrix, F = fock matrix, C = coeffecient
+	// matrix (transposed for easier reading), E = eigenvalues
+	private DoubleMatrix densityMatrix, B;
+	private double[] Earray;
 
 
 	public SolutionNew(NDDOAtom[] atoms, int charge) {
@@ -453,29 +468,52 @@ public class SolutionNew extends SolutionR {
 
 				double bestE = 0;
 				DoubleMatrix bestDIIS = null;
-				for (int[] ints : tbr) {
-					if (ints.length == 0 ||
-							ints[ints.length - 1] < mat.rows - 2) {
-						DoubleMatrix newmat =
-								removeElementsSquare(mat.dup(), ints);
-						DoubleMatrix newrhs =
-								removeElementsLinear(rhs.dup(), ints);
-						DoubleMatrix tempEdiis =
-								addRows(Solve.solve(newmat, newrhs),
-										ints);
-						tempEdiis = tempEdiis.put(tempEdiis.rows - 1, 0);
-						boolean nonNegative = !(tempEdiis.min() < 0);
-
-						if (nonNegative) {
-							double e = finde(tempEdiis);
-
-							if (e < bestE) {
-								bestE = e;
-								bestDIIS = tempEdiis;
-							}
-						}
-					}
-				}
+				int n = mat.rows - 2;
+//				for (int i = 0; i < n; i++) {
+//
+//				}){
+//					for (int i = 0; i < n; i++) {
+//						DoubleMatrix newmat =
+//								removeElementsSquare(mat.dup(), intss[i]);
+//						DoubleMatrix newrhs =
+//								removeElementsLinear(rhs.dup(), intss[i]);
+//						DoubleMatrix tempEdiis =
+//								addRows(Solve.solve(newmat, newrhs),
+//										intss[i]);
+//						tempEdiis = tempEdiis.put(tempEdiis.rows - 1, 0);
+//						boolean nonNegative = !(tempEdiis.min() < 0);
+//
+//						if (nonNegative) {
+//							double e = finde(tempEdiis);
+//
+//							if (e < bestE) {
+//								bestE = e;
+//								bestDIIS = tempEdiis;
+//							}
+//						}
+//					}
+//					if (intss[i].length == 0 ||
+//							intss[i][intss[i].length - 1] < mat.rows - 2) {
+//						DoubleMatrix newmat =
+//								removeElementsSquare(mat.dup(), intss[i]);
+//						DoubleMatrix newrhs =
+//								removeElementsLinear(rhs.dup(), intss[i]);
+//						DoubleMatrix tempEdiis =
+//								addRows(Solve.solve(newmat, newrhs),
+//										intss[i]);
+//						tempEdiis = tempEdiis.put(tempEdiis.rows - 1, 0);
+//						boolean nonNegative = !(tempEdiis.min() < 0);
+//
+//						if (nonNegative) {
+//							double e = finde(tempEdiis);
+//
+//							if (e < bestE) {
+//								bestE = e;
+//								bestDIIS = tempEdiis;
+//							}
+//						}
+//					}
+//				}
 
 				DoubleMatrix finalDIIS = bestDIIS;
 
@@ -711,8 +749,8 @@ public class SolutionNew extends SolutionR {
 
 	private static DoubleMatrix removeElementsSquare(DoubleMatrix original,
 													 int[] indices) {//remove
-		// rows and
-		// columns specified in indices and return downsized square matrix
+		// rows and columns specified in indices and return downsized square
+		// matrix
 //		System.out.print(Arrays.toString(indices) + ",");
 		DoubleMatrix newarray = DoubleMatrix
 				.zeros(original.rows - indices.length,
@@ -901,38 +939,5 @@ public class SolutionNew extends SolutionR {
 	@Override
 	public DoubleMatrix densityMatrix() {
 		return this.densityMatrix;
-	}
-
-	class EdiisTry {
-		DoubleMatrix attempt;
-		double e;
-
-		public EdiisTry(DoubleMatrix attempt, double e) {
-			this.attempt = attempt;
-			this.e = e;
-		}
-
-		@Override
-		public String toString() {
-			return "EdiisTry{" +
-					"attempt=" + attempt +
-					", e=" + e +
-					'}';
-		}
-	}
-
-	public static void main(String[] args) {
-		for (int i = 0; i < 8; i++) {
-			System.out.print("new int[] {");
-			for (int j = 0; j < tbr.length; j++) {
-				if (tbr[j].length <= i) {
-					System.out.print(Arrays.toString(tbr[j]));
-					if (j != tbr.length - 1) System.out.print(",");
-
-				}
-			}
-			System.out.print("},");
-		}
-
 	}
 }

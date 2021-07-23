@@ -3256,7 +3256,12 @@ public class ParamDerivative {
 
 				double mag = mag(rArray[j]);
 				if (mag > oldrMags[j] || mag != mag) {
-					System.err.println("something has gone wrong");
+//					System.err.println("something has gone wrong");
+//					System.out.println("xArrayHold = " +
+//							Arrays.toString(xArrayHold));
+//					System.out.println("xArray = " + Arrays.toString(xArray));
+//					System.out.println("mag = " + mag);
+//					System.out.println("oldrMags = " + oldrMags[j]);
 					if (xArrayHoldNN == xArrayHold.length) {
 						System.err.println(
 								"Some numerical instability encountered; " +

@@ -127,6 +127,7 @@ public class Main {
 					failedCount + " previously failed molecules skipped");
 
 			Collections.shuffle(moleculeTasks, new Random(123));
+//			moleculeTasks = moleculeTasks.subList(0,10);
 			List<MoleculeResult> results = new ArrayList<>();
 			for (ForkJoinTask task : ForkJoinTask.invokeAll(moleculeTasks)) {
 				results.add((MoleculeRun) task.join());
