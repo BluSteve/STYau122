@@ -14,6 +14,7 @@ public class SolutionR extends Solution {
 
 	public double[] integralArray;
 	public DoubleMatrix C, F, G, E;
+	private DoubleMatrix diagH;
 	//H - core matrix, G = 2-electron matrix, F = fock matrix, C = coeffecient
 	// matrix (transposed for easier reading), E = eigenvalues
 	private DoubleMatrix densityMatrix, B;
@@ -175,6 +176,8 @@ public class SolutionR extends Solution {
 
 		E = matrices[1].diag();
 
+		diagH = matrices[0].dup();
+
 		C = matrices[0].transpose();
 
 		G = DoubleMatrix.zeros(C.rows, C.columns);
@@ -199,6 +202,8 @@ public class SolutionR extends Solution {
 		int numIt = 0;
 
 		double DIISError = 10;
+
+		System.out.println("Beginning SCF iterations...");
 		while (DIISError > 1E-10) {
 //			System.out.println("numIt = " + numIt);
 
@@ -277,6 +282,10 @@ public class SolutionR extends Solution {
 			}
 
 			F = H.dup().add(G);
+
+
+			densityMatrix = calculateDensityMatrix(C).mmul(1 - damp)
+					.add(olddensity.mmul(damp));
 
 			if (numIt < Farray.length) {
 

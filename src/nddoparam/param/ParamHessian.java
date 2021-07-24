@@ -56,7 +56,8 @@ public class ParamHessian {
 			h.restricted = false;
 		}
 		else throw new IllegalArgumentException(
-					"ParamGradient g is neither restricted nor unrestricted! " +
+					"ParamGradient g is neither restricted nor unrestricted!" +
+							" " +
 							"Molecule: " +
 							g.getS().getRm().index + " " +
 							g.getS().getRm().name);
@@ -195,10 +196,12 @@ public class ParamHessian {
 		for (int ZIndex2 = 0; ZIndex2 < s.getRm().mats.length; ZIndex2++) {
 			for (int paramNum2 : s.getRm().mnps[ZIndex2]) {
 				int finalZIndex2 = ZIndex2;
+//				computeRow(finalZIndex2, paramNum2);
 				subtasks.add(new RecursiveAction() {
 					@Override
 					protected void compute() {
 						computeRow(finalZIndex2, paramNum2);
+
 					}
 				});
 			}
@@ -249,6 +252,10 @@ public class ParamHessian {
 //										ZIndex, paramNum);
 //							}
 //						});
+						System.out.println(
+								ZIndex2 + " " + paramNum2 + " " + ZIndex +
+										" " +
+										paramNum);
 						computeElement(gPrime, ZIndex2, paramNum2,
 								ZIndex, paramNum);
 					}
@@ -264,6 +271,8 @@ public class ParamHessian {
 
 	private ParamGradient constructGPrime(int ZIndex, int paramNum) {
 		if (restricted) {
+
+			// other threads are changing something here, probably s
 			return ParamGradient.of(
 					new SolutionR(Utils.perturbAtomParams(s.atoms,
 							s.getRm().mats[ZIndex], paramNum), s.charge)

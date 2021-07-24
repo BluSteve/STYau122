@@ -41,9 +41,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dynamic-output.json" beforeDir="false" afterPath="$PROJECT_DIR$/dynamic-output.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/input.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionNew.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Testing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" afterDir="false" />
     </list>
@@ -294,14 +293,15 @@
     <property name="create.test.in.the.same.root" value="true" />
     <property name="extract.method.default.visibility" value="private" />
     <property name="full.screen.before.presentation.mode" value="false" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Desktop" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/with hessian row mt.json" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="de.santiv.fastscrolling.configuration.Configuration" />
+    <property name="two.files.diff.last.used.file" value="$USER_HOME$/Desktop/with hessian row mt.json" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -386,17 +386,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <list>
       <item itemvalue="Application.InputHandler" />
       <item itemvalue="Application.Main" />
@@ -409,8 +398,8 @@
       <list>
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.InputHandler" />
-        <item itemvalue="Application.SolutionNew" />
         <item itemvalue="Application.Testing" />
+        <item itemvalue="Application.SolutionNew" />
         <item itemvalue="Application.OutputHandler" />
       </list>
     </recent_temporary>
@@ -529,14 +518,8 @@
       <workItem from="1626959601170" duration="3949000" />
       <workItem from="1626963618602" duration="13621000" />
       <workItem from="1627000054772" duration="8782000" />
-      <workItem from="1627019474496" duration="8101000" />
-    </task>
-    <task id="LOCAL-00125" summary="commenting and io changes. also adds feature where errored molecules are ignored for future runs and would not cause the program to terminate outright.">
-      <created>1626537299951</created>
-      <option name="number" value="00125" />
-      <option name="presentableId" value="LOCAL-00125" />
-      <option name="project" value="LOCAL" />
-      <updated>1626537299951</updated>
+      <workItem from="1627019474496" duration="18262000" />
+      <workItem from="1627106625751" duration="7671000" />
     </task>
     <task id="LOCAL-00126" summary="minor changes">
       <created>1626538445594</created>
@@ -874,7 +857,14 @@
       <option name="project" value="LOCAL" />
       <updated>1627016462864</updated>
     </task>
-    <option name="localTasksCounter" value="174" />
+    <task id="LOCAL-00174" summary="removed multithreading below the paramgradient layer as well as batchedderivs">
+      <created>1627041925634</created>
+      <option name="number" value="00174" />
+      <option name="presentableId" value="LOCAL-00174" />
+      <option name="project" value="LOCAL" />
+      <updated>1627041925635</updated>
+    </task>
+    <option name="localTasksCounter" value="175" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -951,7 +941,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Some major bug fixes" />
     <MESSAGE value="minor moleculerun refactor" />
     <MESSAGE value="minor changes" />
     <MESSAGE value="Major debug" />
@@ -976,17 +965,24 @@
     <MESSAGE value="working recursion" />
     <MESSAGE value="recursion is slower than iteration" />
     <MESSAGE value="lookup table generation" />
-    <option name="LAST_COMMIT_MESSAGE" value="lookup table generation" />
+    <MESSAGE value="removed multithreading below the paramgradient layer as well as batchedderivs" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed multithreading below the paramgradient layer as well as batchedderivs" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <default-breakpoints>
-        <breakpoint type="python-exception">
-          <properties notifyOnTerminate="true" exception="BaseException">
-            <option name="notifyOnTerminate" value="true" />
-          </properties>
-        </breakpoint>
-      </default-breakpoints>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <condition expression="ZIndex2 == 0 &amp;&amp; paramNum2 == 0" language="JAVA" />
+          <url>file://$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java</url>
+          <line>269</line>
+          <option name="timeStamp" value="40" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Testing.java</url>
+          <line>332</line>
+          <option name="timeStamp" value="46" />
+        </line-breakpoint>
+      </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>

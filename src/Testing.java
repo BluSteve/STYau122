@@ -3,7 +3,6 @@ import jcuda.Sizeof;
 import jcuda.jcublas.JCublas;
 import jcuda.runtime.JCuda;
 import nddoparam.Solution;
-import nddoparam.SolutionNew;
 import nddoparam.SolutionR;
 import nddoparam.mndo.MNDOAtom;
 import nddoparam.mndo.MNDOParams;
@@ -302,25 +301,35 @@ public class Testing {
 				new MNDOAtom(AtomHandler.atomsMap.get("C"),
 						new double[]{0, 0, 0}, c)};
 		double[] datum = new double[]{-17.9, 0, 13.6};
-		StopWatch sw = new StopWatch();
-		Solution sr = new SolutionNew(exp1, 0);
+//		StopWatch sw = new StopWatch();
+//		Solution sr = new SolutionNew(exp1, 0);
+//
+//		sw.start();
+//		sr = new SolutionNew(atoms, 0);
+////		GeometryOptimization.of(sr).compute();
+//		sw.stop();
+//
+//		System.out.println("sr.energy = " + sr.energy);
+//		System.out.println("sw.getTime() = " + sw.getTime());
+//		sw.reset();
+//		Solution sn = new SolutionR(exp1, 0);
+//
+//		sw.start();
+//		sn = new SolutionR(atoms, 0);
+////		GeometryOptimization.of(sn).compute();
+//
+//		sw.stop();
+//		System.out.println("sn.energy = " + sn.energy);
+//		System.out.println("sw.getTime() = " + sw.getTime());
 
-		sw.start();
-		sr = new SolutionNew(atoms, 0);
-//		GeometryOptimization.of(sr).compute();
-		sw.stop();
+		Solution solution = new SolutionR(exp1,0);
+		System.out.println("solution.hashCode() = " + solution.hashCode());
+		Solution solution1 = new SolutionR(Utils.perturbAtomParams(solution.atoms, 1,0),0);
+		System.out.println("solution.hashCode() = " + solution.hashCode());
+		solution.energy = 0;
+		System.out.println("solution.hashCode() = " + solution.hashCode());
 
-		System.out.println("sr.energy = " + sr.energy);
-		System.out.println("sw.getTime() = " + sw.getTime());
-		sw.reset();
-		Solution sn = new SolutionR(exp1, 0);
-
-		sw.start();
-		sn = new SolutionR(atoms, 0);
-//		GeometryOptimization.of(sn).compute();
-
-		sw.stop();
-		System.out.println("sn.energy = " + sn.energy);
-		System.out.println("sw.getTime() = " + sw.getTime());
+//		System.out.println("solution = " + solution);
+		System.out.println();
 	}
 }
