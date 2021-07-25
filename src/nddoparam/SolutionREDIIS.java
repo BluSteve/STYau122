@@ -2,7 +2,6 @@ package nddoparam;
 
 import org.apache.commons.lang3.time.StopWatch;
 import org.jblas.DoubleMatrix;
-import org.jblas.Solve;
 import runcycle.input.RawMolecule;
 import scf.Utils;
 
@@ -544,7 +543,7 @@ public class SolutionREDIIS extends Solution {
 												removeElementsLinear(rhs.dup(),
 														new int[]{i, j, k, l,
 																m});
-										DIIS = addrow(Solve
+										DIIS = addrow(Utils
 														.solve(newmat, newrhs),
 												new int[]{i, j, k, l, m});
 
@@ -592,7 +591,7 @@ public class SolutionREDIIS extends Solution {
 															rhs.dup(),
 															new int[]{i, j, k,
 																	l, m, n});
-											DIIS = addrow(Solve
+											DIIS = addrow(Utils
 															.solve(newmat,
 																	newrhs),
 													new int[]{i, j, k, l, m,
@@ -648,7 +647,7 @@ public class SolutionREDIIS extends Solution {
 																		k, l
 																		, m,
 																		n, o});
-												DIIS = addrow(Solve
+												DIIS = addrow(Utils
 																.solve(newmat,
 																		newrhs),
 														new int[]{i, j, k, l

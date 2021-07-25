@@ -86,6 +86,7 @@ public class Main {
 					"MNDO Parameterization, updated 17 July 2021. " +
 							ri.trainingSet + " training set (PM7)");
 			System.err.println("input.json hash: " + ri.hash);
+			System.err.println("Run number: " + runNum);
 
 			// converts raw params array to NDDOParams classes and finds
 			// params which need to be differentiated

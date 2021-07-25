@@ -2,7 +2,6 @@ package nddoparam.param;
 
 import nddoparam.*;
 import org.jblas.DoubleMatrix;
-import org.jblas.Solve;
 import org.jblas.exceptions.LapackException;
 import scf.GTO;
 import scf.LCGTO;

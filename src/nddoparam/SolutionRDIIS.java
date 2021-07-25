@@ -2,7 +2,6 @@ package nddoparam;
 
 import org.apache.commons.lang3.time.StopWatch;
 import org.jblas.DoubleMatrix;
-import org.jblas.Solve;
 import runcycle.input.RawMolecule;
 import scf.Utils;
 
