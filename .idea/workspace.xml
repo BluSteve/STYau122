@@ -41,14 +41,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dynamic-output.json" beforeDir="false" afterPath="$PROJECT_DIR$/dynamic-output.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/input.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/outputs/run-0000-output-1547508A.json" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/run-0000-output-1547508A.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionNew.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionRDIIS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionRDIIS.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionREDIIS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionREDIIS.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -522,14 +516,7 @@
       <workItem from="1627193972963" duration="3243000" />
       <workItem from="1627213728532" duration="2875000" />
       <workItem from="1627217662884" duration="836000" />
-      <workItem from="1627220401877" duration="4572000" />
-    </task>
-    <task id="LOCAL-00129" summary="stupid bug fix">
-      <created>1626545475005</created>
-      <option name="number" value="00129" />
-      <option name="presentableId" value="LOCAL-00129" />
-      <option name="project" value="LOCAL" />
-      <updated>1626545475005</updated>
+      <workItem from="1627220401877" duration="6141000" />
     </task>
     <task id="LOCAL-00130" summary="minor changes">
       <created>1626545614637</created>
@@ -867,7 +854,14 @@
       <option name="project" value="LOCAL" />
       <updated>1627221994392</updated>
     </task>
-    <option name="localTasksCounter" value="178" />
+    <task id="LOCAL-00178" summary="more synced">
+      <created>1627226551264</created>
+      <option name="number" value="00178" />
+      <option name="presentableId" value="LOCAL-00178" />
+      <option name="project" value="LOCAL" />
+      <updated>1627226551264</updated>
+    </task>
+    <option name="localTasksCounter" value="179" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -944,7 +938,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="not working start where you left off" />
     <MESSAGE value="MoleculeRan added, discovered weird hessian NaN error stemming from xComplementary -Infinity" />
     <MESSAGE value="geom opt work in progress" />
     <MESSAGE value="Geom opt further rewrite + Hessian and gradient now throw error instead of failing silent on classcastexception" />
@@ -969,7 +962,8 @@
     <MESSAGE value="gpu eigen done" />
     <MESSAGE value="synchronized eigen" />
     <MESSAGE value="all jblas solve + eigen synchronized" />
-    <option name="LAST_COMMIT_MESSAGE" value="all jblas solve + eigen synchronized" />
+    <MESSAGE value="more synced" />
+    <option name="LAST_COMMIT_MESSAGE" value="more synced" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

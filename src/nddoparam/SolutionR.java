@@ -910,7 +910,7 @@ public class SolutionR extends Solution {
 
 		energy = e;
 
-		if (energy != energy) System.err.println(densityMatrix.getRow(0));
+		if (energy != energy) System.err.println("energy is nan! " + rm.index + " " + rm.name);
 		heat += e;
 
 		this.hf = heat / 4.3363E-2;
