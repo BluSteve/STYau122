@@ -38,13 +38,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/CublasTools.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/NanoStopWatch.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dynamic-output.json" beforeDir="false" afterPath="$PROJECT_DIR$/dynamic-output.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/input.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Testing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -300,7 +296,7 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="de.santiv.fastscrolling.configuration.Configuration" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
     <property name="two.files.diff.last.used.file" value="$USER_HOME$/Desktop/with hessian row mt.json" />
   </component>
   <component name="RecentsManager">
@@ -329,7 +325,14 @@
       <recent name="nddoparam.param" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Application.CublasTools">
+    <configuration name="CublasTools" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="CublasTools" />
+      <module name="MNDOParam" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="InputHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="runcycle.input.InputHandler" />
       <module name="MNDOParam" />
@@ -349,19 +352,6 @@
       <module name="MNDOParam" />
       <projectPathOnTarget name="projectPathOnTarget" value="/home/steve/Downloads/MNDOParam" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="OutputHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="runcycle.output.OutputHandler" />
-      <module name="MNDOParam" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="runcycle.output.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -386,21 +376,34 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="Application.InputHandler" />
       <item itemvalue="Application.Main" />
-      <item itemvalue="Application.OutputHandler" />
       <item itemvalue="Application.Testing" />
       <item itemvalue="Application.SolutionNew" />
+      <item itemvalue="Application.CublasTools" />
       <item itemvalue="Shell Script.blusteve" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.CublasTools" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.InputHandler" />
         <item itemvalue="Application.Testing" />
         <item itemvalue="Application.SolutionNew" />
-        <item itemvalue="Application.OutputHandler" />
       </list>
     </recent_temporary>
   </component>
@@ -520,6 +523,8 @@
       <workItem from="1627000054772" duration="8782000" />
       <workItem from="1627019474496" duration="18262000" />
       <workItem from="1627106625751" duration="7671000" />
+      <workItem from="1627142168660" duration="12571000" />
+      <workItem from="1627193972963" duration="2630000" />
     </task>
     <task id="LOCAL-00126" summary="minor changes">
       <created>1626538445594</created>
@@ -969,21 +974,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="removed multithreading below the paramgradient layer as well as batchedderivs" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <condition expression="ZIndex2 == 0 &amp;&amp; paramNum2 == 0" language="JAVA" />
-          <url>file://$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java</url>
-          <line>269</line>
-          <option name="timeStamp" value="40" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Testing.java</url>
-          <line>332</line>
-          <option name="timeStamp" value="46" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="nddoparam.param.ParamHessianRestricted" memberName="gPrime" />
