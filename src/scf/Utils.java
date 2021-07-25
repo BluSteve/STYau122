@@ -5,6 +5,7 @@ import nddoparam.NDDOParams;
 import org.apache.commons.math3.primes.Primes;
 import org.jblas.DoubleMatrix;
 import org.jblas.Eigen;
+import org.jblas.Solve;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -200,5 +201,13 @@ public class Utils {
 
 	public static synchronized DoubleMatrix[] symEigen(DoubleMatrix dm) {
 		return Eigen.symmetricEigenvectors(dm);
+	}
+	
+	public static synchronized DoubleMatrix solve(DoubleMatrix lhs, DoubleMatrix rhs) {
+		return Solve.solve(lhs, rhs);
+	}
+
+	public static synchronized DoubleMatrix pinv(DoubleMatrix dm) {
+		return Solve.pinv(dm);
 	}
 }

@@ -361,7 +361,7 @@ public class SolutionRDIIS extends Solution {
 				rhs.put(mat.rows - 1, 0, 1);
 
 				try {
-					DoubleMatrix DIIS = Solve.solve(mat, rhs);
+					DoubleMatrix DIIS = Utils.solve(mat, rhs);
 
 					DoubleMatrix F =
 							DoubleMatrix.zeros(densityMatrix.rows,

@@ -38,18 +38,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/outputs/run-0000-output-1547508A.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dynamic-output.json" beforeDir="false" afterPath="$PROJECT_DIR$/dynamic-output.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/input.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CublasTools.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CublasTools.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionNew.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionRDIIS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionRDIIS.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionREDIIS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionREDIIS.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionU.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/optimize/ParamOptimizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/optimize/ParamOptimizer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/scf/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/Utils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -299,7 +300,7 @@
     <property name="create.test.in.the.same.root" value="true" />
     <property name="extract.method.default.visibility" value="private" />
     <property name="full.screen.before.presentation.mode" value="false" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/with hessian row mt.json" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/outputs" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
@@ -311,11 +312,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\billi\Documents\Gitted\MNDOParam\outputs" />
       <recent name="C:\Users\billi\Documents\Gitted\MNDOParam" />
       <recent name="D:\Documents\Gitted CS Projects\MNDOParam" />
       <recent name="D:\Documents\Gitted CS Projects\MNDOParam\src\nddoparam" />
       <recent name="D:\Documents\Gitted CS Projects\MNDOParam\src\runcycle" />
-      <recent name="D:\Documents\Gitted CS Projects\MNDOParam\src\nddoparam\param" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
       <recent name="scf.Utils" />
@@ -366,12 +367,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SolutionNew" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="nddoparam.SolutionNew" />
+    <configuration name="OutputHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="runcycle.output.OutputHandler" />
       <module name="MNDOParam" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="nddoparam.*" />
+          <option name="PATTERN" value="runcycle.output.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -390,17 +391,17 @@
       <item itemvalue="Application.InputHandler" />
       <item itemvalue="Application.Main" />
       <item itemvalue="Application.Testing" />
-      <item itemvalue="Application.SolutionNew" />
       <item itemvalue="Application.CublasTools" />
+      <item itemvalue="Application.OutputHandler" />
       <item itemvalue="Shell Script.blusteve" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.InputHandler" />
+        <item itemvalue="Application.OutputHandler" />
         <item itemvalue="Application.CublasTools" />
         <item itemvalue="Application.Testing" />
-        <item itemvalue="Application.SolutionNew" />
       </list>
     </recent_temporary>
   </component>
@@ -522,14 +523,9 @@
       <workItem from="1627106625751" duration="7671000" />
       <workItem from="1627142168660" duration="12571000" />
       <workItem from="1627193972963" duration="3243000" />
-      <workItem from="1627213728532" duration="664000" />
-    </task>
-    <task id="LOCAL-00127" summary="minor change">
-      <created>1626539020639</created>
-      <option name="number" value="00127" />
-      <option name="presentableId" value="LOCAL-00127" />
-      <option name="project" value="LOCAL" />
-      <updated>1626539020639</updated>
+      <workItem from="1627213728532" duration="2875000" />
+      <workItem from="1627217662884" duration="836000" />
+      <workItem from="1627220401877" duration="908000" />
     </task>
     <task id="LOCAL-00128" summary="added error handling for moleculerun (timeout too)">
       <created>1626545374666</created>
@@ -867,7 +863,14 @@
       <option name="project" value="LOCAL" />
       <updated>1627196628517</updated>
     </task>
-    <option name="localTasksCounter" value="176" />
+    <task id="LOCAL-00176" summary="synchronized eigen">
+      <created>1627214476720</created>
+      <option name="number" value="00176" />
+      <option name="presentableId" value="LOCAL-00176" />
+      <option name="project" value="LOCAL" />
+      <updated>1627214476720</updated>
+    </task>
+    <option name="localTasksCounter" value="177" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -944,7 +947,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="minor changes" />
     <MESSAGE value="Major debug" />
     <MESSAGE value="not working start where you left off" />
     <MESSAGE value="MoleculeRan added, discovered weird hessian NaN error stemming from xComplementary -Infinity" />
@@ -969,7 +971,8 @@
     <MESSAGE value="lookup table generation" />
     <MESSAGE value="removed multithreading below the paramgradient layer as well as batchedderivs" />
     <MESSAGE value="gpu eigen done" />
-    <option name="LAST_COMMIT_MESSAGE" value="gpu eigen done" />
+    <MESSAGE value="synchronized eigen" />
+    <option name="LAST_COMMIT_MESSAGE" value="synchronized eigen" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

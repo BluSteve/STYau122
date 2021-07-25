@@ -478,7 +478,7 @@ public class SolutionNew extends SolutionR {
 //						DoubleMatrix newrhs =
 //								removeElementsLinear(rhs.dup(), intss[i]);
 //						DoubleMatrix tempEdiis =
-//								addRows(Solve.solve(newmat, newrhs),
+//								addRows(Utils.solve(newmat, newrhs),
 //										intss[i]);
 //						tempEdiis = tempEdiis.put(tempEdiis.rows - 1, 0);
 //						boolean nonNegative = !(tempEdiis.min() < 0);
@@ -499,7 +499,7 @@ public class SolutionNew extends SolutionR {
 //						DoubleMatrix newrhs =
 //								removeElementsLinear(rhs.dup(), intss[i]);
 //						DoubleMatrix tempEdiis =
-//								addRows(Solve.solve(newmat, newrhs),
+//								addRows(Utils.solve(newmat, newrhs),
 //										intss[i]);
 //						tempEdiis = tempEdiis.put(tempEdiis.rows - 1, 0);
 //						boolean nonNegative = !(tempEdiis.min() < 0);
@@ -577,7 +577,7 @@ public class SolutionNew extends SolutionR {
 				rhs.put(mat.rows - 1, 0, 1);
 
 				try {
-					DoubleMatrix DIIS = Solve.solve(mat, rhs);
+					DoubleMatrix DIIS = Utils.solve(mat, rhs);
 
 					DoubleMatrix F =
 							DoubleMatrix.zeros(densityMatrix.rows,
@@ -864,7 +864,7 @@ public class SolutionNew extends SolutionR {
 ////		List<Integer> array = getComplement(mat, tbrList);
 //		DoubleMatrix smallmat = removeElementsSquare(mat.dup(), tbrList);
 //		DoubleMatrix smallrhs = removeElementsLinear(rhs.dup(), tbrList);
-//		DoubleMatrix attemptRaw = Solve.solve(smallmat, smallrhs);
+//		DoubleMatrix attemptRaw = Utils.solve(smallmat, smallrhs);
 //		DoubleMatrix attempt = addRows(attemptRaw, tbrList);
 //
 //		boolean nonNegative = !(attempt.min() < 0);

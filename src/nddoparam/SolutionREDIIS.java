@@ -386,7 +386,7 @@ public class SolutionREDIIS extends Solution {
 			DoubleMatrix DIIS = null;
 
 			try {
-				DIIS = Solve.solve(mat, rhs);
+				DIIS = Utils.solve(mat, rhs);
 
 				DIIS = DIIS.put(DIIS.rows - 1, 0);
 
@@ -406,7 +406,7 @@ public class SolutionREDIIS extends Solution {
 								removeElementsSquare(mat.dup(), new int[]{i});
 						DoubleMatrix newrhs =
 								removeElementsLinear(rhs.dup(), new int[]{i});
-						DIIS = addrow(Solve.solve(newmat, newrhs),
+						DIIS = addrow(Utils.solve(newmat, newrhs),
 								new int[]{i});
 
 						DIIS = DIIS.put(DIIS.rows - 1, 0);
@@ -434,7 +434,7 @@ public class SolutionREDIIS extends Solution {
 							DoubleMatrix newrhs =
 									removeElementsLinear(rhs.dup(),
 											new int[]{i, j});
-							DIIS = addrow(Solve.solve(newmat, newrhs),
+							DIIS = addrow(Utils.solve(newmat, newrhs),
 									new int[]{i, j});
 
 							DIIS = DIIS.put(DIIS.rows - 1, 0);
@@ -467,7 +467,7 @@ public class SolutionREDIIS extends Solution {
 								DoubleMatrix newrhs =
 										removeElementsLinear(rhs.dup(),
 												new int[]{i, j, k});
-								DIIS = addrow(Solve.solve(newmat, newrhs),
+								DIIS = addrow(Utils.solve(newmat, newrhs),
 										new int[]{i, j, k});
 
 								DIIS = DIIS.put(DIIS.rows - 1, 0);
@@ -503,7 +503,7 @@ public class SolutionREDIIS extends Solution {
 									DoubleMatrix newrhs =
 											removeElementsLinear(rhs.dup(),
 													new int[]{i, j, k, l});
-									DIIS = addrow(Solve.solve(newmat, newrhs),
+									DIIS = addrow(Utils.solve(newmat, newrhs),
 											new int[]{i, j, k, l});
 
 									DIIS = DIIS.put(DIIS.rows - 1, 0);

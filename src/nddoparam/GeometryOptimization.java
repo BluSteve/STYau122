@@ -1,7 +1,6 @@
 package nddoparam;
 
 import org.jblas.DoubleMatrix;
-import org.jblas.Solve;
 import scf.Utils;
 
 public abstract class GeometryOptimization {
@@ -119,7 +118,7 @@ public abstract class GeometryOptimization {
 				e.printStackTrace();
 			}
 			DoubleMatrix searchDir =
-					Solve.pinv(B.sub(DoubleMatrix.eye(B.rows).mmul(lambda)))
+					Utils.pinv(B.sub(DoubleMatrix.eye(B.rows).mmul(lambda)))
 							.mmul(gradient)
 							.mul(-1);
 			if (mag(searchDir) > 0.3) {

@@ -1,7 +1,7 @@
 package optimize;
 
 import org.jblas.DoubleMatrix;
-import org.jblas.Solve;
+import scf.Utils;
 
 import java.util.ArrayList;
 
@@ -22,7 +22,7 @@ public class ParamOptimizer {
 	public double[] optimize(DoubleMatrix B, DoubleMatrix gradient) {
 		DoubleMatrix searchdir = null;
 		try {
-			 searchdir= Solve.pinv(B).mmul(gradient);
+			 searchdir= Utils.pinv(B).mmul(gradient);
 
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();

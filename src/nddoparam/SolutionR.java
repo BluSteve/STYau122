@@ -408,7 +408,7 @@ public class SolutionR extends Solution {
 				DoubleMatrix bestDIIS = null;
 				double bestE = 0;
 
-				tempEdiis = Solve.solve(mat, rhs);
+				tempEdiis = Utils.solve(mat, rhs);
 				tempEdiis = tempEdiis.put(tempEdiis.rows - 1, 0);
 				nonNegative = !(tempEdiis.min() < 0);
 
@@ -424,7 +424,7 @@ public class SolutionR extends Solution {
 							removeElementsSquare(mat.dup(), new int[]{i});
 					DoubleMatrix newrhs =
 							removeElementsLinear(rhs.dup(), new int[]{i});
-					tempEdiis = addRows(Solve.solve(newmat, newrhs),
+					tempEdiis = addRows(Utils.solve(newmat, newrhs),
 							new int[]{i});
 					tempEdiis = tempEdiis.put(tempEdiis.rows - 1, 0);
 					nonNegative = !(tempEdiis.min() < 0);
@@ -448,7 +448,7 @@ public class SolutionR extends Solution {
 						DoubleMatrix newrhs =
 								removeElementsLinear(rhs.dup(),
 										new int[]{i, j});
-						tempEdiis = addRows(Solve.solve(newmat, newrhs),
+						tempEdiis = addRows(Utils.solve(newmat, newrhs),
 								new int[]{i, j});
 						tempEdiis = tempEdiis.put(tempEdiis.rows - 1, 0);
 						nonNegative = !(tempEdiis.min() < 0);
@@ -479,7 +479,7 @@ public class SolutionR extends Solution {
 								DoubleMatrix newrhs =
 										removeElementsLinear(rhs.dup(),
 												new int[]{i, j, k});
-								tempEdiis = addRows(Solve.solve(newmat,
+								tempEdiis = addRows(Utils.solve(newmat,
 										newrhs),
 										new int[]{i, j, k});
 
@@ -520,7 +520,7 @@ public class SolutionR extends Solution {
 											removeElementsLinear(rhs.dup(),
 													new int[]{i, j, k, l});
 									tempEdiis =
-											addRows(Solve.solve(newmat,
+											addRows(Utils.solve(newmat,
 													newrhs),
 													new int[]{i, j, k, l});
 
@@ -807,7 +807,7 @@ public class SolutionR extends Solution {
 				rhs.put(mat.rows - 1, 0, 1);
 
 				try {
-					DoubleMatrix DIIS = Solve.solve(mat, rhs);
+					DoubleMatrix DIIS = Utils.solve(mat, rhs);
 
 					DoubleMatrix F =
 							DoubleMatrix.zeros(densityMatrix.rows,

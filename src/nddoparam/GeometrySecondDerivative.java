@@ -2868,7 +2868,7 @@ public class GeometrySecondDerivative {
 				}
 			}
 
-			DoubleMatrix alpha = Solve.solve(solver, rhsvec);
+			DoubleMatrix alpha = Utils.solve(solver, rhsvec);
 
 			for (int a = 0; a < rhsvec.columns; a++) {
 				if (rarray[a] != null) {
@@ -2917,7 +2917,7 @@ public class GeometrySecondDerivative {
 				}
 			}
 
-			DoubleMatrix beta = Solve.solve(solver, rhsvec);
+			DoubleMatrix beta = Utils.solve(solver, rhsvec);
 
 			for (int a = 0; a < rhsvec.columns; a++) {
 
@@ -3127,7 +3127,7 @@ public class GeometrySecondDerivative {
 
 			DoubleMatrix rhs = B.transpose().mmul(F);
 
-			DoubleMatrix alpha = Solve.solve(lhs, rhs);
+			DoubleMatrix alpha = Utils.solve(lhs, rhs);
 
 			for (int a = 0; a < xarray.length; a++) {
 

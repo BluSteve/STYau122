@@ -3228,7 +3228,7 @@ public class ParamDerivative {
 			DoubleMatrix alpha;
 
 			try {
-				alpha = Solve.solve(lhs, rhs);
+				alpha = Utils.solve(lhs, rhs);
 			} catch (LapackException e) {
 				alpha = DoubleMatrix.ones(lhs.columns, rhs.columns);
 			}
@@ -3432,7 +3432,7 @@ public class ParamDerivative {
 
 			DoubleMatrix alpha;
 			try {
-				alpha = Solve.solve(solver, rhsvec);
+				alpha = Utils.solve(solver, rhsvec);
 			} catch (LapackException e) {
 				alpha = DoubleMatrix.ones(solver.columns, rhsvec.columns);
 			}
@@ -3489,7 +3489,7 @@ public class ParamDerivative {
 
 			DoubleMatrix beta;
 			try {
-				beta = Solve.solve(solver, rhsvec);
+				beta = Utils.solve(solver, rhsvec);
 			} catch (LapackException e) {
 				beta = DoubleMatrix.ones(solver.columns, rhsvec.columns);
 			}
