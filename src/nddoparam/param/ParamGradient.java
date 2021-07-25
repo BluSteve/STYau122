@@ -6,6 +6,9 @@ import nddoparam.SolutionU;
 import org.jblas.DoubleMatrix;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ForkJoinTask;
+import java.util.concurrent.RecursiveAction;
 
 public abstract class ParamGradient {
 	protected static final double LAMBDA = 1E-7;
@@ -142,29 +145,29 @@ public abstract class ParamGradient {
 		if (analytical && (datum[1] != 0 || datum[2] != 0))
 			computeBatchedDerivs(0, 0);
 
-//		if (!analytical || isExpAvail) {
-//			List<RecursiveAction> subtasks = new ArrayList<>();
-//
-//			for (int Z = 0; Z < s.getRm().mats.length; Z++) {
-//				for (int paramNum : s.getRm().mnps[Z]) {
-//					int finalZ = Z;
-//					subtasks.add(new RecursiveAction() {
-//						@Override
-//						protected void compute() {
-//							computeGradient(finalZ, paramNum);
-//						}
-//					});
-//				}
-//			}
-//			ForkJoinTask.invokeAll(subtasks);
-//		}
-//		else {
+		if (!analytical || isExpAvail) {
+			List<RecursiveAction> subtasks = new ArrayList<>();
+
+			for (int Z = 0; Z < s.getRm().mats.length; Z++) {
+				for (int paramNum : s.getRm().mnps[Z]) {
+					int finalZ = Z;
+					subtasks.add(new RecursiveAction() {
+						@Override
+						protected void compute() {
+							computeGradient(finalZ, paramNum);
+						}
+					});
+				}
+			}
+			ForkJoinTask.invokeAll(subtasks);
+		}
+		else {
 			for (int Z = 0; Z < s.getRm().mats.length; Z++) {
 				for (int paramNum : s.getRm().mnps[Z]) {
 					computeGradient(Z, paramNum);
 				}
 			}
-//		}
+		}
 
 		return this;
 	}

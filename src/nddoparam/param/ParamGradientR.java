@@ -61,9 +61,6 @@ class ParamGradientR extends ParamGradient {
 			}
 		}
 		if (aggregateArrayUnpadded.length > 0) {
-//			DoubleMatrix[] xLimitedAggregate =
-//					ParamDerivative.xArrayLimitedPople(
-//							(SolutionR) s, aggregateArrayUnpadded);
 			DoubleMatrix[] xLimitedAggregate =
 					new DoubleMatrix[aggregateArrayUnpadded.length];
 			int elapsedSize = 0;
@@ -84,7 +81,6 @@ class ParamGradientR extends ParamGradient {
 						DoubleMatrix[] output = ParamDerivative
 								.xArrayLimitedPople((SolutionR) s, subset);
 
-//					 removed .dup() here
 						System.arraycopy(output, 0, xLimitedAggregate,
 								finalElapsedSize, output.length);
 					}

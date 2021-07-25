@@ -2,9 +2,9 @@ package nddoparam;
 
 import org.apache.commons.lang3.time.StopWatch;
 import org.jblas.DoubleMatrix;
-import org.jblas.Eigen;
 import org.jblas.Solve;
 import runcycle.input.RawMolecule;
+import scf.Utils;
 
 import java.util.ArrayList;
 
@@ -249,7 +249,7 @@ public class SolutionNew extends SolutionR {
 			}
 		}
 
-		DoubleMatrix[] matrices = Eigen.symmetricEigenvectors(H);
+		DoubleMatrix[] matrices = Utils.symEigen(H);
 		E = matrices[1].diag();
 
 		C = matrices[0].transpose();
@@ -525,7 +525,7 @@ public class SolutionNew extends SolutionR {
 				}
 
 
-				matrices = Eigen.symmetricEigenvectors(F);
+				matrices = Utils.symEigen(F);
 
 				E = matrices[1].diag();
 
@@ -538,7 +538,7 @@ public class SolutionNew extends SolutionR {
 					//System.err.println("Exiting very much not DIIS for 1
 					// Iteration...");
 
-					matrices = Eigen.symmetricEigenvectors(this.F);
+					matrices = Utils.symEigen(this.F);
 
 					E = matrices[1].diag();
 
@@ -594,7 +594,7 @@ public class SolutionNew extends SolutionR {
 					}
 
 
-					matrices = Eigen.symmetricEigenvectors(F);
+					matrices = Utils.symEigen(F);
 
 					E = matrices[1].diag();
 
@@ -607,7 +607,7 @@ public class SolutionNew extends SolutionR {
 						//System.err.println("Exiting DIIS for 1 Iteration..
 						// .");
 
-						matrices = Eigen.symmetricEigenvectors(this.F);
+						matrices = Utils.symEigen(this.F);
 
 						E = matrices[1].diag();
 
@@ -618,7 +618,7 @@ public class SolutionNew extends SolutionR {
 
 					densityMatrix = calculateDensityMatrix(C);
 				} catch (Exception e) {
-					matrices = Eigen.symmetricEigenvectors(F);
+					matrices = Utils.symEigen(F);
 
 					E = matrices[1].diag();
 

@@ -38,9 +38,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/CublasTools.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/NanoStopWatch.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/input.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CublasTools.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CublasTools.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionNew.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionRDIIS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionRDIIS.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionREDIIS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionREDIIS.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionU.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scf/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/Utils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -325,7 +335,7 @@
       <recent name="nddoparam.param" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.CublasTools">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="CublasTools" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="CublasTools" />
       <module name="MNDOParam" />
@@ -376,19 +386,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <list>
       <item itemvalue="Application.InputHandler" />
       <item itemvalue="Application.Main" />
@@ -399,9 +396,9 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.CublasTools" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.InputHandler" />
+        <item itemvalue="Application.CublasTools" />
         <item itemvalue="Application.Testing" />
         <item itemvalue="Application.SolutionNew" />
       </list>
@@ -524,14 +521,8 @@
       <workItem from="1627019474496" duration="18262000" />
       <workItem from="1627106625751" duration="7671000" />
       <workItem from="1627142168660" duration="12571000" />
-      <workItem from="1627193972963" duration="2630000" />
-    </task>
-    <task id="LOCAL-00126" summary="minor changes">
-      <created>1626538445594</created>
-      <option name="number" value="00126" />
-      <option name="presentableId" value="LOCAL-00126" />
-      <option name="project" value="LOCAL" />
-      <updated>1626538445594</updated>
+      <workItem from="1627193972963" duration="3243000" />
+      <workItem from="1627213728532" duration="664000" />
     </task>
     <task id="LOCAL-00127" summary="minor change">
       <created>1626539020639</created>
@@ -869,7 +860,14 @@
       <option name="project" value="LOCAL" />
       <updated>1627041925635</updated>
     </task>
-    <option name="localTasksCounter" value="175" />
+    <task id="LOCAL-00175" summary="gpu eigen done">
+      <created>1627196628516</created>
+      <option name="number" value="00175" />
+      <option name="presentableId" value="LOCAL-00175" />
+      <option name="project" value="LOCAL" />
+      <updated>1627196628517</updated>
+    </task>
+    <option name="localTasksCounter" value="176" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -946,7 +944,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="minor moleculerun refactor" />
     <MESSAGE value="minor changes" />
     <MESSAGE value="Major debug" />
     <MESSAGE value="not working start where you left off" />
@@ -971,7 +968,8 @@
     <MESSAGE value="recursion is slower than iteration" />
     <MESSAGE value="lookup table generation" />
     <MESSAGE value="removed multithreading below the paramgradient layer as well as batchedderivs" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed multithreading below the paramgradient layer as well as batchedderivs" />
+    <MESSAGE value="gpu eigen done" />
+    <option name="LAST_COMMIT_MESSAGE" value="gpu eigen done" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

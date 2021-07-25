@@ -1,8 +1,8 @@
 package nddoparam;
 
 import org.jblas.DoubleMatrix;
-import org.jblas.Eigen;
 import org.jblas.Solve;
+import scf.Utils;
 
 public abstract class GeometryOptimization {
 	protected Solution s;
@@ -92,7 +92,7 @@ public abstract class GeometryOptimization {
 		DoubleMatrix gradient = matrices[0];
 		DoubleMatrix B = matrices[1];
 
-		DoubleMatrix[] ms = Eigen.symmetricEigenvectors(B);
+		DoubleMatrix[] ms = Utils.symEigen(B);
 
 		if (B.get(0,0) != B.get(0, 0)) {
 			System.err.println ("Hessian is NaN!");
@@ -178,7 +178,7 @@ public abstract class GeometryOptimization {
 				}
 			}
 
-			ms = Eigen.symmetricEigenvectors(B);
+			ms = Utils.symEigen(B);
 			h = ms[1].diag();
 			U = ms[0];
 		}

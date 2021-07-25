@@ -5,7 +5,7 @@ import jcuda.jcusolver.JCusolverDn;
 import jcuda.jcusolver.cusolverDnHandle;
 import jcuda.runtime.JCuda;
 import org.jblas.DoubleMatrix;
-import org.jblas.Eigen;
+import scf.Utils;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -28,7 +28,7 @@ public class CublasTools {
 		int warmupn = 30;
 		for (int i = 0; i < 5; i++) {
 			DoubleMatrix warmup = DoubleMatrix.rand(warmupn, warmupn);
-			Eigen.symmetricEigenvectors(warmup);
+			Utils.symEigen(warmup);
 			getSymEigenGPU(handle, warmup);
 		}
 
@@ -46,7 +46,7 @@ public class CublasTools {
 //			System.out.println("GPU = " + gpu);
 
 			sw.start();
-			DoubleMatrix[] es = Eigen.symmetricEigenvectors(a);
+			DoubleMatrix[] es = Utils.symEigen(a);
 			double cpu = sw.stop();
 //			System.out.println("CPU = " + cpu);
 

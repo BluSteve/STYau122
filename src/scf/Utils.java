@@ -4,6 +4,7 @@ import nddoparam.NDDOAtom;
 import nddoparam.NDDOParams;
 import org.apache.commons.math3.primes.Primes;
 import org.jblas.DoubleMatrix;
+import org.jblas.Eigen;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -195,5 +196,9 @@ public class Utils {
 		}
 
 		return count;
+	}
+
+	public static synchronized DoubleMatrix[] symEigen(DoubleMatrix dm) {
+		return Eigen.symmetricEigenvectors(dm);
 	}
 }

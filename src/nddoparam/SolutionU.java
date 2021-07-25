@@ -2,8 +2,8 @@ package nddoparam;
 
 import nddoparam.mndo.MNDOAtom;
 import org.jblas.DoubleMatrix;
-import org.jblas.Eigen;
 import runcycle.input.RawMolecule;
+import scf.Utils;
 
 import java.util.Arrays;
 
@@ -211,7 +211,7 @@ public class SolutionU extends Solution {
 			}
 		}
 
-		DoubleMatrix[] matrices = Eigen.symmetricEigenvectors(H);
+		DoubleMatrix[] matrices = Utils.symEigen(H);
 
 //		System.out.println(
 //				moleculeName +
@@ -366,9 +366,9 @@ public class SolutionU extends Solution {
 			Fa = H.add(j1).add(ka);
 			Fb = H.add(j1).add(kb);
 
-			DoubleMatrix[] matrices1 = Eigen.symmetricEigenvectors(Fa);
+			DoubleMatrix[] matrices1 = Utils.symEigen(Fa);
 
-			DoubleMatrix[] matrices2 = Eigen.symmetricEigenvectors(Fb);
+			DoubleMatrix[] matrices2 = Utils.symEigen(Fb);
 
 			Ea = matrices1[1].diag();
 
@@ -397,7 +397,7 @@ public class SolutionU extends Solution {
 
 				damp += 0.02;
 
-				matrices = Eigen.symmetricEigenvectors(H);
+				matrices = Utils.symEigen(H);
 
 				System.out.println(
 						"Exchange (K) matrix ERIs evaluated, beginning SCF " +

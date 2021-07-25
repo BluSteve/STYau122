@@ -196,7 +196,6 @@ public class ParamHessian {
 		for (int ZIndex2 = 0; ZIndex2 < s.getRm().mats.length; ZIndex2++) {
 			for (int paramNum2 : s.getRm().mnps[ZIndex2]) {
 				int finalZIndex2 = ZIndex2;
-//				computeRow(finalZIndex2, paramNum2);
 				subtasks.add(new RecursiveAction() {
 					@Override
 					protected void compute() {
@@ -245,19 +244,13 @@ public class ParamHessian {
 					if (!analytical || gPrime.isExpAvail) {
 						int ZIndex = ZIndex1;
 						int paramNum = paramNum1;
-//						subtasks.add(new RecursiveAction() {
-//							@Override
-//							protected void compute() {
-//								computeElement(gPrime, ZIndex2, paramNum2,
-//										ZIndex, paramNum);
-//							}
-//						});
-						System.out.println(
-								ZIndex2 + " " + paramNum2 + " " + ZIndex +
-										" " +
-										paramNum);
-						computeElement(gPrime, ZIndex2, paramNum2,
-								ZIndex, paramNum);
+						subtasks.add(new RecursiveAction() {
+							@Override
+							protected void compute() {
+								computeElement(gPrime, ZIndex2, paramNum2,
+										ZIndex, paramNum);
+							}
+						});
 					}
 					else {
 						computeElement(gPrime, ZIndex2, paramNum2, ZIndex1,
@@ -266,13 +259,11 @@ public class ParamHessian {
 				}
 			}
 		}
-//		if (subtasks.size() > 0) ForkJoinTask.invokeAll(subtasks);
+		if (subtasks.size() > 0) ForkJoinTask.invokeAll(subtasks);
 	}
 
 	private ParamGradient constructGPrime(int ZIndex, int paramNum) {
 		if (restricted) {
-
-			// other threads are changing something here, probably s
 			return ParamGradient.of(
 					new SolutionR(Utils.perturbAtomParams(s.atoms,
 							s.getRm().mats[ZIndex], paramNum), s.charge)
