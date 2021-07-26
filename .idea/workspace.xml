@@ -38,15 +38,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/EJMLTesting.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/artifacts/MNDOParam_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/MNDOParam_jar.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/jblas_1_2_5.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MNDOParam.iml" beforeDir="false" afterPath="$PROJECT_DIR$/MNDOParam.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dynamic-output.json" beforeDir="false" afterPath="$PROJECT_DIR$/dynamic-output.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/input.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/outputs/run-0000-output-1547508A.json" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/run-0000-output-1547508A.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Testing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,22 +123,29 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/Testing.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/SolutionNew.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/runcycle/MoleculeRun.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/mndo-install.sh" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/MNDOParam.iml" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/Testing.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/EJMLTesting.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/nddoparam/GeometryDerivative.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/runcycle/input/InputHandler.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/input.json" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/GeometryOptimizationR.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/runcycle/output/OutputHandler.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/SolutionR.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/Main.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/NDDOParams.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/runcycle/MoleculeRun.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/nddoparam/SolutionNew.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/nddoparam/GeometryOptimizationR.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/runcycle/input/InputHandler.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/input.txt" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/nddoparam/NDDOParams.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/runcycle/output/OutputHandler.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/pastinputs/input-9C63929F.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/input.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/nddoparam/SolutionR.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/nddoparam/Solution.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/CublasTools.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/gcloud.txt" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/MNDOParam.iml" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/Main.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
@@ -295,14 +303,14 @@
     <property name="create.test.in.the.same.root" value="true" />
     <property name="extract.method.default.visibility" value="private" />
     <property name="full.screen.before.presentation.mode" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/1.2.6-SNAPSHOT/jblas-1.2.6-SNAPSHOT.jar" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/jblas-1.2.5.jar" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Artifacts" />
-    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.3122222" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
     <property name="two.files.diff.last.used.file" value="$USER_HOME$/Desktop/with hessian row mt.json" />
   </component>
   <component name="RecentsManager">
@@ -331,9 +339,9 @@
       <recent name="nddoparam.param" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
-    <configuration name="CublasTools" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="CublasTools" />
+  <component name="RunManager" selected="Shell Script.blusteve">
+    <configuration name="EJMLTesting" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="EJMLTesting" />
       <module name="MNDOParam" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -386,17 +394,17 @@
       <item itemvalue="Application.InputHandler" />
       <item itemvalue="Application.Main" />
       <item itemvalue="Application.Testing" />
-      <item itemvalue="Application.CublasTools" />
       <item itemvalue="Application.OutputHandler" />
+      <item itemvalue="Application.EJMLTesting" />
       <item itemvalue="Shell Script.blusteve" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.InputHandler" />
+        <item itemvalue="Application.EJMLTesting" />
         <item itemvalue="Application.Testing" />
         <item itemvalue="Application.OutputHandler" />
-        <item itemvalue="Application.CublasTools" />
       </list>
     </recent_temporary>
   </component>
@@ -521,6 +529,8 @@
       <workItem from="1627213728532" duration="2875000" />
       <workItem from="1627217662884" duration="836000" />
       <workItem from="1627220401877" duration="6141000" />
+      <workItem from="1627278873954" duration="7592000" />
+      <workItem from="1627289966267" duration="818000" />
     </task>
     <task id="LOCAL-00130" summary="minor changes">
       <created>1626545614637</created>
