@@ -14,5 +14,9 @@
     <orderEntry type="library" name="jcublas-10.1.0-javadoc" level="project" />
     <orderEntry type="library" name="commons-math3-3.6.1" level="project" />
     <orderEntry type="library" name="jblas-1.2.6-SNAPSHOT-javadoc" level="project" />
+    <orderEntry type="library" name="ejml-cdense-0.41-sources" level="project" />
+    <orderEntry type="library" name="ejml" level="project" />
+    <orderEntry type="library" name="ojalgo-48.4.2" level="project" />
+    <orderEntry type="library" name="jblas-1.2.5" level="project" />
   </component>
 </module>

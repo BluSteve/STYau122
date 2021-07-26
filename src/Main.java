@@ -39,13 +39,15 @@ public class Main {
 	public static void main(String[] args) {
 		StopWatch sw = new StopWatch();
 		sw.start();
-//		System.out.close();
+		Scanner s = new Scanner(System.in);
+		System.err.print("Run in verbose mode? (y/N) ");
+		if (!s.next().equals("y"))
+			System.out.close();
 
 		if (isImportLastRun) {
 			ranMolecules =
 					OutputHandler.importMoleculeOutputs("dynamic-output");
 			if (ranMolecules != null) {
-				Scanner s = new Scanner(System.in);
 				System.err.print(ranMolecules.length +
 						" molecules from last run found, would you like to " +
 						"import them? (Y/n) ");

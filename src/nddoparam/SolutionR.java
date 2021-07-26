@@ -20,7 +20,6 @@ public class SolutionR extends Solution {
 	double[] Earray;
 
 
-
 	public SolutionR(NDDOAtom[] atoms, int charge) {
 		super(atoms, charge);
 
@@ -403,52 +402,32 @@ public class SolutionR extends Solution {
 				}
 
 				boolean nonNegative;
-				DoubleMatrix tempEdiis;
+				DoubleMatrix tempEdiis = null;
 				DoubleMatrix bestDIIS = null;
 				double bestE = 0;
 
-				tempEdiis = Utils.solve(mat, rhs);
-				tempEdiis = tempEdiis.put(tempEdiis.rows - 1, 0);
-				nonNegative = !(tempEdiis.min() < 0);
-
-				if (nonNegative) {
-					double e = finde(tempEdiis);
-
-					bestE = e;
-					bestDIIS = tempEdiis.dup();
-				}
-
-				for (int i = 0; i < mat.rows - 2; i++) {
-					DoubleMatrix newmat =
-							removeElementsSquare(mat.dup(), new int[]{i});
-					DoubleMatrix newrhs =
-							removeElementsLinear(rhs.dup(), new int[]{i});
-					tempEdiis = addRows(Utils.solve(newmat, newrhs),
-							new int[]{i});
+				try {
+					tempEdiis = Utils.solve(mat, rhs);
 					tempEdiis = tempEdiis.put(tempEdiis.rows - 1, 0);
 					nonNegative = !(tempEdiis.min() < 0);
 
 					if (nonNegative) {
 						double e = finde(tempEdiis);
 
-						if (e < bestE) {
-							bestE = e;
-							bestDIIS = tempEdiis;
-						}
+						bestE = e;
+						bestDIIS = tempEdiis.dup();
 					}
+				} catch (Exception e) {
 				}
 
-
 				for (int i = 0; i < mat.rows - 2; i++) {
-					for (int j = i + 1; j < mat.rows - 2; j++) {
+					try {
 						DoubleMatrix newmat =
-								removeElementsSquare(mat.dup(),
-										new int[]{i, j});
+								removeElementsSquare(mat.dup(), new int[]{i});
 						DoubleMatrix newrhs =
-								removeElementsLinear(rhs.dup(),
-										new int[]{i, j});
+								removeElementsLinear(rhs.dup(), new int[]{i});
 						tempEdiis = addRows(Utils.solve(newmat, newrhs),
-								new int[]{i, j});
+								new int[]{i});
 						tempEdiis = tempEdiis.put(tempEdiis.rows - 1, 0);
 						nonNegative = !(tempEdiis.min() < 0);
 
@@ -457,9 +436,38 @@ public class SolutionR extends Solution {
 
 							if (e < bestE) {
 								bestE = e;
-
-								bestDIIS = tempEdiis.dup();
+								bestDIIS = tempEdiis;
 							}
+						}
+					} catch (Exception e) {
+					}
+				}
+
+
+				for (int i = 0; i < mat.rows - 2; i++) {
+					for (int j = i + 1; j < mat.rows - 2; j++) {
+						try {
+							DoubleMatrix newmat =
+									removeElementsSquare(mat.dup(),
+											new int[]{i, j});
+							DoubleMatrix newrhs =
+									removeElementsLinear(rhs.dup(),
+											new int[]{i, j});
+							tempEdiis = addRows(Utils.solve(newmat, newrhs),
+									new int[]{i, j});
+							tempEdiis = tempEdiis.put(tempEdiis.rows - 1, 0);
+							nonNegative = !(tempEdiis.min() < 0);
+
+							if (nonNegative) {
+								double e = finde(tempEdiis);
+
+								if (e < bestE) {
+									bestE = e;
+
+									bestDIIS = tempEdiis.dup();
+								}
+							}
+						} catch (Exception e) {
 						}
 					}
 
@@ -910,7 +918,8 @@ public class SolutionR extends Solution {
 
 		energy = e;
 
-		if (energy != energy) System.err.println("energy is nan! " + rm.index + " " + rm.name);
+		if (energy != energy)
+			System.err.println("energy is nan! " + rm.index + " " + rm.name);
 		heat += e;
 
 		this.hf = heat / 4.3363E-2;
