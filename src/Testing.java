@@ -8,6 +8,7 @@ import nddoparam.mndo.MNDOAtom;
 import nddoparam.mndo.MNDOParams;
 import org.apache.commons.lang3.time.StopWatch;
 import org.jblas.DoubleMatrix;
+import org.jblas.Eigen;
 import scf.AtomHandler;
 import scf.Utils;
 
@@ -17,7 +18,7 @@ import java.util.Random;
 public class Testing {
 	public static void main(String[] args) {
 		try {
-			testMain();
+			Eigen.symmetricEigenvalues(DoubleMatrix.rand(10,10));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -29,7 +29,7 @@ import java.util.concurrent.RecursiveTask;
 
 public class Main {
 	private static final String INPUT_FILENAME = "input";
-	private static final int NUM_RUNS = 24;
+	private static final int NUM_RUNS = 1;
 	private static final boolean isImportLastRun = true;
 	private static final int MAX_RETRIES = 2;
 	private static RawInput ri;
@@ -39,7 +39,7 @@ public class Main {
 	public static void main(String[] args) {
 		StopWatch sw = new StopWatch();
 		sw.start();
-		System.out.close();
+//		System.out.close();
 
 		if (isImportLastRun) {
 			ranMolecules =
@@ -63,7 +63,7 @@ public class Main {
 			System.err.println();
 		}
 
-		for (int runNum = 2; runNum < NUM_RUNS; runNum++) {
+		for (int runNum = 0; runNum < NUM_RUNS; runNum++) {
 			StopWatch lsw = new StopWatch();
 			lsw.start();
 			boolean isRunHessian = runNum % 2 == 0; // Hessian every other run
