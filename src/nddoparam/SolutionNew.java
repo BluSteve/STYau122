@@ -8,23 +8,8 @@ import scf.Utils;
 import java.util.ArrayList;
 
 
-public class SolutionNew extends SolutionR {
-	// {{}}, {{0}}, {{1},{0,1}}, {{2},{0,2},{1,2},{0,1,2}}, {{3},{0,3},{1,3},
-	// {2,3},{0,1,3},{0,2,3},{1,2,3},{0,1,2,3}}
-
-	public static void main(String[] args) {
-		for (int[][] a : tbr) {
-			int count = 0;
-
-			for (int[] b : a) {
-				count++;
-			}
-			System.out.println("count = " + count);
-
-		}
-	}
-
-	private static final int[][][] tbr =
+public class SolutionNew  extends  SolutionR{
+	private static final int[][][] TBRS =
 			new int[][][]{new int[][]{new int[]{}},
 					new int[][]{new int[]{0}},
 					new int[][]{new int[]{1}, new int[]{0, 1}},
@@ -92,86 +77,11 @@ public class SolutionNew extends SolutionR {
 							new int[]{0, 1, 3, 4, 5, 6},
 							new int[]{0, 2, 3, 4, 5, 6},
 							new int[]{1, 2, 3, 4, 5, 6},
-							new int[]{0, 1, 2, 3, 4, 5, 6}},
-					new int[][]{new int[]{7}, new int[]{0, 7}, new int[]{1, 7},
-							new int[]{2, 7}, new int[]{3, 7}, new int[]{4, 7},
-							new int[]{5, 7}, new int[]{6, 7},
-							new int[]{0, 1, 7}, new int[]{0, 2, 7},
-							new int[]{0, 3, 7}, new int[]{0, 4, 7},
-							new int[]{0, 5, 7}, new int[]{0, 6, 7},
-							new int[]{1, 2, 7}, new int[]{1, 3, 7},
-							new int[]{1, 4, 7}, new int[]{1, 5, 7},
-							new int[]{1, 6, 7}, new int[]{2, 3, 7},
-							new int[]{2, 4, 7}, new int[]{2, 5, 7},
-							new int[]{2, 6, 7}, new int[]{3, 4, 7},
-							new int[]{3, 5, 7}, new int[]{3, 6, 7},
-							new int[]{4, 5, 7}, new int[]{4, 6, 7},
-							new int[]{5, 6, 7},
-							new int[]{0, 1, 2, 7}, new int[]{0, 1, 3, 7},
-							new int[]{0, 1, 4, 7}, new int[]{0, 1, 5, 7},
-							new int[]{0, 1, 6, 7}, new int[]{0, 2, 3, 7},
-							new int[]{0, 2, 4, 7}, new int[]{0, 2, 5, 7},
-							new int[]{0, 2, 6, 7}, new int[]{0, 3, 4, 7},
-							new int[]{0, 3, 5, 7}, new int[]{0, 3, 6, 7},
-							new int[]{0, 4, 5, 7}, new int[]{0, 4, 6, 7},
-							new int[]{0, 5, 6, 7}, new int[]{1, 2, 3, 7},
-							new int[]{1, 2, 4, 7}, new int[]{1, 2, 5, 7},
-							new int[]{1, 2, 6, 7}, new int[]{1, 3, 4, 7},
-							new int[]{1, 3, 5, 7}, new int[]{1, 3, 6, 7},
-							new int[]{1, 4, 5, 7}, new int[]{1, 4, 6, 7},
-							new int[]{1, 5, 6, 7}, new int[]{2, 3, 4, 7},
-							new int[]{2, 3, 5, 7}, new int[]{2, 3, 6, 7},
-							new int[]{3, 4, 5, 7}, new int[]{3, 4, 6, 7},
-							new int[]{3, 5, 6, 7}, new int[]{4, 5, 6, 7},
-							new int[]{0, 1, 2, 3, 7}, new int[]{0, 1, 2, 4, 7},
-							new int[]{0, 1, 2, 5, 7}, new int[]{0, 1, 2, 6, 7},
-							new int[]{0, 1, 3, 4, 7}, new int[]{0, 1, 3, 5, 7},
-							new int[]{0, 1, 3, 6, 7}, new int[]{0, 1, 4, 5, 7},
-							new int[]{0, 1, 4, 6, 7}, new int[]{0, 1, 5, 6, 7},
-							new int[]{0, 2, 3, 4, 7}, new int[]{0, 2, 3, 5, 7},
-							new int[]{0, 2, 3, 6, 7}, new int[]{0, 2, 4, 5, 7},
-							new int[]{0, 2, 4, 6, 7}, new int[]{0, 2, 5, 6, 7},
-							new int[]{1, 2, 3, 4, 7}, new int[]{1, 2, 3, 5, 7},
-							new int[]{1, 2, 3, 6, 7}, new int[]{1, 2, 4, 5, 7},
-							new int[]{1, 2, 4, 6, 7}, new int[]{1, 2, 5, 6, 7},
-							new int[]{1, 3, 4, 5, 7}, new int[]{1, 3, 4, 6, 7},
-							new int[]{1, 3, 5, 6, 7}, new int[]{1, 4, 5, 6, 7},
-							new int[]{2, 3, 4, 5, 7}, new int[]{2, 3, 4, 6, 7},
-							new int[]{2, 3, 5, 6, 7}, new int[]{2, 4, 5, 6, 7},
-							new int[]{3, 4, 5, 6, 7},
-							new int[]{0, 1, 2, 3, 4, 7},
-							new int[]{0, 1, 2, 3, 5, 7},
-							new int[]{0, 1, 2, 3, 6, 7},
-							new int[]{0, 1, 2, 4, 5, 7},
-							new int[]{0, 1, 2, 4, 6, 7},
-							new int[]{0, 1, 2, 5, 6, 7},
-							new int[]{0, 1, 3, 4, 5, 7},
-							new int[]{0, 1, 3, 4, 6, 7},
-							new int[]{0, 1, 3, 5, 6, 7},
-							new int[]{0, 1, 4, 5, 6, 7},
-							new int[]{0, 2, 3, 4, 5, 7},
-							new int[]{0, 2, 3, 4, 6, 7},
-							new int[]{0, 2, 3, 5, 6, 7},
-							new int[]{0, 2, 4, 5, 6, 7},
-							new int[]{0, 3, 4, 5, 6, 7},
-							new int[]{1, 2, 3, 4, 5, 7},
-							new int[]{1, 2, 3, 4, 6, 7},
-							new int[]{1, 2, 3, 5, 6, 7},
-							new int[]{1, 2, 4, 5, 6, 7},
-							new int[]{1, 3, 4, 5, 6, 7},
-							new int[]{2, 3, 4, 5, 6, 7},
-							new int[]{0, 1, 2, 3, 4, 5, 7},
-							new int[]{0, 1, 2, 3, 4, 6, 7},
-							new int[]{0, 1, 2, 3, 5, 6, 7},
-							new int[]{0, 1, 2, 4, 5, 6, 7},
-							new int[]{0, 1, 3, 4, 5, 6, 7},
-							new int[]{0, 2, 3, 4, 5, 6, 7},
-							new int[]{1, 2, 3, 4, 5, 6, 7},
-							new int[]{0, 1, 2, 3, 4, 5, 6, 7}}};
+							new int[]{0, 1, 2, 3, 4, 5, 6}}};
 
 	public double[] integralArray;
 	public DoubleMatrix C, F, G, E;
-	//H - core matrix, G = 2-electron matrix, F = fock matrix, C = coeffecient
+	// H - core matrix, G = 2-electron matrix, F = fock matrix, C = coeffecient
 	// matrix (transposed for easier reading), E = eigenvalues
 	private DoubleMatrix densityMatrix, B;
 	private double[] Earray;
@@ -179,6 +89,7 @@ public class SolutionNew extends SolutionR {
 
 	public SolutionNew(NDDOAtom[] atoms, int charge) {
 		super(atoms, charge);
+		int ccount = 0;
 
 		StopWatch sw = new StopWatch();
 
@@ -349,12 +260,12 @@ public class SolutionNew extends SolutionR {
 
 		double DIISError = 10;
 		while (DIISError > 1E-10) {
-//			System.out.println("numIt = " + numIt);
 			olddensity = densityMatrix.dup();
 
 			integralcount = 0;
 
-			//this entire block of code fills up the G matrix, and it calls the
+			// this entire block of code fills up the G matrix, and it calls
+			// the
 			// integralarray to save time.
 
 			for (int j = 0; j < orbitals.length; j++) {
@@ -509,23 +420,16 @@ public class SolutionNew extends SolutionR {
 				Bforediis = newBforediis.dup();
 			}
 
-
-			//System.err.println ("DIIS Error: " + DIISError);
-
-
+			int ediisSize = Math.min(Farray.length + 1, numIt + 2);
 			if (commutatorarray[Math.min(Farray.length - 1, numIt)].max() >
 					0.01) {
 				// if true do EDIIS else DIIS
-				DoubleMatrix mat = DoubleMatrix
-						.zeros(Math.min(Farray.length + 1, numIt + 2),
-								Math.min(Farray.length + 1, numIt + 2));
+				DoubleMatrix mat = DoubleMatrix.zeros(ediisSize, ediisSize);
 
-				for (int i = 0; i < Math.min(Farray.length, numIt + 1); i++) {
-					for (int j = i; j < Math.min(Farray.length, numIt + 1);
-						 j++) {
+				for (int i = 0; i < ediisSize - 1; i++) {
+					for (int j = i; j < ediisSize - 1; j++) {
 						mat.put(i, j, Bforediis.get(i, j));
 						mat.put(j, i, Bforediis.get(i, j));
-
 					}
 				}
 
@@ -534,58 +438,32 @@ public class SolutionNew extends SolutionR {
 				mat.put(mat.rows - 1, mat.columns - 1, 0);
 
 				DoubleMatrix rhs = DoubleMatrix.ones(mat.rows, 1);
-				for (int i = 0; i < Math.min(Farray.length, numIt + 1); i++) {
+				for (int i = 0; i < ediisSize - 1; i++) {
 					rhs.put(i, Earray[i]);
 				}
 
 				double bestE = 0;
 				DoubleMatrix bestDIIS = null;
 				int n = mat.rows - 2;
-//				for (int i = 0; i < n; i++) {
-//
-//				}){
-//					for (int i = 0; i < n; i++) {
-//						DoubleMatrix newmat =
-//								removeElementsSquare(mat.dup(), intss[i]);
-//						DoubleMatrix newrhs =
-//								removeElementsLinear(rhs.dup(), intss[i]);
-//						DoubleMatrix tempEdiis =
-//								addRows(Utils.solve(newmat, newrhs),
-//										intss[i]);
-//						tempEdiis = tempEdiis.put(tempEdiis.rows - 1, 0);
-//						boolean nonNegative = !(tempEdiis.min() < 0);
-//
-//						if (nonNegative) {
-//							double e = finde(tempEdiis);
-//
-//							if (e < bestE) {
-//								bestE = e;
-//								bestDIIS = tempEdiis;
-//							}
-//						}
-//					}
-//					if (intss[i].length == 0 ||
-//							intss[i][intss[i].length - 1] < mat.rows - 2) {
-//						DoubleMatrix newmat =
-//								removeElementsSquare(mat.dup(), intss[i]);
-//						DoubleMatrix newrhs =
-//								removeElementsLinear(rhs.dup(), intss[i]);
-//						DoubleMatrix tempEdiis =
-//								addRows(Utils.solve(newmat, newrhs),
-//										intss[i]);
-//						tempEdiis = tempEdiis.put(tempEdiis.rows - 1, 0);
-//						boolean nonNegative = !(tempEdiis.min() < 0);
-//
-//						if (nonNegative) {
-//							double e = finde(tempEdiis);
-//
-//							if (e < bestE) {
-//								bestE = e;
-//								bestDIIS = tempEdiis;
-//							}
-//						}
-//					}
-//				}
+				for (int i = 0; i <= n; i++) {
+					for (int[] tbr : TBRS[i]) {
+						ccount++;
+						DoubleMatrix newmat = removeElementsSquare(mat, tbr);
+						DoubleMatrix newrhs = removeElementsLinear(rhs, tbr);
+						DoubleMatrix tempEdiis =
+								addRows(Utils.solve(newmat, newrhs), tbr);
+						tempEdiis.put(tempEdiis.rows - 1, 0);
+						boolean nonNegative = !(tempEdiis.min() < 0);
+
+						if (nonNegative) {
+							double e = finde(tempEdiis);
+							if (e < bestE) {
+								bestE = e;
+								bestDIIS = tempEdiis;
+							}
+						}
+					}
+				}
 
 				DoubleMatrix finalDIIS = bestDIIS;
 
@@ -625,11 +503,11 @@ public class SolutionNew extends SolutionR {
 			else {
 
 				DoubleMatrix mat = DoubleMatrix
-						.zeros(Math.min(Farray.length + 1, numIt + 2),
-								Math.min(Farray.length + 1, numIt + 2));
+						.zeros(ediisSize,
+								ediisSize);
 
-				for (int i = 0; i < Math.min(Farray.length, numIt + 1); i++) {
-					for (int j = i; j < Math.min(Farray.length, numIt + 1);
+				for (int i = 0; i < ediisSize - 1; i++) {
+					for (int j = i; j < ediisSize - 1;
 						 j++) {
 						mat.put(i, j, B.get(i, j));
 						mat.put(j, i, B.get(i, j));
@@ -812,7 +690,8 @@ public class SolutionNew extends SolutionR {
 				dipoletot[0] * dipoletot[0] + dipoletot[1] * dipoletot[1] +
 						dipoletot[2] * dipoletot[2]);
 
-
+		System.out.println("ccount = " + ccount);
+		System.out.println("sw.getTime()iamstupid = " + sw.getTime());
 	}
 
 	private static DoubleMatrix commutator(DoubleMatrix F, DoubleMatrix D) {
@@ -820,10 +699,7 @@ public class SolutionNew extends SolutionR {
 	}
 
 	private static DoubleMatrix removeElementsSquare(DoubleMatrix original,
-													 int[] indices) {//remove
-		// rows and columns specified in indices and return downsized square
-		// matrix
-//		System.out.print(Arrays.toString(indices) + ",");
+													 int[] indices) {
 		DoubleMatrix newarray = DoubleMatrix
 				.zeros(original.rows - indices.length,
 						original.rows - indices.length);

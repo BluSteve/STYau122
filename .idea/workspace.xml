@@ -39,7 +39,9 @@
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Testing.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionNew.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -324,7 +326,7 @@
       <recent name="nddoparam.param" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.SolutionNew">
+  <component name="RunManager" selected="Application.Testing">
     <configuration name="InputHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="runcycle.input.InputHandler" />
       <module name="MNDOParam" />
@@ -402,10 +404,10 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Testing" />
         <item itemvalue="Application.SolutionNew" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.InputHandler" />
-        <item itemvalue="Application.Testing" />
         <item itemvalue="Application.OutputHandler" />
       </list>
     </recent_temporary>
@@ -531,13 +533,6 @@
       <workItem from="1627213728532" duration="2875000" />
       <workItem from="1627217662884" duration="836000" />
       <workItem from="1627220401877" duration="6141000" />
-    </task>
-    <task id="LOCAL-00130" summary="minor changes">
-      <created>1626545614637</created>
-      <option name="number" value="00130" />
-      <option name="presentableId" value="LOCAL-00130" />
-      <option name="project" value="LOCAL" />
-      <updated>1626545614637</updated>
     </task>
     <task id="LOCAL-00131" summary="some refactoring and javadocing">
       <created>1626622748815</created>
@@ -875,7 +870,14 @@
       <option name="project" value="LOCAL" />
       <updated>1627226551264</updated>
     </task>
-    <option name="localTasksCounter" value="179" />
+    <task id="LOCAL-00179" summary="accidentally went 2^8">
+      <created>1628049398413</created>
+      <option name="number" value="00179" />
+      <option name="presentableId" value="LOCAL-00179" />
+      <option name="project" value="LOCAL" />
+      <updated>1628049398413</updated>
+    </task>
+    <option name="localTasksCounter" value="180" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -952,7 +954,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="MoleculeRan added, discovered weird hessian NaN error stemming from xComplementary -Infinity" />
     <MESSAGE value="geom opt work in progress" />
     <MESSAGE value="Geom opt further rewrite + Hessian and gradient now throw error instead of failing silent on classcastexception" />
     <MESSAGE value="geom opt bug fix" />
@@ -977,7 +978,8 @@
     <MESSAGE value="synchronized eigen" />
     <MESSAGE value="all jblas solve + eigen synchronized" />
     <MESSAGE value="more synced" />
-    <option name="LAST_COMMIT_MESSAGE" value="more synced" />
+    <MESSAGE value="accidentally went 2^8" />
+    <option name="LAST_COMMIT_MESSAGE" value="accidentally went 2^8" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

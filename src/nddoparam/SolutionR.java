@@ -18,10 +18,12 @@ public class SolutionR extends Solution {
 	// matrix (transposed for easier reading), E = eigenvalues
 	private DoubleMatrix densityMatrix, B;
 	double[] Earray;
+	public static int ccount = 0;
 
 
 	public SolutionR(NDDOAtom[] atoms, int charge) {
 		super(atoms, charge);
+		ccount = 0;
 
 		StopWatch sw = new StopWatch();
 
@@ -201,7 +203,6 @@ public class SolutionR extends Solution {
 
 		double DIISError = 10;
 
-		System.out.println("Beginning SCF iterations...");
 		while (DIISError > 1E-10) {
 //			System.out.println("numIt = " + numIt);
 
@@ -1005,10 +1006,11 @@ public class SolutionR extends Solution {
 				dipoletot[0] * dipoletot[0] + dipoletot[1] * dipoletot[1] +
 						dipoletot[2] * dipoletot[2]);
 
-
+		System.out.println("ccount2 = " + ccount);
 	}
 
 	private double finde(DoubleMatrix tempEdiis) {
+
 		double e = 0;
 
 		for (int a = 0; a < tempEdiis.length - 1; a++) {
@@ -1034,6 +1036,8 @@ public class SolutionR extends Solution {
 		// rows and
 		// columns specified in indices and return downsized square matrix
 //		System.out.print(Arrays.toString(indices) + ",");
+		ccount ++;
+
 		DoubleMatrix newarray = DoubleMatrix
 				.zeros(original.rows - indices.length,
 						original.rows - indices.length);

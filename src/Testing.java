@@ -3,12 +3,12 @@ import jcuda.Sizeof;
 import jcuda.jcublas.JCublas;
 import jcuda.runtime.JCuda;
 import nddoparam.Solution;
+import nddoparam.SolutionNew;
 import nddoparam.SolutionR;
 import nddoparam.mndo.MNDOAtom;
 import nddoparam.mndo.MNDOParams;
 import org.apache.commons.lang3.time.StopWatch;
 import org.jblas.DoubleMatrix;
-import org.jblas.Eigen;
 import scf.AtomHandler;
 import scf.Utils;
 
@@ -18,7 +18,7 @@ import java.util.Random;
 public class Testing {
 	public static void main(String[] args) {
 		try {
-			Eigen.symmetricEigenvalues(DoubleMatrix.rand(10,10));
+			testMain();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -302,35 +302,26 @@ public class Testing {
 				new MNDOAtom(AtomHandler.atomsMap.get("C"),
 						new double[]{0, 0, 0}, c)};
 		double[] datum = new double[]{-17.9, 0, 13.6};
-//		StopWatch sw = new StopWatch();
-//		Solution sr = new SolutionNew(exp1, 0);
-//
-//		sw.start();
-//		sr = new SolutionNew(atoms, 0);
-////		GeometryOptimization.of(sr).compute();
-//		sw.stop();
-//
-//		System.out.println("sr.energy = " + sr.energy);
-//		System.out.println("sw.getTime() = " + sw.getTime());
-//		sw.reset();
-//		Solution sn = new SolutionR(exp1, 0);
-//
-//		sw.start();
-//		sn = new SolutionR(atoms, 0);
-////		GeometryOptimization.of(sn).compute();
-//
-//		sw.stop();
-//		System.out.println("sn.energy = " + sn.energy);
-//		System.out.println("sw.getTime() = " + sw.getTime());
+		StopWatch sw = new StopWatch();
+		Solution sn =new SolutionNew(atoms, 0);;
+		System.out.println(" = " );
 
-		Solution solution = new SolutionR(exp1,0);
-		System.out.println("solution.hashCode() = " + solution.hashCode());
-		Solution solution1 = new SolutionR(Utils.perturbAtomParams(solution.atoms, 1,0),0);
-		System.out.println("solution.hashCode() = " + solution.hashCode());
-		solution.energy = 0;
-		System.out.println("solution.hashCode() = " + solution.hashCode());
+		sw.start();
+		sn = new SolutionNew(atoms, 0);
+//		GeometryOptimization.of(sr).compute();
+		sw.stop();
 
-//		System.out.println("solution = " + solution);
-		System.out.println();
+		System.out.println("sr.energy = " + sn.energy);
+//		System.out.println("sw.getTime() = " + sw.getTime());
+		sw.reset();
+		Solution sr ;
+
+		sw.start();
+		sr = new SolutionR(atoms, 0);
+//		GeometryOptimization.of(sr).compute();
+
+		sw.stop();
+		System.out.println("sr.energy = " + sr.energy);
+		System.out.println("sw.getTime() = " + sw.getTime());
 	}
 }
