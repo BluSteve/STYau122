@@ -11,7 +11,7 @@ public abstract class GeometryOptimization {
 	}
 
 	public static GeometryOptimization of(Solution s) {
-		if (s instanceof SolutionR || s instanceof SolutionNew) {
+		if (s instanceof SolutionR) {
 			return new GeometryOptimizationR((SolutionR) s);
 		}
 		else if (s instanceof SolutionU) {

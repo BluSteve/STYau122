@@ -38,10 +38,101 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcublas-10.1.0-javadoc.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcublas-10.1.0-sources.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcublas-10.1.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcublas-natives-10.1.0-apple-x86_64.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcublas-natives-10.1.0-javadoc.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcublas-natives-10.1.0-linux-x86_64.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcublas-natives-10.1.0-sources.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcublas-natives-10.1.0-windows-x86_64.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcublas-natives-10.1.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcuda-10.1.0-javadoc.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcuda-10.1.0-sources.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcuda-10.1.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcuda-common-10.1.0-javadoc.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcuda-common-10.1.0-sources.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcuda-common-10.1.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcuda-natives-10.1.0-apple-x86_64.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcuda-natives-10.1.0-javadoc.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcuda-natives-10.1.0-linux-x86_64.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcuda-natives-10.1.0-sources.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcuda-natives-10.1.0-windows-x86_64.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcuda-natives-10.1.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcudnn-10.1.0-javadoc.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcudnn-10.1.0-sources.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcudnn-10.1.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcudnn-natives-10.1.0-apple-x86_64.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcudnn-natives-10.1.0-javadoc.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcudnn-natives-10.1.0-linux-x86_64.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcudnn-natives-10.1.0-sources.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcudnn-natives-10.1.0-windows-x86_64.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcudnn-natives-10.1.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcufft-10.1.0-javadoc.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcufft-10.1.0-sources.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcufft-10.1.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcufft-natives-10.1.0-apple-x86_64.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcufft-natives-10.1.0-javadoc.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcufft-natives-10.1.0-linux-x86_64.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcufft-natives-10.1.0-sources.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcufft-natives-10.1.0-windows-x86_64.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcufft-natives-10.1.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcurand-10.1.0-javadoc.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcurand-10.1.0-sources.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcurand-10.1.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcurand-natives-10.1.0-apple-x86_64.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcurand-natives-10.1.0-javadoc.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcurand-natives-10.1.0-linux-x86_64.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcurand-natives-10.1.0-sources.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcurand-natives-10.1.0-windows-x86_64.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcurand-natives-10.1.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusolver-10.1.0-javadoc.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusolver-10.1.0-sources.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusolver-10.1.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusolver-natives-10.1.0-apple-x86_64.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusolver-natives-10.1.0-javadoc.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusolver-natives-10.1.0-linux-x86_64.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusolver-natives-10.1.0-sources.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusolver-natives-10.1.0-windows-x86_64.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusolver-natives-10.1.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusparse-10.1.0-javadoc.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusparse-10.1.0-sources.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusparse-10.1.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusparse-natives-10.1.0-apple-x86_64.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusparse-natives-10.1.0-javadoc.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusparse-natives-10.1.0-linux-x86_64.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusparse-natives-10.1.0-sources.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusparse-natives-10.1.0-windows-x86_64.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusparse-natives-10.1.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jnvgraph-10.1.0-javadoc.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jnvgraph-10.1.0-sources.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jnvgraph-10.1.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jnvgraph-natives-10.1.0-apple-x86_64.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jnvgraph-natives-10.1.0-javadoc.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jnvgraph-natives-10.1.0-linux-x86_64.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jnvgraph-natives-10.1.0-sources.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jnvgraph-natives-10.1.0-windows-x86_64.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jnvgraph-natives-10.1.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/MNDOParam_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/MNDOParam_jar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/input.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputtesting.txt" beforeDir="false" afterPath="$PROJECT_DIR$/inputtesting.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Testing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionNew.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/Solution.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionNew.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionRDIIS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionRDIIS.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionREDIIS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionREDIIS.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionU.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/input/RawMolecule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/input/RawMolecule.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,22 +208,31 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/Testing.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/SolutionNew.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/runcycle/MoleculeRun.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/mndo-install.sh" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/MNDOParam.iml" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/GeometryDerivative.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/runcycle/input/InputHandler.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/input.json" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/GeometryOptimizationR.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/input.txt" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/runcycle/output/OutputHandler.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/SolutionR.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/pastinputs/input-9C63929F.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/input.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/CublasTools.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/scf/Utils.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/MNDOParam.iml" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/Main.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/NDDOParams.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/mndo-install.sh" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/Testing.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/EJMLTesting.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/nddoparam/GeometryDerivative.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/nddoparam/GeometryOptimizationR.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/nddoparam/NDDOParams.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/nddoparam/SolutionR.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/nddoparam/Solution.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/gcloud.txt" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/nddoparam/param/ParamErrorFunctionR.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
@@ -326,7 +426,7 @@
       <recent name="nddoparam.param" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Testing">
+  <component name="RunManager" selected="Application.InputHandler">
     <configuration name="InputHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="runcycle.input.InputHandler" />
       <module name="MNDOParam" />
@@ -393,10 +493,10 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.InputHandler" />
         <item itemvalue="Application.Testing" />
         <item itemvalue="Application.SolutionNew" />
         <item itemvalue="Application.Main" />
-        <item itemvalue="Application.InputHandler" />
         <item itemvalue="Application.OutputHandler" />
       </list>
     </recent_temporary>
@@ -972,6 +1072,15 @@
     <option name="LAST_COMMIT_MESSAGE" value="almost done with solutionr refactor" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/nddoparam/Solution.java</url>
+          <line>97</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="nddoparam.param.ParamHessianRestricted" memberName="gPrime" />

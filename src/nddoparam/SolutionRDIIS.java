@@ -32,17 +32,17 @@ public class SolutionRDIIS extends Solution {
 			for (int k = j; k < orbitals.length; k++) {
 				if (j == k) {
 
-					for (int l : orbitalIndices[atomNumber[j]]) {
+					for (int l : orbitalIndices[orbitalAtomNumbers[j]]) {
 						if (l > -1) {
 							size++;
 						}
 					}
 
-					for (int l : missingIndex[atomNumber[j]]) {
+					for (int l : missingIndices[orbitalAtomNumbers[j]]) {
 						if (l > -1) {
-							for (int m : missingIndex[atomNumber[j]]) {
+							for (int m : missingIndices[orbitalAtomNumbers[j]]) {
 								if (m > -1) {
-									if (atomNumber[l] == atomNumber[m]) {
+									if (orbitalAtomNumbers[l] == orbitalAtomNumbers[m]) {
 										size++;
 									}
 								}
@@ -51,14 +51,14 @@ public class SolutionRDIIS extends Solution {
 						}
 					}
 				}
-				else if (atomNumber[j] == atomNumber[k]) {
+				else if (orbitalAtomNumbers[j] == orbitalAtomNumbers[k]) {
 					size++;
 
-					for (int l : missingIndex[atomNumber[j]]) {
+					for (int l : missingIndices[orbitalAtomNumbers[j]]) {
 						if (l > -1) {
-							for (int m : missingIndex[atomNumber[j]]) {
+							for (int m : missingIndices[orbitalAtomNumbers[j]]) {
 								if (m > -1) {
-									if (atomNumber[l] == atomNumber[m]) {
+									if (orbitalAtomNumbers[l] == orbitalAtomNumbers[m]) {
 										size++;
 									}
 								}
@@ -68,9 +68,9 @@ public class SolutionRDIIS extends Solution {
 					}
 				}
 				else {
-					for (int l : orbitalIndices[atomNumber[j]]) {
+					for (int l : orbitalIndices[orbitalAtomNumbers[j]]) {
 						if (l > -1) {
-							for (int m : orbitalIndices[atomNumber[k]]) {
+							for (int m : orbitalIndices[orbitalAtomNumbers[k]]) {
 								if (m > -1) {
 									size++;
 								}
@@ -91,7 +91,7 @@ public class SolutionRDIIS extends Solution {
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
 				if (j == k) { // case 1
-					for (int l : orbitalIndices[atomNumber[j]]) {
+					for (int l : orbitalIndices[orbitalAtomNumbers[j]]) {
 						if (l > -1) {
 							integralArray[integralcount] =
 									(NDDO6G.OneCenterERI(orbitals[j],
@@ -104,11 +104,11 @@ public class SolutionRDIIS extends Solution {
 						}
 					}
 
-					for (int l : missingIndex[atomNumber[j]]) {
+					for (int l : missingIndices[orbitalAtomNumbers[j]]) {
 						if (l > -1) {
-							for (int m : missingIndex[atomNumber[j]]) {
+							for (int m : missingIndices[orbitalAtomNumbers[j]]) {
 								if (m > -1) {
-									if (atomNumber[l] == atomNumber[m]) {
+									if (orbitalAtomNumbers[l] == orbitalAtomNumbers[m]) {
 										integralArray[integralcount] =
 												(NDDO6G.getG(orbitals[j],
 														orbitals[j],
@@ -122,7 +122,7 @@ public class SolutionRDIIS extends Solution {
 						}
 					}
 				}
-				else if (atomNumber[j] == atomNumber[k]) { // case 2
+				else if (orbitalAtomNumbers[j] == orbitalAtomNumbers[k]) { // case 2
 					integralArray[integralcount] = (1.5 *
 							NDDO6G.OneCenterERI(orbitals[j], orbitals[k],
 									orbitals[j],
@@ -131,11 +131,11 @@ public class SolutionRDIIS extends Solution {
 									orbitals[k],
 									orbitals[k]));
 					integralcount++;
-					for (int l : missingIndex[atomNumber[j]]) {
+					for (int l : missingIndices[orbitalAtomNumbers[j]]) {
 						if (l > -1) {
-							for (int m : missingIndex[atomNumber[j]]) {
+							for (int m : missingIndices[orbitalAtomNumbers[j]]) {
 								if (m > -1) {
-									if (atomNumber[l] == atomNumber[m]) {
+									if (orbitalAtomNumbers[l] == orbitalAtomNumbers[m]) {
 										integralArray[integralcount] =
 												(NDDO6G.getG(orbitals[j],
 														orbitals[k],
@@ -149,9 +149,9 @@ public class SolutionRDIIS extends Solution {
 					}
 				}
 				else { // case 3
-					for (int l : orbitalIndices[atomNumber[j]]) {
+					for (int l : orbitalIndices[orbitalAtomNumbers[j]]) {
 						if (l > -1) {
-							for (int m : orbitalIndices[atomNumber[k]]) {
+							for (int m : orbitalIndices[orbitalAtomNumbers[k]]) {
 								if (m > -1) {
 									integralArray[integralcount] = (-0.5 *
 											NDDO6G.getG(orbitals[j],
@@ -212,7 +212,7 @@ public class SolutionRDIIS extends Solution {
 					double val = 0;
 					if (j == k) {
 
-						for (int l : orbitalIndices[atomNumber[j]]) {
+						for (int l : orbitalIndices[orbitalAtomNumbers[j]]) {
 							if (l > -1) {
 								val += densityMatrix.get(l, l) *
 										integralArray[integralcount];
@@ -220,11 +220,11 @@ public class SolutionRDIIS extends Solution {
 							}
 						}
 
-						for (int l : missingIndex[atomNumber[j]]) {
+						for (int l : missingIndices[orbitalAtomNumbers[j]]) {
 							if (l > -1) {
-								for (int m : missingIndex[atomNumber[j]]) {
+								for (int m : missingIndices[orbitalAtomNumbers[j]]) {
 									if (m > -1) {
-										if (atomNumber[l] == atomNumber[m]) {
+										if (orbitalAtomNumbers[l] == orbitalAtomNumbers[m]) {
 											val += densityMatrix.get(l, m) *
 													integralArray[integralcount];
 											integralcount++;
@@ -235,16 +235,16 @@ public class SolutionRDIIS extends Solution {
 							}
 						}
 					}
-					else if (atomNumber[j] == atomNumber[k]) {
+					else if (orbitalAtomNumbers[j] == orbitalAtomNumbers[k]) {
 						val += densityMatrix.get(j, k) *
 								integralArray[integralcount];
 						integralcount++;
 
-						for (int l : missingIndex[atomNumber[j]]) {
+						for (int l : missingIndices[orbitalAtomNumbers[j]]) {
 							if (l > -1) {
-								for (int m : missingIndex[atomNumber[j]]) {
+								for (int m : missingIndices[orbitalAtomNumbers[j]]) {
 									if (m > -1) {
-										if (atomNumber[l] == atomNumber[m]) {
+										if (orbitalAtomNumbers[l] == orbitalAtomNumbers[m]) {
 											val += densityMatrix.get(l, m) *
 													integralArray[integralcount];
 											integralcount++;
@@ -256,9 +256,9 @@ public class SolutionRDIIS extends Solution {
 						}
 					}
 					else {
-						for (int l : orbitalIndices[atomNumber[j]]) {
+						for (int l : orbitalIndices[orbitalAtomNumbers[j]]) {
 							if (l > -1) {
-								for (int m : orbitalIndices[atomNumber[k]]) {
+								for (int m : orbitalIndices[orbitalAtomNumbers[k]]) {
 									if (m > -1) {
 										val += densityMatrix.get(l, m) *
 												integralArray[integralcount];

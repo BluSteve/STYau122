@@ -11,9 +11,9 @@ public abstract class Solution {
 	public double energy, homo, lumo, hf, dipole;
 	public double[] chargedip, hybridip, dipoletot;
 	public int charge, multiplicity;
-	public int[][] missingIndex, orbitalIndices;
+	public int[][] missingIndices, orbitalIndices;
 	public NDDOAtom[] atoms;
-	public int[] atomNumber;
+	public int[] orbitalAtomNumbers;
 	public double damp = 0.8;
 	public int nElectrons;
 	public DoubleMatrix H;
@@ -21,6 +21,10 @@ public abstract class Solution {
 	public int[] atomicNumbers;
 	protected RawMolecule rm;
 
+//	public static Solution from(RawMolecule rm, NDDOParams params) {
+//
+//	}
+//
 	public Solution(NDDOAtom[] atoms, int charge) {
 		/*
 		 solution give 2 things
@@ -33,11 +37,11 @@ public abstract class Solution {
 		*/
 		this.atoms = atoms;
 		this.charge = charge;
-		int numOrbitals = 0;
+		int nOrbitals = 0;
 
 		for (NDDOAtom a : atoms) {
 			nElectrons += a.getAtomProperties().getQ();
-			numOrbitals += a.getOrbitals().length;
+			nOrbitals += a.getOrbitals().length;
 		}
 		nElectrons -= charge;
 
@@ -46,9 +50,16 @@ public abstract class Solution {
 			atomicNumbers[num] = atoms[num].getAtomProperties().getZ();
 		}
 
-		orbitals = new NDDO6G[numOrbitals];
+		orbitals = new NDDO6G[nOrbitals];
+
 		orbitalIndices = new int[atoms.length][4];
-		atomNumber = new int[orbitals.length];
+		// orbital indexes of orbitals that an atom doesn't have
+		missingIndices = new int[atoms.length][4 * (atoms.length - 1)];
+		for (int[] index : missingIndices) Arrays.fill(index, -1);
+
+		// corresponding atom numbers of an orbital
+		orbitalAtomNumbers = new int[nOrbitals];
+
 		int atomIndex = 0;
 		int overallIndex = 0;
 		for (NDDOAtom atom : atoms) {
@@ -56,7 +67,7 @@ public abstract class Solution {
 			for (NDDO6G orbital : atom.getOrbitals()) {
 				orbitals[overallIndex] = orbital;
 				orbitalIndices[atomIndex][orbitalIndex] = overallIndex;
-				atomNumber[overallIndex] = atomIndex;
+				orbitalAtomNumbers[overallIndex] = atomIndex;
 				overallIndex++;
 				orbitalIndex++;
 			}
@@ -69,13 +80,6 @@ public abstract class Solution {
 			atomIndex++;
 		}
 
-		missingIndex = new int[atoms.length][4 * atoms.length - 4];
-
-		for (int j = 0; j < atoms.length; j++) {
-			for (int k = 0; k < 4 * atoms.length - 4; k++) {
-				missingIndex[j][k] = -1;
-			}
-		}
 
 		for (int j = 0; j < atoms.length; j++) {
 			int[] nums = new int[]{orbitalIndices[j][0], orbitalIndices[j][1],
@@ -85,7 +89,7 @@ public abstract class Solution {
 			for (int k = 0; k < orbitals.length; k++) {
 				if (nums[0] != k && nums[1] != k && nums[2] != k &&
 						nums[3] != k) {
-					missingIndex[j][counter] = k;
+					missingIndices[j][counter] = k;
 					counter++;
 				}
 			}
@@ -101,17 +105,17 @@ public abstract class Solution {
 					double Huu = orbitals[j].U();
 
 					for (int an = 0; an < atoms.length; an++) {
-						if (atomNumber[j] != an) {
+						if (orbitalAtomNumbers[j] != an) {
 							Huu += atoms[an].V(orbitals[j], orbitals[k]);
 						}
 					}
 
 					H.put(j, k, Huu);
 				}
-				else if (atomNumber[j] == atomNumber[k]) { // case 2
+				else if (orbitalAtomNumbers[j] == orbitalAtomNumbers[k]) { // case 2
 					double Huv = 0;
 					for (int an = 0; an < atoms.length; an++) {
-						if (atomNumber[j] != an) {
+						if (orbitalAtomNumbers[j] != an) {
 							Huv += atoms[an].V(orbitals[j], orbitals[k]);
 						}
 					}
@@ -171,10 +175,10 @@ public abstract class Solution {
 				", dipoletot=" + Arrays.toString(dipoletot) +
 				", charge=" + charge +
 				", multiplicity=" + multiplicity +
-				", missingIndex=" + Arrays.toString(missingIndex) +
+				", missingIndex=" + Arrays.toString(missingIndices) +
 				", index=" + Arrays.toString(orbitalIndices) +
 				", atoms=" + Arrays.toString(atoms) +
-				", atomNumber=" + Arrays.toString(atomNumber) +
+				", atomNumber=" + Arrays.toString(orbitalAtomNumbers) +
 				", damp=" + damp +
 				", nElectrons=" + nElectrons +
 				", H=" + H +

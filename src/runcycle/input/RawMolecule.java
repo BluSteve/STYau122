@@ -10,7 +10,7 @@ public class RawMolecule {
 	public int index;
 	public String name;
 	public boolean isUsing, restricted;
-	public int charge, mult, nElectrons;
+	public int charge, mult, nElectrons, nOrbitals;
 	public double[] datum;
 	public int[] mats; // molecule atom types
 	public int[][] mnps; // molecule needed params

@@ -50,7 +50,6 @@ class ParamGradientR extends ParamGradient {
 
 		DoubleMatrix[] aggregateArray = aggregate.toArray(new DoubleMatrix[0]);
 
-
 		DoubleMatrix[] aggregateArrayUnpadded =
 				new DoubleMatrix[Utils.numNotNull(aggregateArray)];
 		int j = 0;
@@ -63,10 +62,11 @@ class ParamGradientR extends ParamGradient {
 		if (aggregateArrayUnpadded.length > 0) {
 			DoubleMatrix[] xLimitedAggregate =
 					new DoubleMatrix[aggregateArrayUnpadded.length];
+			System.out.println("xLimitedAggregate = " + xLimitedAggregate.length);
 			int elapsedSize = 0;
 			double cores = Runtime.getRuntime().availableProcessors();
 			int size = Math.max((int) Math.ceil(
-					aggregateArrayUnpadded.length / cores), 3);
+					aggregateArrayUnpadded.length / cores), 9);
 			List<RecursiveAction> subtasks = new ArrayList<>();
 			while (elapsedSize < aggregateArrayUnpadded.length) {
 				int finalElapsedSize = elapsedSize;

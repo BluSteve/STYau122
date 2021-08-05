@@ -173,6 +173,7 @@ public class InputHandler {
 					for (RawAtom a : atomsL) {
 						AtomProperties ap = AtomHandler.atomsMap.get(a.name);
 						rm.nElectrons += ap.getQ();
+						rm.nOrbitals += ap.getOrbitals().length;
 						if (!tempZs.contains(ap.getZ())) {
 							tempZs.add(ap.getZ());
 							if (ri.model.equals("mndo")) {

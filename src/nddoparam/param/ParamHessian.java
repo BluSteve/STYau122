@@ -57,8 +57,7 @@ public class ParamHessian {
 		}
 		else throw new IllegalArgumentException(
 					"ParamGradient g is neither restricted nor unrestricted!" +
-							" " +
-							"Molecule: " +
+							" Molecule: " +
 							g.getS().getRm().index + " " +
 							g.getS().getRm().name);
 		return h;

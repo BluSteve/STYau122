@@ -2331,9 +2331,9 @@ public class ParamDerivative {
 
 		int[][] index = soln.orbitalIndices;
 
-		int[][] missingIndex = soln.missingIndex;
+		int[][] missingIndex = soln.missingIndices;
 
-		int[] atomNumber = soln.atomNumber;
+		int[] atomNumber = soln.orbitalAtomNumbers;
 
 		int[] atomicnumbers = soln.atomicNumbers;
 
@@ -2449,9 +2449,9 @@ public class ParamDerivative {
 
 		int[][] index = soln.orbitalIndices;
 
-		int[][] missingIndex = soln.missingIndex;
+		int[][] missingIndex = soln.missingIndices;
 
-		int[] atomNumber = soln.atomNumber;
+		int[] atomNumber = soln.orbitalAtomNumbers;
 
 		int[] atomicnumbers = soln.atomicNumbers;
 
@@ -2554,7 +2554,7 @@ public class ParamDerivative {
 
 		NDDO6G[] orbitals = soln.orbitals;
 
-		int[] atomNumber = soln.atomNumber;
+		int[] atomNumber = soln.orbitalAtomNumbers;
 
 		int[] atomicnumbers = soln.atomicNumbers;
 
@@ -2600,9 +2600,9 @@ public class ParamDerivative {
 
 		int[][] index = soln.orbitalIndices;
 
-		int[][] missingIndex = soln.missingIndex;
+		int[][] missingIndex = soln.missingIndices;
 
-		int[] atomNumber = soln.atomNumber;
+		int[] atomNumber = soln.orbitalAtomNumbers;
 
 		int[] atomicnumbers = soln.atomicNumbers;
 
@@ -2675,7 +2675,7 @@ public class ParamDerivative {
 
 		NDDO6G[] orbitals = soln.orbitals;
 
-		int[] atomNumber = soln.atomNumber;
+		int[] atomNumber = soln.orbitalAtomNumbers;
 
 		int[] atomicnumbers = soln.atomicNumbers;
 
@@ -2700,7 +2700,7 @@ public class ParamDerivative {
 				DoubleMatrix.zeros(soln.orbitals.length, soln.orbitals.length);
 
 		for (int j = 0; j < soln.orbitals.length; j++) {
-			if (soln.atomicNumbers[soln.atomNumber[j]] == Z &&
+			if (soln.atomicNumbers[soln.orbitalAtomNumbers[j]] == Z &&
 					soln.orbitals[j].getL() == type) {
 				F.put(j, j, 1);
 			}
@@ -2717,7 +2717,7 @@ public class ParamDerivative {
 
 		NDDO6G[] orbitals = soln.orbitals;
 
-		int[] atomNumber = soln.atomNumber;
+		int[] atomNumber = soln.orbitalAtomNumbers;
 
 		int[] atomicnumbers = soln.atomicNumbers;
 
@@ -2753,7 +2753,7 @@ public class ParamDerivative {
 
 		NDDO6G[] orbitals = soln.orbitals;
 
-		int[] atomNumber = soln.atomNumber;
+		int[] atomNumber = soln.orbitalAtomNumbers;
 
 		int[] atomicnumbers = soln.atomicNumbers;
 
@@ -2871,7 +2871,7 @@ public class ParamDerivative {
 				double val = 0;
 				if (j == k) {
 
-					for (int l : soln.orbitalIndices[soln.atomNumber[j]]) {
+					for (int l : soln.orbitalIndices[soln.orbitalAtomNumbers[j]]) {
 						if (l > -1) {
 							val += densityMatrixDeriv.get(l, l) *
 									integralArray[integralcount];
@@ -2879,13 +2879,13 @@ public class ParamDerivative {
 						}
 					}
 
-					for (int l : soln.missingIndex[soln.atomNumber[j]]) {
+					for (int l : soln.missingIndices[soln.orbitalAtomNumbers[j]]) {
 						if (l > -1) {
 							for (int m :
-									soln.missingIndex[soln.atomNumber[j]]) {
+									soln.missingIndices[soln.orbitalAtomNumbers[j]]) {
 								if (m > -1) {
-									if (soln.atomNumber[l] ==
-											soln.atomNumber[m]) {
+									if (soln.orbitalAtomNumbers[l] ==
+											soln.orbitalAtomNumbers[m]) {
 										val += densityMatrixDeriv.get(l, m) *
 												integralArray[integralcount];
 										integralcount++;
@@ -2896,18 +2896,18 @@ public class ParamDerivative {
 						}
 					}
 				}
-				else if (soln.atomNumber[j] == soln.atomNumber[k]) {
+				else if (soln.orbitalAtomNumbers[j] == soln.orbitalAtomNumbers[k]) {
 					val += densityMatrixDeriv.get(j, k) *
 							integralArray[integralcount];
 					integralcount++;
 
-					for (int l : soln.missingIndex[soln.atomNumber[j]]) {
+					for (int l : soln.missingIndices[soln.orbitalAtomNumbers[j]]) {
 						if (l > -1) {
 							for (int m :
-									soln.missingIndex[soln.atomNumber[j]]) {
+									soln.missingIndices[soln.orbitalAtomNumbers[j]]) {
 								if (m > -1) {
-									if (soln.atomNumber[l] ==
-											soln.atomNumber[m]) {
+									if (soln.orbitalAtomNumbers[l] ==
+											soln.orbitalAtomNumbers[m]) {
 										val += densityMatrixDeriv.get(l, m) *
 												integralArray[integralcount];
 										integralcount++;
@@ -2919,10 +2919,10 @@ public class ParamDerivative {
 					}
 				}
 				else {
-					for (int l : soln.orbitalIndices[soln.atomNumber[j]]) {
+					for (int l : soln.orbitalIndices[soln.orbitalAtomNumbers[j]]) {
 						if (l > -1) {
 							for (int m :
-									soln.orbitalIndices[soln.atomNumber[k]]) {
+									soln.orbitalIndices[soln.orbitalAtomNumbers[k]]) {
 								if (m > -1) {
 									val += densityMatrixDeriv.get(l, m) *
 											integralArray[integralcount];
@@ -2983,7 +2983,7 @@ public class ParamDerivative {
 				double val = 0;
 				if (j == k) {
 
-					for (int l : soln.orbitalIndices[soln.atomNumber[j]]) {
+					for (int l : soln.orbitalIndices[soln.orbitalAtomNumbers[j]]) {
 						if (l > -1) {
 							val += densityMatrixDeriv.get(l, l) *
 									integralArray[integralcount];
@@ -2991,13 +2991,13 @@ public class ParamDerivative {
 						}
 					}
 
-					for (int l : soln.missingIndex[soln.atomNumber[j]]) {
+					for (int l : soln.missingIndices[soln.orbitalAtomNumbers[j]]) {
 						if (l > -1) {
 							for (int m :
-									soln.missingIndex[soln.atomNumber[j]]) {
+									soln.missingIndices[soln.orbitalAtomNumbers[j]]) {
 								if (m > -1) {
-									if (soln.atomNumber[l] ==
-											soln.atomNumber[m]) {
+									if (soln.orbitalAtomNumbers[l] ==
+											soln.orbitalAtomNumbers[m]) {
 										val += densityMatrixDeriv.get(l, m) *
 												integralArray[integralcount];
 										integralcount++;
@@ -3008,18 +3008,18 @@ public class ParamDerivative {
 						}
 					}
 				}
-				else if (soln.atomNumber[j] == soln.atomNumber[k]) {
+				else if (soln.orbitalAtomNumbers[j] == soln.orbitalAtomNumbers[k]) {
 					val += densityMatrixDeriv.get(j, k) *
 							integralArray[integralcount];
 					integralcount++;
 
-					for (int l : soln.missingIndex[soln.atomNumber[j]]) {
+					for (int l : soln.missingIndices[soln.orbitalAtomNumbers[j]]) {
 						if (l > -1) {
 							for (int m :
-									soln.missingIndex[soln.atomNumber[j]]) {
+									soln.missingIndices[soln.orbitalAtomNumbers[j]]) {
 								if (m > -1) {
-									if (soln.atomNumber[l] ==
-											soln.atomNumber[m]) {
+									if (soln.orbitalAtomNumbers[l] ==
+											soln.orbitalAtomNumbers[m]) {
 										val += densityMatrixDeriv.get(l, m) *
 												integralArray[integralcount];
 										integralcount++;
@@ -3031,10 +3031,10 @@ public class ParamDerivative {
 					}
 				}
 				else {
-					for (int l : soln.orbitalIndices[soln.atomNumber[j]]) {
+					for (int l : soln.orbitalIndices[soln.orbitalAtomNumbers[j]]) {
 						if (l > -1) {
 							for (int m :
-									soln.orbitalIndices[soln.atomNumber[k]]) {
+									soln.orbitalIndices[soln.orbitalAtomNumbers[k]]) {
 								if (m > -1) {
 									val += densityMatrixDeriv.get(l, m) *
 											integralArray[integralcount];
@@ -3092,6 +3092,7 @@ public class ParamDerivative {
 
 	public static DoubleMatrix[] xArrayLimitedPople(SolutionR soln,
 													DoubleMatrix[] fockDerivStatic) {
+
 		int NOcc = (int) (soln.nElectrons / 2.0);
 		int NVirt = soln.orbitals.length - NOcc;
 

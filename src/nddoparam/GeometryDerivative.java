@@ -1899,7 +1899,7 @@ public class GeometryDerivative {
 
 		int[][] index = soln.orbitalIndices;
 
-		int[] atomnumber = soln.atomNumber;
+		int[] atomnumber = soln.orbitalAtomNumbers;
 
 		DoubleMatrix H = DoubleMatrix.zeros(orbitals.length, orbitals.length);
 
@@ -2079,7 +2079,7 @@ public class GeometryDerivative {
 
 		int[][] index = soln.orbitalIndices;
 
-		int[] atomnumber = soln.atomNumber;
+		int[] atomnumber = soln.orbitalAtomNumbers;
 
 		DoubleMatrix H = DoubleMatrix.zeros(orbitals.length, orbitals.length);
 
@@ -2568,7 +2568,7 @@ public class GeometryDerivative {
 
 		int[][] index = soln.orbitalIndices;
 
-		int[] atomnumber = soln.atomNumber;
+		int[] atomnumber = soln.orbitalAtomNumbers;
 
 		DoubleMatrix H = DoubleMatrix.zeros(orbitals.length, orbitals.length);
 
@@ -2724,7 +2724,7 @@ public class GeometryDerivative {
 
 		int[][] index = soln.orbitalIndices;
 
-		int[] atomnumber = soln.atomNumber;
+		int[] atomnumber = soln.orbitalAtomNumbers;
 
 		DoubleMatrix H = DoubleMatrix.zeros(orbitals.length, orbitals.length);
 
