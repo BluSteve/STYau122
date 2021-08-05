@@ -7,7 +7,6 @@ import scf.Utils;
 
 import java.util.ArrayList;
 
-
 public class SolutionR extends  Solution{
 	private static final int[][][] TBRS =
 			new int[][][]{new int[][]{new int[]{}},
@@ -86,10 +85,9 @@ public class SolutionR extends  Solution{
 	private DoubleMatrix densityMatrix, B;
 	private double[] Earray;
 
-
-	public SolutionR(NDDOAtom[] atoms, int charge) {
-		super(atoms, charge);
-		int ccount = 0;
+	protected SolutionR(NDDOAtom[] atoms, int[] atomicNumbers, int charge,
+					 int nElectrons, int nOrbitals) {
+		super(atoms, atomicNumbers, charge, 0, nElectrons, nOrbitals);
 
 		StopWatch sw = new StopWatch();
 
@@ -438,7 +436,6 @@ public class SolutionR extends  Solution{
 				int n = mat.rows - 2;
 				for (int i = 0; i <= n; i++) {
 					for (int[] tbr : TBRS[i]) {
-						ccount++;
 						DoubleMatrix newmat = removeElementsSquare(mat, tbr);
 						DoubleMatrix newrhs = removeElementsLinear(rhs, tbr);
 						DoubleMatrix tempEdiis =
@@ -592,7 +589,6 @@ public class SolutionR extends  Solution{
 
 		energy = e;
 
-		if (energy != energy) System.err.println(densityMatrix.getRow(0));
 		heat += e;
 
 		this.hf = heat / 4.3363E-2;
@@ -735,7 +731,6 @@ public class SolutionR extends  Solution{
 
 		for (int i : array) {
 			newarray.put(count, original.get(i));
-
 			count++;
 		}
 
@@ -755,9 +750,8 @@ public class SolutionR extends  Solution{
 			array.add(i);
 		}
 
-		for (int i = 0; i < indices.length; i++) {
-
-			array.add(indices[i], 0.0);
+		for (int index : indices) {
+			array.add(index, 0.0);
 		}
 
 		for (int i = 0; i < array.size(); i++) {
@@ -784,12 +778,6 @@ public class SolutionR extends  Solution{
 		return e;
 	}
 
-	@Override
-	public SolutionR setRm(RawMolecule rm) {
-		this.rm = rm;
-		return this;
-	}
-
 	private DoubleMatrix calculateDensityMatrix(
 			DoubleMatrix c) {//density matrix construction by definition.
 		DoubleMatrix densityMatrix = DoubleMatrix.zeros(orbitals.length,
@@ -808,6 +796,12 @@ public class SolutionR extends  Solution{
 			}
 		}
 		return densityMatrix;
+	}
+
+	@Override
+	public SolutionR setRm(RawMolecule rm) {
+		this.rm = rm;
+		return this;
 	}
 
 	public DoubleMatrix getE() {

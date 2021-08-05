@@ -12,6 +12,7 @@ public class RawMolecule {
 	public boolean isUsing, restricted;
 	public int charge, mult, nElectrons, nOrbitals;
 	public double[] datum;
+	public int[] atomicNumbers;
 	public int[] mats; // molecule atom types
 	public int[][] mnps; // molecule needed params
 	public RawAtom[] atoms, expGeom;
@@ -24,6 +25,10 @@ public class RawMolecule {
 					mndoParams[AtomHandler.atoms[atoms[i].Z].getIndex()]);
 		}
 		return res;
+	}
+
+	public String debugName() {
+		return index + ":" + name;
 	}
 
 	@Override

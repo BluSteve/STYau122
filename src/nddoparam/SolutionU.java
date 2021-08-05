@@ -13,20 +13,21 @@ public class SolutionU extends Solution {
 	private DoubleMatrix Fa, Fb;
 	private DoubleMatrix alphaDensity, betaDensity;
 
-	public SolutionU(NDDOAtom[] atoms, int charge, int mult) {
-		super(atoms, charge);
-		this.multiplicity = mult;
-		if (nElectrons % 2 == multiplicity % 2 || multiplicity < 1) {
+	protected SolutionU(NDDOAtom[] atoms, int[] atomicNumbers, int charge,
+					 int mult, int nElectrons, int nOrbitals) {
+		super(atoms, atomicNumbers, charge, mult, nElectrons, nOrbitals);
+		this.mult = mult;
+		if (nElectrons % 2 == mult % 2 || mult < 1) {
 			System.err.println(
 					"Please check multiplicity and charge: " + nElectrons +
 							", " +
-							multiplicity);
+							mult);
 //			System.exit(0);
 		}
 
-		nElectrons -= (multiplicity - 1);
+		nElectrons -= (mult - 1);
 
-		int nalpha = nElectrons / 2 + (multiplicity - 1);
+		int nalpha = nElectrons / 2 + (mult - 1);
 
 		int nbeta = nElectrons / 2;
 
@@ -702,7 +703,7 @@ public class SolutionU extends Solution {
 		for (int i = 0; i < atoms.length; i++) {
 			newAtoms[i] = new MNDOAtom((MNDOAtom) atoms[i]);
 		}
-		return new SolutionU(newAtoms, charge, multiplicity);
+		return new SolutionU(newAtoms, charge, mult);
 	}
 
 	@Override

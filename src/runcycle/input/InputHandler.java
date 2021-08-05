@@ -169,8 +169,10 @@ public class InputHandler {
 					HashMap<String, Integer> nameOccurrences = new HashMap<>();
 					ArrayList<Integer> tempZs =
 							new ArrayList<>(Utils.maxAtomNum);
+					ArrayList<Integer> atomicNumbers = new ArrayList<>();
 					HashMap<Integer, int[]> tempNPs = new HashMap<>();
 					for (RawAtom a : atomsL) {
+						atomicNumbers.add(a.Z);
 						AtomProperties ap = AtomHandler.atomsMap.get(a.name);
 						rm.nElectrons += ap.getQ();
 						rm.nOrbitals += ap.getOrbitals().length;
@@ -189,16 +191,14 @@ public class InputHandler {
 							nameOccurrences.put(a.name,
 									nameOccurrences.get(a.name) + 1);
 					}
+					rm.atomicNumbers = Utils.toInts(atomicNumbers);
 					for (String key : nameOccurrences.keySet()) {
 						nameBuilder.append(key)
 								.append(nameOccurrences.get(key));
 					}
 					Collections.sort(tempZs);
-					int[] moleculeATs = new int[tempZs.size()];
+					int[] moleculeATs = Utils.toInts(tempZs);
 					int[][] moleculeNPs = new int[tempNPs.size()][];
-					for (int u = 0; u < tempZs.size(); u++) {
-						moleculeATs[u] = tempZs.get(u);
-					}
 					for (int j = 0; j < moleculeNPs.length; j++) {
 						moleculeNPs[j] = tempNPs.get(tempZs.get(j));
 					}

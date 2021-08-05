@@ -1,5 +1,5 @@
 {
-  "hash": "3AC1A98F",
+  "hash": "AA2CF15A",
   "model": "mndo",
   "trainingSet": "HC",
   "nMolecules": 1,
@@ -197,6 +197,13 @@
         365.7,
         0.0,
         0.0
+      ],
+      "atomicNumbers": [
+        6,
+        1,
+        1,
+        1,
+        1
       ],
       "mats": [
         1,

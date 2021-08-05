@@ -271,7 +271,7 @@ public class ParamHessian {
 		return ParamGradient.of(
 				new SolutionU(Utils.perturbAtomParams(s.atoms,
 						s.getRm().mats[ZIndex], paramNum), s.charge,
-						s.multiplicity).setRm(s.getRm()), datum, sExp);
+						s.mult).setRm(s.getRm()), datum, sExp);
 	}
 
 	/**

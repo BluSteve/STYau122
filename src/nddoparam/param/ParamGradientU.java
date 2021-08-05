@@ -66,14 +66,14 @@ class ParamGradientU extends ParamGradient {
 	protected Solution constructSPrime(int ZI, int paramNum) {
 		return new SolutionU(
 				Utils.perturbAtomParams(s.atoms, s.getRm().mats[ZI],
-						paramNum), s.charge, s.multiplicity);
+						paramNum), s.charge, s.mult);
 	}
 
 	@Override
 	protected SolutionU constructSExpPrime(int ZI, int paramNum) {
 		return new SolutionU(
 				Utils.perturbAtomParams(sExp.atoms, sExp.getRm().mats[ZI],
-						paramNum), sExp.charge, sExp.multiplicity);
+						paramNum), sExp.charge, sExp.mult);
 	}
 
 	@Override

@@ -1,6 +1,8 @@
 package nddoparam;
 
+import nddoparam.mndo.MNDOParams;
 import org.jblas.DoubleMatrix;
+import runcycle.input.RawAtom;
 import runcycle.input.RawMolecule;
 
 import java.util.Arrays;
@@ -10,22 +12,28 @@ public abstract class Solution {
 	public static int maxParamNum = 8;
 	public double energy, homo, lumo, hf, dipole;
 	public double[] chargedip, hybridip, dipoletot;
-	public int charge, multiplicity;
+	public int charge, mult, nElectrons, nOrbitals;
 	public int[][] missingIndices, orbitalIndices;
 	public NDDOAtom[] atoms;
-	public int[] orbitalAtomNumbers;
-	public double damp = 0.8;
-	public int nElectrons;
-	public DoubleMatrix H;
 	public NDDO6G[] orbitals;
-	public int[] atomicNumbers;
+	public int[] atomicNumbers, orbitalAtomNumbers;
+	public DoubleMatrix H;
 	protected RawMolecule rm;
 
-//	public static Solution from(RawMolecule rm, NDDOParams params) {
-//
-//	}
-//
-	public Solution(NDDOAtom[] atoms, int charge) {
+	public static Solution of(RawMolecule rm, RawAtom[] ras, NDDOParams[] params) {
+		NDDOAtom[] atoms;
+		if (params instanceof MNDOParams[])
+			atoms = RawMolecule.toMNDOAtoms(ras, (MNDOParams[]) params);
+		else throw new IllegalStateException("Unidentified params type!");
+
+		if (rm.restricted) return new SolutionR(atoms, rm.atomicNumbers,
+				rm.charge, rm.nElectrons, rm.nOrbitals);
+		else return new SolutionU(atoms, rm.atomicNumbers,
+				rm.charge, rm.mult, rm.nElectrons, rm.nOrbitals);
+	}
+
+	protected Solution(NDDOAtom[] atoms, int[] atomicNumbers, int charge,
+					   int mult, int nElectrons, int nOrbitals) {
 		/*
 		 solution give 2 things
 		 1. query arrays - atomNumber returns which atom an orbital
@@ -36,39 +44,31 @@ public abstract class Solution {
 		 2. Fill up H.
 		*/
 		this.atoms = atoms;
+		this.atomicNumbers = atomicNumbers;
 		this.charge = charge;
-		int nOrbitals = 0;
-
-		for (NDDOAtom a : atoms) {
-			nElectrons += a.getAtomProperties().getQ();
-			nOrbitals += a.getOrbitals().length;
-		}
-		nElectrons -= charge;
-
-		atomicNumbers = new int[atoms.length];
-		for (int num = 0; num < atoms.length; num++) {
-			atomicNumbers[num] = atoms[num].getAtomProperties().getZ();
-		}
+		this.mult = mult;
+		this.nElectrons = nElectrons;
+		this.nOrbitals = nOrbitals;
 
 		orbitals = new NDDO6G[nOrbitals];
-
+		// give every orbital a unique index
 		orbitalIndices = new int[atoms.length][4];
 		// orbital indexes of orbitals that an atom doesn't have
 		missingIndices = new int[atoms.length][4 * (atoms.length - 1)];
 		for (int[] index : missingIndices) Arrays.fill(index, -1);
-
 		// corresponding atom numbers of an orbital
 		orbitalAtomNumbers = new int[nOrbitals];
 
-		int atomIndex = 0;
-		int overallIndex = 0;
-		for (NDDOAtom atom : atoms) {
+		int overallOrbitalIndex = 0;
+		for (int atomIndex = 0, atomsLength = atoms.length;
+			 atomIndex < atomsLength; atomIndex++) {
+			NDDOAtom atom = atoms[atomIndex];
 			int orbitalIndex = 0;
 			for (NDDO6G orbital : atom.getOrbitals()) {
-				orbitals[overallIndex] = orbital;
-				orbitalIndices[atomIndex][orbitalIndex] = overallIndex;
-				orbitalAtomNumbers[overallIndex] = atomIndex;
-				overallIndex++;
+				orbitals[overallOrbitalIndex] = orbital;
+				orbitalAtomNumbers[overallOrbitalIndex] = atomIndex;
+				orbitalIndices[atomIndex][orbitalIndex] = overallOrbitalIndex;
+				overallOrbitalIndex++;
 				orbitalIndex++;
 			}
 
@@ -77,18 +77,17 @@ public abstract class Solution {
 				orbitalIndices[atomIndex][2] = -1;
 				orbitalIndices[atomIndex][3] = -1;
 			}
-			atomIndex++;
 		}
 
-
 		for (int j = 0; j < atoms.length; j++) {
-			int[] nums = new int[]{orbitalIndices[j][0], orbitalIndices[j][1],
+			int[] nums = new int[]{orbitalIndices[j][0],
+					orbitalIndices[j][1],
 					orbitalIndices[j][2],
 					orbitalIndices[j][3]};
 			int counter = 0;
 			for (int k = 0; k < orbitals.length; k++) {
-				if (nums[0] != k && nums[1] != k && nums[2] != k &&
-						nums[3] != k) {
+				if (k != nums[0] && k != nums[1] &&
+						k != nums[2] && k != nums[3]) {
 					missingIndices[j][counter] = k;
 					counter++;
 				}
@@ -97,8 +96,7 @@ public abstract class Solution {
 
 		H = new DoubleMatrix(orbitals.length, orbitals.length);
 
-		//filling up the core matrix in accordance with NDDO formalism
-
+		// filling up the core matrix in accordance with NDDO formalism
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
 				if (k == j) {
@@ -112,18 +110,22 @@ public abstract class Solution {
 
 					H.put(j, k, Huu);
 				}
-				else if (orbitalAtomNumbers[j] == orbitalAtomNumbers[k]) { // case 2
+				else if (orbitalAtomNumbers[j] ==
+						orbitalAtomNumbers[k]) {
 					double Huv = 0;
+
 					for (int an = 0; an < atoms.length; an++) {
 						if (orbitalAtomNumbers[j] != an) {
 							Huv += atoms[an].V(orbitals[j], orbitals[k]);
 						}
 					}
+
 					H.put(j, k, Huv);
 					H.put(k, j, Huv);
 				}
-				else { // case 3
+				else {
 					double Huk = NDDO6G.beta(orbitals[j], orbitals[k]);
+
 					H.put(j, k, Huk);
 					H.put(k, j, Huk);
 				}
@@ -133,6 +135,7 @@ public abstract class Solution {
 
 	/**
 	 * Checks if two DoubleMatrices are similar below a threshold.
+	 *
 	 * @param x
 	 * @param y
 	 * @param limit
@@ -161,29 +164,4 @@ public abstract class Solution {
 	public abstract DoubleMatrix betaDensity();
 
 	public abstract DoubleMatrix densityMatrix();
-
-	@Override
-	public String toString() {
-		return "Solution{" +
-				", energy=" + energy +
-				", homo=" + homo +
-				", lumo=" + lumo +
-				", hf=" + hf +
-				", dipole=" + dipole +
-				", chargedip=" + Arrays.toString(chargedip) +
-				", hybridip=" + Arrays.toString(hybridip) +
-				", dipoletot=" + Arrays.toString(dipoletot) +
-				", charge=" + charge +
-				", multiplicity=" + multiplicity +
-				", missingIndex=" + Arrays.toString(missingIndices) +
-				", index=" + Arrays.toString(orbitalIndices) +
-				", atoms=" + Arrays.toString(atoms) +
-				", atomNumber=" + Arrays.toString(orbitalAtomNumbers) +
-				", damp=" + damp +
-				", nElectrons=" + nElectrons +
-				", H=" + H +
-				", orbitals=" + Arrays.toString(orbitals) +
-				", atomicNumbers=" + Arrays.toString(atomicNumbers) +
-				'}';
-	}
 }

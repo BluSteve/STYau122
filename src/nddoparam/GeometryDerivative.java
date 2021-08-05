@@ -2962,7 +2962,7 @@ public class GeometryDerivative {
 		NDDOAtom[] newatoms = Utils.perturbAtomCoords(atoms, atomnum, tau);
 
 		SolutionU newsoln =
-				new SolutionU(newatoms, soln.charge, soln.multiplicity);
+				new SolutionU(newatoms, soln.charge, soln.mult);
 
 		DoubleMatrix aperturbed = newsoln.alphaDensity();
 

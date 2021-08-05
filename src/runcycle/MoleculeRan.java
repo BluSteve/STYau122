@@ -39,12 +39,12 @@ public class MoleculeRan implements MoleculeResult {
 	}
 
 	@Override
-	public double getHF() {
+	public double hf {
 		return mo.hf;
 	}
 
 	@Override
-	public double getDipole() {
+	public double dipole {
 		return mo.dipole;
 	}
 
