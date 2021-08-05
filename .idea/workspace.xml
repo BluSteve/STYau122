@@ -39,6 +39,7 @@
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scf/AtomProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/AtomProperties.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -541,20 +542,6 @@
       <workItem from="1627220401877" duration="6141000" />
       <workItem from="1628140053005" duration="583000" />
     </task>
-    <task id="LOCAL-00134" summary="Made param gradient thread safe">
-      <created>1626628776722</created>
-      <option name="number" value="00134" />
-      <option name="presentableId" value="LOCAL-00134" />
-      <option name="project" value="LOCAL" />
-      <updated>1626628776722</updated>
-    </task>
-    <task id="LOCAL-00135" summary="more doc and minor bug fixes for hessian and gradient">
-      <created>1626668410644</created>
-      <option name="number" value="00135" />
-      <option name="presentableId" value="LOCAL-00135" />
-      <option name="project" value="LOCAL" />
-      <updated>1626668410645</updated>
-    </task>
     <task id="LOCAL-00136" summary="docs for ParamGradient">
       <created>1626669146610</created>
       <option name="number" value="00136" />
@@ -884,7 +871,21 @@
       <option name="project" value="LOCAL" />
       <updated>1628180700999</updated>
     </task>
-    <option name="localTasksCounter" value="183" />
+    <task id="LOCAL-00183" summary="minor changes">
+      <created>1628181131042</created>
+      <option name="number" value="00183" />
+      <option name="presentableId" value="LOCAL-00183" />
+      <option name="project" value="LOCAL" />
+      <updated>1628181131042</updated>
+    </task>
+    <task id="LOCAL-00184" summary="minor changes">
+      <created>1628181181074</created>
+      <option name="number" value="00184" />
+      <option name="presentableId" value="LOCAL-00184" />
+      <option name="project" value="LOCAL" />
+      <updated>1628181181074</updated>
+    </task>
+    <option name="localTasksCounter" value="185" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -961,7 +962,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="multithreaded geom opt" />
     <MESSAGE value="multithreaded batched derivs" />
     <MESSAGE value="a lot of changes" />
     <MESSAGE value="Added retrying molecules upon failure as an option" />
@@ -986,7 +986,8 @@
     <MESSAGE value="almost done with solutionr refactor" />
     <MESSAGE value="minor changse" />
     <MESSAGE value="started solution refactor" />
-    <option name="LAST_COMMIT_MESSAGE" value="started solution refactor" />
+    <MESSAGE value="minor changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="minor changes" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

@@ -435,7 +435,6 @@ public class SolutionR extends  Solution{
 				double bestE = 0;
 				DoubleMatrix bestDIIS = null;
 				try {
-
 					int n = mat.rows - 2;
 					for (int i = 0; i <= n; i++) {
 						for (int[] tbr : TBRS[i]) {
@@ -583,6 +582,25 @@ public class SolutionR extends  Solution{
 		System.out.println("sw.getTime()iamstupid = " + sw.getTime());
 	}
 
+	private void findHF() {
+		for (int j = 0; j < orbitals.length; j++) {
+			for (int k = 0; k < orbitals.length; k++) {
+				energy += 0.5 * densityMatrix.get(j, k) *
+						(H.get(j, k) + F.get(j, k));
+			}
+		}
+
+		double heat = 0;
+		for (int j = 0; j < atoms.length; j++) {
+			heat += atoms[j].getHeat() - atoms[j].getEisol();
+			for (int k = j + 1; k < atoms.length; k++) {
+				energy += atoms[j].crf(atoms[k]);
+			}
+		}
+		heat += energy;
+		hf = heat / 4.3363E-2;
+	}
+
 	private void findDipole() {
 		double[] populations = new double[atoms.length];
 
@@ -654,25 +672,6 @@ public class SolutionR extends  Solution{
 		if (nElectrons > 0) homo = E.get(nElectrons / 2 - 1, 0);
 		else homo = 0;
 		lumo = E.get(nElectrons / 2, 0);
-	}
-
-	private void findHF() {
-		for (int j = 0; j < orbitals.length; j++) {
-			for (int k = 0; k < orbitals.length; k++) {
-				energy += 0.5 * densityMatrix.get(j, k) *
-						(H.get(j, k) + F.get(j, k));
-			}
-		}
-
-		double heat = 0;
-		for (int j = 0; j < atoms.length; j++) {
-			heat += atoms[j].getHeat() - atoms[j].getEisol();
-			for (int k = j + 1; k < atoms.length; k++) {
-				energy += atoms[j].crf(atoms[k]);
-			}
-		}
-		heat += energy;
-		hf = heat / 4.3363E-2;
 	}
 
 	private static DoubleMatrix commutator(DoubleMatrix F, DoubleMatrix D) {
