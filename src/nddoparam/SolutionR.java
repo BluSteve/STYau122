@@ -569,39 +569,14 @@ public class SolutionR extends  Solution{
 			numIt++;
 		}
 
-		double e = 0;
+		findHF();
+		findHomo();
+		findDipole();
 
-		for (int j = 0; j < orbitals.length; j++) {
-			for (int k = 0; k < orbitals.length; k++) {
-				e += 0.5 * densityMatrix.get(j, k) *
-						(H.get(j, k) + F.get(j, k));
-			}
-		}
+		System.out.println("sw.getTime()iamstupid = " + sw.getTime());
+	}
 
-		double heat = 0;
-
-		for (int j = 0; j < atoms.length; j++) {
-			heat += atoms[j].getHeat() - atoms[j].getEisol();
-			for (int k = j + 1; k < atoms.length; k++) {
-				e += atoms[j].crf(atoms[k]);
-			}
-		}
-
-		energy = e;
-
-		heat += e;
-
-		this.hf = heat / 4.3363E-2;
-
-		if (nElectrons > 0) {
-			this.homo = E.get(nElectrons / 2 - 1, 0);
-		}
-		else {
-			this.homo = 0;
-		}
-
-		this.lumo = E.get(nElectrons / 2, 0);
-
+	private void findDipole() {
 		double[] populations = new double[atoms.length];
 
 		for (int j = 0; j < atoms.length; j++) {
@@ -615,11 +590,8 @@ public class SolutionR extends  Solution{
 			populations[j] = atoms[j].getAtomProperties().getQ() - sum;
 		}
 
-
 		double[] com = new double[]{0, 0, 0};
-
 		double mass = 0;
-
 		for (NDDOAtom atom : atoms) {
 			com[0] = com[0] + atom.getMass() * atom.getCoordinates()[0];
 			com[1] = com[1] + atom.getMass() * atom.getCoordinates()[1];
@@ -630,7 +602,6 @@ public class SolutionR extends  Solution{
 		com[0] = com[0] / mass;
 		com[1] = com[1] / mass;
 		com[2] = com[2] / mass;
-
 
 		chargedip = new double[]{0, 0, 0};
 
@@ -645,7 +616,6 @@ public class SolutionR extends  Solution{
 					2.5416 * populations[j] *
 							(atoms[j].getCoordinates()[2] - com[2]);
 		}
-
 
 		hybridip = new double[]{0, 0, 0};
 
@@ -664,17 +634,38 @@ public class SolutionR extends  Solution{
 			}
 		}
 
-
 		dipoletot = new double[]{chargedip[0] + hybridip[0],
 				chargedip[1] + hybridip[1],
 				chargedip[2] + hybridip[2]};
 
-
 		dipole = Math.sqrt(
 				dipoletot[0] * dipoletot[0] + dipoletot[1] * dipoletot[1] +
 						dipoletot[2] * dipoletot[2]);
+	}
 
-		System.out.println("sw.getTime()iamstupid = " + sw.getTime());
+	private void findHomo() {
+		if (nElectrons > 0) homo = E.get(nElectrons / 2 - 1, 0);
+		else homo = 0;
+		lumo = E.get(nElectrons / 2, 0);
+	}
+
+	private void findHF() {
+		for (int j = 0; j < orbitals.length; j++) {
+			for (int k = 0; k < orbitals.length; k++) {
+				energy += 0.5 * densityMatrix.get(j, k) *
+						(H.get(j, k) + F.get(j, k));
+			}
+		}
+
+		double heat = 0;
+		for (int j = 0; j < atoms.length; j++) {
+			heat += atoms[j].getHeat() - atoms[j].getEisol();
+			for (int k = j + 1; k < atoms.length; k++) {
+				energy += atoms[j].crf(atoms[k]);
+			}
+		}
+		heat += energy;
+		hf = heat / 4.3363E-2;
 	}
 
 	private static DoubleMatrix commutator(DoubleMatrix F, DoubleMatrix D) {

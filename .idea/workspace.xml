@@ -38,24 +38,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/input.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationU.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/Solution.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionRDIIS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionRDIIS.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionREDIIS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionREDIIS.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionU.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientU.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRan.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/input/RawMolecule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/input/RawMolecule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scf/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/Utils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -558,13 +541,6 @@
       <workItem from="1627220401877" duration="6141000" />
       <workItem from="1628140053005" duration="583000" />
     </task>
-    <task id="LOCAL-00133" summary="minor hessian fixes">
-      <created>1626627513418</created>
-      <option name="number" value="00133" />
-      <option name="presentableId" value="LOCAL-00133" />
-      <option name="project" value="LOCAL" />
-      <updated>1626627513418</updated>
-    </task>
     <task id="LOCAL-00134" summary="Made param gradient thread safe">
       <created>1626628776722</created>
       <option name="number" value="00134" />
@@ -901,7 +877,14 @@
       <option name="project" value="LOCAL" />
       <updated>1628174318412</updated>
     </task>
-    <option name="localTasksCounter" value="182" />
+    <task id="LOCAL-00182" summary="started solution refactor">
+      <created>1628180700999</created>
+      <option name="number" value="00182" />
+      <option name="presentableId" value="LOCAL-00182" />
+      <option name="project" value="LOCAL" />
+      <updated>1628180700999</updated>
+    </task>
+    <option name="localTasksCounter" value="183" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -978,7 +961,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="geom opt bug fix" />
     <MESSAGE value="multithreaded geom opt" />
     <MESSAGE value="multithreaded batched derivs" />
     <MESSAGE value="a lot of changes" />
@@ -1003,7 +985,8 @@
     <MESSAGE value="accidentally went 2^8" />
     <MESSAGE value="almost done with solutionr refactor" />
     <MESSAGE value="minor changse" />
-    <option name="LAST_COMMIT_MESSAGE" value="minor changse" />
+    <MESSAGE value="started solution refactor" />
+    <option name="LAST_COMMIT_MESSAGE" value="started solution refactor" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
