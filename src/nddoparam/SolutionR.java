@@ -2,6 +2,7 @@ package nddoparam;
 
 import org.apache.commons.lang3.time.StopWatch;
 import org.jblas.DoubleMatrix;
+import org.jblas.exceptions.LapackException;
 import runcycle.input.RawMolecule;
 import scf.Utils;
 
@@ -433,26 +434,32 @@ public class SolutionR extends  Solution{
 
 				double bestE = 0;
 				DoubleMatrix bestDIIS = null;
-				int n = mat.rows - 2;
-				for (int i = 0; i <= n; i++) {
-					for (int[] tbr : TBRS[i]) {
-						DoubleMatrix newmat = removeElementsSquare(mat, tbr);
-						DoubleMatrix newrhs = removeElementsLinear(rhs, tbr);
-						DoubleMatrix tempEdiis =
-								addRows(Utils.solve(newmat, newrhs), tbr);
-						tempEdiis.put(tempEdiis.rows - 1, 0);
-						boolean nonNegative = !(tempEdiis.min() < 0);
+				try {
 
-						if (nonNegative) {
+					int n = mat.rows - 2;
+					for (int i = 0; i <= n; i++) {
+						for (int[] tbr : TBRS[i]) {
+							DoubleMatrix newmat =
+									removeElementsSquare(mat, tbr);
+							DoubleMatrix newrhs =
+									removeElementsLinear(rhs, tbr);
+							DoubleMatrix tempEdiis =
+									addRows(Utils.solve(newmat, newrhs), tbr);
+							tempEdiis.put(tempEdiis.rows - 1, 0);
+							boolean nonNegative = !(tempEdiis.min() < 0);
 
-							double e = finde(tempEdiis);
-							if (e < bestE) {
-								bestE = e;
-								bestDIIS = tempEdiis;
+							if (nonNegative) {
+
+								double e = finde(tempEdiis);
+								if (e < bestE) {
+									bestE = e;
+									bestDIIS = tempEdiis;
+								}
 							}
 						}
 					}
 				}
+				catch (LapackException ignored){}
 
 				DoubleMatrix finalDIIS = bestDIIS;
 				DoubleMatrix F = DoubleMatrix.zeros(densityMatrix.rows,
