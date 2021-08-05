@@ -4,7 +4,6 @@ import jcuda.jcublas.JCublas;
 import jcuda.runtime.JCuda;
 import nddoparam.Solution;
 import nddoparam.SolutionNew;
-import nddoparam.SolutionR;
 import nddoparam.mndo.MNDOAtom;
 import nddoparam.mndo.MNDOParams;
 import org.apache.commons.lang3.time.StopWatch;
@@ -303,7 +302,7 @@ public class Testing {
 						new double[]{0, 0, 0}, c)};
 		double[] datum = new double[]{-17.9, 0, 13.6};
 		StopWatch sw = new StopWatch();
-		Solution sn =new SolutionNew(atoms, 0);;
+		Solution sn;
 		System.out.println(" = " );
 
 		sw.start();
@@ -313,15 +312,15 @@ public class Testing {
 
 		System.out.println("sr.energy = " + sn.energy);
 //		System.out.println("sw.getTime() = " + sw.getTime());
-		sw.reset();
-		Solution sr ;
-
-		sw.start();
-		sr = new SolutionR(atoms, 0);
+//		sw.reset();
+//		Solution sr ;
+//
+//		sw.start();
+//		sr = new SolutionR(atoms, 0);
 //		GeometryOptimization.of(sr).compute();
 
-		sw.stop();
-		System.out.println("sr.energy = " + sr.energy);
+//		sw.stop();
+//		System.out.println("sr.energy = " + sr.energy);
 		System.out.println("sw.getTime() = " + sw.getTime());
 	}
 }

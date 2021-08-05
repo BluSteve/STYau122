@@ -8,7 +8,7 @@ import scf.Utils;
 import java.util.ArrayList;
 
 
-public class SolutionNew  extends  SolutionR{
+public class SolutionNew  extends  Solution{
 	private static final int[][][] TBRS =
 			new int[][][]{new int[][]{new int[]{}},
 					new int[][]{new int[]{0}},
@@ -234,39 +234,31 @@ public class SolutionNew  extends  SolutionR{
 
 		DoubleMatrix[] matrices = Utils.symEigen(H);
 		E = matrices[1].diag();
-
 		C = matrices[0].transpose();
-
 		G = DoubleMatrix.zeros(C.rows, C.columns);
-
-		densityMatrix = calculateDensityMatrix(C);
-
-		DoubleMatrix olddensity = DoubleMatrix.zeros(C.rows, C.columns);
-
 		F = H.dup();
+		densityMatrix = calculateDensityMatrix(C);
+		DoubleMatrix olddensity;
+
 
 		DoubleMatrix[] Farray = new DoubleMatrix[8];
 		DoubleMatrix[] Darray = new DoubleMatrix[8];
 		Earray = new double[8];
 
 		DoubleMatrix Bforediis = DoubleMatrix.zeros(8, 8);
-
 		B = DoubleMatrix.zeros(8, 8);
 
 		DoubleMatrix[] commutatorarray = new DoubleMatrix[8];
 
-
 		int numIt = 0;
-
 		double DIISError = 10;
+
 		while (DIISError > 1E-10) {
 			olddensity = densityMatrix.dup();
-
 			integralcount = 0;
 
 			// this entire block of code fills up the G matrix, and it calls
-			// the
-			// integralarray to save time.
+			// the integralarray to save time.
 
 			for (int j = 0; j < orbitals.length; j++) {
 				for (int k = j; k < orbitals.length; k++) {
@@ -730,8 +722,7 @@ public class SolutionNew  extends  SolutionR{
 
 	private static DoubleMatrix removeElementsLinear(DoubleMatrix original,
 													 int[] indices) {//get rid
-		// of the
-		// rows given in indices and return downsized vector
+		// of the rows given in indices and return downsized vector
 
 		DoubleMatrix newarray =
 				DoubleMatrix.zeros(original.rows - indices.length, 1);
@@ -797,52 +788,6 @@ public class SolutionNew  extends  SolutionR{
 		}
 		return e;
 	}
-
-//	private EdiisTry findBestEdiis(DoubleMatrix mat,
-//								   DoubleMatrix rhs,
-//								   List<Integer> tbrList,
-//								   EdiisTry bestEdiis) {
-//		// tbr stands for toBeRemoved
-//		System.out.println(tbrList + ",");
-//		int n = mat.rows - 1;
-//
-//		if ( n-tbrList.size()==0){
-//			return bestEdiis;
-//		}
-////		List<Integer> array = getComplement(mat, tbrList);
-//		DoubleMatrix smallmat = removeElementsSquare(mat.dup(), tbrList);
-//		DoubleMatrix smallrhs = removeElementsLinear(rhs.dup(), tbrList);
-//		DoubleMatrix attemptRaw = Utils.solve(smallmat, smallrhs);
-//		DoubleMatrix attempt = addRows(attemptRaw, tbrList);
-//
-//		boolean nonNegative = !(attempt.min() < 0);
-//
-//		// see if this try is better than best try
-//		if (nonNegative) {
-//			double e = finde(attempt);
-//			EdiisTry ediisTry = new EdiisTry(attempt, e);
-//			if (bestEdiis == null || ediisTry.e < bestEdiis.e) {
-//				bestEdiis = ediisTry;
-//			}
-//		}
-//
-//		int size = tbrList.size();
-//		for (int i = size == 0 ? 0 : tbrList.get(size - 1) + 1; i < n-1; i++) {
-//			List<Integer> newTbrList = new ArrayList<>(tbrList);
-//			newTbrList.add(i);
-//
-//			EdiisTry bestEdiisFurtherDown =
-//					findBestEdiis(mat, rhs, newTbrList, bestEdiis);
-//
-//			// if a best ediis further down the tree is better than the
-//			// best one so far
-//			if (bestEdiis == null || bestEdiisFurtherDown.e < bestEdiis.e) {
-//				bestEdiis = bestEdiisFurtherDown;
-//			}
-//		}
-//
-//		return bestEdiis;
-//	}
 
 	@Override
 	public SolutionNew setRm(RawMolecule rm) {

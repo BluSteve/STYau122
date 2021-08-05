@@ -297,7 +297,7 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="preferences.editor" />
     <property name="two.files.diff.last.used.file" value="$USER_HOME$/Desktop/with hessian row mt.json" />
   </component>
   <component name="RecentsManager">
@@ -383,24 +383,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <list>
       <item itemvalue="Application.InputHandler" />
       <item itemvalue="Application.Main" />
       <item itemvalue="Application.Testing" />
       <item itemvalue="Application.OutputHandler" />
-      <item itemvalue="Shell Script.blusteve" />
       <item itemvalue="Application.SolutionNew" />
+      <item itemvalue="Shell Script.blusteve" />
     </list>
     <recent_temporary>
       <list>
@@ -533,13 +522,7 @@
       <workItem from="1627213728532" duration="2875000" />
       <workItem from="1627217662884" duration="836000" />
       <workItem from="1627220401877" duration="6141000" />
-    </task>
-    <task id="LOCAL-00131" summary="some refactoring and javadocing">
-      <created>1626622748815</created>
-      <option name="number" value="00131" />
-      <option name="presentableId" value="LOCAL-00131" />
-      <option name="project" value="LOCAL" />
-      <updated>1626622748815</updated>
+      <workItem from="1628140053005" duration="583000" />
     </task>
     <task id="LOCAL-00132" summary="Fixed hessian padding and multithreading">
       <created>1626627347697</created>
@@ -877,7 +860,14 @@
       <option name="project" value="LOCAL" />
       <updated>1628049398413</updated>
     </task>
-    <option name="localTasksCounter" value="180" />
+    <task id="LOCAL-00180" summary="almost done with solutionr refactor">
+      <created>1628057813101</created>
+      <option name="number" value="00180" />
+      <option name="presentableId" value="LOCAL-00180" />
+      <option name="project" value="LOCAL" />
+      <updated>1628057813101</updated>
+    </task>
+    <option name="localTasksCounter" value="181" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -954,7 +944,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="geom opt work in progress" />
     <MESSAGE value="Geom opt further rewrite + Hessian and gradient now throw error instead of failing silent on classcastexception" />
     <MESSAGE value="geom opt bug fix" />
     <MESSAGE value="multithreaded geom opt" />
@@ -979,7 +968,8 @@
     <MESSAGE value="all jblas solve + eigen synchronized" />
     <MESSAGE value="more synced" />
     <MESSAGE value="accidentally went 2^8" />
-    <option name="LAST_COMMIT_MESSAGE" value="accidentally went 2^8" />
+    <MESSAGE value="almost done with solutionr refactor" />
+    <option name="LAST_COMMIT_MESSAGE" value="almost done with solutionr refactor" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
