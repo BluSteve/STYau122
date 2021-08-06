@@ -39,13 +39,8 @@
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/input.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inputtesting.txt" beforeDir="false" afterPath="$PROJECT_DIR$/inputtesting.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Testing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/Solution.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionU.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -537,14 +532,7 @@
       <workItem from="1627220401877" duration="6141000" />
       <workItem from="1628140053005" duration="583000" />
       <workItem from="1628237685852" duration="4885000" />
-      <workItem from="1628256805166" duration="6572000" />
-    </task>
-    <task id="LOCAL-00139" summary="Added static factory methods to param hessian">
-      <created>1626683085657</created>
-      <option name="number" value="00139" />
-      <option name="presentableId" value="LOCAL-00139" />
-      <option name="project" value="LOCAL" />
-      <updated>1626683085657</updated>
+      <workItem from="1628256805166" duration="7171000" />
     </task>
     <task id="LOCAL-00140" summary="Improved hessian static factory methods">
       <created>1626683470640</created>
@@ -882,7 +870,14 @@
       <option name="project" value="LOCAL" />
       <updated>1628262281078</updated>
     </task>
-    <option name="localTasksCounter" value="188" />
+    <task id="LOCAL-00188" summary="fix inputhandler">
+      <created>1628263653138</created>
+      <option name="number" value="00188" />
+      <option name="presentableId" value="LOCAL-00188" />
+      <option name="project" value="LOCAL" />
+      <updated>1628263653138</updated>
+    </task>
+    <option name="localTasksCounter" value="189" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -959,7 +954,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Added retrying molecules upon failure as an option" />
     <MESSAGE value="gpu code" />
     <MESSAGE value="more gpu code" />
     <MESSAGE value="various changes + remove timeout" />
@@ -984,7 +978,8 @@
     <MESSAGE value="minor changes" />
     <MESSAGE value="major solution refactor causing issues" />
     <MESSAGE value="added integralcache and fixed geometryoptimization bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="added integralcache and fixed geometryoptimization bug" />
+    <MESSAGE value="fix inputhandler" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix inputhandler" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

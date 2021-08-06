@@ -14,6 +14,7 @@ import scf.Utils;
 
 import java.io.IOException;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 public class Testing {
 	public static void main(String[] args) {
@@ -240,7 +241,7 @@ public class Testing {
 	}
 
 
-	private static void testMain() {
+	private static void testMain() throws InterruptedException {
 		AtomHandler.populateAtoms();
 		MNDOParams h = new MNDOParams(2.92397599125172,
 				-6.222578482830868, 0.0, -12.200235077462583, 0.0,
@@ -317,9 +318,11 @@ public class Testing {
 		NanoStopWatch nsw = NanoStopWatch.sw();
 		double time = 0;
 		for (int i = 0; i < 1000; i++) {
+			Solution s = new SolutionR(atoms, rm);
 			nsw.start();
-			Solution s = new SolutionR(atoms, rm).compute();
+			s.compute();
 			time += nsw.stop();
+			TimeUnit.MILLISECONDS.sleep(1);
 		}
 
 		System.out.println("time = " + time/1000);
