@@ -1,5 +1,5 @@
 {
-  "hash": "AA2CF15A",
+  "hash": "E8DD1606",
   "model": "mndo",
   "trainingSet": "HC",
   "nMolecules": 1,
@@ -191,8 +191,6 @@
       "restricted": true,
       "charge": 0,
       "mult": 1,
-      "nElectrons": 8,
-      "nOrbitals": 8,
       "datum": [
         365.7,
         0.0,
@@ -205,6 +203,9 @@
         1,
         1
       ],
+      "nElectrons": 8,
+      "nOrbitals": 8,
+      "nIntegrals": 212,
       "mats": [
         1,
         6

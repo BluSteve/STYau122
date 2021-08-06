@@ -264,8 +264,8 @@ public class ParamHessian {
 	private ParamGradient constructGPrime(int ZIndex, int paramNum) {
 		if (restricted) {
 			return ParamGradient.of(
-					new SolutionR(Utils.perturbAtomParams(s.atoms,
-							s.getRm().mats[ZIndex], paramNum), s.charge)
+					new SolutionR(s.charge, Utils.perturbAtomParams(s.atoms,
+							s.getRm().mats[ZIndex], paramNum))
 							.setRm(s.getRm()), datum, sExp);
 		}
 		return ParamGradient.of(

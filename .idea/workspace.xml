@@ -38,8 +38,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Testing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationR.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDOParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/NDDOParams.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/Solution.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scf/AtomProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/AtomProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionU.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/am1/AM1Params.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/am1/AM1Params.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/mndo/MNDOParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/mndo/MNDOParams.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/input/RawMolecule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/input/RawMolecule.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -334,6 +348,19 @@
     </key>
   </component>
   <component name="RunManager" selected="Application.InputHandler">
+    <configuration name="AtomHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="scf.AtomHandler" />
+      <module name="MNDOParam" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="scf.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="MakeNoErrorCheck" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="InputHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="runcycle.input.InputHandler" />
       <module name="MNDOParam" />
@@ -353,19 +380,6 @@
       <module name="MNDOParam" />
       <projectPathOnTarget name="projectPathOnTarget" value="/home/steve/Downloads/MNDOParam" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="OutputHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="runcycle.output.OutputHandler" />
-      <module name="MNDOParam" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="runcycle.output.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -390,32 +404,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <list>
       <item itemvalue="Application.InputHandler" />
       <item itemvalue="Application.Main" />
       <item itemvalue="Application.Testing" />
-      <item itemvalue="Application.OutputHandler" />
       <item itemvalue="Application.SolutionNew" />
+      <item itemvalue="Application.AtomHandler" />
       <item itemvalue="Shell Script.blusteve" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.InputHandler" />
+        <item itemvalue="Application.AtomHandler" />
         <item itemvalue="Application.Testing" />
         <item itemvalue="Application.SolutionNew" />
         <item itemvalue="Application.Main" />
-        <item itemvalue="Application.OutputHandler" />
       </list>
     </recent_temporary>
   </component>
@@ -541,13 +544,7 @@
       <workItem from="1627217662884" duration="836000" />
       <workItem from="1627220401877" duration="6141000" />
       <workItem from="1628140053005" duration="583000" />
-    </task>
-    <task id="LOCAL-00136" summary="docs for ParamGradient">
-      <created>1626669146610</created>
-      <option name="number" value="00136" />
-      <option name="presentableId" value="LOCAL-00136" />
-      <option name="project" value="LOCAL" />
-      <updated>1626669146610</updated>
+      <workItem from="1628237685852" duration="4885000" />
     </task>
     <task id="LOCAL-00137" summary="major refactor of paramnum and atom type on the molecule level">
       <created>1626674806205</created>
@@ -885,7 +882,14 @@
       <option name="project" value="LOCAL" />
       <updated>1628181181074</updated>
     </task>
-    <option name="localTasksCounter" value="185" />
+    <task id="LOCAL-00185" summary="minor changes">
+      <created>1628181492451</created>
+      <option name="number" value="00185" />
+      <option name="presentableId" value="LOCAL-00185" />
+      <option name="project" value="LOCAL" />
+      <updated>1628181492452</updated>
+    </task>
+    <option name="localTasksCounter" value="186" />
     <servers />
   </component>
   <component name="ToolWindowManager">

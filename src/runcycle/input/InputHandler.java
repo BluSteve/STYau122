@@ -2,6 +2,7 @@ package runcycle.input;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import nddoparam.Solution;
 import nddoparam.am1.AM1Params;
 import nddoparam.mndo.MNDOParams;
 import scf.AtomHandler;
@@ -224,6 +225,8 @@ public class InputHandler {
 					rm.atoms = new RawAtom[atomsL.size()];
 					for (int p = 0; p < atomsL.size(); p++)
 						rm.atoms[p] = atomsL.get(p);
+
+					rm.nIntegrals = Solution.getNIntegrals(rm);
 					moleculesL.add(rm);
 					i++;
 				}

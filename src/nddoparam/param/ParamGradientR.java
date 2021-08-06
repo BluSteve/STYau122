@@ -197,15 +197,15 @@ class ParamGradientR extends ParamGradient {
 	@Override
 	protected Solution constructSPrime(int ZI, int paramNum) {
 		return new SolutionR(
-				Utils.perturbAtomParams(s.atoms, s.getRm().mats[ZI],
-						paramNum), s.charge);
+				s.charge, Utils.perturbAtomParams(s.atoms, s.getRm().mats[ZI],
+						paramNum));
 	}
 
 	@Override
 	protected SolutionR constructSExpPrime(int ZI, int paramNum) {
 		return new SolutionR(
-				Utils.perturbAtomParams(sExp.atoms, sExp.getRm().mats[ZI],
-						paramNum), sExp.charge);
+				sExp.charge, Utils.perturbAtomParams(sExp.atoms, sExp.getRm().mats[ZI],
+						paramNum));
 	}
 
 	@Override

@@ -8,7 +8,7 @@ import scf.Utils;
 
 import java.util.ArrayList;
 
-public class SolutionR extends  Solution{
+public class SolutionR extends Solution {
 	private static final int[][][] TBRS =
 			new int[][][]{new int[][]{new int[]{}},
 					new int[][]{new int[]{0}},
@@ -86,94 +86,42 @@ public class SolutionR extends  Solution{
 	private DoubleMatrix densityMatrix, B;
 	private double[] Earray;
 
-	protected SolutionR(NDDOAtom[] atoms, int[] atomicNumbers, int charge,
-					 int nElectrons, int nOrbitals) {
-		super(atoms, atomicNumbers, charge, 0, nElectrons, nOrbitals);
+	protected SolutionR(NDDOAtom[] atoms, RawMolecule rm) {
+		super(atoms, rm);
+	}
 
+	@Override
+	public SolutionR compute() {
 		StopWatch sw = new StopWatch();
-
 		sw.start();
 
-		int size = 0;
-		for (int j = 0; j < orbitals.length; j++) {
-			for (int k = j; k < orbitals.length; k++) {
-				if (j == k) {
-
-					for (int l : orbitalIndices[orbitalAtomNumbers[j]]) {
-						if (l > -1) {
-							size++;
-						}
-					}
-
-					for (int l : missingIndices[orbitalAtomNumbers[j]]) {
-						if (l > -1) {
-							for (int m : missingIndices[orbitalAtomNumbers[j]]) {
-								if (m > -1) {
-									if (orbitalAtomNumbers[l] == orbitalAtomNumbers[m]) {
-										size++;
-									}
-								}
-
-							}
-						}
-					}
-				}
-				else if (orbitalAtomNumbers[j] == orbitalAtomNumbers[k]) {
-					size++;
-
-					for (int l : missingIndices[orbitalAtomNumbers[j]]) {
-						if (l > -1) {
-							for (int m : missingIndices[orbitalAtomNumbers[j]]) {
-								if (m > -1) {
-									if (orbitalAtomNumbers[l] == orbitalAtomNumbers[m]) {
-										size++;
-									}
-								}
-
-							}
-						}
-					}
-				}
-				else {
-					for (int l : orbitalIndices[orbitalAtomNumbers[j]]) {
-						if (l > -1) {
-							for (int m : orbitalIndices[orbitalAtomNumbers[k]]) {
-								if (m > -1) {
-									size++;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
+		int size = findNIntegrals();
 		integralArray = new double[size];
-		//The idea of the integralarray is to simply store all the integrals
-		// in order they are called. It's basically my way of avoiding
-		// having to perform a Yoshemine sort.
-		// TODO re-implement HashMap
+
 		int integralcount = 0;
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
 				if (j == k) { // case 1
-					for (int l : orbitalIndices[orbitalAtomNumbers[j]]) {
+					for (int l : orbsOfAtom[atomOfOrb[j]]) {
 						if (l > -1) {
 							integralArray[integralcount] =
 									(NDDO6G.OneCenterERI(orbitals[j],
 											orbitals[j],
-											orbitals[l], orbitals[l]) - 0.5 *
+											orbitals[l],
+											orbitals[l]) - 0.5 *
 											NDDO6G.OneCenterERI(orbitals[j],
 													orbitals[l],
-													orbitals[j], orbitals[l]));
+													orbitals[j],
+													orbitals[l]));
 							integralcount++;
 						}
 					}
 
-					for (int l : missingIndices[orbitalAtomNumbers[j]]) {
+					for (int l : missingOfAtom[atomOfOrb[j]]) {
 						if (l > -1) {
-							for (int m : missingIndices[orbitalAtomNumbers[j]]) {
+							for (int m : missingOfAtom[atomOfOrb[j]]) {
 								if (m > -1) {
-									if (orbitalAtomNumbers[l] == orbitalAtomNumbers[m]) {
+									if (atomOfOrb[l] == atomOfOrb[m]) {
 										integralArray[integralcount] =
 												(NDDO6G.getG(orbitals[j],
 														orbitals[j],
@@ -187,7 +135,7 @@ public class SolutionR extends  Solution{
 						}
 					}
 				}
-				else if (orbitalAtomNumbers[j] == orbitalAtomNumbers[k]) { // case 2
+				else if (atomOfOrb[j] == atomOfOrb[k]) { // case 2
 					integralArray[integralcount] = (1.5 *
 							NDDO6G.OneCenterERI(orbitals[j], orbitals[k],
 									orbitals[j],
@@ -196,11 +144,11 @@ public class SolutionR extends  Solution{
 									orbitals[k],
 									orbitals[k]));
 					integralcount++;
-					for (int l : missingIndices[orbitalAtomNumbers[j]]) {
+					for (int l : missingOfAtom[atomOfOrb[j]]) {
 						if (l > -1) {
-							for (int m : missingIndices[orbitalAtomNumbers[j]]) {
+							for (int m : missingOfAtom[atomOfOrb[j]]) {
 								if (m > -1) {
-									if (orbitalAtomNumbers[l] == orbitalAtomNumbers[m]) {
+									if (atomOfOrb[l] == atomOfOrb[m]) {
 										integralArray[integralcount] =
 												(NDDO6G.getG(orbitals[j],
 														orbitals[k],
@@ -214,9 +162,9 @@ public class SolutionR extends  Solution{
 					}
 				}
 				else { // case 3
-					for (int l : orbitalIndices[orbitalAtomNumbers[j]]) {
+					for (int l : orbsOfAtom[atomOfOrb[j]]) {
 						if (l > -1) {
-							for (int m : orbitalIndices[orbitalAtomNumbers[k]]) {
+							for (int m : orbsOfAtom[atomOfOrb[k]]) {
 								if (m > -1) {
 									integralArray[integralcount] = (-0.5 *
 											NDDO6G.getG(orbitals[j],
@@ -238,7 +186,6 @@ public class SolutionR extends  Solution{
 		F = H.dup();
 		densityMatrix = calculateDensityMatrix(C);
 		DoubleMatrix olddensity;
-
 
 		DoubleMatrix[] Farray = new DoubleMatrix[8];
 		DoubleMatrix[] Darray = new DoubleMatrix[8];
@@ -264,7 +211,7 @@ public class SolutionR extends  Solution{
 					double val = 0;
 					if (j == k) {
 
-						for (int l : orbitalIndices[orbitalAtomNumbers[j]]) {
+						for (int l : orbsOfAtom[atomOfOrb[j]]) {
 							if (l > -1) {
 								val += densityMatrix.get(l, l) *
 										integralArray[integralcount];
@@ -272,11 +219,11 @@ public class SolutionR extends  Solution{
 							}
 						}
 
-						for (int l : missingIndices[orbitalAtomNumbers[j]]) {
+						for (int l : missingOfAtom[atomOfOrb[j]]) {
 							if (l > -1) {
-								for (int m : missingIndices[orbitalAtomNumbers[j]]) {
+								for (int m : missingOfAtom[atomOfOrb[j]]) {
 									if (m > -1) {
-										if (orbitalAtomNumbers[l] == orbitalAtomNumbers[m]) {
+										if (atomOfOrb[l] == atomOfOrb[m]) {
 											val += densityMatrix.get(l, m) *
 													integralArray[integralcount];
 											integralcount++;
@@ -287,16 +234,16 @@ public class SolutionR extends  Solution{
 							}
 						}
 					}
-					else if (orbitalAtomNumbers[j] == orbitalAtomNumbers[k]) {
+					else if (atomOfOrb[j] == atomOfOrb[k]) {
 						val += densityMatrix.get(j, k) *
 								integralArray[integralcount];
 						integralcount++;
 
-						for (int l : missingIndices[orbitalAtomNumbers[j]]) {
+						for (int l : missingOfAtom[atomOfOrb[j]]) {
 							if (l > -1) {
-								for (int m : missingIndices[orbitalAtomNumbers[j]]) {
+								for (int m : missingOfAtom[atomOfOrb[j]]) {
 									if (m > -1) {
-										if (orbitalAtomNumbers[l] == orbitalAtomNumbers[m]) {
+										if (atomOfOrb[l] == atomOfOrb[m]) {
 											val += densityMatrix.get(l, m) *
 													integralArray[integralcount];
 											integralcount++;
@@ -308,9 +255,9 @@ public class SolutionR extends  Solution{
 						}
 					}
 					else {
-						for (int l : orbitalIndices[orbitalAtomNumbers[j]]) {
+						for (int l : orbsOfAtom[atomOfOrb[j]]) {
 							if (l > -1) {
-								for (int m : orbitalIndices[orbitalAtomNumbers[k]]) {
+								for (int m : orbsOfAtom[atomOfOrb[k]]) {
 									if (m > -1) {
 										val += densityMatrix.get(l, m) *
 												integralArray[integralcount];
@@ -457,8 +404,8 @@ public class SolutionR extends  Solution{
 							}
 						}
 					}
+				} catch (LapackException ignored) {
 				}
-				catch (LapackException ignored){}
 
 				DoubleMatrix finalDIIS = bestDIIS;
 				DoubleMatrix F = DoubleMatrix.zeros(densityMatrix.rows,
@@ -567,6 +514,7 @@ public class SolutionR extends  Solution{
 
 					C = matrices[0].transpose();
 
+					double damp = 0.8;
 					densityMatrix = calculateDensityMatrix(C).mmul(1 - damp)
 							.add(olddensity.mmul(damp));
 				}
@@ -580,98 +528,7 @@ public class SolutionR extends  Solution{
 		findDipole();
 
 		System.out.println("sw.getTime()iamstupid = " + sw.getTime());
-	}
-
-	private void findHF() {
-		for (int j = 0; j < orbitals.length; j++) {
-			for (int k = 0; k < orbitals.length; k++) {
-				energy += 0.5 * densityMatrix.get(j, k) *
-						(H.get(j, k) + F.get(j, k));
-			}
-		}
-
-		double heat = 0;
-		for (int j = 0; j < atoms.length; j++) {
-			heat += atoms[j].getHeat() - atoms[j].getEisol();
-			for (int k = j + 1; k < atoms.length; k++) {
-				energy += atoms[j].crf(atoms[k]);
-			}
-		}
-		heat += energy;
-		hf = heat / 4.3363E-2;
-	}
-
-	private void findDipole() {
-		double[] populations = new double[atoms.length];
-
-		for (int j = 0; j < atoms.length; j++) {
-			double sum = 0;
-			for (int k : orbitalIndices[j]) {
-				if (k > -1) {
-					sum += densityMatrix.get(k, k);
-				}
-			}
-
-			populations[j] = atoms[j].getAtomProperties().getQ() - sum;
-		}
-
-		double[] com = new double[]{0, 0, 0};
-		double mass = 0;
-		for (NDDOAtom atom : atoms) {
-			com[0] = com[0] + atom.getMass() * atom.getCoordinates()[0];
-			com[1] = com[1] + atom.getMass() * atom.getCoordinates()[1];
-			com[2] = com[2] + atom.getMass() * atom.getCoordinates()[2];
-			mass += atom.getMass();
-		}
-
-		com[0] = com[0] / mass;
-		com[1] = com[1] / mass;
-		com[2] = com[2] / mass;
-
-		chargedip = new double[]{0, 0, 0};
-
-		for (int j = 0; j < atoms.length; j++) {
-			chargedip[0] +=
-					2.5416 * populations[j] *
-							(atoms[j].getCoordinates()[0] - com[0]);
-			chargedip[1] +=
-					2.5416 * populations[j] *
-							(atoms[j].getCoordinates()[1] - com[1]);
-			chargedip[2] +=
-					2.5416 * populations[j] *
-							(atoms[j].getCoordinates()[2] - com[2]);
-		}
-
-		hybridip = new double[]{0, 0, 0};
-
-		for (int j = 0; j < atoms.length; j++) {
-
-			if (orbitalIndices[j][1] != -1) {//exclude hydrogen
-				hybridip[0] = hybridip[0] - 2.5416 * 2 * atoms[j].D1 *
-						densityMatrix.get(orbitalIndices[j][0],
-								orbitalIndices[j][1]);
-				hybridip[1] = hybridip[1] - 2.5416 * 2 * atoms[j].D1 *
-						densityMatrix.get(orbitalIndices[j][0],
-								orbitalIndices[j][2]);
-				hybridip[2] = hybridip[2] - 2.5416 * 2 * atoms[j].D1 *
-						densityMatrix.get(orbitalIndices[j][0],
-								orbitalIndices[j][3]);
-			}
-		}
-
-		dipoletot = new double[]{chargedip[0] + hybridip[0],
-				chargedip[1] + hybridip[1],
-				chargedip[2] + hybridip[2]};
-
-		dipole = Math.sqrt(
-				dipoletot[0] * dipoletot[0] + dipoletot[1] * dipoletot[1] +
-						dipoletot[2] * dipoletot[2]);
-	}
-
-	private void findHomo() {
-		if (nElectrons > 0) homo = E.get(nElectrons / 2 - 1, 0);
-		else homo = 0;
-		lumo = E.get(nElectrons / 2, 0);
+		return this;
 	}
 
 	private static DoubleMatrix commutator(DoubleMatrix F, DoubleMatrix D) {
@@ -758,6 +615,155 @@ public class SolutionR extends  Solution{
 		return newarray;
 	}
 
+	@SuppressWarnings("DuplicatedCode")
+	@Override
+	protected int findNIntegrals() {
+		int size = 0;
+		for (int j = 0; j < orbitals.length; j++) {
+			for (int k = j; k < orbitals.length; k++) {
+				if (j == k) {
+					for (int l : orbsOfAtom[atomOfOrb[j]]) {
+						if (l > -1) {
+							size++;
+						}
+					}
+
+					for (int l : missingOfAtom[atomOfOrb[j]]) {
+						if (l > -1) {
+							for (int m : missingOfAtom[atomOfOrb[j]]) {
+								if (m > -1) {
+									if (atomOfOrb[l] == atomOfOrb[m]) {
+										size++;
+									}
+								}
+
+							}
+						}
+					}
+				}
+				else if (atomOfOrb[j] == atomOfOrb[k]) {
+					size++;
+
+					for (int l : missingOfAtom[atomOfOrb[j]]) {
+						if (l > -1) {
+							for (int m : missingOfAtom[atomOfOrb[j]]) {
+								if (m > -1) {
+									if (atomOfOrb[l] == atomOfOrb[m]) {
+										size++;
+									}
+								}
+
+							}
+						}
+					}
+				}
+				else {
+					for (int l : orbsOfAtom[atomOfOrb[j]]) {
+						if (l > -1) {
+							for (int m : orbsOfAtom[atomOfOrb[k]]) {
+								if (m > -1) {
+									size++;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		return size;
+	}
+
+	private void findHF() {
+		for (int j = 0; j < orbitals.length; j++) {
+			for (int k = 0; k < orbitals.length; k++) {
+				energy += 0.5 * densityMatrix.get(j, k) *
+						(H.get(j, k) + F.get(j, k));
+			}
+		}
+
+		double heat = 0;
+		for (int j = 0; j < atoms.length; j++) {
+			heat += atoms[j].getHeat() - atoms[j].getEisol();
+			for (int k = j + 1; k < atoms.length; k++) {
+				energy += atoms[j].crf(atoms[k]);
+			}
+		}
+		heat += energy;
+		hf = heat / 4.3363E-2;
+	}
+
+	private void findDipole() {
+		double[] populations = new double[atoms.length];
+
+		for (int j = 0; j < atoms.length; j++) {
+			double sum = 0;
+			for (int k : orbsOfAtom[j]) {
+				if (k > -1) {
+					sum += densityMatrix.get(k, k);
+				}
+			}
+
+			populations[j] = atoms[j].getAtomProperties().getQ() - sum;
+		}
+
+		double[] com = new double[]{0, 0, 0};
+		double mass = 0;
+		for (NDDOAtom atom : atoms) {
+			com[0] = com[0] + atom.getMass() * atom.getCoordinates()[0];
+			com[1] = com[1] + atom.getMass() * atom.getCoordinates()[1];
+			com[2] = com[2] + atom.getMass() * atom.getCoordinates()[2];
+			mass += atom.getMass();
+		}
+
+		com[0] = com[0] / mass;
+		com[1] = com[1] / mass;
+		com[2] = com[2] / mass;
+
+		chargedip = new double[]{0, 0, 0};
+
+		for (int j = 0; j < atoms.length; j++) {
+			chargedip[0] +=
+					2.5416 * populations[j] *
+							(atoms[j].getCoordinates()[0] - com[0]);
+			chargedip[1] +=
+					2.5416 * populations[j] *
+							(atoms[j].getCoordinates()[1] - com[1]);
+			chargedip[2] +=
+					2.5416 * populations[j] *
+							(atoms[j].getCoordinates()[2] - com[2]);
+		}
+
+		hybridip = new double[]{0, 0, 0};
+
+		for (int j = 0; j < atoms.length; j++) {
+
+			if (orbsOfAtom[j][1] != -1) {//exclude hydrogen
+				hybridip[0] = hybridip[0] - 2.5416 * 2 * atoms[j].D1 *
+						densityMatrix.get(orbsOfAtom[j][0],
+								orbsOfAtom[j][1]);
+				hybridip[1] = hybridip[1] - 2.5416 * 2 * atoms[j].D1 *
+						densityMatrix.get(orbsOfAtom[j][0],
+								orbsOfAtom[j][2]);
+				hybridip[2] = hybridip[2] - 2.5416 * 2 * atoms[j].D1 *
+						densityMatrix.get(orbsOfAtom[j][0],
+								orbsOfAtom[j][3]);
+			}
+		}
+
+		dipoletot = new double[]{chargedip[0] + hybridip[0],
+				chargedip[1] + hybridip[1],
+				chargedip[2] + hybridip[2]};
+
+		dipole = Math.sqrt(
+				dipoletot[0] * dipoletot[0] + dipoletot[1] * dipoletot[1] +
+						dipoletot[2] * dipoletot[2]);
+	}
+
+	private void findHomo() {
+		if (nElectrons > 0) homo = E.get(nElectrons / 2 - 1, 0);
+		else homo = 0;
+		lumo = E.get(nElectrons / 2, 0);
+	}
 
 	private double finde(DoubleMatrix ediis) {
 		double e = 0;

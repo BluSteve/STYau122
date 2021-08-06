@@ -305,7 +305,7 @@ public class Testing {
 //		StopWatch sw = new StopWatch();
 //		System.out.close();
 //		Solution sr;
-		Solution sr = new SolutionR(exp1, 0);
+		Solution sr = new SolutionR(0, exp1);
 		System.out.println(" == ");
 
 //		sw.start();
@@ -313,7 +313,7 @@ public class Testing {
 
 		System.out.println(" == ");
 
-		sr = new SolutionR(atoms, 0);
+		sr = new SolutionR(0, atoms);
 //		GeometryOptimization.of(sr).compute();
 
 	}

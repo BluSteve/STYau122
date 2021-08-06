@@ -12,7 +12,7 @@ public class GeometryOptimizationR extends GeometryOptimization {
 	@Override
 	protected void updateSolution() {
 		RawMolecule rm = s.getRm();
-		s = new SolutionR(s.atoms, s.charge);
+		s = new SolutionR(s.charge, s.atoms);
 		if (rm != null) s.setRm(rm);
 	}
 

@@ -13,27 +13,14 @@ public abstract class Solution {
 	public double energy, homo, lumo, hf, dipole;
 	public double[] chargedip, hybridip, dipoletot;
 	public int charge, mult, nElectrons, nOrbitals;
-	public int[][] missingIndices, orbitalIndices;
+	public int[][] missingOfAtom, orbsOfAtom;
 	public NDDOAtom[] atoms;
 	public NDDO6G[] orbitals;
-	public int[] atomicNumbers, orbitalAtomNumbers;
+	public int[] atomicNumbers, atomOfOrb;
 	public DoubleMatrix H;
 	protected RawMolecule rm;
 
-	public static Solution of(RawMolecule rm, RawAtom[] ras, NDDOParams[] params) {
-		NDDOAtom[] atoms;
-		if (params instanceof MNDOParams[])
-			atoms = RawMolecule.toMNDOAtoms(ras, (MNDOParams[]) params);
-		else throw new IllegalStateException("Unidentified params type!");
-
-		if (rm.restricted) return new SolutionR(atoms, rm.atomicNumbers,
-				rm.charge, rm.nElectrons, rm.nOrbitals);
-		else return new SolutionU(atoms, rm.atomicNumbers,
-				rm.charge, rm.mult, rm.nElectrons, rm.nOrbitals);
-	}
-
-	protected Solution(NDDOAtom[] atoms, int[] atomicNumbers, int charge,
-					   int mult, int nElectrons, int nOrbitals) {
+	protected Solution(NDDOAtom[] atoms, RawMolecule rm) {
 		/*
 		 solution give 2 things
 		 1. query arrays - atomNumber returns which atom an orbital
@@ -44,20 +31,17 @@ public abstract class Solution {
 		 2. Fill up H.
 		*/
 		this.atoms = atoms;
-		this.atomicNumbers = atomicNumbers;
-		this.charge = charge;
-		this.mult = mult;
-		this.nElectrons = nElectrons;
-		this.nOrbitals = nOrbitals;
+		this.atomicNumbers = rm.atomicNumbers;
+		this.charge = rm.charge;
+		this.mult = rm.mult;
+		this.nElectrons = rm.nElectrons;
+		this.nOrbitals = rm.nOrbitals;
 
 		orbitals = new NDDO6G[nOrbitals];
-		// give every orbital a unique index
-		orbitalIndices = new int[atoms.length][4];
-		// orbital indexes of orbitals that an atom doesn't have
-		missingIndices = new int[atoms.length][4 * (atoms.length - 1)];
-		for (int[] index : missingIndices) Arrays.fill(index, -1);
-		// corresponding atom numbers of an orbital
-		orbitalAtomNumbers = new int[nOrbitals];
+		orbsOfAtom = new int[atoms.length][4];
+		atomOfOrb = new int[nOrbitals];
+		missingOfAtom = new int[atoms.length][4 * (atoms.length - 1)];
+		for (int[] index : missingOfAtom) Arrays.fill(index, -1);
 
 		int overallOrbitalIndex = 0;
 		for (int atomIndex = 0, atomsLength = atoms.length;
@@ -66,29 +50,29 @@ public abstract class Solution {
 			int orbitalIndex = 0;
 			for (NDDO6G orbital : atom.getOrbitals()) {
 				orbitals[overallOrbitalIndex] = orbital;
-				orbitalAtomNumbers[overallOrbitalIndex] = atomIndex;
-				orbitalIndices[atomIndex][orbitalIndex] = overallOrbitalIndex;
+				atomOfOrb[overallOrbitalIndex] = atomIndex;
+				orbsOfAtom[atomIndex][orbitalIndex] = overallOrbitalIndex;
 				overallOrbitalIndex++;
 				orbitalIndex++;
 			}
 
 			if (atom.getAtomProperties().getZ() == 1) {
-				orbitalIndices[atomIndex][1] = -1;
-				orbitalIndices[atomIndex][2] = -1;
-				orbitalIndices[atomIndex][3] = -1;
+				orbsOfAtom[atomIndex][1] = -1;
+				orbsOfAtom[atomIndex][2] = -1;
+				orbsOfAtom[atomIndex][3] = -1;
 			}
 		}
 
 		for (int j = 0; j < atoms.length; j++) {
-			int[] nums = new int[]{orbitalIndices[j][0],
-					orbitalIndices[j][1],
-					orbitalIndices[j][2],
-					orbitalIndices[j][3]};
+			int[] nums = new int[]{orbsOfAtom[j][0],
+					orbsOfAtom[j][1],
+					orbsOfAtom[j][2],
+					orbsOfAtom[j][3]};
 			int counter = 0;
 			for (int k = 0; k < orbitals.length; k++) {
 				if (k != nums[0] && k != nums[1] &&
 						k != nums[2] && k != nums[3]) {
-					missingIndices[j][counter] = k;
+					missingOfAtom[j][counter] = k;
 					counter++;
 				}
 			}
@@ -103,19 +87,18 @@ public abstract class Solution {
 					double Huu = orbitals[j].U();
 
 					for (int an = 0; an < atoms.length; an++) {
-						if (orbitalAtomNumbers[j] != an) {
+						if (atomOfOrb[j] != an) {
 							Huu += atoms[an].V(orbitals[j], orbitals[k]);
 						}
 					}
 
 					H.put(j, k, Huu);
 				}
-				else if (orbitalAtomNumbers[j] ==
-						orbitalAtomNumbers[k]) {
+				else if (atomOfOrb[j] == atomOfOrb[k]) {
 					double Huv = 0;
 
 					for (int an = 0; an < atoms.length; an++) {
-						if (orbitalAtomNumbers[j] != an) {
+						if (atomOfOrb[j] != an) {
 							Huv += atoms[an].V(orbitals[j], orbitals[k]);
 						}
 					}
@@ -131,6 +114,28 @@ public abstract class Solution {
 				}
 			}
 		}
+	}
+
+	public static Solution of(RawMolecule rm, RawAtom[] ras,
+							  NDDOParams[] params) {
+		NDDOAtom[] atoms;
+		if (params instanceof MNDOParams[])
+			atoms = RawMolecule.toMNDOAtoms(ras, (MNDOParams[]) params);
+		else throw new IllegalStateException("Unidentified params type!");
+
+		if (rm.restricted) return new SolutionR(atoms, rm).compute();
+		else return new SolutionU(atoms, rm).compute();
+	}
+
+	public static int getNIntegrals(RawMolecule rm) {
+		MNDOParams[] placeholder = new MNDOParams[rm.mats.length];
+		for (int i = 0; i < rm.mats.length; i++) {
+			placeholder[i] = new MNDOParams();
+		}
+		NDDOAtom[] atoms = RawMolecule.toMNDOAtoms(rm.atoms, placeholder);
+		if (rm.restricted)
+			return new SolutionR(atoms, rm).findNIntegrals();
+		else return new SolutionU(atoms, rm).findNIntegrals();
 	}
 
 	/**
@@ -152,6 +157,18 @@ public abstract class Solution {
 		}
 		return true;
 	}
+
+	public Solution withNewAtoms(NDDOAtom[] newAtoms) {
+		if (this instanceof SolutionR)
+			return new SolutionR(newAtoms, rm);
+		else if (this instanceof SolutionU)
+			return new SolutionU(newAtoms, rm);
+		else throw new IllegalStateException("Unidentified Solution type!");
+	}
+
+	protected abstract int findNIntegrals();
+
+	protected abstract Solution compute();
 
 	public RawMolecule getRm() {
 		return rm;
