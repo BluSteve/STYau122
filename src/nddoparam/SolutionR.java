@@ -78,16 +78,106 @@ public class SolutionR extends Solution {
 							new int[]{0, 2, 3, 4, 5, 6},
 							new int[]{1, 2, 3, 4, 5, 6},
 							new int[]{0, 1, 2, 3, 4, 5, 6}}};
-
+	int integralEvaled, integralCached;
 	public double[] integralArray;
-	public DoubleMatrix C, F, G, E;
 	// H - core matrix, G = 2-electron matrix, F = fock matrix, C = coeffecient
 	// matrix (transposed for easier reading), E = eigenvalues
+	public DoubleMatrix C, F, G, E;
 	private DoubleMatrix densityMatrix, B;
 	private double[] Earray;
+	private double[][][][] integralCache;
+	private boolean[][][][] hasIntegralCache;
 
-	protected SolutionR(NDDOAtom[] atoms, RawMolecule rm) {
+	public SolutionR(NDDOAtom[] atoms, RawMolecule rm) {
 		super(atoms, rm);
+		integralCache = new double[nOrbitals][nOrbitals]
+				[nOrbitals][nOrbitals];
+		hasIntegralCache = new boolean[nOrbitals][nOrbitals]
+				[nOrbitals][nOrbitals];
+	}
+
+	private static DoubleMatrix commutator(DoubleMatrix F, DoubleMatrix D) {
+		return F.mmul(D).sub(D.mmul(F));
+	}
+
+	private static DoubleMatrix removeElementsSquare(DoubleMatrix original,
+													 int[] indices) {
+		DoubleMatrix newarray = DoubleMatrix
+				.zeros(original.rows - indices.length,
+						original.rows - indices.length);
+
+		ArrayList<Integer> array = new ArrayList<>();
+		for (int i = 0; i < original.rows; i++) {
+			array.add(i);
+		}
+
+		for (int i : indices) {
+			array.remove(Integer.valueOf(i));
+		}
+
+		int count = 0;
+
+		for (int i : array) {
+			int count1 = 0;
+			for (int j : array) {
+				newarray.put(count, count1, original.get(i, j));
+				count1++;
+			}
+
+			count++;
+		}
+
+		return newarray;
+	}
+
+	private static DoubleMatrix removeElementsLinear(DoubleMatrix original,
+													 int[] indices) {//get rid
+		// of the rows given in indices and return downsized vector
+
+		DoubleMatrix newarray =
+				DoubleMatrix.zeros(original.rows - indices.length, 1);
+
+		ArrayList<Integer> array = new ArrayList<>();
+		for (int i = 0; i < original.rows; i++) {
+			array.add(i);
+		}
+
+		for (int i : indices) {
+			array.remove(Integer.valueOf(i));
+		}
+
+		int count = 0;
+
+		for (int i : array) {
+			newarray.put(count, original.get(i));
+			count++;
+		}
+
+		return newarray;
+	}
+
+	private static DoubleMatrix addRows(DoubleMatrix original,
+										int[] indices) { // add zero row at
+		// indices
+
+		DoubleMatrix newarray =
+				DoubleMatrix.zeros(original.rows + indices.length, 1);
+
+		ArrayList<Double> array = new ArrayList<>();
+
+		for (double i : original.toArray()) {
+			array.add(i);
+		}
+
+		for (int index : indices) {
+			array.add(index, 0.0);
+		}
+
+		for (int i = 0; i < array.size(); i++) {
+			newarray.put(i, array.get(i));
+		}
+
+		return newarray;
 	}
 
 	@Override
@@ -97,22 +187,15 @@ public class SolutionR extends Solution {
 
 		integralArray = new double[rm.nIntegrals];
 
-		int integralcount = 0;
+		int integralCount = 0;
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
-				if (j == k) { // case 1
+				if (j == k) {
 					for (int l : orbsOfAtom[atomOfOrb[j]]) {
 						if (l > -1) {
-							integralArray[integralcount] =
-									(NDDO6G.OneCenterERI(orbitals[j],
-											orbitals[j],
-											orbitals[l],
-											orbitals[l]) - 0.5 *
-											NDDO6G.OneCenterERI(orbitals[j],
-													orbitals[l],
-													orbitals[j],
-													orbitals[l]));
-							integralcount++;
+							integralArray[integralCount] =
+									aabb(j, l) - 0.5 * abab(j, l);
+							integralCount++;
 						}
 					}
 
@@ -121,12 +204,9 @@ public class SolutionR extends Solution {
 							for (int m : missingOfAtom[atomOfOrb[j]]) {
 								if (m > -1) {
 									if (atomOfOrb[l] == atomOfOrb[m]) {
-										integralArray[integralcount] =
-												(NDDO6G.getG(orbitals[j],
-														orbitals[j],
-														orbitals[l],
-														orbitals[m]));
-										integralcount++;
+										integralArray[integralCount] =
+												aabc(j, l, m);
+										integralCount++;
 									}
 								}
 
@@ -134,42 +214,34 @@ public class SolutionR extends Solution {
 						}
 					}
 				}
-				else if (atomOfOrb[j] == atomOfOrb[k]) { // case 2
-					integralArray[integralcount] = (1.5 *
-							NDDO6G.OneCenterERI(orbitals[j], orbitals[k],
-									orbitals[j],
-									orbitals[k]) - 0.5 *
-							NDDO6G.OneCenterERI(orbitals[j], orbitals[j],
-									orbitals[k],
-									orbitals[k]));
-					integralcount++;
+				else if (atomOfOrb[j] == atomOfOrb[k]) {
+					double jkjk = abab(j, k);
+					double jjkk = aabb(j, k);
+					integralArray[integralCount] = 1.5 * jkjk - 0.5 * jjkk;
+					integralCount++;
+
 					for (int l : missingOfAtom[atomOfOrb[j]]) {
 						if (l > -1) {
 							for (int m : missingOfAtom[atomOfOrb[j]]) {
 								if (m > -1) {
 									if (atomOfOrb[l] == atomOfOrb[m]) {
-										integralArray[integralcount] =
-												(NDDO6G.getG(orbitals[j],
-														orbitals[k],
-														orbitals[l],
-														orbitals[m]));
-										integralcount++;
+										integralArray[integralCount] =
+												abcd(j, k, l, m);
+										integralCount++;
 									}
 								}
 							}
 						}
 					}
 				}
-				else { // case 3
+				else {
 					for (int l : orbsOfAtom[atomOfOrb[j]]) {
 						if (l > -1) {
 							for (int m : orbsOfAtom[atomOfOrb[k]]) {
 								if (m > -1) {
-									integralArray[integralcount] = (-0.5 *
-											NDDO6G.getG(orbitals[j],
-													orbitals[l],
-													orbitals[k], orbitals[m]));
-									integralcount++;
+									integralArray[integralCount] =
+											-0.5 * abcd(j, l, k, m);
+									integralCount++;
 								}
 							}
 						}
@@ -177,6 +249,9 @@ public class SolutionR extends Solution {
 				}
 			}
 		}
+
+		System.out.println("integralEvals = " + integralEvaled);
+		System.out.println("integralCached = " + integralCached);
 
 		DoubleMatrix[] matrices = Utils.symEigen(H);
 		E = matrices[1].diag();
@@ -200,7 +275,7 @@ public class SolutionR extends Solution {
 
 		while (DIISError > 1E-11) {
 			olddensity = densityMatrix.dup();
-			integralcount = 0;
+			integralCount = 0;
 
 			// this entire block of code fills up the G matrix, and it calls
 			// the integralarray to save time.
@@ -213,8 +288,8 @@ public class SolutionR extends Solution {
 						for (int l : orbsOfAtom[atomOfOrb[j]]) {
 							if (l > -1) {
 								val += densityMatrix.get(l, l) *
-										integralArray[integralcount];
-								integralcount++;
+										integralArray[integralCount];
+								integralCount++;
 							}
 						}
 
@@ -224,8 +299,8 @@ public class SolutionR extends Solution {
 									if (m > -1) {
 										if (atomOfOrb[l] == atomOfOrb[m]) {
 											val += densityMatrix.get(l, m) *
-													integralArray[integralcount];
-											integralcount++;
+													integralArray[integralCount];
+											integralCount++;
 										}
 									}
 
@@ -235,8 +310,8 @@ public class SolutionR extends Solution {
 					}
 					else if (atomOfOrb[j] == atomOfOrb[k]) {
 						val += densityMatrix.get(j, k) *
-								integralArray[integralcount];
-						integralcount++;
+								integralArray[integralCount];
+						integralCount++;
 
 						for (int l : missingOfAtom[atomOfOrb[j]]) {
 							if (l > -1) {
@@ -244,8 +319,8 @@ public class SolutionR extends Solution {
 									if (m > -1) {
 										if (atomOfOrb[l] == atomOfOrb[m]) {
 											val += densityMatrix.get(l, m) *
-													integralArray[integralcount];
-											integralcount++;
+													integralArray[integralCount];
+											integralCount++;
 										}
 									}
 
@@ -259,8 +334,8 @@ public class SolutionR extends Solution {
 								for (int m : orbsOfAtom[atomOfOrb[k]]) {
 									if (m > -1) {
 										val += densityMatrix.get(l, m) *
-												integralArray[integralcount];
-										integralcount++;
+												integralArray[integralCount];
+										integralCount++;
 									}
 								}
 							}
@@ -441,7 +516,6 @@ public class SolutionR extends Solution {
 
 			}
 			else {
-
 				DoubleMatrix mat = DoubleMatrix
 						.zeros(ediisSize, ediisSize);
 
@@ -530,88 +604,114 @@ public class SolutionR extends Solution {
 		return this;
 	}
 
-	private static DoubleMatrix commutator(DoubleMatrix F, DoubleMatrix D) {
-		return F.mmul(D).sub(D.mmul(F));
+	private double aabb(int a, int b) {
+		double aabb;
+		if (hasIntegralCache[a][a][b][b]) {
+			aabb = integralCache[a][a][b][b];
+			integralCached++;
+		}
+		else {
+			aabb = NDDO6G.OneCenterERI(
+					orbitals[a],
+					orbitals[a],
+					orbitals[b],
+					orbitals[b]);
+			integralCache[a][a][b][b] = aabb;
+			integralCache[b][b][a][a] = aabb;
+
+			hasIntegralCache[a][a][b][b] = true;
+			hasIntegralCache[b][b][a][a] = true;
+			integralEvaled++;
+		}
+		return aabb;
 	}
 
-	private static DoubleMatrix removeElementsSquare(DoubleMatrix original,
-													 int[] indices) {
-		DoubleMatrix newarray = DoubleMatrix
-				.zeros(original.rows - indices.length,
-						original.rows - indices.length);
-
-		ArrayList<Integer> array = new ArrayList<>();
-		for (int i = 0; i < original.rows; i++) {
-			array.add(i);
+	private double aabc(int a, int b, int c) {
+		double aabc;
+		if (hasIntegralCache[a][a][b][c]) {
+			aabc = integralCache[a][a][b][c];
+			integralCached++;
 		}
-
-		for (int i : indices) {
-			array.remove(Integer.valueOf(i));
+		else {
+			aabc = NDDO6G.getG(orbitals[a],
+					orbitals[a],
+					orbitals[b],
+					orbitals[c]);
+			integralCache[a][a][b][c] = aabc;
+			integralCache[a][a][c][b] = aabc;
+			integralCache[b][c][a][a] = aabc;
+			integralCache[c][b][a][a] = aabc;
+			hasIntegralCache[a][a][b][c] =
+					true;
+			hasIntegralCache[a][a][c][b] =
+					true;
+			hasIntegralCache[b][c][a][a] =
+					true;
+			hasIntegralCache[c][b][a][a] =
+					true;
+			integralEvaled++;
 		}
-
-		int count = 0;
-
-		for (int i : array) {
-			int count1 = 0;
-			for (int j : array) {
-				newarray.put(count, count1, original.get(i, j));
-				count1++;
-			}
-
-			count++;
-		}
-
-		return newarray;
+		return aabc;
 	}
 
-	private static DoubleMatrix removeElementsLinear(DoubleMatrix original,
-													 int[] indices) {//get rid
-		// of the rows given in indices and return downsized vector
-
-		DoubleMatrix newarray =
-				DoubleMatrix.zeros(original.rows - indices.length, 1);
-
-		ArrayList<Integer> array = new ArrayList<>();
-		for (int i = 0; i < original.rows; i++) {
-			array.add(i);
+	private double abab(int a, int b) {
+		double abab;
+		if (hasIntegralCache[a][b][a][b]) {
+			abab = integralCache[a][b][a][b];
+			integralCached++;
 		}
+		else {
+			abab = NDDO6G.OneCenterERI(
+					orbitals[a],
+					orbitals[b],
+					orbitals[a],
+					orbitals[b]);
+			integralCache[a][b][a][b] = abab;
+			integralCache[a][b][b][a] = abab;
+			integralCache[b][a][a][b] = abab;
+			integralCache[b][a][b][a] = abab;
 
-		for (int i : indices) {
-			array.remove(Integer.valueOf(i));
+			hasIntegralCache[a][b][a][b] = true;
+			hasIntegralCache[a][b][b][a] = true;
+			hasIntegralCache[b][a][a][b] = true;
+			hasIntegralCache[b][a][b][a] = true;
+			integralEvaled++;
 		}
-
-		int count = 0;
-
-		for (int i : array) {
-			newarray.put(count, original.get(i));
-			count++;
-		}
-
-		return newarray;
+		return abab;
 	}
 
-	private static DoubleMatrix addRows(DoubleMatrix original,
-										int[] indices) { // add zero row at
-		// indices
-
-		DoubleMatrix newarray =
-				DoubleMatrix.zeros(original.rows + indices.length, 1);
-
-		ArrayList<Double> array = new ArrayList<>();
-
-		for (double i : original.toArray()) {
-			array.add(i);
+	private double abcd(int a, int b, int c, int d) {
+		double abcd;
+		if (hasIntegralCache[a][b][c][d]) {
+			abcd = integralCache[a][b][c][d];
+			integralCached++;
 		}
+		else {
+			abcd = NDDO6G.OneCenterERI(
+					orbitals[a],
+					orbitals[b],
+					orbitals[c],
+					orbitals[d]);
+			integralCache[a][b][c][d] = abcd;
+			integralCache[a][b][d][c] = abcd;
+			integralCache[b][a][c][d] = abcd;
+			integralCache[b][a][d][c] = abcd;
+			integralCache[c][d][a][b] = abcd;
+			integralCache[c][d][b][a] = abcd;
+			integralCache[d][c][a][b] = abcd;
+			integralCache[d][c][b][a] = abcd;
 
-		for (int index : indices) {
-			array.add(index, 0.0);
+			hasIntegralCache[a][b][c][d] = true;
+			hasIntegralCache[a][b][d][c] = true;
+			hasIntegralCache[b][a][c][d] = true;
+			hasIntegralCache[b][a][d][c] = true;
+			hasIntegralCache[c][d][a][b] = true;
+			hasIntegralCache[c][d][b][a] = true;
+			hasIntegralCache[d][c][a][b] = true;
+			hasIntegralCache[d][c][b][a] = true;
+			integralEvaled++;
 		}
-
-		for (int i = 0; i < array.size(); i++) {
-			newarray.put(i, array.get(i));
-		}
-
-		return newarray;
+		return abcd;
 	}
 
 	@SuppressWarnings("DuplicatedCode")

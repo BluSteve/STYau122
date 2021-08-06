@@ -21,15 +21,6 @@ public abstract class Solution {
 	protected RawMolecule rm;
 
 	protected Solution(NDDOAtom[] atoms, RawMolecule rm) {
-		/*
-		 solution give 2 things
-		 1. query arrays - atomNumber returns which atom an orbital
-		 corresponds to. orbitalIndices returns all orbitals which are from
-		 a particular atom. missingIndex returns all orbitals which are not
-		 from that atom.
-
-		 2. Fill up H.
-		*/
 		this.atoms = atoms;
 		this.rm = rm;
 		this.atomicNumbers = rm.atomicNumbers;
@@ -79,42 +70,7 @@ public abstract class Solution {
 			}
 		}
 
-		H = new DoubleMatrix(orbitals.length, orbitals.length);
-
-		// filling up the core matrix in accordance with NDDO formalism
-		for (int j = 0; j < orbitals.length; j++) {
-			for (int k = j; k < orbitals.length; k++) {
-				if (k == j) {
-					double Huu = orbitals[j].U();
-
-					for (int an = 0; an < atoms.length; an++) {
-						if (atomOfOrb[j] != an) {
-							Huu += atoms[an].V(orbitals[j], orbitals[k]);
-						}
-					}
-
-					H.put(j, k, Huu);
-				}
-				else if (atomOfOrb[j] == atomOfOrb[k]) {
-					double Huv = 0;
-
-					for (int an = 0; an < atoms.length; an++) {
-						if (atomOfOrb[j] != an) {
-							Huv += atoms[an].V(orbitals[j], orbitals[k]);
-						}
-					}
-
-					H.put(j, k, Huv);
-					H.put(k, j, Huv);
-				}
-				else {
-					double Huk = NDDO6G.beta(orbitals[j], orbitals[k]);
-
-					H.put(j, k, Huk);
-					H.put(k, j, Huk);
-				}
-			}
-		}
+		fillH();
 	}
 
 	public static Solution of(RawMolecule rm, RawAtom[] ras,
@@ -162,6 +118,47 @@ public abstract class Solution {
 		return true;
 	}
 
+	/**
+	 * filling up the core matrix in accordance with NDDO formalism
+	 */
+	protected void fillH() {
+		H = new DoubleMatrix(orbitals.length, orbitals.length);
+
+		for (int j = 0; j < orbitals.length; j++) {
+			for (int k = j; k < orbitals.length; k++) {
+				if (k == j) {
+					double Huu = orbitals[j].U();
+
+					for (int an = 0; an < atoms.length; an++) {
+						if (atomOfOrb[j] != an) {
+							Huu += atoms[an].V(orbitals[j], orbitals[k]);
+						}
+					}
+
+					H.put(j, k, Huu);
+				}
+				else if (atomOfOrb[j] == atomOfOrb[k]) {
+					double Huv = 0;
+
+					for (int an = 0; an < atoms.length; an++) {
+						if (atomOfOrb[j] != an) {
+							Huv += atoms[an].V(orbitals[j], orbitals[k]);
+						}
+					}
+
+					H.put(j, k, Huv);
+					H.put(k, j, Huv);
+				}
+				else {
+					double Huk = NDDO6G.beta(orbitals[j], orbitals[k]);
+
+					H.put(j, k, Huk);
+					H.put(k, j, Huk);
+				}
+			}
+		}
+	}
+
 	public Solution withNewAtoms(NDDOAtom[] newAtoms) {
 		if (this instanceof SolutionR)
 			return new SolutionR(newAtoms, rm).compute();
@@ -170,7 +167,7 @@ public abstract class Solution {
 		else throw new IllegalStateException("Unidentified Solution type!");
 	}
 
-	protected abstract Solution compute();
+	public abstract Solution compute();
 
 	public RawMolecule getRm() {
 		return rm;

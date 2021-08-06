@@ -167,7 +167,8 @@ public class InputHandler {
 					}
 
 					StringBuilder nameBuilder = new StringBuilder();
-					HashMap<String, Integer> nameOccurrences = new HashMap<>();
+					TreeMap<String, Integer> nameOccurrences =
+							new TreeMap<>(Collections.reverseOrder());
 					ArrayList<Integer> tempZs =
 							new ArrayList<>(Utils.maxAtomNum);
 					ArrayList<Integer> atomicNumbers = new ArrayList<>();

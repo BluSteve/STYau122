@@ -2,10 +2,13 @@ import jcuda.Pointer;
 import jcuda.Sizeof;
 import jcuda.jcublas.JCublas;
 import jcuda.runtime.JCuda;
+import nddoparam.Solution;
+import nddoparam.SolutionR;
 import nddoparam.mndo.MNDOAtom;
 import nddoparam.mndo.MNDOParams;
 import org.apache.commons.lang3.time.StopWatch;
 import org.jblas.DoubleMatrix;
+import runcycle.input.RawMolecule;
 import scf.AtomHandler;
 import scf.Utils;
 
@@ -300,19 +303,20 @@ public class Testing {
 				new MNDOAtom(AtomHandler.atomsMap.get("C"),
 						new double[]{0, 0, 0}, c)};
 		double[] datum = new double[]{-17.9, 0, 13.6};
-//		StopWatch sw = new StopWatch();
-//		System.out.close();
-//		Solution sr;
-//		Solution sr = new SolutionR(0, exp1);
-//		System.out.println(" == ");
-//
-////		sw.start();
-////		GeometryOptimization.of(sr).compute();
-//
-//		System.out.println(" == ");
-//
-//		sr = new SolutionR(0, atoms);
-////		GeometryOptimization.of(sr).compute();
 
+		RawMolecule rm = new RawMolecule();
+		rm.nIntegrals = 212;
+		rm.nElectrons = 8;
+		rm.nOrbitals = 8;
+		rm.atomicNumbers = new int[]{1, 1, 1, 1, 6};
+		rm.charge = 0;
+		rm.mult = 0;
+		rm.name = "C1H4";
+		Solution s1 = new SolutionR(atoms, rm).compute();
+
+		Solution s = new SolutionR(atoms, rm).compute();
+		System.out.println("s.energy = " + s.energy);
+//		GeometryOptimization.of(s).compute();
+//		System.out.println("s.energy = " + s.energy);
 	}
 }

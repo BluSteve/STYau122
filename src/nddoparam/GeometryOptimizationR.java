@@ -8,11 +8,6 @@ public class GeometryOptimizationR extends GeometryOptimization {
 		super(s);
 	}
 
-	@Override
-	protected void updateSolution() {
-		s.compute(); // todo might not work
-	}
-
 	protected double findDerivative(int i, int j) {
 		return GeometryDerivative.grad((SolutionR) s, i, j);
 	}

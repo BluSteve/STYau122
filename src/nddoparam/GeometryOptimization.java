@@ -31,7 +31,7 @@ public abstract class GeometryOptimization {
 		str += "Current heat of formation: " + s.hf + "kcal/mol\n" +
 				/*"Current HOMO energy: " + s.homo + " eV\n" +
 				"Current energy: " + s.energy + "\n" +*/
-						"-----------------------------------------------\n";
+				"-----------------------------------------------\n";
 		System.out.println(str);
 	}
 
@@ -57,8 +57,7 @@ public abstract class GeometryOptimization {
 		}
 
 		if (newGuess != newGuess) {
-
-			throw new IllegalStateException("RFO lambda == null! \n" + h.toString());
+			throw new IllegalStateException("RFO lambda == null! \n" + h);
 		}
 
 		return newGuess;
@@ -93,8 +92,8 @@ public abstract class GeometryOptimization {
 
 		DoubleMatrix[] ms = Utils.symEigen(B);
 
-		if (B.get(0,0) != B.get(0, 0)) {
-			System.err.println ("Hessian is NaN!");
+		if (B.get(0, 0) != B.get(0, 0)) {
+			System.err.println("Hessian is NaN!");
 			System.exit(0);
 		}
 		DoubleMatrix h = ms[1].diag();
@@ -139,9 +138,8 @@ public abstract class GeometryOptimization {
 
 			// creates new solution based on updated atom positions
 			updateSolution();
-			if (s.getRm() != null)
 			System.out.println(
-					s.getRm().index + " " + s.getRm().name + " Gradient: " +
+					s.getRm().debugName() + " Gradient: " +
 							mag(gradient));
 			logSolution(s);
 
@@ -187,11 +185,13 @@ public abstract class GeometryOptimization {
 		return this;
 	}
 
+	protected void updateSolution() {
+		s = s.withNewAtoms(s.atoms);
+	}
+
 	public Solution getS() {
 		return s;
 	}
-
-	protected abstract void updateSolution();
 
 	protected abstract DoubleMatrix[] findGH();
 

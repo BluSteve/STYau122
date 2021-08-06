@@ -23,6 +23,7 @@ public class SolutionU extends Solution {
 		nElectrons -= (mult - 1);
 	}
 
+	@Override
 	public SolutionU compute() {
 		int nalpha = nElectrons / 2 + (mult - 1);
 		int nbeta = nElectrons / 2;
@@ -353,7 +354,6 @@ public class SolutionU extends Solution {
 								" " +
 								Arrays.toString(a.getCoordinates()));
 					}
-//					System.exit(0);
 
 				}
 			}
@@ -659,9 +659,7 @@ public class SolutionU extends Solution {
 	}
 
 	private DoubleMatrix calculateDensityMatrix(DoubleMatrix c,
-												int NElectrons) {//density
-		// matrix
-		// construction by definition.
+												int NElectrons) {
 		DoubleMatrix densityMatrix =
 				new DoubleMatrix(orbitals.length, orbitals.length);
 
