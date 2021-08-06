@@ -314,8 +314,16 @@ public class Testing {
 		rm.name = "C1H4";
 		Solution s1 = new SolutionR(atoms, rm).compute();
 
-		Solution s = new SolutionR(atoms, rm).compute();
-		System.out.println("s.energy = " + s.energy);
+		NanoStopWatch nsw = NanoStopWatch.sw();
+		double time = 0;
+		for (int i = 0; i < 1000; i++) {
+			nsw.start();
+			Solution s = new SolutionR(atoms, rm).compute();
+			time += nsw.stop();
+		}
+
+		System.out.println("time = " + time/1000);
+//		System.out.println("s.energy = " + s.energy);
 //		GeometryOptimization.of(s).compute();
 //		System.out.println("s.energy = " + s.energy);
 	}

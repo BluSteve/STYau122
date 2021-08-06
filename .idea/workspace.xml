@@ -39,12 +39,9 @@
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dynamic-output.json" beforeDir="false" afterPath="$PROJECT_DIR$/dynamic-output.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/input.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputtesting.txt" beforeDir="false" afterPath="$PROJECT_DIR$/inputtesting.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Testing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationU.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/Solution.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionU.java" afterDir="false" />
@@ -313,7 +310,7 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.completion" />
     <property name="two.files.diff.last.used.file" value="$USER_HOME$/Desktop/with hessian row mt.json" />
   </component>
   <component name="RecentsManager">
@@ -410,8 +407,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Testing" />
-        <item itemvalue="Application.Main" />
         <item itemvalue="Application.InputHandler" />
+        <item itemvalue="Application.Main" />
         <item itemvalue="Application.AtomHandler" />
         <item itemvalue="Application.SolutionNew" />
       </list>
@@ -540,14 +537,7 @@
       <workItem from="1627220401877" duration="6141000" />
       <workItem from="1628140053005" duration="583000" />
       <workItem from="1628237685852" duration="4885000" />
-      <workItem from="1628256805166" duration="5274000" />
-    </task>
-    <task id="LOCAL-00138" summary="more docs and minor changes">
-      <created>1626682230627</created>
-      <option name="number" value="00138" />
-      <option name="presentableId" value="LOCAL-00138" />
-      <option name="project" value="LOCAL" />
-      <updated>1626682230627</updated>
+      <workItem from="1628256805166" duration="6572000" />
     </task>
     <task id="LOCAL-00139" summary="Added static factory methods to param hessian">
       <created>1626683085657</created>
@@ -885,7 +875,14 @@
       <option name="project" value="LOCAL" />
       <updated>1628245459974</updated>
     </task>
-    <option name="localTasksCounter" value="187" />
+    <task id="LOCAL-00187" summary="added integralcache and fixed geometryoptimization bug">
+      <created>1628262281077</created>
+      <option name="number" value="00187" />
+      <option name="presentableId" value="LOCAL-00187" />
+      <option name="project" value="LOCAL" />
+      <updated>1628262281078</updated>
+    </task>
+    <option name="localTasksCounter" value="188" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -962,7 +959,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="a lot of changes" />
     <MESSAGE value="Added retrying molecules upon failure as an option" />
     <MESSAGE value="gpu code" />
     <MESSAGE value="more gpu code" />
@@ -987,15 +983,16 @@
     <MESSAGE value="started solution refactor" />
     <MESSAGE value="minor changes" />
     <MESSAGE value="major solution refactor causing issues" />
-    <option name="LAST_COMMIT_MESSAGE" value="major solution refactor causing issues" />
+    <MESSAGE value="added integralcache and fixed geometryoptimization bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="added integralcache and fixed geometryoptimization bug" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/nddoparam/SolutionR.java</url>
-          <line>255</line>
-          <option name="timeStamp" value="1" />
+          <url>file://$PROJECT_DIR$/src/runcycle/input/RawMolecule.java</url>
+          <line>25</line>
+          <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

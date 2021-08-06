@@ -4,6 +4,7 @@ import nddoparam.mndo.MNDOParams;
 import org.jblas.DoubleMatrix;
 import runcycle.input.RawAtom;
 import runcycle.input.RawMolecule;
+import scf.Utils;
 
 import java.util.Arrays;
 
@@ -85,8 +86,8 @@ public abstract class Solution {
 	}
 
 	public static int[] getNIntegrals(RawMolecule rm) {
-		MNDOParams[] placeholder = new MNDOParams[rm.mats.length];
-		for (int i = 0; i < rm.mats.length; i++) {
+		MNDOParams[] placeholder = new MNDOParams[Utils.maxAtomNum];
+		for (int i = 0; i < Utils.maxAtomNum; i++) {
 			placeholder[i] = new MNDOParams();
 		}
 		NDDOAtom[] atoms = RawMolecule.toMNDOAtoms(rm.atoms, placeholder);

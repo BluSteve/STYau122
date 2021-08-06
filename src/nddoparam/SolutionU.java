@@ -17,7 +17,7 @@ public class SolutionU extends Solution {
 		this.mult = rm.mult;
 		if (nElectrons % 2 == mult % 2 || mult < 1) {
 			System.err.println(
-					"Please check multiplicity and charge: " + nElectrons +
+					rm.debugName() + " Please check multiplicity and charge: " + nElectrons +
 							", " + mult);
 		}
 		nElectrons -= (mult - 1);

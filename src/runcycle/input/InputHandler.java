@@ -238,6 +238,7 @@ public class InputHandler {
 					i++;
 				}
 			} catch (IndexOutOfBoundsException e) {
+				e.printStackTrace();
 			}
 			try {
 				i = 0;
@@ -257,6 +258,7 @@ public class InputHandler {
 					j++;
 				}
 			} catch (IndexOutOfBoundsException e) {
+				e.printStackTrace();
 			}
 			ri.molecules = new RawMolecule[moleculesL.size()];
 			for (int p = 0; p < moleculesL.size(); p++)
