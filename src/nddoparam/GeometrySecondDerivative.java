@@ -2543,7 +2543,7 @@ public class GeometrySecondDerivative {
 
 		NDDOAtom[] newatoms = Utils.perturbAtomCoords(atoms, atomnum2, tau2);
 
-		SolutionR newsoln = new SolutionR(soln.charge, newatoms);
+		SolutionR newsoln = (SolutionR) soln.withNewAtoms(newatoms);
 
 		double finalval =
 				GeometryDerivative.gradient(newatoms, newsoln, atomnum1, tau1);
@@ -2562,8 +2562,7 @@ public class GeometrySecondDerivative {
 
 		NDDOAtom[] newatoms = Utils.perturbAtomCoords(atoms, atomnum2, tau2);
 
-		SolutionU newsoln =
-				new SolutionU(newatoms, soln.charge, soln.mult);
+		SolutionU newsoln = (SolutionU) soln.withNewAtoms(newatoms);
 
 		double finalval = GeometryDerivative
 				.gradientUnrestricted(newatoms, newsoln, atomnum1, tau1);

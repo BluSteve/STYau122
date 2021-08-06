@@ -95,8 +95,7 @@ public class SolutionR extends Solution {
 		StopWatch sw = new StopWatch();
 		sw.start();
 
-		int size = findNIntegrals();
-		integralArray = new double[size];
+		integralArray = new double[rm.nIntegrals];
 
 		int integralcount = 0;
 		for (int j = 0; j < orbitals.length; j++) {
@@ -616,7 +615,6 @@ public class SolutionR extends Solution {
 	}
 
 	@SuppressWarnings("DuplicatedCode")
-	@Override
 	protected int findNIntegrals() {
 		int size = 0;
 		for (int j = 0; j < orbitals.length; j++) {
@@ -799,12 +797,6 @@ public class SolutionR extends Solution {
 			}
 		}
 		return densityMatrix;
-	}
-
-	@Override
-	public SolutionR setRm(RawMolecule rm) {
-		this.rm = rm;
-		return this;
 	}
 
 	public DoubleMatrix getE() {

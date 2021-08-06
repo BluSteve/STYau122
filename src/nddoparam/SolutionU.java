@@ -14,22 +14,20 @@ public class SolutionU extends Solution {
 
 	protected SolutionU(NDDOAtom[] atoms, RawMolecule rm) {
 		super(atoms, rm);
-	}
-
-	public SolutionU compute() {
 		this.mult = rm.mult;
 		if (nElectrons % 2 == mult % 2 || mult < 1) {
 			System.err.println(
 					"Please check multiplicity and charge: " + nElectrons +
 							", " + mult);
 		}
-
 		nElectrons -= (mult - 1);
+	}
+
+	public SolutionU compute() {
 		int nalpha = nElectrons / 2 + (mult - 1);
 		int nbeta = nElectrons / 2;
 
-		int size = findNIntegrals();
-		double[] integralArrayCoulomb = new double[size];
+		double[] integralArrayCoulomb = new double[rm.nCoulombInts];
 
 		int integralCount = 0;
 		for (int j = 0; j < orbitals.length; j++) {
@@ -87,44 +85,10 @@ public class SolutionU extends Solution {
 			}
 		}
 
-		//System.out.println("Coulomb (J) matrix ERIs evaluated - moving on to
-		// Exchange
-		// (K) matrix ERIs...");
-
-		size = 0;
-		for (int j = 0; j < orbitals.length; j++) {
-			for (int k = j; k < orbitals.length; k++) {
-				//System.err.println ("(" + j + ", " + k + ")");
-				if (j == k) {
-
-					for (int l : orbsOfAtom[atomOfOrb[j]]) {
-						if (l > -1) {
-							size++;
-						}
-					}
-				}
-				else if (atomOfOrb[j] == atomOfOrb[k]) {
-					size++;
-				}
-				else {
-					for (int l : orbsOfAtom[atomOfOrb[j]]) {
-						if (l > -1) {
-							for (int m : orbsOfAtom[atomOfOrb[k]]) {
-								if (m > -1) {
-									size++;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-
-		double[] integralArrayExchange = new double[size];
+		double[] integralArrayExchange = new double[rm.nExchangeInts];
 		integralCount = 0;
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
-				//System.err.println ("(" + j + ", " + k + ")");
 				if (j == k) {
 
 					for (int l : orbsOfAtom[atomOfOrb[j]]) {
@@ -138,9 +102,6 @@ public class SolutionU extends Solution {
 					}
 				}
 				else if (atomOfOrb[j] == atomOfOrb[k]) {
-					//System.err.println ("1.5[" + j + k + "|" + j + k + "] -
-					// 0.5[" + j
-					// + j + "|" + k + k + "]");
 					integralArrayExchange[integralCount] = -1 *
 							NDDO6G.OneCenterERI(orbitals[j], orbitals[k],
 									orbitals[j],
@@ -169,10 +130,6 @@ public class SolutionU extends Solution {
 		}
 
 		DoubleMatrix[] matrices = Utils.symEigen(H);
-
-//		System.out.println(
-//				moleculeName +
-//						" All ERIs evaluated, beginning SCF iterations...");
 
 		Ea = matrices[1].diag();
 
@@ -529,8 +486,7 @@ public class SolutionU extends Solution {
 	}
 
 	@SuppressWarnings("DuplicatedCode")
-	@Override
-	protected int findNIntegrals() {
+	protected int findNCoulombInts() {
 		int size = 0;
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
@@ -572,10 +528,34 @@ public class SolutionU extends Solution {
 		return size;
 	}
 
-	@Override
-	public SolutionU setRm(RawMolecule rm) {
-		this.rm = rm;
-		return this;
+	protected int findNExchangeInts() {
+		int size = 0;
+		for (int j = 0; j < orbitals.length; j++) {
+			for (int k = j; k < orbitals.length; k++) {
+				if (j == k) {
+					for (int l : orbsOfAtom[atomOfOrb[j]]) {
+						if (l > -1) {
+							size++;
+						}
+					}
+				}
+				else if (atomOfOrb[j] == atomOfOrb[k]) {
+					size++;
+				}
+				else {
+					for (int l : orbsOfAtom[atomOfOrb[j]]) {
+						if (l > -1) {
+							for (int m : orbsOfAtom[atomOfOrb[k]]) {
+								if (m > -1) {
+									size++;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		return size;
 	}
 
 	private double E(int atomnum, int[][] index) {

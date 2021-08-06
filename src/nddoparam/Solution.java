@@ -31,6 +31,7 @@ public abstract class Solution {
 		 2. Fill up H.
 		*/
 		this.atoms = atoms;
+		this.rm = rm;
 		this.atomicNumbers = rm.atomicNumbers;
 		this.charge = rm.charge;
 		this.mult = rm.mult;
@@ -127,15 +128,18 @@ public abstract class Solution {
 		else return new SolutionU(atoms, rm).compute();
 	}
 
-	public static int getNIntegrals(RawMolecule rm) {
+	public static int[] getNIntegrals(RawMolecule rm) {
 		MNDOParams[] placeholder = new MNDOParams[rm.mats.length];
 		for (int i = 0; i < rm.mats.length; i++) {
 			placeholder[i] = new MNDOParams();
 		}
 		NDDOAtom[] atoms = RawMolecule.toMNDOAtoms(rm.atoms, placeholder);
 		if (rm.restricted)
-			return new SolutionR(atoms, rm).findNIntegrals();
-		else return new SolutionU(atoms, rm).findNIntegrals();
+			return new int[]{new SolutionR(atoms, rm).findNIntegrals()};
+		else {
+			SolutionU s = new SolutionU(atoms, rm);
+			return new int[]{s.findNCoulombInts(), s.findNExchangeInts()};
+		}
 	}
 
 	/**
@@ -160,21 +164,17 @@ public abstract class Solution {
 
 	public Solution withNewAtoms(NDDOAtom[] newAtoms) {
 		if (this instanceof SolutionR)
-			return new SolutionR(newAtoms, rm);
+			return new SolutionR(newAtoms, rm).compute();
 		else if (this instanceof SolutionU)
-			return new SolutionU(newAtoms, rm);
+			return new SolutionU(newAtoms, rm).compute();
 		else throw new IllegalStateException("Unidentified Solution type!");
 	}
-
-	protected abstract int findNIntegrals();
 
 	protected abstract Solution compute();
 
 	public RawMolecule getRm() {
 		return rm;
 	}
-
-	public abstract Solution setRm(RawMolecule rm);
 
 	public abstract DoubleMatrix alphaDensity();
 

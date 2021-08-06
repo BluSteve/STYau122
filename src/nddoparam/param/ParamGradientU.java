@@ -11,7 +11,7 @@ class ParamGradientU extends ParamGradient {
 					"unrestricted!";
 
 	protected ParamGradientU(SolutionU s, double[] datum, SolutionU sExp,
-						  boolean analytical) {
+							 boolean analytical) {
 		super(s, datum, sExp, analytical);
 	}
 
@@ -64,16 +64,16 @@ class ParamGradientU extends ParamGradient {
 
 	@Override
 	protected Solution constructSPrime(int ZI, int paramNum) {
-		return new SolutionU(
+		return s.withNewAtoms(
 				Utils.perturbAtomParams(s.atoms, s.getRm().mats[ZI],
-						paramNum), s.charge, s.mult);
+						paramNum));
 	}
 
 	@Override
-	protected SolutionU constructSExpPrime(int ZI, int paramNum) {
-		return new SolutionU(
+	protected Solution constructSExpPrime(int ZI, int paramNum) {
+		return sExp.withNewAtoms(
 				Utils.perturbAtomParams(sExp.atoms, sExp.getRm().mats[ZI],
-						paramNum), sExp.charge, sExp.mult);
+						paramNum));
 	}
 
 	@Override

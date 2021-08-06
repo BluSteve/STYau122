@@ -2,8 +2,6 @@ import jcuda.Pointer;
 import jcuda.Sizeof;
 import jcuda.jcublas.JCublas;
 import jcuda.runtime.JCuda;
-import nddoparam.Solution;
-import nddoparam.SolutionR;
 import nddoparam.mndo.MNDOAtom;
 import nddoparam.mndo.MNDOParams;
 import org.apache.commons.lang3.time.StopWatch;
@@ -305,16 +303,16 @@ public class Testing {
 //		StopWatch sw = new StopWatch();
 //		System.out.close();
 //		Solution sr;
-		Solution sr = new SolutionR(0, exp1);
-		System.out.println(" == ");
-
-//		sw.start();
-//		GeometryOptimization.of(sr).compute();
-
-		System.out.println(" == ");
-
-		sr = new SolutionR(0, atoms);
-//		GeometryOptimization.of(sr).compute();
+//		Solution sr = new SolutionR(0, exp1);
+//		System.out.println(" == ");
+//
+////		sw.start();
+////		GeometryOptimization.of(sr).compute();
+//
+//		System.out.println(" == ");
+//
+//		sr = new SolutionR(0, atoms);
+////		GeometryOptimization.of(sr).compute();
 
 	}
 }

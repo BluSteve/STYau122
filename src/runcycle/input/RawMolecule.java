@@ -13,7 +13,7 @@ public class RawMolecule {
 	public int charge, mult;
 	public double[] datum;
 	public int[] atomicNumbers;
-	public int nElectrons, nOrbitals, nIntegrals;
+	public int nElectrons, nOrbitals, nIntegrals, nCoulombInts, nExchangeInts;
 	public int[] mats; // molecule atom types
 	public int[][] mnps; // molecule needed params
 	public RawAtom[] atoms, expGeom;

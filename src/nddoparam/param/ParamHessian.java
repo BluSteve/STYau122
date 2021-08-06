@@ -1,8 +1,6 @@
 package nddoparam.param;
 
 import nddoparam.Solution;
-import nddoparam.SolutionR;
-import nddoparam.SolutionU;
 import org.apache.commons.lang3.ArrayUtils;
 import scf.Utils;
 
@@ -262,16 +260,9 @@ public class ParamHessian {
 	}
 
 	private ParamGradient constructGPrime(int ZIndex, int paramNum) {
-		if (restricted) {
-			return ParamGradient.of(
-					new SolutionR(s.charge, Utils.perturbAtomParams(s.atoms,
-							s.getRm().mats[ZIndex], paramNum))
-							.setRm(s.getRm()), datum, sExp);
-		}
 		return ParamGradient.of(
-				new SolutionU(Utils.perturbAtomParams(s.atoms,
-						s.getRm().mats[ZIndex], paramNum), s.charge,
-						s.mult).setRm(s.getRm()), datum, sExp);
+				s.withNewAtoms(Utils.perturbAtomParams(s.atoms,
+						s.getRm().mats[ZIndex], paramNum)), datum, sExp);
 	}
 
 	/**

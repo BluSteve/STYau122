@@ -226,7 +226,13 @@ public class InputHandler {
 					for (int p = 0; p < atomsL.size(); p++)
 						rm.atoms[p] = atomsL.get(p);
 
-					rm.nIntegrals = Solution.getNIntegrals(rm);
+					int[] nIntegrals = Solution.getNIntegrals(rm);
+					if (rm.restricted)
+						rm.nIntegrals = nIntegrals[0];
+					else {
+						rm.nCoulombInts = nIntegrals[0];
+						rm.nExchangeInts = nIntegrals[1];
+					}
 					moleculesL.add(rm);
 					i++;
 				}
