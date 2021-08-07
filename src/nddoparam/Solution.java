@@ -139,6 +139,7 @@ public abstract class Solution {
 		for (int i = 0; i < y.rows; i++) {
 			for (int j = 0; j < y.columns; j++) {
 				if (Math.abs(x.get(i, j) - y.get(i, j)) > limit) {
+					System.err.println (i + ", " + j + ": " + Math.abs(x.get(i, j) - y.get(i, j)));
 					return false;
 				}
 			}

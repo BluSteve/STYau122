@@ -1,6 +1,7 @@
 package nddoparam;
 
 import org.apache.commons.lang3.time.StopWatch;
+import org.ejml.simple.SimpleMatrix;
 import org.jblas.DoubleMatrix;
 import scf.GTO;
 import scf.Utils;
@@ -2594,6 +2595,8 @@ public class GeometrySecondDerivative {
 							finalElapsedSize,
 							Math.min(fockDerivStatic.length,
 									finalElapsedSize + size));
+
+					densityDerivThiel(soln, subset); //todo remove this (testing code)
 					DoubleMatrix[] output = densityDerivPople(soln, subset);
 
 					// todo throw exception instead of null
@@ -2749,6 +2752,14 @@ public class GeometrySecondDerivative {
 
 		DoubleMatrix preconditioner = DoubleMatrix.zeros(NOcc * NVirt, 1);
 
+		SimpleMatrix[] simplexarray = new SimpleMatrix[fockderivstatic.length];
+
+		SimpleMatrix[] simplerarray = new SimpleMatrix[fockderivstatic.length];
+
+		SimpleMatrix[] simpledirs = new SimpleMatrix[fockderivstatic.length];
+
+		double[] arrpreconditioner = new double[NOcc * NVirt];
+
 		int counter = 0;
 
 		for (int i = 0; i < NOcc; i++) {
@@ -2758,6 +2769,8 @@ public class GeometrySecondDerivative {
 
 				preconditioner.put(counter, Math.pow(e, -0.5));
 
+				arrpreconditioner[counter] = Math.pow(e, -0.5);
+
 				counter++;
 
 			}
@@ -2765,10 +2778,13 @@ public class GeometrySecondDerivative {
 
 		DoubleMatrix D = DoubleMatrix.diag(preconditioner);
 
-		//DoubleMatrix D = DoubleMatrix.eye(NOcc * NVirt);
+		SimpleMatrix simpleD = SimpleMatrix.diag (arrpreconditioner);
+
 
 		for (int a = 0; a < xarray.length; a++) {
 			DoubleMatrix F = DoubleMatrix.zeros(NOcc * NVirt, 1);
+
+			SimpleMatrix simpleF = new SimpleMatrix(NOcc * NVirt, 1);
 
 			int count1 = 0;
 
@@ -2789,17 +2805,28 @@ public class GeometrySecondDerivative {
 
 					F.put(count1, 0, element);
 
+					simpleF.set (count1, 0, element);
+
+
 					count1++;
 				}
 			}
 
 			F = D.mmul(F);
 
+			simpleF = simpleD.mult(simpleF);
+
 			xarray[a] = DoubleMatrix.zeros(NOcc * NVirt, 1);
+
+			simplexarray[a] = new SimpleMatrix(NOcc * NVirt, 1);
 
 			rarray[a] = F.dup();
 
+			simplerarray[a] = new SimpleMatrix (simpleF);
+
 			dirs[a] = F.dup();
+
+			simpledirs[a] = new SimpleMatrix (simpleF);
 		}
 
 
@@ -2821,15 +2848,22 @@ public class GeometrySecondDerivative {
 
 			ArrayList<DoubleMatrix> p = new ArrayList<>();
 
-//			System.err.println(
-//					"It's still running, don't worry: " + numNotNull(rarray));
+			ArrayList<SimpleMatrix> simpled = new ArrayList<>();
+
+			ArrayList<SimpleMatrix> simplep = new ArrayList<>();
+
+			System.out.println("It's still running, don't worry: " + Utils.numNotNull(rarray));
+
+
 
 			for (int i = 0; i < rarray.length; i++) {
 
 				if (rarray[i] != null) {
 
 					d.add(dirs[i].dup());
+					simpled.add(new SimpleMatrix(simpledirs[i]));
 					p.add(D.mmul(computeResponseVectorsThiel(dirs[i], soln)));
+					simplep.add(simpleD.mult(computeResponseVectorsThiel(simpledirs[i], soln)));
 				}
 
 
@@ -2838,21 +2872,30 @@ public class GeometrySecondDerivative {
 
 			DoubleMatrix solver = new DoubleMatrix(p.size(), p.size());
 
+			SimpleMatrix simplesolver = new SimpleMatrix (simplep.size(), simplep.size());
+
 
 			DoubleMatrix rhsvec = DoubleMatrix.zeros(p.size(), rarray.length);
+
+			SimpleMatrix simplerhsvec = new SimpleMatrix (simplep.size(), simplerarray.length);
 
 			for (int a = 0; a < rhsvec.columns; a++) {
 				if (rarray[a] != null) {
 					DoubleMatrix rhs = new DoubleMatrix(p.size(), 1);
+					double[] arrrhs = new double[simplep.size()];
 
 					for (int i = 0; i < rhs.rows; i++) {
 						rhs.put(i, 0, 2 *
 								rarray[a].transpose().mmul(d.get(i)).get(0,
 										0));
 
+						arrrhs[i] = 2 * simplerarray[a].transpose().mult(simpled.get(i)).get(0, 0);
+
 					}
 
 					rhsvec.putColumn(a, rhs);
+
+					simplerhsvec.setColumn(a, 0, arrrhs);
 				}
 			}
 
@@ -2862,12 +2905,19 @@ public class GeometrySecondDerivative {
 					double val = p.get(j).transpose().mmul(d.get(i)).get(0,
 							0) +
 							p.get(i).transpose().mmul(d.get(j)).get(0, 0);
+
+					double val2 = simplep.get(j).transpose().mult(simpled.get(i)).get(0, 0) + simplep.get(i).transpose().mult(simpled.get(j)).get(0, 0);
 					solver.put(i, j, val);
 					solver.put(j, i, val);
+
+					simplesolver.set (i, j, val);
+					simplesolver.set (j, i, val);
 				}
 			}
 
 			DoubleMatrix alpha = Utils.solve(solver, rhsvec);
+
+			SimpleMatrix simplealpha = simplesolver.invert().mult(simplerhsvec);
 
 			for (int a = 0; a < rhsvec.columns; a++) {
 				if (rarray[a] != null) {
@@ -2879,10 +2929,15 @@ public class GeometrySecondDerivative {
 						rarray[a] =
 								rarray[a].sub(p.get(i).mmul(alpha.get(i, a)));
 
+						simplexarray[a] = simplexarray[a].plus(simpled.get(i).scale(simplealpha.get(i, a)));
+
+						simplerarray[a] = simplerarray[a].minus(simplep.get(i).scale(simplealpha.get(i, a)));
+
 					}
 
 					if (mag(rarray[a]) < 1E-6) {//todo change this if you want
 						rarray[a] = null;
+						simplerarray[a] = null;
 					}
 					else {
 //						System.out.println("convergence test: " + mag
@@ -2894,17 +2949,23 @@ public class GeometrySecondDerivative {
 
 			solver = new DoubleMatrix(solver.rows, solver.rows);
 
+			simplesolver = new SimpleMatrix (simplesolver.numRows(), simplesolver.numRows());
+
 			for (int a = 0; a < rhsvec.columns; a++) {
 				if (rarray[a] != null) {
 					DoubleMatrix rhs = new DoubleMatrix(solver.rows, 1);
+					double[] arrrhs = new double[simplesolver.numRows()];
 
 					for (int i = 0; i < rhs.rows; i++) {
 						rhs.put(i, 0, -rarray[a].transpose().mmul(p.get(i))
 								.get(0, 0));
 
+						arrrhs[i] = -simplerarray[a].transpose().mult(simplep.get(i)).get(0, 0);
+
 					}
 
 					rhsvec.putColumn(a, rhs);
+					simplerhsvec.setColumn(a, 0, arrrhs);
 				}
 			}
 
@@ -2913,26 +2974,43 @@ public class GeometrySecondDerivative {
 				for (int j = 0; j < solver.rows; j++) {
 					solver.put(i, j,
 							d.get(j).transpose().mmul(p.get(i)).get(0, 0));
+
+					simplesolver.set(i, j, simpled.get(j).transpose().mult(simplep.get(i)).get(0, 0));
 				}
 			}
 
 			DoubleMatrix beta = Utils.solve(solver, rhsvec);
 
+			SimpleMatrix simplebeta = simplesolver.invert().mult(simplerhsvec);
+
 			for (int a = 0; a < rhsvec.columns; a++) {
 
 				if (rarray[a] != null) {
 
+					simpledirs[a] = new SimpleMatrix(simplerarray[a]);
 
 					dirs[a] = rarray[a].dup();
 
 					for (int i = 0; i < beta.rows; i++) {
 						dirs[a] = dirs[a].add(d.get(i).mmul(beta.get(i, a)));
+
+						simpledirs[a] = simpledirs[a].plus(simpled.get(i).scale(simplebeta.get(i, a)));
 					}
 				}
 			}
 
+			for (int i = 0; i < xarray.length; i++) {
+				if (!Solution.isSimilar(xarray[i], Utils.toDoubleMatrix(simplexarray[i]), 1E-7)) {
+					System.err.println ("Oh no! Thiel refactor failed");
+					System.exit(0);
+				}
+
+			}
+
 
 		}
+
+		System.err.println ("Thiel refactor works (for this iteration)");
 
 		DoubleMatrix[] densityMatrixDerivs =
 				new DoubleMatrix[fockderivstatic.length];
@@ -2992,13 +3070,26 @@ public class GeometrySecondDerivative {
 		DoubleMatrix preconditioner = DoubleMatrix.zeros(NOcc * NVirt, 1);
 		DoubleMatrix preconditionerinv = DoubleMatrix.zeros(NOcc * NVirt, 1);
 
+		SimpleMatrix[] simplexarray = new SimpleMatrix[fockderivstatic.length];
+		SimpleMatrix[] simplebarray = new SimpleMatrix[fockderivstatic.length];
+		SimpleMatrix[] simpleparray = new SimpleMatrix[fockderivstatic.length];
+		SimpleMatrix[] simpleFarray = new SimpleMatrix[fockderivstatic.length];
+		SimpleMatrix[] simplerarray = new SimpleMatrix[fockderivstatic.length];
+
+		double[] arrpreconditioner = new double[NOcc * NVirt];
+		double[] arrpreconditionerinv = new double[NOcc * NVirt];
+
 		int counter = 0;
 
 		for (int i = 0; i < NOcc; i++) {
 			for (int j = 0; j < NVirt; j++) {
 				double e = (-soln.E.get(i) + soln.E.get(NOcc + j));
+				
 				preconditioner.put(counter, Math.pow(e, -0.5));
 				preconditionerinv.put(counter, Math.pow(e, 0.5));
+				
+				arrpreconditioner[counter] = Math.pow(e, -0.5);
+				arrpreconditionerinv[counter] = Math.pow(e, 0.5);
 				counter++;
 			}
 		}
@@ -3006,6 +3097,10 @@ public class GeometrySecondDerivative {
 		final DoubleMatrix D = DoubleMatrix.diag(preconditioner);
 
 		final DoubleMatrix Dinv = DoubleMatrix.diag(preconditionerinv);
+		
+		SimpleMatrix simpleD = SimpleMatrix.diag(arrpreconditioner);
+
+		SimpleMatrix simpleDinv = SimpleMatrix.diag(arrpreconditionerinv);
 
 //        DoubleMatrix D = DoubleMatrix.eye(NOcc * NVirt);
 //
@@ -3013,6 +3108,8 @@ public class GeometrySecondDerivative {
 
 		for (int a = 0; a < xarray.length; a++) {
 			DoubleMatrix F = DoubleMatrix.zeros(NOcc * NVirt, 1);
+			SimpleMatrix simpleF = new SimpleMatrix (NOcc * NVirt, 1);
+
 
 			int count1 = 0;
 
@@ -3034,17 +3131,26 @@ public class GeometrySecondDerivative {
 
 
 					F.put(count1, 0, element);
+					simpleF.set (count1, 0, element);
 
 					count1++;
 				}
 			}
 
 			F = D.mmul(F);
+			
+			simpleF = simpleD.mult(simpleF);
 
 			xarray[a] = DoubleMatrix.zeros(NOcc * NVirt, 1);
 			rarray[a] = xarray[a].dup();
 			barray[a] = F.dup();
 			Farray[a] = F.dup();
+
+			simplexarray[a] = new SimpleMatrix (NOcc * NVirt, 1);
+			simplerarray[a] = new SimpleMatrix (NOcc * NVirt, 1);
+			simplebarray[a] = new SimpleMatrix(simpleF);
+			simpleFarray[a] =new SimpleMatrix(simpleF);
+			
 		}
 
 
@@ -3064,14 +3170,21 @@ public class GeometrySecondDerivative {
 
 		ArrayList<DoubleMatrix> prevPs = new ArrayList<>();
 
+		ArrayList<SimpleMatrix> simpleprevBs = new ArrayList<>();
+
+		ArrayList<SimpleMatrix> simpleprevPs = new ArrayList<>();
+
 		int[] iterable = new int[barray.length];
 
 
 		DoubleMatrix F = DoubleMatrix.zeros(NOcc * NVirt, Farray.length);
+		
+		SimpleMatrix simpleF = new SimpleMatrix (NOcc * NVirt, simpleFarray.length);
 
 
 		for (int i = 0; i < Farray.length; i++) {
 			F.putColumn(i, Farray[i]);
+			simpleF.setColumn(i, 0, Utils.vectorToDoubleArray(simpleFarray[i]));
 		}
 
 		while (Utils.numIterable(iterable) > 0) {
@@ -3079,6 +3192,8 @@ public class GeometrySecondDerivative {
 			for (int number = 0; number < 1; number++) {
 
 				orthogonalise(barray);
+				
+				orthogonalise (simplebarray);
 
 				System.out.println(
 						"Geom only " + Utils.numIterable(iterable) + " left to go!");
@@ -3086,15 +3201,26 @@ public class GeometrySecondDerivative {
 				for (int i = 0; i < barray.length; i++) {
 
 					prevBs.add(barray[i].dup());
+					
+					simpleprevBs.add(new SimpleMatrix(simplebarray[i]));
+					
 					// computeResponseVectorsPople = D(different D)*B, given B
 					parray[i] = D.mmul(computeResponseVectorsPople(
 							Dinv.mmul(barray[i].dup()), soln));
+
+					simpleparray[i] = simpleD.mult(computeResponseVectorsPople(simpleDinv.mult(new SimpleMatrix(simplebarray[i])), soln));
+					
 					prevPs.add(parray[i].dup());
-				}
+					
+					simpleprevPs.add(new SimpleMatrix (simpleparray[i]));
+					
+				}//isn't whitespace great?
 
 				for (int i = 0; i < barray.length; i++) {
 
 					DoubleMatrix newb = parray[i];
+					
+					SimpleMatrix simplenewb = simpleparray[i];
 
 					for (DoubleMatrix prevB : prevBs) {
 						double num = prevB.transpose().mmul(parray[i]).get(0) /
@@ -3103,7 +3229,16 @@ public class GeometrySecondDerivative {
 						newb = newb.sub(prevB.mmul(num));
 					}
 
+					for (SimpleMatrix prevB : simpleprevBs) {
+						double num = prevB.transpose().mult(simpleparray[i]).get(0) /
+								prevB.transpose().mult(prevB).get(0);
+
+						simplenewb = simplenewb.minus(prevB.scale(num));
+					}
+
 					barray[i] = newb.dup();
+					
+					simplebarray[i] = new SimpleMatrix (simplenewb);
 
 
 				}
@@ -3113,25 +3248,41 @@ public class GeometrySecondDerivative {
 			DoubleMatrix B = DoubleMatrix.zeros(NOcc * NVirt, prevBs.size());
 			DoubleMatrix P = DoubleMatrix.zeros(NOcc * NVirt, prevBs.size());
 
+			SimpleMatrix simpleB = new SimpleMatrix (NOcc * NVirt, prevBs.size());
+			SimpleMatrix simpleP = new SimpleMatrix (NOcc * NVirt, prevBs.size());
+
 			for (int i = 0; i < prevBs.size(); i++) {
 
 				B.putColumn(i, prevBs.get(i));
 
 				P.putColumn(i, prevBs.get(i).sub(prevPs.get(i)));
+				
+				simpleB.setColumn(i, 0, Utils.vectorToDoubleArray(simpleprevBs.get(i)));
+
+				simpleP.setColumn(i, 0, Utils.vectorToDoubleArray(simpleprevBs.get(i).minus(simpleprevPs.get(i))));
 
 			}
 
 
 			DoubleMatrix lhs = B.transpose().mmul(P);
+			
+			SimpleMatrix simplelhs = simpleB.transpose().mult(simpleP);
 
 			DoubleMatrix rhs = B.transpose().mmul(F);
+			
+			SimpleMatrix simplerhs = simpleB.transpose().mult(simpleF);
 
 			DoubleMatrix alpha = Utils.solve(lhs, rhs);
+			
+			SimpleMatrix simplealpha = simplelhs.invert().mult(simplerhs);
 
 			for (int a = 0; a < xarray.length; a++) {
 
 				rarray[a] = DoubleMatrix.zeros(NOcc * NVirt, 1);
 				xarray[a] = DoubleMatrix.zeros(NOcc * NVirt, 1);
+
+				simplerarray[a] = new SimpleMatrix (NOcc * NVirt, 1);
+				simplexarray[a] = new SimpleMatrix (NOcc * NVirt, 1);
 			}
 
 			for (int i = 0; i < alpha.rows; i++) {
@@ -3142,6 +3293,9 @@ public class GeometrySecondDerivative {
 									.mmul(alpha.get(i, j)));
 					xarray[j] =
 							xarray[j].add(prevBs.get(i).mmul(alpha.get(i, j)));
+
+					simplerarray[j] = simplerarray[j].plus((simpleprevBs.get(i).minus(simpleprevPs.get(i))).scale(simplealpha.get(i, j)));
+					simplexarray[j] = simplexarray[j].plus(simpleprevBs.get(i).scale(simplealpha.get(i, j)));
 				}
 			}
 
@@ -3150,7 +3304,11 @@ public class GeometrySecondDerivative {
 				// B0 is Farray, no tilde
 				rarray[j] = rarray[j].sub(Farray[j]);
 
+				simplerarray[j] = simplerarray[j].minus(simpleFarray[j]);
+
 				xarray[j] = Dinv.mmul(xarray[j]);
+
+				simplexarray[j] = simpleDinv.mult(simplexarray[j]);
 
 				if (mag(rarray[j]) < 1E-7) {
 					iterable[j] = 1;
@@ -3168,8 +3326,17 @@ public class GeometrySecondDerivative {
 
 			}
 
+			for (int i = 0; i < xarray.length; i++) {
+				if (!Solution.isSimilar(xarray[i], Utils.toDoubleMatrix(simplexarray[i]), 1E-7)) {
+					System.err.println ("Oh no! Pople refactor failed");
+					System.exit(0);
+				}
+			}
+
 
 		}
+
+		System.err.println ("Pople refactor works (for this iteration)");
 
 
 		DoubleMatrix[] densityMatrixDerivs =
@@ -3362,6 +3529,13 @@ public class GeometrySecondDerivative {
 		return p;
 	}
 
+	private static SimpleMatrix computeResponseVectorsThiel (SimpleMatrix x, SolutionR soln) {
+
+		DoubleMatrix mat = Utils.toDoubleMatrix(x);
+
+		return new SimpleMatrix (computeResponseVectorsThiel(mat, soln).toArray2());
+	}
+
 	public static DoubleMatrix computeResponseVectorsPople(DoubleMatrix x,
 														   SolutionR soln) {
 
@@ -3500,10 +3674,27 @@ public class GeometrySecondDerivative {
 		return R;
 	}
 
+	private static SimpleMatrix computeResponseVectorsPople (SimpleMatrix x, SolutionR soln) {
+
+		DoubleMatrix mat = Utils.toDoubleMatrix(x);
+
+		return new SimpleMatrix (computeResponseVectorsPople(mat, soln).toArray2());
+	}
+
 	private static double mag(DoubleMatrix gradient) {
 
 		double sum = 0;
 		for (int i = 0; i < gradient.length; i++) {
+			sum += gradient.get(i) * gradient.get(i);
+		}
+
+		return Math.sqrt(sum);
+	}
+
+	private static double mag(SimpleMatrix gradient) {
+
+		double sum = 0;
+		for (int i = 0; i < gradient.numRows(); i++) {
 			sum += gradient.get(i) * gradient.get(i);
 		}
 
@@ -3519,4 +3710,16 @@ public class GeometrySecondDerivative {
 			}
 		}
 	}
+
+	public static void orthogonalise(SimpleMatrix[] vectors) {
+		for (int i = 0; i < vectors.length; i++) {
+			for (int j = 0; j < i; j++) {
+				vectors[i] = vectors[i].minus(vectors[j]
+						.scale(vectors[i].dot(vectors[j]) /
+								vectors[j].dot(vectors[j])));
+			}
+		}
+	}
+	
+	
 }

@@ -5,7 +5,7 @@
   </component>
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
-      <artifact name="MNDOParam:jar" />
+      <artifact name="SMP2020:jar" />
     </artifacts-to-build>
   </component>
   <component name="AutoImportSettings">
@@ -39,10 +39,24 @@
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MNDOParam.iml" beforeDir="false" afterPath="$PROJECT_DIR$/MNDOParam.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dynamic-output.json" beforeDir="false" afterPath="$PROJECT_DIR$/dynamic-output.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/input.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputtesting.txt" beforeDir="false" afterPath="$PROJECT_DIR$/inputtesting.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/outputs/run-0000-output-1547508A.json" beforeDir="false" afterPath="$PROJECT_DIR$/outputs/run-0000-output-1547508A.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CublasTools.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CublasTools.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Testing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionNew.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/Solution.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scf/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/Utils.java" afterDir="false" />
     </list>
+    <ignored path="$PROJECT_DIR$/out/" />
+    <ignored path="$PROJECT_DIR$/.idea/libraries/" />
+    <ignored path="$PROJECT_DIR$/bin/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -53,6 +67,106 @@
   </component>
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-12053">
+              <caret line="3012" column="73" selection-start-line="3012" selection-start-column="73" selection-end-line="3012" selection-end-column="73" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-16196">
+              <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/nddoparam/GeometryDerivative.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="529">
+              <caret line="2950" lean-forward="true" selection-start-line="2950" selection-end-line="2950" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/input.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-5516">
+              <caret line="36" column="26" lean-forward="true" selection-start-line="36" selection-start-column="26" selection-end-line="36" selection-end-column="26" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/optimize/ParamOptimizer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="72">
+              <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/optimize/ReferenceData.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="216">
+              <caret line="12" column="45" selection-start-line="12" selection-start-column="45" selection-end-line="12" selection-end-column="45" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/nddoparam/NDDO6G.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-6709">
+              <caret line="378" column="41" lean-forward="true" selection-start-line="378" selection-start-column="41" selection-end-line="378" selection-end-column="41" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="578">
+              <caret line="294" column="41" selection-start-line="294" selection-start-column="41" selection-end-line="294" selection-end-column="41" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/nddoparam/GeometryOptimizationR.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="342">
+              <caret line="24" column="35" selection-start-line="24" selection-start-column="35" selection-end-line="24" selection-end-column="35" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/nddoparam/GeometryOptimizationU.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="342">
+              <caret line="24" column="75" selection-start-line="24" selection-start-column="75" selection-end-line="24" selection-end-column="75" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -76,6 +190,17 @@
       <find>int j = i</find>
       <find>NOcc * soln.orbitals.length - soln.orbitals.length</find>
       <find>NOcc * NVirt</find>
+      <find>DoubleMatrix</find>
+      <find>26.</find>
+      <find>,</find>
+      <find>oldgrad</find>
+      <find>,</find>
+      <find>mmul</find>
+      <find>array</find>
+      <find>DoubleMatrix.zeros</find>
+      <find>putCo</find>
+      <find>mult</find>
+      <find>simple</find>
     </findStrings>
     <replaceStrings>
       <replace>tau1, int tau2</replace>
@@ -84,9 +209,19 @@
       <replace>+ (</replace>
       <replace>erideriv1</replace>
       <replace>prime</replace>
+      <replace>mult</replace>
+      <replace>simplearray</replace>
+      <replace>new SimpleMatrix</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RESET_MODE" value="HARD" />
     <favorite-branches>
       <branch-storage>
         <map>
@@ -100,13 +235,6 @@
         </map>
       </branch-storage>
     </favorite-branches>
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="master" />
-      </map>
-    </option>
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
@@ -117,23 +245,16 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/Testing.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/SolutionNew.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/runcycle/MoleculeRun.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/mndo-install.sh" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/MNDOParam.iml" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/GeometryDerivative.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/runcycle/input/InputHandler.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/input.json" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/GeometryOptimizationR.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/runcycle/output/OutputHandler.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/SolutionR.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/Main.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/NDDOParams.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/nddoparam/GeometryOptimizationR.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/nddoparam/SolutionR.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/nddoparam/Solution.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/nddoparam/NDDOParams.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/mndo-install.sh" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/nddoparam/GeometryDerivative.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -142,7 +263,6 @@
         <option value="$PROJECT_DIR$/src/scf/LCGTO.java" />
         <option value="$PROJECT_DIR$/src/nddoparam/param/NDDOParamErrorFunctionRestricted.java" />
         <option value="$PROJECT_DIR$/src/nddoparam/NDDOSolutionUnrestricted.java" />
-        <option value="$PROJECT_DIR$/src/scf/Utils.java" />
         <option value="$PROJECT_DIR$/src/nddoparam/NDDOGeometryOptimizationUnrestricted.java" />
         <option value="$PROJECT_DIR$/src/nddoparam/NDDO6G.java" />
         <option value="$PROJECT_DIR$/src/nddoparam/NDDODerivative.java" />
@@ -161,6 +281,18 @@
         <option value="$PROJECT_DIR$/input.txt" />
         <option value="$PROJECT_DIR$/src/nddoparam/param/NDDOParamDerivative.java" />
         <option value="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" />
+        <option value="$PROJECT_DIR$/inputtesting.txt" />
+        <option value="$PROJECT_DIR$/src/Testing.java" />
+        <option value="$PROJECT_DIR$/src/CublasTools.java" />
+        <option value="$PROJECT_DIR$/src/nddoparam/SolutionR.java" />
+        <option value="$PROJECT_DIR$/src/EJMLTesting.java" />
+        <option value="$PROJECT_DIR$/src/nddoparam/Solution.java" />
+        <option value="$PROJECT_DIR$/input.json" />
+        <option value="$PROJECT_DIR$/src/nddoparam/GeometryDerivative.java" />
+        <option value="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationU.java" />
+        <option value="$PROJECT_DIR$/src/scf/Utils.java" />
+        <option value="$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java" />
+        <option value="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" />
       </list>
     </option>
   </component>
@@ -178,7 +310,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -189,6 +321,11 @@
             <path>
               <item name="GitMNDO" type="b2602c69:ProjectViewProjectNode" />
               <item name="GitMNDO" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="GitMNDO" type="b2602c69:ProjectViewProjectNode" />
+              <item name="GitMNDO" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -196,20 +333,6 @@
               <item name="GitMNDO" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="nddoparam" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GitMNDO" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GitMNDO" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="nddoparam" type="462c0819:PsiDirectoryNode" />
-              <item name="am1" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GitMNDO" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GitMNDO" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="nddoparam" type="462c0819:PsiDirectoryNode" />
-              <item name="mndo" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="GitMNDO" type="b2602c69:ProjectViewProjectNode" />
@@ -228,52 +351,19 @@
               <item name="GitMNDO" type="b2602c69:ProjectViewProjectNode" />
               <item name="GitMNDO" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="runcycle" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GitMNDO" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GitMNDO" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="scf" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
-      <pane id="PackagesPane" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="GitMNDO" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GitMNDO" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GitMNDO" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GitMNDO" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GitMNDO" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GitMNDO" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="nddoparam" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
     </panes>
   </component>
   <component name="ProjectViewState">
-    <option name="abbreviatePackageNames" value="true" />
-    <option name="autoscrollToSource" value="true" />
     <option name="flattenPackages" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
-    <option name="showMembers" value="true" />
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
@@ -290,43 +380,65 @@
     <property name="create.test.in.the.same.root" value="true" />
     <property name="extract.method.default.visibility" value="private" />
     <property name="full.screen.before.presentation.mode" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/1.2.6-SNAPSHOT/jblas-1.2.6-SNAPSHOT.jar" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/commons-codec-1.15.jar" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.editor" />
-    <property name="two.files.diff.last.used.file" value="$USER_HOME$/Desktop/with hessian row mt.json" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\billi\Documents\Gitted\MNDOParam\outputs" />
-      <recent name="C:\Users\billi\Documents\Gitted\MNDOParam" />
       <recent name="D:\Documents\Gitted CS Projects\MNDOParam" />
       <recent name="D:\Documents\Gitted CS Projects\MNDOParam\src\nddoparam" />
       <recent name="D:\Documents\Gitted CS Projects\MNDOParam\src\runcycle" />
+      <recent name="D:\Documents\Gitted CS Projects\MNDOParam\src\nddoparam\param" />
+      <recent name="D:\Documents\Gitted CS Projects\MNDOParam\src\nddoparam\am1" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
-      <recent name="scf.Utils" />
       <recent name="Utils" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\billi\IdeaProjects\MNDOParam\lib" />
       <recent name="C:\Users\billi\Documents\Gitted\MNDOParam\lib" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam" />
       <recent name="D:\Documents\Gitted CS Projects\MNDOParam\lib" />
       <recent name="D:\Documents\Gitted CS Projects\MNDOParam" />
+      <recent name="D:\Documents\Gitted CS Projects\MNDOParam\src\nddoparam" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="nddoparam" />
       <recent name="runcycle.output" />
       <recent name="" />
       <recent name="nddoparam.param" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Testing">
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Application.Main">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="InputHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="runcycle.input.InputHandler" />
       <module name="MNDOParam" />
@@ -344,34 +456,6 @@
       <option name="ALTERNATIVE_JRE_PATH" value="adopt-openjdk-11" />
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="MNDOParam" />
-      <projectPathOnTarget name="projectPathOnTarget" value="/home/steve/Downloads/MNDOParam" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="OutputHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="runcycle.output.OutputHandler" />
-      <module name="MNDOParam" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="runcycle.output.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="SolutionNew" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="nddoparam.SolutionNew" />
-      <module name="MNDOParam" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="nddoparam.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -387,17 +471,12 @@
       <item itemvalue="Application.InputHandler" />
       <item itemvalue="Application.Main" />
       <item itemvalue="Application.Testing" />
-      <item itemvalue="Application.OutputHandler" />
-      <item itemvalue="Application.SolutionNew" />
-      <item itemvalue="Shell Script.blusteve" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Testing" />
-        <item itemvalue="Application.SolutionNew" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.InputHandler" />
-        <item itemvalue="Application.OutputHandler" />
+        <item itemvalue="Application.Testing" />
       </list>
     </recent_temporary>
   </component>
@@ -499,391 +578,368 @@
       <workItem from="1626368124079" duration="7524000" />
       <workItem from="1626417806438" duration="13025000" />
       <workItem from="1626441865697" duration="9840000" />
-      <workItem from="1626501531906" duration="21400000" />
-      <workItem from="1626530653882" duration="12671000" />
-      <workItem from="1626617825423" duration="12012000" />
-      <workItem from="1626665170977" duration="26708000" />
-      <workItem from="1626699761384" duration="12722000" />
-      <workItem from="1626747807563" duration="27979000" />
-      <workItem from="1626778069334" duration="1302000" />
-      <workItem from="1626790758691" duration="10376000" />
-      <workItem from="1626801705004" duration="31000" />
-      <workItem from="1626805162395" duration="315000" />
-      <workItem from="1626837601008" duration="3862000" />
-      <workItem from="1626852408240" duration="19180000" />
-      <workItem from="1626872666211" duration="13731000" />
-      <workItem from="1626959601170" duration="3949000" />
-      <workItem from="1626963618602" duration="13621000" />
-      <workItem from="1627000054772" duration="8782000" />
-      <workItem from="1627019474496" duration="18262000" />
-      <workItem from="1627106625751" duration="7671000" />
-      <workItem from="1627142168660" duration="12571000" />
-      <workItem from="1627193972963" duration="3243000" />
-      <workItem from="1627213728532" duration="2875000" />
-      <workItem from="1627217662884" duration="836000" />
-      <workItem from="1627220401877" duration="6141000" />
-      <workItem from="1628140053005" duration="583000" />
+      <workItem from="1626501531906" duration="15357000" />
     </task>
-    <task id="LOCAL-00132" summary="Fixed hessian padding and multithreading">
-      <created>1626627347697</created>
-      <option name="number" value="00132" />
-      <option name="presentableId" value="LOCAL-00132" />
+    <task id="LOCAL-00073" summary="Debug weird H2 bug">
+      <created>1626177595394</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
       <option name="project" value="LOCAL" />
-      <updated>1626627347697</updated>
+      <updated>1626177595394</updated>
     </task>
-    <task id="LOCAL-00133" summary="minor hessian fixes">
-      <created>1626627513418</created>
-      <option name="number" value="00133" />
-      <option name="presentableId" value="LOCAL-00133" />
+    <task id="LOCAL-00074" summary="Debug weird H2 bug">
+      <created>1626178744920</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
       <option name="project" value="LOCAL" />
-      <updated>1626627513418</updated>
+      <updated>1626178744920</updated>
     </task>
-    <task id="LOCAL-00134" summary="Made param gradient thread safe">
-      <created>1626628776722</created>
-      <option name="number" value="00134" />
-      <option name="presentableId" value="LOCAL-00134" />
+    <task id="LOCAL-00075" summary="Minor changes">
+      <created>1626179408618</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
       <option name="project" value="LOCAL" />
-      <updated>1626628776722</updated>
+      <updated>1626179408618</updated>
     </task>
-    <task id="LOCAL-00135" summary="more doc and minor bug fixes for hessian and gradient">
-      <created>1626668410644</created>
-      <option name="number" value="00135" />
-      <option name="presentableId" value="LOCAL-00135" />
+    <task id="LOCAL-00076" summary="Adrian fix NDDO Solution Restricted">
+      <created>1626179977343</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
       <option name="project" value="LOCAL" />
-      <updated>1626668410645</updated>
+      <updated>1626179977343</updated>
     </task>
-    <task id="LOCAL-00136" summary="docs for ParamGradient">
-      <created>1626669146610</created>
-      <option name="number" value="00136" />
-      <option name="presentableId" value="LOCAL-00136" />
+    <task id="LOCAL-00077" summary="Adrian fix NDDO Solution Restricted">
+      <created>1626180286887</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
       <option name="project" value="LOCAL" />
-      <updated>1626669146610</updated>
+      <updated>1626180286887</updated>
     </task>
-    <task id="LOCAL-00137" summary="major refactor of paramnum and atom type on the molecule level">
-      <created>1626674806205</created>
-      <option name="number" value="00137" />
-      <option name="presentableId" value="LOCAL-00137" />
+    <task id="LOCAL-00078" summary="input.json">
+      <created>1626195084470</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
       <option name="project" value="LOCAL" />
-      <updated>1626674806205</updated>
+      <updated>1626195084470</updated>
     </task>
-    <task id="LOCAL-00138" summary="more docs and minor changes">
-      <created>1626682230627</created>
-      <option name="number" value="00138" />
-      <option name="presentableId" value="LOCAL-00138" />
+    <task id="LOCAL-00079" summary="mndo-update.sh">
+      <created>1626195279682</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
       <option name="project" value="LOCAL" />
-      <updated>1626682230627</updated>
+      <updated>1626195279682</updated>
     </task>
-    <task id="LOCAL-00139" summary="Added static factory methods to param hessian">
-      <created>1626683085657</created>
-      <option name="number" value="00139" />
-      <option name="presentableId" value="LOCAL-00139" />
+    <task id="LOCAL-00080" summary="mndo-update.sh">
+      <created>1626195439602</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
       <option name="project" value="LOCAL" />
-      <updated>1626683085657</updated>
+      <updated>1626195439602</updated>
     </task>
-    <task id="LOCAL-00140" summary="Improved hessian static factory methods">
-      <created>1626683470640</created>
-      <option name="number" value="00140" />
-      <option name="presentableId" value="LOCAL-00140" />
+    <task id="LOCAL-00081" summary="mndo-update.sh">
+      <created>1626225922041</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
       <option name="project" value="LOCAL" />
-      <updated>1626683470640</updated>
+      <updated>1626225922042</updated>
     </task>
-    <task id="LOCAL-00141" summary="Improved hessian static factory methods further. omg it's so clean">
-      <created>1626684834362</created>
-      <option name="number" value="00141" />
-      <option name="presentableId" value="LOCAL-00141" />
+    <task id="LOCAL-00082" summary="more input handler stuff">
+      <created>1626227304099</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
       <option name="project" value="LOCAL" />
-      <updated>1626684834362</updated>
+      <updated>1626227304099</updated>
     </task>
-    <task id="LOCAL-00142" summary="Clamp down on client permissions">
-      <created>1626685191470</created>
-      <option name="number" value="00142" />
-      <option name="presentableId" value="LOCAL-00142" />
+    <task id="LOCAL-00083" summary="I/O">
+      <created>1626232753287</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
       <option name="project" value="LOCAL" />
-      <updated>1626685191470</updated>
+      <updated>1626232753287</updated>
     </task>
-    <task id="LOCAL-00143" summary="Minor changes">
-      <created>1626685320333</created>
-      <option name="number" value="00143" />
-      <option name="presentableId" value="LOCAL-00143" />
+    <task id="LOCAL-00084" summary="Main refactor">
+      <created>1626232787687</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
       <option name="project" value="LOCAL" />
-      <updated>1626685320333</updated>
+      <updated>1626232787687</updated>
     </task>
-    <task id="LOCAL-00144" summary="More docs">
-      <created>1626685658573</created>
-      <option name="number" value="00144" />
-      <option name="presentableId" value="LOCAL-00144" />
+    <task id="LOCAL-00085" summary="Minor changes">
+      <created>1626233018683</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
       <option name="project" value="LOCAL" />
-      <updated>1626685658575</updated>
+      <updated>1626233018683</updated>
     </task>
-    <task id="LOCAL-00145" summary="Removed ParamHessian subclasses">
-      <created>1626686748609</created>
-      <option name="number" value="00145" />
-      <option name="presentableId" value="LOCAL-00145" />
+    <task id="LOCAL-00086" summary="output.json">
+      <created>1626235295964</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
       <option name="project" value="LOCAL" />
-      <updated>1626686748609</updated>
+      <updated>1626235295964</updated>
     </task>
-    <task id="LOCAL-00146" summary="Fixed main">
-      <created>1626688102804</created>
-      <option name="number" value="00146" />
-      <option name="presentableId" value="LOCAL-00146" />
+    <task id="LOCAL-00087" summary="Formatting">
+      <created>1626247904248</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
       <option name="project" value="LOCAL" />
-      <updated>1626688102804</updated>
+      <updated>1626247904249</updated>
     </task>
-    <task id="LOCAL-00147" summary="further refactoring of param, especially error function">
-      <created>1626689273371</created>
-      <option name="number" value="00147" />
-      <option name="presentableId" value="LOCAL-00147" />
+    <task id="LOCAL-00088" summary="Major refactor.">
+      <created>1626248843443</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
       <option name="project" value="LOCAL" />
-      <updated>1626689273371</updated>
+      <updated>1626248843443</updated>
     </task>
-    <task id="LOCAL-00148" summary="Some major bug fixes">
-      <created>1626697718633</created>
-      <option name="number" value="00148" />
-      <option name="presentableId" value="LOCAL-00148" />
+    <task id="LOCAL-00089" summary="Minor formatting.">
+      <created>1626249528671</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
       <option name="project" value="LOCAL" />
-      <updated>1626697718633</updated>
+      <updated>1626249528671</updated>
     </task>
-    <task id="LOCAL-00149" summary="minor moleculerun refactor">
-      <created>1626698952412</created>
-      <option name="number" value="00149" />
-      <option name="presentableId" value="LOCAL-00149" />
+    <task id="LOCAL-00090" summary="Refactor">
+      <created>1626252613627</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
       <option name="project" value="LOCAL" />
-      <updated>1626698952412</updated>
+      <updated>1626252613627</updated>
     </task>
-    <task id="LOCAL-00150" summary="minor changes">
-      <created>1626704545791</created>
-      <option name="number" value="00150" />
-      <option name="presentableId" value="LOCAL-00150" />
+    <task id="LOCAL-00091" summary="MNDOHessianUpdate jsonify">
+      <created>1626256793765</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
       <option name="project" value="LOCAL" />
-      <updated>1626704545791</updated>
+      <updated>1626256793765</updated>
     </task>
-    <task id="LOCAL-00151" summary="Major debug">
-      <created>1626712567634</created>
-      <option name="number" value="00151" />
-      <option name="presentableId" value="LOCAL-00151" />
+    <task id="LOCAL-00092" summary="nMolecules added as RawInput param">
+      <created>1626257161658</created>
+      <option name="number" value="00092" />
+      <option name="presentableId" value="LOCAL-00092" />
       <option name="project" value="LOCAL" />
-      <updated>1626712567634</updated>
+      <updated>1626257161658</updated>
     </task>
-    <task id="LOCAL-00152" summary="not working start where you left off">
-      <created>1626714910799</created>
-      <option name="number" value="00152" />
-      <option name="presentableId" value="LOCAL-00152" />
+    <task id="LOCAL-00093" summary="Middle of nowhere">
+      <created>1626259873649</created>
+      <option name="number" value="00093" />
+      <option name="presentableId" value="LOCAL-00093" />
       <option name="project" value="LOCAL" />
-      <updated>1626714910799</updated>
+      <updated>1626259873649</updated>
     </task>
-    <task id="LOCAL-00153" summary="MoleculeRan added, discovered weird hessian NaN error stemming from xComplementary -Infinity">
-      <created>1626756922419</created>
-      <option name="number" value="00153" />
-      <option name="presentableId" value="LOCAL-00153" />
+    <task id="LOCAL-00094" summary="Working B">
+      <created>1626260807771</created>
+      <option name="number" value="00094" />
+      <option name="presentableId" value="LOCAL-00094" />
       <option name="project" value="LOCAL" />
-      <updated>1626756922419</updated>
+      <updated>1626260807771</updated>
     </task>
-    <task id="LOCAL-00154" summary="geom opt work in progress">
-      <created>1626760150178</created>
-      <option name="number" value="00154" />
-      <option name="presentableId" value="LOCAL-00154" />
+    <task id="LOCAL-00095" summary="Working? hessian b">
+      <created>1626262423981</created>
+      <option name="number" value="00095" />
+      <option name="presentableId" value="LOCAL-00095" />
       <option name="project" value="LOCAL" />
-      <updated>1626760150178</updated>
+      <updated>1626262423982</updated>
     </task>
-    <task id="LOCAL-00155" summary="Geom opt further rewrite + Hessian and gradient now throw error instead of failing silent on classcastexception">
-      <created>1626761944072</created>
-      <option name="number" value="00155" />
-      <option name="presentableId" value="LOCAL-00155" />
+    <task id="LOCAL-00096" summary="Steve thinks it's working but it's probably not&#10;Major refactor of param opt + finished hessian">
+      <created>1626344982179</created>
+      <option name="number" value="00096" />
+      <option name="presentableId" value="LOCAL-00096" />
       <option name="project" value="LOCAL" />
-      <updated>1626761944072</updated>
+      <updated>1626344982179</updated>
     </task>
-    <task id="LOCAL-00156" summary="geom opt bug fix">
-      <created>1626762306078</created>
-      <option name="number" value="00156" />
-      <option name="presentableId" value="LOCAL-00156" />
+    <task id="LOCAL-00097" summary="remove old moleculerun">
+      <created>1626345411377</created>
+      <option name="number" value="00097" />
+      <option name="presentableId" value="LOCAL-00097" />
       <option name="project" value="LOCAL" />
-      <updated>1626762306078</updated>
+      <updated>1626345411377</updated>
     </task>
-    <task id="LOCAL-00157" summary="multithreaded geom opt">
-      <created>1626764822569</created>
-      <option name="number" value="00157" />
-      <option name="presentableId" value="LOCAL-00157" />
+    <task id="LOCAL-00098" summary="Minor changes">
+      <created>1626345419333</created>
+      <option name="number" value="00098" />
+      <option name="presentableId" value="LOCAL-00098" />
       <option name="project" value="LOCAL" />
-      <updated>1626764822569</updated>
+      <updated>1626345419333</updated>
     </task>
-    <task id="LOCAL-00158" summary="multithreaded batched derivs">
-      <created>1626769303767</created>
-      <option name="number" value="00158" />
-      <option name="presentableId" value="LOCAL-00158" />
+    <task id="LOCAL-00099" summary="Param gradient no kind">
+      <created>1626346675609</created>
+      <option name="number" value="00099" />
+      <option name="presentableId" value="LOCAL-00099" />
       <option name="project" value="LOCAL" />
-      <updated>1626769303767</updated>
+      <updated>1626346675609</updated>
     </task>
-    <task id="LOCAL-00159" summary="a lot of changes">
-      <created>1626774854645</created>
-      <option name="number" value="00159" />
-      <option name="presentableId" value="LOCAL-00159" />
+    <task id="LOCAL-00100" summary="Everything no kind + minor changes">
+      <created>1626347284339</created>
+      <option name="number" value="00100" />
+      <option name="presentableId" value="LOCAL-00100" />
       <option name="project" value="LOCAL" />
-      <updated>1626774854645</updated>
+      <updated>1626347284339</updated>
     </task>
-    <task id="LOCAL-00160" summary="Added retrying molecules upon failure as an option">
-      <created>1626790948530</created>
-      <option name="number" value="00160" />
-      <option name="presentableId" value="LOCAL-00160" />
+    <task id="LOCAL-00101" summary="No more MoleculeRunRU">
+      <created>1626350312308</created>
+      <option name="number" value="00101" />
+      <option name="presentableId" value="LOCAL-00101" />
       <option name="project" value="LOCAL" />
-      <updated>1626790948530</updated>
+      <updated>1626350312309</updated>
     </task>
-    <task id="LOCAL-00161" summary="gpu code">
-      <created>1626804256588</created>
-      <option name="number" value="00161" />
-      <option name="presentableId" value="LOCAL-00161" />
+    <task id="LOCAL-00102" summary="most classes can now have a copy of atomtypes">
+      <created>1626351315022</created>
+      <option name="number" value="00102" />
+      <option name="presentableId" value="LOCAL-00102" />
       <option name="project" value="LOCAL" />
-      <updated>1626804256589</updated>
+      <updated>1626351315022</updated>
     </task>
-    <task id="LOCAL-00162" summary="more gpu code">
-      <created>1626839214886</created>
-      <option name="number" value="00162" />
-      <option name="presentableId" value="LOCAL-00162" />
+    <task id="LOCAL-00103" summary="Multithreaded Hessian">
+      <created>1626365306276</created>
+      <option name="number" value="00103" />
+      <option name="presentableId" value="LOCAL-00103" />
       <option name="project" value="LOCAL" />
-      <updated>1626839214886</updated>
+      <updated>1626365306278</updated>
     </task>
-    <task id="LOCAL-00163" summary="more gpu code">
-      <created>1626840607789</created>
-      <option name="number" value="00163" />
-      <option name="presentableId" value="LOCAL-00163" />
+    <task id="LOCAL-00104" summary="Minor bug fix for multithreaded hessian">
+      <created>1626365562184</created>
+      <option name="number" value="00104" />
+      <option name="presentableId" value="LOCAL-00104" />
       <option name="project" value="LOCAL" />
-      <updated>1626840607789</updated>
+      <updated>1626365562184</updated>
     </task>
-    <task id="LOCAL-00164" summary="various changes + remove timeout">
-      <created>1626864020356</created>
-      <option name="number" value="00164" />
-      <option name="presentableId" value="LOCAL-00164" />
+    <task id="LOCAL-00105" summary="Multiple runs working + insane speedup from multithreaded hessian">
+      <created>1626367633207</created>
+      <option name="number" value="00105" />
+      <option name="presentableId" value="LOCAL-00105" />
       <option name="project" value="LOCAL" />
-      <updated>1626864020357</updated>
+      <updated>1626367633207</updated>
     </task>
-    <task id="LOCAL-00165" summary="minor changes to error printing">
-      <created>1626865365079</created>
-      <option name="number" value="00165" />
-      <option name="presentableId" value="LOCAL-00165" />
+    <task id="LOCAL-00106" summary="debugging weird indexoutofbounds error, not done yet">
+      <created>1626372231768</created>
+      <option name="number" value="00106" />
+      <option name="presentableId" value="LOCAL-00106" />
       <option name="project" value="LOCAL" />
-      <updated>1626865365079</updated>
+      <updated>1626372231769</updated>
     </task>
-    <task id="LOCAL-00166" summary="1e8 adaptability feature">
-      <created>1626873236027</created>
-      <option name="number" value="00166" />
-      <option name="presentableId" value="LOCAL-00166" />
+    <task id="LOCAL-00107" summary="weird param gradient batched deriv index bug debugged. gosh that took a long time. it's 3am">
+      <created>1626374966672</created>
+      <option name="number" value="00107" />
+      <option name="presentableId" value="LOCAL-00107" />
       <option name="project" value="LOCAL" />
-      <updated>1626873236028</updated>
+      <updated>1626374966672</updated>
     </task>
-    <task id="LOCAL-00167" summary="minor math classes refactor">
-      <created>1626927789036</created>
-      <option name="number" value="00167" />
-      <option name="presentableId" value="LOCAL-00167" />
+    <task id="LOCAL-00108" summary="Padded gradient">
+      <created>1626421362506</created>
+      <option name="number" value="00108" />
+      <option name="presentableId" value="LOCAL-00108" />
       <option name="project" value="LOCAL" />
-      <updated>1626927789040</updated>
+      <updated>1626421362507</updated>
     </task>
-    <task id="LOCAL-00168" summary="adamantane still could run non-deterministically. thiel fails more readily now as i am monitoring increases in mag(rarray)">
-      <created>1626956629283</created>
-      <option name="number" value="00168" />
-      <option name="presentableId" value="LOCAL-00168" />
+    <task id="LOCAL-00109" summary="i hate padding">
+      <created>1626427355381</created>
+      <option name="number" value="00109" />
+      <option name="presentableId" value="LOCAL-00109" />
       <option name="project" value="LOCAL" />
-      <updated>1626956629283</updated>
+      <updated>1626427355381</updated>
     </task>
-    <task id="LOCAL-00169" summary="recursion done but slower by a factor of 2">
-      <created>1626971963408</created>
-      <option name="number" value="00169" />
-      <option name="presentableId" value="LOCAL-00169" />
+    <task id="LOCAL-00110" summary="minor changes but not reversible">
+      <created>1626442023154</created>
+      <option name="number" value="00110" />
+      <option name="presentableId" value="LOCAL-00110" />
       <option name="project" value="LOCAL" />
-      <updated>1626971963409</updated>
+      <updated>1626442023157</updated>
     </task>
-    <task id="LOCAL-00170" summary="recursion with bad memo">
-      <created>1626976445973</created>
-      <option name="number" value="00170" />
-      <option name="presentableId" value="LOCAL-00170" />
+    <task id="LOCAL-00111" summary="Hessian padding fixed">
+      <created>1626443257708</created>
+      <option name="number" value="00111" />
+      <option name="presentableId" value="LOCAL-00111" />
       <option name="project" value="LOCAL" />
-      <updated>1626976445973</updated>
+      <updated>1626443257708</updated>
     </task>
-    <task id="LOCAL-00171" summary="working recursion">
-      <created>1627002451025</created>
-      <option name="number" value="00171" />
-      <option name="presentableId" value="LOCAL-00171" />
+    <task id="LOCAL-00112" summary="Multithreaded ParamGradient">
+      <created>1626443941528</created>
+      <option name="number" value="00112" />
+      <option name="presentableId" value="LOCAL-00112" />
       <option name="project" value="LOCAL" />
-      <updated>1627002451026</updated>
+      <updated>1626443941528</updated>
     </task>
-    <task id="LOCAL-00172" summary="recursion is slower than iteration">
-      <created>1627002755848</created>
-      <option name="number" value="00172" />
-      <option name="presentableId" value="LOCAL-00172" />
+    <task id="LOCAL-00113" summary="more core optimization with tightest triplet alg">
+      <created>1626448589508</created>
+      <option name="number" value="00113" />
+      <option name="presentableId" value="LOCAL-00113" />
       <option name="project" value="LOCAL" />
-      <updated>1627002755848</updated>
+      <updated>1626448589508</updated>
     </task>
-    <task id="LOCAL-00173" summary="lookup table generation">
-      <created>1627016462864</created>
-      <option name="number" value="00173" />
-      <option name="presentableId" value="LOCAL-00173" />
+    <task id="LOCAL-00114" summary="more multithreading optimizations">
+      <created>1626451566942</created>
+      <option name="number" value="00114" />
+      <option name="presentableId" value="LOCAL-00114" />
       <option name="project" value="LOCAL" />
-      <updated>1627016462864</updated>
+      <updated>1626451566942</updated>
     </task>
-    <task id="LOCAL-00174" summary="removed multithreading below the paramgradient layer as well as batchedderivs">
-      <created>1627041925634</created>
-      <option name="number" value="00174" />
-      <option name="presentableId" value="LOCAL-00174" />
+    <task id="LOCAL-00115" summary="remove unused utils methods">
+      <created>1626451726071</created>
+      <option name="number" value="00115" />
+      <option name="presentableId" value="LOCAL-00115" />
       <option name="project" value="LOCAL" />
-      <updated>1627041925635</updated>
+      <updated>1626451726071</updated>
     </task>
-    <task id="LOCAL-00175" summary="gpu eigen done">
-      <created>1627196628516</created>
-      <option name="number" value="00175" />
-      <option name="presentableId" value="LOCAL-00175" />
+    <task id="LOCAL-00116" summary="minor changes">
+      <created>1626459909665</created>
+      <option name="number" value="00116" />
+      <option name="presentableId" value="LOCAL-00116" />
       <option name="project" value="LOCAL" />
-      <updated>1627196628517</updated>
+      <updated>1626459909665</updated>
     </task>
-    <task id="LOCAL-00176" summary="synchronized eigen">
-      <created>1627214476720</created>
-      <option name="number" value="00176" />
-      <option name="presentableId" value="LOCAL-00176" />
+    <task id="LOCAL-00117" summary="Minor changes">
+      <created>1626501769410</created>
+      <option name="number" value="00117" />
+      <option name="presentableId" value="LOCAL-00117" />
       <option name="project" value="LOCAL" />
-      <updated>1627214476720</updated>
+      <updated>1626501769410</updated>
     </task>
-    <task id="LOCAL-00177" summary="all jblas solve + eigen synchronized">
-      <created>1627221994392</created>
-      <option name="number" value="00177" />
-      <option name="presentableId" value="LOCAL-00177" />
+    <task id="LOCAL-00118" summary="Minor moleculerun + main refactor">
+      <created>1626505053427</created>
+      <option name="number" value="00118" />
+      <option name="presentableId" value="LOCAL-00118" />
       <option name="project" value="LOCAL" />
-      <updated>1627221994392</updated>
+      <updated>1626505053427</updated>
     </task>
-    <task id="LOCAL-00178" summary="more synced">
-      <created>1627226551264</created>
-      <option name="number" value="00178" />
-      <option name="presentableId" value="LOCAL-00178" />
+    <task id="LOCAL-00119" summary="ForkJoinPool implementation">
+      <created>1626506577993</created>
+      <option name="number" value="00119" />
+      <option name="presentableId" value="LOCAL-00119" />
       <option name="project" value="LOCAL" />
-      <updated>1627226551264</updated>
+      <updated>1626506577993</updated>
     </task>
-    <task id="LOCAL-00179" summary="accidentally went 2^8">
-      <created>1628049398413</created>
-      <option name="number" value="00179" />
-      <option name="presentableId" value="LOCAL-00179" />
+    <task id="LOCAL-00120" summary="hash functions for io">
+      <created>1626516661984</created>
+      <option name="number" value="00120" />
+      <option name="presentableId" value="LOCAL-00120" />
       <option name="project" value="LOCAL" />
-      <updated>1628049398413</updated>
+      <updated>1626516661984</updated>
     </task>
-    <task id="LOCAL-00180" summary="almost done with solutionr refactor">
-      <created>1628057813101</created>
-      <option name="number" value="00180" />
-      <option name="presentableId" value="LOCAL-00180" />
+    <task id="LOCAL-00121" summary="Legit AM1 param numbers">
+      <created>1626517556622</created>
+      <option name="number" value="00121" />
+      <option name="presentableId" value="LOCAL-00121" />
       <option name="project" value="LOCAL" />
-      <updated>1628057813101</updated>
+      <updated>1626517556622</updated>
     </task>
-    <option name="localTasksCounter" value="181" />
+    <option name="localTasksCounter" value="122" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="2560" height="1329" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4986571" visible="true" weight="0.16600476" />
-      <window_info id="Structure" order="1" sideWeight="0.5013429" side_tool="true" visible="true" weight="0.16600476" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49688795" visible="true" weight="0.1878475" />
+      <window_info id="Structure" order="1" sideWeight="0.503112" side_tool="true" visible="true" weight="0.1878475" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
       <window_info id="UI Designer" order="4" />
       <window_info id="Capture Tool" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.329927" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49960285" visible="true" weight="0.18350849" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32983023" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49960285" visible="true" weight="0.22069523" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -905,19 +961,17 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="UnknownFeatures">
-    <option featureType="com.intellij.fileTypeFactory" implementationName="*.log" />
-  </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
             <State>
-              <option name="CUSTOM_BOOLEAN_PROPERTIES">
-                <map>
-                  <entry key="Show.Git.Branches" value="false" />
-                </map>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
               </option>
             </State>
           </value>
@@ -939,137 +993,183 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Geom opt further rewrite + Hessian and gradient now throw error instead of failing silent on classcastexception" />
-    <MESSAGE value="geom opt bug fix" />
-    <MESSAGE value="multithreaded geom opt" />
-    <MESSAGE value="multithreaded batched derivs" />
-    <MESSAGE value="a lot of changes" />
-    <MESSAGE value="Added retrying molecules upon failure as an option" />
-    <MESSAGE value="gpu code" />
-    <MESSAGE value="more gpu code" />
-    <MESSAGE value="various changes + remove timeout" />
-    <MESSAGE value="minor changes to error printing" />
-    <MESSAGE value="1e8 adaptability feature" />
-    <MESSAGE value="minor math classes refactor" />
-    <MESSAGE value="adamantane still could run non-deterministically. thiel fails more readily now as i am monitoring increases in mag(rarray)" />
-    <MESSAGE value="recursion done but slower by a factor of 2" />
-    <MESSAGE value="recursion with bad memo" />
-    <MESSAGE value="working recursion" />
-    <MESSAGE value="recursion is slower than iteration" />
-    <MESSAGE value="lookup table generation" />
-    <MESSAGE value="removed multithreading below the paramgradient layer as well as batchedderivs" />
-    <MESSAGE value="gpu eigen done" />
-    <MESSAGE value="synchronized eigen" />
-    <MESSAGE value="all jblas solve + eigen synchronized" />
-    <MESSAGE value="more synced" />
-    <MESSAGE value="accidentally went 2^8" />
-    <MESSAGE value="almost done with solutionr refactor" />
-    <option name="LAST_COMMIT_MESSAGE" value="almost done with solutionr refactor" />
-  </component>
-  <component name="XDebuggerManager">
-    <pin-to-top-manager>
-      <pinned-members>
-        <PinnedItemInfo parentTag="nddoparam.param.ParamHessianRestricted" memberName="gPrime" />
-      </pinned-members>
-    </pin-to-top-manager>
+    <MESSAGE value="Steve thinks it's working but it's probably not&#10;Major refactor of param opt + finished hessian" />
+    <MESSAGE value="remove old moleculerun" />
+    <MESSAGE value="Param gradient no kind" />
+    <MESSAGE value="Everything no kind + minor changes" />
+    <MESSAGE value="No more MoleculeRunRU" />
+    <MESSAGE value="most classes can now have a copy of atomtypes" />
+    <MESSAGE value="Multithreaded Hessian" />
+    <MESSAGE value="Minor bug fix for multithreaded hessian" />
+    <MESSAGE value="Multiple runs working + insane speedup from multithreaded hessian" />
+    <MESSAGE value="debugging weird indexoutofbounds error, not done yet" />
+    <MESSAGE value="weird param gradient batched deriv index bug debugged. gosh that took a long time. it's 3am" />
+    <MESSAGE value="Padded gradient" />
+    <MESSAGE value="i hate padding" />
+    <MESSAGE value="minor changes but not reversible" />
+    <MESSAGE value="Hessian padding fixed" />
+    <MESSAGE value="Multithreaded ParamGradient" />
+    <MESSAGE value="more core optimization with tightest triplet alg" />
+    <MESSAGE value="more multithreading optimizations" />
+    <MESSAGE value="remove unused utils methods" />
+    <MESSAGE value="minor changes" />
+    <MESSAGE value="Minor changes" />
+    <MESSAGE value="Minor moleculerun + main refactor" />
+    <MESSAGE value="ForkJoinPool implementation" />
+    <MESSAGE value="hash functions for io" />
+    <MESSAGE value="Legit AM1 param numbers" />
+    <option name="LAST_COMMIT_MESSAGE" value="Legit AM1 param numbers" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
     <select />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/scf/AtomHandler.java">
+    <entry file="file://$PROJECT_DIR$/src/nddoparam/NDDODerivative.java" />
+    <entry file="file://$PROJECT_DIR$/src/nddoparam/NDDOGeometryOptimizationRestricted.java" />
+    <entry file="file://$PROJECT_DIR$/src/nddoparam/NDDOSolution.java" />
+    <entry file="file://$PROJECT_DIR$/src/nddoparam/NDDOGeometryOptimization.java" />
+    <entry file="file://$PROJECT_DIR$/MNDOHessianUpdateData.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="22" selection-start-line="3" selection-start-column="22" selection-end-line="3" selection-end-column="22" />
+        <state relative-caret-position="36">
+          <caret line="2" column="12" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/atom_properties.json">
+    <entry file="file://$PROJECT_DIR$/src/runcycle/MoleculeRunRestricted.java" />
+    <entry file="file://$PROJECT_DIR$/src/nddoparam/NDDOSolutionRestricted.java" />
+    <entry file="file://$PROJECT_DIR$/reference.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="827">
+          <caret line="82" column="5" lean-forward="true" selection-start-line="82" selection-start-column="5" selection-end-line="82" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nddoparam/param/NDDOParamGradientUnrestricted.java" />
+    <entry file="file://$PROJECT_DIR$/src/nddoparam/param/NDDOParamGradientRestricted.java" />
+    <entry file="file://$PROJECT_DIR$/src/nddoparam/param/NDDOParamGradient.java" />
+    <entry file="file://$PROJECT_DIR$/src/nddoparam/param/NDDOParamDerivative.java" />
+    <entry file="file://$PROJECT_DIR$/src/nddoparam/SolutionRDIIS.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5202">
+          <caret line="291" column="50" selection-start-line="291" selection-start-column="50" selection-end-line="291" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nddoparam/SolutionREDIIS.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="11340">
+          <caret line="632" column="54" selection-start-line="632" selection-start-column="54" selection-end-line="632" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/scf/LCGTO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2340">
+          <caret line="148" selection-start-line="148" selection-end-line="148" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/scf/GTO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2484">
+          <caret line="138" column="53" selection-start-line="138" selection-start-column="53" selection-end-line="138" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/output-2E05D0AC.json">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="jar://$USER_HOME$/Downloads/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.base/java/util/function/Function.java">
+    <entry file="file://$PROJECT_DIR$/output-4B108AE9.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/SyncedDoubleMatrix.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="48" column="6" selection-start-line="48" selection-start-column="6" selection-end-line="48" selection-end-column="6" />
+        <state relative-caret-position="36">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/Downloads/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.base/java/util/concurrent/Callable.java">
+    <entry file="file://$PROJECT_DIR$/src/runcycle/MoleculeRun.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="64" column="6" selection-start-line="64" selection-start-column="6" selection-end-line="64" selection-end-column="6" />
+        <state relative-caret-position="238">
+          <caret line="57" column="45" selection-start-line="57" selection-start-column="45" selection-end-line="57" selection-end-column="45" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SMP2020.iml">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/errored-molecules.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nddoparam/SolutionU.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="32" column="9" selection-start-line="32" selection-start-column="9" selection-end-line="32" selection-end-column="9" />
+        <state relative-caret-position="90">
+          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/scf/STO6G.java">
+    <entry file="file://$PROJECT_DIR$/src/EJMLTesting.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        <state relative-caret-position="468">
+          <caret line="26" column="12" lean-forward="true" selection-start-line="26" selection-start-column="12" selection-end-line="27" selection-end-column="71" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/scf/OrbitalProperties.java">
+    <entry file="file://$PROJECT_DIR$/src/nddoparam/SolutionR.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/param/NDDOParamErrorFunctionRestricted.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="95" selection-start-line="21" selection-start-column="95" selection-end-line="21" selection-end-column="95" />
+        <state relative-caret-position="288">
+          <caret line="16" column="42" selection-start-line="16" selection-start-column="42" selection-end-line="16" selection-end-column="42" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/scf/GTO.java">
+    <entry file="file://$PROJECT_DIR$/src/Testing.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="788">
-          <caret line="247" column="22" lean-forward="true" selection-start-line="247" selection-start-column="22" selection-end-line="247" selection-end-column="22" />
+        <state relative-caret-position="216">
+          <caret line="12" column="2" lean-forward="true" selection-start-line="12" selection-start-column="2" selection-end-line="12" selection-end-column="2" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/am1/AM1Params.java">
+    <entry file="file://$PROJECT_DIR$/inputtesting.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        <state relative-caret-position="749">
+          <caret line="5771" column="42" selection-start-line="5771" selection-start-column="42" selection-end-line="5771" selection-end-column="42" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/mndo/MNDOParams.java">
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/src.zip!/java.base/java/util/Comparator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="28" column="20" lean-forward="true" selection-start-line="28" selection-start-column="20" selection-end-line="28" selection-end-column="20" />
+        <state relative-caret-position="254">
+          <caret line="468" selection-start-line="468" selection-end-line="468" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/scf/LCGTO.java">
+    <entry file="file://$PROJECT_DIR$/input.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="731">
-          <caret line="148" column="68" selection-start-line="148" selection-start-column="68" selection-end-line="148" selection-end-column="68" />
+        <state relative-caret-position="216">
+          <caret line="12" column="8" selection-start-line="12" selection-start-column="8" selection-end-line="12" selection-end-column="8" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/scf/Utils.java">
+    <entry file="file://$PROJECT_DIR$/src/CublasTools.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="780">
-          <caret line="56" column="52" selection-start-line="56" selection-start-column="52" selection-end-line="56" selection-end-column="52" />
+        <state relative-caret-position="378">
+          <caret line="36" column="46" selection-start-line="36" selection-start-column="46" selection-end-line="36" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nddoparam/NDDOAtom.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="749">
+          <caret line="154" column="24" selection-start-line="154" selection-start-column="24" selection-end-line="154" selection-end-column="24" />
         </state>
       </provider>
     </entry>
@@ -1080,225 +1180,151 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/param/NDDOParamHessian.java">
+    <entry file="file://$PROJECT_DIR$/src/nddoparam/Solution.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="7" column="42" selection-start-line="7" selection-start-column="42" selection-end-line="7" selection-end-column="42" />
+        <state relative-caret-position="326">
+          <caret line="142" column="33" selection-start-line="142" selection-start-column="33" selection-end-line="142" selection-end-column="33" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mndoparams.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="32" selection-start-column="32" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/optimize/ParamOptimizer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="321">
-          <caret line="36" column="39" selection-start-line="36" selection-start-column="39" selection-end-line="36" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/NDDOGeometryOptimizationUnrestricted.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="20" column="20" selection-start-line="20" selection-start-column="20" selection-end-line="20" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/am1/AM1Atom.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="732">
-          <caret line="101" column="64" selection-start-line="101" selection-start-column="64" selection-end-line="101" selection-end-column="64" />
-          <folding>
-            <element signature="e#4413#4414#0" expanded="true" />
-            <element signature="e#4437#4438#0" expanded="true" />
-            <element signature="e#4541#4542#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/NDDO6G.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-441">
-          <caret line="824" lean-forward="true" selection-start-line="824" selection-end-line="824" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/NDDOSolutionUnrestricted.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3750">
-          <caret line="549" column="5" lean-forward="true" selection-start-line="549" selection-start-column="5" selection-end-line="549" selection-end-column="5" />
-          <folding>
-            <element signature="e#21253#21254#0" expanded="true" />
-            <element signature="e#21293#21294#0" expanded="true" />
-            <element signature="e#21348#21349#0" expanded="true" />
-            <element signature="e#21387#21388#0" expanded="true" />
-            <element signature="e#21444#21445#0" expanded="true" />
-            <element signature="e#21506#21507#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/param/NDDOParamErrorFunction.java">
+    <entry file="file://$PROJECT_DIR$/src/nddoparam/param/ParamErrorFunction.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
-          <caret line="8" column="22" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
+          <caret line="10" column="22" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/mndo/MNDOAtom.java">
+    <entry file="file://$PROJECT_DIR$/src/nddoparam/param/ParamErrorFunctionR.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="535">
-          <caret line="107" lean-forward="true" selection-start-line="107" selection-end-line="107" />
+        <state relative-caret-position="72">
+          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/NDDOAtom.java">
+    <entry file="file://$PROJECT_DIR$/src/nddoparam/param/ParamErrorFunctionU.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="841">
-          <caret line="154" column="63" selection-start-line="154" selection-start-column="63" selection-end-line="154" selection-end-column="63" />
-          <folding>
-            <element signature="e#2512#2513#0" expanded="true" />
-            <element signature="e#2602#2603#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="72">
+          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mndooutput.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/NDDOSecondDerivative.java">
+    <entry file="file://$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="737">
-          <caret line="1997" column="5" lean-forward="true" selection-start-line="1873" selection-end-line="1997" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="72">
+          <caret line="12" column="22" selection-start-line="12" selection-start-column="22" selection-end-line="12" selection-end-column="22" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/NDDODerivative.java">
+    <entry file="file://$PROJECT_DIR$/src/nddoparam/param/ParamGradientU.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="696">
-          <caret line="1306" column="5" lean-forward="true" selection-start-line="1306" selection-start-column="5" selection-end-line="1306" selection-end-column="5" />
+        <state relative-caret-position="72">
+          <caret line="7" column="6" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/NDDOGeometryOptimizationRestricted.java">
+    <entry file="file://$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="558">
-          <caret line="35" column="1" lean-forward="true" selection-start-line="35" selection-start-column="1" selection-end-line="35" selection-end-column="1" />
-          <folding>
-            <element signature="e#331#332#0" expanded="true" />
-            <element signature="e#370#371#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/NDDOSolution.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="639">
-          <caret line="141" column="9" lean-forward="true" selection-start-line="141" selection-start-column="9" selection-end-line="141" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/NDDOGeometryOptimization.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="417">
-          <caret line="94" column="35" lean-forward="true" selection-start-line="94" selection-start-column="35" selection-end-line="94" selection-end-column="35" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MNDOHessianUpdateData.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" column="12" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
+        <state relative-caret-position="72">
+          <caret line="15" column="6" selection-start-line="15" selection-start-column="6" selection-end-line="15" selection-end-column="6" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="841">
-          <caret line="475" column="36" selection-start-line="475" selection-start-column="36" selection-end-line="475" selection-end-column="36" />
+        <state relative-caret-position="-3331">
+          <caret line="119" column="35" selection-start-line="119" selection-start-column="35" selection-end-line="119" selection-end-column="35" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/input.txt">
+    <entry file="file://$PROJECT_DIR$/src/scf/Utils.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="12" column="51" lean-forward="true" selection-start-line="12" selection-start-column="51" selection-end-line="12" selection-end-column="51" />
+        <state relative-caret-position="-35">
+          <caret line="50" selection-start-line="50" selection-end-line="50" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#7680#7681#0" expanded="true" />
+            <element signature="e#7802#7803#0" expanded="true" />
+            <element signature="e#7896#7897#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/runcycle/MoleculeRunRestricted.java">
+    <entry file="file://$PROJECT_DIR$/src/nddoparam/GeometryDerivative.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="11" column="18" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="18" />
+        <state relative-caret-position="529">
+          <caret line="2950" lean-forward="true" selection-start-line="2950" selection-end-line="2950" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/NDDOSolutionRestricted.java">
+    <entry file="file://$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="355">
-          <caret line="317" selection-start-line="317" selection-end-line="371" selection-end-column="116" />
+        <state relative-caret-position="578">
+          <caret line="294" column="41" selection-start-line="294" selection-start-column="41" selection-end-line="294" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/reference.txt">
+    <entry file="file://$PROJECT_DIR$/src/nddoparam/GeometryOptimizationR.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="827">
-          <caret line="82" column="5" lean-forward="true" selection-start-line="82" selection-start-column="5" selection-end-line="82" selection-end-column="5" />
+        <state relative-caret-position="342">
+          <caret line="24" column="35" selection-start-line="24" selection-start-column="35" selection-end-line="24" selection-end-column="35" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/runcycle/MoleculeRun.java">
+    <entry file="file://$PROJECT_DIR$/src/nddoparam/GeometryOptimizationU.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4004">
-          <caret line="275" column="29" selection-start-line="275" selection-start-column="29" selection-end-line="275" selection-end-column="29" />
+        <state relative-caret-position="342">
+          <caret line="24" column="75" selection-start-line="24" selection-start-column="75" selection-end-line="24" selection-end-column="75" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/param/NDDOParamGradientUnrestricted.java">
+    <entry file="file://$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-12053">
+          <caret line="3012" column="73" selection-start-line="3012" selection-start-column="73" selection-end-line="3012" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-16196">
+          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/input.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-5516">
+          <caret line="36" column="26" lean-forward="true" selection-start-line="36" selection-start-column="26" selection-end-line="36" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/optimize/ParamOptimizer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
           <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/param/NDDOParamGradientRestricted.java">
+    <entry file="file://$PROJECT_DIR$/src/optimize/ReferenceData.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="27" column="75" selection-start-line="27" selection-start-column="75" selection-end-line="27" selection-end-column="75" />
+        <state relative-caret-position="216">
+          <caret line="12" column="45" selection-start-line="12" selection-start-column="45" selection-end-line="12" selection-end-column="45" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/param/NDDOParamGradient.java">
+    <entry file="file://$PROJECT_DIR$/src/nddoparam/NDDO6G.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="25" column="5" lean-forward="true" selection-start-line="25" selection-start-column="5" selection-end-line="25" selection-end-column="5" />
-          <folding>
-            <element signature="e#2634#2635#0" expanded="true" />
-            <element signature="e#2658#2659#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/param/NDDOParamDerivative.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="381">
-          <caret line="2634" lean-forward="true" selection-start-line="2634" selection-end-line="2634" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="-6709">
+          <caret line="378" column="41" lean-forward="true" selection-start-line="378" selection-start-column="41" selection-end-line="378" selection-end-column="41" />
         </state>
       </provider>
     </entry>
@@ -1308,7 +1334,7 @@
       <state key="ArtifactsStructureConfigurable.UI">
         <settings>
           <artifact-editor />
-          <last-edited>SMP2020:jar</last-edited>
+          <last-edited>MNDOParam:jar</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -1356,7 +1382,7 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>SMP2020</last-edited>
+          <last-edited>MNDOParam</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -1368,7 +1394,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>org.apache.commons:commons-lang3:3.12.0</last-edited>
+          <last-edited>ejml-cdense-0.41-sources</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

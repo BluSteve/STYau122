@@ -1,5 +1,6 @@
 package nddoparam;
 
+import org.ejml.simple.SimpleMatrix;
 import org.jblas.DoubleMatrix;
 import scf.GTO;
 import scf.LCGTO;
@@ -2933,43 +2934,28 @@ public class GeometryDerivative {
 
 	}
 
-	public static DoubleMatrix densitymatrixderivfinite(NDDOAtom[] atoms,
-														SolutionR soln,
-														int atomnum, int tau) {
-
-		DoubleMatrix orig = soln.densityMatrix();
-
-
-		NDDOAtom[] newatoms = Utils.perturbAtomCoords(atoms, atomnum, tau);
-
-		DoubleMatrix perturbed =
-				new SolutionR(newatoms, soln.charge).densityMatrix();
-
-		return perturbed.sub(orig).mmul(1E7);
-
-
-	}
 
 	public static DoubleMatrix[] densitymatrixderivfinite(NDDOAtom[] atoms,
 														  SolutionU soln,
 														  int atomnum,
 														  int tau) {
 
-		DoubleMatrix aorig = soln.alphaDensity();
+		SimpleMatrix aorig = new SimpleMatrix(soln.alphaDensity().toArray2());
 
-		DoubleMatrix borig = soln.betaDensity();
+		SimpleMatrix borig = new SimpleMatrix(soln.betaDensity().toArray2());
 
 		NDDOAtom[] newatoms = Utils.perturbAtomCoords(atoms, atomnum, tau);
 
 		SolutionU newsoln =
 				new SolutionU(newatoms, soln.charge, soln.multiplicity);
 
-		DoubleMatrix aperturbed = newsoln.alphaDensity();
+		SimpleMatrix aperturbed = new SimpleMatrix(newsoln.alphaDensity().toArray2());
 
-		DoubleMatrix bperturbed = newsoln.betaDensity();
+		SimpleMatrix bperturbed = new SimpleMatrix(newsoln.betaDensity().toArray2());
 
-		return new DoubleMatrix[]{aperturbed.sub(aorig).mmul(1E7),
-				bperturbed.sub(borig).mmul(1E7)};
+
+		return new DoubleMatrix[]{Utils.toDoubleMatrix(aperturbed.minus(aorig).scale(1E7)),
+				Utils.toDoubleMatrix(bperturbed.minus(borig).scale(1E7))};
 
 
 	}
