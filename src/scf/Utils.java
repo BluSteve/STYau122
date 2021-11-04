@@ -259,6 +259,12 @@ public class Utils {
 		return result;
 	}
 
+	public static SimpleMatrix filled(int rows, int cols, int a) {
+		SimpleMatrix res = new SimpleMatrix(rows, cols);
+		res.fill(a);
+		return res;
+	}
+
 	public static int numNotNull(DoubleMatrix[] rarray) {
 		int count = 0;
 		for (DoubleMatrix r : rarray) {

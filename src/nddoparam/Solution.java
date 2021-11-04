@@ -1,5 +1,6 @@
 package nddoparam;
 
+import org.ejml.simple.SimpleMatrix;
 import org.jblas.DoubleMatrix;
 import runcycle.input.RawMolecule;
 
@@ -16,7 +17,7 @@ public abstract class Solution {
 	public int[] atomNumber;
 	public double damp = 0.8;
 	public int nElectrons;
-	public DoubleMatrix H;
+	public SimpleMatrix H;
 	public NDDO6G[] orbitals;
 	public int[] atomicNumbers;
 	protected RawMolecule rm;
@@ -91,7 +92,7 @@ public abstract class Solution {
 			}
 		}
 
-		H = new DoubleMatrix(orbitals.length, orbitals.length);
+		H = new SimpleMatrix(orbitals.length, orbitals.length);
 
 		//filling up the core matrix in accordance with NDDO formalism
 
@@ -106,7 +107,7 @@ public abstract class Solution {
 						}
 					}
 
-					H.put(j, k, Huu);
+					H.set(j, k, Huu);
 				}
 				else if (atomNumber[j] == atomNumber[k]) { // case 2
 					double Huv = 0;
@@ -115,13 +116,13 @@ public abstract class Solution {
 							Huv += atoms[an].V(orbitals[j], orbitals[k]);
 						}
 					}
-					H.put(j, k, Huv);
-					H.put(k, j, Huv);
+					H.set(j, k, Huv);
+					H.set(k, j, Huv);
 				}
 				else { // case 3
 					double Huk = NDDO6G.beta(orbitals[j], orbitals[k]);
-					H.put(j, k, Huk);
-					H.put(k, j, Huk);
+					H.set(j, k, Huk);
+					H.set(k, j, Huk);
 				}
 			}
 		}
@@ -153,11 +154,11 @@ public abstract class Solution {
 
 	public abstract Solution setRm(RawMolecule rm);
 
-	public abstract DoubleMatrix alphaDensity();
+	public abstract SimpleMatrix alphaDensity();
 
-	public abstract DoubleMatrix betaDensity();
+	public abstract SimpleMatrix betaDensity();
 
-	public abstract DoubleMatrix densityMatrix();
+	public abstract SimpleMatrix densityMatrix();
 
 	@Override
 	public String toString() {
