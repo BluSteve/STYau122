@@ -1,12 +1,12 @@
 import org.ejml.data.DMatrixRMaj;
 import org.ejml.dense.row.factory.DecompositionFactory_DDRM;
 import org.ejml.interfaces.decomposition.EigenDecomposition_F64;
-import org.ejml.simple.SimpleEVD;
 import org.ejml.simple.SimpleMatrix;
 import org.jblas.DoubleMatrix;
 import org.jblas.Eigen;
 import scf.Utils;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class EJMLTesting {
@@ -20,7 +20,6 @@ public class EJMLTesting {
 		int warmupn = 30;
 		for (int i = 0; i < 5; i++) {
 			DoubleMatrix warmup = DoubleMatrix.rand(warmupn, warmupn);
-			Utils.symEigen(warmup);
 			SimpleMatrix sm = SimpleMatrix.random_DDRM(warmupn, warmupn, 0, 1,
 					new Random(1234));
 			sm.mult(sm);
@@ -48,7 +47,7 @@ public class EJMLTesting {
 			}
 		}
 
-		SimpleMatrix ejml3 = new SimpleMatrix(new double[][] {
+		SimpleMatrix sm = new SimpleMatrix(new double[][] {
 				new double[]{1,3,2},
 				new double[]{3,4,5},
 				new double[]{2,5,6}
@@ -59,23 +58,14 @@ public class EJMLTesting {
 				new double[]{2,5,6}
 		});
 
-		System.out.println("ejml = " + ejml3);
-		EigenDecomposition_F64<DMatrixRMaj> eig = DecompositionFactory_DDRM.eig(n*n, true, true);
-		SimpleEVD<SimpleMatrix> evd = new SimpleEVD<>(ejml3.getDDRM());
-//		eig.decompose(ejml3.getDDRM());
-//		System.out.println("eig.getEigenvalue(0 = " + eig.getEigenvalue(0));
-//		System.out.println("eig = " + Arrays.toString(getAllEigen(eig)));
-		System.out.println(evd.getEigenvalues());
-		System.out.println(evd.getNumberOfEigenvalues());
+		System.out.println("ejml = " + sm);
 
-		int noe = evd.getNumberOfEigenvalues();
-		SimpleMatrix result = new SimpleMatrix(noe,);
-		for (int i = 0; i < noe; i++) {
-			eigenvectors[i] = evd.getEigenVector(i).getDDRM().data;
-		}
-		System.out.println("result = " + result);
+		System.out.println(Arrays.toString(Utils.symEigen(sm)));
+		System.out.println(sm.normF());
+		System.out.println(dm.norm2());
 
-		pp(Eigen.symmetricEigenvectors(dm)[0].transpose());
+		pp(Eigen.symmetricEigenvectors(dm)[0]);
+		pp(Eigen.symmetricEigenvectors(dm)[1]);
 
 
 	}

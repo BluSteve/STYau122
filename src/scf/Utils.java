@@ -3,10 +3,10 @@ package scf;
 import nddoparam.NDDOAtom;
 import nddoparam.NDDOParams;
 import org.apache.commons.math3.primes.Primes;
+import org.ejml.dense.row.NormOps_DDRM;
 import org.ejml.simple.SimpleEVD;
 import org.ejml.simple.SimpleMatrix;
 import org.jblas.DoubleMatrix;
-import org.jblas.Eigen;
 import org.jblas.Solve;
 
 import java.lang.reflect.Constructor;
@@ -259,12 +259,6 @@ public class Utils {
 		return result;
 	}
 
-	public static SimpleMatrix filled(int rows, int cols, int a) {
-		SimpleMatrix res = new SimpleMatrix(rows, cols);
-		res.fill(a);
-		return res;
-	}
-
 	public static int numNotNull(DoubleMatrix[] rarray) {
 		int count = 0;
 		for (DoubleMatrix r : rarray) {
@@ -290,8 +284,30 @@ public class Utils {
 		return count;
 	}
 
-	public static synchronized DoubleMatrix[] symEigen(DoubleMatrix dm) {
-		return Eigen.symmetricEigenvectors(dm);
+	public static SimpleMatrix filled(int rows, int cols, int a) {
+		SimpleMatrix res = new SimpleMatrix(rows, cols);
+		res.fill(a);
+		return res;
+	}
+
+	public static SimpleMatrix[] symEigen(SimpleMatrix sm) {
+		SimpleEVD<SimpleMatrix> evd = sm.eig();
+		int noe = evd.getNumberOfEigenvalues();
+		SimpleMatrix evalues = new SimpleMatrix(1, noe);
+		for (int i = 0; i < noe; i++) {
+			evalues.set(0, i, evd.getEigenvalues().get(i).real);
+		}
+
+		SimpleMatrix evectors = new SimpleMatrix(noe, noe);
+		for (int i = 0; i < noe; i++) {
+			evectors.setColumn(i, 0, evd.getEigenVector(i).getDDRM().data);
+		}
+
+		return new SimpleMatrix[] {evectors, evalues};
+	}
+
+	public static double norm2(SimpleMatrix sm) {
+		return NormOps_DDRM.fastNormF(sm.getDDRM());
 	}
 	
 	public static synchronized DoubleMatrix solve(DoubleMatrix lhs, DoubleMatrix rhs) {

@@ -37,15 +37,10 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="Legit AM1 param numbers">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="work in progress">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MNDOParam.iml" beforeDir="false" afterPath="$PROJECT_DIR$/MNDOParam.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dynamic-output.json" beforeDir="false" afterPath="$PROJECT_DIR$/dynamic-output.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CublasTools.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CublasTools.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/EJMLTesting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EJMLTesting.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/Solution.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Testing.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionNew.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/scf/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/Utils.java" afterDir="false" />
     </list>
@@ -139,15 +134,15 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/src/nddoparam/SolutionR.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/mndo-install.sh" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/MNDOParam.iml" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/GeometryOptimizationR.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/Main.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/SyncedDoubleMatrix.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/NDDOParams.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/nddoparam/Solution.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/nddoparam/GeometryOptimizationR.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/mndo-install.sh" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/SyncedDoubleMatrix.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/nddoparam/GeometryDerivative.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/MNDOParam.iml" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/Main.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/nddoparam/NDDOParams.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -306,7 +301,7 @@
       <recent name="nddoparam.param" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.EJMLTesting">
+  <component name="RunManager" selected="Application.Testing">
     <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -359,7 +354,7 @@
       <option name="MAIN_CLASS_NAME" value="Testing" />
       <module name="MNDOParam" />
       <method v="2">
-        <option name="Make" enabled="true" />
+        <option name="MakeNoErrorCheck" enabled="true" />
       </method>
     </configuration>
     <list>
@@ -372,11 +367,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Testing" />
         <item itemvalue="Application.EJMLTesting" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.CublasTools" />
         <item itemvalue="Application.InputHandler" />
-        <item itemvalue="Application.Testing" />
       </list>
     </recent_temporary>
   </component>
@@ -484,13 +479,10 @@
       <workItem from="1632138066320" duration="610000" />
       <workItem from="1632481824451" duration="3684000" />
       <workItem from="1633766498737" duration="3515000" />
-    </task>
-    <task id="LOCAL-00073" summary="Debug weird H2 bug">
-      <created>1626177595394</created>
-      <option name="number" value="00073" />
-      <option name="presentableId" value="LOCAL-00073" />
-      <option name="project" value="LOCAL" />
-      <updated>1626177595394</updated>
+      <workItem from="1636037525034" duration="44000" />
+      <workItem from="1636179161642" duration="3054000" />
+      <workItem from="1636182953674" duration="106000" />
+      <workItem from="1636183084011" duration="1710000" />
     </task>
     <task id="LOCAL-00074" summary="Debug weird H2 bug">
       <created>1626178744920</created>
@@ -828,7 +820,14 @@
       <option name="project" value="LOCAL" />
       <updated>1626517556622</updated>
     </task>
-    <option name="localTasksCounter" value="122" />
+    <task id="LOCAL-00122" summary="work in progress">
+      <created>1636037561827</created>
+      <option name="number" value="00122" />
+      <option name="presentableId" value="LOCAL-00122" />
+      <option name="project" value="LOCAL" />
+      <updated>1636037561827</updated>
+    </task>
+    <option name="localTasksCounter" value="123" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -896,7 +895,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Steve thinks it's working but it's probably not&#10;Major refactor of param opt + finished hessian" />
     <MESSAGE value="remove old moleculerun" />
     <MESSAGE value="Param gradient no kind" />
     <MESSAGE value="Everything no kind + minor changes" />
@@ -921,7 +919,8 @@
     <MESSAGE value="ForkJoinPool implementation" />
     <MESSAGE value="hash functions for io" />
     <MESSAGE value="Legit AM1 param numbers" />
-    <option name="LAST_COMMIT_MESSAGE" value="Legit AM1 param numbers" />
+    <MESSAGE value="work in progress" />
+    <option name="LAST_COMMIT_MESSAGE" value="work in progress" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

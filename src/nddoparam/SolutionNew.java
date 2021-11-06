@@ -89,7 +89,7 @@ public class SolutionNew extends Solution {
 	// H - core matrix, G = 2-electron matrix, F = fock matrix, C = coeffecient
 	// matrix (transposed for easier reading), E = eigenvalues
 	private SimpleMatrix densityMatrix, B;
-	private double[] Earray;
+	private final double[] Earray;
 
 
 	public SolutionNew(NDDOAtom[] atoms, int charge) {
@@ -238,13 +238,13 @@ public class SolutionNew extends Solution {
 		}
 
 		SimpleMatrix[] matrices = Utils.symEigen(H);
-		E = matrices[1].diag();
+		E = matrices[1];
 		C = matrices[0].transpose();
 		G = new SimpleMatrix(C.numRows(), C.numCols());
 		F = H.copy();
+		System.out.println("C = " + C);
 		densityMatrix = calculateDensityMatrix(C);
 		SimpleMatrix olddensity;
-
 
 		SimpleMatrix[] Farray = new SimpleMatrix[8];
 		SimpleMatrix[] Darray = new SimpleMatrix[8];
@@ -343,7 +343,7 @@ public class SolutionNew extends Solution {
 						-0.5 * (H.mult(densityMatrix)).diag().elementSum();
 				commutatorarray[numIt] =
 						commutator(F.copy(), densityMatrix.copy());
-				DIISError = commutatorarray[numIt].norm2();
+				DIISError = commutatorarray[numIt].normF();
 
 				for (int i = 0; i <= numIt; i++) {
 
@@ -380,7 +380,7 @@ public class SolutionNew extends Solution {
 						-0.5 * (H.mult(densityMatrix)).diag().elementSum();
 				commutatorarray[Darray.length - 1] =
 						commutator(F.copy(), densityMatrix.copy());
-				DIISError = commutatorarray[Darray.length - 1].norm2();
+				DIISError = commutatorarray[Darray.length - 1].normF();
 
 				// B is dy/dx sort of, make dy/dx 0
 				SimpleMatrix newB = new SimpleMatrix(8, 8);
@@ -423,8 +423,7 @@ public class SolutionNew extends Solution {
 			int ediisSize = Math.min(Farray.length + 1, numIt + 2);
 			if (CommonOps_DDRM.elementMax(
 					commutatorarray[Math.min(Farray.length - 1, numIt)]
-							.getDDRM()) >
-					0.01) {
+							.getDDRM()) > 0.01) {
 				// if true do EDIIS else DIIS
 				SimpleMatrix mat = new SimpleMatrix(ediisSize, ediisSize);
 
@@ -459,7 +458,8 @@ public class SolutionNew extends Solution {
 						SimpleMatrix tempEdiis =
 								addRows(newmat.solve(newrhs), tbr);
 						tempEdiis.set(tempEdiis.numRows() - 1, 0);
-						boolean nonNegative = !(tempEdiis.< 0);
+						boolean nonNegative = !(CommonOps_DDRM.elementMin(
+								tempEdiis.getDDRM()) < 0);
 
 						if (nonNegative) {
 							double e = finde(tempEdiis);
@@ -476,8 +476,8 @@ public class SolutionNew extends Solution {
 				SimpleMatrix F = new SimpleMatrix(densityMatrix.numRows(),
 						densityMatrix.numCols());
 
-				for (int i = 0; i < finalDIIS.length - 1; i++) {
-					F = F.add(Farray[i].mult(finalDIIS.get(i)));
+				for (int i = 0; i < finalDIIS.getNumElements() - 1; i++) {
+					F = F.plus(Farray[i].scale(finalDIIS.get(i)));
 				}
 
 
@@ -507,7 +507,6 @@ public class SolutionNew extends Solution {
 
 			}
 			else {
-
 				SimpleMatrix mat = new SimpleMatrix(ediisSize, ediisSize);
 
 				for (int i = 0; i < ediisSize - 1; i++) {
@@ -519,21 +518,16 @@ public class SolutionNew extends Solution {
 					}
 				}
 
-
-				mat.putColumn(mat.numCols() - 1,
-						SimpleMatrix.ones(mat.numRows(), 1));
-
-				mat.putRow(mat.numRows() - 1,
-						SimpleMatrix.ones(mat.numCols(), 1));
-
+				double[] a = new double[mat.numRows()];
+				mat.setColumn(mat.numCols() - 1, 0, a);
+				mat.setRow(mat.numRows() - 1, 0, a);
 				mat.set(mat.numRows() - 1, mat.numCols() - 1, 0);
 
 				SimpleMatrix rhs = new SimpleMatrix(mat.numRows(), 1);
-
 				rhs.set(mat.numRows() - 1, 0, 1);
 
 				try {
-					SimpleMatrix DIIS = Utils.solve(mat, rhs);
+					SimpleMatrix DIIS = mat.solve(rhs);
 
 					SimpleMatrix F =
 							new SimpleMatrix(densityMatrix.numRows(),
@@ -544,9 +538,9 @@ public class SolutionNew extends Solution {
 									densityMatrix.numCols());
 
 
-					for (int i = 0; i < DIIS.length - 1; i++) {
-						F = F.add(Farray[i].mult(DIIS.get(i)));
-						D = D.add(Darray[i].mult(DIIS.get(i)));
+					for (int i = 0; i < DIIS.getNumElements(); i++) {
+						F = F.plus(Farray[i].scale(DIIS.get(i)));
+						D = D.plus(Darray[i].scale(DIIS.get(i)));
 					}
 
 
@@ -580,8 +574,8 @@ public class SolutionNew extends Solution {
 
 					C = matrices[0].transpose();
 
-					densityMatrix = calculateDensityMatrix(C).mult(1 - damp)
-							.add(olddensity.mult(damp));
+					densityMatrix = calculateDensityMatrix(C).scale(1 - damp)
+							.plus(olddensity.scale(damp));
 				}
 			}
 
@@ -610,7 +604,6 @@ public class SolutionNew extends Solution {
 
 		energy = e;
 
-		if (energy != energy) System.err.println(densityMatrix.getRow(0));
 		heat += e;
 
 		this.hf = heat / 4.3363E-2;
@@ -701,7 +694,7 @@ public class SolutionNew extends Solution {
 	}
 
 	private static SimpleMatrix commutator(SimpleMatrix F, SimpleMatrix D) {
-		return F.mult(D).sub(D.mult(F));
+		return F.mult(D).minus(D.mult(F));
 	}
 
 	private static SimpleMatrix removeElementsSquare(SimpleMatrix original,
@@ -770,13 +763,12 @@ public class SolutionNew extends Solution {
 
 		ArrayList<Double> array = new ArrayList<>();
 
-		for (double i : original.toArray()) {
+		for (double i : original.getDDRM().data) {
 			array.add(i);
 		}
 
-		for (int i = 0; i < indices.length; i++) {
-
-			array.add(indices[i], 0.0);
+		for (int index : indices) {
+			array.add(index, 0.0);
 		}
 
 		for (int i = 0; i < array.size(); i++) {
@@ -790,12 +782,12 @@ public class SolutionNew extends Solution {
 	private double finde(SimpleMatrix ediis) {
 		double e = 0;
 
-		for (int a = 0; a < ediis.length - 1; a++) {
+		for (int a = 0; a < ediis.getNumElements() - 1; a++) {
 			e -= Earray[a] * ediis.get(a);
 		}
 
-		for (int a = 0; a < ediis.length - 1; a++) {
-			for (int b = 0; b < ediis.length - 1; b++) {
+		for (int a = 0; a < ediis.getNumElements() - 1; a++) {
+			for (int b = 0; b < ediis.getNumElements() - 1; b++) {
 				e += 0.5 * ediis.get(a) * ediis.get(b) * 0.5 *
 						B.get(a, b);
 			}
@@ -835,12 +827,12 @@ public class SolutionNew extends Solution {
 
 	@Override
 	public SimpleMatrix alphaDensity() {
-		return this.densityMatrix.mult(0.5);
+		return this.densityMatrix.scale(0.5);
 	}
 
 	@Override
 	public SimpleMatrix betaDensity() {
-		return this.densityMatrix.mult(0.5);
+		return this.densityMatrix.scale(0.5);
 	}
 
 	@Override
