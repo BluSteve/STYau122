@@ -306,7 +306,7 @@ public class Testing {
 
 		sw.start();
 		sn = new SolutionR(atoms, 0);
-//		GeometryOptimization.of(sr).compute();
+//		GeometryOptimization.of(sn).compute();
 		sw.stop();
 
 		System.out.println("sr.energy = " + sn.energy);

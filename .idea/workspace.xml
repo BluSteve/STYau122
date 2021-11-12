@@ -37,20 +37,11 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="Somewhat working SolutionNew">
+    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="SolutionNew working, next step GeomOpt">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EJMLTesting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EJMLTesting.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CublasTools.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CublasTools.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Testing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationU.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/Solution.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionNew.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionRDIIS.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionREDIIS.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionU.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scf/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/Utils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -491,13 +482,7 @@
       <workItem from="1636182953674" duration="106000" />
       <workItem from="1636183084011" duration="5731000" />
       <workItem from="1636646264114" duration="3156000" />
-    </task>
-    <task id="LOCAL-00075" summary="Minor changes">
-      <created>1626179408618</created>
-      <option name="number" value="00075" />
-      <option name="presentableId" value="LOCAL-00075" />
-      <option name="project" value="LOCAL" />
-      <updated>1626179408618</updated>
+      <workItem from="1636722443486" duration="1056000" />
     </task>
     <task id="LOCAL-00076" summary="Adrian fix NDDO Solution Restricted">
       <created>1626179977343</created>
@@ -835,7 +820,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636186149339</updated>
     </task>
-    <option name="localTasksCounter" value="124" />
+    <task id="LOCAL-00124" summary="SolutionNew working, next step GeomOpt">
+      <created>1636722794528</created>
+      <option name="number" value="00124" />
+      <option name="presentableId" value="LOCAL-00124" />
+      <option name="project" value="LOCAL" />
+      <updated>1636722794528</updated>
+    </task>
+    <option name="localTasksCounter" value="125" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -903,7 +895,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Param gradient no kind" />
     <MESSAGE value="Everything no kind + minor changes" />
     <MESSAGE value="No more MoleculeRunRU" />
     <MESSAGE value="most classes can now have a copy of atomtypes" />
@@ -928,19 +919,20 @@
     <MESSAGE value="Legit AM1 param numbers" />
     <MESSAGE value="work in progress" />
     <MESSAGE value="Somewhat working SolutionNew" />
-    <option name="LAST_COMMIT_MESSAGE" value="Somewhat working SolutionNew" />
+    <MESSAGE value="SolutionNew working, next step GeomOpt" />
+    <option name="LAST_COMMIT_MESSAGE" value="SolutionNew working, next step GeomOpt" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/nddoparam/SolutionR.java</url>
-          <line>477</line>
+          <line>474</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/nddoparam/SolutionR.java</url>
-          <line>422</line>
+          <line>419</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>

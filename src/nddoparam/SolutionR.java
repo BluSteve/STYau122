@@ -83,13 +83,10 @@ public class SolutionR extends Solution {
 							new int[]{0, 1, 2, 3, 4, 5, 6}}};
 
 	public double[] integralArray;
-	public SimpleMatrix C;
-	public SimpleMatrix F;
-	public SimpleMatrix G;
-	public SimpleMatrix E;
+	public SimpleMatrix C,F,G,E,B;
 	// H - core matrix, G = 2-electron matrix, F = fock matrix, C = coeffecient
 	// matrix (transposed for easier reading), E = eigenvalues
-	private SimpleMatrix densityMatrix, B;
+	private SimpleMatrix densityMatrix;
 	private final double[] Earray;
 
 
