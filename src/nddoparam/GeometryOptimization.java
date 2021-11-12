@@ -195,8 +195,9 @@ public abstract class GeometryOptimization {
 		return s;
 	}
 
-	protected abstract void updateSolution();
-
+	protected void updateSolution() {
+		s = s.withNewAtoms(s.atoms);
+	}
 	protected abstract SimpleMatrix[] findGH();
 
 	protected abstract double findDerivative(int i, int j);

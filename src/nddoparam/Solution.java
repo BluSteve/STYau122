@@ -107,11 +107,12 @@ public abstract class Solution {
 	 * @param limit
 	 * @return
 	 */
-	public static boolean isSimilar(DoubleMatrix x, DoubleMatrix y,
+	public static boolean isSimilar(SimpleMatrix x, SimpleMatrix y,
 									double limit) {
-		for (int i = 0; i < y.rows; i++) {
-			for (int j = 0; j < y.columns; j++) {
+		for (int i = 0; i < y.numRows(); i++) {
+			for (int j = 0; j < y.numCols(); j++) {
 				if (Math.abs(x.get(i, j) - y.get(i, j)) > limit) {
+					System.err.println (i + ", " + j + ": " + Math.abs(x.get(i, j) - y.get(i, j)));
 					return false;
 				}
 			}
@@ -179,28 +180,4 @@ public abstract class Solution {
 	public abstract SimpleMatrix betaDensity();
 
 	public abstract SimpleMatrix densityMatrix();
-
-	@Override
-	public String toString() {
-		return "Solution{" +
-				", energy=" + energy +
-				", homo=" + homo +
-				", lumo=" + lumo +
-				", hf=" + hf +
-				", dipole=" + dipole +
-				", chargedip=" + Arrays.toString(chargedip) +
-				", hybridip=" + Arrays.toString(hybridip) +
-				", dipoletot=" + Arrays.toString(dipoletot) +
-				", charge=" + charge +
-				", multiplicity=" + multiplicity +
-				", missingIndex=" + Arrays.toString(missingIndex) +
-				", index=" + Arrays.toString(orbitalIndices) +
-				", atoms=" + Arrays.toString(atoms) +
-				", atomNumber=" + Arrays.toString(atomNumber) +
-				", nElectrons=" + nElectrons +
-				", H=" + H +
-				", orbitals=" + Arrays.toString(orbitals) +
-				", atomicNumbers=" + Arrays.toString(atomicNumbers) +
-				'}';
-	}
 }

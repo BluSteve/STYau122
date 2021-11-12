@@ -1,6 +1,6 @@
 package nddoparam;
 
-import org.jblas.DoubleMatrix;
+import org.ejml.simple.SimpleMatrix;
 import runcycle.input.RawMolecule;
 import scf.Utils;
 
@@ -8,9 +8,9 @@ import java.util.Arrays;
 
 
 public class SolutionU extends Solution {
-	DoubleMatrix Ea, Eb;
-	private DoubleMatrix Fa, Fb;
-	private DoubleMatrix alphaDensity, betaDensity;
+	SimpleMatrix Ea, Eb;
+	private SimpleMatrix Fa, Fb;
+	private SimpleMatrix alphaDensity, betaDensity;
 
 	protected SolutionU(NDDOAtom[] atoms, RawMolecule rm) {
 		super(atoms, rm);
@@ -130,29 +130,29 @@ public class SolutionU extends Solution {
 			}
 		}
 
-		DoubleMatrix[] matrices = Utils.symEigen(H);
+		SimpleMatrix[] matrices = Utils.symEigen(H);
 
 		Ea = matrices[1].diag();
 
 		Eb = matrices[1].diag();
 
-		DoubleMatrix ca = matrices[0].transpose();
+		SimpleMatrix ca = matrices[0].transpose();
 
-		DoubleMatrix cb = matrices[0].transpose();
+		SimpleMatrix cb = matrices[0].transpose();
 
-		DoubleMatrix j1 = new DoubleMatrix(ca.rows, ca.columns);
+		SimpleMatrix j1 = new SimpleMatrix(ca.numRows(), ca.numCols());
 
-		DoubleMatrix ka = new DoubleMatrix(ca.rows, ca.columns);
+		SimpleMatrix ka = new SimpleMatrix(ca.numRows(), ca.numCols());
 
-		DoubleMatrix kb = new DoubleMatrix(ca.rows, ca.columns);
+		SimpleMatrix kb = new SimpleMatrix(ca.numRows(), ca.numCols());
 
 		alphaDensity = calculateDensityMatrix(ca, nalpha);
 
 		betaDensity = calculateDensityMatrix(cb, nbeta);
 
-		DoubleMatrix oldalphadensity = DoubleMatrix.zeros(ca.rows, ca.columns);
+		SimpleMatrix oldalphadensity = Utils.filled(ca.numRows(), ca.numCols(),0);
 
-		DoubleMatrix oldbetadensity = DoubleMatrix.zeros(ca.rows, ca.columns);
+		SimpleMatrix oldbetadensity = Utils.filled(ca.numRows(), ca.numCols(), 0);
 
 		int Jcount, Kcount;
 
@@ -163,8 +163,8 @@ public class SolutionU extends Solution {
 				isSimilar(betaDensity, oldbetadensity, 1E-10))) {
 
 			numIt++;
-			oldalphadensity = alphaDensity.dup();
-			oldbetadensity = betaDensity.dup();
+			oldalphadensity = alphaDensity.copy();
+			oldbetadensity = betaDensity.copy();
 
 			Jcount = 0;
 			Kcount = 0;
@@ -225,8 +225,8 @@ public class SolutionU extends Solution {
 					}
 
 
-					j1.put(j, k, val);
-					j1.put(k, j, val);
+					j1.set(j, k, val);
+					j1.set(k, j, val);
 				}
 			}
 
@@ -271,19 +271,19 @@ public class SolutionU extends Solution {
 						}
 					}
 
-					ka.put(j, k, vala);
-					ka.put(k, j, vala);
-					kb.put(j, k, valb);
-					kb.put(k, j, valb);
+					ka.set(j, k, vala);
+					ka.set(k, j, vala);
+					kb.set(j, k, valb);
+					kb.set(k, j, valb);
 				}
 			}
 
-			Fa = H.add(j1).add(ka);
-			Fb = H.add(j1).add(kb);
+			Fa = H.plus(j1).plus(ka);
+			Fb = H.plus(j1).plus(kb);
 
-			DoubleMatrix[] matrices1 = Utils.symEigen(Fa);
+			SimpleMatrix[] matrices1 = Utils.symEigen(Fa);
 
-			DoubleMatrix[] matrices2 = Utils.symEigen(Fb);
+			SimpleMatrix[] matrices2 = Utils.symEigen(Fb);
 
 			Ea = matrices1[1].diag();
 
@@ -295,11 +295,11 @@ public class SolutionU extends Solution {
 			if (unstable) System.err.println(Ea);
 
 			double damp = 0.8;
-			alphaDensity = calculateDensityMatrix(ca, nalpha).mmul(1 - damp)
-					.add(oldalphadensity.mmul(damp));
+			alphaDensity = calculateDensityMatrix(ca, nalpha).scale(1 - damp)
+					.plus(oldalphadensity.scale(damp));
 
-			betaDensity = calculateDensityMatrix(cb, nbeta).mmul(1 - damp)
-					.add(oldbetadensity.mmul(damp));
+			betaDensity = calculateDensityMatrix(cb, nbeta).scale(1 - damp)
+					.plus(oldbetadensity.scale(damp));
 
 			if (numIt >= 1000000) {
 				unstable = true;
@@ -329,11 +329,11 @@ public class SolutionU extends Solution {
 
 				cb = matrices[0].transpose();
 
-				j1 = new DoubleMatrix(ca.rows, ca.columns);
+				j1 = new SimpleMatrix(ca.numRows(), ca.numCols());
 
-				ka = new DoubleMatrix(ca.rows, ca.columns);
+				ka = new SimpleMatrix(ca.numRows(), ca.numCols());
 
-				kb = new DoubleMatrix(ca.rows, ca.columns);
+				kb = new SimpleMatrix(ca.numRows(), ca.numCols());
 
 				alphaDensity = calculateDensityMatrix(ca, nalpha);
 
@@ -560,7 +560,7 @@ public class SolutionU extends Solution {
 
 	private double E(int atomnum, int[][] index) {
 
-		DoubleMatrix densitymatrix = alphaDensity.add(betaDensity);
+		SimpleMatrix densitymatrix = alphaDensity.plus(betaDensity);
 
 		double e = 0;
 
@@ -601,7 +601,7 @@ public class SolutionU extends Solution {
 
 	private double E(int atomnum1, int atomnum2, int[][] index) {
 
-		DoubleMatrix densitymatrix = alphaDensity.add(betaDensity);
+		SimpleMatrix densitymatrix = alphaDensity.plus(betaDensity);
 
 		double e = 0;
 
@@ -658,10 +658,10 @@ public class SolutionU extends Solution {
 
 	}
 
-	private DoubleMatrix calculateDensityMatrix(DoubleMatrix c,
+	private SimpleMatrix calculateDensityMatrix(SimpleMatrix c,
 												int NElectrons) {
-		DoubleMatrix densityMatrix =
-				new DoubleMatrix(orbitals.length, orbitals.length);
+		SimpleMatrix densityMatrix =
+				new SimpleMatrix(orbitals.length, orbitals.length);
 
 		for (int i = 0; i < orbitals.length; i++) {
 			for (int j = 0; j < orbitals.length; j++) {
@@ -674,24 +674,24 @@ public class SolutionU extends Solution {
 					count -= 1;
 
 				}
-				densityMatrix.put(i, j, sum);
+				densityMatrix.set(i, j, sum);
 			}
 		}
 		return densityMatrix;
 	}
 
 	@Override
-	public DoubleMatrix alphaDensity() {
+	public SimpleMatrix alphaDensity() {
 		return this.alphaDensity;
 	}
 
 	@Override
-	public DoubleMatrix betaDensity() {
+	public SimpleMatrix betaDensity() {
 		return this.betaDensity;
 	}
 
 	@Override
-	public DoubleMatrix densityMatrix() {
-		return this.alphaDensity.add(this.betaDensity);
+	public SimpleMatrix densityMatrix() {
+		return this.alphaDensity.plus(this.betaDensity);
 	}
 }

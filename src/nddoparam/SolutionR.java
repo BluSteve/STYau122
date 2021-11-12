@@ -1,11 +1,13 @@
 package nddoparam;
 
-import org.jblas.DoubleMatrix;
-import org.jblas.exceptions.LapackException;
+import org.ejml.data.SingularMatrixException;
+import org.ejml.dense.row.CommonOps_DDRM;
+import org.ejml.simple.SimpleMatrix;
 import runcycle.input.RawMolecule;
 import scf.Utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class SolutionR extends Solution {
 	private static final int[][][] TBRS =
@@ -79,10 +81,10 @@ public class SolutionR extends Solution {
 							new int[]{0, 1, 2, 3, 4, 5, 6}}};
 
 	public double[] integralArray;
-	public DoubleMatrix C, F, G, E;
+	public SimpleMatrix C, F, G, E;
 	// H - core matrix, G = 2-electron matrix, F = fock matrix, C = coeffecient
 	// matrix (transposed for easier reading), E = eigenvalues
-	private DoubleMatrix densityMatrix, B;
+	private SimpleMatrix densityMatrix, B;
 	private double[] Earray;
 
 	public SolutionR(NDDOAtom[] atoms, RawMolecule rm) {
@@ -174,28 +176,28 @@ public class SolutionR extends Solution {
 			}
 		}
 
-		DoubleMatrix[] matrices = Utils.symEigen(H);
+		SimpleMatrix[] matrices = Utils.symEigen(H);
 		E = matrices[1].diag();
 		C = matrices[0].transpose();
-		G = DoubleMatrix.zeros(C.rows, C.columns);
-		F = H.dup();
+		G = Utils.filled(C.numRows(), C.numCols(), 0);
+		F = H.copy();
 		densityMatrix = calculateDensityMatrix(C);
-		DoubleMatrix olddensity;
+		SimpleMatrix olddensity;
 
-		DoubleMatrix[] Farray = new DoubleMatrix[8];
-		DoubleMatrix[] Darray = new DoubleMatrix[8];
+		SimpleMatrix[] Farray = new SimpleMatrix[8];
+		SimpleMatrix[] Darray = new SimpleMatrix[8];
 		Earray = new double[8];
 
-		DoubleMatrix Bforediis = DoubleMatrix.zeros(8, 8);
-		B = DoubleMatrix.zeros(8, 8);
+		SimpleMatrix Bforediis = Utils.filled(8, 8, 0);
+		B = Utils.filled(8, 8, 0);
 
-		DoubleMatrix[] commutatorarray = new DoubleMatrix[8];
+		SimpleMatrix[] commutatorarray = new SimpleMatrix[8];
 
 		int numIt = 0;
 		double DIISError = 10;
 
 		while (DIISError > 1E-11) {
-			olddensity = densityMatrix.dup();
+			olddensity = densityMatrix.copy();
 			integralcount = 0;
 
 			// this entire block of code fills up the G matrix, and it calls
@@ -263,69 +265,71 @@ public class SolutionR extends Solution {
 						}
 					}
 
-					G.put(j, k, val);
-					G.put(k, j, val);
+					G.set(j, k, val);
+					G.set(k, j, val);
 				}
 			}
 
-			F = H.dup().add(G);
+			F = H.copy().plus(G);
 			if (numIt < Farray.length) {
 
-				Farray[numIt] = F.dup();
+				Farray[numIt] = F.copy();
 
-				Darray[numIt] = densityMatrix.dup();
-				Earray[numIt] = -0.5 * (H.mmul(densityMatrix)).diag().sum();
+				Darray[numIt] = densityMatrix.copy();
+				Earray[numIt] =
+						-0.5 * (H.mult(densityMatrix)).diag().elementSum();
 				commutatorarray[numIt] =
-						commutator(F.dup(), densityMatrix.dup());
-				DIISError = commutatorarray[numIt].norm2();
+						commutator(F.copy(), densityMatrix.copy());
+				DIISError = commutatorarray[numIt].normF();
 
 				for (int i = 0; i <= numIt; i++) {
 
 					double product =
 							(commutatorarray[numIt]
-									.mmul(commutatorarray[i].transpose()))
-									.diag().sum();
-					B.put(i, numIt, product);
-					B.put(numIt, i, product);
+									.mult(commutatorarray[i].transpose()))
+									.diag().elementSum();
+					B.set(i, numIt, product);
+					B.set(numIt, i, product);
 
 					product = 0.5 *
-							((Farray[i].mmul(Darray[numIt])).diag().sum() +
-									(Farray[numIt].mmul(Darray[i])).diag()
-											.sum());
+							((Farray[i].mult(Darray[numIt])).diag()
+									.elementSum() +
+									(Farray[numIt].mult(Darray[i])).diag()
+											.elementSum());
 
-					Bforediis.put(i, numIt, product);
-					Bforediis.put(numIt, i, product);
+					Bforediis.set(i, numIt, product);
+					Bforediis.set(numIt, i, product);
 				}
 			}
 			else {
 
 				for (int i = 0; i < Farray.length - 1; i++) {
 
-					Farray[i] = Farray[i + 1].dup();
-					Darray[i] = Darray[i + 1].dup();
-					commutatorarray[i] = commutatorarray[i + 1].dup();
+					Farray[i] = Farray[i + 1].copy();
+					Darray[i] = Darray[i + 1].copy();
+					commutatorarray[i] = commutatorarray[i + 1].copy();
 					Earray[i] = Earray[i + 1];
 				}
 
-				Farray[Farray.length - 1] = F.dup();
-				Darray[Darray.length - 1] = densityMatrix.dup();
+				Farray[Farray.length - 1] = F.copy();
+				Darray[Darray.length - 1] = densityMatrix.copy();
 				Earray[Darray.length - 1] =
-						-0.5 * (H.mmul(densityMatrix)).diag().sum();
+						-0.5 * (H.mult(densityMatrix)).diag().elementSum();
 				commutatorarray[Darray.length - 1] =
-						commutator(F.dup(), densityMatrix.dup());
-				DIISError = commutatorarray[Darray.length - 1].norm2();
+						commutator(F.copy(), densityMatrix.copy());
+				DIISError = commutatorarray[Darray.length - 1].normF();
 
 				// B is dy/dx sort of, make dy/dx 0
-				DoubleMatrix newB = DoubleMatrix.zeros(8, 8);
+				SimpleMatrix newB = new SimpleMatrix(8, 8);
 
-				DoubleMatrix newBforediis = DoubleMatrix.zeros(8, 8);
+				SimpleMatrix newBforediis = new SimpleMatrix(8, 8);
 
 				for (int i = 0; i < Farray.length - 1; i++) {
 					for (int j = i; j < Farray.length - 1; j++) {
-						newB.put(i, j, B.get(i + 1, j + 1));
-						newB.put(j, i, B.get(i + 1, j + 1));
-						newBforediis.put(i, j, Bforediis.get(i + 1, j + 1));
-						newBforediis.put(j, i, Bforediis.get(i + 1, j + 1));
+						newB.set(i, j, B.get(i + 1, j + 1));
+						newB.set(j, i, B.get(i + 1, j + 1));
+						newBforediis.set(i, j, Bforediis.get(i + 1, j + 1));
+						newBforediis.set(j, i, Bforediis.get(i + 1, j + 1));
 					}
 				}
 
@@ -333,81 +337,89 @@ public class SolutionR extends Solution {
 
 					double product =
 							commutatorarray[Farray.length - 1].transpose()
-									.mmul(commutatorarray[i]).diag().sum();
-					newB.put(i, Farray.length - 1, product);
-					newB.put(Farray.length - 1, i, product);
+									.mult(commutatorarray[i]).diag()
+									.elementSum();
+					newB.set(i, Farray.length - 1, product);
+					newB.set(Farray.length - 1, i, product);
 
 					product = 0.5 *
-							((Farray[i].mmul(Darray[Farray.length - 1])).diag()
-									.sum() +
-									(Farray[Farray.length - 1].mmul(Darray[i]))
+							((Farray[i].mult(Darray[Farray.length - 1])).diag()
+									.elementSum() +
+									(Farray[Farray.length - 1].mult(Darray[i]))
 											.diag()
-											.sum());
-					newBforediis.put(i, Farray.length - 1, product);
-					newBforediis.put(Farray.length - 1, i, product);
+											.elementSum());
+					newBforediis.set(i, Farray.length - 1, product);
+					newBforediis.set(Farray.length - 1, i, product);
 				}
 
-				B = newB.dup();
+				B = newB.copy();
 
-				Bforediis = newBforediis.dup();
+				Bforediis = newBforediis.copy();
 			}
 
 			int ediisSize = Math.min(Farray.length + 1, numIt + 2);
-			if (commutatorarray[Math.min(Farray.length - 1, numIt)].max() >
-					0.01) {
+			if (CommonOps_DDRM.elementMax(
+					commutatorarray[Math.min(Farray.length - 1, numIt)]
+							.getDDRM()) > 0.01) {
 				// if true do EDIIS else DIIS
-				DoubleMatrix mat = DoubleMatrix.zeros(ediisSize, ediisSize);
+				SimpleMatrix mat = new SimpleMatrix(ediisSize, ediisSize);
 
 				for (int i = 0; i < ediisSize - 1; i++) {
 					for (int j = i; j < ediisSize - 1; j++) {
-						mat.put(i, j, Bforediis.get(i, j));
-						mat.put(j, i, Bforediis.get(i, j));
+						mat.set(i, j, Bforediis.get(i, j));
+						mat.set(j, i, Bforediis.get(i, j));
 					}
 				}
 
-				mat.putColumn(mat.columns - 1, DoubleMatrix.ones(mat.rows, 1));
-				mat.putRow(mat.rows - 1, DoubleMatrix.ones(mat.columns, 1));
-				mat.put(mat.rows - 1, mat.columns - 1, 0);
+				double[] row = new double[mat.numRows()];
+				double[] col = new double[mat.numCols()];
+				Arrays.fill(row, 1);
+				Arrays.fill(col, 1);
+				mat.setColumn(mat.numCols() - 1, 0, row);
+				mat.setRow(mat.numRows() - 1, 0, col);
+				mat.set(mat.numRows() - 1, mat.numCols() - 1, 0);
 
-				DoubleMatrix rhs = DoubleMatrix.ones(mat.rows, 1);
+				SimpleMatrix rhs = Utils.filled(mat.numRows(), 1, 1);
 				for (int i = 0; i < ediisSize - 1; i++) {
-					rhs.put(i, Earray[i]);
+					rhs.set(i, Earray[i]);
 				}
 
 				double bestE = 0;
-				DoubleMatrix bestDIIS = null;
-				try {
-					int n = mat.rows - 2;
-					for (int i = 0; i <= n; i++) {
-						for (int[] tbr : TBRS[i]) {
-							DoubleMatrix newmat =
+				SimpleMatrix bestDIIS = null;
+				int n = mat.numRows() - 2;
+				for (int i = 0; i <= n; i++) {
+					for (int[] tbr : TBRS[i]) {
+						try {
+							SimpleMatrix newmat =
 									removeElementsSquare(mat, tbr);
-							DoubleMatrix newrhs =
+							SimpleMatrix newrhs =
 									removeElementsLinear(rhs, tbr);
-							DoubleMatrix tempEdiis =
-									addRows(Utils.solve(newmat, newrhs), tbr);
-							tempEdiis.put(tempEdiis.rows - 1, 0);
-							boolean nonNegative = !(tempEdiis.min() < 0);
+							SimpleMatrix tempEdiis =
+									addRows(newmat.solve(newrhs), tbr);
+							tempEdiis.set(tempEdiis.numRows() - 1, 0);
+							boolean nonNegative = !(CommonOps_DDRM.elementMin(
+									tempEdiis.getDDRM()) < 0);
 
 							if (nonNegative) {
-
 								double e = finde(tempEdiis);
 								if (e < bestE) {
 									bestE = e;
 									bestDIIS = tempEdiis;
 								}
 							}
+						} catch (SingularMatrixException ignored) {
+
 						}
 					}
-				} catch (LapackException ignored) {
 				}
 
-				DoubleMatrix finalDIIS = bestDIIS;
-				DoubleMatrix F = DoubleMatrix.zeros(densityMatrix.rows,
-						densityMatrix.columns);
+				SimpleMatrix finalDIIS = bestDIIS;
 
-				for (int i = 0; i < finalDIIS.length - 1; i++) {
-					F = F.add(Farray[i].mmul(finalDIIS.get(i)));
+				SimpleMatrix F = new SimpleMatrix(densityMatrix.numRows(),
+						densityMatrix.numCols());
+
+				for (int i = 0; i < finalDIIS.getNumElements() - 1; i++) {
+					F = F.plus(Farray[i].scale(finalDIIS.get(i)));
 				}
 
 
@@ -437,45 +449,40 @@ public class SolutionR extends Solution {
 
 			}
 			else {
+				SimpleMatrix mat = new SimpleMatrix(ediisSize, ediisSize);
 
-				DoubleMatrix mat = DoubleMatrix
-						.zeros(ediisSize, ediisSize);
-
-				for (int i = 0; i < Math.min(Farray.length, numIt + 1); i++) {
-					for (int j = i; j < Math.min(Farray.length, numIt + 1);
+				for (int i = 0; i < ediisSize - 1; i++) {
+					for (int j = i; j < ediisSize - 1;
 						 j++) {
-						mat.put(i, j, B.get(i, j));
-						mat.put(j, i, B.get(i, j));
+						mat.set(i, j, B.get(i, j));
+						mat.set(j, i, B.get(i, j));
 
 					}
 				}
 
+				double[] a = new double[mat.numRows()];
+				mat.setColumn(mat.numCols() - 1, 0, a);
+				mat.setRow(mat.numRows() - 1, 0, a);
+				mat.set(mat.numRows() - 1, mat.numCols() - 1, 0);
 
-				mat.putColumn(mat.columns - 1, DoubleMatrix.ones(mat.rows, 1));
-
-				mat.putRow(mat.rows - 1, DoubleMatrix.ones(mat.columns, 1));
-
-				mat.put(mat.rows - 1, mat.columns - 1, 0);
-
-				DoubleMatrix rhs = DoubleMatrix.zeros(mat.rows, 1);
-
-				rhs.put(mat.rows - 1, 0, 1);
+				SimpleMatrix rhs = new SimpleMatrix(mat.numRows(), 1);
+				rhs.set(mat.numRows() - 1, 0, 1);
 
 				try {
-					DoubleMatrix DIIS = Utils.solve(mat, rhs);
+					SimpleMatrix DIIS = mat.solve(rhs);
 
-					DoubleMatrix F =
-							DoubleMatrix.zeros(densityMatrix.rows,
-									densityMatrix.columns);
+					SimpleMatrix F =
+							new SimpleMatrix(densityMatrix.numRows(),
+									densityMatrix.numCols());
 
-					DoubleMatrix D =
-							DoubleMatrix.zeros(densityMatrix.rows,
-									densityMatrix.columns);
+					SimpleMatrix D =
+							new SimpleMatrix(densityMatrix.numRows(),
+									densityMatrix.numCols());
 
 
-					for (int i = 0; i < DIIS.length - 1; i++) {
-						F = F.add(Farray[i].mmul(DIIS.get(i)));
-						D = D.add(Darray[i].mmul(DIIS.get(i)));
+					for (int i = 0; i < DIIS.getNumElements(); i++) {
+						F = F.plus(Farray[i].scale(DIIS.get(i)));
+						D = D.plus(Darray[i].scale(DIIS.get(i)));
 					}
 
 
@@ -497,8 +504,6 @@ public class SolutionR extends Solution {
 						E = matrices[1].diag();
 
 						C = matrices[0].transpose();
-
-
 					}
 
 					densityMatrix = calculateDensityMatrix(C);
@@ -510,8 +515,8 @@ public class SolutionR extends Solution {
 					C = matrices[0].transpose();
 
 					double damp = 0.8;
-					densityMatrix = calculateDensityMatrix(C).mmul(1 - damp)
-							.add(olddensity.mmul(damp));
+					densityMatrix = calculateDensityMatrix(C).scale(1 - damp)
+							.plus(olddensity.scale(damp));
 				}
 			}
 
@@ -525,18 +530,18 @@ public class SolutionR extends Solution {
 		return this;
 	}
 
-	private static DoubleMatrix commutator(DoubleMatrix F, DoubleMatrix D) {
-		return F.mmul(D).sub(D.mmul(F));
+	private static SimpleMatrix commutator(SimpleMatrix F, SimpleMatrix D) {
+		return F.mult(D).minus(D.mult(F));
 	}
 
-	private static DoubleMatrix removeElementsSquare(DoubleMatrix original,
+	private static SimpleMatrix removeElementsSquare(SimpleMatrix original,
 													 int[] indices) {
-		DoubleMatrix newarray = DoubleMatrix
-				.zeros(original.rows - indices.length,
-						original.rows - indices.length);
+		SimpleMatrix newarray =
+				new SimpleMatrix(original.numRows() - indices.length,
+						original.numRows() - indices.length);
 
 		ArrayList<Integer> array = new ArrayList<>();
-		for (int i = 0; i < original.rows; i++) {
+		for (int i = 0; i < original.numRows(); i++) {
 			array.add(i);
 		}
 
@@ -549,7 +554,7 @@ public class SolutionR extends Solution {
 		for (int i : array) {
 			int count1 = 0;
 			for (int j : array) {
-				newarray.put(count, count1, original.get(i, j));
+				newarray.set(count, count1, original.get(i, j));
 				count1++;
 			}
 
@@ -559,15 +564,15 @@ public class SolutionR extends Solution {
 		return newarray;
 	}
 
-	private static DoubleMatrix removeElementsLinear(DoubleMatrix original,
+	private static SimpleMatrix removeElementsLinear(SimpleMatrix original,
 													 int[] indices) {//get rid
 		// of the rows given in indices and return downsized vector
 
-		DoubleMatrix newarray =
-				DoubleMatrix.zeros(original.rows - indices.length, 1);
+		SimpleMatrix newarray =
+				new SimpleMatrix(original.numRows() - indices.length, 1);
 
 		ArrayList<Integer> array = new ArrayList<>();
-		for (int i = 0; i < original.rows; i++) {
+		for (int i = 0; i < original.numRows(); i++) {
 			array.add(i);
 		}
 
@@ -578,23 +583,24 @@ public class SolutionR extends Solution {
 		int count = 0;
 
 		for (int i : array) {
-			newarray.put(count, original.get(i));
+			newarray.set(count, original.get(i));
+
 			count++;
 		}
 
 		return newarray;
 	}
 
-	private static DoubleMatrix addRows(DoubleMatrix original,
+	private static SimpleMatrix addRows(SimpleMatrix original,
 										int[] indices) { // add zero row at
 		// indices
 
-		DoubleMatrix newarray =
-				DoubleMatrix.zeros(original.rows + indices.length, 1);
+		SimpleMatrix newarray =
+				new SimpleMatrix(original.numRows() + indices.length, 1);
 
 		ArrayList<Double> array = new ArrayList<>();
 
-		for (double i : original.toArray()) {
+		for (double i : original.getDDRM().data) {
 			array.add(i);
 		}
 
@@ -603,7 +609,7 @@ public class SolutionR extends Solution {
 		}
 
 		for (int i = 0; i < array.size(); i++) {
-			newarray.put(i, array.get(i));
+			newarray.set(i, array.get(i));
 		}
 
 		return newarray;
@@ -758,15 +764,15 @@ public class SolutionR extends Solution {
 		lumo = E.get(nElectrons / 2, 0);
 	}
 
-	private double finde(DoubleMatrix ediis) {
+	private double finde(SimpleMatrix ediis) {
 		double e = 0;
 
-		for (int a = 0; a < ediis.length - 1; a++) {
+		for (int a = 0; a < ediis.getNumElements() - 1; a++) {
 			e -= Earray[a] * ediis.get(a);
 		}
 
-		for (int a = 0; a < ediis.length - 1; a++) {
-			for (int b = 0; b < ediis.length - 1; b++) {
+		for (int a = 0; a < ediis.getNumElements() - 1; a++) {
+			for (int b = 0; b < ediis.getNumElements() - 1; b++) {
 				e += 0.5 * ediis.get(a) * ediis.get(b) * 0.5 *
 						B.get(a, b);
 			}
@@ -774,9 +780,9 @@ public class SolutionR extends Solution {
 		return e;
 	}
 
-	private DoubleMatrix calculateDensityMatrix(
-			DoubleMatrix c) {//density matrix construction by definition.
-		DoubleMatrix densityMatrix = DoubleMatrix.zeros(orbitals.length,
+	private SimpleMatrix calculateDensityMatrix(
+			SimpleMatrix c) {//density matrix construction by definition.
+		SimpleMatrix densityMatrix = new SimpleMatrix(orbitals.length,
 				orbitals.length);
 		for (int i = 0; i < orbitals.length; i++) {
 			for (int j = 0; j < orbitals.length; j++) {
@@ -788,28 +794,28 @@ public class SolutionR extends Solution {
 					sum += 2 * c.get(counter, i) * c.get(counter, j);
 					count -= 2;
 				}
-				densityMatrix.put(i, j, sum);
+				densityMatrix.set(i, j, sum);
 			}
 		}
 		return densityMatrix;
 	}
 
-	public DoubleMatrix getE() {
+	public SimpleMatrix getE() {
 		return E;
 	}
 
 	@Override
-	public DoubleMatrix alphaDensity() {
-		return this.densityMatrix.mmul(0.5);
+	public SimpleMatrix alphaDensity() {
+		return this.densityMatrix.scale(0.5);
 	}
 
 	@Override
-	public DoubleMatrix betaDensity() {
-		return this.densityMatrix.mmul(0.5);
+	public SimpleMatrix betaDensity() {
+		return this.densityMatrix.scale(0.5);
 	}
 
 	@Override
-	public DoubleMatrix densityMatrix() {
+	public SimpleMatrix densityMatrix() {
 		return this.densityMatrix;
 	}
 }
