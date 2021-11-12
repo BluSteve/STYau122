@@ -3,7 +3,7 @@ import jcuda.Sizeof;
 import jcuda.jcublas.JCublas;
 import jcuda.runtime.JCuda;
 import nddoparam.Solution;
-import nddoparam.SolutionNew;
+import nddoparam.SolutionR;
 import nddoparam.mndo.MNDOAtom;
 import nddoparam.mndo.MNDOParams;
 import org.apache.commons.lang3.time.StopWatch;
@@ -303,10 +303,9 @@ public class Testing {
 		double[] datum = new double[]{-17.9, 0, 13.6};
 		StopWatch sw = new StopWatch();
 		Solution sn;
-		System.out.println(" = " );
 
 		sw.start();
-		sn = new SolutionNew(atoms, 0);
+		sn = new SolutionR(atoms, 0);
 //		GeometryOptimization.of(sr).compute();
 		sw.stop();
 

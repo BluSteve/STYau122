@@ -1,7 +1,6 @@
 package nddoparam;
 
 import org.ejml.simple.SimpleMatrix;
-import org.jblas.DoubleMatrix;
 import runcycle.input.RawMolecule;
 
 import java.util.Arrays;
@@ -135,10 +134,10 @@ public abstract class Solution {
 	 * @param limit
 	 * @return
 	 */
-	public static boolean isSimilar(DoubleMatrix x, DoubleMatrix y,
+	public static boolean isSimilar(SimpleMatrix x, SimpleMatrix y,
 									double limit) {
-		for (int i = 0; i < y.rows; i++) {
-			for (int j = 0; j < y.columns; j++) {
+		for (int i = 0; i < y.numRows(); i++) {
+			for (int j = 0; j < y.numCols(); j++) {
 				if (Math.abs(x.get(i, j) - y.get(i, j)) > limit) {
 					System.err.println (i + ", " + j + ": " + Math.abs(x.get(i, j) - y.get(i, j)));
 					return false;

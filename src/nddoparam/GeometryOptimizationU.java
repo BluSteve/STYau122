@@ -1,5 +1,7 @@
 package nddoparam;
 
+import org.ejml.data.Matrix;
+import org.ejml.simple.SimpleMatrix;
 import org.jblas.DoubleMatrix;
 import runcycle.input.RawMolecule;
 
@@ -20,12 +22,12 @@ public class GeometryOptimizationU extends GeometryOptimization {
 		return GeometryDerivative.grad((SolutionU) s, i, j);
 	}
 
-	protected DoubleMatrix[] findGH() {
-		DoubleMatrix[][] matrices =
+	protected SimpleMatrix[] findGH() {
+		SimpleMatrix[][] matrices =
 				GeometryDerivative.gradientRoutine(s.atoms, (SolutionU) s);
 
-		DoubleMatrix gradient = matrices[0][0];
-		DoubleMatrix hessian;
+		SimpleMatrix gradient = matrices[0][0];
+		SimpleMatrix hessian;
 
 		// dunno if this is ok for unrestricted
 		try {
@@ -33,9 +35,9 @@ public class GeometryOptimizationU extends GeometryOptimization {
 					.hessianRoutine(s.atoms, (SolutionU) s, matrices[1],
 							matrices[2]);
 		} catch (Exception e) {
-			hessian = DoubleMatrix.eye(gradient.length);
+			hessian = SimpleMatrix.identity(gradient.getNumElements());
 		}
 
-		return new DoubleMatrix[]{gradient, hessian};
+		return new SimpleMatrix[]{gradient, hessian};
 	}
 }

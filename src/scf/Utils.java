@@ -11,8 +11,8 @@ import org.jblas.Solve;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Arrays;
+import java.util.List;
 
 public class Utils {
 	public static final double LAMBDA = 1E-7;
@@ -27,20 +27,17 @@ public class Utils {
 		return doubles;
 	}
 
-	public static DoubleMatrix toDoubleMatrix(SimpleMatrix matrix)
-	{
+	public static DoubleMatrix toDoubleMatrix(SimpleMatrix matrix) {
 		double[][] array = new double[matrix.numRows()][matrix.numCols()];
-		for (int r=0; r<matrix.numRows(); r++)
-		{
-			for (int c=0; c<matrix.numCols(); c++)
-			{
-				array[r][c] = matrix.get(r,c);
+		for (int r = 0; r < matrix.numRows(); r++) {
+			for (int c = 0; c < matrix.numCols(); c++) {
+				array[r][c] = matrix.get(r, c);
 			}
 		}
-		return new DoubleMatrix (array);
+		return new DoubleMatrix(array);
 	}
 
-	public static double[] vectorToDoubleArray (SimpleMatrix mat) {
+	public static double[] vectorToDoubleArray(SimpleMatrix mat) {
 		double[] arr = new double[mat.numRows()];
 		for (int i = 0; i < mat.numRows(); i++) {
 			arr[i] = mat.get(i, 0);
@@ -48,66 +45,20 @@ public class Utils {
 
 		return arr;
 	}
-
-
-
-	public static SimpleMatrix[] SymmetricEigenvalueDecomposition(SimpleMatrix mat) {//massive TODO
-
-		SimpleEVD<SimpleMatrix> eig = mat.eig();
-
-		double[] unsortedeigenvalues = new double[mat.numRows()];
-
-		SimpleMatrix eigenvalueMatrix = new SimpleMatrix(mat.numRows(), 1);
-
-		for (int i = 0; i < mat.numRows(); i++) {
-			if (eig.getEigenvalue(i).isReal()) {
-				unsortedeigenvalues[i] = eig.getEigenvalue(i).real;
-			}
-			else {
-				System.err.println ("eigenvalues aren't real!");
-				System.exit(0);
-			}
-		}
-
-
-		int[] indexes = new int[mat.numRows()];
-
-		for (int i = 0; i < indexes.length; i++) {
-			indexes[i] = i;
-		}
-
-		List<Integer> indexesCopy = Arrays.stream(indexes).boxed().collect(Collectors.toList());
-		List<Integer> copyofindexes = new ArrayList<Integer>();
-
-		for (int i: indexesCopy) {
-			copyofindexes.add(i);
-		}
-		ArrayList<Integer> sortedList = new ArrayList<Integer>(indexesCopy);
-		Collections.sort(sortedList, Comparator.comparing(s -> unsortedeigenvalues[copyofindexes.indexOf(s)]));
-
-		SimpleMatrix eigenvectorMatrix = new SimpleMatrix(mat.numRows(), 0);
-
-
-		for (int i = 0; i < mat.numRows(); i++) {
-			eigenvalueMatrix.set(i, 0, unsortedeigenvalues[sortedList.get(i)]);
-			eigenvectorMatrix = eigenvectorMatrix.concatColumns(eig.getEigenVector(sortedList.get(i)));
-		}
-
-		return new SimpleMatrix[] {eigenvectorMatrix, eigenvalueMatrix};
-	}
-
-	public static boolean testEJML (DoubleMatrix x, DoubleMatrix y,double limit) {
+	public static boolean testEJML(DoubleMatrix x, DoubleMatrix y,
+								   double limit) {
 		for (int i = 0; i < y.rows; i++) {
 			for (int j = 0; j < y.columns; j++) {
-				if (Math.abs(Math.abs(x.get(i, j)) - Math.abs(y.get(i, j))) > limit) {
-					System.err.println (i + ", " + j + ", " + Math.abs(Math.abs(x.get(i, j)) - Math.abs(y.get(i, j))));
+				if (Math.abs(Math.abs(x.get(i, j)) - Math.abs(y.get(i, j))) >
+						limit) {
+					System.err.println(i + ", " + j + ", " + Math.abs(
+							Math.abs(x.get(i, j)) - Math.abs(y.get(i, j))));
 					return false;
 				}
 			}
 		}
 		return true;
 	}
-
 
 
 	public static double[] bohr(double[] notbohr) {
@@ -293,28 +244,58 @@ public class Utils {
 	public static SimpleMatrix[] symEigen(SimpleMatrix sm) {
 		SimpleEVD<SimpleMatrix> evd = sm.eig();
 		int noe = evd.getNumberOfEigenvalues();
-		SimpleMatrix evalues = new SimpleMatrix(1, noe);
-		for (int i = 0; i < noe; i++) {
-			evalues.set(0, i, evd.getEigenvalues().get(i).real);
-		}
-
+		SimpleMatrix evalues = new SimpleMatrix(noe, noe);
 		SimpleMatrix evectors = new SimpleMatrix(noe, noe);
+
+		Pair[] epairs = new Pair[noe];
+
 		for (int i = 0; i < noe; i++) {
-			evectors.setColumn(i, 0, evd.getEigenVector(i).getDDRM().data);
+			epairs[i] = new Pair<>(evd.getEigenvalues().get(i).real,
+					evd.getEigenVector(i).getDDRM().data);
 		}
 
-		return new SimpleMatrix[] {evectors, evalues};
+		Arrays.sort(epairs);
+		for (int i = 0; i < noe; i++) {
+			evalues.set(i,i, (Double) epairs[i].first);
+			evectors.setColumn(i,0, (double[]) epairs[i].second);
+		}
+
+		return new SimpleMatrix[]{evectors, evalues};
 	}
 
 	public static double norm2(SimpleMatrix sm) {
 		return NormOps_DDRM.fastNormF(sm.getDDRM());
 	}
-	
-	public static synchronized DoubleMatrix solve(DoubleMatrix lhs, DoubleMatrix rhs) {
+
+	public static synchronized DoubleMatrix solve(DoubleMatrix lhs,
+												  DoubleMatrix rhs) {
 		return Solve.solve(lhs, rhs);
 	}
 
 	public static synchronized DoubleMatrix pinv(DoubleMatrix dm) {
 		return Solve.pinv(dm);
+	}
+}
+
+class Pair<F extends Comparable<F>, S> implements Comparable<Pair<F, S>> {
+	@Override
+	public int compareTo(Pair<F, S> o) {
+		return this.first.compareTo(o.first);
+	}
+
+	public F first;
+	public S second;
+
+	public Pair(F first, S second) {
+		this.first = first;
+		this.second = second;
+	}
+
+	@Override
+	public String toString() {
+		return "Pair{" +
+				"first=" + first.toString() +
+				", second=" + second.toString() +
+				'}';
 	}
 }
