@@ -1,7 +1,10 @@
 package nddoparam;
 
 import org.ejml.simple.SimpleMatrix;
+import nddoparam.mndo.MNDOParams;
+import runcycle.input.RawAtom;
 import runcycle.input.RawMolecule;
+import scf.Utils;
 
 import java.util.Arrays;
 
@@ -10,136 +13,105 @@ public abstract class Solution {
 	public static int maxParamNum = 8;
 	public double energy, homo, lumo, hf, dipole;
 	public double[] chargedip, hybridip, dipoletot;
-	public int charge, multiplicity;
-	public int[][] missingIndex, orbitalIndices;
+	public int charge, mult, nElectrons, nOrbitals;
+	public int[][] missingOfAtom, orbsOfAtom;
 	public NDDOAtom[] atoms;
-	public int[] atomNumber;
-	public double damp = 0.8;
-	public int nElectrons;
-	public SimpleMatrix H;
 	public NDDO6G[] orbitals;
-	public int[] atomicNumbers;
+	public int[] atomicNumbers, atomOfOrb;
+	public SimpleMatrix H;
 	protected RawMolecule rm;
 
-	public Solution(NDDOAtom[] atoms, int charge) {
-		/*
-		 solution give 2 things
-		 1. query arrays - atomNumber returns which atom an orbital
-		 corresponds to. orbitalIndices returns all orbitals which are from
-		 a particular atom. missingIndex returns all orbitals which are not
-		 from that atom.
-
-		 2. Fill up H.
-		*/
+	protected Solution(NDDOAtom[] atoms, RawMolecule rm) {
 		this.atoms = atoms;
-		this.charge = charge;
-		int numOrbitals = 0;
+		this.rm = rm;
+		this.atomicNumbers = rm.atomicNumbers;
+		this.charge = rm.charge;
+		this.mult = rm.mult;
+		this.nElectrons = rm.nElectrons;
+		this.nOrbitals = rm.nOrbitals;
 
-		for (NDDOAtom a : atoms) {
-			nElectrons += a.getAtomProperties().getQ();
-			numOrbitals += a.getOrbitals().length;
-		}
-		nElectrons -= charge;
+		orbitals = new NDDO6G[nOrbitals];
+		orbsOfAtom = new int[atoms.length][4];
+		atomOfOrb = new int[nOrbitals];
+		missingOfAtom = new int[atoms.length][4 * (atoms.length - 1)];
+		for (int[] index : missingOfAtom) Arrays.fill(index, -1);
 
-		atomicNumbers = new int[atoms.length];
-		for (int num = 0; num < atoms.length; num++) {
-			atomicNumbers[num] = atoms[num].getAtomProperties().getZ();
-		}
-
-		orbitals = new NDDO6G[numOrbitals];
-		orbitalIndices = new int[atoms.length][4];
-		atomNumber = new int[orbitals.length];
-		int atomIndex = 0;
-		int overallIndex = 0;
-		for (NDDOAtom atom : atoms) {
+		int overallOrbitalIndex = 0;
+		for (int atomIndex = 0, atomsLength = atoms.length;
+			 atomIndex < atomsLength; atomIndex++) {
+			NDDOAtom atom = atoms[atomIndex];
 			int orbitalIndex = 0;
 			for (NDDO6G orbital : atom.getOrbitals()) {
-				orbitals[overallIndex] = orbital;
-				orbitalIndices[atomIndex][orbitalIndex] = overallIndex;
-				atomNumber[overallIndex] = atomIndex;
-				overallIndex++;
+				orbitals[overallOrbitalIndex] = orbital;
+				atomOfOrb[overallOrbitalIndex] = atomIndex;
+				orbsOfAtom[atomIndex][orbitalIndex] = overallOrbitalIndex;
+				overallOrbitalIndex++;
 				orbitalIndex++;
 			}
 
 			if (atom.getAtomProperties().getZ() == 1) {
-				orbitalIndices[atomIndex][1] = -1;
-				orbitalIndices[atomIndex][2] = -1;
-				orbitalIndices[atomIndex][3] = -1;
-			}
-			atomIndex++;
-		}
-
-		missingIndex = new int[atoms.length][4 * atoms.length - 4];
-
-		for (int j = 0; j < atoms.length; j++) {
-			for (int k = 0; k < 4 * atoms.length - 4; k++) {
-				missingIndex[j][k] = -1;
+				orbsOfAtom[atomIndex][1] = -1;
+				orbsOfAtom[atomIndex][2] = -1;
+				orbsOfAtom[atomIndex][3] = -1;
 			}
 		}
 
 		for (int j = 0; j < atoms.length; j++) {
-			int[] nums = new int[]{orbitalIndices[j][0], orbitalIndices[j][1],
-					orbitalIndices[j][2],
-					orbitalIndices[j][3]};
+			int[] nums = new int[]{orbsOfAtom[j][0],
+					orbsOfAtom[j][1],
+					orbsOfAtom[j][2],
+					orbsOfAtom[j][3]};
 			int counter = 0;
 			for (int k = 0; k < orbitals.length; k++) {
-				if (nums[0] != k && nums[1] != k && nums[2] != k &&
-						nums[3] != k) {
-					missingIndex[j][counter] = k;
+				if (k != nums[0] && k != nums[1] &&
+						k != nums[2] && k != nums[3]) {
+					missingOfAtom[j][counter] = k;
 					counter++;
 				}
 			}
 		}
 
-		H = new SimpleMatrix(orbitals.length, orbitals.length);
+		fillH();
+	}
 
-		//filling up the core matrix in accordance with NDDO formalism
+	public static Solution of(RawMolecule rm, RawAtom[] ras,
+							  NDDOParams[] params) {
+		NDDOAtom[] atoms;
+		if (params instanceof MNDOParams[])
+			atoms = RawMolecule.toMNDOAtoms(ras, (MNDOParams[]) params);
+		else throw new IllegalStateException("Unidentified params type!");
 
-		for (int j = 0; j < orbitals.length; j++) {
-			for (int k = j; k < orbitals.length; k++) {
-				if (k == j) {
-					double Huu = orbitals[j].U();
+		if (rm.restricted) return new SolutionR(atoms, rm).compute();
+		else return new SolutionU(atoms, rm).compute();
+	}
 
-					for (int an = 0; an < atoms.length; an++) {
-						if (atomNumber[j] != an) {
-							Huu += atoms[an].V(orbitals[j], orbitals[k]);
-						}
-					}
-
-					H.set(j, k, Huu);
-				}
-				else if (atomNumber[j] == atomNumber[k]) { // case 2
-					double Huv = 0;
-					for (int an = 0; an < atoms.length; an++) {
-						if (atomNumber[j] != an) {
-							Huv += atoms[an].V(orbitals[j], orbitals[k]);
-						}
-					}
-					H.set(j, k, Huv);
-					H.set(k, j, Huv);
-				}
-				else { // case 3
-					double Huk = NDDO6G.beta(orbitals[j], orbitals[k]);
-					H.set(j, k, Huk);
-					H.set(k, j, Huk);
-				}
-			}
+	public static int[] getNIntegrals(RawMolecule rm) {
+		MNDOParams[] placeholder = new MNDOParams[Utils.maxAtomNum];
+		for (int i = 0; i < Utils.maxAtomNum; i++) {
+			placeholder[i] = new MNDOParams();
+		}
+		NDDOAtom[] atoms = RawMolecule.toMNDOAtoms(rm.atoms, placeholder);
+		if (rm.restricted)
+			return new int[]{new SolutionR(atoms, rm).findNIntegrals()};
+		else {
+			SolutionU s = new SolutionU(atoms, rm);
+			return new int[]{s.findNCoulombInts(), s.findNExchangeInts()};
 		}
 	}
 
 	/**
 	 * Checks if two DoubleMatrices are similar below a threshold.
+	 *
 	 * @param x
 	 * @param y
 	 * @param limit
 	 * @return
 	 */
-	public static boolean isSimilar(SimpleMatrix x, SimpleMatrix y,
+	public static boolean isSimilar(DoubleMatrix x, DoubleMatrix y,
 									double limit) {
-		for (int i = 0; i < y.numRows(); i++) {
-			for (int j = 0; j < y.numCols(); j++) {
+		for (int i = 0; i < y.rows; i++) {
+			for (int j = 0; j < y.columns; j++) {
 				if (Math.abs(x.get(i, j) - y.get(i, j)) > limit) {
-					System.err.println (i + ", " + j + ": " + Math.abs(x.get(i, j) - y.get(i, j)));
 					return false;
 				}
 			}
@@ -147,11 +119,60 @@ public abstract class Solution {
 		return true;
 	}
 
+	/**
+	 * filling up the core matrix in accordance with NDDO formalism
+	 */
+	protected void fillH() {
+		H = new SimpleMatrix(orbitals.length, orbitals.length);
+
+		for (int j = 0; j < orbitals.length; j++) {
+			for (int k = j; k < orbitals.length; k++) {
+				if (k == j) {
+					double Huu = orbitals[j].U();
+
+					for (int an = 0; an < atoms.length; an++) {
+						if (atomOfOrb[j] != an) {
+							Huu += atoms[an].V(orbitals[j], orbitals[k]);
+						}
+					}
+
+					H.set(j, k, Huu);
+				}
+				else if (atomOfOrb[j] == atomOfOrb[k]) {
+					double Huv = 0;
+
+					for (int an = 0; an < atoms.length; an++) {
+						if (atomOfOrb[j] != an) {
+							Huv += atoms[an].V(orbitals[j], orbitals[k]);
+						}
+					}
+
+					H.set(j, k, Huv);
+					H.set(k, j, Huv);
+				}
+				else {
+					double Huk = NDDO6G.beta(orbitals[j], orbitals[k]);
+
+					H.set(j, k, Huk);
+					H.set(k, j, Huk);
+				}
+			}
+		}
+	}
+
+	public Solution withNewAtoms(NDDOAtom[] newAtoms) {
+		if (this instanceof SolutionR)
+			return new SolutionR(newAtoms, rm).compute();
+		else if (this instanceof SolutionU)
+			return new SolutionU(newAtoms, rm).compute();
+		else throw new IllegalStateException("Unidentified Solution type!");
+	}
+
+	public abstract Solution compute();
+
 	public RawMolecule getRm() {
 		return rm;
 	}
-
-	public abstract Solution setRm(RawMolecule rm);
 
 	public abstract SimpleMatrix alphaDensity();
 
@@ -176,7 +197,6 @@ public abstract class Solution {
 				", index=" + Arrays.toString(orbitalIndices) +
 				", atoms=" + Arrays.toString(atoms) +
 				", atomNumber=" + Arrays.toString(atomNumber) +
-				", damp=" + damp +
 				", nElectrons=" + nElectrons +
 				", H=" + H +
 				", orbitals=" + Arrays.toString(orbitals) +

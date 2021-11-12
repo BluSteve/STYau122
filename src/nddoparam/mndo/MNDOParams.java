@@ -2,8 +2,6 @@ package nddoparam.mndo;
 
 import nddoparam.NDDOParams;
 
-import java.util.Arrays;
-
 public class MNDOParams extends NDDOParams {
 	public static final int[] T1ParamNums = {0, 1, 3, 5, 7};
 	public static final int[] T2ParamNums = {0, 1, 2, 3, 4, 5, 6, 7};
@@ -20,17 +18,16 @@ public class MNDOParams extends NDDOParams {
 		super(params.clone());
 	}
 
+	/**
+	 * placeholder for very specific purposes, DO NOT actually use.
+	 */
+	public MNDOParams(){
+	}
+
 	@Override
 	public MNDOParams clone() {
 		return new MNDOParams(getAlpha(), getBetas(), getBetap(), getUss(),
 				getUpp(), getZetas(), getZetap(), getEisol(), getGss(),
 				getGsp(), getHsp(), getGpp(), getGp2());
-	}
-
-	@Override
-	public String toString() {
-		return "MNDOParams{" +
-				"params=" + Arrays.toString(params) +
-				'}';
 	}
 }

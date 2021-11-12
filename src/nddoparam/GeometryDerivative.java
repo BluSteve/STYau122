@@ -1,6 +1,5 @@
 package nddoparam;
 
-import org.ejml.simple.SimpleMatrix;
 import org.jblas.DoubleMatrix;
 import scf.GTO;
 import scf.LCGTO;
@@ -1898,9 +1897,9 @@ public class GeometryDerivative {
 
 		NDDO6G[] orbitals = soln.orbitals;
 
-		int[][] index = soln.orbitalIndices;
+		int[][] index = soln.orbsOfAtom;
 
-		int[] atomnumber = soln.atomNumber;
+		int[] atomnumber = soln.atomOfOrb;
 
 		DoubleMatrix H = DoubleMatrix.zeros(orbitals.length, orbitals.length);
 
@@ -2078,9 +2077,9 @@ public class GeometryDerivative {
 
 		NDDO6G[] orbitals = soln.orbitals;
 
-		int[][] index = soln.orbitalIndices;
+		int[][] index = soln.orbsOfAtom;
 
-		int[] atomnumber = soln.atomNumber;
+		int[] atomnumber = soln.atomOfOrb;
 
 		DoubleMatrix H = DoubleMatrix.zeros(orbitals.length, orbitals.length);
 
@@ -2405,7 +2404,7 @@ public class GeometryDerivative {
 
 		for (int a = 0; a < soln.atoms.length; a++) {
 			if (a != atomnum) {
-				e += Ederiv(atomnum, a, soln.orbitalIndices,
+				e += Ederiv(atomnum, a, soln.orbsOfAtom,
 						soln.densityMatrix(),
 						soln.atoms,
 						soln.orbitals, tau);
@@ -2422,7 +2421,7 @@ public class GeometryDerivative {
 
 		for (int a = 0; a < soln.atoms.length; a++) {
 			if (a != atomnum) {
-				e += Ederiv(atomnum, a, soln.orbitalIndices,
+				e += Ederiv(atomnum, a, soln.orbsOfAtom,
 						soln.alphaDensity(),
 						soln.betaDensity(), soln.atoms, soln.orbitals, tau);
 				e += soln.atoms[atomnum].crfDeriv(soln.atoms[a], tau);
@@ -2567,9 +2566,9 @@ public class GeometryDerivative {
 
 		NDDO6G[] orbitals = soln.orbitals;
 
-		int[][] index = soln.orbitalIndices;
+		int[][] index = soln.orbsOfAtom;
 
-		int[] atomnumber = soln.atomNumber;
+		int[] atomnumber = soln.atomOfOrb;
 
 		DoubleMatrix H = DoubleMatrix.zeros(orbitals.length, orbitals.length);
 
@@ -2723,9 +2722,9 @@ public class GeometryDerivative {
 
 		NDDO6G[] orbitals = soln.orbitals;
 
-		int[][] index = soln.orbitalIndices;
+		int[][] index = soln.orbsOfAtom;
 
-		int[] atomnumber = soln.atomNumber;
+		int[] atomnumber = soln.atomOfOrb;
 
 		DoubleMatrix H = DoubleMatrix.zeros(orbitals.length, orbitals.length);
 
@@ -2934,31 +2933,33 @@ public class GeometryDerivative {
 
 	}
 
+	public static DoubleMatrix densitymatrixderivfinite(NDDOAtom[] atoms,
+														SolutionR soln,
+														int atomnum, int tau) {
+		DoubleMatrix orig = soln.densityMatrix();
+
+		NDDOAtom[] newatoms = Utils.perturbAtomCoords(atoms, atomnum, tau);
+
+		DoubleMatrix perturbed =
+				soln.withNewAtoms(newatoms).densityMatrix();
+
+		return perturbed.sub(orig).mmul(1E7);
+	}
 
 	public static DoubleMatrix[] densitymatrixderivfinite(NDDOAtom[] atoms,
 														  SolutionU soln,
 														  int atomnum,
 														  int tau) {
-
-		SimpleMatrix aorig = new SimpleMatrix(soln.alphaDensity().toArray2());
-
-		SimpleMatrix borig = new SimpleMatrix(soln.betaDensity().toArray2());
+		DoubleMatrix aorig = soln.alphaDensity();
+		DoubleMatrix borig = soln.betaDensity();
 
 		NDDOAtom[] newatoms = Utils.perturbAtomCoords(atoms, atomnum, tau);
+		SolutionU newsoln = (SolutionU) soln.withNewAtoms(newatoms);
 
-		SolutionU newsoln =
-				new SolutionU(newatoms, soln.charge, soln.multiplicity);
+		DoubleMatrix aperturbed = newsoln.alphaDensity();
+		DoubleMatrix bperturbed = newsoln.betaDensity();
 
-		SimpleMatrix aperturbed = new SimpleMatrix(newsoln.alphaDensity().toArray2());
-
-		SimpleMatrix bperturbed = new SimpleMatrix(newsoln.betaDensity().toArray2());
-
-
-		return new DoubleMatrix[]{Utils.toDoubleMatrix(aperturbed.minus(aorig).scale(1E7)),
-				Utils.toDoubleMatrix(bperturbed.minus(borig).scale(1E7))};
-
-
+		return new DoubleMatrix[]{aperturbed.sub(aorig).mmul(1E7),
+				bperturbed.sub(borig).mmul(1E7)};
 	}
-
-
 }

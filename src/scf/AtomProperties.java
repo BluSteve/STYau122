@@ -1,9 +1,8 @@
 package scf;
 
-import java.io.Serializable;
 import java.util.Arrays;
 
-public class AtomProperties implements Serializable { // Only 119 of these
+public class AtomProperties { // Only 119 of these
 	private static final double HEATCONV = 4.3363E-2;
 	private int index, Z, Q;
 	private String name;

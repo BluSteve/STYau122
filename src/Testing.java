@@ -8,11 +8,13 @@ import nddoparam.mndo.MNDOAtom;
 import nddoparam.mndo.MNDOParams;
 import org.apache.commons.lang3.time.StopWatch;
 import org.jblas.DoubleMatrix;
+import runcycle.input.RawMolecule;
 import scf.AtomHandler;
 import scf.Utils;
 
 import java.io.IOException;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 public class Testing {
 	public static void main(String[] args) {
@@ -40,33 +42,34 @@ public class Testing {
 			}
 		}
 
-		long start= System.nanoTime();
+		long start = System.nanoTime();
 		Pointer[] pointers = new Pointer[x];
-		for (int i = 0; i < pointers.length; i++){
-			pointers[i] =new Pointer();
+		for (int i = 0; i < pointers.length; i++) {
+			pointers[i] = new Pointer();
 			JCublas.cublasAlloc(n2, Sizeof.DOUBLE, pointers[i]);
-			JCublas.cublasSetVector(n2, Sizeof.DOUBLE, Pointer.to(arrays[i]), 1,
+			JCublas.cublasSetVector(n2, Sizeof.DOUBLE, Pointer.to(arrays[i])
+					, 1,
 					pointers[i], 1);
 		}
-		long separate = System.nanoTime()-start;
-		System.out.println("separate = " + separate/1e6);
+		long separate = System.nanoTime() - start;
+		System.out.println("separate = " + separate / 1e6);
 
 		start = System.nanoTime();
 		for (int j = 0; j < x; j++) {
 			System.arraycopy(arrays[j], 0, array, j * n2, n2);
 		}
 		Pointer gpuPointerB = new Pointer();
-		JCublas.cublasAlloc(n2*x, Sizeof.DOUBLE, gpuPointerB);
-		JCublas.cublasSetVector(n2*x, Sizeof.DOUBLE, Pointer.to(array), 1,
+		JCublas.cublasAlloc(n2 * x, Sizeof.DOUBLE, gpuPointerB);
+		JCublas.cublasSetVector(n2 * x, Sizeof.DOUBLE, Pointer.to(array), 1,
 				gpuPointerB, 1);
 		pointers = new Pointer[x];
-		for (int i = 0; i < pointers.length; i++){
-			pointers[i] =new Pointer();
+		for (int i = 0; i < pointers.length; i++) {
+			pointers[i] = new Pointer();
 //			JCuda.cudaMemcpy(
 //			JCublas.cublasZcopy(
 		}
-		long together = System.nanoTime()-start;
-		System.out.println("together = " + together/1e6);
+		long together = System.nanoTime() - start;
+		System.out.println("together = " + together / 1e6);
 	}
 
 	private static void testOther() throws IOException, InterruptedException {
@@ -238,7 +241,7 @@ public class Testing {
 	}
 
 
-	private static void testMain() {
+	private static void testMain() throws InterruptedException {
 		AtomHandler.populateAtoms();
 		MNDOParams h = new MNDOParams(2.92397599125172,
 				-6.222578482830868, 0.0, -12.200235077462583, 0.0,
@@ -266,7 +269,7 @@ public class Testing {
 				new double[]{-0.0021 * Utils.bohr, 0.0021 * Utils.bohr,
 						-0.0021 * Utils.bohr}, c);
 
-		MNDOAtom[] atoms = new MNDOAtom[]{atom1,atom2,atom3,atom4,carbon};
+		MNDOAtom[] atoms = new MNDOAtom[]{atom1, atom2, atom3, atom4, carbon};
 
 		MNDOAtom[] exp = new MNDOAtom[]{
 				new MNDOAtom(AtomHandler.atomsMap.get("H"),
@@ -301,25 +304,30 @@ public class Testing {
 				new MNDOAtom(AtomHandler.atomsMap.get("C"),
 						new double[]{0, 0, 0}, c)};
 		double[] datum = new double[]{-17.9, 0, 13.6};
-		StopWatch sw = new StopWatch();
-		Solution sn;
 
-		sw.start();
-		sn = new SolutionR(atoms, 0);
-//		GeometryOptimization.of(sn).compute();
-		sw.stop();
+		RawMolecule rm = new RawMolecule();
+		rm.nIntegrals = 212;
+		rm.nElectrons = 8;
+		rm.nOrbitals = 8;
+		rm.atomicNumbers = new int[]{1, 1, 1, 1, 6};
+		rm.charge = 0;
+		rm.mult = 0;
+		rm.name = "C1H4";
+		Solution s1 = new SolutionR(atoms, rm).compute();
 
-		System.out.println("sr.energy = " + sn.energy);
-//		System.out.println("sw.getTime() = " + sw.getTime());
-//		sw.reset();
-//		Solution sr ;
-//
-//		sw.start();
-//		sr = new SolutionR(atoms, 0);
-//		GeometryOptimization.of(sr).compute();
+		NanoStopWatch nsw = NanoStopWatch.sw();
+		double time = 0;
+		for (int i = 0; i < 1000; i++) {
+			Solution s = new SolutionR(atoms, rm);
+			nsw.start();
+			s.compute();
+			time += nsw.stop();
+			TimeUnit.MILLISECONDS.sleep(1);
+		}
 
-//		sw.stop();
-//		System.out.println("sr.energy = " + sr.energy);
-		System.out.println("sw.getTime() = " + sw.getTime());
+		System.out.println("time = " + time/1000);
+//		System.out.println("s.energy = " + s.energy);
+//		GeometryOptimization.of(s).compute();
+//		System.out.println("s.energy = " + s.energy);
 	}
 }

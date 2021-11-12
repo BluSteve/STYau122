@@ -5,19 +5,20 @@ import java.io.Serializable;
 public class NDDOParams implements Serializable {
 	protected double[] params;
 
-	public NDDOParams(double alpha, double betas, double betap, double uss,
-					  double upp, double zetas, double zetap, double eisol,
-					  double gss, double gsp, double hsp, double gpp,
-					  double gp2) {
+	protected NDDOParams(double alpha, double betas, double betap, double uss,
+						 double upp, double zetas, double zetap, double eisol,
+						 double gss, double gsp, double hsp, double gpp,
+						 double gp2) {
 		params = new double[]{alpha, betas, betap, uss, upp, zetas, zetap,
-						eisol, gss, gsp, hsp, gpp, gp2};
+				eisol, gss, gsp, hsp, gpp, gp2};
 	}
 
-	public NDDOParams(double[] params) {
+	protected NDDOParams(double[] params) {
 		this.params = params.clone();
 	}
 
-	public NDDOParams() {
+	protected NDDOParams() {
+		params = new double[13];
 	}
 
 	public double getAlpha() {

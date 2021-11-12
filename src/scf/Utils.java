@@ -61,6 +61,21 @@ public class Utils {
 	}
 
 
+	public static double[] toDoubles(List<Double> ld) {
+		double[] doubles = new double[ld.size()];
+		for (int i = 0; i < ld.size(); i++) {
+			doubles[i] = ld.get(i);
+		}
+		return doubles;
+	}
+
+	public static int[] toInts(List<Integer> li) {
+		int[] ints = new int[li.size()];
+		for (int i = 0; i < li.size(); i++) {
+			ints[i] = li.get(i);
+		}
+		return ints;
+	}
 	public static double[] bohr(double[] notbohr) {
 		double[] res = new double[notbohr.length];
 		for (int i = 0; i < notbohr.length; i++) res[i] = notbohr[i] * bohr;

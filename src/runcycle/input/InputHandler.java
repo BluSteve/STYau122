@@ -2,6 +2,7 @@ package runcycle.input;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import nddoparam.Solution;
 import nddoparam.am1.AM1Params;
 import nddoparam.mndo.MNDOParams;
 import scf.AtomHandler;
@@ -166,13 +167,17 @@ public class InputHandler {
 					}
 
 					StringBuilder nameBuilder = new StringBuilder();
-					HashMap<String, Integer> nameOccurrences = new HashMap<>();
+					TreeMap<String, Integer> nameOccurrences =
+							new TreeMap<>(Collections.reverseOrder());
 					ArrayList<Integer> tempZs =
 							new ArrayList<>(Utils.maxAtomNum);
+					ArrayList<Integer> atomicNumbers = new ArrayList<>();
 					HashMap<Integer, int[]> tempNPs = new HashMap<>();
 					for (RawAtom a : atomsL) {
+						atomicNumbers.add(a.Z);
 						AtomProperties ap = AtomHandler.atomsMap.get(a.name);
 						rm.nElectrons += ap.getQ();
+						rm.nOrbitals += ap.getOrbitals().length;
 						if (!tempZs.contains(ap.getZ())) {
 							tempZs.add(ap.getZ());
 							if (ri.model.equals("mndo")) {
@@ -188,16 +193,14 @@ public class InputHandler {
 							nameOccurrences.put(a.name,
 									nameOccurrences.get(a.name) + 1);
 					}
+					rm.atomicNumbers = Utils.toInts(atomicNumbers);
 					for (String key : nameOccurrences.keySet()) {
 						nameBuilder.append(key)
 								.append(nameOccurrences.get(key));
 					}
 					Collections.sort(tempZs);
-					int[] moleculeATs = new int[tempZs.size()];
+					int[] moleculeATs = Utils.toInts(tempZs);
 					int[][] moleculeNPs = new int[tempNPs.size()][];
-					for (int u = 0; u < tempZs.size(); u++) {
-						moleculeATs[u] = tempZs.get(u);
-					}
 					for (int j = 0; j < moleculeNPs.length; j++) {
 						moleculeNPs[j] = tempNPs.get(tempZs.get(j));
 					}
@@ -223,10 +226,19 @@ public class InputHandler {
 					rm.atoms = new RawAtom[atomsL.size()];
 					for (int p = 0; p < atomsL.size(); p++)
 						rm.atoms[p] = atomsL.get(p);
+
+					int[] nIntegrals = Solution.getNIntegrals(rm);
+					if (rm.restricted)
+						rm.nIntegrals = nIntegrals[0];
+					else {
+						rm.nCoulombInts = nIntegrals[0];
+						rm.nExchangeInts = nIntegrals[1];
+					}
 					moleculesL.add(rm);
 					i++;
 				}
 			} catch (IndexOutOfBoundsException e) {
+				e.printStackTrace();
 			}
 			try {
 				i = 0;
@@ -246,6 +258,7 @@ public class InputHandler {
 					j++;
 				}
 			} catch (IndexOutOfBoundsException e) {
+				e.printStackTrace();
 			}
 			ri.molecules = new RawMolecule[moleculesL.size()];
 			for (int p = 0; p < moleculesL.size(); p++)

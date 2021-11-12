@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.RecursiveAction;
 
+import static scf.Utils.perturbAtomParams;
+
 class ParamGradientR extends ParamGradient {
 	protected ParamGradientR(SolutionR s, double[] datum, SolutionR sExp,
 							 boolean analytical) {
@@ -50,7 +52,6 @@ class ParamGradientR extends ParamGradient {
 
 		DoubleMatrix[] aggregateArray = aggregate.toArray(new DoubleMatrix[0]);
 
-
 		DoubleMatrix[] aggregateArrayUnpadded =
 				new DoubleMatrix[Utils.numNotNull(aggregateArray)];
 		int j = 0;
@@ -63,10 +64,12 @@ class ParamGradientR extends ParamGradient {
 		if (aggregateArrayUnpadded.length > 0) {
 			DoubleMatrix[] xLimitedAggregate =
 					new DoubleMatrix[aggregateArrayUnpadded.length];
+			System.out
+					.println("xLimitedAggregate = " + xLimitedAggregate.length);
 			int elapsedSize = 0;
 			double cores = Runtime.getRuntime().availableProcessors();
 			int size = Math.max((int) Math.ceil(
-					aggregateArrayUnpadded.length / cores), 3);
+					aggregateArrayUnpadded.length / cores), 9);
 			List<RecursiveAction> subtasks = new ArrayList<>();
 			while (elapsedSize < aggregateArrayUnpadded.length) {
 				int finalElapsedSize = elapsedSize;
@@ -196,16 +199,15 @@ class ParamGradientR extends ParamGradient {
 
 	@Override
 	protected Solution constructSPrime(int ZI, int paramNum) {
-		return new SolutionR(
-				Utils.perturbAtomParams(s.atoms, s.getRm().mats[ZI],
-						paramNum), s.charge);
+		return s.withNewAtoms(perturbAtomParams(s.atoms, s.getRm().mats[ZI],
+				paramNum));
 	}
 
 	@Override
-	protected SolutionR constructSExpPrime(int ZI, int paramNum) {
-		return new SolutionR(
-				Utils.perturbAtomParams(sExp.atoms, sExp.getRm().mats[ZI],
-						paramNum), sExp.charge);
+	protected Solution constructSExpPrime(int ZI, int paramNum) {
+		return sExp.withNewAtoms(
+				perturbAtomParams(sExp.atoms, sExp.getRm().mats[ZI],
+						paramNum));
 	}
 
 	@Override

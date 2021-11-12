@@ -1,8 +1,6 @@
 package nddoparam.param;
 
 import nddoparam.Solution;
-import nddoparam.SolutionR;
-import nddoparam.SolutionU;
 import org.apache.commons.lang3.ArrayUtils;
 import scf.Utils;
 
@@ -57,8 +55,7 @@ public class ParamHessian {
 		}
 		else throw new IllegalArgumentException(
 					"ParamGradient g is neither restricted nor unrestricted!" +
-							" " +
-							"Molecule: " +
+							" Molecule: " +
 							g.getS().getRm().index + " " +
 							g.getS().getRm().name);
 		return h;
@@ -263,16 +260,9 @@ public class ParamHessian {
 	}
 
 	private ParamGradient constructGPrime(int ZIndex, int paramNum) {
-		if (restricted) {
-			return ParamGradient.of(
-					new SolutionR(Utils.perturbAtomParams(s.atoms,
-							s.getRm().mats[ZIndex], paramNum), s.charge)
-							.setRm(s.getRm()), datum, sExp);
-		}
 		return ParamGradient.of(
-				new SolutionU(Utils.perturbAtomParams(s.atoms,
-						s.getRm().mats[ZIndex], paramNum), s.charge,
-						s.multiplicity).setRm(s.getRm()), datum, sExp);
+				s.withNewAtoms(Utils.perturbAtomParams(s.atoms,
+						s.getRm().mats[ZIndex], paramNum)), datum, sExp);
 	}
 
 	/**

@@ -1,7 +1,8 @@
 package runcycle;
 
-import nddoparam.*;
-import nddoparam.mndo.MNDOParams;
+import nddoparam.GeometryOptimization;
+import nddoparam.NDDOParams;
+import nddoparam.Solution;
 import nddoparam.param.ParamErrorFunction;
 import nddoparam.param.ParamGradient;
 import nddoparam.param.ParamHessian;
@@ -16,9 +17,8 @@ import java.io.StringWriter;
 
 public class MoleculeRun implements MoleculeResult {
 	protected double[] datum;
-	protected NDDOAtom[] atoms, expGeom;
+	protected NDDOParams[] params;
 	protected Solution s, sExp;
-	protected GeometryOptimization opt;
 	protected ParamGradient g;
 	protected ParamHessian h;
 	protected boolean isRunHessian, isExpAvail, restricted;
@@ -26,18 +26,17 @@ public class MoleculeRun implements MoleculeResult {
 	protected RawMolecule rm;
 	protected long time;
 
-	public MoleculeRun(RawMolecule rm, NDDOParams[] mp, boolean isRunHessian) {
+	public MoleculeRun(RawMolecule rm, NDDOParams[] params,
+					   boolean isRunHessian) {
 		// todo change for am1
-		atoms = RawMolecule.toMNDOAtoms(rm.atoms, (MNDOParams[]) mp);
-		expGeom = rm.expGeom != null ? RawMolecule.toMNDOAtoms(rm.expGeom,
-				(MNDOParams[]) mp) : null;
+		this.rm = rm;
+		this.params = params;
+		this.isRunHessian = isRunHessian;
 		charge = rm.charge;
 		mult = rm.mult;
 		datum = rm.datum.clone();
 		restricted = rm.restricted;
-		this.rm = rm;
-		this.isRunHessian = isRunHessian;
-		isExpAvail = expGeom != null;
+		isExpAvail = rm.expGeom != null;
 	}
 
 	@Override
@@ -48,25 +47,20 @@ public class MoleculeRun implements MoleculeResult {
 
 	public void run() {
 		try {
-			System.err.println(rm.index + " " + rm.name + " started");
+			System.err.println(rm.debugName() + " started");
 			StopWatch sw = new StopWatch();
 			sw.start();
 
-			s = restricted ? new SolutionR(atoms, charge).setRm(rm) :
-					new SolutionU(atoms, charge, mult).setRm(rm);
-
-			opt = GeometryOptimization.of(s).compute();
-			s = opt.getS();
+			s = GeometryOptimization
+					.of(Solution.of(rm, rm.atoms, params)).compute().getS();
 
 			// updates geom coords
-			for (int i = 0; i < atoms.length; i++) {
-				rm.atoms[i].coords = atoms[i].getCoordinates();
+			for (int i = 0; i < s.atoms.length; i++) {
+				rm.atoms[i].coords = s.atoms[i].getCoordinates();
 			}
 
-			if (expGeom != null) {
-				sExp = restricted ?
-						(new SolutionR(expGeom, charge)).setRm(rm) :
-						(new SolutionU(expGeom, charge, mult)).setRm(rm);
+			if (isExpAvail) {
+				sExp = Solution.of(rm, rm.expGeom, params);
 			}
 
 			g = ParamGradient.of(s, datum, sExp).compute();
@@ -77,7 +71,7 @@ public class MoleculeRun implements MoleculeResult {
 			OutputHandler.outputOne(OutputHandler.toMoleculeOutput(this,
 					isRunHessian),
 					"dynamic-output");
-			System.err.println(rm.index + " " + rm.name +
+			System.err.println(rm.debugName() +
 					" finished in " + time);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -85,7 +79,7 @@ public class MoleculeRun implements MoleculeResult {
 			e.printStackTrace(new PrintWriter(errors));
 
 			String errorMessage = "ERROR! " + e.getClass() + " " +
-					errors + " " + rm.index + " " + rm.name;
+					errors + " " + rm.debugName();
 			logError(errorMessage);
 		}
 	}
@@ -128,7 +122,7 @@ public class MoleculeRun implements MoleculeResult {
 	public double[][] getHessian() {
 		if (isRunHessian) return h.getHessian();
 		else throw new IllegalStateException(
-				"Hessian not found for molecule: " + rm.index + " " + rm.name);
+				"Hessian not found for molecule: " + rm.debugName());
 	}
 
 	@Override
