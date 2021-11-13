@@ -3631,7 +3631,9 @@ public class ParamDerivative {
 			return 0;
 		}
 
-		DoubleMatrix coeff = soln.C.getRow(index);
+		// todo doublematrix conversion
+		DoubleMatrix coeff =
+				Utils.toDoubleMatrix(soln.C.extractVector(true, index));
 
 		double sum = 0;
 

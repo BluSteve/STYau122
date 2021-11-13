@@ -286,6 +286,19 @@ public class Utils {
 	public static synchronized DoubleMatrix pinv(DoubleMatrix dm) {
 		return Solve.pinv(dm);
 	}
+
+	public static SimpleMatrix[][] convertToEJML2D(
+			DoubleMatrix[][] doubleMatrices) {
+		SimpleMatrix[][] matrices = new SimpleMatrix[doubleMatrices.length][];
+		for (int i = 0; i < doubleMatrices.length; i++) {
+			DoubleMatrix[] dm = doubleMatrices[i];
+			matrices[i] = new SimpleMatrix[dm.length];
+			for (int j = 0; j < dm.length; j++) {
+				matrices[i][j] = new SimpleMatrix(dm[j].toArray2());
+			}
+		}
+		return matrices;
+	}
 }
 
 class Pair<F extends Comparable<F>, S> implements Comparable<Pair<F, S>> {

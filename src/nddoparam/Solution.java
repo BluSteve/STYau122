@@ -1,7 +1,8 @@
 package nddoparam;
 
-import org.ejml.simple.SimpleMatrix;
 import nddoparam.mndo.MNDOParams;
+import org.ejml.simple.SimpleMatrix;
+import org.jblas.DoubleMatrix;
 import runcycle.input.RawAtom;
 import runcycle.input.RawMolecule;
 import scf.Utils;
@@ -112,7 +113,6 @@ public abstract class Solution {
 		for (int i = 0; i < y.numRows(); i++) {
 			for (int j = 0; j < y.numCols(); j++) {
 				if (Math.abs(x.get(i, j) - y.get(i, j)) > limit) {
-					System.err.println (i + ", " + j + ": " + Math.abs(x.get(i, j) - y.get(i, j)));
 					return false;
 				}
 			}
@@ -175,11 +175,11 @@ public abstract class Solution {
 		return rm;
 	}
 
-	public abstract SimpleMatrix alphaDensity();
+	public abstract DoubleMatrix alphaDensity();
 
-	public abstract SimpleMatrix betaDensity();
+	public abstract DoubleMatrix betaDensity();
 
-	public abstract SimpleMatrix densityMatrix();
+	public abstract DoubleMatrix densityMatrix();
 
 	@Override
 	public String toString() {

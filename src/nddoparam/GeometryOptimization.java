@@ -178,12 +178,6 @@ public abstract class GeometryOptimization {
 
 			h = ms[1];
 			U = ms[0];
-
-			System.err.println(
-					"completed check for (one cycle of) geometry " +
-							"optimization");
-
-
 		}
 		updateSolution();
 		System.out.println("FINAL:");

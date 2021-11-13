@@ -59,6 +59,11 @@ public class EJMLTesting {
 				new double[]{2,5,6}
 		});
 
+		System.out.println(
+				"sm.extractVector(true, 1) = " + sm.extractVector(true, 1));
+		System.out.println("dm.getRow(1) = " + dm.getRow(1));
+
+
 		System.out.println("ejml = " + sm);
 
 		System.out.println(Arrays.toString(Utils.symEigen(sm)));

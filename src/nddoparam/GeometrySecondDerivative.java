@@ -3015,20 +3015,20 @@ public class GeometrySecondDerivative {
 				}
 			}
 
-			for (int i = 0; i < xarray.length; i++) {
-				if (!Solution.isSimilar(xarray[i],
-						Utils.toDoubleMatrix(simplexarray[i]), 1E-7)) {
-					System.err.println("Oh no! Thiel refactor failed");
-					System.exit(0);
-				}
-
-			}
+//			for (int i = 0; i < xarray.length; i++) {
+//				if (!Solution.isSimilar(xarray[i],
+//						Utils.toDoubleMatrix(simplexarray[i]), 1E-7)) {
+//					System.err.println("Oh no! Thiel refactor failed");
+//					System.exit(0);
+//				}
+//
+//			}
 
 
 		}
 
-		System.err.println("Thiel refactor works (for this iteration)");
-
+//		System.err.println("Thiel refactor works (for this iteration)");
+//
 		DoubleMatrix[] densityMatrixDerivs =
 				new DoubleMatrix[fockderivstatic.length];
 
@@ -3356,19 +3356,19 @@ public class GeometrySecondDerivative {
 
 			}
 
-			for (int i = 0; i < xarray.length; i++) {
-				if (!Solution.isSimilar(xarray[i],
-						Utils.toDoubleMatrix(simplexarray[i]), 1E-7)) {
-					System.err.println("Oh no! Pople refactor failed");
-					System.exit(0);
-				}
-			}
+//			for (int i = 0; i < xarray.length; i++) {
+//				if (!Solution.isSimilar(xarray[i],
+//						Utils.toDoubleMatrix(simplexarray[i]), 1E-7)) {
+//					System.err.println("Oh no! Pople refactor failed");
+//					System.exit(0);
+//				}
+//			}
 
 
 		}
 
-		System.err.println("Pople refactor works (for this iteration)");
-
+//		System.err.println("Pople refactor works (for this iteration)");
+//
 
 		DoubleMatrix[] densityMatrixDerivs =
 				new DoubleMatrix[fockderivstatic.length];

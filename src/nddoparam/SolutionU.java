@@ -1,6 +1,7 @@
 package nddoparam;
 
 import org.ejml.simple.SimpleMatrix;
+import org.jblas.DoubleMatrix;
 import runcycle.input.RawMolecule;
 import scf.Utils;
 
@@ -8,7 +9,6 @@ import java.util.Arrays;
 
 
 public class SolutionU extends Solution {
-	SimpleMatrix Ea, Eb;
 	private SimpleMatrix Fa, Fb;
 	private SimpleMatrix alphaDensity, betaDensity;
 
@@ -132,9 +132,9 @@ public class SolutionU extends Solution {
 
 		SimpleMatrix[] matrices = Utils.symEigen(H);
 
-		Ea = matrices[1].diag();
+		SimpleMatrix ea = matrices[1].diag();
 
-		Eb = matrices[1].diag();
+		SimpleMatrix eb = matrices[1].diag();
 
 		SimpleMatrix ca = matrices[0].transpose();
 
@@ -285,14 +285,14 @@ public class SolutionU extends Solution {
 
 			SimpleMatrix[] matrices2 = Utils.symEigen(Fb);
 
-			Ea = matrices1[1].diag();
+			ea = matrices1[1].diag();
 
-			Eb = matrices2[1].diag();
+			eb = matrices2[1].diag();
 
 			ca = matrices1[0].transpose();
 
 			cb = matrices2[0].transpose();
-			if (unstable) System.err.println(Ea);
+			if (unstable) System.err.println(ea);
 
 			double damp = 0.8;
 			alphaDensity = calculateDensityMatrix(ca, nalpha).scale(1 - damp)
@@ -321,9 +321,9 @@ public class SolutionU extends Solution {
 								"." +
 								".");
 
-				Ea = matrices[1].diag();
+				ea = matrices[1].diag();
 
-				Eb = matrices[1].diag();
+				eb = matrices[1].diag();
 
 				ca = matrices[0].transpose();
 
@@ -404,8 +404,8 @@ public class SolutionU extends Solution {
 
 		this.hf = heat / 4.3363E-2;
 
-		this.homo = Ea.get(nalpha - 1, 0);
-		this.lumo = 0.001 * Math.round(Eb.get(nbeta, 0) * 1000);
+		this.homo = ea.get(nalpha - 1, 0);
+		this.lumo = 0.001 * Math.round(eb.get(nbeta, 0) * 1000);
 //		System.out.println(moleculeName + " SCF completed");
 
 		double[] populations = new double[atoms.length];
@@ -681,17 +681,17 @@ public class SolutionU extends Solution {
 	}
 
 	@Override
-	public SimpleMatrix alphaDensity() {
-		return this.alphaDensity;
+	public DoubleMatrix alphaDensity() {
+		return Utils.toDoubleMatrix(alphaDensity);
 	}
 
 	@Override
-	public SimpleMatrix betaDensity() {
-		return this.betaDensity;
+	public DoubleMatrix betaDensity() {
+		return Utils.toDoubleMatrix(betaDensity);
 	}
 
 	@Override
-	public SimpleMatrix densityMatrix() {
-		return this.alphaDensity.plus(this.betaDensity);
+	public DoubleMatrix densityMatrix() {
+		return Utils.toDoubleMatrix(alphaDensity.plus(betaDensity));
 	}
 }
