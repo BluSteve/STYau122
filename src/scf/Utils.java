@@ -260,7 +260,7 @@ public class Utils {
 	public static SimpleMatrix[] symEigen(SimpleMatrix sm) {
 		EigenDecomposition_F64<DMatrixRMaj> evd =
 				new SymmetricQRAlgorithmDecomposition_DDRM(true);
-		evd.decompose(sm.getDDRM());
+		evd.decompose(sm.copy().getDDRM());
 		int noe = evd.getNumberOfEigenvalues();
 
 		SimpleMatrix evalues = new SimpleMatrix(noe, noe);
