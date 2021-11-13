@@ -2585,8 +2585,8 @@ public class GeometrySecondDerivative {
 							finalElapsedSize, Math.min(fockDerivStatic.length,
 									finalElapsedSize + size));
 
-					densityDerivThiel(soln,
-							subset); //todo remove this (testing code)
+//					densityDerivThiel(soln,
+//							subset); //todo remove this (testing code)
 					SimpleMatrix[] output = densityDerivPople(soln, subset);
 
 					// todo throw exception instead of null

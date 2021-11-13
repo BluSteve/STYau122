@@ -37,7 +37,7 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="Fix pople and thiel of geometrysecondderivative">
+    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="Geometry refactored successfully?">
       <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -498,14 +498,7 @@
       <workItem from="1636646264114" duration="3156000" />
       <workItem from="1636722443486" duration="1056000" />
       <workItem from="1636819815038" duration="5715000" />
-      <workItem from="1636831440431" duration="2184000" />
-    </task>
-    <task id="LOCAL-00081" summary="mndo-update.sh">
-      <created>1626225922041</created>
-      <option name="number" value="00081" />
-      <option name="presentableId" value="LOCAL-00081" />
-      <option name="project" value="LOCAL" />
-      <updated>1626225922042</updated>
+      <workItem from="1636831440431" duration="2669000" />
     </task>
     <task id="LOCAL-00082" summary="more input handler stuff">
       <created>1626227304099</created>
@@ -843,7 +836,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636833617055</updated>
     </task>
-    <option name="localTasksCounter" value="130" />
+    <task id="LOCAL-00130" summary="Geometry refactored successfully?">
+      <created>1636833992983</created>
+      <option name="number" value="00130" />
+      <option name="presentableId" value="LOCAL-00130" />
+      <option name="project" value="LOCAL" />
+      <updated>1636833992983</updated>
+    </task>
+    <option name="localTasksCounter" value="131" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -923,7 +923,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Multiple runs working + insane speedup from multithreaded hessian" />
     <MESSAGE value="debugging weird indexoutofbounds error, not done yet" />
     <MESSAGE value="weird param gradient batched deriv index bug debugged. gosh that took a long time. it's 3am" />
     <MESSAGE value="Padded gradient" />
@@ -948,7 +947,8 @@
     <MESSAGE value="Math class non-destructive reformatting" />
     <MESSAGE value="Fix symeigen modifying input bug" />
     <MESSAGE value="Fix pople and thiel of geometrysecondderivative" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix pople and thiel of geometrysecondderivative" />
+    <MESSAGE value="Geometry refactored successfully?" />
+    <option name="LAST_COMMIT_MESSAGE" value="Geometry refactored successfully?" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
