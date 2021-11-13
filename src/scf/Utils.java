@@ -3,7 +3,9 @@ package scf;
 import nddoparam.NDDOAtom;
 import nddoparam.NDDOParams;
 import org.apache.commons.math3.primes.Primes;
-import org.ejml.simple.SimpleEVD;
+import org.ejml.data.DMatrixRMaj;
+import org.ejml.dense.row.decomposition.eig.SymmetricQRAlgorithmDecomposition_DDRM;
+import org.ejml.interfaces.decomposition.EigenDecomposition_F64;
 import org.ejml.simple.SimpleMatrix;
 import org.jblas.DoubleMatrix;
 import org.jblas.Solve;
@@ -256,24 +258,26 @@ public class Utils {
 	}
 
 	public static SimpleMatrix[] symEigen(SimpleMatrix sm) {
-		SimpleEVD<SimpleMatrix> evd = sm.eig();
+		EigenDecomposition_F64<DMatrixRMaj> evd =
+				new SymmetricQRAlgorithmDecomposition_DDRM(true);
+		evd.decompose(sm.getDDRM());
 		int noe = evd.getNumberOfEigenvalues();
+
 		SimpleMatrix evalues = new SimpleMatrix(noe, noe);
 		SimpleMatrix evectors = new SimpleMatrix(noe, noe);
 
-		Pair[] epairs = new Pair[noe];
+		Pair<Double, DMatrixRMaj>[] epairs = new Pair[noe];
 
 		for (int i = 0; i < noe; i++) {
-			epairs[i] = new Pair<>(evd.getEigenvalues().get(i).real,
-					evd.getEigenVector(i).getDDRM().data);
+			epairs[i] = new Pair<>(evd.getEigenvalue(i).real,
+					evd.getEigenVector(i));
 		}
 
 		Arrays.sort(epairs);
 		for (int i = 0; i < noe; i++) {
-			evalues.set(i,i, (Double) epairs[i].first);
-			evectors.setColumn(i,0, (double[]) epairs[i].second);
+			evalues.set(i,i, epairs[i].first);
+			evectors.setColumn(i,0, epairs[i].second.data);
 		}
-
 
 		return new SimpleMatrix[]{evectors, evalues};
 	}

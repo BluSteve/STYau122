@@ -37,10 +37,10 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="EJML Refactor preliminarily working, still need to recode math classes">
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" afterDir="false" />
+    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="Math class non-destructive reformatting">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CublasTools.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CublasTools.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scf/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/Utils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -315,7 +315,7 @@
       <recent name="nddoparam.param" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Application.CublasTools">
     <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -381,11 +381,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.CublasTools" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.InputHandler" />
         <item itemvalue="Application.EJMLTesting" />
         <item itemvalue="Application.Testing" />
-        <item itemvalue="Application.CublasTools" />
       </list>
     </recent_temporary>
   </component>
@@ -499,14 +499,7 @@
       <workItem from="1636183084011" duration="5731000" />
       <workItem from="1636646264114" duration="3156000" />
       <workItem from="1636722443486" duration="1056000" />
-      <workItem from="1636819815038" duration="1970000" />
-    </task>
-    <task id="LOCAL-00078" summary="input.json">
-      <created>1626195084470</created>
-      <option name="number" value="00078" />
-      <option name="presentableId" value="LOCAL-00078" />
-      <option name="project" value="LOCAL" />
-      <updated>1626195084470</updated>
+      <workItem from="1636819815038" duration="5715000" />
     </task>
     <task id="LOCAL-00079" summary="mndo-update.sh">
       <created>1626195279682</created>
@@ -844,7 +837,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636821619133</updated>
     </task>
-    <option name="localTasksCounter" value="127" />
+    <task id="LOCAL-00127" summary="Math class non-destructive reformatting">
+      <created>1636822056871</created>
+      <option name="number" value="00127" />
+      <option name="presentableId" value="LOCAL-00127" />
+      <option name="project" value="LOCAL" />
+      <updated>1636822056871</updated>
+    </task>
+    <option name="localTasksCounter" value="128" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -924,7 +924,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="most classes can now have a copy of atomtypes" />
     <MESSAGE value="Multithreaded Hessian" />
     <MESSAGE value="Minor bug fix for multithreaded hessian" />
     <MESSAGE value="Multiple runs working + insane speedup from multithreaded hessian" />
@@ -949,7 +948,8 @@
     <MESSAGE value="SolutionNew working, next step GeomOpt" />
     <MESSAGE value="Fixed off by one error in SolutionR, 4x speed increase" />
     <MESSAGE value="EJML Refactor preliminarily working, still need to recode math classes" />
-    <option name="LAST_COMMIT_MESSAGE" value="EJML Refactor preliminarily working, still need to recode math classes" />
+    <MESSAGE value="Math class non-destructive reformatting" />
+    <option name="LAST_COMMIT_MESSAGE" value="Math class non-destructive reformatting" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
