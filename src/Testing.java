@@ -326,7 +326,7 @@ public class Testing {
 			TimeUnit.MILLISECONDS.sleep(1);
 		}
 
-		System.out.println("time = " + time/1000);
+//		System.out.println("time = " + time/1000);
 //		System.out.println("s.energy = " + s.energy);
 //		GeometryOptimization.of(s).compute();
 //		System.out.println("s.energy = " + s.energy);

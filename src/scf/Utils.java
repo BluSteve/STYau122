@@ -3,7 +3,6 @@ package scf;
 import nddoparam.NDDOAtom;
 import nddoparam.NDDOParams;
 import org.apache.commons.math3.primes.Primes;
-import org.ejml.dense.row.NormOps_DDRM;
 import org.ejml.simple.SimpleEVD;
 import org.ejml.simple.SimpleMatrix;
 import org.jblas.DoubleMatrix;
@@ -275,11 +274,8 @@ public class Utils {
 			evectors.setColumn(i,0, (double[]) epairs[i].second);
 		}
 
-		return new SimpleMatrix[]{evectors, evalues};
-	}
 
-	public static double norm2(SimpleMatrix sm) {
-		return NormOps_DDRM.fastNormF(sm.getDDRM());
+		return new SimpleMatrix[]{evectors, evalues};
 	}
 
 	public static synchronized DoubleMatrix solve(DoubleMatrix lhs,

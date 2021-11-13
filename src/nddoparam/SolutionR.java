@@ -386,10 +386,10 @@ public class SolutionR extends Solution {
 
 				double bestE = 0;
 				SimpleMatrix bestDIIS = null;
-				try {
-					int n = mat.numRows() - 2;
-					for (int i = 0; i <= n; i++) {
-						for (int[] tbr : TBRS[i]) {
+				int n = mat.numRows() - 2;
+				for (int i = 0; i <= n; i++) {
+					for (int[] tbr : TBRS[i]) {
+						try {
 							SimpleMatrix newmat =
 									removeElementsSquare(mat, tbr);
 							SimpleMatrix newrhs =
@@ -408,9 +408,9 @@ public class SolutionR extends Solution {
 								}
 							}
 
+						} catch (SingularMatrixException ignored) {
 						}
 					}
-				} catch (SingularMatrixException ignored) {
 				}
 
 				SimpleMatrix finalDIIS = bestDIIS;
