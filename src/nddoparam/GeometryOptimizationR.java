@@ -1,8 +1,6 @@
 package nddoparam;
 
 import org.ejml.simple.SimpleMatrix;
-import org.jblas.DoubleMatrix;
-import scf.Utils;
 
 public class GeometryOptimizationR extends GeometryOptimization {
 
@@ -15,16 +13,14 @@ public class GeometryOptimizationR extends GeometryOptimization {
 	}
 
 	protected SimpleMatrix[] findGH() {
-		DoubleMatrix[][] doubleMatrices =
-				GeometryDerivative.gradientRoutine(s.atoms, (SolutionR) s);
-		SimpleMatrix[][] matrices = Utils.convertToEJML2D(doubleMatrices);
+		SimpleMatrix[][] matrices = GeometryDerivative.gradientRoutine(s.atoms, (SolutionR) s);
 
 		SimpleMatrix gradient = matrices[0][0];
 		SimpleMatrix hessian;
 
 		try {
-			hessian = new SimpleMatrix(GeometrySecondDerivative
-					.hessianRoutine(s.atoms, (SolutionR) s, doubleMatrices[1]).toArray2());
+			hessian = GeometrySecondDerivative
+					.hessianRoutine(s.atoms, (SolutionR) s, matrices[1]);
 		} catch (Exception e) {
 			hessian = SimpleMatrix.identity(gradient.getNumElements());
 		}

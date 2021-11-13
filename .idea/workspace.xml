@@ -37,15 +37,8 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="Fix symeigen modifying input bug">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EJMLTesting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EJMLTesting.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Testing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryDerivative.java" afterDir="false" />
+    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="Fix pople and thiel of geometrysecondderivative">
       <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/Solution.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionU.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -320,7 +313,7 @@
       <recent name="nddoparam.param" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.EJMLTesting">
+  <component name="RunManager" selected="Application.Testing">
     <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -386,8 +379,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.EJMLTesting" />
         <item itemvalue="Application.Testing" />
+        <item itemvalue="Application.EJMLTesting" />
         <item itemvalue="Application.CublasTools" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.InputHandler" />
@@ -505,14 +498,7 @@
       <workItem from="1636646264114" duration="3156000" />
       <workItem from="1636722443486" duration="1056000" />
       <workItem from="1636819815038" duration="5715000" />
-      <workItem from="1636831440431" duration="1500000" />
-    </task>
-    <task id="LOCAL-00080" summary="mndo-update.sh">
-      <created>1626195439602</created>
-      <option name="number" value="00080" />
-      <option name="presentableId" value="LOCAL-00080" />
-      <option name="project" value="LOCAL" />
-      <updated>1626195439602</updated>
+      <workItem from="1636831440431" duration="2184000" />
     </task>
     <task id="LOCAL-00081" summary="mndo-update.sh">
       <created>1626225922041</created>
@@ -850,7 +836,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636831817399</updated>
     </task>
-    <option name="localTasksCounter" value="129" />
+    <task id="LOCAL-00129" summary="Fix pople and thiel of geometrysecondderivative">
+      <created>1636833617055</created>
+      <option name="number" value="00129" />
+      <option name="presentableId" value="LOCAL-00129" />
+      <option name="project" value="LOCAL" />
+      <updated>1636833617055</updated>
+    </task>
+    <option name="localTasksCounter" value="130" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -930,7 +923,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Minor bug fix for multithreaded hessian" />
     <MESSAGE value="Multiple runs working + insane speedup from multithreaded hessian" />
     <MESSAGE value="debugging weird indexoutofbounds error, not done yet" />
     <MESSAGE value="weird param gradient batched deriv index bug debugged. gosh that took a long time. it's 3am" />
@@ -955,7 +947,8 @@
     <MESSAGE value="EJML Refactor preliminarily working, still need to recode math classes" />
     <MESSAGE value="Math class non-destructive reformatting" />
     <MESSAGE value="Fix symeigen modifying input bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix symeigen modifying input bug" />
+    <MESSAGE value="Fix pople and thiel of geometrysecondderivative" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix pople and thiel of geometrysecondderivative" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

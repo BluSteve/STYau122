@@ -2,7 +2,6 @@ package nddoparam;
 
 import org.apache.commons.lang3.time.StopWatch;
 import org.ejml.simple.SimpleMatrix;
-import org.jblas.DoubleMatrix;
 import scf.GTO;
 import scf.Utils;
 
@@ -2402,7 +2401,7 @@ public class GeometrySecondDerivative {
 	}
 
 	private static double Ederiv2(int atomnum1, int atomnum2, int[][] index,
-								  DoubleMatrix densityMatrix, NDDOAtom[] atoms,
+								  SimpleMatrix densityMatrix, NDDOAtom[] atoms,
 								  NDDO6G[] orbitals, int tau1, int tau2) {
 
 		double e = 0;
@@ -2460,8 +2459,8 @@ public class GeometrySecondDerivative {
 	}
 
 	private static double Ederiv2(int atomnum1, int atomnum2, int[][] index,
-								  DoubleMatrix alphaDensity,
-								  DoubleMatrix betaDensity, NDDOAtom[] atoms,
+								  SimpleMatrix alphaDensity,
+								  SimpleMatrix betaDensity, NDDOAtom[] atoms,
 								  NDDO6G[] orbitals, int tau1, int tau2) {
 
 		double e = 0;
@@ -2565,11 +2564,11 @@ public class GeometrySecondDerivative {
 
 	}
 
-	public static DoubleMatrix hessianRoutine(NDDOAtom[] atoms, SolutionR soln,
-											  DoubleMatrix[] fockDerivStatic) {
+	public static SimpleMatrix hessianRoutine(NDDOAtom[] atoms, SolutionR soln,
+											  SimpleMatrix[] fockDerivStatic) {
 		@SuppressWarnings("DuplicatedCode")
-		DoubleMatrix[] densityDerivs =
-				new DoubleMatrix[fockDerivStatic.length];
+		SimpleMatrix[] densityDerivs =
+				new SimpleMatrix[fockDerivStatic.length];
 		int elapsedSize = 0;
 		double cores = Runtime.getRuntime().availableProcessors();
 		int size = Math.max((int) Math.ceil(fockDerivStatic.length / cores),
@@ -2582,13 +2581,13 @@ public class GeometrySecondDerivative {
 			subtasks.add(new RecursiveAction() {
 				@Override
 				protected void compute() {
-					DoubleMatrix[] subset = Arrays.copyOfRange(fockDerivStatic,
+					SimpleMatrix[] subset = Arrays.copyOfRange(fockDerivStatic,
 							finalElapsedSize, Math.min(fockDerivStatic.length,
 									finalElapsedSize + size));
 
 					densityDerivThiel(soln,
 							subset); //todo remove this (testing code)
-					DoubleMatrix[] output = densityDerivPople(soln, subset);
+					SimpleMatrix[] output = densityDerivPople(soln, subset);
 
 					// todo throw exception instead of null
 					if (output == null)
@@ -2604,10 +2603,10 @@ public class GeometrySecondDerivative {
 		}
 		ForkJoinTask.invokeAll(subtasks);
 
-		DoubleMatrix hessian =
-				new DoubleMatrix(densityDerivs.length, densityDerivs.length);
-		for (int i = 0; i < hessian.rows; i++) {
-			for (int j = i; j < hessian.rows; j++) {
+		SimpleMatrix hessian =
+				new SimpleMatrix(densityDerivs.length, densityDerivs.length);
+		for (int i = 0; i < hessian.numRows(); i++) {
+			for (int j = i; j < hessian.numRows(); j++) {
 				double E = 0;
 				int atomnum1 = i / 3;
 				int atomnum2 = j / 3;
@@ -2640,22 +2639,22 @@ public class GeometrySecondDerivative {
 					}
 				}
 
-				hessian.put(i, j, E);
-				hessian.put(j, i, E);
+				hessian.set(i, j, E);
+				hessian.set(j, i, E);
 			}
 		}
 		return hessian;
 	}
 
-	public static DoubleMatrix hessianRoutine(NDDOAtom[] atoms, SolutionU soln,
-											  DoubleMatrix[] fockderivstaticalpha,
-											  DoubleMatrix[] fockderivstaticbeta) {
+	public static SimpleMatrix hessianRoutine(NDDOAtom[] atoms, SolutionU soln,
+											  SimpleMatrix[] fockderivstaticalpha,
+											  SimpleMatrix[] fockderivstaticbeta) {
 
 
-		DoubleMatrix[] densityderivsalpha =
-				new DoubleMatrix[fockderivstaticalpha.length];
-		DoubleMatrix[] densityderivsbeta =
-				new DoubleMatrix[fockderivstaticbeta.length];
+		SimpleMatrix[] densityderivsalpha =
+				new SimpleMatrix[fockderivstaticalpha.length];
+		SimpleMatrix[] densityderivsbeta =
+				new SimpleMatrix[fockderivstaticbeta.length];
 
 
 		int count = 0;
@@ -2663,7 +2662,7 @@ public class GeometrySecondDerivative {
 		for (int a = 0; a < atoms.length; a++) {
 			for (int tau = 0; tau < 3; tau++) {
 
-				DoubleMatrix[] matrices = GeometryDerivative
+				SimpleMatrix[] matrices = GeometryDerivative
 						.densitymatrixderivfinite(atoms, soln, a, tau);
 				densityderivsalpha[count] = matrices[0];
 				densityderivsbeta[count] = matrices[1];
@@ -2671,11 +2670,11 @@ public class GeometrySecondDerivative {
 			}
 		}
 
-		DoubleMatrix hessian = new DoubleMatrix(densityderivsalpha.length,
+		SimpleMatrix hessian = new SimpleMatrix(densityderivsalpha.length,
 				densityderivsalpha.length);
 
-		for (int i = 0; i < hessian.rows; i++) {
-			for (int j = i; j < hessian.rows; j++) {
+		for (int i = 0; i < hessian.numRows(); i++) {
+			for (int j = i; j < hessian.numRows(); j++) {
 
 				double E = 0;
 
@@ -2716,8 +2715,8 @@ public class GeometrySecondDerivative {
 					}
 				}
 
-				hessian.put(i, j, E);
-				hessian.put(j, i, E);
+				hessian.set(i, j, E);
+				hessian.set(j, i, E);
 			}
 		}
 
@@ -2726,8 +2725,8 @@ public class GeometrySecondDerivative {
 
 	}
 
-	public static DoubleMatrix[] densityDerivThiel(SolutionR soln,
-												   DoubleMatrix[] fockderivstatic) {
+	public static SimpleMatrix[] densityDerivThiel(SolutionR soln,
+												   SimpleMatrix[] fockderivstatic) {
 
 		StopWatch sw = new StopWatch();
 		sw.start();
@@ -2774,7 +2773,7 @@ public class GeometrySecondDerivative {
 					for (int u = 0; u < soln.orbitals.length; u++) {
 						for (int v = 0; v < soln.orbitals.length; v++) {
 							element += soln.C.get(i, u) * soln.C.get(j + NOcc,
-											v) * fockderivstatic[a].get(u, v);
+									v) * fockderivstatic[a].get(u, v);
 						}
 					}
 					F.set(count1, 0, element);
@@ -2794,11 +2793,11 @@ public class GeometrySecondDerivative {
 
 
 		if (dirs[0].numRows() == 0) {
-			DoubleMatrix[] densityderivs =
-					new DoubleMatrix[fockderivstatic.length];
+			SimpleMatrix[] densityderivs =
+					new SimpleMatrix[fockderivstatic.length];
 
 			for (int i = 0; i < densityderivs.length; i++) {
-				densityderivs[i] = DoubleMatrix.zeros(0, 0);
+				densityderivs[i] = new SimpleMatrix(0, 0);
 			}
 
 			return densityderivs;
@@ -2910,17 +2909,17 @@ public class GeometrySecondDerivative {
 				}
 			}
 		}
-		
-		DoubleMatrix[] densityMatrixDerivs =
-				new DoubleMatrix[fockderivstatic.length];
+
+		SimpleMatrix[] densityMatrixDerivs =
+				new SimpleMatrix[fockderivstatic.length];
 
 
 		for (int a = 0; a < fockderivstatic.length; a++) {
-			DoubleMatrix densityMatrixDeriv = DoubleMatrix
-					.zeros(soln.orbitals.length, soln.orbitals.length);
+			SimpleMatrix densityMatrixDeriv = new SimpleMatrix
+					(soln.orbitals.length, soln.orbitals.length);
 
-			for (int u = 0; u < densityMatrixDeriv.rows; u++) {
-				for (int v = u; v < densityMatrixDeriv.columns; v++) {
+			for (int u = 0; u < densityMatrixDeriv.numRows(); u++) {
+				for (int v = u; v < densityMatrixDeriv.numCols(); v++) {
 					double sum = 0;
 					int count = 0;
 					for (int i = 0; i < NOcc; i++) {
@@ -2934,8 +2933,8 @@ public class GeometrySecondDerivative {
 						}
 					}
 
-					densityMatrixDeriv.put(u, v, sum);
-					densityMatrixDeriv.put(v, u, sum);
+					densityMatrixDeriv.set(u, v, sum);
+					densityMatrixDeriv.set(v, u, sum);
 				}
 			}
 
@@ -2950,8 +2949,8 @@ public class GeometrySecondDerivative {
 
 	}
 
-	public static DoubleMatrix[] densityDerivPople(SolutionR soln,
-												   DoubleMatrix[] fockderivstatic) {
+	public static SimpleMatrix[] densityDerivPople(SolutionR soln,
+												   SimpleMatrix[] fockderivstatic) {
 
 		StopWatch sw = new StopWatch();
 		sw.start();
@@ -3023,11 +3022,11 @@ public class GeometrySecondDerivative {
 
 
 		if (barray[0].numRows() == 0) {
-			DoubleMatrix[] densityderivs =
-					new DoubleMatrix[fockderivstatic.length];
+			SimpleMatrix[] densityderivs =
+					new SimpleMatrix[fockderivstatic.length];
 
 			for (int i = 0; i < densityderivs.length; i++) {
-				densityderivs[i] = DoubleMatrix.zeros(0, 0);
+				densityderivs[i] = new SimpleMatrix(0, 0);
 			}
 
 			return densityderivs;
@@ -3143,7 +3142,7 @@ public class GeometrySecondDerivative {
 
 //			for (int i = 0; i < xarray.length; i++) {
 //				if (!Solution.isSimilar(xarray[i],//						
-//				Utils.toDoubleMatrix(simplexarray[i]), 1E-7)) {
+//				Utils.toSimpleMatrix(simplexarray[i]), 1E-7)) {
 //					System.err.println("Oh no! Pople refactor failed");
 //					System.exit(0);
 //				}
@@ -3155,16 +3154,17 @@ public class GeometrySecondDerivative {
 //		System.err.println("Pople refactor works (for this iteration)");
 //
 
-		DoubleMatrix[] densityMatrixDerivs =
-				new DoubleMatrix[fockderivstatic.length];
+		SimpleMatrix[] densityMatrixDerivs =
+				new SimpleMatrix[fockderivstatic.length];
 
 
 		for (int a = 0; a < fockderivstatic.length; a++) {
-			DoubleMatrix densityMatrixDeriv = DoubleMatrix
-					.zeros(soln.orbitals.length, soln.orbitals.length);
+			SimpleMatrix densityMatrixDeriv =
+					new SimpleMatrix(soln.orbitals.length,
+							soln.orbitals.length);
 
-			for (int u = 0; u < densityMatrixDeriv.rows; u++) {
-				for (int v = u; v < densityMatrixDeriv.columns; v++) {
+			for (int u = 0; u < densityMatrixDeriv.numRows(); u++) {
+				for (int v = u; v < densityMatrixDeriv.numCols(); v++) {
 					double sum = 0;
 					int count = 0;
 					for (int i = 0; i < NOcc; i++) {
@@ -3178,8 +3178,8 @@ public class GeometrySecondDerivative {
 						}
 					}
 
-					densityMatrixDeriv.put(u, v, sum);
-					densityMatrixDeriv.put(v, u, sum);
+					densityMatrixDeriv.set(u, v, sum);
+					densityMatrixDeriv.set(v, u, sum);
 				}
 			}
 
@@ -3195,18 +3195,18 @@ public class GeometrySecondDerivative {
 	}
 
 
-	private static DoubleMatrix computeResponseVectorsThiel(DoubleMatrix x,
+	private static SimpleMatrix computeResponseVectorsThiel(SimpleMatrix x,
 															SolutionR soln) {
 
 		int NOcc = (int) (soln.nElectrons / 2.0);
 
 		int NVirt = soln.orbitals.length - NOcc;
 
-		DoubleMatrix densityMatrixDeriv =
-				DoubleMatrix.zeros(soln.orbitals.length, soln.orbitals.length);
+		SimpleMatrix densityMatrixDeriv =
+				new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
 
-		for (int u = 0; u < densityMatrixDeriv.rows; u++) {
-			for (int v = u; v < densityMatrixDeriv.columns; v++) {
+		for (int u = 0; u < densityMatrixDeriv.numRows(); u++) {
+			for (int v = u; v < densityMatrixDeriv.numCols(); v++) {
 				double sum = 0;
 				int count = 0;
 				for (int i = 0; i < NOcc; i++) {
@@ -3219,14 +3219,14 @@ public class GeometrySecondDerivative {
 					}
 				}
 
-				densityMatrixDeriv.put(u, v, sum);
-				densityMatrixDeriv.put(v, u, sum);
+				densityMatrixDeriv.set(u, v, sum);
+				densityMatrixDeriv.set(v, u, sum);
 			}
 		}
 
 
-		DoubleMatrix responsematrix =
-				DoubleMatrix.zeros(soln.orbitals.length, soln.orbitals.length);
+		SimpleMatrix responsematrix =
+				new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
 
 		double[] integralArray = soln.integralArray;
 
@@ -3299,12 +3299,12 @@ public class GeometrySecondDerivative {
 					}
 				}
 
-				responsematrix.put(j, k, val);
-				responsematrix.put(k, j, val);
+				responsematrix.set(j, k, val);
+				responsematrix.set(k, j, val);
 			}
 		}
 
-		DoubleMatrix R = DoubleMatrix.zeros(NOcc * NVirt, 1);
+		SimpleMatrix R = new SimpleMatrix(NOcc * NVirt, 1);
 
 		int count1 = 0;
 
@@ -3321,20 +3321,20 @@ public class GeometrySecondDerivative {
 				}
 
 
-				R.put(count1, 0, element);
+				R.set(count1, 0, element);
 
 				count1++;
 			}
 		}
 
 
-		DoubleMatrix p = new DoubleMatrix(NOcc * NVirt, 1);
+		SimpleMatrix p = new SimpleMatrix(NOcc * NVirt, 1);
 
 		int counter = 0;
 
 		for (int i = 0; i < NOcc; i++) {
 			for (int j = 0; j < NVirt; j++) {
-				p.put(counter, 0, -R.get(counter, 0) +
+				p.set(counter, 0, -R.get(counter, 0) +
 						(soln.E.get(j + NOcc) - soln.E.get(i)) *
 								x.get(counter));
 				counter++;
@@ -3345,27 +3345,18 @@ public class GeometrySecondDerivative {
 		return p;
 	}
 
-	private static SimpleMatrix computeResponseVectorsThiel(SimpleMatrix x,
-															SolutionR soln) {
-
-		DoubleMatrix mat = Utils.toDoubleMatrix(x);
-
-		return new SimpleMatrix(
-				computeResponseVectorsThiel(mat, soln).toArray2());
-	}
-
-	public static DoubleMatrix computeResponseVectorsPople(DoubleMatrix x,
+	public static SimpleMatrix computeResponseVectorsPople(SimpleMatrix x,
 														   SolutionR soln) {
 
 		int NOcc = (int) (soln.nElectrons / 2.0);
 
 		int NVirt = soln.orbitals.length - NOcc;
 
-		DoubleMatrix densityMatrixDeriv =
-				DoubleMatrix.zeros(soln.orbitals.length, soln.orbitals.length);
+		SimpleMatrix densityMatrixDeriv =
+				new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
 
-		for (int u = 0; u < densityMatrixDeriv.rows; u++) {
-			for (int v = u; v < densityMatrixDeriv.columns; v++) {
+		for (int u = 0; u < densityMatrixDeriv.numRows(); u++) {
+			for (int v = u; v < densityMatrixDeriv.numCols(); v++) {
 				double sum = 0;
 				int count = 0;
 				for (int i = 0; i < NOcc; i++) {
@@ -3378,14 +3369,14 @@ public class GeometrySecondDerivative {
 					}
 				}
 
-				densityMatrixDeriv.put(u, v, sum);
-				densityMatrixDeriv.put(v, u, sum);
+				densityMatrixDeriv.set(u, v, sum);
+				densityMatrixDeriv.set(v, u, sum);
 			}
 		}
 
 
-		DoubleMatrix responsematrix =
-				DoubleMatrix.zeros(soln.orbitals.length, soln.orbitals.length);
+		SimpleMatrix responsematrix =
+				new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
 
 		double[] integralArray = soln.integralArray;
 
@@ -3458,12 +3449,12 @@ public class GeometrySecondDerivative {
 					}
 				}
 
-				responsematrix.put(j, k, val);
-				responsematrix.put(k, j, val);
+				responsematrix.set(j, k, val);
+				responsematrix.set(k, j, val);
 			}
 		}
 
-		DoubleMatrix R = DoubleMatrix.zeros(NOcc * NVirt, 1);
+		SimpleMatrix R = new SimpleMatrix(NOcc * NVirt, 1);
 
 		int count1 = 0;
 
@@ -3482,7 +3473,7 @@ public class GeometrySecondDerivative {
 				element = element / (soln.E.get(j + NOcc) - soln.E.get(i));
 
 
-				R.put(count1, 0, element);
+				R.set(count1, 0, element);
 
 				count1++;
 			}
@@ -3490,25 +3481,6 @@ public class GeometrySecondDerivative {
 
 
 		return R;
-	}
-
-	private static SimpleMatrix computeResponseVectorsPople(SimpleMatrix x,
-															SolutionR soln) {
-
-		DoubleMatrix mat = Utils.toDoubleMatrix(x);
-
-		return new SimpleMatrix(
-				computeResponseVectorsPople(mat, soln).toArray2());
-	}
-
-	private static double mag(DoubleMatrix gradient) {
-
-		double sum = 0;
-		for (int i = 0; i < gradient.length; i++) {
-			sum += gradient.get(i) * gradient.get(i);
-		}
-
-		return Math.sqrt(sum);
 	}
 
 	private static double mag(SimpleMatrix gradient) {
@@ -3519,16 +3491,6 @@ public class GeometrySecondDerivative {
 		}
 
 		return Math.sqrt(sum);
-	}
-
-	public static void orthogonalise(DoubleMatrix[] vectors) {
-		for (int i = 0; i < vectors.length; i++) {
-			for (int j = 0; j < i; j++) {
-				vectors[i] = vectors[i].sub(vectors[j]
-						.mmul(vectors[i].dot(vectors[j]) /
-								vectors[j].dot(vectors[j])));
-			}
-		}
 	}
 
 	public static void orthogonalise(SimpleMatrix[] vectors) {
