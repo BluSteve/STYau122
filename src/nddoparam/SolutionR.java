@@ -179,7 +179,7 @@ public class SolutionR extends Solution {
 		SimpleMatrix[] matrices = Utils.symEigen(H);
 		E = matrices[1].diag();
 		C = matrices[0].transpose();
-		G = Utils.filled(C.numRows(), C.numCols(), 0);
+		G = new SimpleMatrix(C.numRows(), C.numCols());
 		F = H.copy();
 		densityMatrix = calculateDensityMatrix(C);
 		SimpleMatrix olddensity;
@@ -188,8 +188,8 @@ public class SolutionR extends Solution {
 		SimpleMatrix[] Darray = new SimpleMatrix[8];
 		Earray = new double[8];
 
-		SimpleMatrix Bforediis = Utils.filled(8, 8, 0);
-		B = Utils.filled(8, 8, 0);
+		SimpleMatrix Bforediis = new SimpleMatrix(8, 8);
+		B = new SimpleMatrix(8, 8);
 
 		SimpleMatrix[] commutatorarray = new SimpleMatrix[8];
 
@@ -386,10 +386,10 @@ public class SolutionR extends Solution {
 
 				double bestE = 0;
 				SimpleMatrix bestDIIS = null;
-				int n = mat.numRows() - 2;
-				for (int i = 0; i <= n; i++) {
-					for (int[] tbr : TBRS[i]) {
-						try {
+				try {
+					int n = mat.numRows() - 2;
+					for (int i = 0; i <= n; i++) {
+						for (int[] tbr : TBRS[i]) {
 							SimpleMatrix newmat =
 									removeElementsSquare(mat, tbr);
 							SimpleMatrix newrhs =
@@ -407,10 +407,10 @@ public class SolutionR extends Solution {
 									bestDIIS = tempEdiis;
 								}
 							}
-						} catch (SingularMatrixException ignored) {
 
 						}
 					}
+				} catch (SingularMatrixException ignored) {
 				}
 
 				SimpleMatrix finalDIIS = bestDIIS;
@@ -451,8 +451,8 @@ public class SolutionR extends Solution {
 			else {
 				SimpleMatrix mat = new SimpleMatrix(ediisSize, ediisSize);
 
-				for (int i = 0; i < ediisSize - 1; i++) {
-					for (int j = i; j < ediisSize - 1;
+				for (int i = 0; i < Math.min(Farray.length, numIt + 1); i++) {
+					for (int j = i; j < Math.min(Farray.length, numIt + 1);
 						 j++) {
 						mat.set(i, j, B.get(i, j));
 						mat.set(j, i, B.get(i, j));
@@ -461,6 +461,7 @@ public class SolutionR extends Solution {
 				}
 
 				double[] a = new double[mat.numRows()];
+				Arrays.fill(a, 1);
 				mat.setColumn(mat.numCols() - 1, 0, a);
 				mat.setRow(mat.numRows() - 1, 0, a);
 				mat.set(mat.numRows() - 1, mat.numCols() - 1, 0);

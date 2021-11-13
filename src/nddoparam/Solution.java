@@ -180,4 +180,30 @@ public abstract class Solution {
 	public abstract SimpleMatrix betaDensity();
 
 	public abstract SimpleMatrix densityMatrix();
+
+	@Override
+	public String toString() {
+		return "Solution{" +
+				"energy=" + energy +
+				", homo=" + homo +
+				", lumo=" + lumo +
+				", hf=" + hf +
+				", dipole=" + dipole +
+				", chargedip=" + Arrays.toString(chargedip) +
+				", hybridip=" + Arrays.toString(hybridip) +
+				", dipoletot=" + Arrays.toString(dipoletot) +
+				", charge=" + charge +
+				", mult=" + mult +
+				", nElectrons=" + nElectrons +
+				", nOrbitals=" + nOrbitals +
+				", missingOfAtom=" + Arrays.toString(missingOfAtom) +
+				", orbsOfAtom=" + Arrays.toString(orbsOfAtom) +
+				", atoms=" + Arrays.toString(atoms) +
+				", orbitals=" + Arrays.toString(orbitals) +
+				", atomicNumbers=" + Arrays.toString(atomicNumbers) +
+				", atomOfOrb=" + Arrays.toString(atomOfOrb) +
+				", H=" + H +
+				", rm=" + rm +
+				'}';
+	}
 }
