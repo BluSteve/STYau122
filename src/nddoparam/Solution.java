@@ -2,7 +2,6 @@ package nddoparam;
 
 import nddoparam.mndo.MNDOParams;
 import org.ejml.simple.SimpleMatrix;
-import org.jblas.DoubleMatrix;
 import runcycle.input.RawAtom;
 import runcycle.input.RawMolecule;
 import scf.Utils;
@@ -175,11 +174,11 @@ public abstract class Solution {
 		return rm;
 	}
 
-	public abstract DoubleMatrix alphaDensity();
+	public abstract SimpleMatrix alphaDensity();
 
-	public abstract DoubleMatrix betaDensity();
+	public abstract SimpleMatrix betaDensity();
 
-	public abstract DoubleMatrix densityMatrix();
+	public abstract SimpleMatrix densityMatrix();
 
 	@Override
 	public String toString() {

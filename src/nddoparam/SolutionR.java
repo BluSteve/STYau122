@@ -3,7 +3,6 @@ package nddoparam;
 import org.ejml.data.SingularMatrixException;
 import org.ejml.dense.row.CommonOps_DDRM;
 import org.ejml.simple.SimpleMatrix;
-import org.jblas.DoubleMatrix;
 import runcycle.input.RawMolecule;
 import scf.Utils;
 
@@ -807,17 +806,17 @@ public class SolutionR extends Solution {
 	}
 
 	@Override
-	public DoubleMatrix alphaDensity() {
-		return Utils.toDoubleMatrix(densityMatrix.scale(0.5));
+	public SimpleMatrix alphaDensity() {
+		return densityMatrix.scale(0.5);
 	}
 
 	@Override
-	public DoubleMatrix betaDensity() {
-		return Utils.toDoubleMatrix(densityMatrix.scale(0.5));
+	public SimpleMatrix betaDensity() {
+		return densityMatrix.scale(0.5);
 	}
 
 	@Override
-	public DoubleMatrix densityMatrix() {
-		return Utils.toDoubleMatrix(densityMatrix);
+	public SimpleMatrix densityMatrix() {
+		return densityMatrix;
 	}
 }

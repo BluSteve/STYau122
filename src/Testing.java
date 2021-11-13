@@ -2,6 +2,7 @@ import jcuda.Pointer;
 import jcuda.Sizeof;
 import jcuda.jcublas.JCublas;
 import jcuda.runtime.JCuda;
+import nddoparam.GeometryOptimization;
 import nddoparam.Solution;
 import nddoparam.SolutionR;
 import nddoparam.mndo.MNDOAtom;
@@ -14,7 +15,6 @@ import scf.Utils;
 
 import java.io.IOException;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 public class Testing {
 	public static void main(String[] args) {
@@ -314,19 +314,20 @@ public class Testing {
 		rm.mult = 0;
 		rm.name = "C1H4";
 		Solution s1 = new SolutionR(atoms, rm).compute();
-		System.out.println(s1);
+		Solution s2 = GeometryOptimization.of(s1).compute().getS();
+		System.out.println(s2);
 
-		NanoStopWatch nsw = NanoStopWatch.sw();
-		double time = 0;
-		for (int i = 0; i < 1000; i++) {
-			Solution s = new SolutionR(atoms, rm);
-			nsw.start();
-			s.compute();
-			time += nsw.stop();
-			TimeUnit.MILLISECONDS.sleep(1);
-		}
-
-		System.out.println("time = " + time/1000);
+//		NanoStopWatch nsw = NanoStopWatch.sw();
+//		double time = 0;
+//		for (int i = 0; i < 1000; i++) {
+//			Solution s = new SolutionR(atoms, rm);
+//			nsw.start();
+//			s.compute();
+//			time += nsw.stop();
+//			TimeUnit.MILLISECONDS.sleep(1);
+//		}
+//
+//		System.out.println("time = " + time/1000);
 //		System.out.println("s.energy = " + s.energy);
 //		GeometryOptimization.of(s).compute();
 //		System.out.println("s.energy = " + s.energy);

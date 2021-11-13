@@ -1,6 +1,6 @@
 package nddoparam;
 
-import org.jblas.DoubleMatrix;
+import org.ejml.simple.SimpleMatrix;
 import scf.GTO;
 import scf.LCGTO;
 import scf.Utils;
@@ -1691,7 +1691,7 @@ public class GeometryDerivative {
 								  int atomnum,
 								  int tau) {
 
-		DoubleMatrix densitymatrix = soln.densityMatrix();
+		SimpleMatrix densitymatrix = soln.densityMatrix();
 
 
 		NDDO6G[] orbitals = soln.orbitals;
@@ -1700,7 +1700,7 @@ public class GeometryDerivative {
 
 		int[] atomnumber = soln.atomOfOrb;
 
-		DoubleMatrix H = DoubleMatrix.zeros(orbitals.length, orbitals.length);
+		SimpleMatrix H = new SimpleMatrix(orbitals.length, orbitals.length);
 
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
@@ -1740,12 +1740,12 @@ public class GeometryDerivative {
 					}
 				}
 
-				H.put(j, k, sum);
-				H.put(k, j, sum);
+				H.set(j, k, sum);
+				H.set(k, j, sum);
 			}
 		}
 
-		DoubleMatrix G = DoubleMatrix.zeros(orbitals.length, orbitals.length);
+		SimpleMatrix G = new SimpleMatrix(orbitals.length, orbitals.length);
 
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
@@ -1831,13 +1831,13 @@ public class GeometryDerivative {
 					}
 				}
 
-				G.put(j, k, sum);
-				G.put(k, j, sum);
+				G.set(j, k, sum);
+				G.set(k, j, sum);
 
 			}
 		}
 
-		DoubleMatrix F = H.dup().add(G);
+		SimpleMatrix F = H.copy().plus(G);
 
 		double e = 0;
 
@@ -1870,9 +1870,9 @@ public class GeometryDerivative {
 	public static double gradientUnrestricted(NDDOAtom[] atoms, SolutionU soln,
 											  int atomnum, int tau) {
 
-		DoubleMatrix alphadensity = soln.alphaDensity();
+		SimpleMatrix alphadensity = soln.alphaDensity();
 
-		DoubleMatrix betadensity = soln.betaDensity();
+		SimpleMatrix betadensity = soln.betaDensity();
 
 		NDDO6G[] orbitals = soln.orbitals;
 
@@ -1880,7 +1880,7 @@ public class GeometryDerivative {
 
 		int[] atomnumber = soln.atomOfOrb;
 
-		DoubleMatrix H = DoubleMatrix.zeros(orbitals.length, orbitals.length);
+		SimpleMatrix H = new SimpleMatrix(orbitals.length, orbitals.length);
 
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
@@ -1920,12 +1920,12 @@ public class GeometryDerivative {
 					}
 				}
 
-				H.put(j, k, sum);
-				H.put(k, j, sum);
+				H.set(j, k, sum);
+				H.set(k, j, sum);
 			}
 		}
 
-		DoubleMatrix J = DoubleMatrix.zeros(orbitals.length, orbitals.length);
+		SimpleMatrix J = new SimpleMatrix(orbitals.length, orbitals.length);
 
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
@@ -1977,13 +1977,13 @@ public class GeometryDerivative {
 					}
 				}
 
-				J.put(j, k, sum);
-				J.put(k, j, sum);
+				J.set(j, k, sum);
+				J.set(k, j, sum);
 
 			}
 		}
 
-		DoubleMatrix Ka = DoubleMatrix.zeros(orbitals.length, orbitals.length);
+		SimpleMatrix Ka = new SimpleMatrix(orbitals.length, orbitals.length);
 
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
@@ -2026,13 +2026,13 @@ public class GeometryDerivative {
 					}
 				}
 
-				Ka.put(j, k, sum);
-				Ka.put(k, j, sum);
+				Ka.set(j, k, sum);
+				Ka.set(k, j, sum);
 
 			}
 		}
 
-		DoubleMatrix Kb = DoubleMatrix.zeros(orbitals.length, orbitals.length);
+		SimpleMatrix Kb = new SimpleMatrix(orbitals.length, orbitals.length);
 
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
@@ -2075,14 +2075,14 @@ public class GeometryDerivative {
 					}
 				}
 
-				Kb.put(j, k, sum);
-				Kb.put(k, j, sum);
+				Kb.set(j, k, sum);
+				Kb.set(k, j, sum);
 
 			}
 		}
 
-		DoubleMatrix Fa = H.add(J).add(Ka);
-		DoubleMatrix Fb = H.add(J).add(Kb);
+		SimpleMatrix Fa = H.plus(J).plus(Ka);
+		SimpleMatrix Fb = H.plus(J).plus(Kb);
 
 		double e = 0;
 
@@ -2111,23 +2111,23 @@ public class GeometryDerivative {
 		return e;
 	}
 
-	public static DoubleMatrix[][] gradientRoutine(NDDOAtom[] atoms,
+	public static SimpleMatrix[][] gradientRoutine(NDDOAtom[] atoms,
 												   SolutionR soln) {
 
-		DoubleMatrix[] fockderivatives = new DoubleMatrix[atoms.length * 3];
+		SimpleMatrix[] fockderivatives = new SimpleMatrix[atoms.length * 3];
 
-		DoubleMatrix grad = new DoubleMatrix(atoms.length * 3, 1);
+		SimpleMatrix grad = new SimpleMatrix(atoms.length * 3, 1);
 
 		int count = 0;
 
 		for (int a = 0; a < atoms.length; a++) {
 			for (int tau = 0; tau < 3; tau++) {
-				DoubleMatrix[] matrices = staticderivs(atoms, soln, a, tau);
+				SimpleMatrix[] matrices = staticderivs(atoms, soln, a, tau);
 				fockderivatives[count] = matrices[1];
 				double sum = 0;
 
-				for (int i = 0; i < matrices[1].rows; i++) {
-					for (int j = 0; j < matrices[1].rows; j++) {
+				for (int i = 0; i < matrices[1].numRows(); i++) {
+					for (int j = 0; j < matrices[1].numRows(); j++) {
 						sum += 0.5 * soln.densityMatrix().get(i, j) *
 								(matrices[0].get(i, j) + matrices[1].get(i,
 										j));
@@ -2140,38 +2140,38 @@ public class GeometryDerivative {
 					}
 				}
 
-				grad.put(count, 0, sum);
+				grad.set(count, 0, sum);
 
 				count++;
 
 			}
 		}
 
-		return new DoubleMatrix[][]{new DoubleMatrix[]{grad}, fockderivatives};
+		return new SimpleMatrix[][]{new SimpleMatrix[]{grad}, fockderivatives};
 	}
 
-	public static DoubleMatrix[][] gradientRoutine(NDDOAtom[] atoms,
+	public static SimpleMatrix[][] gradientRoutine(NDDOAtom[] atoms,
 												   SolutionU soln) {
 
-		DoubleMatrix[] fockderivativesalpha =
-				new DoubleMatrix[atoms.length * 3];
+		SimpleMatrix[] fockderivativesalpha =
+				new SimpleMatrix[atoms.length * 3];
 
-		DoubleMatrix[] fockderivativesbeta =
-				new DoubleMatrix[atoms.length * 3];
+		SimpleMatrix[] fockderivativesbeta =
+				new SimpleMatrix[atoms.length * 3];
 
-		DoubleMatrix grad = new DoubleMatrix(atoms.length * 3, 1);
+		SimpleMatrix grad = new SimpleMatrix(atoms.length * 3, 1);
 
 		int count = 0;
 
 		for (int a = 0; a < atoms.length; a++) {
 			for (int tau = 0; tau < 3; tau++) {
-				DoubleMatrix[] matrices = staticderivs(atoms, soln, a, tau);
+				SimpleMatrix[] matrices = staticderivs(atoms, soln, a, tau);
 				fockderivativesalpha[count] = matrices[1];
 				fockderivativesbeta[count] = matrices[2];
 				double sum = 0;
 
-				for (int i = 0; i < matrices[1].rows; i++) {
-					for (int j = 0; j < matrices[1].rows; j++) {
+				for (int i = 0; i < matrices[1].numRows(); i++) {
+					for (int j = 0; j < matrices[1].numRows(); j++) {
 						sum += 0.5 * soln.densityMatrix().get(i, j) *
 								(matrices[0].get(i, j) + matrices[1].get(i,
 										j));
@@ -2187,14 +2187,14 @@ public class GeometryDerivative {
 					}
 				}
 
-				grad.put(count, 0, sum);
+				grad.set(count, 0, sum);
 
 				count++;
 
 			}
 		}
 
-		return new DoubleMatrix[][]{new DoubleMatrix[]{grad},
+		return new SimpleMatrix[][]{new SimpleMatrix[]{grad},
 				fockderivativesalpha, fockderivativesbeta};
 	}
 
@@ -2229,7 +2229,7 @@ public class GeometryDerivative {
 	}
 
 	private static double Ederiv(int atomnum1, int atomnum2, int[][] index,
-								 DoubleMatrix densityMatrix, NDDOAtom[] atoms,
+								 SimpleMatrix densityMatrix, NDDOAtom[] atoms,
 								 NDDO6G[] orbitals, int tau) {
 
 		double e = 0;
@@ -2287,8 +2287,8 @@ public class GeometryDerivative {
 	}
 
 	private static double Ederiv(int atomnum1, int atomnum2, int[][] index,
-								 DoubleMatrix alphaDensity,
-								 DoubleMatrix betaDensity, NDDOAtom[] atoms,
+								 SimpleMatrix alphaDensity,
+								 SimpleMatrix betaDensity, NDDOAtom[] atoms,
 								 NDDO6G[] orbitals, int tau) {
 
 		double e = 0;
@@ -2350,10 +2350,10 @@ public class GeometryDerivative {
 
 	}
 
-	public static DoubleMatrix[] staticderivs(NDDOAtom[] atoms, SolutionR soln,
+	public static SimpleMatrix[] staticderivs(NDDOAtom[] atoms, SolutionR soln,
 											  int atomnum, int tau) {
 
-		DoubleMatrix densitymatrix = soln.densityMatrix();
+		SimpleMatrix densitymatrix = soln.densityMatrix();
 
 
 		NDDO6G[] orbitals = soln.orbitals;
@@ -2362,7 +2362,7 @@ public class GeometryDerivative {
 
 		int[] atomnumber = soln.atomOfOrb;
 
-		DoubleMatrix H = DoubleMatrix.zeros(orbitals.length, orbitals.length);
+		SimpleMatrix H = new SimpleMatrix(orbitals.length, orbitals.length);
 
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
@@ -2402,12 +2402,12 @@ public class GeometryDerivative {
 					}
 				}
 
-				H.put(j, k, sum);
-				H.put(k, j, sum);
+				H.set(j, k, sum);
+				H.set(k, j, sum);
 			}
 		}
 
-		DoubleMatrix G = DoubleMatrix.zeros(orbitals.length, orbitals.length);
+		SimpleMatrix G = new SimpleMatrix(orbitals.length, orbitals.length);
 
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
@@ -2493,24 +2493,24 @@ public class GeometryDerivative {
 					}
 				}
 
-				G.put(j, k, sum);
-				G.put(k, j, sum);
+				G.set(j, k, sum);
+				G.set(k, j, sum);
 
 			}
 		}
 
-		DoubleMatrix F = H.dup().add(G);
+		SimpleMatrix F = H.copy().plus(G);
 
-		return new DoubleMatrix[]{H, F};
+		return new SimpleMatrix[]{H, F};
 
 	}
 
-	public static DoubleMatrix[] staticderivs(NDDOAtom[] atoms, SolutionU soln,
+	public static SimpleMatrix[] staticderivs(NDDOAtom[] atoms, SolutionU soln,
 											  int atomnum, int tau) {
 
-		DoubleMatrix alphadensity = soln.alphaDensity();
+		SimpleMatrix alphadensity = soln.alphaDensity();
 
-		DoubleMatrix betadensity = soln.betaDensity();
+		SimpleMatrix betadensity = soln.betaDensity();
 
 		NDDO6G[] orbitals = soln.orbitals;
 
@@ -2518,7 +2518,7 @@ public class GeometryDerivative {
 
 		int[] atomnumber = soln.atomOfOrb;
 
-		DoubleMatrix H = DoubleMatrix.zeros(orbitals.length, orbitals.length);
+		SimpleMatrix H = new SimpleMatrix(orbitals.length, orbitals.length);
 
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
@@ -2558,12 +2558,12 @@ public class GeometryDerivative {
 					}
 				}
 
-				H.put(j, k, sum);
-				H.put(k, j, sum);
+				H.set(j, k, sum);
+				H.set(k, j, sum);
 			}
 		}
 
-		DoubleMatrix J = DoubleMatrix.zeros(orbitals.length, orbitals.length);
+		SimpleMatrix J = new SimpleMatrix(orbitals.length, orbitals.length);
 
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
@@ -2615,13 +2615,13 @@ public class GeometryDerivative {
 					}
 				}
 
-				J.put(j, k, sum);
-				J.put(k, j, sum);
+				J.set(j, k, sum);
+				J.set(k, j, sum);
 
 			}
 		}
 
-		DoubleMatrix Ka = DoubleMatrix.zeros(orbitals.length, orbitals.length);
+		SimpleMatrix Ka = new SimpleMatrix(orbitals.length, orbitals.length);
 
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
@@ -2664,13 +2664,13 @@ public class GeometryDerivative {
 					}
 				}
 
-				Ka.put(j, k, sum);
-				Ka.put(k, j, sum);
+				Ka.set(j, k, sum);
+				Ka.set(k, j, sum);
 
 			}
 		}
 
-		DoubleMatrix Kb = DoubleMatrix.zeros(orbitals.length, orbitals.length);
+		SimpleMatrix Kb = new SimpleMatrix(orbitals.length, orbitals.length);
 
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
@@ -2713,46 +2713,46 @@ public class GeometryDerivative {
 					}
 				}
 
-				Kb.put(j, k, sum);
-				Kb.put(k, j, sum);
+				Kb.set(j, k, sum);
+				Kb.set(k, j, sum);
 
 			}
 		}
 
-		DoubleMatrix Fa = H.add(J).add(Ka);
-		DoubleMatrix Fb = H.add(J).add(Kb);
+		SimpleMatrix Fa = H.plus(J).plus(Ka);
+		SimpleMatrix Fb = H.plus(J).plus(Kb);
 
-		return new DoubleMatrix[]{H, Fa, Fb};
+		return new SimpleMatrix[]{H, Fa, Fb};
 
 	}
 
-	public static DoubleMatrix densitymatrixderivfinite(NDDOAtom[] atoms,
+	public static SimpleMatrix densitymatrixderivfinite(NDDOAtom[] atoms,
 														SolutionR soln,
 														int atomnum, int tau) {
-		DoubleMatrix orig = soln.densityMatrix();
+		SimpleMatrix orig = soln.densityMatrix();
 
 		NDDOAtom[] newatoms = Utils.perturbAtomCoords(atoms, atomnum, tau);
 
-		DoubleMatrix perturbed =
+		SimpleMatrix perturbed =
 				soln.withNewAtoms(newatoms).densityMatrix();
 
-		return perturbed.sub(orig).mmul(1E7);
+		return perturbed.minus(orig).scale(1E7);
 	}
 
-	public static DoubleMatrix[] densitymatrixderivfinite(NDDOAtom[] atoms,
+	public static SimpleMatrix[] densitymatrixderivfinite(NDDOAtom[] atoms,
 														  SolutionU soln,
 														  int atomnum,
 														  int tau) {
-		DoubleMatrix aorig = soln.alphaDensity();
-		DoubleMatrix borig = soln.betaDensity();
+		SimpleMatrix aorig = soln.alphaDensity();
+		SimpleMatrix borig = soln.betaDensity();
 
 		NDDOAtom[] newatoms = Utils.perturbAtomCoords(atoms, atomnum, tau);
 		SolutionU newsoln = (SolutionU) soln.withNewAtoms(newatoms);
 
-		DoubleMatrix aperturbed = newsoln.alphaDensity();
-		DoubleMatrix bperturbed = newsoln.betaDensity();
+		SimpleMatrix aperturbed = newsoln.alphaDensity();
+		SimpleMatrix bperturbed = newsoln.betaDensity();
 
-		return new DoubleMatrix[]{aperturbed.sub(aorig).mmul(1E7),
-				bperturbed.sub(borig).mmul(1E7)};
+		return new SimpleMatrix[]{aperturbed.minus(aorig).scale(1E7),
+				bperturbed.minus(borig).scale(1E7)};
 	}
 }

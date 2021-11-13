@@ -1,7 +1,6 @@
 package nddoparam;
 
 import org.ejml.simple.SimpleMatrix;
-import org.jblas.DoubleMatrix;
 import runcycle.input.RawMolecule;
 import scf.Utils;
 
@@ -681,17 +680,17 @@ public class SolutionU extends Solution {
 	}
 
 	@Override
-	public DoubleMatrix alphaDensity() {
-		return Utils.toDoubleMatrix(alphaDensity);
+	public SimpleMatrix alphaDensity() {
+		return alphaDensity;
 	}
 
 	@Override
-	public DoubleMatrix betaDensity() {
-		return Utils.toDoubleMatrix(betaDensity);
+	public SimpleMatrix betaDensity() {
+		return betaDensity;
 	}
 
 	@Override
-	public DoubleMatrix densityMatrix() {
-		return Utils.toDoubleMatrix(alphaDensity.plus(betaDensity));
+	public SimpleMatrix densityMatrix() {
+		return alphaDensity.plus(betaDensity);
 	}
 }

@@ -226,14 +226,11 @@ public class Utils {
 		return result;
 	}
 
-	public static int numNotNull(DoubleMatrix[] rarray) {
+	public static int numNotNull(Object[] array) {
 		int count = 0;
-		for (DoubleMatrix r : rarray) {
-			if (r != null) {
-				count++;
-			}
+		for (Object x: array) {
+			if (x != null) count++;
 		}
-
 		return count;
 	}
 
