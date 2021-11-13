@@ -481,7 +481,7 @@ public class SolutionR extends Solution {
 									densityMatrix.numCols());
 
 
-					for (int i = 0; i < DIIS.getNumElements(); i++) {
+					for (int i = 0; i < DIIS.getNumElements() - 1; i++) {
 						F = F.plus(Farray[i].scale(DIIS.get(i)));
 						D = D.plus(Darray[i].scale(DIIS.get(i)));
 					}
@@ -508,7 +508,7 @@ public class SolutionR extends Solution {
 					}
 
 					densityMatrix = calculateDensityMatrix(C);
-				} catch (Exception e) {
+				} catch (Exception e) { // todo fix adrian
 					matrices = Utils.symEigen(F);
 
 					E = matrices[1].diag();

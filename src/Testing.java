@@ -314,7 +314,7 @@ public class Testing {
 		rm.mult = 0;
 		rm.name = "C1H4";
 		Solution s1 = new SolutionR(atoms, rm).compute();
-//		System.out.println(s1);
+		System.out.println(s1);
 
 		NanoStopWatch nsw = NanoStopWatch.sw();
 		double time = 0;
@@ -326,7 +326,7 @@ public class Testing {
 			TimeUnit.MILLISECONDS.sleep(1);
 		}
 
-//		System.out.println("time = " + time/1000);
+		System.out.println("time = " + time/1000);
 //		System.out.println("s.energy = " + s.energy);
 //		GeometryOptimization.of(s).compute();
 //		System.out.println("s.energy = " + s.energy);
