@@ -8,11 +8,9 @@ import scf.Utils;
 public class GeometryDerivative {
 
 	private static double qqderiv(double p01, double p11, double p21,
-								  double D11,
-								  double D21, double p02, double p12,
-								  double p22,
-								  double D12, double D22, double[] xA,
-								  double[] xB,
+								  double D11, double D21, double p02,
+								  double p12, double p22, double D12,
+								  double D22, double[] xA, double[] xB,
 								  int tau) {
 
 		double R = GTO.R(xA, xB);
@@ -21,11 +19,9 @@ public class GeometryDerivative {
 	}
 
 	private static double quzderiv(double p01, double p11, double p21,
-								   double D11,
-								   double D21, double p02, double p12,
-								   double p22,
-								   double D12, double D22, double[] xA,
-								   double[] xB,
+								   double D11, double D21, double p02,
+								   double p12, double p22, double D12,
+								   double D22, double[] xA, double[] xB,
 								   int tau) {
 
 		double R = GTO.R(xA, xB);
@@ -37,11 +33,9 @@ public class GeometryDerivative {
 	}
 
 	private static double qQpipideriv(double p01, double p11, double p21,
-									  double D11,
-									  double D21, double p02, double p12,
-									  double p22,
-									  double D12, double D22, double[] xA,
-									  double[] xB,
+									  double D11, double D21, double p02,
+									  double p12, double p22, double D12,
+									  double D22, double[] xA, double[] xB,
 									  int tau) {
 
 		double R = GTO.R(xA, xB);
@@ -53,11 +47,9 @@ public class GeometryDerivative {
 	}
 
 	private static double qQzzderiv(double p01, double p11, double p21,
-									double D11,
-									double D21, double p02, double p12,
-									double p22,
-									double D12, double D22, double[] xA,
-									double[] xB,
+									double D11, double D21, double p02,
+									double p12, double p22, double D12,
+									double D22, double[] xA, double[] xB,
 									int tau) {
 
 		double R = GTO.R(xA, xB);
@@ -71,11 +63,9 @@ public class GeometryDerivative {
 	}
 
 	private static double upiupideriv(double p01, double p11, double p21,
-									  double D11,
-									  double D21, double p02, double p12,
-									  double p22,
-									  double D12, double D22, double[] xA,
-									  double[] xB,
+									  double D11, double D21, double p02,
+									  double p12, double p22, double D12,
+									  double D22, double[] xA, double[] xB,
 									  int tau) {
 
 		double R = GTO.R(xA, xB);
@@ -87,11 +77,9 @@ public class GeometryDerivative {
 	}
 
 	private static double uzuzderiv(double p01, double p11, double p21,
-									double D11,
-									double D21, double p02, double p12,
-									double p22,
-									double D12, double D22, double[] xA,
-									double[] xB,
+									double D11, double D21, double p02,
+									double p12, double p22, double D12,
+									double D22, double[] xA, double[] xB,
 									int tau) {
 
 		double R = GTO.R(xA, xB);
@@ -107,39 +95,31 @@ public class GeometryDerivative {
 	}
 
 	private static double upiQpizderiv(double p01, double p11, double p21,
-									   double D11,
-									   double D21, double p02, double p12,
-									   double p22,
-									   double D12, double D22, double[] xA,
-									   double[] xB,
+									   double D11, double D21, double p02,
+									   double p12, double p22, double D12,
+									   double D22, double[] xA, double[] xB,
 									   int tau) {
 
 		double R = GTO.R(xA, xB);
 		double a12 = p11 + p22;
 		return -0.25 / R * (xB[tau] - xA[tau]) * (R - D22) *
 				Math.pow((R - D22) * (R - D22) + (D11 - D22) * (D11 - D22) +
-								a12 * a12,
-						-1.5)
+						a12 * a12, -1.5)
 				+ 0.25 / R * (xB[tau] - xA[tau]) * (R - D22) *
 				Math.pow((R - D22) * (R - D22) + (D11 + D22) * (D11 + D22) +
-								a12 * a12,
-						-1.5)
+						a12 * a12, -1.5)
 				+ 0.25 / R * (xB[tau] - xA[tau]) * (R + D22) *
 				Math.pow((R + D22) * (R + D22) + (D11 - D22) * (D11 - D22) +
-								a12 * a12,
-						-1.5)
+						a12 * a12, -1.5)
 				- 0.25 / R * (xB[tau] - xA[tau]) * (R + D22) *
 				Math.pow((R + D22) * (R + D22) + (D11 + D22) * (D11 + D22) +
-								a12 * a12,
-						-1.5);
+						a12 * a12, -1.5);
 	}
 
 	private static double uzQpipideriv(double p01, double p11, double p21,
-									   double D11,
-									   double D21, double p02, double p12,
-									   double p22,
-									   double D12, double D22, double[] xA,
-									   double[] xB,
+									   double D11, double D21, double p02,
+									   double p12, double p22, double D12,
+									   double D22, double[] xA, double[] xB,
 									   int tau) {
 
 		double R = GTO.R(xA, xB);
@@ -157,11 +137,9 @@ public class GeometryDerivative {
 	}
 
 	private static double uzQzzderiv(double p01, double p11, double p21,
-									 double D11,
-									 double D21, double p02, double p12,
-									 double p22,
-									 double D12, double D22, double[] xA,
-									 double[] xB,
+									 double D11, double D21, double p02,
+									 double p12, double p22, double D12,
+									 double D22, double[] xA, double[] xB,
 									 int tau) {
 
 		double R = GTO.R(xA, xB);
@@ -185,11 +163,10 @@ public class GeometryDerivative {
 	}
 
 	private static double QpipiQpipideriv(double p01, double p11, double p21,
-										  double D11,
-										  double D21, double p02, double p12,
-										  double p22,
-										  double D12, double D22, double[] xA,
-										  double[] xB, int tau) {
+										  double D11, double D21, double p02,
+										  double p12, double p22, double D12,
+										  double D22, double[] xA, double[] xB,
+										  int tau) {
 
 		double R = GTO.R(xA, xB);
 		double a22 = p21 + p22;
@@ -208,11 +185,9 @@ public class GeometryDerivative {
 	}
 
 	private static double QxxQyyderiv(double p01, double p11, double p21,
-									  double D11,
-									  double D21, double p02, double p12,
-									  double p22,
-									  double D12, double D22, double[] xA,
-									  double[] xB,
+									  double D11, double D21, double p02,
+									  double p12, double p22, double D12,
+									  double D22, double[] xA, double[] xB,
 									  int tau) {
 
 		double R = GTO.R(xA, xB);
@@ -229,11 +204,9 @@ public class GeometryDerivative {
 	}
 
 	private static double QpipiQzzderiv(double p01, double p11, double p21,
-										double D11,
-										double D21, double p02, double p12,
-										double p22,
-										double D12, double D22, double[] xA,
-										double[] xB,
+										double D11, double D21, double p02,
+										double p12, double p22, double D12,
+										double D22, double[] xA, double[] xB,
 										int tau) {
 
 		double R = GTO.R(xA, xB);
@@ -255,31 +228,25 @@ public class GeometryDerivative {
 	}
 
 	private static double QzzQzzderiv(double p01, double p11, double p21,
-									  double D11,
-									  double D21, double p02, double p12,
-									  double p22,
-									  double D12, double D22, double[] xA,
-									  double[] xB,
+									  double D11, double D21, double p02,
+									  double p12, double p22, double D12,
+									  double D22, double[] xA, double[] xB,
 									  int tau) {
 
 		double R = GTO.R(xA, xB);
 		double a22 = p21 + p22;
 		return 0.0625 / R * (xB[tau] - xA[tau]) * (R + 2 * D21 - 2 * D22) *
 				Math.pow((R + 2 * D21 - 2 * D22) * (R + 2 * D21 - 2 * D22) +
-								a22 * a22,
-						-1.5)
+						a22 * a22, -1.5)
 				+ 0.0625 / R * (xB[tau] - xA[tau]) * (R + 2 * D21 + 2 * D22) *
 				Math.pow((R + 2 * D21 + 2 * D22) * (R + 2 * D21 + 2 * D22) +
-								a22 * a22,
-						-1.5)
+						a22 * a22, -1.5)
 				+ 0.0625 / R * (xB[tau] - xA[tau]) * (R - 2 * D21 - 2 * D22) *
 				Math.pow((R - 2 * D21 - 2 * D22) * (R - 2 * D21 - 2 * D22) +
-								a22 * a22,
-						-1.5)
+						a22 * a22, -1.5)
 				+ 0.0625 / R * (xB[tau] - xA[tau]) * (R - 2 * D21 + 2 * D22) *
 				Math.pow((R - 2 * D21 + 2 * D22) * (R - 2 * D21 + 2 * D22) +
-								a22 * a22,
-						-1.5)
+						a22 * a22, -1.5)
 				- 0.125 / R * (xB[tau] - xA[tau]) * (R + 2 * D21) *
 				Math.pow((R + 2 * D21) * (R + 2 * D21) + a22 * a22, -1.5)
 				- 0.125 / R * (xB[tau] - xA[tau]) * (R - 2 * D21) *
@@ -293,115 +260,88 @@ public class GeometryDerivative {
 	}
 
 	private static double QpizQpizderiv(double p01, double p11, double p21,
-										double D11,
-										double D21, double p02, double p12,
-										double p22,
-										double D12, double D22, double[] xA,
-										double[] xB,
+										double D11, double D21, double p02,
+										double p12, double p22, double D12,
+										double D22, double[] xA, double[] xB,
 										int tau) {
 
 		double R = GTO.R(xA, xB);
 		double a22 = p21 + p22;
 		return 0.125 / R * (xB[tau] - xA[tau]) * (R + D21 - D22) * Math.pow(
 				(R + D21 - D22) * (R + D21 - D22) + (D21 - D22) * (D21 - D22) +
-						a22 * a22,
-				-1.5)
+						a22 * a22, -1.5)
 				- 0.125 / R * (xB[tau] - xA[tau]) * (R + D21 - D22) * Math.pow(
 				(R + D21 - D22) * (R + D21 - D22) + (D21 + D22) * (D21 + D22) +
-						a22 * a22,
-				-1.5)
+						a22 * a22, -1.5)
 				- 0.125 / R * (xB[tau] - xA[tau]) * (R + D21 + D22) * Math.pow(
 				(R + D21 + D22) * (R + D21 + D22) + (D21 - D22) * (D21 - D22) +
-						a22 * a22,
-				-1.5)
+						a22 * a22, -1.5)
 				+ 0.125 / R * (xB[tau] - xA[tau]) * (R + D21 + D22) * Math.pow(
 				(R + D21 + D22) * (R + D21 + D22) + (D21 + D22) * (D21 + D22) +
-						a22 * a22,
-				-1.5)
+						a22 * a22, -1.5)
 				- 0.125 / R * (xB[tau] - xA[tau]) * (R - D21 - D22) * Math.pow(
 				(R - D21 - D22) * (R - D21 - D22) + (D21 - D22) * (D21 - D22) +
-						a22 * a22,
-				-1.5)
+						a22 * a22, -1.5)
 				+ 0.125 / R * (xB[tau] - xA[tau]) * (R - D21 - D22) * Math.pow(
 				(R - D21 - D22) * (R - D21 - D22) + (D21 + D22) * (D21 + D22) +
-						a22 * a22,
-				-1.5)
+						a22 * a22, -1.5)
 				+ 0.125 / R * (xB[tau] - xA[tau]) * (R - D21 + D22) * Math.pow(
 				(R - D21 + D22) * (R - D21 + D22) + (D21 - D22) * (D21 - D22) +
-						a22 * a22,
-				-1.5)
+						a22 * a22, -1.5)
 				- 0.125 / R * (xB[tau] - xA[tau]) * (R - D21 + D22) * Math.pow(
 				(R - D21 + D22) * (R - D21 + D22) + (D21 + D22) * (D21 + D22) +
-						a22 * a22,
-				-1.5);
+						a22 * a22, -1.5);
 	}
 
 	private static double ssssderiv(double p01, double p11, double p21,
-									double D11,
-									double D21, double p02, double p12,
-									double p22,
-									double D12, double D22, double[] xA,
-									double[] xB,
+									double D11, double D21, double p02,
+									double p12, double p22, double D12,
+									double D22, double[] xA, double[] xB,
 									int tau) {
 		return qqderiv(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, xA,
-				xB,
-				tau);
+				xB, tau);
 	}
 
 	private static double ssppippideriv(double p01, double p11, double p21,
-										double D11,
-										double D21, double p02, double p12,
-										double p22,
-										double D12, double D22, double[] xA,
-										double[] xB,
+										double D11, double D21, double p02,
+										double p12, double p22, double D12,
+										double D22, double[] xA, double[] xB,
 										int tau) {
 		return qqderiv(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, xA,
-				xB,
-				tau) +
+				xB, tau) +
 				qQpipideriv(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22,
-						xA, xB,
-						tau);
+						xA, xB, tau);
 	}
 
 	private static double sspzpzderiv(double p01, double p11, double p21,
-									  double D11,
-									  double D21, double p02, double p12,
-									  double p22,
-									  double D12, double D22, double[] xA,
-									  double[] xB,
+									  double D11, double D21, double p02,
+									  double p12, double p22, double D12,
+									  double D22, double[] xA, double[] xB,
 									  int tau) {
 		return qqderiv(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, xA,
-				xB,
-				tau) +
+				xB, tau) +
 				qQzzderiv(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, xA,
 						xB, tau);
 	}
 
 	private static double ppippissderiv(double p01, double p11, double p21,
-										double D11,
-										double D21, double p02, double p12,
-										double p22,
-										double D12, double D22, double[] xA,
-										double[] xB,
+										double D11, double D21, double p02,
+										double p12, double p22, double D12,
+										double D22, double[] xA, double[] xB,
 										int tau) {
 		return qqderiv(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, xA,
-				xB,
-				tau) +
+				xB, tau) +
 				qQpipideriv(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21,
-						xA, xB,
-						tau);
+						xA, xB, tau);
 	}
 
 	private static double pzpzssderiv(double p01, double p11, double p21,
-									  double D11,
-									  double D21, double p02, double p12,
-									  double p22,
-									  double D12, double D22, double[] xA,
-									  double[] xB,
+									  double D11, double D21, double p02,
+									  double p12, double p22, double D12,
+									  double D22, double[] xA, double[] xB,
 									  int tau) {
 		return qqderiv(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, xA,
-				xB,
-				tau) +
+				xB, tau) +
 				qQzzderiv(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, xA,
 						xB, tau);
 	}
@@ -410,263 +350,201 @@ public class GeometryDerivative {
 											double D11, double D21, double p02,
 											double p12, double p22, double D12,
 											double D22, double[] xA,
-											double[] xB,
-											int tau) {
+											double[] xB, int tau) {
 		return qqderiv(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, xA,
-				xB,
-				tau) +
+				xB, tau) +
 				qQpipideriv(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22,
-						xA, xB,
-						tau) +
+						xA, xB, tau) +
 				qQpipideriv(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21,
-						xA, xB,
-						tau) +
+						xA, xB, tau) +
 				QpipiQpipideriv(p01, p11, p21, D11, D21, p02, p12, p22, D12,
-						D22, xA, xB,
-						tau);
+						D22, xA, xB, tau);
 	}
 
 	private static double pxpxpypyderiv(double p01, double p11, double p21,
-										double D11,
-										double D21, double p02, double p12,
-										double p22,
-										double D12, double D22, double[] xA,
-										double[] xB,
+										double D11, double D21, double p02,
+										double p12, double p22, double D12,
+										double D22, double[] xA, double[] xB,
 										int tau) {
 		return qqderiv(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, xA,
-				xB,
-				tau) +
+				xB, tau) +
 				qQpipideriv(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22,
-						xA, xB,
-						tau) +
+						xA, xB, tau) +
 				qQpipideriv(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21,
-						xA, xB,
-						tau) +
+						xA, xB, tau) +
 				QxxQyyderiv(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22,
-						xA, xB,
-						tau);
+						xA, xB, tau);
 	}
 
 	private static double ppippipzpzderiv(double p01, double p11, double p21,
-										  double D11,
-										  double D21, double p02, double p12,
-										  double p22,
-										  double D12, double D22, double[] xA,
-										  double[] xB, int tau) {
+										  double D11, double D21, double p02,
+										  double p12, double p22, double D12,
+										  double D22, double[] xA, double[] xB,
+										  int tau) {
 		return qqderiv(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, xA,
-				xB,
-				tau) +
+				xB, tau) +
 				qQzzderiv(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, xA,
-						xB,
-						tau) +
+						xB, tau) +
 				qQpipideriv(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21,
-						xA, xB,
-						tau) +
+						xA, xB, tau) +
 				QpipiQzzderiv(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22,
-						xA, xB,
-						tau);
+						xA, xB, tau);
 	}
 
 	private static double pzpzppippideriv(double p01, double p11, double p21,
-										  double D11,
-										  double D21, double p02, double p12,
-										  double p22,
-										  double D12, double D22, double[] xA,
-										  double[] xB, int tau) {
+										  double D11, double D21, double p02,
+										  double p12, double p22, double D12,
+										  double D22, double[] xA, double[] xB,
+										  int tau) {
 		return qqderiv(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, xA,
-				xB,
-				tau) +
+				xB, tau) +
 				qQpipideriv(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22,
-						xA, xB,
-						tau) +
+						xA, xB, tau) +
 				qQzzderiv(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, xA,
-						xB,
-						tau) +
+						xB, tau) +
 				QpipiQzzderiv(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21,
-						xA, xB,
-						tau);
+						xA, xB, tau);
 	}
 
 	private static double pzpzpzpzderiv(double p01, double p11, double p21,
-										double D11,
-										double D21, double p02, double p12,
-										double p22,
-										double D12, double D22, double[] xA,
-										double[] xB,
+										double D11, double D21, double p02,
+										double p12, double p22, double D12,
+										double D22, double[] xA, double[] xB,
 										int tau) {
 		return qqderiv(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, xA,
-				xB,
-				tau) +
+				xB, tau) +
 				qQzzderiv(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, xA,
-						xB,
-						tau) +
+						xB, tau) +
 				qQzzderiv(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, xA,
-						xB,
-						tau) +
+						xB, tau) +
 				QzzQzzderiv(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22,
-						xA, xB,
-						tau);
+						xA, xB, tau);
 	}
 
 	private static double spzssderiv(double p01, double p11, double p21,
-									 double D11,
-									 double D21, double p02, double p12,
-									 double p22,
-									 double D12, double D22, double[] xA,
-									 double[] xB,
+									 double D11, double D21, double p02,
+									 double p12, double p22, double D12,
+									 double D22, double[] xA, double[] xB,
 									 int tau) {
 		return -quzderiv(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, xA,
 				xB, tau);
 	}
 
 	private static double spzppippideriv(double p01, double p11, double p21,
-										 double D11,
-										 double D21, double p02, double p12,
-										 double p22,
-										 double D12, double D22, double[] xA,
-										 double[] xB,
+										 double D11, double D21, double p02,
+										 double p12, double p22, double D12,
+										 double D22, double[] xA, double[] xB,
 										 int tau) {
 		return -quzderiv(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, xA,
 				xB, tau) +
 				uzQpipideriv(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22,
-						xA, xB,
-						tau);
+						xA, xB, tau);
 	}
 
 	private static double spzpzpzderiv(double p01, double p11, double p21,
-									   double D11,
-									   double D21, double p02, double p12,
-									   double p22,
-									   double D12, double D22, double[] xA,
-									   double[] xB,
+									   double D11, double D21, double p02,
+									   double p12, double p22, double D12,
+									   double D22, double[] xA, double[] xB,
 									   int tau) {
 		return -quzderiv(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, xA,
 				xB, tau) +
 				uzQzzderiv(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22,
 						xA,
-						xB,
-						tau);
+						xB, tau);
 	}
 
 	private static double ssspzderiv(double p01, double p11, double p21,
-									 double D11,
-									 double D21, double p02, double p12,
-									 double p22,
-									 double D12, double D22, double[] xA,
-									 double[] xB,
+									 double D11, double D21, double p02,
+									 double p12, double p22, double D12,
+									 double D22, double[] xA, double[] xB,
 									 int tau) {
 		return quzderiv(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, xA,
 				xB, tau);
 	}
 
 	private static double ppippispzderiv(double p01, double p11, double p21,
-										 double D11,
-										 double D21, double p02, double p12,
-										 double p22,
-										 double D12, double D22, double[] xA,
-										 double[] xB,
+										 double D11, double D21, double p02,
+										 double p12, double p22, double D12,
+										 double D22, double[] xA, double[] xB,
 										 int tau) {
 		return quzderiv(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, xA,
 				xB, tau) -
 				uzQpipideriv(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21,
-						xA, xB,
-						tau);
+						xA, xB, tau);
 	}
 
 	private static double pzpzspzderiv(double p01, double p11, double p21,
-									   double D11,
-									   double D21, double p02, double p12,
-									   double p22,
-									   double D12, double D22, double[] xA,
-									   double[] xB,
+									   double D11, double D21, double p02,
+									   double p12, double p22, double D12,
+									   double D22, double[] xA, double[] xB,
 									   int tau) {
 		return quzderiv(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, xA,
 				xB, tau) -
 				uzQzzderiv(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21,
 						xA,
-						xB,
-						tau);
+						xB, tau);
 	}
 
 	private static double sppisppideriv(double p01, double p11, double p21,
-										double D11,
-										double D21, double p02, double p12,
-										double p22,
-										double D12, double D22, double[] xA,
-										double[] xB,
+										double D11, double D21, double p02,
+										double p12, double p22, double D12,
+										double D22, double[] xA, double[] xB,
 										int tau) {
 		return upiupideriv(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22,
-				xA,
-				xB,
-				tau);
+				xA, xB, tau);
 	}
 
 	private static double spzspzderiv(double p01, double p11, double p21,
-									  double D11,
-									  double D21, double p02, double p12,
-									  double p22,
-									  double D12, double D22, double[] xA,
-									  double[] xB,
+									  double D11, double D21, double p02,
+									  double p12, double p22, double D12,
+									  double D22, double[] xA, double[] xB,
 									  int tau) {
 		return uzuzderiv(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, xA,
 				xB, tau);
 	}
 
 	private static double sppippipzderiv(double p01, double p11, double p21,
-										 double D11,
-										 double D21, double p02, double p12,
-										 double p22,
-										 double D12, double D22, double[] xA,
-										 double[] xB,
+										 double D11, double D21, double p02,
+										 double p12, double p22, double D12,
+										 double D22, double[] xA, double[] xB,
 										 int tau) {
 		return upiQpizderiv(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22,
-				xA, xB,
-				tau);
+				xA, xB, tau);
 	}
 
 	private static double ppipzsppideriv(double p01, double p11, double p21,
-										 double D11,
-										 double D21, double p02, double p12,
-										 double p22,
-										 double D12, double D22, double[] xA,
-										 double[] xB,
+										 double D11, double D21, double p02,
+										 double p12, double p22, double D12,
+										 double D22, double[] xA, double[] xB,
 										 int tau) {
 		return -upiQpizderiv(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21,
-				xA, xB,
-				tau);
+				xA, xB, tau);
 	}
 
 	private static double ppipzppipzderiv(double p01, double p11, double p21,
-										  double D11,
-										  double D21, double p02, double p12,
-										  double p22,
-										  double D12, double D22, double[] xA,
-										  double[] xB, int tau) {
+										  double D11, double D21, double p02,
+										  double p12, double p22, double D12,
+										  double D22, double[] xA, double[] xB,
+										  int tau) {
 		return QpizQpizderiv(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22,
-				xA, xB,
-				tau);
+				xA, xB, tau);
 	}
 
 	private static double pxpypxpyderiv(double p01, double p11, double p21,
-										double D11,
-										double D21, double p02, double p12,
-										double p22,
-										double D12, double D22, double[] xA,
-										double[] xB,
+										double D11, double D21, double p02,
+										double p12, double p22, double D12,
+										double D22, double[] xA, double[] xB,
 										int tau) {
 		return 0.5 *
 				(ppippippippideriv(p01, p11, p21, D11, D21, p02, p12, p22, D12,
-						D22, xA,
-						xB, tau) -
+						D22, xA, xB, tau) -
 						pxpxpypyderiv(p01, p11, p21, D11, D21, p02, p12, p22,
-								D12, D22,
-								xA, xB, tau));
+								D12, D22, xA, xB, tau));
 	}
 
 	protected static double LocalTwoCenterERIderiv(NDDO6G a, NDDO6G b,
 												   NDDO6G c,
-												   NDDO6G d,
-												   int tau) {
+												   NDDO6G d, int tau) {
 
 		double[] A = a.getCoords();
 		double[] C = c.getCoords();
@@ -688,19 +566,16 @@ public class GeometryDerivative {
 									case 0://(ss|ss)
 										return ssssderiv(a.p0, a.p1, a.p2,
 												a.D1,
-												a.D2,
-												c.p0, c.p1, c.p2, c.D1, c.D2
-												, A,
-												C, tau);
+												a.D2, c.p0, c.p1, c.p2, c.D1,
+												c.D2
+												, A, C, tau);
 
 									case 1:
 										if (d.getk() == 1) {//(ss|spz)
 											return ssspzderiv(a.p0, a.p1, a.p2,
-													a.D1,
-													a.D2, c.p0, c.p1, c.p2,
-													c.D1, c.D2
-													, A,
-													C, tau);
+													a.D1, a.D2, c.p0, c.p1,
+													c.p2, c.D1, c.D2
+													, A, C, tau);
 										}
 										else {//(ss|sppi) = 0
 											return 0;
@@ -717,20 +592,16 @@ public class GeometryDerivative {
 
 										case 0://(ss|pzs)
 											return ssspzderiv(a.p0, a.p1, a.p2,
-													a.D1,
-													a.D2, c.p0, c.p1, c.p2,
-													c.D1, c.D2
-													, A,
-													C, tau);
+													a.D1, a.D2, c.p0, c.p1,
+													c.p2, c.D1, c.D2
+													, A, C, tau);
 
 										case 1:
 											if (d.getk() == 1) {//(ss|pzpz)
 												return sspzpzderiv(a.p0, a.p1,
-														a.p2,
-														a.D1,
-														a.D2, c.p0, c.p1, c.p2,
-														c.D1,
-														c.D2, A, C, tau);
+														a.p2, a.D1, a.D2, c.p0,
+														c.p1, c.p2, c.D1, c.D2,
+														A, C, tau);
 											}
 											else {//(ss|pzppi) = 0
 												return 0;
@@ -746,11 +617,9 @@ public class GeometryDerivative {
 											c.getj() == d.getj()) {//(ss
 										// |ppippi)
 										return ssppippideriv(a.p0, a.p1, a.p2,
-												a.D1,
-												a.D2,
-												c.p0, c.p1, c.p2, c.D1, c.D2
-												, A,
-												C, tau);
+												a.D1, a.D2, c.p0, c.p1, c.p2,
+												c.D1, c.D2
+												, A, C, tau);
 									}
 									else {//all others are 0
 										return 0;
@@ -773,20 +642,16 @@ public class GeometryDerivative {
 
 										case 0://(spz|ss)
 											return spzssderiv(a.p0, a.p1, a.p2,
-													a.D1,
-													a.D2, c.p0, c.p1, c.p2,
-													c.D1, c.D2
-													, A,
-													C, tau);
+													a.D1, a.D2, c.p0, c.p1,
+													c.p2, c.D1, c.D2
+													, A, C, tau);
 
 										case 1:
 											if (d.getk() == 1) {//(spz|spz)
 												return spzspzderiv(a.p0, a.p1,
-														a.p2,
-														a.D1,
-														a.D2, c.p0, c.p1, c.p2,
-														c.D1,
-														c.D2, A, C, tau);
+														a.p2, a.D1, a.D2, c.p0,
+														c.p1, c.p2, c.D1, c.D2,
+														A, C, tau);
 											}
 											else {
 												return 0;
@@ -800,21 +665,18 @@ public class GeometryDerivative {
 
 											case 0://(spz|pzs)
 												return spzspzderiv(a.p0, a.p1,
-														a.p2,
-														a.D1,
-														a.D2, c.p0, c.p1, c.p2,
-														c.D1,
-														c.D2, A, C, tau);
+														a.p2, a.D1, a.D2, c.p0,
+														c.p1, c.p2, c.D1, c.D2,
+														A, C, tau);
 
 											case 1:
 												if (d.getk() == 1) {//(spz
 													// |pzpz)
 													return spzpzpzderiv(a.p0,
-															a.p1, a.p2,
-															a.D1, a.D2, c.p0,
-															c.p1, c.p2,
-															c.D1, c.D2, A, C,
-															tau);
+															a.p1, a.p2, a.D1,
+															a.D2, c.p0, c.p1,
+															c.p2, c.D1, c.D2
+															, A, C, tau);
 												}
 												else {//(spz|pzppi) = 0
 													return 0;
@@ -826,11 +688,9 @@ public class GeometryDerivative {
 												d.getj() == c.getj() &&
 												d.getk() == 0) {
 											return spzppippideriv(a.p0, a.p1,
-													a.p2, a.D1,
-													a.D2, c.p0, c.p1, c.p2,
-													c.D1, c.D2
-													, A,
-													C, tau);
+													a.p2, a.D1, a.D2, c.p0,
+													c.p1, c.p2, c.D1, c.D2
+													, A, C, tau);
 										}
 										else {
 											return 0;
@@ -849,11 +709,9 @@ public class GeometryDerivative {
 											d.getj() == b.getj() &&
 											d.getk() == 0) {//(sppi|sppi)
 										return sppisppideriv(a.p0, a.p1, a.p2,
-												a.D1,
-												a.D2,
-												c.p0, c.p1, c.p2, c.D1, c.D2
-												, A,
-												C, tau);
+												a.D1, a.D2, c.p0, c.p1, c.p2,
+												c.D1, c.D2
+												, A, C, tau);
 									}
 									else {
 										return 0;
@@ -864,11 +722,9 @@ public class GeometryDerivative {
 												d.getj() == b.getj() &&
 												d.getk() == 0) {//(sppi|pzppi)
 											return sppippipzderiv(a.p0, a.p1,
-													a.p2, a.D1,
-													a.D2, c.p0, c.p1, c.p2,
-													c.D1, c.D2
-													, A,
-													C, tau);
+													a.p2, a.D1, a.D2, c.p0,
+													c.p1, c.p2, c.D1, c.D2
+													, A, C, tau);
 										}
 										else {
 											return 0;
@@ -881,12 +737,10 @@ public class GeometryDerivative {
 											switch (d.getL()) {
 												case 0:
 													return sppisppideriv(a.p0,
-															a.p1,
-															a.p2,
-															a.D1, a.D2, c.p0,
-															c.p1, c.p2,
-															c.D1, c.D2, A, C,
-															tau);
+															a.p1, a.p2, a.D1,
+															a.D2, c.p0, c.p1,
+															c.p2, c.D1, c.D2
+															, A, C, tau);
 												case 1:
 													if (d.getk() == 1) {
 														return sppippipzderiv(
@@ -895,8 +749,7 @@ public class GeometryDerivative {
 																a.D2, c.p0,
 																c.p1, c.p2,
 																c.D1, c.D2
-																, A,
-																C, tau);
+																, A, C, tau);
 													}
 													else {
 														return 0;
@@ -931,20 +784,16 @@ public class GeometryDerivative {
 
 										case 0://(pzs|ss)
 											return spzssderiv(a.p0, a.p1, a.p2,
-													a.D1,
-													a.D2, c.p0, c.p1, c.p2,
-													c.D1, c.D2
-													, A,
-													C, tau);
+													a.D1, a.D2, c.p0, c.p1,
+													c.p2, c.D1, c.D2
+													, A, C, tau);
 
 										case 1:
 											if (d.getk() == 1) {//(pzs|spz)
 												return spzspzderiv(a.p0, a.p1,
-														a.p2,
-														a.D1,
-														a.D2, c.p0, c.p1, c.p2,
-														c.D1,
-														c.D2, A, C, tau);
+														a.p2, a.D1, a.D2, c.p0,
+														c.p1, c.p2, c.D1, c.D2,
+														A, C, tau);
 											}
 											else {
 												return 0;
@@ -958,21 +807,18 @@ public class GeometryDerivative {
 
 											case 0://(pzs|pzs)
 												return spzspzderiv(a.p0, a.p1,
-														a.p2,
-														a.D1,
-														a.D2, c.p0, c.p1, c.p2,
-														c.D1,
-														c.D2, A, C, tau);
+														a.p2, a.D1, a.D2, c.p0,
+														c.p1, c.p2, c.D1, c.D2,
+														A, C, tau);
 
 											case 1:
 												if (d.getk() == 1) {//(pzs
 													// |pzpz)
 													return spzpzpzderiv(a.p0,
-															a.p1, a.p2,
-															a.D1, a.D2, c.p0,
-															c.p1, c.p2,
-															c.D1, c.D2, A, C,
-															tau);
+															a.p1, a.p2, a.D1,
+															a.D2, c.p0, c.p1,
+															c.p2, c.D1, c.D2
+															, A, C, tau);
 												}
 												else {//(pzs|pzppi) = 0
 													return 0;
@@ -984,11 +830,9 @@ public class GeometryDerivative {
 												d.getj() == c.getj() &&
 												d.getk() == 0) {
 											return spzppippideriv(a.p0, a.p1,
-													a.p2, a.D1,
-													a.D2, c.p0, c.p1, c.p2,
-													c.D1, c.D2
-													, A,
-													C, tau);
+													a.p2, a.D1, a.D2, c.p0,
+													c.p1, c.p2, c.D1, c.D2
+													, A, C, tau);
 										}
 										else {
 											return 0;
@@ -1010,21 +854,18 @@ public class GeometryDerivative {
 
 											case 0://(pzpz|ss)
 												return pzpzssderiv(a.p0, a.p1,
-														a.p2,
-														a.D1,
-														a.D2, c.p0, c.p1, c.p2,
-														c.D1,
-														c.D2, A, C, tau);
+														a.p2, a.D1, a.D2, c.p0,
+														c.p1, c.p2, c.D1, c.D2,
+														A, C, tau);
 
 											case 1:
 												if (d.getk() == 1) {//(pzpz
 													// |spz)
 													return pzpzspzderiv(a.p0,
-															a.p1, a.p2,
-															a.D1, a.D2, c.p0,
-															c.p1, c.p2,
-															c.D1, c.D2, A, C,
-															tau);
+															a.p1, a.p2, a.D1,
+															a.D2, c.p0, c.p1,
+															c.p2, c.D1, c.D2
+															, A, C, tau);
 												}
 												else {
 													return 0;
@@ -1038,11 +879,10 @@ public class GeometryDerivative {
 
 												case 0://(pzpz|pzs)
 													return pzpzspzderiv(a.p0,
-															a.p1, a.p2,
-															a.D1, a.D2, c.p0,
-															c.p1, c.p2,
-															c.D1, c.D2, A, C,
-															tau);
+															a.p1, a.p2, a.D1,
+															a.D2, c.p0, c.p1,
+															c.p2, c.D1, c.D2
+															, A, C, tau);
 
 												case 1:
 													if (d.getk() ==
@@ -1053,8 +893,7 @@ public class GeometryDerivative {
 																a.D2, c.p0,
 																c.p1, c.p2,
 																c.D1, c.D2
-																, A,
-																C, tau);
+																, A, C, tau);
 													}
 													else {//(pzpz|pzppi) = 0
 														return 0;
@@ -1066,10 +905,9 @@ public class GeometryDerivative {
 													d.getj() == c.getj() &&
 													d.getk() == 0) {
 												return pzpzppippideriv(a.p0,
-														a.p1, a.p2,
-														a.D1, a.D2, c.p0, c.p1,
-														c.p2,
-														c.D1, c.D2, A, C, tau);
+														a.p1, a.p2, a.D1, a.D2,
+														c.p0, c.p1, c.p2, c.D1,
+														c.D2, A, C, tau);
 											}
 											else {
 												return 0;
@@ -1088,11 +926,9 @@ public class GeometryDerivative {
 												d.getj() == b.getj() &&
 												d.getk() == 0) {//(pzppi|sppi)
 											return ppipzsppideriv(a.p0, a.p1,
-													a.p2, a.D1,
-													a.D2, c.p0, c.p1, c.p2,
-													c.D1, c.D2
-													, A,
-													C, tau);
+													a.p2, a.D1, a.D2, c.p0,
+													c.p1, c.p2, c.D1, c.D2
+													, A, C, tau);
 										}
 										else {
 											return 0;
@@ -1104,10 +940,9 @@ public class GeometryDerivative {
 													d.getk() ==
 															0) {//(pzppi|pzppi)
 												return ppipzppipzderiv(a.p0,
-														a.p1, a.p2,
-														a.D1, a.D2, c.p0, c.p1,
-														c.p2,
-														c.D1, c.D2, A, C, tau);
+														a.p1, a.p2, a.D1, a.D2,
+														c.p0, c.p1, c.p2, c.D1,
+														c.D2, A, C, tau);
 											}
 											else {
 												return 0;
@@ -1126,19 +961,16 @@ public class GeometryDerivative {
 																a.D2, c.p0,
 																c.p1, c.p2,
 																c.D1, c.D2
-																, A,
-																C, tau);
+																, A, C, tau);
 													case 1:
 														if (d.getk() == 1) {
 															return ppipzppipzderiv(
-																	a.p0,
-																	a.p1, a.p2,
-																	a.D1,
+																	a.p0, a.p1,
+																	a.p2, a.D1,
 																	a.D2, c.p0,
-																	c.p1,
-																	c.p2, c.D1,
-																	c.D2, A,
-																	C, tau);
+																	c.p1, c.p2,
+																	c.D1, c.D2,
+																	A, C, tau);
 														}
 														else {
 															return 0;
@@ -1169,11 +1001,9 @@ public class GeometryDerivative {
 											d.getj() == a.getj() &&
 											d.getk() == 0) {//(ppis|sppi)
 										return sppisppideriv(a.p0, a.p1, a.p2,
-												a.D1,
-												a.D2,
-												c.p0, c.p1, c.p2, c.D1, c.D2
-												, A,
-												C, tau);
+												a.D1, a.D2, c.p0, c.p1, c.p2,
+												c.D1, c.D2
+												, A, C, tau);
 									}
 									else {
 										return 0;
@@ -1184,11 +1014,9 @@ public class GeometryDerivative {
 												d.getj() == a.getj() &&
 												d.getk() == 0) {//(ppis|pzppi)
 											return sppippipzderiv(a.p0, a.p1,
-													a.p2, a.D1,
-													a.D2, c.p0, c.p1, c.p2,
-													c.D1, c.D2
-													, A,
-													C, tau);
+													a.p2, a.D1, a.D2, c.p0,
+													c.p1, c.p2, c.D1, c.D2
+													, A, C, tau);
 										}
 										else {
 											return 0;
@@ -1201,12 +1029,10 @@ public class GeometryDerivative {
 											switch (d.getL()) {
 												case 0:
 													return sppisppideriv(a.p0,
-															a.p1,
-															a.p2,
-															a.D1, a.D2, c.p0,
-															c.p1, c.p2,
-															c.D1, c.D2, A, C,
-															tau);
+															a.p1, a.p2, a.D1,
+															a.D2, c.p0, c.p1,
+															c.p2, c.D1, c.D2
+															, A, C, tau);
 												case 1:
 													if (d.getk() == 1) {
 														return sppippipzderiv(
@@ -1215,8 +1041,7 @@ public class GeometryDerivative {
 																a.D2, c.p0,
 																c.p1, c.p2,
 																c.D1, c.D2
-																, A,
-																C, tau);
+																, A, C, tau);
 													}
 													else {
 														return 0;
@@ -1241,11 +1066,9 @@ public class GeometryDerivative {
 												d.getj() == a.getj() &&
 												d.getk() == 0) {//(ppipz|sppi)
 											return ppipzsppideriv(a.p0, a.p1,
-													a.p2, a.D1,
-													a.D2, c.p0, c.p1, c.p2,
-													c.D1, c.D2
-													, A,
-													C, tau);
+													a.p2, a.D1, a.D2, c.p0,
+													c.p1, c.p2, c.D1, c.D2
+													, A, C, tau);
 										}
 										else {
 											return 0;
@@ -1257,10 +1080,9 @@ public class GeometryDerivative {
 													d.getk() ==
 															0) {//(ppipz|pzppi)
 												return ppipzppipzderiv(a.p0,
-														a.p1, a.p2,
-														a.D1, a.D2, c.p0, c.p1,
-														c.p2,
-														c.D1, c.D2, A, C, tau);
+														a.p1, a.p2, a.D1, a.D2,
+														c.p0, c.p1, c.p2, c.D1,
+														c.D2, A, C, tau);
 											}
 											else {
 												return 0;
@@ -1279,19 +1101,16 @@ public class GeometryDerivative {
 																a.D2, c.p0,
 																c.p1, c.p2,
 																c.D1, c.D2
-																, A,
-																C, tau);
+																, A, C, tau);
 													case 1:
 														if (d.getk() == 1) {
 															return ppipzppipzderiv(
-																	a.p0,
-																	a.p1, a.p2,
-																	a.D1,
+																	a.p0, a.p1,
+																	a.p2, a.D1,
 																	a.D2, c.p0,
-																	c.p1,
-																	c.p2, c.D1,
-																	c.D2, A,
-																	C, tau);
+																	c.p1, c.p2,
+																	c.D1, c.D2,
+																	A, C, tau);
 														}
 														else {
 															return 0;
@@ -1319,12 +1138,10 @@ public class GeometryDerivative {
 												if (a.geti() == b.geti() &&
 														a.getj() == b.getj()) {
 													return ppippissderiv(a.p0,
-															a.p1,
-															a.p2,
-															a.D1, a.D2, c.p0,
-															c.p1, c.p2,
-															c.D1, c.D2, A, C,
-															tau);
+															a.p1, a.p2, a.D1,
+															a.D2, c.p0, c.p1,
+															c.p2, c.D1, c.D2
+															, A, C, tau);
 												}
 												else {
 													return 0;
@@ -1334,12 +1151,10 @@ public class GeometryDerivative {
 														a.geti() == b.geti() &&
 														a.getj() == b.getj()) {
 													return ppippispzderiv(a.p0,
-															a.p1,
-															a.p2, a.D1, a.D2,
-															c.p0, c.p1,
+															a.p1, a.p2, a.D1,
+															a.D2, c.p0, c.p1,
 															c.p2, c.D1, c.D2
-															, A,
-															C, tau);
+															, A, C, tau);
 												}
 												else {
 													return 0;
@@ -1359,8 +1174,7 @@ public class GeometryDerivative {
 																a.D2, c.p0,
 																c.p1, c.p2,
 																c.D1, c.D2
-																, A,
-																C, tau);
+																, A, C, tau);
 													}
 													else {
 														return 0;
@@ -1374,14 +1188,12 @@ public class GeometryDerivative {
 																	b.getj()) {//(ppippi
 														// |pzpz)
 														return ppippipzpzderiv(
-																a.p0,
-																a.p1,
+																a.p0, a.p1,
 																a.p2, a.D1,
 																a.D2, c.p0,
 																c.p1, c.p2,
 																c.D1, c.D2
-																, A,
-																C, tau);
+																, A, C, tau);
 													}
 													else {
 														return 0;
@@ -1400,13 +1212,12 @@ public class GeometryDerivative {
 														c.getk() == 0) {
 													if (a.geti() == c.geti()) {
 														return ppippippippideriv(
-																a.p0,
-																a.p1, a.p2,
-																a.D1, a.D2,
-																c.p0, c.p1,
-																c.p2, c.D1,
-																c.D2, A, C,
-																tau);
+																a.p0, a.p1,
+																a.p2, a.D1,
+																a.D2, c.p0,
+																c.p1, c.p2,
+																c.D1, c.D2, A,
+																C, tau);
 													}
 													else {
 														return pxpxpypyderiv(
@@ -1415,8 +1226,7 @@ public class GeometryDerivative {
 																a.D2, c.p0,
 																c.p1, c.p2,
 																c.D1, c.D2
-																, A,
-																C, tau);
+																, A, C, tau);
 													}
 												}
 												else {
@@ -1430,12 +1240,10 @@ public class GeometryDerivative {
 														c.getj() != d.getj() &&
 														c.getk() == 0) {
 													return pxpypxpyderiv(a.p0,
-															a.p1,
-															a.p2,
-															a.D1, a.D2, c.p0,
-															c.p1, c.p2,
-															c.D1, c.D2, A, C,
-															tau);
+															a.p1, a.p2, a.D1,
+															a.D2, c.p0, c.p1,
+															c.p2, c.D1, c.D2
+															, A, C, tau);
 												}
 											}
 										}
@@ -1496,8 +1304,7 @@ public class GeometryDerivative {
 										coeffD2[l] *
 										LocalTwoCenterERIderiv(A[i], B[j],
 												C[k],
-												D[l],
-												tau) * 27.21;
+												D[l], tau) * 27.21;
 							}
 							if (coeffAderiv2[i] * coeffB2[j] * coeffC2[k] *
 									coeffD2[l] !=
@@ -1506,8 +1313,7 @@ public class GeometryDerivative {
 										coeffC2[k] *
 										coeffD2[l] *
 										NDDO6G.LocalTwoCenterERI(A[i], B[j],
-												C[k],
-												D[l]) *
+												C[k], D[l]) *
 										27.21;
 							}
 
@@ -1518,8 +1324,7 @@ public class GeometryDerivative {
 										coeffC2[k] *
 										coeffD2[l] *
 										NDDO6G.LocalTwoCenterERI(A[i], B[j],
-												C[k],
-												D[l]) *
+												C[k], D[l]) *
 										27.21;
 							}
 
@@ -1530,8 +1335,7 @@ public class GeometryDerivative {
 										coeffCderiv2[k] *
 										coeffD2[l] *
 										NDDO6G.LocalTwoCenterERI(A[i], B[j],
-												C[k],
-												D[l]) *
+												C[k], D[l]) *
 										27.21;
 							}
 
@@ -1541,8 +1345,7 @@ public class GeometryDerivative {
 								sum2 += coeffA2[i] * coeffB2[j] * coeffC2[k] *
 										coeffDderiv2[l] *
 										NDDO6G.LocalTwoCenterERI(A[i], B[j],
-												C[k],
-												D[l]) *
+												C[k], D[l]) *
 										27.21;
 							}
 
@@ -1588,16 +1391,14 @@ public class GeometryDerivative {
 										coeffD[l] *
 										LocalTwoCenterERIderiv(A[i], B[j],
 												C[k],
-												D[l],
-												tau) * 27.21;
+												D[l], tau) * 27.21;
 							}
 							if (coeffAderiv[i] * coeffB[j] * coeffC[k] *
 									coeffD[l] != 0) {
 								sum += coeffAderiv[i] * coeffB[j] * coeffC[k] *
 										coeffD[l] *
 										NDDO6G.LocalTwoCenterERI(A[i], B[j],
-												C[k],
-												D[l]) *
+												C[k], D[l]) *
 										27.21;
 							}
 
@@ -1606,8 +1407,7 @@ public class GeometryDerivative {
 								sum += coeffA[i] * coeffBderiv[j] * coeffC[k] *
 										coeffD[l] *
 										NDDO6G.LocalTwoCenterERI(A[i], B[j],
-												C[k],
-												D[l]) *
+												C[k], D[l]) *
 										27.21;
 							}
 
@@ -1616,8 +1416,7 @@ public class GeometryDerivative {
 								sum += coeffA[i] * coeffB[j] * coeffCderiv[k] *
 										coeffD[l] *
 										NDDO6G.LocalTwoCenterERI(A[i], B[j],
-												C[k],
-												D[l]) *
+												C[k], D[l]) *
 										27.21;
 							}
 
@@ -1626,8 +1425,7 @@ public class GeometryDerivative {
 								sum += coeffA[i] * coeffB[j] * coeffC[k] *
 										coeffDderiv[l] *
 										NDDO6G.LocalTwoCenterERI(A[i], B[j],
-												C[k],
-												D[l]) *
+												C[k], D[l]) *
 										27.21;
 							}
 
@@ -1662,8 +1460,8 @@ public class GeometryDerivative {
 
 
 	public static double[] derivativeDecomposition(double[] point1,
-												   double[] point2,
-												   NDDO6G a, int tau) {
+												   double[] point2, NDDO6G a,
+												   int tau) {
 
 		if (a.getL() == 0) {
 			return new double[]{0};
@@ -1803,8 +1601,8 @@ public class GeometryDerivative {
 	}
 
 	public static double[] derivativeDecomposition2(double[] point1,
-													double[] point2,
-													NDDO6G a, int tau) {
+													double[] point2, NDDO6G a,
+													int tau) {
 
 		if (a.getL() == 0) {
 			return new double[]{0};
@@ -1890,7 +1688,8 @@ public class GeometryDerivative {
 	}
 
 	public static double gradient(NDDOAtom[] atoms, SolutionR soln,
-								  int atomnum, int tau) {
+								  int atomnum,
+								  int tau) {
 
 		DoubleMatrix densitymatrix = soln.densityMatrix();
 
@@ -1926,7 +1725,8 @@ public class GeometryDerivative {
 								GeometryDerivative
 										.getGderiv(atoms[atomnum].s(),
 												atoms[atomnum].s(),
-												orbitals[j], orbitals[k], tau);
+												orbitals[j],
+												orbitals[k], tau);
 					}
 				}
 				else {
@@ -2067,9 +1867,8 @@ public class GeometryDerivative {
 
 	}
 
-	public static double gradientUnrestricted(NDDOAtom[] atoms,
-											  SolutionU soln, int atomnum,
-											  int tau) {
+	public static double gradientUnrestricted(NDDOAtom[] atoms, SolutionU soln,
+											  int atomnum, int tau) {
 
 		DoubleMatrix alphadensity = soln.alphaDensity();
 
@@ -2106,7 +1905,8 @@ public class GeometryDerivative {
 								GeometryDerivative
 										.getGderiv(atoms[atomnum].s(),
 												atoms[atomnum].s(),
-												orbitals[j], orbitals[k], tau);
+												orbitals[j],
+												orbitals[k], tau);
 					}
 				}
 				else {
@@ -2395,8 +2195,7 @@ public class GeometryDerivative {
 		}
 
 		return new DoubleMatrix[][]{new DoubleMatrix[]{grad},
-				fockderivativesalpha,
-				fockderivativesbeta};
+				fockderivativesalpha, fockderivativesbeta};
 	}
 
 	public static double grad(SolutionR soln, int atomnum, int tau) {
@@ -2404,10 +2203,8 @@ public class GeometryDerivative {
 
 		for (int a = 0; a < soln.atoms.length; a++) {
 			if (a != atomnum) {
-				e += Ederiv(atomnum, a, soln.orbsOfAtom,
-						soln.densityMatrix(),
-						soln.atoms,
-						soln.orbitals, tau);
+				e += Ederiv(atomnum, a, soln.orbsOfAtom, soln.densityMatrix(),
+						soln.atoms, soln.orbitals, tau);
 				e += soln.atoms[atomnum].crfDeriv(soln.atoms[a], tau);
 			}
 		}
@@ -2421,8 +2218,7 @@ public class GeometryDerivative {
 
 		for (int a = 0; a < soln.atoms.length; a++) {
 			if (a != atomnum) {
-				e += Ederiv(atomnum, a, soln.orbsOfAtom,
-						soln.alphaDensity(),
+				e += Ederiv(atomnum, a, soln.orbsOfAtom, soln.alphaDensity(),
 						soln.betaDensity(), soln.atoms, soln.orbitals, tau);
 				e += soln.atoms[atomnum].crfDeriv(soln.atoms[a], tau);
 			}
@@ -2478,8 +2274,7 @@ public class GeometryDerivative {
 											densityMatrix.get(j, l))
 									* GeometryDerivative
 									.getGderiv(orbitals[i], orbitals[j],
-											orbitals[k],
-											orbitals[l], tau);
+											orbitals[k], orbitals[l], tau);
 						}
 					}
 				}
@@ -2493,9 +2288,8 @@ public class GeometryDerivative {
 
 	private static double Ederiv(int atomnum1, int atomnum2, int[][] index,
 								 DoubleMatrix alphaDensity,
-								 DoubleMatrix betaDensity,
-								 NDDOAtom[] atoms, NDDO6G[] orbitals,
-								 int tau) {
+								 DoubleMatrix betaDensity, NDDOAtom[] atoms,
+								 NDDO6G[] orbitals, int tau) {
 
 		double e = 0;
 
@@ -2544,8 +2338,7 @@ public class GeometryDerivative {
 											betaDensity.get(j, l))
 									* GeometryDerivative
 									.getGderiv(orbitals[i], orbitals[j],
-											orbitals[k],
-											orbitals[l], tau);
+											orbitals[k], orbitals[l], tau);
 						}
 					}
 				}
@@ -2557,9 +2350,8 @@ public class GeometryDerivative {
 
 	}
 
-	public static DoubleMatrix[] staticderivs(NDDOAtom[] atoms,
-											  SolutionR soln, int atomnum,
-											  int tau) {
+	public static DoubleMatrix[] staticderivs(NDDOAtom[] atoms, SolutionR soln,
+											  int atomnum, int tau) {
 
 		DoubleMatrix densitymatrix = soln.densityMatrix();
 
@@ -2595,7 +2387,8 @@ public class GeometryDerivative {
 								GeometryDerivative
 										.getGderiv(atoms[atomnum].s(),
 												atoms[atomnum].s(),
-												orbitals[j], orbitals[k], tau);
+												orbitals[j],
+												orbitals[k], tau);
 					}
 				}
 				else {
@@ -2712,9 +2505,8 @@ public class GeometryDerivative {
 
 	}
 
-	public static DoubleMatrix[] staticderivs(NDDOAtom[] atoms,
-											  SolutionU soln, int atomnum,
-											  int tau) {
+	public static DoubleMatrix[] staticderivs(NDDOAtom[] atoms, SolutionU soln,
+											  int atomnum, int tau) {
 
 		DoubleMatrix alphadensity = soln.alphaDensity();
 
@@ -2751,7 +2543,8 @@ public class GeometryDerivative {
 								GeometryDerivative
 										.getGderiv(atoms[atomnum].s(),
 												atoms[atomnum].s(),
-												orbitals[j], orbitals[k], tau);
+												orbitals[j],
+												orbitals[k], tau);
 					}
 				}
 				else {

@@ -37,20 +37,10 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="Fixed off by one error in SolutionR, 4x speed increase">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dynamic-output.json" beforeDir="false" afterPath="$PROJECT_DIR$/dynamic-output.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/input.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EJMLTesting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EJMLTesting.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationU.java" afterDir="false" />
+    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="EJML Refactor preliminarily working, still need to recode math classes">
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryDerivative.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/Solution.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/SolutionU.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scf/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/Utils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -509,14 +499,7 @@
       <workItem from="1636183084011" duration="5731000" />
       <workItem from="1636646264114" duration="3156000" />
       <workItem from="1636722443486" duration="1056000" />
-      <workItem from="1636819815038" duration="1311000" />
-    </task>
-    <task id="LOCAL-00077" summary="Adrian fix NDDO Solution Restricted">
-      <created>1626180286887</created>
-      <option name="number" value="00077" />
-      <option name="presentableId" value="LOCAL-00077" />
-      <option name="project" value="LOCAL" />
-      <updated>1626180286887</updated>
+      <workItem from="1636819815038" duration="1970000" />
     </task>
     <task id="LOCAL-00078" summary="input.json">
       <created>1626195084470</created>
@@ -854,7 +837,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636794753134</updated>
     </task>
-    <option name="localTasksCounter" value="126" />
+    <task id="LOCAL-00126" summary="EJML Refactor preliminarily working, still need to recode math classes">
+      <created>1636821619133</created>
+      <option name="number" value="00126" />
+      <option name="presentableId" value="LOCAL-00126" />
+      <option name="project" value="LOCAL" />
+      <updated>1636821619133</updated>
+    </task>
+    <option name="localTasksCounter" value="127" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -934,7 +924,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="No more MoleculeRunRU" />
     <MESSAGE value="most classes can now have a copy of atomtypes" />
     <MESSAGE value="Multithreaded Hessian" />
     <MESSAGE value="Minor bug fix for multithreaded hessian" />
@@ -959,7 +948,8 @@
     <MESSAGE value="Somewhat working SolutionNew" />
     <MESSAGE value="SolutionNew working, next step GeomOpt" />
     <MESSAGE value="Fixed off by one error in SolutionR, 4x speed increase" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed off by one error in SolutionR, 4x speed increase" />
+    <MESSAGE value="EJML Refactor preliminarily working, still need to recode math classes" />
+    <option name="LAST_COMMIT_MESSAGE" value="EJML Refactor preliminarily working, still need to recode math classes" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

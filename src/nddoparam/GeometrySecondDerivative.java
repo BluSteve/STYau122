@@ -442,8 +442,7 @@ public class GeometrySecondDerivative {
 		return qqderiv2(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, xA,
 				xB, tau1, tau2) +
 				qQzzderiv2(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22,
-						xA,
-						xB, tau1, tau2);
+						xA, xB, tau1, tau2);
 	}
 
 	private static double ppippissderiv2(double p01, double p11, double p21,
@@ -465,8 +464,7 @@ public class GeometrySecondDerivative {
 		return qqderiv2(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, xA,
 				xB, tau1, tau2) +
 				qQzzderiv2(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21,
-						xA,
-						xB, tau1, tau2);
+						xA, xB, tau1, tau2);
 	}
 
 	private static double ppippippippideriv2(double p01, double p11,
@@ -511,13 +509,11 @@ public class GeometrySecondDerivative {
 		return qqderiv2(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, xA,
 				xB, tau1, tau2) +
 				qQzzderiv2(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22,
-						xA,
-						xB, tau1, tau2) +
+						xA, xB, tau1, tau2) +
 				qQpipideriv2(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21,
 						xA, xB, tau1, tau2) +
 				QpipiQzzderiv2(p01, p11, p21, D11, D21, p02, p12, p22, D12,
-						D22,
-						xA, xB, tau1, tau2);
+						D22, xA, xB, tau1, tau2);
 	}
 
 	private static double pzpzppippideriv2(double p01, double p11, double p21,
@@ -531,11 +527,9 @@ public class GeometrySecondDerivative {
 				qQpipideriv2(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22,
 						xA, xB, tau1, tau2) +
 				qQzzderiv2(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21,
-						xA,
-						xB, tau1, tau2) +
+						xA, xB, tau1, tau2) +
 				QpipiQzzderiv2(p02, p12, p22, D12, D22, p01, p11, p21, D11,
-						D21,
-						xA, xB, tau1, tau2);
+						D21, xA, xB, tau1, tau2);
 	}
 
 	private static double pzpzpzpzderiv2(double p01, double p11, double p21,
@@ -546,11 +540,9 @@ public class GeometrySecondDerivative {
 		return qqderiv2(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, xA,
 				xB, tau1, tau2) +
 				qQzzderiv2(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22,
-						xA,
-						xB, tau1, tau2) +
+						xA, xB, tau1, tau2) +
 				qQzzderiv2(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21,
-						xA,
-						xB, tau1, tau2) +
+						xA, xB, tau1, tau2) +
 				QzzQzzderiv2(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22,
 						xA, xB, tau1, tau2);
 	}
@@ -810,8 +802,8 @@ public class GeometrySecondDerivative {
 															a.p1, a.p2, a.D1,
 															a.D2, c.p0, c.p1,
 															c.p2, c.D1, c.D2
-															, A,
-															C, tau1, tau2);
+															, A, C, tau1,
+															tau2);
 												}
 												else {//(spz|pzppi) = 0
 													return 0;
@@ -874,8 +866,8 @@ public class GeometrySecondDerivative {
 															a.p1, a.p2, a.D1,
 															a.D2, c.p0, c.p1,
 															c.p2, c.D1, c.D2
-															, A,
-															C, tau1, tau2);
+															, A, C, tau1,
+															tau2);
 												case 1:
 													if (d.getk() == 1) {
 														return sppippipzderiv2(
@@ -954,8 +946,8 @@ public class GeometrySecondDerivative {
 															a.p1, a.p2, a.D1,
 															a.D2, c.p0, c.p1,
 															c.p2, c.D1, c.D2
-															, A,
-															C, tau1, tau2);
+															, A, C, tau1,
+															tau2);
 												}
 												else {//(pzs|pzppi) = 0
 													return 0;
@@ -1002,8 +994,8 @@ public class GeometrySecondDerivative {
 															a.p1, a.p2, a.D1,
 															a.D2, c.p0, c.p1,
 															c.p2, c.D1, c.D2
-															, A,
-															C, tau1, tau2);
+															, A, C, tau1,
+															tau2);
 												}
 												else {
 													return 0;
@@ -1020,8 +1012,8 @@ public class GeometrySecondDerivative {
 															a.p1, a.p2, a.D1,
 															a.D2, c.p0, c.p1,
 															c.p2, c.D1, c.D2
-															, A,
-															C, tau1, tau2);
+															, A, C, tau1,
+															tau2);
 
 												case 1:
 													if (d.getk() ==
@@ -1173,8 +1165,8 @@ public class GeometrySecondDerivative {
 															a.p1, a.p2, a.D1,
 															a.D2, c.p0, c.p1,
 															c.p2, c.D1, c.D2
-															, A,
-															C, tau1, tau2);
+															, A, C, tau1,
+															tau2);
 												case 1:
 													if (d.getk() == 1) {
 														return sppippipzderiv2(
@@ -1285,8 +1277,8 @@ public class GeometrySecondDerivative {
 															a.p1, a.p2, a.D1,
 															a.D2, c.p0, c.p1,
 															c.p2, c.D1, c.D2
-															, A,
-															C, tau1, tau2);
+															, A, C, tau1,
+															tau2);
 												}
 												else {
 													return 0;
@@ -1299,8 +1291,8 @@ public class GeometrySecondDerivative {
 															a.p1, a.p2, a.D1,
 															a.D2, c.p0, c.p1,
 															c.p2, c.D1, c.D2
-															, A,
-															C, tau1, tau2);
+															, A, C, tau1,
+															tau2);
 												}
 												else {
 													return 0;
@@ -1388,8 +1380,8 @@ public class GeometrySecondDerivative {
 															a.p1, a.p2, a.D1,
 															a.D2, c.p0, c.p1,
 															c.p2, c.D1, c.D2
-															, A,
-															C, tau1, tau2);
+															, A, C, tau1,
+															tau2);
 												}
 											}
 										}
@@ -2591,8 +2583,7 @@ public class GeometrySecondDerivative {
 				@Override
 				protected void compute() {
 					DoubleMatrix[] subset = Arrays.copyOfRange(fockDerivStatic,
-							finalElapsedSize,
-							Math.min(fockDerivStatic.length,
+							finalElapsedSize, Math.min(fockDerivStatic.length,
 									finalElapsedSize + size));
 
 					densityDerivThiel(soln,
@@ -2605,15 +2596,16 @@ public class GeometrySecondDerivative {
 
 					// removed .dup() here
 					System.arraycopy(output, 0, densityDerivs,
-							finalElapsedSize, output.length);
+							finalElapsedSize,
+							output.length);
 				}
 			});
 			elapsedSize += size;
 		}
 		ForkJoinTask.invokeAll(subtasks);
 
-		DoubleMatrix hessian = new DoubleMatrix(densityDerivs.length,
-				densityDerivs.length);
+		DoubleMatrix hessian =
+				new DoubleMatrix(densityDerivs.length, densityDerivs.length);
 		for (int i = 0; i < hessian.rows; i++) {
 			for (int j = i; j < hessian.rows; j++) {
 				double E = 0;
@@ -3016,8 +3008,8 @@ public class GeometrySecondDerivative {
 			}
 
 //			for (int i = 0; i < xarray.length; i++) {
-//				if (!Solution.isSimilar(xarray[i],
-//						Utils.toDoubleMatrix(simplexarray[i]), 1E-7)) {
+//				if (!Solution.isSimilar(xarray[i],//						
+//				Utils.toDoubleMatrix(simplexarray[i]), 1E-7)) {
 //					System.err.println("Oh no! Thiel refactor failed");
 //					System.exit(0);
 //				}
@@ -3357,8 +3349,8 @@ public class GeometrySecondDerivative {
 			}
 
 //			for (int i = 0; i < xarray.length; i++) {
-//				if (!Solution.isSimilar(xarray[i],
-//						Utils.toDoubleMatrix(simplexarray[i]), 1E-7)) {
+//				if (!Solution.isSimilar(xarray[i],//						
+//				Utils.toDoubleMatrix(simplexarray[i]), 1E-7)) {
 //					System.err.println("Oh no! Pople refactor failed");
 //					System.exit(0);
 //				}

@@ -817,8 +817,7 @@ public class ParamDerivative {
 		return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num,
 				D1deriv, D2deriv, p1deriv, p2deriv) +
 				qQpipi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R,
-						num,
-						D1deriv, D2deriv, p1deriv, p2deriv);
+						num, D1deriv, D2deriv, p1deriv, p2deriv);
 	}
 
 	private static double sspzpzderiv(double p01, double p11, double p21,
@@ -866,8 +865,7 @@ public class ParamDerivative {
 		return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num,
 				D1deriv, D2deriv, p1deriv, p2deriv) +
 				qQpipi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R,
-						num,
-						D1deriv, D2deriv, p1deriv, p2deriv) +
+						num, D1deriv, D2deriv, p1deriv, p2deriv) +
 				qQpipi(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R,
 						f(num), D1deriv, D2deriv, p1deriv, p2deriv) +
 				QpipiQpipi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R,
@@ -883,13 +881,11 @@ public class ParamDerivative {
 		return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num,
 				D1deriv, D2deriv, p1deriv, p2deriv) +
 				qQpipi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R,
-						num,
-						D1deriv, D2deriv, p1deriv, p2deriv) +
+						num, D1deriv, D2deriv, p1deriv, p2deriv) +
 				qQpipi(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R,
 						f(num), D1deriv, D2deriv, p1deriv, p2deriv) +
 				QxxQyy(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R,
-						num,
-						D1deriv, D2deriv, p1deriv, p2deriv);
+						num, D1deriv, D2deriv, p1deriv, p2deriv);
 	}
 
 	private static double ppippipzpzderiv(double p01, double p11, double p21,
@@ -917,8 +913,7 @@ public class ParamDerivative {
 		return qq(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num,
 				D1deriv, D2deriv, p1deriv, p2deriv) +
 				qQpipi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R,
-						num,
-						D1deriv, D2deriv, p1deriv, p2deriv) +
+						num, D1deriv, D2deriv, p1deriv, p2deriv) +
 				qQzz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R,
 						f(num), D1deriv, D2deriv, p1deriv, p2deriv) +
 				QpipiQzz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R,
@@ -938,8 +933,7 @@ public class ParamDerivative {
 				qQzz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R,
 						f(num), D1deriv, D2deriv, p1deriv, p2deriv) +
 				QzzQzz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R,
-						num,
-						D1deriv, D2deriv, p1deriv, p2deriv);
+						num, D1deriv, D2deriv, p1deriv, p2deriv);
 	}
 
 	private static double spzssderiv(double p01, double p11, double p21,
@@ -949,8 +943,7 @@ public class ParamDerivative {
 									 double D1deriv, double D2deriv,
 									 double p1deriv, double p2deriv) {
 		return -quz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R,
-				f(num),
-				D1deriv, D2deriv, p1deriv, p2deriv);
+				f(num), D1deriv, D2deriv, p1deriv, p2deriv);
 	}
 
 	private static double spzppippideriv(double p01, double p11, double p21,
@@ -960,8 +953,7 @@ public class ParamDerivative {
 										 double D1deriv, double D2deriv,
 										 double p1deriv, double p2deriv) {
 		return -quz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R,
-				f(num),
-				D1deriv, D2deriv, p1deriv, p2deriv) +
+				f(num), D1deriv, D2deriv, p1deriv, p2deriv) +
 				uzQpipi(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R,
 						num, D1deriv, D2deriv, p1deriv, p2deriv);
 	}
@@ -973,8 +965,7 @@ public class ParamDerivative {
 									   double D1deriv, double D2deriv,
 									   double p1deriv, double p2deriv) {
 		return -quz(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R,
-				f(num),
-				D1deriv, D2deriv, p1deriv, p2deriv) +
+				f(num), D1deriv, D2deriv, p1deriv, p2deriv) +
 				uzQzz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num,
 						D1deriv, D2deriv, p1deriv, p2deriv);
 	}
@@ -1040,8 +1031,7 @@ public class ParamDerivative {
 										 double D1deriv, double D2deriv,
 										 double p1deriv, double p2deriv) {
 		return upiQpiz(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R,
-				num,
-				D1deriv, D2deriv, p1deriv, p2deriv);
+				num, D1deriv, D2deriv, p1deriv, p2deriv);
 	}
 
 	private static double ppipzsppideriv(double p01, double p11, double p21,
@@ -1093,12 +1083,11 @@ public class ParamDerivative {
 
 	protected static double LocalTwoCenterERIderiv(NDDO6G a, NDDO6G b,
 												   NDDO6G c,
-												   NDDO6G d,
-												   double D1deriv,
+												   NDDO6G d, double D1deriv,
 												   double D2deriv,
 												   double p1deriv,
-												   double p2deriv,
-												   int num, int type) {
+												   double p2deriv, int num,
+												   int type) {
 
 
 		double[] A = a.getCoords();
@@ -1123,23 +1112,18 @@ public class ParamDerivative {
 									case 0://(ss|ss)
 										return ssssderiv(a.p0, a.p1, a.p2,
 												a.D1,
-												a.D2,
-												c.p0, c.p1, c.p2, c.D1, c.D2
-												, R,
-												num,
-												D1deriv, D2deriv, p1deriv,
-												p2deriv);
+												a.D2, c.p0, c.p1, c.p2, c.D1,
+												c.D2
+												, R, num, D1deriv, D2deriv,
+												p1deriv, p2deriv);
 
 									case 1:
 										if (d.getk() == 1) {//(ss|spz)
 											return ssspzderiv(a.p0, a.p1, a.p2,
-													a.D1,
-													a.D2, c.p0, c.p1, c.p2,
-													c.D1, c.D2
-													, R,
-													num, D1deriv, D2deriv,
-													p1deriv,
-													p2deriv);
+													a.D1, a.D2, c.p0, c.p1,
+													c.p2, c.D1, c.D2
+													, R, num, D1deriv, D2deriv,
+													p1deriv, p2deriv);
 										}
 										else {//(ss|sppi) = 0
 											return 0;
@@ -1156,24 +1140,19 @@ public class ParamDerivative {
 
 										case 0://(ss|pzs)
 											return ssspzderiv(a.p0, a.p1, a.p2,
-													a.D1,
-													a.D2, c.p0, c.p1, c.p2,
-													c.D1, c.D2
-													, R,
-													num, D1deriv, D2deriv,
-													p1deriv,
-													p2deriv);
+													a.D1, a.D2, c.p0, c.p1,
+													c.p2, c.D1, c.D2
+													, R, num, D1deriv, D2deriv,
+													p1deriv, p2deriv);
 
 										case 1:
 											if (d.getk() == 1) {//(ss|pzpz)
 												return sspzpzderiv(a.p0, a.p1,
-														a.p2,
-														a.D1,
-														a.D2, c.p0, c.p1, c.p2,
-														c.D1,
-														c.D2, R, num, D1deriv,
-														D2deriv,
-														p1deriv, p2deriv);
+														a.p2, a.D1, a.D2, c.p0,
+														c.p1, c.p2, c.D1, c.D2,
+														R, num, D1deriv,
+														D2deriv, p1deriv,
+														p2deriv);
 											}
 											else {//(ss|pzppi) = 0
 												return 0;
@@ -1189,13 +1168,10 @@ public class ParamDerivative {
 											c.getj() == d.getj()) {//(ss
 										// |ppippi)
 										return ssppippideriv(a.p0, a.p1, a.p2,
-												a.D1,
-												a.D2,
-												c.p0, c.p1, c.p2, c.D1, c.D2
-												, R,
-												num,
-												D1deriv, D2deriv, p1deriv,
-												p2deriv);
+												a.D1, a.D2, c.p0, c.p1, c.p2,
+												c.D1, c.D2
+												, R, num, D1deriv, D2deriv,
+												p1deriv, p2deriv);
 									}
 									else {//all others are 0
 										return 0;
@@ -1218,24 +1194,19 @@ public class ParamDerivative {
 
 										case 0://(spz|ss)
 											return spzssderiv(a.p0, a.p1, a.p2,
-													a.D1,
-													a.D2, c.p0, c.p1, c.p2,
-													c.D1, c.D2
-													, R,
-													num, D1deriv, D2deriv,
-													p1deriv,
-													p2deriv);
+													a.D1, a.D2, c.p0, c.p1,
+													c.p2, c.D1, c.D2
+													, R, num, D1deriv, D2deriv,
+													p1deriv, p2deriv);
 
 										case 1:
 											if (d.getk() == 1) {//(spz|spz)
 												return spzspzderiv(a.p0, a.p1,
-														a.p2,
-														a.D1,
-														a.D2, c.p0, c.p1, c.p2,
-														c.D1,
-														c.D2, R, num, D1deriv,
-														D2deriv,
-														p1deriv, p2deriv);
+														a.p2, a.D1, a.D2, c.p0,
+														c.p1, c.p2, c.D1, c.D2,
+														R, num, D1deriv,
+														D2deriv, p1deriv,
+														p2deriv);
 											}
 											else {
 												return 0;
@@ -1249,23 +1220,20 @@ public class ParamDerivative {
 
 											case 0://(spz|pzs)
 												return spzspzderiv(a.p0, a.p1,
-														a.p2,
-														a.D1,
-														a.D2, c.p0, c.p1, c.p2,
-														c.D1,
-														c.D2, R, num, D1deriv,
-														D2deriv,
-														p1deriv, p2deriv);
+														a.p2, a.D1, a.D2, c.p0,
+														c.p1, c.p2, c.D1, c.D2,
+														R, num, D1deriv,
+														D2deriv, p1deriv,
+														p2deriv);
 
 											case 1:
 												if (d.getk() == 1) {//(spz
 													// |pzpz)
 													return spzpzpzderiv(a.p0,
-															a.p1, a.p2,
-															a.D1, a.D2, c.p0,
-															c.p1, c.p2,
-															c.D1, c.D2, R, num,
-															D1deriv,
+															a.p1, a.p2, a.D1,
+															a.D2, c.p0, c.p1,
+															c.p2, c.D1, c.D2
+															, R, num, D1deriv,
 															D2deriv, p1deriv,
 															p2deriv);
 												}
@@ -1279,13 +1247,10 @@ public class ParamDerivative {
 												d.getj() == c.getj() &&
 												d.getk() == 0) {
 											return spzppippideriv(a.p0, a.p1,
-													a.p2, a.D1,
-													a.D2, c.p0, c.p1, c.p2,
-													c.D1, c.D2
-													, R,
-													num, D1deriv, D2deriv,
-													p1deriv,
-													p2deriv);
+													a.p2, a.D1, a.D2, c.p0,
+													c.p1, c.p2, c.D1, c.D2
+													, R, num, D1deriv, D2deriv,
+													p1deriv, p2deriv);
 										}
 										else {
 											return 0;
@@ -1304,13 +1269,10 @@ public class ParamDerivative {
 											d.getj() == b.getj() &&
 											d.getk() == 0) {//(sppi|sppi)
 										return sppisppideriv(a.p0, a.p1, a.p2,
-												a.D1,
-												a.D2,
-												c.p0, c.p1, c.p2, c.D1, c.D2
-												, R,
-												num,
-												D1deriv, D2deriv, p1deriv,
-												p2deriv);
+												a.D1, a.D2, c.p0, c.p1, c.p2,
+												c.D1, c.D2
+												, R, num, D1deriv, D2deriv,
+												p1deriv, p2deriv);
 									}
 									else {
 										return 0;
@@ -1321,13 +1283,10 @@ public class ParamDerivative {
 												d.getj() == b.getj() &&
 												d.getk() == 0) {//(sppi|pzppi)
 											return sppippipzderiv(a.p0, a.p1,
-													a.p2, a.D1,
-													a.D2, c.p0, c.p1, c.p2,
-													c.D1, c.D2
-													, R,
-													num, D1deriv, D2deriv,
-													p1deriv,
-													p2deriv);
+													a.p2, a.D1, a.D2, c.p0,
+													c.p1, c.p2, c.D1, c.D2
+													, R, num, D1deriv, D2deriv,
+													p1deriv, p2deriv);
 										}
 										else {
 											return 0;
@@ -1340,12 +1299,10 @@ public class ParamDerivative {
 											switch (d.getL()) {
 												case 0:
 													return sppisppideriv(a.p0,
-															a.p1,
-															a.p2,
-															a.D1, a.D2, c.p0,
-															c.p1, c.p2,
-															c.D1, c.D2, R, num,
-															D1deriv,
+															a.p1, a.p2, a.D1,
+															a.D2, c.p0, c.p1,
+															c.p2, c.D1, c.D2
+															, R, num, D1deriv,
 															D2deriv, p1deriv,
 															p2deriv);
 												case 1:
@@ -1356,8 +1313,8 @@ public class ParamDerivative {
 																a.D2, c.p0,
 																c.p1, c.p2,
 																c.D1, c.D2
-																, R,
-																num, D1deriv,
+																, R, num,
+																D1deriv,
 																D2deriv,
 																p1deriv,
 																p2deriv);
@@ -1395,24 +1352,19 @@ public class ParamDerivative {
 
 										case 0://(pzs|ss)
 											return spzssderiv(a.p0, a.p1, a.p2,
-													a.D1,
-													a.D2, c.p0, c.p1, c.p2,
-													c.D1, c.D2
-													, R,
-													num, D1deriv, D2deriv,
-													p1deriv,
-													p2deriv);
+													a.D1, a.D2, c.p0, c.p1,
+													c.p2, c.D1, c.D2
+													, R, num, D1deriv, D2deriv,
+													p1deriv, p2deriv);
 
 										case 1:
 											if (d.getk() == 1) {//(pzs|spz)
 												return spzspzderiv(a.p0, a.p1,
-														a.p2,
-														a.D1,
-														a.D2, c.p0, c.p1, c.p2,
-														c.D1,
-														c.D2, R, num, D1deriv,
-														D2deriv,
-														p1deriv, p2deriv);
+														a.p2, a.D1, a.D2, c.p0,
+														c.p1, c.p2, c.D1, c.D2,
+														R, num, D1deriv,
+														D2deriv, p1deriv,
+														p2deriv);
 											}
 											else {
 												return 0;
@@ -1426,23 +1378,20 @@ public class ParamDerivative {
 
 											case 0://(pzs|pzs)
 												return spzspzderiv(a.p0, a.p1,
-														a.p2,
-														a.D1,
-														a.D2, c.p0, c.p1, c.p2,
-														c.D1,
-														c.D2, R, num, D1deriv,
-														D2deriv,
-														p1deriv, p2deriv);
+														a.p2, a.D1, a.D2, c.p0,
+														c.p1, c.p2, c.D1, c.D2,
+														R, num, D1deriv,
+														D2deriv, p1deriv,
+														p2deriv);
 
 											case 1:
 												if (d.getk() == 1) {//(pzs
 													// |pzpz)
 													return spzpzpzderiv(a.p0,
-															a.p1, a.p2,
-															a.D1, a.D2, c.p0,
-															c.p1, c.p2,
-															c.D1, c.D2, R, num,
-															D1deriv,
+															a.p1, a.p2, a.D1,
+															a.D2, c.p0, c.p1,
+															c.p2, c.D1, c.D2
+															, R, num, D1deriv,
 															D2deriv, p1deriv,
 															p2deriv);
 												}
@@ -1456,13 +1405,10 @@ public class ParamDerivative {
 												d.getj() == c.getj() &&
 												d.getk() == 0) {
 											return spzppippideriv(a.p0, a.p1,
-													a.p2, a.D1,
-													a.D2, c.p0, c.p1, c.p2,
-													c.D1, c.D2
-													, R,
-													num, D1deriv, D2deriv,
-													p1deriv,
-													p2deriv);
+													a.p2, a.D1, a.D2, c.p0,
+													c.p1, c.p2, c.D1, c.D2
+													, R, num, D1deriv, D2deriv,
+													p1deriv, p2deriv);
 										}
 										else {
 											return 0;
@@ -1484,23 +1430,20 @@ public class ParamDerivative {
 
 											case 0://(pzpz|ss)
 												return pzpzssderiv(a.p0, a.p1,
-														a.p2,
-														a.D1,
-														a.D2, c.p0, c.p1, c.p2,
-														c.D1,
-														c.D2, R, num, D1deriv,
-														D2deriv,
-														p1deriv, p2deriv);
+														a.p2, a.D1, a.D2, c.p0,
+														c.p1, c.p2, c.D1, c.D2,
+														R, num, D1deriv,
+														D2deriv, p1deriv,
+														p2deriv);
 
 											case 1:
 												if (d.getk() == 1) {//(pzpz
 													// |spz)
 													return pzpzspzderiv(a.p0,
-															a.p1, a.p2,
-															a.D1, a.D2, c.p0,
-															c.p1, c.p2,
-															c.D1, c.D2, R, num,
-															D1deriv,
+															a.p1, a.p2, a.D1,
+															a.D2, c.p0, c.p1,
+															c.p2, c.D1, c.D2
+															, R, num, D1deriv,
 															D2deriv, p1deriv,
 															p2deriv);
 												}
@@ -1516,11 +1459,10 @@ public class ParamDerivative {
 
 												case 0://(pzpz|pzs)
 													return pzpzspzderiv(a.p0,
-															a.p1, a.p2,
-															a.D1, a.D2, c.p0,
-															c.p1, c.p2,
-															c.D1, c.D2, R, num,
-															D1deriv,
+															a.p1, a.p2, a.D1,
+															a.D2, c.p0, c.p1,
+															c.p2, c.D1, c.D2
+															, R, num, D1deriv,
 															D2deriv, p1deriv,
 															p2deriv);
 
@@ -1533,8 +1475,8 @@ public class ParamDerivative {
 																a.D2, c.p0,
 																c.p1, c.p2,
 																c.D1, c.D2
-																, R,
-																num, D1deriv,
+																, R, num,
+																D1deriv,
 																D2deriv,
 																p1deriv,
 																p2deriv);
@@ -1549,11 +1491,9 @@ public class ParamDerivative {
 													d.getj() == c.getj() &&
 													d.getk() == 0) {
 												return pzpzppippideriv(a.p0,
-														a.p1, a.p2,
-														a.D1, a.D2, c.p0, c.p1,
-														c.p2,
-														c.D1, c.D2, R, num,
-														D1deriv,
+														a.p1, a.p2, a.D1, a.D2,
+														c.p0, c.p1, c.p2, c.D1,
+														c.D2, R, num, D1deriv,
 														D2deriv, p1deriv,
 														p2deriv);
 											}
@@ -1574,13 +1514,10 @@ public class ParamDerivative {
 												d.getj() == b.getj() &&
 												d.getk() == 0) {//(pzppi|sppi)
 											return ppipzsppideriv(a.p0, a.p1,
-													a.p2, a.D1,
-													a.D2, c.p0, c.p1, c.p2,
-													c.D1, c.D2
-													, R,
-													num, D1deriv, D2deriv,
-													p1deriv,
-													p2deriv);
+													a.p2, a.D1, a.D2, c.p0,
+													c.p1, c.p2, c.D1, c.D2
+													, R, num, D1deriv, D2deriv,
+													p1deriv, p2deriv);
 										}
 										else {
 											return 0;
@@ -1592,11 +1529,9 @@ public class ParamDerivative {
 													d.getk() ==
 															0) {//(pzppi|pzppi)
 												return ppipzppipzderiv(a.p0,
-														a.p1, a.p2,
-														a.D1, a.D2, c.p0, c.p1,
-														c.p2,
-														c.D1, c.D2, R, num,
-														D1deriv,
+														a.p1, a.p2, a.D1, a.D2,
+														c.p0, c.p1, c.p2, c.D1,
+														c.D2, R, num, D1deriv,
 														D2deriv, p1deriv,
 														p2deriv);
 											}
@@ -1617,22 +1552,20 @@ public class ParamDerivative {
 																a.D2, c.p0,
 																c.p1, c.p2,
 																c.D1, c.D2
-																, R,
-																num, D1deriv,
+																, R, num,
+																D1deriv,
 																D2deriv,
 																p1deriv,
 																p2deriv);
 													case 1:
 														if (d.getk() == 1) {
 															return ppipzppipzderiv(
-																	a.p0,
-																	a.p1, a.p2,
-																	a.D1,
+																	a.p0, a.p1,
+																	a.p2, a.D1,
 																	a.D2, c.p0,
-																	c.p1,
-																	c.p2, c.D1,
-																	c.D2, R,
-																	num,
+																	c.p1, c.p2,
+																	c.D1, c.D2,
+																	R, num,
 																	D1deriv,
 																	D2deriv,
 																	p1deriv,
@@ -1667,13 +1600,10 @@ public class ParamDerivative {
 											d.getj() == a.getj() &&
 											d.getk() == 0) {//(ppis|sppi)
 										return sppisppideriv(a.p0, a.p1, a.p2,
-												a.D1,
-												a.D2,
-												c.p0, c.p1, c.p2, c.D1, c.D2
-												, R,
-												num,
-												D1deriv, D2deriv, p1deriv,
-												p2deriv);
+												a.D1, a.D2, c.p0, c.p1, c.p2,
+												c.D1, c.D2
+												, R, num, D1deriv, D2deriv,
+												p1deriv, p2deriv);
 									}
 									else {
 										return 0;
@@ -1684,13 +1614,10 @@ public class ParamDerivative {
 												d.getj() == a.getj() &&
 												d.getk() == 0) {//(ppis|pzppi)
 											return sppippipzderiv(a.p0, a.p1,
-													a.p2, a.D1,
-													a.D2, c.p0, c.p1, c.p2,
-													c.D1, c.D2
-													, R,
-													num, D1deriv, D2deriv,
-													p1deriv,
-													p2deriv);
+													a.p2, a.D1, a.D2, c.p0,
+													c.p1, c.p2, c.D1, c.D2
+													, R, num, D1deriv, D2deriv,
+													p1deriv, p2deriv);
 										}
 										else {
 											return 0;
@@ -1703,12 +1630,10 @@ public class ParamDerivative {
 											switch (d.getL()) {
 												case 0:
 													return sppisppideriv(a.p0,
-															a.p1,
-															a.p2,
-															a.D1, a.D2, c.p0,
-															c.p1, c.p2,
-															c.D1, c.D2, R, num,
-															D1deriv,
+															a.p1, a.p2, a.D1,
+															a.D2, c.p0, c.p1,
+															c.p2, c.D1, c.D2
+															, R, num, D1deriv,
 															D2deriv, p1deriv,
 															p2deriv);
 												case 1:
@@ -1719,8 +1644,8 @@ public class ParamDerivative {
 																a.D2, c.p0,
 																c.p1, c.p2,
 																c.D1, c.D2
-																, R,
-																num, D1deriv,
+																, R, num,
+																D1deriv,
 																D2deriv,
 																p1deriv,
 																p2deriv);
@@ -1748,13 +1673,10 @@ public class ParamDerivative {
 												d.getj() == a.getj() &&
 												d.getk() == 0) {//(ppipz|sppi)
 											return ppipzsppideriv(a.p0, a.p1,
-													a.p2, a.D1,
-													a.D2, c.p0, c.p1, c.p2,
-													c.D1, c.D2
-													, R,
-													num, D1deriv, D2deriv,
-													p1deriv,
-													p2deriv);
+													a.p2, a.D1, a.D2, c.p0,
+													c.p1, c.p2, c.D1, c.D2
+													, R, num, D1deriv, D2deriv,
+													p1deriv, p2deriv);
 										}
 										else {
 											return 0;
@@ -1766,11 +1688,9 @@ public class ParamDerivative {
 													d.getk() ==
 															0) {//(ppipz|pzppi)
 												return ppipzppipzderiv(a.p0,
-														a.p1, a.p2,
-														a.D1, a.D2, c.p0, c.p1,
-														c.p2,
-														c.D1, c.D2, R, num,
-														D1deriv,
+														a.p1, a.p2, a.D1, a.D2,
+														c.p0, c.p1, c.p2, c.D1,
+														c.D2, R, num, D1deriv,
 														D2deriv, p1deriv,
 														p2deriv);
 											}
@@ -1791,22 +1711,20 @@ public class ParamDerivative {
 																a.D2, c.p0,
 																c.p1, c.p2,
 																c.D1, c.D2
-																, R,
-																num, D1deriv,
+																, R, num,
+																D1deriv,
 																D2deriv,
 																p1deriv,
 																p2deriv);
 													case 1:
 														if (d.getk() == 1) {
 															return ppipzppipzderiv(
-																	a.p0,
-																	a.p1, a.p2,
-																	a.D1,
+																	a.p0, a.p1,
+																	a.p2, a.D1,
 																	a.D2, c.p0,
-																	c.p1,
-																	c.p2, c.D1,
-																	c.D2, R,
-																	num,
+																	c.p1, c.p2,
+																	c.D1, c.D2,
+																	R, num,
 																	D1deriv,
 																	D2deriv,
 																	p1deriv,
@@ -1838,12 +1756,10 @@ public class ParamDerivative {
 												if (a.geti() == b.geti() &&
 														a.getj() == b.getj()) {
 													return ppippissderiv(a.p0,
-															a.p1,
-															a.p2,
-															a.D1, a.D2, c.p0,
-															c.p1, c.p2,
-															c.D1, c.D2, R, num,
-															D1deriv,
+															a.p1, a.p2, a.D1,
+															a.D2, c.p0, c.p1,
+															c.p2, c.D1, c.D2
+															, R, num, D1deriv,
 															D2deriv, p1deriv,
 															p2deriv);
 												}
@@ -1855,14 +1771,11 @@ public class ParamDerivative {
 														a.geti() == b.geti() &&
 														a.getj() == b.getj()) {
 													return ppippispzderiv(a.p0,
-															a.p1,
-															a.p2, a.D1, a.D2,
-															c.p0, c.p1,
+															a.p1, a.p2, a.D1,
+															a.D2, c.p0, c.p1,
 															c.p2, c.D1, c.D2
-															, R,
-															num,
-															D1deriv, D2deriv,
-															p1deriv,
+															, R, num, D1deriv,
+															D2deriv, p1deriv,
 															p2deriv);
 												}
 												else {
@@ -1883,8 +1796,8 @@ public class ParamDerivative {
 																a.D2, c.p0,
 																c.p1, c.p2,
 																c.D1, c.D2
-																, R,
-																num, D1deriv,
+																, R, num,
+																D1deriv,
 																D2deriv,
 																p1deriv,
 																p2deriv);
@@ -1901,14 +1814,13 @@ public class ParamDerivative {
 																	b.getj()) {//(ppippi
 														// |pzpz)
 														return ppippipzpzderiv(
-																a.p0,
-																a.p1,
+																a.p0, a.p1,
 																a.p2, a.D1,
 																a.D2, c.p0,
 																c.p1, c.p2,
 																c.D1, c.D2
-																, R,
-																num, D1deriv,
+																, R, num,
+																D1deriv,
 																D2deriv,
 																p1deriv,
 																p2deriv);
@@ -1930,13 +1842,12 @@ public class ParamDerivative {
 														c.getk() == 0) {
 													if (a.geti() == c.geti()) {
 														return ppippippippideriv(
-																a.p0,
-																a.p1, a.p2,
-																a.D1, a.D2,
-																c.p0, c.p1,
-																c.p2, c.D1,
-																c.D2, R, num,
-																D1deriv,
+																a.p0, a.p1,
+																a.p2, a.D1,
+																a.D2, c.p0,
+																c.p1, c.p2,
+																c.D1, c.D2, R,
+																num, D1deriv,
 																D2deriv,
 																p1deriv,
 																p2deriv);
@@ -1948,8 +1859,8 @@ public class ParamDerivative {
 																a.D2, c.p0,
 																c.p1, c.p2,
 																c.D1, c.D2
-																, R,
-																num, D1deriv,
+																, R, num,
+																D1deriv,
 																D2deriv,
 																p1deriv,
 																p2deriv);
@@ -1966,12 +1877,10 @@ public class ParamDerivative {
 														c.getj() != d.getj() &&
 														c.getk() == 0) {
 													return pxpypxpyderiv(a.p0,
-															a.p1,
-															a.p2,
-															a.D1, a.D2, c.p0,
-															c.p1, c.p2,
-															c.D1, c.D2, R, num,
-															D1deriv,
+															a.p1, a.p2, a.D1,
+															a.D2, c.p0, c.p1,
+															c.p2, c.D1, c.D2
+															, R, num, D1deriv,
 															D2deriv, p1deriv,
 															p2deriv);
 												}
@@ -1991,8 +1900,7 @@ public class ParamDerivative {
 
 
 	public static double getGderiv(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d,
-								   int num,
-								   int type) {
+								   int num, int type) {
 		double[] coeffA = a.decomposition(a.getCoords(), c.getCoords());
 		double[] coeffB = b.decomposition(a.getCoords(), c.getCoords());
 		double[] coeffC = c.decomposition(a.getCoords(), c.getCoords());
@@ -2038,10 +1946,8 @@ public class ParamDerivative {
 							sum2 += coeffA[i] * coeffB[j] * coeffC[k] *
 									coeffD[l] *
 									LocalTwoCenterERIderiv(A[i], B[j], C[k],
-											D[l],
-											D1deriv, D2deriv, p1deriv, p2deriv,
-											num,
-											type) * 27.21;
+											D[l], D1deriv, D2deriv, p1deriv,
+											p2deriv, num, type) * 27.21;
 						}
 
 
@@ -2057,8 +1963,7 @@ public class ParamDerivative {
 
 	public static double getGderivfinite(NDDO6G a, NDDO6G b, NDDO6G c,
 										 NDDO6G d,
-										 int num,
-										 int type) {
+										 int num, int type) {
 
 		int aindex = index(a);
 
@@ -2272,8 +2177,7 @@ public class ParamDerivative {
 	}
 
 
-	public static DoubleMatrix[][] MNDOStaticMatrixDeriv(SolutionR soln,
-														 int Z,
+	public static DoubleMatrix[][] MNDOStaticMatrixDeriv(SolutionR soln, int Z,
 														 int firstParamIndex) {
 		NDDOAtom[] atoms = soln.atoms;
 		DoubleMatrix[] HDerivs = new DoubleMatrix[8];
@@ -2441,8 +2345,8 @@ public class ParamDerivative {
 
 	@Deprecated
 	private static DoubleMatrix zetafockderivstatic(NDDOAtom[] atoms,
-												   SolutionR soln, int Z,
-												   int type) {
+													SolutionR soln, int Z,
+													int type) {
 
 
 		NDDO6G[] orbitals = soln.orbitals;
@@ -2548,8 +2452,8 @@ public class ParamDerivative {
 	}
 
 	private static DoubleMatrix zetaHderivstatic(NDDOAtom[] atoms,
-												SolutionR soln, int Z,
-												int type) {
+												 SolutionR soln, int Z,
+												 int type) {
 
 
 		NDDO6G[] orbitals = soln.orbitals;
@@ -2592,8 +2496,8 @@ public class ParamDerivative {
 	}
 
 	private static DoubleMatrix zetaGderivstatic(NDDOAtom[] atoms,
-												SolutionR soln, int Z,
-												int type) {
+												 SolutionR soln, int Z,
+												 int type) {
 
 
 		NDDO6G[] orbitals = soln.orbitals;
@@ -2694,7 +2598,7 @@ public class ParamDerivative {
 	}
 
 	private static DoubleMatrix uxxfockderivstatic(SolutionR soln, int Z,
-												  int type) {
+												   int type) {
 
 		DoubleMatrix F =
 				DoubleMatrix.zeros(soln.orbitals.length, soln.orbitals.length);
@@ -2746,7 +2650,7 @@ public class ParamDerivative {
 	}
 
 	private static DoubleMatrix betafockderivstatic(SolutionR soln, int Z,
-												   int type) {
+													int type) {
 
 		DoubleMatrix F =
 				DoubleMatrix.zeros(soln.orbitals.length, soln.orbitals.length);
@@ -3243,8 +3147,7 @@ public class ParamDerivative {
 
 					rArray[j] =
 							rArray[j].add((b.get(i).sub(p.get(i)))
-									.mmul(alpha.get(i,
-											j)));
+									.mmul(alpha.get(i, j)));
 					xArray[j] = xArray[j].add(b.get(i).mmul(alpha.get(i, j)));
 				}
 			}
@@ -3274,14 +3177,12 @@ public class ParamDerivative {
 							System.err.println(
 									"Numerical instability detected; " +
 											"reverting to Thiel algorithm...");
-							return xArrayLimitedThiel(soln,
-									fockDerivStatic);
+							return xArrayLimitedThiel(soln, fockDerivStatic);
 						}
 						if (mag != mag) {
 							System.err.println("Pople algorithm fails; " +
 									"reverting to Thiel algorithm...");
-							return xArrayLimitedThiel(soln,
-									fockDerivStatic);
+							return xArrayLimitedThiel(soln, fockDerivStatic);
 						}
 					}
 				}
@@ -3388,7 +3289,8 @@ public class ParamDerivative {
 			ArrayList<DoubleMatrix> p = new ArrayList<>();
 
 			System.out.println(
-					"It's still running, don't worry: " + Utils.numNotNull(rArray));
+					"It's still running, don't worry: " +
+							Utils.numNotNull(rArray));
 
 			for (int i = 0; i < rArray.length; i++) {
 				if (rArray[i] != null) {
@@ -3621,8 +3523,7 @@ public class ParamDerivative {
 	}
 
 
-	public static double MNDOIEDeriv(SolutionR soln,
-									 DoubleMatrix coeffDeriv,
+	public static double MNDOIEDeriv(SolutionR soln, DoubleMatrix coeffDeriv,
 									 DoubleMatrix Fderiv) {
 
 		int index = (int) (soln.nElectrons / 2.0) - 1;
