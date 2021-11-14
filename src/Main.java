@@ -227,7 +227,7 @@ public class Main {
 			}
 
 			// optimizes params based on this run and gets new search direction
-			SimpleMatrix newGradient = new SimpleMatrix(1, ttGradient.length, true, ttGradient);
+			SimpleMatrix newGradient = new SimpleMatrix(ttGradient.length, 1, true, ttGradient);
 			SimpleMatrix newHessian =
 					isRunHessian ? new SimpleMatrix(ttHessian) :
 							findMockHessian(newGradient,
@@ -314,7 +314,7 @@ public class Main {
 												double[] oldHessian,
 												double[] oldGradient,
 												double[] oldDir, int size) {
-		SimpleMatrix s = new SimpleMatrix(1, oldDir.length, true, oldDir);
+		SimpleMatrix s = new SimpleMatrix(oldDir.length, 1, true, oldDir);
 		SimpleMatrix hessian = new SimpleMatrix(size, size);
 		int count = 1;
 		int index = 0;
@@ -328,7 +328,7 @@ public class Main {
 		}
 
 		SimpleMatrix y = newGradient.minus(
-				new SimpleMatrix(1, oldGradient.length, true, oldGradient));
+				new SimpleMatrix(oldGradient.length, 1, true, oldGradient));
 
 		double b = y.transpose().mult(s).get(0);
 		SimpleMatrix A = y.mult(y.transpose()).scale(1 / b);

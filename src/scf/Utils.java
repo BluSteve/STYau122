@@ -69,6 +69,7 @@ public class Utils {
 		}
 		return ints;
 	}
+
 	public static double[] bohr(double[] notbohr) {
 		double[] res = new double[notbohr.length];
 		for (int i = 0; i < notbohr.length; i++) res[i] = notbohr[i] * bohr;
@@ -220,7 +221,7 @@ public class Utils {
 
 	public static int numNotNull(Object[] array) {
 		int count = 0;
-		for (Object x: array) {
+		for (Object x : array) {
 			if (x != null) count++;
 		}
 		return count;
@@ -264,8 +265,8 @@ public class Utils {
 
 		Arrays.sort(epairs);
 		for (int i = 0; i < noe; i++) {
-			evalues.set(i,i, epairs[i].first);
-			evectors.setColumn(i,0, epairs[i].second.data);
+			evalues.set(i, i, epairs[i].first);
+			evectors.setColumn(i, 0, epairs[i].second.data);
 		}
 
 		return new SimpleMatrix[]{evectors, evalues};

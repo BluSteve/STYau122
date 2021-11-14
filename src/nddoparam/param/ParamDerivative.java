@@ -2196,7 +2196,8 @@ public class ParamDerivative {
 			HDerivs[5] = zetaHderivstatic(atoms, soln, Z, 0);
 		if (firstParamIndex <= 5)
 			FDerivs[5] =
-					HDerivs[5].copy().plus(zetaGderivstatic(atoms, soln, Z, 0));
+					HDerivs[5].copy().plus(zetaGderivstatic(atoms, soln, Z,
+							0));
 
 		if (Z != 1) {
 			if (firstParamIndex <= 2)
@@ -3012,26 +3013,21 @@ public class ParamDerivative {
 		SimpleMatrix[] Farray = new SimpleMatrix[fockDerivStatic.length];
 		SimpleMatrix[] rarray = new SimpleMatrix[fockDerivStatic.length];
 
-		double[] arrpreconditioner = new double[NOcc * NVirt];
-		double[] arrpreconditionerinv = new double[NOcc * NVirt];
+		SimpleMatrix D = new SimpleMatrix(NOcc * NVirt, NOcc * NVirt);
+		SimpleMatrix Dinv = new SimpleMatrix(NOcc * NVirt, NOcc * NVirt);
 
 		int counter = 0;
-
 		for (int i = 0; i < NOcc; i++) {
 			for (int j = 0; j < NVirt; j++) {
 				double e = (-soln.E.get(i) + soln.E.get(NOcc + j));
 
-				arrpreconditioner[counter] = Math.pow(e, -0.5);
-				arrpreconditionerinv[counter] = Math.pow(e, 0.5);
+				D.set(counter, counter, Math.pow(e, -0.5));
+				Dinv.set(counter, counter, Math.pow(e, 0.5));
 				counter++;
 			}
 		}
 
-		SimpleMatrix D = SimpleMatrix.diag(arrpreconditioner);
-
-		SimpleMatrix Dinv = SimpleMatrix.diag(arrpreconditionerinv);
-
-		for (int a = 0; a < xarrayHold.length; a++) {
+		for (int a = 0; a < xarray.length; a++) {
 			SimpleMatrix F = new SimpleMatrix(NOcc * NVirt, 1);
 
 			int count1 = 0;
@@ -3060,7 +3056,7 @@ public class ParamDerivative {
 
 			F = D.mult(F);
 
-			xarrayHold[a] = new SimpleMatrix(NOcc * NVirt, 1);
+			xarray[a] = new SimpleMatrix(NOcc * NVirt, 1);
 			rarray[a] = new SimpleMatrix(NOcc * NVirt, 1);
 			barray[a] = F;
 			Farray[a] = F;
@@ -3096,7 +3092,6 @@ public class ParamDerivative {
 		Arrays.fill(oldrMags, 1);
 
 		bigLoop:
-
 		while (Utils.numIterable(iterable) > 0) {
 			for (int number = 0; number < 1; number++) {
 				orthogonalise(barray);
@@ -3149,9 +3144,9 @@ public class ParamDerivative {
 
 			SimpleMatrix alpha = lhs.solve(rhs);
 
-			for (int a = 0; a < xarrayHold.length; a++) {
+			for (int a = 0; a < xarray.length; a++) {
 				rarray[a] = new SimpleMatrix(NOcc * NVirt, 1);
-				xarrayHold[a] = new SimpleMatrix(NOcc * NVirt, 1);
+				xarray[a] = new SimpleMatrix(NOcc * NVirt, 1);
 			}
 
 			for (int i = 0; i < alpha.numRows(); i++) {
@@ -3160,7 +3155,7 @@ public class ParamDerivative {
 					rarray[j] = rarray[j].plus((prevBs.get(i)
 							.minus(prevPs.get(i))).scale(
 							alpha.get(i, j)));
-					xarrayHold[j] = xarrayHold[j].plus(
+					xarray[j] = xarray[j].plus(
 							prevBs.get(i).scale(alpha.get(i, j)));
 				}
 			}
@@ -3329,9 +3324,9 @@ public class ParamDerivative {
 
 			SimpleMatrix alpha;
 			try {
-				alpha  = solver.solve(rhsvec);
+				alpha = solver.solve(rhsvec);
 			} catch (SingularMatrixException e) {
-				alpha = Utils.filled(solver.numCols(), rhsvec.numCols(),1);
+				alpha = Utils.filled(solver.numCols(), rhsvec.numCols(), 1);
 			}
 
 			for (int a = 0; a < rhsvec.numCols(); a++) {
@@ -3340,9 +3335,11 @@ public class ParamDerivative {
 
 					for (int i = 0; i < alpha.numRows(); i++) {
 						xarray[a] =
-								xarray[a].plus(d.get(i).scale(alpha.get(i, a)));
+								xarray[a].plus(d.get(i).scale(alpha.get(i,
+										a)));
 						rarray[a] =
-								rarray[a].minus(p.get(i).scale(alpha.get(i, a)));
+								rarray[a].minus(
+										p.get(i).scale(alpha.get(i, a)));
 					}
 
 					if (mag != mag || oldrMags[a] < mag) {
@@ -3469,7 +3466,8 @@ public class ParamDerivative {
 
 		int count = 0;
 
-		for (int i = xlimited.getNumElements() - NVirt; i < xlimited.getNumElements(); i++) {
+		for (int i = xlimited.getNumElements() - NVirt;
+			 i < xlimited.getNumElements(); i++) {
 			if (i > -1) {
 				x.set(count, 0, xlimited.get(i, 0));
 				count++;

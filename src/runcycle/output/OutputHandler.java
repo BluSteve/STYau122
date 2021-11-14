@@ -2,9 +2,11 @@ package runcycle.output;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import runcycle.MoleculeResult;
 import runcycle.input.RawInput;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -42,8 +44,7 @@ public class OutputHandler {
 		try {
 			mos = new Gson().fromJson(new FileReader(inputPath + ".json"),
 					MoleculeOutput[].class);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (JsonSyntaxException |FileNotFoundException ignored) {
 		}
 		return mos;
 	}
