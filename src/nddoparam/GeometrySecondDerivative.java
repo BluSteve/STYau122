@@ -2727,7 +2727,6 @@ public class GeometrySecondDerivative {
 
 	public static SimpleMatrix[] densityDerivThiel(SolutionR soln,
 												   SimpleMatrix[] fockderivstatic) {
-
 		StopWatch sw = new StopWatch();
 		sw.start();
 
@@ -2913,7 +2912,6 @@ public class GeometrySecondDerivative {
 		SimpleMatrix[] densityMatrixDerivs =
 				new SimpleMatrix[fockderivstatic.length];
 
-
 		for (int a = 0; a < fockderivstatic.length; a++) {
 			SimpleMatrix densityMatrixDeriv = new SimpleMatrix
 					(soln.orbitals.length, soln.orbitals.length);
@@ -2941,17 +2939,11 @@ public class GeometrySecondDerivative {
 			densityMatrixDerivs[a] = densityMatrixDeriv;
 		}
 
-//		System.err.println("Time: " + sw.getTime());
-
-
 		return densityMatrixDerivs;
-
-
 	}
 
 	public static SimpleMatrix[] densityDerivPople(SolutionR soln,
 												   SimpleMatrix[] fockderivstatic) {
-
 		StopWatch sw = new StopWatch();
 		sw.start();
 
@@ -3135,24 +3127,14 @@ public class GeometrySecondDerivative {
 				}
 				else {
 					iterable[j] = 0;
-//					System.out.println("convergence test: " + mag(rarray[j]));
+					System.out.println("convergence test: " + mag(rarray[j]));
 				}
 
 			}
 
-//			for (int i = 0; i < xarray.length; i++) {
-//				if (!Solution.isSimilar(xarray[i],//						
-//				Utils.toSimpleMatrix(simplexarray[i]), 1E-7)) {
-//					System.err.println("Oh no! Pople refactor failed");
-//					System.exit(0);
-//				}
-//			}
-
-
 		}
 
 //		System.err.println("Pople refactor works (for this iteration)");
-//
 
 		SimpleMatrix[] densityMatrixDerivs =
 				new SimpleMatrix[fockderivstatic.length];
@@ -3187,11 +3169,7 @@ public class GeometrySecondDerivative {
 		}
 
 //		System.err.println("Time: " + sw.getTime());
-
-
 		return densityMatrixDerivs;
-
-
 	}
 
 
