@@ -1,2 +1,7 @@
-bin
-out
+.gradle
+build
+outputs
+pastinputs
+errored-molecules.txt
+dynamic-output.json
+input.json

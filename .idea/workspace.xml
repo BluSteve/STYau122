@@ -1,890 +1,321 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="AnalysisUIOptions">
-    <option name="SCOPE_TYPE" value="3" />
-  </component>
-  <component name="ArtifactsWorkspaceSettings">
-    <artifacts-to-build>
-      <artifact name="SMP2020:jar" />
-    </artifacts-to-build>
-  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
-  <component name="BranchesTreeState">
-    <expand>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-    </expand>
-    <select>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="BRANCH:origin/testing" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-    </select>
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="nan issue for c2h2_0_rhs">
-      <change afterPath="$PROJECT_DIR$/pastinputs/input-5612F394.json" afterDir="false" />
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pastinputs/input-11BB386C.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pastinputs/input-630918F5.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/MNDOParam_jar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/commons_lang3_3_12_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/gson_2_8_6.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/remote-targets.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations/blusteve.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MNDOHessianUpdateData.txt" beforeDir="false" afterPath="$PROJECT_DIR$/mndohessian.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cpuvsgpu.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cpuvsgpu.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/cpuvsgpu.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cpuvsgpu2.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/dynamic-output.json" beforeDir="false" afterPath="$PROJECT_DIR$/dynamic-output.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/input.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcublas-10.1.0-javadoc.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcublas-10.1.0-sources.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcublas-10.1.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcublas-natives-10.1.0-apple-x86_64.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcublas-natives-10.1.0-javadoc.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcublas-natives-10.1.0-linux-x86_64.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcublas-natives-10.1.0-sources.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcublas-natives-10.1.0-windows-x86_64.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcublas-natives-10.1.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcuda-10.1.0-javadoc.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcuda-10.1.0-sources.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcuda-10.1.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcuda-common-10.1.0-javadoc.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcuda-common-10.1.0-sources.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcuda-common-10.1.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcuda-natives-10.1.0-apple-x86_64.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcuda-natives-10.1.0-javadoc.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcuda-natives-10.1.0-linux-x86_64.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcuda-natives-10.1.0-sources.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcuda-natives-10.1.0-windows-x86_64.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcuda-natives-10.1.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcudnn-10.1.0-javadoc.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcudnn-10.1.0-sources.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcudnn-10.1.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcudnn-natives-10.1.0-apple-x86_64.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcudnn-natives-10.1.0-javadoc.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcudnn-natives-10.1.0-linux-x86_64.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcudnn-natives-10.1.0-sources.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcudnn-natives-10.1.0-windows-x86_64.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcudnn-natives-10.1.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcufft-10.1.0-javadoc.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcufft-10.1.0-sources.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcufft-10.1.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcufft-natives-10.1.0-apple-x86_64.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcufft-natives-10.1.0-javadoc.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcufft-natives-10.1.0-linux-x86_64.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcufft-natives-10.1.0-sources.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcufft-natives-10.1.0-windows-x86_64.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcufft-natives-10.1.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcurand-10.1.0-javadoc.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcurand-10.1.0-sources.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcurand-10.1.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcurand-natives-10.1.0-apple-x86_64.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcurand-natives-10.1.0-javadoc.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcurand-natives-10.1.0-linux-x86_64.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcurand-natives-10.1.0-sources.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcurand-natives-10.1.0-windows-x86_64.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcurand-natives-10.1.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusolver-10.1.0-javadoc.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusolver-10.1.0-sources.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusolver-10.1.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusolver-natives-10.1.0-apple-x86_64.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusolver-natives-10.1.0-javadoc.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusolver-natives-10.1.0-linux-x86_64.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusolver-natives-10.1.0-sources.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusolver-natives-10.1.0-windows-x86_64.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusolver-natives-10.1.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusparse-10.1.0-javadoc.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusparse-10.1.0-sources.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusparse-10.1.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusparse-natives-10.1.0-apple-x86_64.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusparse-natives-10.1.0-javadoc.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusparse-natives-10.1.0-linux-x86_64.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusparse-natives-10.1.0-sources.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusparse-natives-10.1.0-windows-x86_64.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusparse-natives-10.1.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jnvgraph-10.1.0-javadoc.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jnvgraph-10.1.0-sources.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jnvgraph-10.1.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jnvgraph-natives-10.1.0-apple-x86_64.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jnvgraph-natives-10.1.0-javadoc.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jnvgraph-natives-10.1.0-linux-x86_64.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jnvgraph-natives-10.1.0-sources.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jnvgraph-natives-10.1.0-windows-x86_64.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jnvgraph-natives-10.1.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/commons-lang3-3.12.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/commons-math3-3.6.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ejml-0.41-libs/ejml-cdense-0.41-sources.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ejml-0.41-libs/ejml-cdense-0.41.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ejml-0.41-libs/ejml-core-0.41-sources.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ejml-0.41-libs/ejml-core-0.41.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ejml-0.41-libs/ejml-ddense-0.41-sources.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ejml-0.41-libs/ejml-ddense-0.41.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ejml-0.41-libs/ejml-dsparse-0.41-sources.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ejml-0.41-libs/ejml-dsparse-0.41.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ejml-0.41-libs/ejml-experimental-0.41-sources.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ejml-0.41-libs/ejml-experimental-0.41.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ejml-0.41-libs/ejml-fdense-0.41-sources.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ejml-0.41-libs/ejml-fdense-0.41.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ejml-0.41-libs/ejml-simple-0.41-sources.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ejml-0.41-libs/ejml-simple-0.41.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ejml-0.41-libs/ejml-zdense-0.41-sources.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ejml-0.41-libs/ejml-zdense-0.41.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/gson-2.8.6.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/jblas-1.2.5.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CublasTools.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EJMLTesting.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NanoStopWatch.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SyncedDoubleMatrix.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Testing.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryDerivative.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationR.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationU.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDO6G.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDOAtom.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDOParams.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/Solution.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionU.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/am1/AM1Atom.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/am1/AM1Params.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/mndo/MNDOAtom.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/mndo/MNDOParams.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamErrorFunction.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamErrorFunctionR.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamErrorFunctionU.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientU.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/optimize/ParamOptimizer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/optimize/ReferenceData.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRan.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeResult.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/input/RawAtom.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/input/RawInput.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/input/RawMolecule.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/input/RawParams.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/output/MoleculeOutput.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/output/OutputHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/output/ParamGradientOutput.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scf/AtomFixed.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scf/AtomHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scf/AtomProperties.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scf/GTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scf/LCGTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scf/OrbitalProperties.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scf/STO6G.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scf/Utils.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="CodeInsightWorkspaceSettings">
-    <option name="optimizeImportsOnTheFly" value="true" />
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
   </component>
-  <component name="DefaultGradleProjectSettings">
-    <option name="isMigrated" value="true" />
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Interface" />
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>tau</find>
-      <find>int tau2) +</find>
-      <find>oh no</find>
-      <find>ss</find>
-      <find>1E-3</find>
-      <find>generalizedform(</find>
-      <find>NDDODerivative.LocalTwoCenterERIderiv(A[i], B[j], C[k], D[l], tau1)</find>
-      <find>2</find>
-      <find>double[]</find>
-      <find>int j = i</find>
-      <find>NOcc * soln.orbitals.length - soln.orbitals.length</find>
-      <find>NOcc * NVirt</find>
-      <find>DoubleMatrix</find>
-      <find>26.</find>
-      <find>,</find>
-      <find>oldgrad</find>
-      <find>,</find>
-      <find>mmul</find>
-      <find>array</find>
-      <find>DoubleMatrix.zeros</find>
-      <find>putCo</find>
-      <find>mult</find>
-      <find>simple</find>
-    </findStrings>
-    <replaceStrings>
-      <replace>tau1, int tau2</replace>
-      <replace>tau2) +</replace>
-      <replace>1E-4</replace>
-      <replace>+ (</replace>
-      <replace>erideriv1</replace>
-      <replace>prime</replace>
-      <replace>mult</replace>
-      <replace>simplearray</replace>
-      <replace>new SimpleMatrix</replace>
-    </replaceStrings>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="MNDOParam-gradle" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="MNDOParam-gradle" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="MNDOParam-gradle" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
   </component>
   <component name="Git.Settings">
-    <favorite-branches>
-      <branch-storage>
-        <map>
-          <entry type="REMOTE">
-            <value>
-              <list>
-                <branch-info repo="$PROJECT_DIR$" source="origin/testing" />
-              </list>
-            </value>
-          </entry>
-        </map>
-      </branch-storage>
-    </favorite-branches>
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="ejmlrefactor" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="RESET_MODE" value="HARD" />
   </component>
-  <component name="GitSEFilterConfiguration">
-    <file-type-list>
-      <filtered-out-file-type name="LOCAL_BRANCH" />
-      <filtered-out-file-type name="REMOTE_BRANCH" />
-      <filtered-out-file-type name="TAG" />
-      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
-    </file-type-list>
-  </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/src/scf/Utils.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/CublasTools.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/Solution.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/SyncedDoubleMatrix.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/Main.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/mndo-install.sh" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/runcycle/MoleculeRun.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/gcloud.txt" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/MNDOParam.iml" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/runcycle/input/InputHandler.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/input.txt" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/GeometryOptimizationR.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/runcycle/output/OutputHandler.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/input.json" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/NDDOParams.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/SolutionR.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/param/ParamErrorFunctionR.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/GeometryDerivative.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/EJMLTesting.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/Testing.java" root0="FORCE_HIGHLIGHTING" />
-  </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/src/scf/GTO.java" />
-        <option value="$PROJECT_DIR$/src/scf/LCGTO.java" />
-        <option value="$PROJECT_DIR$/src/nddoparam/param/NDDOParamErrorFunctionRestricted.java" />
-        <option value="$PROJECT_DIR$/src/nddoparam/NDDOSolutionUnrestricted.java" />
-        <option value="$PROJECT_DIR$/src/nddoparam/NDDOGeometryOptimizationUnrestricted.java" />
-        <option value="$PROJECT_DIR$/src/nddoparam/NDDO6G.java" />
-        <option value="$PROJECT_DIR$/src/nddoparam/NDDODerivative.java" />
-        <option value="$PROJECT_DIR$/mndoparams.txt" />
-        <option value="$PROJECT_DIR$/src/nddoparam/NDDOSecondDerivative.java" />
-        <option value="$PROJECT_DIR$/src/nddoparam/NDDOAtom.java" />
-        <option value="$PROJECT_DIR$/src/nddoparam/am1/AM1Atom.java" />
-        <option value="$PROJECT_DIR$/src/nddoparam/NDDOGeometryOptimizationRestricted.java" />
-        <option value="$PROJECT_DIR$/src/nddoparam/mndo/MNDOAtom.java" />
-        <option value="$PROJECT_DIR$/src/Main.java" />
-        <option value="$PROJECT_DIR$/MNDOHessianUpdateData.txt" />
-        <option value="$PROJECT_DIR$/src/nddoparam/NDDOSolutionRestricted.java" />
-        <option value="$PROJECT_DIR$/mndooutput.txt" />
-        <option value="$PROJECT_DIR$/src/nddoparam/NDDOSolution.java" />
-        <option value="$PROJECT_DIR$/src/nddoparam/NDDOGeometryOptimization.java" />
-        <option value="$PROJECT_DIR$/input.txt" />
-        <option value="$PROJECT_DIR$/src/nddoparam/param/NDDOParamDerivative.java" />
-        <option value="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" />
-        <option value="$PROJECT_DIR$/inputtesting.txt" />
-        <option value="$PROJECT_DIR$/src/Testing.java" />
-        <option value="$PROJECT_DIR$/src/CublasTools.java" />
-        <option value="$PROJECT_DIR$/src/nddoparam/SolutionR.java" />
-        <option value="$PROJECT_DIR$/src/EJMLTesting.java" />
-        <option value="$PROJECT_DIR$/src/nddoparam/Solution.java" />
-        <option value="$PROJECT_DIR$/input.json" />
-        <option value="$PROJECT_DIR$/src/nddoparam/GeometryDerivative.java" />
-        <option value="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationU.java" />
-        <option value="$PROJECT_DIR$/src/scf/Utils.java" />
-        <option value="$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java" />
-        <option value="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" />
-      </list>
-    </option>
-  </component>
-  <component name="ProjectFrameBounds">
-    <option name="y" value="23" />
-    <option name="width" value="2560" />
-    <option name="height" value="1329" />
-  </component>
-  <component name="ProjectId" id="1kgdG8KOTuIREMMRo1158GFxbQV" />
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
-  <component name="ProjectView">
-    <navigator proportions="" version="1">
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="PackagesPane" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="GitMNDO" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GitMNDO" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GitMNDO" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GitMNDO" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GitMNDO" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GitMNDO" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GitMNDO" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GitMNDO" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="nddoparam" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GitMNDO" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GitMNDO" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="nddoparam" type="462c0819:PsiDirectoryNode" />
-              <item name="param" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GitMNDO" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GitMNDO" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="optimize" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GitMNDO" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GitMNDO" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="scf" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scope" />
-    </panes>
-  </component>
+  <component name="ProjectId" id="20unWPR15qlisSQEnzw4ZSYoybm" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="abbreviatePackageNames" value="true" />
+    <option name="autoscrollToSource" value="true" />
     <option name="flattenPackages" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="Downloaded.Files.Path.Enabled" value="false" />
-    <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
-    <property name="Repository.Attach.Annotations" value="false" />
-    <property name="Repository.Attach.JavaDocs" value="false" />
-    <property name="Repository.Attach.Sources" value="false" />
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="aspect.path.notification.shown" value="true" />
-    <property name="create.test.in.the.same.root" value="true" />
-    <property name="extract.method.default.visibility" value="private" />
-    <property name="full.screen.before.presentation.mode" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.26182964" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="profiler.jvm" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\billi\IdeaProjects\MNDOParam" />
-      <recent name="D:\Documents\Gitted CS Projects\MNDOParam" />
-      <recent name="D:\Documents\Gitted CS Projects\MNDOParam\src\nddoparam" />
-      <recent name="D:\Documents\Gitted CS Projects\MNDOParam\src\runcycle" />
-      <recent name="D:\Documents\Gitted CS Projects\MNDOParam\src\nddoparam\param" />
-    </key>
-    <key name="MoveMembersDialog.RECENTS_KEY">
-      <recent name="scf.Utils" />
-      <recent name="Utils" />
+      <recent name="C:\Users\billi\IdeaProjects\MNDOParam-gradle" />
+      <recent name="C:\Users\billi\IdeaProjects\MNDOParam-gradle\src\main\resources" />
+      <recent name="C:\Users\billi\IdeaProjects\MNDOParam-gradle\src\main\java" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\billi\IdeaProjects\MNDOParam\lib" />
-      <recent name="C:\Users\billi\Documents\Gitted\MNDOParam\lib" />
-      <recent name="C:\Users\billi\IdeaProjects\MNDOParam" />
-      <recent name="D:\Documents\Gitted CS Projects\MNDOParam\lib" />
-      <recent name="D:\Documents\Gitted CS Projects\MNDOParam" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="runcycle.output" />
-      <recent name="" />
-      <recent name="nddoparam.param" />
+      <recent name="C:\Users\billi\IdeaProjects\MNDOParam\analysis" />
+      <recent name="C:\Users\billi\IdeaProjects\MNDOParam-gradle" />
+      <recent name="C:\Users\billi\IdeaProjects\MNDOParam-gradle\.gradle" />
+      <recent name="C:\Users\billi\IdeaProjects\MNDOParam-gradle\src\main" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="Application.CublasTools">
     <configuration name="CublasTools" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="CublasTools" />
-      <module name="MNDOParam" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="EJMLTesting" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="EJMLTesting" />
-      <module name="MNDOParam" />
-      <method v="2">
-        <option name="MakeNoErrorCheck" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="InputHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="runcycle.input.InputHandler" />
-      <module name="MNDOParam" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="runcycle.input.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
+      <module name="MNDOParam.main" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="ALTERNATIVE_JRE_PATH" value="adopt-openjdk-11" />
       <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="MNDOParam" />
+      <module name="MNDOParam.main" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <configuration name="Testing" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Testing" />
-      <module name="MNDOParam" />
+      <module name="MNDOParam.main" />
       <method v="2">
-        <option name="MakeNoErrorCheck" enabled="true" />
+        <option name="Make" enabled="true" />
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.InputHandler" />
-      <item itemvalue="Application.Main" />
       <item itemvalue="Application.Testing" />
+      <item itemvalue="Application.Main" />
       <item itemvalue="Application.CublasTools" />
-      <item itemvalue="Application.EJMLTesting" />
-      <item itemvalue="Shell Script.blusteve" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
-        <item itemvalue="Application.InputHandler" />
-        <item itemvalue="Application.EJMLTesting" />
-        <item itemvalue="Application.Testing" />
         <item itemvalue="Application.CublasTools" />
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Application.Testing" />
       </list>
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
-  <component name="SvnConfiguration">
-    <configuration />
-  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="" />
-      <created>1601105170170</created>
+      <changelist id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="" />
+      <created>1636903371497</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1601105170170</updated>
-      <workItem from="1606126073550" duration="1349000" />
-      <workItem from="1606288097143" duration="15033000" />
-      <workItem from="1606833437412" duration="5295000" />
-      <workItem from="1606887714066" duration="15289000" />
-      <workItem from="1606922671340" duration="222000" />
-      <workItem from="1607059340314" duration="3092000" />
-      <workItem from="1607133705894" duration="3014000" />
-      <workItem from="1607231106615" duration="13458000" />
-      <workItem from="1607263101392" duration="1188000" />
-      <workItem from="1607324239315" duration="6873000" />
-      <workItem from="1607496936853" duration="6742000" />
-      <workItem from="1607583295100" duration="5655000" />
-      <workItem from="1607706208026" duration="3374000" />
-      <workItem from="1607739030766" duration="934000" />
-      <workItem from="1607926213792" duration="5101000" />
-      <workItem from="1608013077693" duration="6276000" />
-      <workItem from="1608390419110" duration="3889000" />
-      <workItem from="1608436650999" duration="13078000" />
-      <workItem from="1608475852852" duration="595000" />
-      <workItem from="1608532578097" duration="8509000" />
-      <workItem from="1608555074262" duration="2811000" />
-      <workItem from="1608616919207" duration="52000" />
-      <workItem from="1608620698165" duration="3734000" />
-      <workItem from="1608793216765" duration="2798000" />
-      <workItem from="1608879304435" duration="594000" />
-      <workItem from="1608966120669" duration="10287000" />
-      <workItem from="1609052500250" duration="6156000" />
-      <workItem from="1609147275715" duration="6157000" />
-      <workItem from="1609229787843" duration="1695000" />
-      <workItem from="1609312654814" duration="6590000" />
-      <workItem from="1609331685916" duration="2123000" />
-      <workItem from="1609396746215" duration="312000" />
-      <workItem from="1609400134409" duration="5090000" />
-      <workItem from="1609552724645" duration="21000" />
-      <workItem from="1609763511665" duration="133000" />
-      <workItem from="1609764020505" duration="915000" />
-      <workItem from="1609767962871" duration="686000" />
-      <workItem from="1610109751431" duration="2067000" />
-      <workItem from="1610158585050" duration="1989000" />
-      <workItem from="1610266966698" duration="871000" />
-      <workItem from="1610525970701" duration="1569000" />
-      <workItem from="1610541660480" duration="606000" />
-      <workItem from="1610885717319" duration="4982000" />
-      <workItem from="1619857351074" duration="506000" />
-      <workItem from="1620998894555" duration="595000" />
-      <workItem from="1621048112996" duration="26102000" />
-      <workItem from="1621094840942" duration="8019000" />
-      <workItem from="1621146026434" duration="2451000" />
-      <workItem from="1621162822683" duration="2031000" />
-      <workItem from="1621844204803" duration="1204000" />
-      <workItem from="1623402386776" duration="8131000" />
-      <workItem from="1623462042433" duration="2664000" />
-      <workItem from="1623478821080" duration="3797000" />
-      <workItem from="1623486189127" duration="1152000" />
-      <workItem from="1623903458431" duration="12791000" />
-      <workItem from="1624086752197" duration="3843000" />
-      <workItem from="1624774993204" duration="918000" />
-      <workItem from="1624775938592" duration="2693000" />
-      <workItem from="1624778669357" duration="1342000" />
-      <workItem from="1624869674758" duration="13000" />
-      <workItem from="1625056899045" duration="1015000" />
-      <workItem from="1625058166946" duration="3852000" />
-      <workItem from="1625144986273" duration="3356000" />
-      <workItem from="1625229710227" duration="10243000" />
-      <workItem from="1625289052752" duration="6127000" />
-      <workItem from="1625299136863" duration="5034000" />
-      <workItem from="1625385201338" duration="9158000" />
-      <workItem from="1625469078475" duration="7585000" />
-      <workItem from="1625902825124" duration="18872000" />
-      <workItem from="1625978132443" duration="10119000" />
-      <workItem from="1626050017371" duration="3181000" />
-      <workItem from="1626103288284" duration="1063000" />
-      <workItem from="1626104377048" duration="262000" />
-      <workItem from="1626104655028" duration="1024000" />
-      <workItem from="1626105704860" duration="2751000" />
-      <workItem from="1626109327462" duration="2084000" />
-      <workItem from="1626154934101" duration="4422000" />
-      <workItem from="1626189563272" duration="7339000" />
-      <workItem from="1626225806495" duration="11505000" />
-      <workItem from="1626265797344" duration="3296000" />
-      <workItem from="1626269235170" duration="410000" />
-      <workItem from="1626270856281" duration="1172000" />
-      <workItem from="1626332270700" duration="22387000" />
-      <workItem from="1626361098914" duration="6947000" />
-      <workItem from="1626368124079" duration="7524000" />
-      <workItem from="1626417806438" duration="13025000" />
-      <workItem from="1626441865697" duration="9840000" />
-      <workItem from="1626501531906" duration="15357000" />
-      <workItem from="1630748511048" duration="2017000" />
-      <workItem from="1631330184379" duration="110000" />
-      <workItem from="1632138066320" duration="610000" />
-      <workItem from="1632481824451" duration="3684000" />
-      <workItem from="1633766498737" duration="3515000" />
-      <workItem from="1636037525034" duration="44000" />
-      <workItem from="1636179161642" duration="3054000" />
-      <workItem from="1636182953674" duration="106000" />
-      <workItem from="1636183084011" duration="5731000" />
-      <workItem from="1636646264114" duration="3156000" />
-      <workItem from="1636722443486" duration="1056000" />
-      <workItem from="1636819815038" duration="5715000" />
-      <workItem from="1636831440431" duration="2978000" />
-      <workItem from="1636862686287" duration="2078000" />
-      <workItem from="1636864959281" duration="341000" />
-      <workItem from="1636865327823" duration="10106000" />
-      <workItem from="1636884964231" duration="3267000" />
+      <updated>1636903371497</updated>
+      <workItem from="1636903373258" duration="154000" />
+      <workItem from="1636903584596" duration="24000" />
+      <workItem from="1636903619156" duration="400000" />
+      <workItem from="1636904030714" duration="3400000" />
+      <workItem from="1636907470711" duration="153000" />
+      <workItem from="1636907938124" duration="507000" />
+      <workItem from="1636908474388" duration="91000" />
     </task>
-    <task id="LOCAL-00092" summary="nMolecules added as RawInput param">
-      <created>1626257161658</created>
-      <option name="number" value="00092" />
-      <option name="presentableId" value="LOCAL-00092" />
-      <option name="project" value="LOCAL" />
-      <updated>1626257161658</updated>
-    </task>
-    <task id="LOCAL-00093" summary="Middle of nowhere">
-      <created>1626259873649</created>
-      <option name="number" value="00093" />
-      <option name="presentableId" value="LOCAL-00093" />
-      <option name="project" value="LOCAL" />
-      <updated>1626259873649</updated>
-    </task>
-    <task id="LOCAL-00094" summary="Working B">
-      <created>1626260807771</created>
-      <option name="number" value="00094" />
-      <option name="presentableId" value="LOCAL-00094" />
-      <option name="project" value="LOCAL" />
-      <updated>1626260807771</updated>
-    </task>
-    <task id="LOCAL-00095" summary="Working? hessian b">
-      <created>1626262423981</created>
-      <option name="number" value="00095" />
-      <option name="presentableId" value="LOCAL-00095" />
-      <option name="project" value="LOCAL" />
-      <updated>1626262423982</updated>
-    </task>
-    <task id="LOCAL-00096" summary="Steve thinks it's working but it's probably not&#10;Major refactor of param opt + finished hessian">
-      <created>1626344982179</created>
-      <option name="number" value="00096" />
-      <option name="presentableId" value="LOCAL-00096" />
-      <option name="project" value="LOCAL" />
-      <updated>1626344982179</updated>
-    </task>
-    <task id="LOCAL-00097" summary="remove old moleculerun">
-      <created>1626345411377</created>
-      <option name="number" value="00097" />
-      <option name="presentableId" value="LOCAL-00097" />
-      <option name="project" value="LOCAL" />
-      <updated>1626345411377</updated>
-    </task>
-    <task id="LOCAL-00098" summary="Minor changes">
-      <created>1626345419333</created>
-      <option name="number" value="00098" />
-      <option name="presentableId" value="LOCAL-00098" />
-      <option name="project" value="LOCAL" />
-      <updated>1626345419333</updated>
-    </task>
-    <task id="LOCAL-00099" summary="Param gradient no kind">
-      <created>1626346675609</created>
-      <option name="number" value="00099" />
-      <option name="presentableId" value="LOCAL-00099" />
-      <option name="project" value="LOCAL" />
-      <updated>1626346675609</updated>
-    </task>
-    <task id="LOCAL-00100" summary="Everything no kind + minor changes">
-      <created>1626347284339</created>
-      <option name="number" value="00100" />
-      <option name="presentableId" value="LOCAL-00100" />
-      <option name="project" value="LOCAL" />
-      <updated>1626347284339</updated>
-    </task>
-    <task id="LOCAL-00101" summary="No more MoleculeRunRU">
-      <created>1626350312308</created>
-      <option name="number" value="00101" />
-      <option name="presentableId" value="LOCAL-00101" />
-      <option name="project" value="LOCAL" />
-      <updated>1626350312309</updated>
-    </task>
-    <task id="LOCAL-00102" summary="most classes can now have a copy of atomtypes">
-      <created>1626351315022</created>
-      <option name="number" value="00102" />
-      <option name="presentableId" value="LOCAL-00102" />
-      <option name="project" value="LOCAL" />
-      <updated>1626351315022</updated>
-    </task>
-    <task id="LOCAL-00103" summary="Multithreaded Hessian">
-      <created>1626365306276</created>
-      <option name="number" value="00103" />
-      <option name="presentableId" value="LOCAL-00103" />
-      <option name="project" value="LOCAL" />
-      <updated>1626365306278</updated>
-    </task>
-    <task id="LOCAL-00104" summary="Minor bug fix for multithreaded hessian">
-      <created>1626365562184</created>
-      <option name="number" value="00104" />
-      <option name="presentableId" value="LOCAL-00104" />
-      <option name="project" value="LOCAL" />
-      <updated>1626365562184</updated>
-    </task>
-    <task id="LOCAL-00105" summary="Multiple runs working + insane speedup from multithreaded hessian">
-      <created>1626367633207</created>
-      <option name="number" value="00105" />
-      <option name="presentableId" value="LOCAL-00105" />
-      <option name="project" value="LOCAL" />
-      <updated>1626367633207</updated>
-    </task>
-    <task id="LOCAL-00106" summary="debugging weird indexoutofbounds error, not done yet">
-      <created>1626372231768</created>
-      <option name="number" value="00106" />
-      <option name="presentableId" value="LOCAL-00106" />
-      <option name="project" value="LOCAL" />
-      <updated>1626372231769</updated>
-    </task>
-    <task id="LOCAL-00107" summary="weird param gradient batched deriv index bug debugged. gosh that took a long time. it's 3am">
-      <created>1626374966672</created>
-      <option name="number" value="00107" />
-      <option name="presentableId" value="LOCAL-00107" />
-      <option name="project" value="LOCAL" />
-      <updated>1626374966672</updated>
-    </task>
-    <task id="LOCAL-00108" summary="Padded gradient">
-      <created>1626421362506</created>
-      <option name="number" value="00108" />
-      <option name="presentableId" value="LOCAL-00108" />
-      <option name="project" value="LOCAL" />
-      <updated>1626421362507</updated>
-    </task>
-    <task id="LOCAL-00109" summary="i hate padding">
-      <created>1626427355381</created>
-      <option name="number" value="00109" />
-      <option name="presentableId" value="LOCAL-00109" />
-      <option name="project" value="LOCAL" />
-      <updated>1626427355381</updated>
-    </task>
-    <task id="LOCAL-00110" summary="minor changes but not reversible">
-      <created>1626442023154</created>
-      <option name="number" value="00110" />
-      <option name="presentableId" value="LOCAL-00110" />
-      <option name="project" value="LOCAL" />
-      <updated>1626442023157</updated>
-    </task>
-    <task id="LOCAL-00111" summary="Hessian padding fixed">
-      <created>1626443257708</created>
-      <option name="number" value="00111" />
-      <option name="presentableId" value="LOCAL-00111" />
-      <option name="project" value="LOCAL" />
-      <updated>1626443257708</updated>
-    </task>
-    <task id="LOCAL-00112" summary="Multithreaded ParamGradient">
-      <created>1626443941528</created>
-      <option name="number" value="00112" />
-      <option name="presentableId" value="LOCAL-00112" />
-      <option name="project" value="LOCAL" />
-      <updated>1626443941528</updated>
-    </task>
-    <task id="LOCAL-00113" summary="more core optimization with tightest triplet alg">
-      <created>1626448589508</created>
-      <option name="number" value="00113" />
-      <option name="presentableId" value="LOCAL-00113" />
-      <option name="project" value="LOCAL" />
-      <updated>1626448589508</updated>
-    </task>
-    <task id="LOCAL-00114" summary="more multithreading optimizations">
-      <created>1626451566942</created>
-      <option name="number" value="00114" />
-      <option name="presentableId" value="LOCAL-00114" />
-      <option name="project" value="LOCAL" />
-      <updated>1626451566942</updated>
-    </task>
-    <task id="LOCAL-00115" summary="remove unused utils methods">
-      <created>1626451726071</created>
-      <option name="number" value="00115" />
-      <option name="presentableId" value="LOCAL-00115" />
-      <option name="project" value="LOCAL" />
-      <updated>1626451726071</updated>
-    </task>
-    <task id="LOCAL-00116" summary="minor changes">
-      <created>1626459909665</created>
-      <option name="number" value="00116" />
-      <option name="presentableId" value="LOCAL-00116" />
-      <option name="project" value="LOCAL" />
-      <updated>1626459909665</updated>
-    </task>
-    <task id="LOCAL-00117" summary="Minor changes">
-      <created>1626501769410</created>
-      <option name="number" value="00117" />
-      <option name="presentableId" value="LOCAL-00117" />
-      <option name="project" value="LOCAL" />
-      <updated>1626501769410</updated>
-    </task>
-    <task id="LOCAL-00118" summary="Minor moleculerun + main refactor">
-      <created>1626505053427</created>
-      <option name="number" value="00118" />
-      <option name="presentableId" value="LOCAL-00118" />
-      <option name="project" value="LOCAL" />
-      <updated>1626505053427</updated>
-    </task>
-    <task id="LOCAL-00119" summary="ForkJoinPool implementation">
-      <created>1626506577993</created>
-      <option name="number" value="00119" />
-      <option name="presentableId" value="LOCAL-00119" />
-      <option name="project" value="LOCAL" />
-      <updated>1626506577993</updated>
-    </task>
-    <task id="LOCAL-00120" summary="hash functions for io">
-      <created>1626516661984</created>
-      <option name="number" value="00120" />
-      <option name="presentableId" value="LOCAL-00120" />
-      <option name="project" value="LOCAL" />
-      <updated>1626516661984</updated>
-    </task>
-    <task id="LOCAL-00121" summary="Legit AM1 param numbers">
-      <created>1626517556622</created>
-      <option name="number" value="00121" />
-      <option name="presentableId" value="LOCAL-00121" />
-      <option name="project" value="LOCAL" />
-      <updated>1626517556622</updated>
-    </task>
-    <task id="LOCAL-00122" summary="work in progress">
-      <created>1636037561827</created>
-      <option name="number" value="00122" />
-      <option name="presentableId" value="LOCAL-00122" />
-      <option name="project" value="LOCAL" />
-      <updated>1636037561827</updated>
-    </task>
-    <task id="LOCAL-00123" summary="Somewhat working SolutionNew">
-      <created>1636186149339</created>
-      <option name="number" value="00123" />
-      <option name="presentableId" value="LOCAL-00123" />
-      <option name="project" value="LOCAL" />
-      <updated>1636186149339</updated>
-    </task>
-    <task id="LOCAL-00124" summary="SolutionNew working, next step GeomOpt">
-      <created>1636722794528</created>
-      <option name="number" value="00124" />
-      <option name="presentableId" value="LOCAL-00124" />
-      <option name="project" value="LOCAL" />
-      <updated>1636722794528</updated>
-    </task>
-    <task id="LOCAL-00125" summary="Fixed off by one error in SolutionR, 4x speed increase">
-      <created>1636794753134</created>
-      <option name="number" value="00125" />
-      <option name="presentableId" value="LOCAL-00125" />
-      <option name="project" value="LOCAL" />
-      <updated>1636794753134</updated>
-    </task>
-    <task id="LOCAL-00126" summary="EJML Refactor preliminarily working, still need to recode math classes">
-      <created>1636821619133</created>
-      <option name="number" value="00126" />
-      <option name="presentableId" value="LOCAL-00126" />
-      <option name="project" value="LOCAL" />
-      <updated>1636821619133</updated>
-    </task>
-    <task id="LOCAL-00127" summary="Math class non-destructive reformatting">
-      <created>1636822056871</created>
-      <option name="number" value="00127" />
-      <option name="presentableId" value="LOCAL-00127" />
-      <option name="project" value="LOCAL" />
-      <updated>1636822056871</updated>
-    </task>
-    <task id="LOCAL-00128" summary="Fix symeigen modifying input bug">
-      <created>1636831817399</created>
-      <option name="number" value="00128" />
-      <option name="presentableId" value="LOCAL-00128" />
-      <option name="project" value="LOCAL" />
-      <updated>1636831817399</updated>
-    </task>
-    <task id="LOCAL-00129" summary="Fix pople and thiel of geometrysecondderivative">
-      <created>1636833617055</created>
-      <option name="number" value="00129" />
-      <option name="presentableId" value="LOCAL-00129" />
-      <option name="project" value="LOCAL" />
-      <updated>1636833617055</updated>
-    </task>
-    <task id="LOCAL-00130" summary="Geometry refactored successfully?">
-      <created>1636833992983</created>
-      <option name="number" value="00130" />
-      <option name="presentableId" value="LOCAL-00130" />
-      <option name="project" value="LOCAL" />
-      <updated>1636833992983</updated>
-    </task>
-    <task id="LOCAL-00131" summary="Pople doesn't work">
-      <created>1636834433464</created>
-      <option name="number" value="00131" />
-      <option name="presentableId" value="LOCAL-00131" />
-      <option name="project" value="LOCAL" />
-      <updated>1636834433464</updated>
-    </task>
-    <task id="LOCAL-00132" summary="I don't know how I fixed Pople">
-      <created>1636860705074</created>
-      <option name="number" value="00132" />
-      <option name="presentableId" value="LOCAL-00132" />
-      <option name="project" value="LOCAL" />
-      <updated>1636860705074</updated>
-    </task>
-    <task id="LOCAL-00133" summary="Minor Geom changes">
-      <created>1636861752110</created>
-      <option name="number" value="00133" />
-      <option name="presentableId" value="LOCAL-00133" />
-      <option name="project" value="LOCAL" />
-      <updated>1636861752110</updated>
-    </task>
-    <task id="LOCAL-00134" summary="Fix pople bug + catch alls">
-      <created>1636864767032</created>
-      <option name="number" value="00134" />
-      <option name="presentableId" value="LOCAL-00134" />
-      <option name="project" value="LOCAL" />
-      <updated>1636864767032</updated>
-    </task>
-    <task id="LOCAL-00135" summary="Refactor ParamDerivative pople and thiel, also catch thiel issues within thiel for geomsecondderiv">
-      <created>1636865889666</created>
-      <option name="number" value="00135" />
-      <option name="presentableId" value="LOCAL-00135" />
-      <option name="project" value="LOCAL" />
-      <updated>1636865889666</updated>
-    </task>
-    <task id="LOCAL-00136" summary="Untested ParamDerivative refactor">
-      <created>1636866172258</created>
-      <option name="number" value="00136" />
-      <option name="presentableId" value="LOCAL-00136" />
-      <option name="project" value="LOCAL" />
-      <updated>1636866172258</updated>
-    </task>
-    <task id="LOCAL-00137" summary="ParamGradient refactor">
-      <created>1636866331951</created>
-      <option name="number" value="00137" />
-      <option name="presentableId" value="LOCAL-00137" />
-      <option name="project" value="LOCAL" />
-      <updated>1636866331951</updated>
-    </task>
-    <task id="LOCAL-00138" summary="Untested complete refactor">
-      <created>1636866766272</created>
-      <option name="number" value="00138" />
-      <option name="presentableId" value="LOCAL-00138" />
-      <option name="project" value="LOCAL" />
-      <updated>1636866766272</updated>
-    </task>
-    <task id="LOCAL-00139" summary="many bug fixes in paramderiv and main">
-      <created>1636869756922</created>
-      <option name="number" value="00139" />
-      <option name="presentableId" value="LOCAL-00139" />
-      <option name="project" value="LOCAL" />
-      <updated>1636869756922</updated>
-    </task>
-    <task id="LOCAL-00140" summary="nan issue for c2h2_0_rhs">
-      <created>1636883710306</created>
-      <option name="number" value="00140" />
-      <option name="presentableId" value="LOCAL-00140" />
-      <option name="project" value="LOCAL" />
-      <updated>1636883710306</updated>
-    </task>
-    <option name="localTasksCounter" value="141" />
     <servers />
-  </component>
-  <component name="ToolWindowManager">
-    <frame x="0" y="23" width="2560" height="1329" extended-state="0" />
-    <editor active="true" />
-    <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49688795" visible="true" weight="0.1878475" />
-      <window_info id="Structure" order="1" sideWeight="0.503112" side_tool="true" visible="true" weight="0.1878475" />
-      <window_info id="Image Layers" order="2" />
-      <window_info id="Designer" order="3" />
-      <window_info id="UI Designer" order="4" />
-      <window_info id="Capture Tool" order="5" />
-      <window_info id="Favorites" order="6" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32983023" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49960285" visible="true" weight="0.22069523" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.50039715" side_tool="true" weight="0.18350849" />
-      <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info anchor="bottom" id="Messages" order="10" weight="0.32659662" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.24980143" />
-      <window_info anchor="right" id="Palette" order="3" />
-      <window_info anchor="right" id="Maven" order="4" />
-      <window_info anchor="right" id="Theme Preview" order="5" />
-      <window_info anchor="right" id="Capture Analysis" order="6" />
-      <window_info anchor="right" id="Palette&#9;" order="7" />
-    </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
@@ -894,493 +325,11 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="mergedejml" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
-          </value>
-        </entry>
-      </map>
-    </option>
-    <option name="RECENT_FILTERS">
-      <map>
-        <entry key="Branch">
-          <value>
-            <list>
-              <RecentGroup>
-                <option name="FILTER_VALUES">
-                  <option value="origin/am1" />
-                </option>
-              </RecentGroup>
-            </list>
+            <State />
           </value>
         </entry>
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
-  </component>
-  <component name="VcsManagerConfiguration">
-    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <option name="CHECK_NEW_TODO" value="false" />
-    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="minor changes" />
-    <MESSAGE value="Minor changes" />
-    <MESSAGE value="Minor moleculerun + main refactor" />
-    <MESSAGE value="ForkJoinPool implementation" />
-    <MESSAGE value="hash functions for io" />
-    <MESSAGE value="Legit AM1 param numbers" />
-    <MESSAGE value="work in progress" />
-    <MESSAGE value="Somewhat working SolutionNew" />
-    <MESSAGE value="SolutionNew working, next step GeomOpt" />
-    <MESSAGE value="Fixed off by one error in SolutionR, 4x speed increase" />
-    <MESSAGE value="EJML Refactor preliminarily working, still need to recode math classes" />
-    <MESSAGE value="Math class non-destructive reformatting" />
-    <MESSAGE value="Fix symeigen modifying input bug" />
-    <MESSAGE value="Fix pople and thiel of geometrysecondderivative" />
-    <MESSAGE value="Geometry refactored successfully?" />
-    <MESSAGE value="Pople doesn't work" />
-    <MESSAGE value="I don't know how I fixed Pople" />
-    <MESSAGE value="Minor Geom changes" />
-    <MESSAGE value="Fix pople bug + catch alls" />
-    <MESSAGE value="Refactor ParamDerivative pople and thiel, also catch thiel issues within thiel for geomsecondderiv" />
-    <MESSAGE value="Untested ParamDerivative refactor" />
-    <MESSAGE value="ParamGradient refactor" />
-    <MESSAGE value="Untested complete refactor" />
-    <MESSAGE value="many bug fixes in paramderiv and main" />
-    <MESSAGE value="nan issue for c2h2_0_rhs" />
-    <option name="LAST_COMMIT_MESSAGE" value="nan issue for c2h2_0_rhs" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/optimize/ParamOptimizer.java</url>
-          <line>23</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Main.java</url>
-          <line>230</line>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <condition disabled="true" expression="g[i] != g[i]" language="JAVA" />
-          <url>file://$PROJECT_DIR$/src/Main.java</url>
-          <line>209</line>
-          <option name="timeStamp" value="14" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java</url>
-          <line>3511</line>
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java</url>
-          <line>3481</line>
-          <option name="timeStamp" value="18" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java</url>
-          <line>3422</line>
-          <option name="timeStamp" value="19" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
-    <pin-to-top-manager>
-      <pinned-members>
-        <PinnedItemInfo parentTag="nddoparam.param.ParamHessianRestricted" memberName="gPrime" />
-      </pinned-members>
-    </pin-to-top-manager>
-  </component>
-  <component name="XSLT-Support.FileAssociations.UIState">
-    <expand />
-    <select />
-  </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/NDDODerivative.java" />
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/NDDOGeometryOptimizationRestricted.java" />
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/NDDOSolution.java" />
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/NDDOGeometryOptimization.java" />
-    <entry file="file://$PROJECT_DIR$/MNDOHessianUpdateData.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" column="12" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/runcycle/MoleculeRunRestricted.java" />
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/NDDOSolutionRestricted.java" />
-    <entry file="file://$PROJECT_DIR$/reference.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="827">
-          <caret line="82" column="5" lean-forward="true" selection-start-line="82" selection-start-column="5" selection-end-line="82" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/param/NDDOParamGradientUnrestricted.java" />
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/param/NDDOParamGradientRestricted.java" />
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/param/NDDOParamGradient.java" />
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/param/NDDOParamDerivative.java" />
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/SolutionRDIIS.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5202">
-          <caret line="291" column="50" selection-start-line="291" selection-start-column="50" selection-end-line="291" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/SolutionREDIIS.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11340">
-          <caret line="632" column="54" selection-start-line="632" selection-start-column="54" selection-end-line="632" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/scf/LCGTO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2340">
-          <caret line="148" selection-start-line="148" selection-end-line="148" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/scf/GTO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2484">
-          <caret line="138" column="53" selection-start-line="138" selection-start-column="53" selection-end-line="138" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output-2E05D0AC.json">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output-4B108AE9.json">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/SyncedDoubleMatrix.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/runcycle/MoleculeRun.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="57" column="45" selection-start-line="57" selection-start-column="45" selection-end-line="57" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/errored-molecules.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/SolutionU.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/EJMLTesting.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="26" column="12" lean-forward="true" selection-start-line="26" selection-start-column="12" selection-end-line="27" selection-end-column="71" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/SolutionR.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="16" column="42" selection-start-line="16" selection-start-column="42" selection-end-line="16" selection-end-column="42" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Testing.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="12" column="2" lean-forward="true" selection-start-line="12" selection-start-column="2" selection-end-line="12" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/inputtesting.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="749">
-          <caret line="5771" column="42" selection-start-line="5771" selection-start-column="42" selection-end-line="5771" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/src.zip!/java.base/java/util/Comparator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="254">
-          <caret line="468" selection-start-line="468" selection-end-line="468" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/input.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="12" column="8" selection-start-line="12" selection-start-column="8" selection-end-line="12" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/CublasTools.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="36" column="46" selection-start-line="36" selection-start-column="46" selection-end-line="36" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/NDDOAtom.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="749">
-          <caret line="154" column="24" selection-start-line="154" selection-start-column="24" selection-end-line="154" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/NDDOParams.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/Solution.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="326">
-          <caret line="142" column="33" selection-start-line="142" selection-start-column="33" selection-end-line="142" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/param/ParamErrorFunction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="10" column="22" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/param/ParamErrorFunctionR.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/param/ParamErrorFunctionU.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="12" column="22" selection-start-line="12" selection-start-column="22" selection-end-line="12" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/param/ParamGradientU.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="7" column="6" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="15" column="6" selection-start-line="15" selection-start-column="6" selection-end-line="15" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3331">
-          <caret line="119" column="35" selection-start-line="119" selection-start-column="35" selection-end-line="119" selection-end-column="35" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/scf/Utils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-35">
-          <caret line="50" selection-start-line="50" selection-end-line="50" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#7680#7681#0" expanded="true" />
-            <element signature="e#7802#7803#0" expanded="true" />
-            <element signature="e#7896#7897#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/GeometryDerivative.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="529">
-          <caret line="2950" lean-forward="true" selection-start-line="2950" selection-end-line="2950" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="578">
-          <caret line="294" column="41" selection-start-line="294" selection-start-column="41" selection-end-line="294" selection-end-column="41" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/GeometryOptimizationR.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="24" column="35" selection-start-line="24" selection-start-column="35" selection-end-line="24" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/GeometryOptimizationU.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="24" column="75" selection-start-line="24" selection-start-column="75" selection-end-line="24" selection-end-column="75" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-12053">
-          <caret line="3012" column="73" selection-start-line="3012" selection-start-column="73" selection-end-line="3012" selection-end-column="73" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-16196">
-          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/input.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-5516">
-          <caret line="36" column="26" lean-forward="true" selection-start-line="36" selection-start-column="26" selection-end-line="36" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/optimize/ParamOptimizer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/optimize/ReferenceData.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="12" column="45" selection-start-line="12" selection-start-column="45" selection-end-line="12" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/nddoparam/NDDO6G.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-6709">
-          <caret line="378" column="41" lean-forward="true" selection-start-line="378" selection-start-column="41" selection-end-line="378" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-  </component>
-  <component name="masterDetails">
-    <states>
-      <state key="ArtifactsStructureConfigurable.UI">
-        <settings>
-          <artifact-editor />
-          <last-edited>MNDOParam:jar</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="FacetStructureConfigurable.UI">
-        <settings>
-          <last-edited>No facets are configured</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="GlobalLibrariesConfigurable.UI">
-        <settings>
-          <last-edited>javafx11</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="JdkListConfigurable.UI">
-        <settings>
-          <last-edited>11</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ModuleStructureConfigurable.UI">
-        <settings>
-          <last-edited>MNDOParam</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ProjectLibrariesConfigurable.UI">
-        <settings>
-          <last-edited>ejml-cdense-0.41-sources</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-    </states>
   </component>
 </project>
