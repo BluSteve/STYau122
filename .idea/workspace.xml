@@ -4,186 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pastinputs/input-11BB386C.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pastinputs/input-630918F5.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/MNDOParam_jar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/commons_lang3_3_12_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/gson_2_8_6.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/remote-targets.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations/blusteve.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MNDOHessianUpdateData.txt" beforeDir="false" afterPath="$PROJECT_DIR$/mndohessian.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cpuvsgpu.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cpuvsgpu.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/analysis/cpuvsgpu.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cpuvsgpu2.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dynamic-output.json" beforeDir="false" afterPath="$PROJECT_DIR$/dynamic-output.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/input.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcublas-10.1.0-javadoc.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcublas-10.1.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcublas-10.1.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcublas-natives-10.1.0-apple-x86_64.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcublas-natives-10.1.0-javadoc.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcublas-natives-10.1.0-linux-x86_64.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcublas-natives-10.1.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcublas-natives-10.1.0-windows-x86_64.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcublas-natives-10.1.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcuda-10.1.0-javadoc.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcuda-10.1.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcuda-10.1.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcuda-common-10.1.0-javadoc.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcuda-common-10.1.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcuda-common-10.1.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcuda-natives-10.1.0-apple-x86_64.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcuda-natives-10.1.0-javadoc.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcuda-natives-10.1.0-linux-x86_64.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcuda-natives-10.1.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcuda-natives-10.1.0-windows-x86_64.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcuda-natives-10.1.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcudnn-10.1.0-javadoc.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcudnn-10.1.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcudnn-10.1.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcudnn-natives-10.1.0-apple-x86_64.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcudnn-natives-10.1.0-javadoc.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcudnn-natives-10.1.0-linux-x86_64.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcudnn-natives-10.1.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcudnn-natives-10.1.0-windows-x86_64.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcudnn-natives-10.1.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcufft-10.1.0-javadoc.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcufft-10.1.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcufft-10.1.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcufft-natives-10.1.0-apple-x86_64.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcufft-natives-10.1.0-javadoc.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcufft-natives-10.1.0-linux-x86_64.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcufft-natives-10.1.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcufft-natives-10.1.0-windows-x86_64.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcufft-natives-10.1.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcurand-10.1.0-javadoc.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcurand-10.1.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcurand-10.1.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcurand-natives-10.1.0-apple-x86_64.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcurand-natives-10.1.0-javadoc.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcurand-natives-10.1.0-linux-x86_64.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcurand-natives-10.1.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcurand-natives-10.1.0-windows-x86_64.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcurand-natives-10.1.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusolver-10.1.0-javadoc.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusolver-10.1.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusolver-10.1.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusolver-natives-10.1.0-apple-x86_64.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusolver-natives-10.1.0-javadoc.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusolver-natives-10.1.0-linux-x86_64.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusolver-natives-10.1.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusolver-natives-10.1.0-windows-x86_64.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusolver-natives-10.1.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusparse-10.1.0-javadoc.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusparse-10.1.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusparse-10.1.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusparse-natives-10.1.0-apple-x86_64.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusparse-natives-10.1.0-javadoc.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusparse-natives-10.1.0-linux-x86_64.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusparse-natives-10.1.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusparse-natives-10.1.0-windows-x86_64.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jcusparse-natives-10.1.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jnvgraph-10.1.0-javadoc.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jnvgraph-10.1.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jnvgraph-10.1.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jnvgraph-natives-10.1.0-apple-x86_64.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jnvgraph-natives-10.1.0-javadoc.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jnvgraph-natives-10.1.0-linux-x86_64.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jnvgraph-natives-10.1.0-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jnvgraph-natives-10.1.0-windows-x86_64.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jnvgraph-natives-10.1.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/commons-lang3-3.12.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/commons-math3-3.6.1.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ejml-0.41-libs/ejml-cdense-0.41-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ejml-0.41-libs/ejml-cdense-0.41.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ejml-0.41-libs/ejml-core-0.41-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ejml-0.41-libs/ejml-core-0.41.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ejml-0.41-libs/ejml-ddense-0.41-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ejml-0.41-libs/ejml-ddense-0.41.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ejml-0.41-libs/ejml-dsparse-0.41-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ejml-0.41-libs/ejml-dsparse-0.41.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ejml-0.41-libs/ejml-experimental-0.41-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ejml-0.41-libs/ejml-experimental-0.41.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ejml-0.41-libs/ejml-fdense-0.41-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ejml-0.41-libs/ejml-fdense-0.41.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ejml-0.41-libs/ejml-simple-0.41-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ejml-0.41-libs/ejml-simple-0.41.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ejml-0.41-libs/ejml-zdense-0.41-sources.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ejml-0.41-libs/ejml-zdense-0.41.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/gson-2.8.6.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/jblas-1.2.5.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CublasTools.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EJMLTesting.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/NanoStopWatch.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SyncedDoubleMatrix.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Testing.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryDerivative.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryOptimization.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationR.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationU.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDO6G.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDOAtom.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/NDDOParams.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/Solution.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionR.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/SolutionU.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/am1/AM1Atom.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/am1/AM1Params.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/mndo/MNDOAtom.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/mndo/MNDOParams.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamErrorFunction.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamErrorFunctionR.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamErrorFunctionU.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientU.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamHessian.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/optimize/ParamOptimizer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/optimize/ReferenceData.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRan.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeResult.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/MoleculeRun.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/input/RawAtom.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/input/RawInput.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/input/RawMolecule.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/input/RawParams.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/output/MoleculeOutput.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/output/OutputHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/output/ParamGradientOutput.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scf/AtomFixed.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scf/AtomHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scf/AtomProperties.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scf/GTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scf/LCGTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scf/OrbitalProperties.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scf/STO6G.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scf/Utils.java" beforeDir="false" />
-    </list>
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Convert to gradle" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -226,6 +47,11 @@
     </system>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="mergedejml" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="20unWPR15qlisSQEnzw4ZSYoybm" />
@@ -264,7 +90,7 @@
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam-gradle\src\main" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.CublasTools">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="CublasTools" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="CublasTools" />
       <module name="MNDOParam.main" />
@@ -313,8 +139,16 @@
       <workItem from="1636904030714" duration="3400000" />
       <workItem from="1636907470711" duration="153000" />
       <workItem from="1636907938124" duration="507000" />
-      <workItem from="1636908474388" duration="91000" />
+      <workItem from="1636908474388" duration="651000" />
     </task>
+    <task id="LOCAL-00001" summary="Convert to gradle">
+      <created>1636909106825</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1636909106825</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -325,11 +159,27 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="gradle" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Convert to gradle" />
+    <option name="LAST_COMMIT_MESSAGE" value="Convert to gradle" />
   </component>
 </project>
