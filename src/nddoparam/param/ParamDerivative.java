@@ -6,8 +6,6 @@ import nddoparam.NDDOParams;
 import nddoparam.SolutionR;
 import org.ejml.data.SingularMatrixException;
 import org.ejml.simple.SimpleMatrix;
-import org.jblas.DoubleMatrix;
-import org.jblas.exceptions.LapackException;
 import scf.GTO;
 import scf.LCGTO;
 import scf.Utils;
@@ -2184,44 +2182,44 @@ public class ParamDerivative {
 	}
 
 
-	public static DoubleMatrix[][] MNDOStaticMatrixDeriv(SolutionR soln, int Z,
+	public static SimpleMatrix[][] MNDOStaticMatrixDeriv(SolutionR soln, int Z,
 														 int firstParamIndex) {
 		NDDOAtom[] atoms = soln.atoms;
-		DoubleMatrix[] HDerivs = new DoubleMatrix[8];
-		DoubleMatrix[] FDerivs = new DoubleMatrix[8];
+		SimpleMatrix[] HDerivs = new SimpleMatrix[8];
+		SimpleMatrix[] FDerivs = new SimpleMatrix[8];
 
 		if (firstParamIndex <= 1) HDerivs[1] = betafockderivstatic(soln, Z, 0);
-		if (firstParamIndex <= 1) FDerivs[1] = HDerivs[1].dup();
+		if (firstParamIndex <= 1) FDerivs[1] = HDerivs[1].copy();
 		if (firstParamIndex <= 3) HDerivs[3] = uxxfockderivstatic(soln, Z, 0);
-		if (firstParamIndex <= 3) FDerivs[3] = HDerivs[3].dup();
+		if (firstParamIndex <= 3) FDerivs[3] = HDerivs[3].copy();
 		if (firstParamIndex <= 5)
 			HDerivs[5] = zetaHderivstatic(atoms, soln, Z, 0);
 		if (firstParamIndex <= 5)
 			FDerivs[5] =
-					HDerivs[5].dup().add(zetaGderivstatic(atoms, soln, Z, 0));
+					HDerivs[5].copy().plus(zetaGderivstatic(atoms, soln, Z, 0));
 
 		if (Z != 1) {
 			if (firstParamIndex <= 2)
 				HDerivs[2] = betafockderivstatic(soln, Z, 1);
-			if (firstParamIndex <= 2) FDerivs[2] = HDerivs[2].dup();
+			if (firstParamIndex <= 2) FDerivs[2] = HDerivs[2].copy();
 			if (firstParamIndex <= 4)
 				HDerivs[4] = uxxfockderivstatic(soln, Z, 1);
-			if (firstParamIndex <= 4) FDerivs[4] = HDerivs[4].dup();
+			if (firstParamIndex <= 4) FDerivs[4] = HDerivs[4].copy();
 			if (firstParamIndex <= 6)
 				HDerivs[6] = zetaHderivstatic(atoms, soln, Z, 1);
 			if (firstParamIndex <= 6)
-				FDerivs[6] = HDerivs[6].dup()
-						.add(zetaGderivstatic(atoms, soln, Z, 1));
+				FDerivs[6] = HDerivs[6].copy()
+						.plus(zetaGderivstatic(atoms, soln, Z, 1));
 		}
-		return new DoubleMatrix[][]{HDerivs, FDerivs};
+		return new SimpleMatrix[][]{HDerivs, FDerivs};
 	}
 
-	public static double MNDOHFDeriv(SolutionR soln, DoubleMatrix Hderiv,
-									 DoubleMatrix Fderiv) {
+	public static double MNDOHFDeriv(SolutionR soln, SimpleMatrix Hderiv,
+									 SimpleMatrix Fderiv) {
 
 		double e = 0;
 
-		DoubleMatrix densitymatrix = soln.densityMatrix();
+		SimpleMatrix densitymatrix = soln.densityMatrix();
 
 		for (int j = 0; j < soln.orbitals.length; j++) {
 			for (int k = 0; k < soln.orbitals.length; k++) {
@@ -2235,7 +2233,7 @@ public class ParamDerivative {
 
 	private static double zetaHfderiv(SolutionR soln, int Z, int type) {
 
-		DoubleMatrix densitymatrix = soln.densityMatrix();
+		SimpleMatrix densitymatrix = soln.densityMatrix();
 
 
 		NDDO6G[] orbitals = soln.orbitals;
@@ -2248,7 +2246,7 @@ public class ParamDerivative {
 
 		int[] atomicnumbers = soln.atomicNumbers;
 
-		DoubleMatrix H = DoubleMatrix.zeros(orbitals.length, orbitals.length);
+		SimpleMatrix H = new SimpleMatrix(orbitals.length, orbitals.length);
 
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
@@ -2264,21 +2262,21 @@ public class ParamDerivative {
 													Z), type);
 						}
 					}
-					H.put(j, k, Huv);
-					H.put(k, j, Huv);
+					H.set(j, k, Huv);
+					H.set(k, j, Huv);
 				}
 				else { // case 3
 					double Huk = NDDO6G.betaparamderiv(orbitals[j],
 							orbitals[k],
 							getNum(atomicnumbers[atomNumber[j]],
 									atomicnumbers[atomNumber[k]], Z), type);
-					H.put(j, k, Huk);
-					H.put(k, j, Huk);
+					H.set(j, k, Huk);
+					H.set(k, j, Huk);
 				}
 			}
 		}
 
-		DoubleMatrix G = DoubleMatrix.zeros(orbitals.length, orbitals.length);
+		SimpleMatrix G = new SimpleMatrix(orbitals.length, orbitals.length);
 
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
@@ -2330,12 +2328,12 @@ public class ParamDerivative {
 					}
 				}
 
-				G.put(j, k, sum);
-				G.put(k, j, sum);
+				G.set(j, k, sum);
+				G.set(k, j, sum);
 			}
 		}
 
-		DoubleMatrix F = H.dup().add(G);
+		SimpleMatrix F = H.copy().plus(G);
 
 		double e = 0;
 
@@ -2351,7 +2349,7 @@ public class ParamDerivative {
 	}
 
 	@Deprecated
-	private static DoubleMatrix zetafockderivstatic(NDDOAtom[] atoms,
+	private static SimpleMatrix zetafockderivstatic(NDDOAtom[] atoms,
 													SolutionR soln, int Z,
 													int type) {
 
@@ -2366,7 +2364,7 @@ public class ParamDerivative {
 
 		int[] atomicnumbers = soln.atomicNumbers;
 
-		DoubleMatrix H = DoubleMatrix.zeros(orbitals.length, orbitals.length);
+		SimpleMatrix H = new SimpleMatrix(orbitals.length, orbitals.length);
 
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
@@ -2382,21 +2380,21 @@ public class ParamDerivative {
 													Z), type);
 						}
 					}
-					H.put(j, k, Huv);
-					H.put(k, j, Huv);
+					H.set(j, k, Huv);
+					H.set(k, j, Huv);
 				}
 				else { // case 3
 					double Huk = NDDO6G.betaparamderiv(orbitals[j],
 							orbitals[k],
 							getNum(atomicnumbers[atomNumber[j]],
 									atomicnumbers[atomNumber[k]], Z), type);
-					H.put(j, k, Huk);
-					H.put(k, j, Huk);
+					H.set(j, k, Huk);
+					H.set(k, j, Huk);
 				}
 			}
 		}
 
-		DoubleMatrix G = DoubleMatrix.zeros(orbitals.length, orbitals.length);
+		SimpleMatrix G = new SimpleMatrix(orbitals.length, orbitals.length);
 
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
@@ -2448,17 +2446,17 @@ public class ParamDerivative {
 					}
 				}
 
-				G.put(j, k, sum);
-				G.put(k, j, sum);
+				G.set(j, k, sum);
+				G.set(k, j, sum);
 			}
 		}
 
-		DoubleMatrix F = H.dup().add(G);
+		SimpleMatrix F = H.copy().plus(G);
 
 		return F;
 	}
 
-	private static DoubleMatrix zetaHderivstatic(NDDOAtom[] atoms,
+	private static SimpleMatrix zetaHderivstatic(NDDOAtom[] atoms,
 												 SolutionR soln, int Z,
 												 int type) {
 
@@ -2469,7 +2467,7 @@ public class ParamDerivative {
 
 		int[] atomicnumbers = soln.atomicNumbers;
 
-		DoubleMatrix H = DoubleMatrix.zeros(orbitals.length, orbitals.length);
+		SimpleMatrix H = new SimpleMatrix(orbitals.length, orbitals.length);
 
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
@@ -2485,16 +2483,16 @@ public class ParamDerivative {
 													Z), type);
 						}
 					}
-					H.put(j, k, Huv);
-					H.put(k, j, Huv);
+					H.set(j, k, Huv);
+					H.set(k, j, Huv);
 				}
 				else { // case 3
 					double Huk = NDDO6G.betaparamderiv(orbitals[j],
 							orbitals[k],
 							getNum(atomicnumbers[atomNumber[j]],
 									atomicnumbers[atomNumber[k]], Z), type);
-					H.put(j, k, Huk);
-					H.put(k, j, Huk);
+					H.set(j, k, Huk);
+					H.set(k, j, Huk);
 				}
 			}
 		}
@@ -2502,7 +2500,7 @@ public class ParamDerivative {
 		return H;
 	}
 
-	private static DoubleMatrix zetaGderivstatic(NDDOAtom[] atoms,
+	private static SimpleMatrix zetaGderivstatic(NDDOAtom[] atoms,
 												 SolutionR soln, int Z,
 												 int type) {
 
@@ -2517,7 +2515,7 @@ public class ParamDerivative {
 
 		int[] atomicnumbers = soln.atomicNumbers;
 
-		DoubleMatrix G = DoubleMatrix.zeros(orbitals.length, orbitals.length);
+		SimpleMatrix G = new SimpleMatrix(orbitals.length, orbitals.length);
 
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
@@ -2569,8 +2567,8 @@ public class ParamDerivative {
 					}
 				}
 
-				G.put(j, k, sum);
-				G.put(k, j, sum);
+				G.set(j, k, sum);
+				G.set(k, j, sum);
 			}
 		}
 
@@ -2581,7 +2579,7 @@ public class ParamDerivative {
 
 	private static double uxxHfderiv(SolutionR soln, int Z, int type) {
 
-		DoubleMatrix densitymatrix = soln.densityMatrix();
+		SimpleMatrix densitymatrix = soln.densityMatrix();
 
 
 		NDDO6G[] orbitals = soln.orbitals;
@@ -2604,16 +2602,16 @@ public class ParamDerivative {
 
 	}
 
-	private static DoubleMatrix uxxfockderivstatic(SolutionR soln, int Z,
+	private static SimpleMatrix uxxfockderivstatic(SolutionR soln, int Z,
 												   int type) {
 
-		DoubleMatrix F =
-				DoubleMatrix.zeros(soln.orbitals.length, soln.orbitals.length);
+		SimpleMatrix F =
+				new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
 
 		for (int j = 0; j < soln.orbitals.length; j++) {
 			if (soln.atomicNumbers[soln.atomOfOrb[j]] == Z &&
 					soln.orbitals[j].getL() == type) {
-				F.put(j, j, 1);
+				F.set(j, j, 1);
 			}
 		}
 
@@ -2623,7 +2621,7 @@ public class ParamDerivative {
 
 	private static double betaHfderiv(SolutionR soln, int Z, int type) {
 
-		DoubleMatrix densitymatrix = soln.densityMatrix();
+		SimpleMatrix densitymatrix = soln.densityMatrix();
 
 
 		NDDO6G[] orbitals = soln.orbitals;
@@ -2656,11 +2654,11 @@ public class ParamDerivative {
 
 	}
 
-	private static DoubleMatrix betafockderivstatic(SolutionR soln, int Z,
+	private static SimpleMatrix betafockderivstatic(SolutionR soln, int Z,
 													int type) {
 
-		DoubleMatrix F =
-				DoubleMatrix.zeros(soln.orbitals.length, soln.orbitals.length);
+		SimpleMatrix F =
+				new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
 
 		NDDO6G[] orbitals = soln.orbitals;
 
@@ -2680,8 +2678,8 @@ public class ParamDerivative {
 					if (H != 0) {
 						H *= LCGTO.getS(orbitals[j], orbitals[k]);
 					}
-					F.put(j, k, H);
-					F.put(k, j, H);
+					F.set(j, k, H);
+					F.set(k, j, H);
 				}
 			}
 		}
@@ -2767,11 +2765,11 @@ public class ParamDerivative {
 		return -1;
 	}
 
-	public static DoubleMatrix responseMatrix(SolutionR soln,
-											  DoubleMatrix densityMatrixDeriv) {
+	public static SimpleMatrix responseMatrix(SolutionR soln,
+											  SimpleMatrix densityMatrixDeriv) {
 
-		DoubleMatrix responsematrix =
-				DoubleMatrix.zeros(soln.orbitals.length, soln.orbitals.length);
+		SimpleMatrix responsematrix =
+				new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
 
 		double[] integralArray = soln.integralArray;
 
@@ -2844,8 +2842,8 @@ public class ParamDerivative {
 					}
 				}
 
-				responsematrix.put(j, k, val);
-				responsematrix.put(k, j, val);
+				responsematrix.set(j, k, val);
+				responsematrix.set(k, j, val);
 			}
 		}
 
@@ -2853,7 +2851,7 @@ public class ParamDerivative {
 	}
 
 
-	private static DoubleMatrix computeResponseVectorsLimited(DoubleMatrix x,
+	private static SimpleMatrix computeResponseVectorsLimited(SimpleMatrix x,
 															  SolutionR soln) {//todo
 		// duplicate from GeometrySecondDerivative
 
@@ -2861,11 +2859,11 @@ public class ParamDerivative {
 
 		int NVirt = soln.orbitals.length - NOcc;
 
-		DoubleMatrix densityMatrixDeriv =
-				DoubleMatrix.zeros(soln.orbitals.length, soln.orbitals.length);
+		SimpleMatrix densityMatrixDeriv =
+				new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
 
-		for (int u = 0; u < densityMatrixDeriv.rows; u++) {
-			for (int v = 0; v < densityMatrixDeriv.columns; v++) {
+		for (int u = 0; u < densityMatrixDeriv.numRows(); u++) {
+			for (int v = 0; v < densityMatrixDeriv.numCols(); v++) {
 				double sum = 0;
 				int count = 0;
 				for (int i = 0; i < NOcc; i++) {
@@ -2878,12 +2876,12 @@ public class ParamDerivative {
 					}
 				}
 
-				densityMatrixDeriv.put(u, v, sum);
+				densityMatrixDeriv.set(u, v, sum);
 			}
 		}
 
-		DoubleMatrix responsematrix =
-				DoubleMatrix.zeros(soln.orbitals.length, soln.orbitals.length);
+		SimpleMatrix responsematrix =
+				new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
 
 		double[] integralArray = soln.integralArray;
 
@@ -2956,12 +2954,12 @@ public class ParamDerivative {
 					}
 				}
 
-				responsematrix.put(j, k, val);
-				responsematrix.put(k, j, val);
+				responsematrix.set(j, k, val);
+				responsematrix.set(k, j, val);
 			}
 		}
 
-		DoubleMatrix R = DoubleMatrix.zeros(NOcc * NVirt, 1);
+		SimpleMatrix R = new SimpleMatrix(NOcc * NVirt, 1);
 
 		int count1 = 0;
 
@@ -2978,19 +2976,19 @@ public class ParamDerivative {
 				}
 
 
-				R.put(count1, 0, element);
+				R.set(count1, 0, element);
 
 				count1++;
 			}
 		}
 
-		DoubleMatrix p = new DoubleMatrix(NOcc * NVirt, 1);
+		SimpleMatrix p = new SimpleMatrix(NOcc * NVirt, 1);
 
 		int counter = 0;
 
 		for (int i = 0; i < NOcc; i++) {
 			for (int j = 0; j < NVirt; j++) {
-				p.put(counter, 0, -R.get(counter, 0) +
+				p.set(counter, 0, -R.get(counter, 0) +
 						(soln.E.get(j + NOcc) - soln.E.get(i)) *
 								x.get(counter));
 				counter++;
@@ -3002,7 +3000,7 @@ public class ParamDerivative {
 	}
 
 	public static SimpleMatrix[] xArrayLimitedPople(SolutionR soln,
-													DoubleMatrix[] fockDerivStatic) {
+													SimpleMatrix[] fockDerivStatic) {
 		int NOcc = (int) (soln.nElectrons / 2.0);
 
 		int NVirt = soln.orbitals.length - NOcc;
@@ -3216,7 +3214,7 @@ public class ParamDerivative {
 	}
 
 	private static SimpleMatrix[] xArrayLimitedThiel(SolutionR soln,
-													 DoubleMatrix[] fockDerivStatic) {
+													 SimpleMatrix[] fockDerivStatic) {
 		int NOcc = (int) (soln.nElectrons / 2.0);
 
 		int NVirt = soln.orbitals.length - NOcc;
@@ -3294,7 +3292,7 @@ public class ParamDerivative {
 				if (rarray[i] != null) {
 					d.add(new SimpleMatrix(dirs[i]));
 					p.add(D.mult(
-							computeResponseVectorsThiel(dirs[i], soln)));
+							computeResponseVectorsLimited(dirs[i], soln)));
 				}
 			}
 
@@ -3403,13 +3401,13 @@ public class ParamDerivative {
 	}
 
 
-	public static DoubleMatrix xArrayComplementary(SolutionR soln,
-												   DoubleMatrix fockderiv) {
+	public static SimpleMatrix xArrayComplementary(SolutionR soln,
+												   SimpleMatrix fockderiv) {
 		int NOcc = (int) (soln.nElectrons / 2.0);
 		if (NOcc == 0) {
-			return DoubleMatrix.zeros(0, 0);
+			return new SimpleMatrix(0, 0);
 		}
-		DoubleMatrix x = DoubleMatrix.zeros(NOcc - 1, 1);
+		SimpleMatrix x = new SimpleMatrix(NOcc - 1, 1);
 		int count1 = 0;
 
 		for (int j = 0; j < NOcc - 1; j++) {
@@ -3421,7 +3419,7 @@ public class ParamDerivative {
 							fockderiv.get(u, v);
 				}
 			}
-			x.put(count1, 0,
+			x.set(count1, 0,
 					-element / (soln.E.get(NOcc - 1) - soln.E.get(j)));
 			count1++;
 		}
@@ -3429,17 +3427,17 @@ public class ParamDerivative {
 	}
 
 
-	public static DoubleMatrix densityDerivativeLimited(SolutionR soln,
-														DoubleMatrix x) {
+	public static SimpleMatrix densityDerivativeLimited(SolutionR soln,
+														SimpleMatrix x) {
 
 		int NOcc = (int) (soln.nElectrons / 2.0);
 
 		int NVirt = soln.orbitals.length - NOcc;
 
-		DoubleMatrix densityMatrixDeriv =
-				DoubleMatrix.zeros(soln.orbitals.length, soln.orbitals.length);
-		for (int u = 0; u < densityMatrixDeriv.rows; u++) {
-			for (int v = 0; v < densityMatrixDeriv.columns; v++) {
+		SimpleMatrix densityMatrixDeriv =
+				new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
+		for (int u = 0; u < densityMatrixDeriv.numRows(); u++) {
+			for (int v = 0; v < densityMatrixDeriv.numCols(); v++) {
 				double sum = 0;
 				int count = 0;
 				for (int i = 0; i < NOcc; i++) {
@@ -3452,34 +3450,34 @@ public class ParamDerivative {
 						count++;
 					}
 				}
-				densityMatrixDeriv.put(u, v, sum);
+				densityMatrixDeriv.set(u, v, sum);
 			}
 		}
 
 		return densityMatrixDeriv;
 	}
 
-	public static DoubleMatrix xarrayForIE(SolutionR soln,
-										   DoubleMatrix xlimited,
-										   DoubleMatrix xcomplementary) {
+	public static SimpleMatrix xarrayForIE(SolutionR soln,
+										   SimpleMatrix xlimited,
+										   SimpleMatrix xcomplementary) {
 
 		int NOcc = (int) (soln.nElectrons / 2.0);
 
 		int NVirt = soln.orbitals.length - NOcc;
 
-		DoubleMatrix x = new DoubleMatrix(soln.orbitals.length - 1, 1);
+		SimpleMatrix x = new SimpleMatrix(soln.orbitals.length - 1, 1);
 
 		int count = 0;
 
-		for (int i = xlimited.length - NVirt; i < xlimited.length; i++) {
+		for (int i = xlimited.getNumElements() - NVirt; i < xlimited.getNumElements(); i++) {
 			if (i > -1) {
-				x.put(count, 0, xlimited.get(i, 0));
+				x.set(count, 0, xlimited.get(i, 0));
 				count++;
 			}
 		}
 
-		for (int i = 0; i < xcomplementary.length; i++) {
-			x.put(count, 0, xcomplementary.get(i, 0));
+		for (int i = 0; i < xcomplementary.getNumElements(); i++) {
+			x.set(count, 0, xcomplementary.get(i, 0));
 			count++;
 		}
 
@@ -3487,11 +3485,11 @@ public class ParamDerivative {
 	}
 
 
-	public static DoubleMatrix HOMOCoefficientDerivativeComplementary(
-			DoubleMatrix x, SolutionR soln) {
+	public static SimpleMatrix HOMOCoefficientDerivativeComplementary(
+			SimpleMatrix x, SolutionR soln) {
 
 
-		DoubleMatrix CDeriv = DoubleMatrix.zeros(1, soln.orbitals.length);
+		SimpleMatrix CDeriv = new SimpleMatrix(1, soln.orbitals.length);
 
 		int NOcc = (int) (soln.nElectrons / 2.0);
 
@@ -3510,15 +3508,15 @@ public class ParamDerivative {
 				}
 			}
 
-			CDeriv.put(0, u, sum);
+			CDeriv.set(0, u, sum);
 		}
 
 		return CDeriv;
 	}
 
 
-	public static double MNDOIEDeriv(SolutionR soln, DoubleMatrix coeffDeriv,
-									 DoubleMatrix Fderiv) {
+	public static double MNDOIEDeriv(SolutionR soln, SimpleMatrix coeffDeriv,
+									 SimpleMatrix Fderiv) {
 
 		int index = (int) (soln.nElectrons / 2.0) - 1;
 
@@ -3526,9 +3524,7 @@ public class ParamDerivative {
 			return 0;
 		}
 
-		// todo doublematrix conversion
-		DoubleMatrix coeff =
-				Utils.toDoubleMatrix(soln.C.extractVector(true, index));
+		SimpleMatrix coeff = soln.C.extractVector(true, index);
 
 		double sum = 0;
 
@@ -3546,7 +3542,7 @@ public class ParamDerivative {
 	}
 
 	public static double MNDODipoleDeriv(SolutionR soln,
-										 DoubleMatrix densityderiv, int Z,
+										 SimpleMatrix densityderiv, int Z,
 										 int paramnum) {
 
 		if (soln.dipole <= 1E-6) {
@@ -3568,7 +3564,7 @@ public class ParamDerivative {
 
 		int[][] index = soln.orbsOfAtom;
 
-		DoubleMatrix densityMatrix = soln.densityMatrix();
+		SimpleMatrix densityMatrix = soln.densityMatrix();
 
 		double[] populationsderiv = new double[atoms.length];
 
