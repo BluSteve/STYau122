@@ -2,7 +2,7 @@ package nddoparam.param;
 
 import nddoparam.Solution;
 import org.apache.commons.lang3.ArrayUtils;
-import scf.Utils;
+import tools.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;

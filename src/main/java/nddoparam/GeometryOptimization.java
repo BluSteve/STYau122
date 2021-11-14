@@ -1,7 +1,7 @@
 package nddoparam;
 
 import org.ejml.simple.SimpleMatrix;
-import scf.Utils;
+import tools.Utils;
 
 public abstract class GeometryOptimization {
 	protected Solution s;

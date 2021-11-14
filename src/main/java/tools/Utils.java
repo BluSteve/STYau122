@@ -1,4 +1,4 @@
-package scf;
+package tools;
 
 import nddoparam.NDDOAtom;
 import nddoparam.NDDOParams;

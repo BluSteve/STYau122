@@ -3,7 +3,7 @@ package nddoparam;
 import org.ejml.simple.SimpleMatrix;
 import scf.GTO;
 import scf.LCGTO;
-import scf.Utils;
+import tools.Utils;
 
 public class GeometryDerivative {
 

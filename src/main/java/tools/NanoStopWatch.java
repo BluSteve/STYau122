@@ -1,3 +1,5 @@
+package tools;
+
 public class NanoStopWatch {
 	long time;
 	static final double DIVISOR = 1E6;

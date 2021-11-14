@@ -8,7 +8,7 @@ import org.ejml.data.SingularMatrixException;
 import org.ejml.simple.SimpleMatrix;
 import scf.GTO;
 import scf.LCGTO;
-import scf.Utils;
+import tools.Utils;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;

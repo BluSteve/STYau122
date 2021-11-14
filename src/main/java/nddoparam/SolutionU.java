@@ -2,7 +2,7 @@ package nddoparam;
 
 import org.ejml.simple.SimpleMatrix;
 import runcycle.input.RawMolecule;
-import scf.Utils;
+import tools.Utils;
 
 import java.util.Arrays;
 

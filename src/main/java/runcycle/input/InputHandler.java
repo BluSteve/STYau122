@@ -7,7 +7,7 @@ import nddoparam.am1.AM1Params;
 import nddoparam.mndo.MNDOParams;
 import scf.AtomHandler;
 import scf.AtomProperties;
-import scf.Utils;
+import tools.Utils;
 
 import java.io.FileReader;
 import java.io.FileWriter;

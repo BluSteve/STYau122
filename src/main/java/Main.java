@@ -16,7 +16,7 @@ import runcycle.input.RawMolecule;
 import runcycle.output.MoleculeOutput;
 import runcycle.output.OutputHandler;
 import scf.AtomHandler;
-import scf.Utils;
+import tools.Utils;
 
 import java.io.FileWriter;
 import java.io.IOException;

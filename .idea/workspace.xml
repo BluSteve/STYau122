@@ -4,7 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Convert to gradle" />
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Utils refactor">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/CublasTools.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/CublasTools.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/NanoStopWatch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/NanoStopWatch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SyncedDoubleMatrix.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Testing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddoparam/GeometryDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddoparam/GeometryDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddoparam/GeometryOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddoparam/GeometryOptimization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddoparam/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddoparam/GeometrySecondDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddoparam/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddoparam/Solution.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddoparam/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddoparam/SolutionR.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddoparam/SolutionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddoparam/SolutionU.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddoparam/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddoparam/param/ParamDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddoparam/param/ParamGradientR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddoparam/param/ParamGradientR.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddoparam/param/ParamGradientU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddoparam/param/ParamGradientU.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddoparam/param/ParamHessian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddoparam/param/ParamHessian.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/input/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/input/InputHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/scf/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Utils.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -75,7 +96,7 @@
     <property name="project.structure.proportion" value="0.26182964" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.CommitDialog" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -92,7 +113,7 @@
   </component>
   <component name="RunManager" selected="Application.Main">
     <configuration name="CublasTools" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="CublasTools" />
+      <option name="MAIN_CLASS_NAME" value="tools.CublasTools" />
       <module name="MNDOParam.main" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -139,7 +160,8 @@
       <workItem from="1636904030714" duration="3400000" />
       <workItem from="1636907470711" duration="153000" />
       <workItem from="1636907938124" duration="507000" />
-      <workItem from="1636908474388" duration="651000" />
+      <workItem from="1636908474388" duration="1063000" />
+      <workItem from="1636909570697" duration="66000" />
     </task>
     <task id="LOCAL-00001" summary="Convert to gradle">
       <created>1636909106825</created>
@@ -148,7 +170,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636909106825</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Change README.txt">
+      <created>1636909237020</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1636909237020</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -179,7 +208,12 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/.." />
+    </ignored-roots>
     <MESSAGE value="Convert to gradle" />
-    <option name="LAST_COMMIT_MESSAGE" value="Convert to gradle" />
+    <MESSAGE value="Change README.txt" />
+    <MESSAGE value="Utils refactor" />
+    <option name="LAST_COMMIT_MESSAGE" value="Utils refactor" />
   </component>
 </project>

@@ -3,7 +3,7 @@ package nddoparam.param;
 import nddoparam.GeometryDerivative;
 import nddoparam.Solution;
 import nddoparam.SolutionU;
-import scf.Utils;
+import tools.Utils;
 
 class ParamGradientU extends ParamGradient {
 	private final String errorMessage =

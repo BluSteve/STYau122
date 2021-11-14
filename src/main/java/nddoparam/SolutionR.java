@@ -4,7 +4,7 @@ import org.ejml.data.SingularMatrixException;
 import org.ejml.dense.row.CommonOps_DDRM;
 import org.ejml.simple.SimpleMatrix;
 import runcycle.input.RawMolecule;
-import scf.Utils;
+import tools.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;

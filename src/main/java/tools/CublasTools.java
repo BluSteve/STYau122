@@ -1,3 +1,5 @@
+package tools;
+
 import jcuda.Pointer;
 import jcuda.Sizeof;
 import jcuda.jcublas.JCublas;
@@ -5,7 +7,8 @@ import jcuda.jcusolver.JCusolverDn;
 import jcuda.jcusolver.cusolverDnHandle;
 import jcuda.runtime.JCuda;
 import org.ejml.simple.SimpleMatrix;
-import scf.Utils;
+import tools.NanoStopWatch;
+import tools.Utils;
 
 import java.io.FileWriter;
 import java.io.IOException;

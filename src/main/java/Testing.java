@@ -11,7 +11,8 @@ import org.apache.commons.lang3.time.StopWatch;
 import org.jblas.DoubleMatrix;
 import runcycle.input.RawMolecule;
 import scf.AtomHandler;
-import scf.Utils;
+import tools.NanoStopWatch;
+import tools.Utils;
 
 import java.io.IOException;
 import java.util.Random;

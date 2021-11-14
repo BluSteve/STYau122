@@ -4,7 +4,7 @@ import nddoparam.GeometryDerivative;
 import nddoparam.Solution;
 import nddoparam.SolutionR;
 import org.ejml.simple.SimpleMatrix;
-import scf.Utils;
+import tools.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.RecursiveAction;
 
-import static scf.Utils.perturbAtomParams;
+import static tools.Utils.perturbAtomParams;
 
 class ParamGradientR extends ParamGradient {
 	protected ParamGradientR(SolutionR s, double[] datum, SolutionR sExp,

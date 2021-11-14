@@ -3,7 +3,7 @@ package nddoparam;
 import org.ejml.data.SingularMatrixException;
 import org.ejml.simple.SimpleMatrix;
 import scf.GTO;
-import scf.Utils;
+import tools.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;

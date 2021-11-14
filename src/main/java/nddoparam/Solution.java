@@ -4,7 +4,7 @@ import nddoparam.mndo.MNDOParams;
 import org.ejml.simple.SimpleMatrix;
 import runcycle.input.RawAtom;
 import runcycle.input.RawMolecule;
-import scf.Utils;
+import tools.Utils;
 
 import java.util.Arrays;
 
