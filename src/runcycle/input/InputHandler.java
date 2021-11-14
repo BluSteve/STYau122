@@ -193,6 +193,7 @@ public class InputHandler {
 							nameOccurrences.put(a.name,
 									nameOccurrences.get(a.name) + 1);
 					}
+					rm.nElectrons -= rm.charge;
 					rm.atomicNumbers = Utils.toInts(atomicNumbers);
 					for (String key : nameOccurrences.keySet()) {
 						nameBuilder.append(key)

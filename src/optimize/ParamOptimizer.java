@@ -21,7 +21,7 @@ public class ParamOptimizer {
 	public double[] optimize(SimpleMatrix B, SimpleMatrix gradient) {
 		SimpleMatrix searchdir = null;
 		try {
-			 searchdir= B.pseudoInverse().mult(gradient);
+			searchdir = B.pseudoInverse().mult(gradient);
 
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();

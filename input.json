@@ -1,5 +1,5 @@
 {
-  "hash": "DFB67F1",
+  "hash": "EF9A63F5",
   "model": "mndo",
   "trainingSet": "HC",
   "nMolecules": 205,
@@ -199,7 +199,7 @@
       "atomicNumbers": [
         1
       ],
-      "nElectrons": 1,
+      "nElectrons": 0,
       "nOrbitals": 1,
       "nIntegrals": 1,
       "nCoulombInts": 0,
@@ -363,7 +363,7 @@
       "atomicNumbers": [
         6
       ],
-      "nElectrons": 4,
+      "nElectrons": 3,
       "nOrbitals": 4,
       "nIntegrals": 0,
       "nCoulombInts": 22,
@@ -736,7 +736,7 @@
         1,
         1
       ],
-      "nElectrons": 7,
+      "nElectrons": 6,
       "nOrbitals": 7,
       "nIntegrals": 160,
       "nCoulombInts": 0,
@@ -1125,7 +1125,7 @@
         1,
         1
       ],
-      "nElectrons": 11,
+      "nElectrons": 10,
       "nOrbitals": 11,
       "nIntegrals": 884,
       "nCoulombInts": 0,
@@ -1410,7 +1410,7 @@
         1,
         1
       ],
-      "nElectrons": 12,
+      "nElectrons": 11,
       "nOrbitals": 12,
       "nIntegrals": 0,
       "nCoulombInts": 588,
@@ -1894,7 +1894,7 @@
         1,
         1
       ],
-      "nElectrons": 13,
+      "nElectrons": 12,
       "nOrbitals": 13,
       "nIntegrals": 1075,
       "nCoulombInts": 0,
@@ -2548,7 +2548,7 @@
         1,
         1
       ],
-      "nElectrons": 15,
+      "nElectrons": 14,
       "nOrbitals": 15,
       "nIntegrals": 2184,
       "nCoulombInts": 0,
@@ -2709,7 +2709,7 @@
         1,
         1
       ],
-      "nElectrons": 15,
+      "nElectrons": 14,
       "nOrbitals": 15,
       "nIntegrals": 2184,
       "nCoulombInts": 0,
@@ -3348,7 +3348,7 @@
         1,
         1
       ],
-      "nElectrons": 17,
+      "nElectrons": 16,
       "nOrbitals": 17,
       "nIntegrals": 2459,
       "nCoulombInts": 0,
@@ -3547,7 +3547,7 @@
         1,
         1
       ],
-      "nElectrons": 17,
+      "nElectrons": 16,
       "nOrbitals": 17,
       "nIntegrals": 2459,
       "nCoulombInts": 0,
@@ -3673,7 +3673,7 @@
         1,
         1
       ],
-      "nElectrons": 17,
+      "nElectrons": 16,
       "nOrbitals": 17,
       "nIntegrals": 2459,
       "nCoulombInts": 0,
@@ -7500,7 +7500,7 @@
         1,
         1
       ],
-      "nElectrons": 23,
+      "nElectrons": 22,
       "nOrbitals": 23,
       "nIntegrals": 4790,
       "nCoulombInts": 0,
@@ -7656,7 +7656,7 @@
         1,
         1
       ],
-      "nElectrons": 23,
+      "nElectrons": 22,
       "nOrbitals": 23,
       "nIntegrals": 4790,
       "nCoulombInts": 0,
@@ -9189,7 +9189,7 @@
         1,
         1
       ],
-      "nElectrons": 25,
+      "nElectrons": 24,
       "nOrbitals": 25,
       "nIntegrals": 5173,
       "nCoulombInts": 0,
@@ -10282,7 +10282,7 @@
         1,
         1
       ],
-      "nElectrons": 25,
+      "nElectrons": 26,
       "nOrbitals": 25,
       "nIntegrals": 6955,
       "nCoulombInts": 0,
@@ -13307,7 +13307,7 @@
         1,
         1
       ],
-      "nElectrons": 29,
+      "nElectrons": 28,
       "nOrbitals": 29,
       "nIntegrals": 7877,
       "nCoulombInts": 0,
@@ -19729,7 +19729,7 @@
         1,
         1
       ],
-      "nElectrons": 35,
+      "nElectrons": 34,
       "nOrbitals": 35,
       "nIntegrals": 11720,
       "nCoulombInts": 0,
@@ -24248,7 +24248,7 @@
         1,
         1
       ],
-      "nElectrons": 35,
+      "nElectrons": 34,
       "nOrbitals": 35,
       "nIntegrals": 14378,
       "nCoulombInts": 0,
@@ -24561,7 +24561,7 @@
         1,
         1
       ],
-      "nElectrons": 35,
+      "nElectrons": 34,
       "nOrbitals": 35,
       "nIntegrals": 14378,
       "nCoulombInts": 0,

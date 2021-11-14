@@ -1,13 +1,9 @@
 import org.ejml.data.DMatrixRMaj;
-import org.ejml.dense.row.CommonOps_DDRM;
 import org.ejml.dense.row.factory.DecompositionFactory_DDRM;
 import org.ejml.interfaces.decomposition.EigenDecomposition_F64;
 import org.ejml.simple.SimpleMatrix;
 import org.jblas.DoubleMatrix;
-import org.jblas.Eigen;
-import scf.Utils;
 
-import java.util.Arrays;
 import java.util.Random;
 
 public class EJMLTesting {
@@ -59,21 +55,23 @@ public class EJMLTesting {
 				new double[]{2,5,6}
 		});
 
-		System.out.println(
-				"sm.extractVector(true, 1) = " + sm.extractVector(true, 1));
-		System.out.println("dm.getRow(1) = " + dm.getRow(1));
+		System.out.println("sm.psu = " + sm.pseudoInverse());
 
-
-		System.out.println("ejml = " + sm);
-
-		System.out.println(Arrays.toString(Utils.symEigen(sm)));
-		System.out.println(sm.normF());
-		System.out.println(dm.norm2());
-		System.out.println("CommonOps_DDRM.elementMax(sm = " +
-				CommonOps_DDRM.elementMax(sm.getDDRM()));
-
-		pp(Eigen.symmetricEigenvectors(dm)[0]);
-		pp(Eigen.symmetricEigenvectors(dm)[1]);
+//		System.out.println(
+//				"sm.extractVector(true, 1) = " + sm.extractVector(true, 1));
+//		System.out.println("dm.getRow(1) = " + dm.getRow(1));
+//
+//
+//		System.out.println("ejml = " + sm);
+//
+//		System.out.println(Arrays.toString(Utils.symEigen(sm)));
+//		System.out.println(sm.normF());
+//		System.out.println(dm.norm2());
+//		System.out.println("CommonOps_DDRM.elementMax(sm = " +
+//				CommonOps_DDRM.elementMax(sm.getDDRM()));
+//
+//		pp(Eigen.symmetricEigenvectors(dm)[0]);
+//		pp(Eigen.symmetricEigenvectors(dm)[1]);
 
 
 	}

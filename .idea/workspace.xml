@@ -37,14 +37,14 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="Untested complete refactor">
+    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="many bug fixes in paramderiv and main">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dynamic-output.json" beforeDir="false" afterPath="$PROJECT_DIR$/dynamic-output.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/input.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/output/OutputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/output/OutputHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scf/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EJMLTesting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EJMLTesting.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/optimize/ParamOptimizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/optimize/ParamOptimizer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -286,7 +286,7 @@
     <property name="create.test.in.the.same.root" value="true" />
     <property name="extract.method.default.visibility" value="private" />
     <property name="full.screen.before.presentation.mode" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/JCuda-All-10.1.0/jnvgraph-natives-10.1.0.jar" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.26182964" />
@@ -296,11 +296,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\billi\IdeaProjects\MNDOParam" />
       <recent name="D:\Documents\Gitted CS Projects\MNDOParam" />
       <recent name="D:\Documents\Gitted CS Projects\MNDOParam\src\nddoparam" />
       <recent name="D:\Documents\Gitted CS Projects\MNDOParam\src\runcycle" />
       <recent name="D:\Documents\Gitted CS Projects\MNDOParam\src\nddoparam\param" />
-      <recent name="D:\Documents\Gitted CS Projects\MNDOParam\src\nddoparam\am1" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
       <recent name="scf.Utils" />
@@ -386,9 +386,9 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
+        <item itemvalue="Application.EJMLTesting" />
         <item itemvalue="Application.InputHandler" />
         <item itemvalue="Application.Testing" />
-        <item itemvalue="Application.EJMLTesting" />
         <item itemvalue="Application.CublasTools" />
       </list>
     </recent_temporary>
@@ -507,14 +507,7 @@
       <workItem from="1636831440431" duration="2978000" />
       <workItem from="1636862686287" duration="2078000" />
       <workItem from="1636864959281" duration="341000" />
-      <workItem from="1636865327823" duration="4241000" />
-    </task>
-    <task id="LOCAL-00090" summary="Refactor">
-      <created>1626252613627</created>
-      <option name="number" value="00090" />
-      <option name="presentableId" value="LOCAL-00090" />
-      <option name="project" value="LOCAL" />
-      <updated>1626252613627</updated>
+      <workItem from="1636865327823" duration="9274000" />
     </task>
     <task id="LOCAL-00091" summary="MNDOHessianUpdate jsonify">
       <created>1626256793765</created>
@@ -852,7 +845,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636866766272</updated>
     </task>
-    <option name="localTasksCounter" value="139" />
+    <task id="LOCAL-00139" summary="many bug fixes in paramderiv and main">
+      <created>1636869756922</created>
+      <option name="number" value="00139" />
+      <option name="presentableId" value="LOCAL-00139" />
+      <option name="project" value="LOCAL" />
+      <updated>1636869756922</updated>
+    </task>
+    <option name="localTasksCounter" value="140" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -932,7 +932,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="more multithreading optimizations" />
     <MESSAGE value="remove unused utils methods" />
     <MESSAGE value="minor changes" />
     <MESSAGE value="Minor changes" />
@@ -957,15 +956,27 @@
     <MESSAGE value="Untested ParamDerivative refactor" />
     <MESSAGE value="ParamGradient refactor" />
     <MESSAGE value="Untested complete refactor" />
-    <option name="LAST_COMMIT_MESSAGE" value="Untested complete refactor" />
+    <MESSAGE value="many bug fixes in paramderiv and main" />
+    <option name="LAST_COMMIT_MESSAGE" value="many bug fixes in paramderiv and main" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/optimize/ParamOptimizer.java</url>
+          <line>23</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Main.java</url>
-          <line>334</line>
-          <option name="timeStamp" value="10" />
+          <line>230</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <condition disabled="true" expression="g[i] != g[i]" language="JAVA" />
+          <url>file://$PROJECT_DIR$/src/Main.java</url>
+          <line>209</line>
+          <option name="timeStamp" value="14" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -2585,16 +2585,17 @@ public class GeometrySecondDerivative {
 							finalElapsedSize, Math.min(fockDerivStatic.length,
 									finalElapsedSize + size));
 
-					SimpleMatrix[] output = densityDerivPople(soln, subset);
-
-					// todo throw exception instead of null
-					if (output == null)
+					SimpleMatrix[] output;
+					try {
+						output = densityDerivPople(soln, subset);
+					} catch (SingularMatrixException e) {
+						e.printStackTrace();
 						output = densityDerivThiel(soln, subset);
+					}
 
 					// removed .dup() here
 					System.arraycopy(output, 0, densityDerivs,
-							finalElapsedSize,
-							output.length);
+							finalElapsedSize, output.length);
 				}
 			});
 			elapsedSize += size;
