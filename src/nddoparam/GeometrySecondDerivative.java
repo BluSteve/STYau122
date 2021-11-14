@@ -1,5 +1,6 @@
 package nddoparam;
 
+import org.ejml.data.SingularMatrixException;
 import org.ejml.simple.SimpleMatrix;
 import scf.GTO;
 import scf.Utils;
@@ -2834,7 +2835,12 @@ public class GeometrySecondDerivative {
 				}
 			}
 
-			SimpleMatrix alpha = solver.solve(rhsvec);
+			SimpleMatrix alpha;
+			try {
+				alpha  = solver.solve(rhsvec);
+			} catch (SingularMatrixException e) {
+				alpha = Utils.filled(solver.numCols(), rhsvec.numCols(),1);
+			}
 
 			for (int a = 0; a < rhsvec.numCols(); a++) {
 				if (rarray[a] != null) {
@@ -3440,7 +3446,7 @@ public class GeometrySecondDerivative {
 		return R;
 	}
 
-	private static double mag(SimpleMatrix gradient) {
+	public static double mag(SimpleMatrix gradient) {
 
 		double sum = 0;
 		for (int i = 0; i < gradient.numRows(); i++) {

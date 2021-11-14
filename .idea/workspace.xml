@@ -37,11 +37,9 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="Minor Geom changes">
+    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="Fix pople bug + catch alls">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometryOptimizationU.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -502,14 +500,8 @@
       <workItem from="1636722443486" duration="1056000" />
       <workItem from="1636819815038" duration="5715000" />
       <workItem from="1636831440431" duration="2978000" />
-      <workItem from="1636862686287" duration="1787000" />
-    </task>
-    <task id="LOCAL-00085" summary="Minor changes">
-      <created>1626233018683</created>
-      <option name="number" value="00085" />
-      <option name="presentableId" value="LOCAL-00085" />
-      <option name="project" value="LOCAL" />
-      <updated>1626233018683</updated>
+      <workItem from="1636862686287" duration="2078000" />
+      <workItem from="1636864959281" duration="341000" />
     </task>
     <task id="LOCAL-00086" summary="output.json">
       <created>1626235295964</created>
@@ -847,7 +839,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636861752110</updated>
     </task>
-    <option name="localTasksCounter" value="134" />
+    <task id="LOCAL-00134" summary="Fix pople bug + catch alls">
+      <created>1636864767032</created>
+      <option name="number" value="00134" />
+      <option name="presentableId" value="LOCAL-00134" />
+      <option name="project" value="LOCAL" />
+      <updated>1636864767032</updated>
+    </task>
+    <option name="localTasksCounter" value="135" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -896,7 +895,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="mergedejml" />
+                        <option value="HEAD" />
                       </list>
                     </value>
                   </entry>
@@ -927,7 +926,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="i hate padding" />
     <MESSAGE value="minor changes but not reversible" />
     <MESSAGE value="Hessian padding fixed" />
     <MESSAGE value="Multithreaded ParamGradient" />
@@ -952,7 +950,8 @@
     <MESSAGE value="Pople doesn't work" />
     <MESSAGE value="I don't know how I fixed Pople" />
     <MESSAGE value="Minor Geom changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Minor Geom changes" />
+    <MESSAGE value="Fix pople bug + catch alls" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix pople bug + catch alls" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
