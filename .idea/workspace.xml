@@ -37,9 +37,9 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="Fix pople bug + catch alls">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java" afterDir="false" />
+    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="Untested ParamDerivative refactor">
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -502,20 +502,7 @@
       <workItem from="1636831440431" duration="2978000" />
       <workItem from="1636862686287" duration="2078000" />
       <workItem from="1636864959281" duration="341000" />
-    </task>
-    <task id="LOCAL-00086" summary="output.json">
-      <created>1626235295964</created>
-      <option name="number" value="00086" />
-      <option name="presentableId" value="LOCAL-00086" />
-      <option name="project" value="LOCAL" />
-      <updated>1626235295964</updated>
-    </task>
-    <task id="LOCAL-00087" summary="Formatting">
-      <created>1626247904248</created>
-      <option name="number" value="00087" />
-      <option name="presentableId" value="LOCAL-00087" />
-      <option name="project" value="LOCAL" />
-      <updated>1626247904249</updated>
+      <workItem from="1636865327823" duration="958000" />
     </task>
     <task id="LOCAL-00088" summary="Major refactor.">
       <created>1626248843443</created>
@@ -846,7 +833,21 @@
       <option name="project" value="LOCAL" />
       <updated>1636864767032</updated>
     </task>
-    <option name="localTasksCounter" value="135" />
+    <task id="LOCAL-00135" summary="Refactor ParamDerivative pople and thiel, also catch thiel issues within thiel for geomsecondderiv">
+      <created>1636865889666</created>
+      <option name="number" value="00135" />
+      <option name="presentableId" value="LOCAL-00135" />
+      <option name="project" value="LOCAL" />
+      <updated>1636865889666</updated>
+    </task>
+    <task id="LOCAL-00136" summary="Untested ParamDerivative refactor">
+      <created>1636866172258</created>
+      <option name="number" value="00136" />
+      <option name="presentableId" value="LOCAL-00136" />
+      <option name="project" value="LOCAL" />
+      <updated>1636866172258</updated>
+    </task>
+    <option name="localTasksCounter" value="137" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -926,8 +927,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="minor changes but not reversible" />
-    <MESSAGE value="Hessian padding fixed" />
     <MESSAGE value="Multithreaded ParamGradient" />
     <MESSAGE value="more core optimization with tightest triplet alg" />
     <MESSAGE value="more multithreading optimizations" />
@@ -951,7 +950,9 @@
     <MESSAGE value="I don't know how I fixed Pople" />
     <MESSAGE value="Minor Geom changes" />
     <MESSAGE value="Fix pople bug + catch alls" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix pople bug + catch alls" />
+    <MESSAGE value="Refactor ParamDerivative pople and thiel, also catch thiel issues within thiel for geomsecondderiv" />
+    <MESSAGE value="Untested ParamDerivative refactor" />
+    <option name="LAST_COMMIT_MESSAGE" value="Untested ParamDerivative refactor" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

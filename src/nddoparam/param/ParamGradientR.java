@@ -3,7 +3,7 @@ package nddoparam.param;
 import nddoparam.GeometryDerivative;
 import nddoparam.Solution;
 import nddoparam.SolutionR;
-import org.jblas.DoubleMatrix;
+import org.ejml.simple.SimpleMatrix;
 import scf.Utils;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ class ParamGradientR extends ParamGradient {
 	@Override
 	protected void computeBatchedDerivs(int firstZIndex, int firstParamNum) {
 		// aggregate everything together for batched computation
-		ArrayList<DoubleMatrix> aggregate =
+		ArrayList<SimpleMatrix> aggregate =
 				new ArrayList<>(s.getRm().mats.length * Solution.maxParamNum);
 		for (int ZI = 0; ZI < s.getRm().mats.length; ZI++) {
 			if (ZI == firstZIndex)
@@ -40,9 +40,9 @@ class ParamGradientR extends ParamGradient {
 						(SolutionR) s, s.getRm().mats[ZI], firstParamNum);
 			else if (ZI < firstZIndex) {
 				// don't compute at all
-				staticDerivs[ZI] = new DoubleMatrix[][]{
-						new DoubleMatrix[Solution.maxParamNum],
-						new DoubleMatrix[Solution.maxParamNum]};
+				staticDerivs[ZI] = new SimpleMatrix[][]{
+						new SimpleMatrix[Solution.maxParamNum],
+						new SimpleMatrix[Solution.maxParamNum]};
 			}
 			// compute all
 			else staticDerivs[ZI] = ParamDerivative.MNDOStaticMatrixDeriv(
@@ -50,20 +50,20 @@ class ParamGradientR extends ParamGradient {
 			Collections.addAll(aggregate, staticDerivs[ZI][1]);
 		}
 
-		DoubleMatrix[] aggregateArray = aggregate.toArray(new DoubleMatrix[0]);
+		SimpleMatrix[] aggregateArray = aggregate.toArray(new SimpleMatrix[0]);
 
-		DoubleMatrix[] aggregateArrayUnpadded =
-				new DoubleMatrix[Utils.numNotNull(aggregateArray)];
+		SimpleMatrix[] aggregateArrayUnpadded =
+				new SimpleMatrix[Utils.numNotNull(aggregateArray)];
 		int j = 0;
-		for (DoubleMatrix dm : aggregateArray) {
+		for (SimpleMatrix dm : aggregateArray) {
 			if (dm != null) {
 				aggregateArrayUnpadded[j] = dm;
 				j++;
 			}
 		}
 		if (aggregateArrayUnpadded.length > 0) {
-			DoubleMatrix[] xLimitedAggregate =
-					new DoubleMatrix[aggregateArrayUnpadded.length];
+			SimpleMatrix[] xLimitedAggregate =
+					new SimpleMatrix[aggregateArrayUnpadded.length];
 			System.out
 					.println("xLimitedAggregate = " + xLimitedAggregate.length);
 			int elapsedSize = 0;
@@ -76,12 +76,12 @@ class ParamGradientR extends ParamGradient {
 				subtasks.add(new RecursiveAction() {
 					@Override
 					protected void compute() {
-						DoubleMatrix[] subset =
+						SimpleMatrix[] subset =
 								Arrays.copyOfRange(aggregateArrayUnpadded,
 										finalElapsedSize,
 										Math.min(aggregateArrayUnpadded.length,
 												finalElapsedSize + size));
-						DoubleMatrix[] output = ParamDerivative
+						SimpleMatrix[] output = ParamDerivative
 								.xArrayLimitedPople((SolutionR) s, subset);
 
 						System.arraycopy(output, 0, xLimitedAggregate,
@@ -92,8 +92,8 @@ class ParamGradientR extends ParamGradient {
 			}
 			ForkJoinTask.invokeAll(subtasks);
 
-			DoubleMatrix[] xLimitedPadded =
-					new DoubleMatrix[aggregateArray.length];
+			SimpleMatrix[] xLimitedPadded =
+					new SimpleMatrix[aggregateArray.length];
 			int unpaddedI = 0;
 			for (int i = 0; i < aggregateArray.length; i++) {
 				if (aggregateArray[i] != null) {
@@ -173,7 +173,7 @@ class ParamGradientR extends ParamGradient {
 						.responseMatrix((SolutionR) s,
 								densityDerivs[ZI][paramNum]);
 				fockDerivs[ZI][paramNum] = staticDerivs[ZI][1][paramNum]
-						.add(responseDerivs[ZI][paramNum]);
+						.plus(responseDerivs[ZI][paramNum]);
 				xComplementary[ZI][paramNum] = ParamDerivative
 						.xArrayComplementary((SolutionR) s,
 								fockDerivs[ZI][paramNum]);

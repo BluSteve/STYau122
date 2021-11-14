@@ -3,7 +3,7 @@ package nddoparam.param;
 import nddoparam.Solution;
 import nddoparam.SolutionR;
 import nddoparam.SolutionU;
-import org.jblas.DoubleMatrix;
+import org.ejml.simple.SimpleMatrix;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +18,9 @@ public abstract class ParamGradient {
 	protected double[] datum;
 	protected double[][] HFDerivs, dipoleDerivs, IEDerivs, geomDerivs,
 			totalGradients;
-	protected DoubleMatrix[][] densityDerivs, xLimited, xComplementary, xForIE,
+	protected SimpleMatrix[][] densityDerivs, xLimited, xComplementary, xForIE,
 			coeffDerivs, responseDerivs, fockDerivs;
-	protected DoubleMatrix[][][] staticDerivs;
+	protected SimpleMatrix[][][] staticDerivs;
 
 	protected ParamGradient(Solution s, double[] datum, Solution sExp,
 							boolean analytical) {
@@ -256,15 +256,15 @@ public abstract class ParamGradient {
 		if (datum[2] != 0) IEDerivs = new double[atomLength][paramLength];
 
 		if (analytical && (datum[1] != 0 || datum[2] != 0)) {
-			densityDerivs = new DoubleMatrix[atomLength][paramLength];
-			staticDerivs = new DoubleMatrix[atomLength][2][paramLength];
-			xLimited = new DoubleMatrix[atomLength][paramLength];
+			densityDerivs = new SimpleMatrix[atomLength][paramLength];
+			staticDerivs = new SimpleMatrix[atomLength][2][paramLength];
+			xLimited = new SimpleMatrix[atomLength][paramLength];
 			if (datum[2] != 0) {
-				xComplementary = new DoubleMatrix[atomLength][paramLength];
-				xForIE = new DoubleMatrix[atomLength][paramLength];
-				coeffDerivs = new DoubleMatrix[atomLength][paramLength];
-				responseDerivs = new DoubleMatrix[atomLength][paramLength];
-				fockDerivs = new DoubleMatrix[atomLength][paramLength];
+				xComplementary = new SimpleMatrix[atomLength][paramLength];
+				xForIE = new SimpleMatrix[atomLength][paramLength];
+				coeffDerivs = new SimpleMatrix[atomLength][paramLength];
+				responseDerivs = new SimpleMatrix[atomLength][paramLength];
+				fockDerivs = new SimpleMatrix[atomLength][paramLength];
 			}
 		}
 
