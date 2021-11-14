@@ -2585,8 +2585,6 @@ public class GeometrySecondDerivative {
 							finalElapsedSize, Math.min(fockDerivStatic.length,
 									finalElapsedSize + size));
 
-//					densityDerivThiel(soln,
-//							subset); //todo remove this (testing code)
 					SimpleMatrix[] output = densityDerivPople(soln, subset);
 
 					// todo throw exception instead of null
@@ -3008,8 +3006,8 @@ public class GeometrySecondDerivative {
 
 			xarray[a] = new SimpleMatrix(NOcc * NVirt, 1);
 			rarray[a] = new SimpleMatrix(NOcc * NVirt, 1);
-			barray[a] = new SimpleMatrix(F);
-			Farray[a] = new SimpleMatrix(F);
+			barray[a] = F.copy();
+			Farray[a] = F.copy();
 		}
 
 
@@ -3035,8 +3033,7 @@ public class GeometrySecondDerivative {
 				new SimpleMatrix(NOcc * NVirt, Farray.length);
 
 		for (int i = 0; i < Farray.length; i++) {
-			F.setColumn(i, 0,
-					Utils.vectorToDoubleArray(Farray[i]));
+			F.setColumn(i, 0, Farray[i].getDDRM().data);
 		}
 
 		while (Utils.numIterable(iterable) > 0) {
@@ -3048,13 +3045,13 @@ public class GeometrySecondDerivative {
 								" left to go!");
 
 				for (int i = 0; i < barray.length; i++) {
-					prevBs.add(new SimpleMatrix(barray[i]));
+					prevBs.add(barray[i]);
 
 					parray[i] = D.mult(computeResponseVectorsPople(
-							Dinv.mult(new SimpleMatrix(barray[i])),
+							Dinv.mult(barray[i]),
 							soln));
 
-					prevPs.add(new SimpleMatrix(parray[i]));
+					prevPs.add(parray[i]);
 				}
 
 				for (int i = 0; i < barray.length; i++) {
@@ -3068,9 +3065,8 @@ public class GeometrySecondDerivative {
 						newb = newb.minus(prevB.scale(num));
 					}
 
-					barray[i] = new SimpleMatrix(newb);
+					barray[i] = newb;
 				}
-
 			}
 
 			SimpleMatrix B =
@@ -3079,11 +3075,10 @@ public class GeometrySecondDerivative {
 					new SimpleMatrix(NOcc * NVirt, prevBs.size());
 
 			for (int i = 0; i < prevBs.size(); i++) {
-				B.setColumn(i, 0,
-						Utils.vectorToDoubleArray(prevBs.get(i)));
+				B.setColumn(i, 0, prevBs.get(i).getDDRM().data);
 
-				P.setColumn(i, 0, Utils.vectorToDoubleArray(
-						prevBs.get(i).minus(prevPs.get(i))));
+				P.setColumn(i, 0,
+						prevBs.get(i).minus(prevPs.get(i)).getDDRM().data);
 			}
 
 
@@ -3091,7 +3086,7 @@ public class GeometrySecondDerivative {
 
 			SimpleMatrix rhs = B.transpose().mult(F);
 
-			SimpleMatrix alpha = lhs.invert().mult(rhs);
+			SimpleMatrix alpha = lhs.solve(rhs);
 
 			for (int a = 0; a < xarray.length; a++) {
 				rarray[a] = new SimpleMatrix(NOcc * NVirt, 1);
