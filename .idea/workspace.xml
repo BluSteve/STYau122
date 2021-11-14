@@ -37,14 +37,12 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="many bug fixes in paramderiv and main">
+    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="nan issue for c2h2_0_rhs">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dynamic-output.json" beforeDir="false" afterPath="$PROJECT_DIR$/dynamic-output.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/input.json" beforeDir="false" afterPath="$PROJECT_DIR$/input.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/EJMLTesting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/EJMLTesting.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/optimize/ParamOptimizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/optimize/ParamOptimizer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/runcycle/input/InputHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -386,8 +384,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
-        <item itemvalue="Application.EJMLTesting" />
         <item itemvalue="Application.InputHandler" />
+        <item itemvalue="Application.EJMLTesting" />
         <item itemvalue="Application.Testing" />
         <item itemvalue="Application.CublasTools" />
       </list>
@@ -507,14 +505,8 @@
       <workItem from="1636831440431" duration="2978000" />
       <workItem from="1636862686287" duration="2078000" />
       <workItem from="1636864959281" duration="341000" />
-      <workItem from="1636865327823" duration="9274000" />
-    </task>
-    <task id="LOCAL-00091" summary="MNDOHessianUpdate jsonify">
-      <created>1626256793765</created>
-      <option name="number" value="00091" />
-      <option name="presentableId" value="LOCAL-00091" />
-      <option name="project" value="LOCAL" />
-      <updated>1626256793765</updated>
+      <workItem from="1636865327823" duration="10106000" />
+      <workItem from="1636884964231" duration="3267000" />
     </task>
     <task id="LOCAL-00092" summary="nMolecules added as RawInput param">
       <created>1626257161658</created>
@@ -852,7 +844,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636869756922</updated>
     </task>
-    <option name="localTasksCounter" value="140" />
+    <task id="LOCAL-00140" summary="nan issue for c2h2_0_rhs">
+      <created>1636883710306</created>
+      <option name="number" value="00140" />
+      <option name="presentableId" value="LOCAL-00140" />
+      <option name="project" value="LOCAL" />
+      <updated>1636883710306</updated>
+    </task>
+    <option name="localTasksCounter" value="141" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -932,7 +931,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="remove unused utils methods" />
     <MESSAGE value="minor changes" />
     <MESSAGE value="Minor changes" />
     <MESSAGE value="Minor moleculerun + main refactor" />
@@ -957,7 +955,8 @@
     <MESSAGE value="ParamGradient refactor" />
     <MESSAGE value="Untested complete refactor" />
     <MESSAGE value="many bug fixes in paramderiv and main" />
-    <option name="LAST_COMMIT_MESSAGE" value="many bug fixes in paramderiv and main" />
+    <MESSAGE value="nan issue for c2h2_0_rhs" />
+    <option name="LAST_COMMIT_MESSAGE" value="nan issue for c2h2_0_rhs" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -977,6 +976,21 @@
           <url>file://$PROJECT_DIR$/src/Main.java</url>
           <line>209</line>
           <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java</url>
+          <line>3511</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java</url>
+          <line>3481</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/nddoparam/param/ParamDerivative.java</url>
+          <line>3422</line>
+          <option name="timeStamp" value="19" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
