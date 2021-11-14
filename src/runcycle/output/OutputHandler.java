@@ -42,7 +42,8 @@ public class OutputHandler {
 		try {
 			mos = new Gson().fromJson(new FileReader(inputPath + ".json"),
 					MoleculeOutput[].class);
-		} catch (Exception ignored) {
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return mos;
 	}

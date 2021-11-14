@@ -334,7 +334,8 @@ public class ParamHessian {
 					.sum();
 			analytical = !analytical;
 			hessian = b;
-		} catch (Exception ignored) {
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return sum;
 	}

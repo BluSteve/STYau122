@@ -22,6 +22,7 @@ public class GeometryOptimizationR extends GeometryOptimization {
 			hessian = GeometrySecondDerivative
 					.hessianRoutine(s.atoms, (SolutionR) s, matrices[1]);
 		} catch (Exception e) {
+			e.printStackTrace();
 			hessian = SimpleMatrix.identity(gradient.getNumElements());
 		}
 

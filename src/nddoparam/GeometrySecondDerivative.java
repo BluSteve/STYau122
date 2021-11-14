@@ -3106,7 +3106,7 @@ public class GeometrySecondDerivative {
 				}
 				else {
 					iterable[j] = 0;
-					System.out.println("convergence test: " + mag(rarray[j]));
+//					System.out.println("convergence test: " + mag(rarray[j]));
 				}
 
 			}

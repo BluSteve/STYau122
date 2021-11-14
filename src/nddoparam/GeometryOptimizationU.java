@@ -24,6 +24,7 @@ public class GeometryOptimizationU extends GeometryOptimization {
 					.hessianRoutine(s.atoms, (SolutionU) s, matrices[1],
 							matrices[2]);
 		} catch (Exception e) {
+			e.printStackTrace();
 			hessian = SimpleMatrix.identity(gradient.getNumElements());
 		}
 

@@ -170,6 +170,7 @@ public abstract class GeometryOptimization {
 				try {
 					B = findNewB(B, y, searchDir);
 				} catch (Exception e) {
+					e.printStackTrace();
 					System.err.println("Hessian approximation error!");
 					B = SimpleMatrix.identity(s.atoms.length * 3);
 				}

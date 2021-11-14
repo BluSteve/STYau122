@@ -509,6 +509,7 @@ public class SolutionR extends Solution {
 
 					densityMatrix = calculateDensityMatrix(C);
 				} catch (Exception e) { // todo fix adrian
+					e.printStackTrace();
 					matrices = Utils.symEigen(F);
 
 					E = matrices[1].diag();
