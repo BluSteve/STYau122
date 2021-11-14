@@ -38,12 +38,11 @@ public class Main {
 	private static boolean isRetryFailed = false;
 
 	public static void main(String[] args) {
-		StopWatch sw = new StopWatch();
-		sw.start();
 		Scanner s = new Scanner(System.in);
 		System.err.print("Run in verbose mode? (y/N) ");
-		if (!s.next().equals("y"))
+		if (!s.next().equals("y")) {
 			System.out.close();
+		}
 
 		if (isImportLastRun) {
 			ranMolecules =
@@ -66,10 +65,13 @@ public class Main {
 			System.err.println();
 		}
 
+		StopWatch sw = new StopWatch();
+		sw.start();
+
 		for (int runNum = 0; runNum < NUM_RUNS; runNum++) {
 			StopWatch lsw = new StopWatch();
 			lsw.start();
-			boolean isRunHessian = runNum % 2 == 0; // Hessian every other run
+			boolean isRunHessian = runNum % 2 == 1; // Hessian every other run
 
 			AtomHandler.populateAtoms();
 			InputHandler.processInput(INPUT_FILENAME);

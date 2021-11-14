@@ -93,7 +93,7 @@ public abstract class GeometryOptimization {
 		SimpleMatrix B = matrices[1];
 
 		SimpleMatrix[] ms = Utils.symEigen(B);
-		SimpleMatrix h = ms[1];
+		SimpleMatrix h = ms[1].diag();
 		SimpleMatrix U = ms[0];
 
 		//replaced h summation with simpleh summation
@@ -154,7 +154,7 @@ public abstract class GeometryOptimization {
 			}
 			else {
 				// creates new gradient
-				SimpleMatrix simpleoldGrad = new SimpleMatrix(gradient);
+				SimpleMatrix oldGrad = gradient.copy();
 
 				gradient = new SimpleMatrix(s.atoms.length * 3, 1);
 				coordIndex = 0;
@@ -165,7 +165,7 @@ public abstract class GeometryOptimization {
 					}
 				}
 
-				SimpleMatrix y = gradient.minus(simpleoldGrad);
+				SimpleMatrix y = gradient.minus(oldGrad);
 
 				try {
 					B = findNewB(B, y, searchDir);
@@ -177,7 +177,7 @@ public abstract class GeometryOptimization {
 			}
 			ms = Utils.symEigen(B);
 
-			h = ms[1];
+			h = ms[1].diag();
 			U = ms[0];
 		}
 		updateSolution();
