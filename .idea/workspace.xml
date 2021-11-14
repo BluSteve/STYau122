@@ -38,7 +38,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="Pople doesn't work">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/GeometrySecondDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scf/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/Utils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -500,13 +502,6 @@
       <workItem from="1636819815038" duration="5715000" />
       <workItem from="1636831440431" duration="2978000" />
     </task>
-    <task id="LOCAL-00083" summary="I/O">
-      <created>1626232753287</created>
-      <option name="number" value="00083" />
-      <option name="presentableId" value="LOCAL-00083" />
-      <option name="project" value="LOCAL" />
-      <updated>1626232753287</updated>
-    </task>
     <task id="LOCAL-00084" summary="Main refactor">
       <created>1626232787687</created>
       <option name="number" value="00084" />
@@ -843,7 +838,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636834433464</updated>
     </task>
-    <option name="localTasksCounter" value="132" />
+    <task id="LOCAL-00132" summary="I don't know how I fixed Pople">
+      <created>1636860705074</created>
+      <option name="number" value="00132" />
+      <option name="presentableId" value="LOCAL-00132" />
+      <option name="project" value="LOCAL" />
+      <updated>1636860705074</updated>
+    </task>
+    <option name="localTasksCounter" value="133" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -923,7 +925,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="weird param gradient batched deriv index bug debugged. gosh that took a long time. it's 3am" />
     <MESSAGE value="Padded gradient" />
     <MESSAGE value="i hate padding" />
     <MESSAGE value="minor changes but not reversible" />
@@ -948,7 +949,8 @@
     <MESSAGE value="Fix pople and thiel of geometrysecondderivative" />
     <MESSAGE value="Geometry refactored successfully?" />
     <MESSAGE value="Pople doesn't work" />
-    <option name="LAST_COMMIT_MESSAGE" value="Pople doesn't work" />
+    <MESSAGE value="I don't know how I fixed Pople" />
+    <option name="LAST_COMMIT_MESSAGE" value="I don't know how I fixed Pople" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

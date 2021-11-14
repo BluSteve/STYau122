@@ -1,6 +1,5 @@
 package nddoparam;
 
-import org.apache.commons.lang3.time.StopWatch;
 import org.ejml.simple.SimpleMatrix;
 import scf.GTO;
 import scf.Utils;
@@ -2725,17 +2724,12 @@ public class GeometrySecondDerivative {
 
 	public static SimpleMatrix[] densityDerivThiel(SolutionR soln,
 												   SimpleMatrix[] fockderivstatic) {
-		StopWatch sw = new StopWatch();
-		sw.start();
-
 		int NOcc = (int) (soln.nElectrons / 2.0);
 
 		int NVirt = soln.orbitals.length - NOcc;
 
 		SimpleMatrix[] xarray = new SimpleMatrix[fockderivstatic.length];
-
 		SimpleMatrix[] rarray = new SimpleMatrix[fockderivstatic.length];
-
 		SimpleMatrix[] dirs = new SimpleMatrix[fockderivstatic.length];
 
 		double[] arrpreconditioner = new double[NOcc * NVirt];
@@ -2744,18 +2738,15 @@ public class GeometrySecondDerivative {
 
 		for (int i = 0; i < NOcc; i++) {
 			for (int j = 0; j < NVirt; j++) {
-
 				double e = -soln.E.get(i) - soln.E.get(NOcc + j);
 
 				arrpreconditioner[counter] = Math.pow(e, -0.5);
 
 				counter++;
-
 			}
 		}
 
 		SimpleMatrix D = SimpleMatrix.diag(arrpreconditioner);
-
 
 		for (int a = 0; a < xarray.length; a++) {
 			SimpleMatrix F = new SimpleMatrix(NOcc * NVirt, 1);
@@ -2782,10 +2773,8 @@ public class GeometrySecondDerivative {
 			F = D.mult(F);
 
 			xarray[a] = new SimpleMatrix(NOcc * NVirt, 1);
-
-			rarray[a] = new SimpleMatrix(F);
-
-			dirs[a] = new SimpleMatrix(F);
+			rarray[a] = F;
+			dirs[a] = F;
 		}
 
 
@@ -2802,30 +2791,30 @@ public class GeometrySecondDerivative {
 
 
 		while (Utils.numNotNull(rarray) > 0) {
-			ArrayList<SimpleMatrix> simpled = new ArrayList<>();
+			ArrayList<SimpleMatrix> d = new ArrayList<>();
 
-			ArrayList<SimpleMatrix> simplep = new ArrayList<>();
+			ArrayList<SimpleMatrix> p = new ArrayList<>();
 
 			for (int i = 0; i < rarray.length; i++) {
 				if (rarray[i] != null) {
-					simpled.add(new SimpleMatrix(dirs[i]));
-					simplep.add(D.mult(
+					d.add(new SimpleMatrix(dirs[i]));
+					p.add(D.mult(
 							computeResponseVectorsThiel(dirs[i], soln)));
 				}
 			}
 
 			SimpleMatrix solver =
-					new SimpleMatrix(simplep.size(), simplep.size());
+					new SimpleMatrix(p.size(), p.size());
 			SimpleMatrix rhsvec =
-					new SimpleMatrix(simplep.size(), rarray.length);
+					new SimpleMatrix(p.size(), rarray.length);
 
 			for (int a = 0; a < rhsvec.numCols(); a++) {
 				if (rarray[a] != null) {
-					double[] arrrhs = new double[simplep.size()];
+					double[] arrrhs = new double[p.size()];
 
 					for (int i = 0; i < arrrhs.length; i++) {
 						arrrhs[i] = 2 *
-								rarray[a].transpose().mult(simpled.get(i))
+								rarray[a].transpose().mult(d.get(i))
 										.get(0, 0);
 
 					}
@@ -2836,9 +2825,9 @@ public class GeometrySecondDerivative {
 			for (int i = 0; i < solver.numRows(); i++) {
 				for (int j = i; j < solver.numRows(); j++) {
 					double val2 =
-							simplep.get(j).transpose().mult(simpled.get(i))
-									.get(0, 0) + simplep.get(i).transpose()
-									.mult(simpled.get(j)).get(0, 0);
+							p.get(j).transpose().mult(d.get(i))
+									.get(0, 0) + p.get(i).transpose()
+									.mult(d.get(j)).get(0, 0);
 
 					solver.set(i, j, val2);
 					solver.set(j, i, val2);
@@ -2851,10 +2840,10 @@ public class GeometrySecondDerivative {
 				if (rarray[a] != null) {
 					for (int i = 0; i < alpha.numRows(); i++) {
 						xarray[a] = xarray[a].plus(
-								simpled.get(i).scale(alpha.get(i, a)));
+								d.get(i).scale(alpha.get(i, a)));
 
 						rarray[a] = rarray[a].minus(
-								simplep.get(i).scale(alpha.get(i, a)));
+								p.get(i).scale(alpha.get(i, a)));
 
 					}
 
@@ -2877,18 +2866,17 @@ public class GeometrySecondDerivative {
 
 					for (int i = 0; i < arrrhs.length; i++) {
 						arrrhs[i] = -rarray[a].transpose()
-								.mult(simplep.get(i)).get(0, 0);
+								.mult(p.get(i)).get(0, 0);
 
 					}
 					rhsvec.setColumn(a, 0, arrrhs);
 				}
 			}
 
-
 			for (int i = 0; i < solver.numRows(); i++) {
 				for (int j = 0; j < solver.numRows(); j++) {
 					solver.set(i, j,
-							simpled.get(j).transpose().mult(simplep.get(i))
+							d.get(j).transpose().mult(p.get(i))
 									.get(0, 0));
 				}
 			}
@@ -2897,11 +2885,11 @@ public class GeometrySecondDerivative {
 
 			for (int a = 0; a < rhsvec.numCols(); a++) {
 				if (rarray[a] != null) {
-					dirs[a] = rarray[a].copy();
+					dirs[a] = rarray[a];
 
 					for (int i = 0; i < beta.numRows(); i++) {
 						dirs[a] = dirs[a].plus(
-								simpled.get(i).scale(beta.get(i, a)));
+								d.get(i).scale(beta.get(i, a)));
 					}
 				}
 			}
@@ -2942,9 +2930,6 @@ public class GeometrySecondDerivative {
 
 	public static SimpleMatrix[] densityDerivPople(SolutionR soln,
 												   SimpleMatrix[] fockderivstatic) {
-		StopWatch sw = new StopWatch();
-		sw.start();
-
 		int NOcc = (int) (soln.nElectrons / 2.0);
 
 		int NVirt = soln.orbitals.length - NOcc;
@@ -2995,7 +2980,6 @@ public class GeometrySecondDerivative {
 
 					element = element / (soln.E.get(j + NOcc) - soln.E.get(i));
 
-
 					F.set(count1, 0, element);
 
 					count1++;
@@ -3006,8 +2990,8 @@ public class GeometrySecondDerivative {
 
 			xarray[a] = new SimpleMatrix(NOcc * NVirt, 1);
 			rarray[a] = new SimpleMatrix(NOcc * NVirt, 1);
-			barray[a] = F.copy();
-			Farray[a] = F.copy();
+			barray[a] = F;
+			Farray[a] = F;
 		}
 
 
@@ -3475,6 +3459,4 @@ public class GeometrySecondDerivative {
 			}
 		}
 	}
-
-
 }

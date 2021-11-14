@@ -38,14 +38,6 @@ public class Utils {
 		return new DoubleMatrix(array);
 	}
 
-	public static double[] vectorToDoubleArray(SimpleMatrix mat) {
-		double[] arr = new double[mat.numRows()];
-		for (int i = 0; i < mat.numRows(); i++) {
-			arr[i] = mat.get(i, 0);
-		}
-
-		return arr;
-	}
 	public static boolean testEJML(DoubleMatrix x, DoubleMatrix y,
 								   double limit) {
 		for (int i = 0; i < y.rows; i++) {
