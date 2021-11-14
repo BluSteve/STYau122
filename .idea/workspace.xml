@@ -37,9 +37,10 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="Untested ParamDerivative refactor">
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/nddoparam/param/ParamGradientR.java" afterDir="false" />
+    <list default="true" id="c9e58e2f-2ba4-4669-97fb-8a31915851dc" name="Default Changelist" comment="ParamGradient refactor">
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/optimize/ParamOptimizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/optimize/ParamOptimizer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scf/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/scf/Utils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -502,14 +503,7 @@
       <workItem from="1636831440431" duration="2978000" />
       <workItem from="1636862686287" duration="2078000" />
       <workItem from="1636864959281" duration="341000" />
-      <workItem from="1636865327823" duration="958000" />
-    </task>
-    <task id="LOCAL-00088" summary="Major refactor.">
-      <created>1626248843443</created>
-      <option name="number" value="00088" />
-      <option name="presentableId" value="LOCAL-00088" />
-      <option name="project" value="LOCAL" />
-      <updated>1626248843443</updated>
+      <workItem from="1636865327823" duration="1381000" />
     </task>
     <task id="LOCAL-00089" summary="Minor formatting.">
       <created>1626249528671</created>
@@ -847,7 +841,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636866172258</updated>
     </task>
-    <option name="localTasksCounter" value="137" />
+    <task id="LOCAL-00137" summary="ParamGradient refactor">
+      <created>1636866331951</created>
+      <option name="number" value="00137" />
+      <option name="presentableId" value="LOCAL-00137" />
+      <option name="project" value="LOCAL" />
+      <updated>1636866331951</updated>
+    </task>
+    <option name="localTasksCounter" value="138" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -927,7 +928,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Multithreaded ParamGradient" />
     <MESSAGE value="more core optimization with tightest triplet alg" />
     <MESSAGE value="more multithreading optimizations" />
     <MESSAGE value="remove unused utils methods" />
@@ -952,7 +952,8 @@
     <MESSAGE value="Fix pople bug + catch alls" />
     <MESSAGE value="Refactor ParamDerivative pople and thiel, also catch thiel issues within thiel for geomsecondderiv" />
     <MESSAGE value="Untested ParamDerivative refactor" />
-    <option name="LAST_COMMIT_MESSAGE" value="Untested ParamDerivative refactor" />
+    <MESSAGE value="ParamGradient refactor" />
+    <option name="LAST_COMMIT_MESSAGE" value="ParamGradient refactor" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

@@ -292,6 +292,16 @@ public class Utils {
 		}
 		return matrices;
 	}
+
+	public static double[][] to2dArray(SimpleMatrix matrix) {
+		double[][] array = new double[matrix.numRows()][matrix.numCols()];
+		for (int r = 0; r < matrix.numRows(); r++) {
+			for (int c = 0; c < matrix.numCols(); c++) {
+				array[r][c] = matrix.get(r, c);
+			}
+		}
+		return array;
+	}
 }
 
 class Pair<F extends Comparable<F>, S> implements Comparable<Pair<F, S>> {

@@ -1,7 +1,6 @@
 package optimize;
 
-import org.jblas.DoubleMatrix;
-import scf.Utils;
+import org.ejml.simple.SimpleMatrix;
 
 import java.util.ArrayList;
 
@@ -19,32 +18,30 @@ public class ParamOptimizer {
 		this.value += data.getValue();
 	}
 
-	public double[] optimize(DoubleMatrix B, DoubleMatrix gradient) {
-		DoubleMatrix searchdir = null;
+	public double[] optimize(SimpleMatrix B, SimpleMatrix gradient) {
+		SimpleMatrix searchdir = null;
 		try {
-			 searchdir= Utils.pinv(B).mmul(gradient);
+			 searchdir= B.pseudoInverse().mult(gradient);
 
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		}
 		double sum = 0;
-		for (int i = 0; i < searchdir.rows; i++) {
+		for (int i = 0; i < searchdir.numRows(); i++) {
 			sum += searchdir.get(i) * searchdir.get(i);
 		}
 		sum = Math.sqrt(sum);
-		searchdir = searchdir.mmul(1 / sum);
+		searchdir = searchdir.scale(1 / sum);
 
 		double k = -0.001;
 		double lambda = 0;
 		double val = 0;
-		this.changes = new double[searchdir.rows];
+		this.changes = new double[searchdir.numRows()];
 
-		int count = 0;
 		while (Math.abs(val - value) > 1E-6 && Math.abs(lambda) <= 0.05) {
-			count++;
 			lambda += k;
 			val = value;
-			changes = searchdir.dup().mmul(lambda).toArray();
+			changes = searchdir.scale(lambda).getDDRM().data;
 			value = 0;
 
 			for (ReferenceData d : datum) {

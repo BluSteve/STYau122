@@ -6,7 +6,7 @@ import nddoparam.param.ParamHessian;
 import optimize.ParamOptimizer;
 import optimize.ReferenceData;
 import org.apache.commons.lang3.time.StopWatch;
-import org.jblas.DoubleMatrix;
+import org.ejml.simple.SimpleMatrix;
 import runcycle.MoleculeRan;
 import runcycle.MoleculeResult;
 import runcycle.MoleculeRun;
@@ -16,6 +16,7 @@ import runcycle.input.RawMolecule;
 import runcycle.output.MoleculeOutput;
 import runcycle.output.OutputHandler;
 import scf.AtomHandler;
+import scf.Utils;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -220,14 +221,15 @@ public class Main {
 						}
 					}
 
-					mos.add(OutputHandler.toMoleculeOutput(result, isRunHessian));
+					mos.add(OutputHandler.toMoleculeOutput(result,
+							isRunHessian));
 				}
 			}
 
 			// optimizes params based on this run and gets new search direction
-			DoubleMatrix newGradient = new DoubleMatrix(ttGradient);
-			DoubleMatrix newHessian =
-					isRunHessian ? new DoubleMatrix(ttHessian) :
+			SimpleMatrix newGradient = new SimpleMatrix(1, ttGradient.length, true, ttGradient);
+			SimpleMatrix newHessian =
+					isRunHessian ? new SimpleMatrix(ttHessian) :
 							findMockHessian(newGradient,
 									ri.params.lastHessian,
 									ri.params.lastGradient,
@@ -238,7 +240,7 @@ public class Main {
 			// updating params and other input information
 			ri.params.lastGradient = ttGradient;
 			ri.params.lastHessian = ParamHessian.utify(
-					newHessian.toArray2());
+					Utils.to2dArray(newHessian));
 			ri.params.lastDir = dir;
 			int n = 0;
 			for (int atomI = 0; atomI < ri.neededParams.length; atomI++) {
@@ -308,31 +310,33 @@ public class Main {
 				ReferenceData.GEOM_WEIGHT));
 	}
 
-	private static DoubleMatrix findMockHessian(DoubleMatrix newGradient,
+	private static SimpleMatrix findMockHessian(SimpleMatrix newGradient,
 												double[] oldHessian,
 												double[] oldGradient,
 												double[] oldDir, int size) {
-		DoubleMatrix s = new DoubleMatrix(oldDir);
-		DoubleMatrix hessian = new DoubleMatrix(size, size);
+		SimpleMatrix s = new SimpleMatrix(1, oldDir.length, true, oldDir);
+		SimpleMatrix hessian = new SimpleMatrix(size, size);
 		int count = 1;
 		int index = 0;
 		while (index < ((size + 1) * size) / 2) {
 			for (int i = count - 1; i < size; i++) {
-				hessian.put(count - 1, i, oldHessian[index]);
-				hessian.put(i, count - 1, oldHessian[index]);
+				hessian.set(count - 1, i, oldHessian[index]);
+				hessian.set(i, count - 1, oldHessian[index]);
 				index++;
 			}
 			count++;
 		}
-		DoubleMatrix y = newGradient.sub(new DoubleMatrix(oldGradient));
 
-		double b = y.transpose().mmul(s).get(0);
-		DoubleMatrix A = y.mmul(y.transpose()).mmul(1 / b);
-		double a = s.transpose().mmul(hessian).mmul(s).get(0);
-		DoubleMatrix C = hessian.mmul(s).mmul(s.transpose()).mmul
-				(hessian.transpose()).mmul(1 / a);
+		SimpleMatrix y = newGradient.minus(
+				new SimpleMatrix(1, oldGradient.length, true, oldGradient));
 
-		return hessian.add(A).sub(C);
+		double b = y.transpose().mult(s).get(0);
+		SimpleMatrix A = y.mult(y.transpose()).scale(1 / b);
+		double a = s.transpose().mult(hessian).mult(s).get(0);
+		SimpleMatrix C = hessian.mult(s).mult(s.transpose()).mult
+				(hessian.transpose()).scale(1 / a);
+
+		return hessian.plus(A).minus(C);
 	}
 
 	private static NDDOParams[] convertToNDDOParams(RawInput ri) {
