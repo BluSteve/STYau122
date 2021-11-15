@@ -7,6 +7,8 @@ import nddoparam.SolutionR;
 import org.ejml.data.DMatrixSparseCSC;
 import org.ejml.data.SingularMatrixException;
 import org.ejml.simple.SimpleMatrix;
+import org.jblas.DoubleMatrix;
+import org.jblas.exceptions.LapackException;
 import scf.GTO;
 import scf.LCGTO;
 import tools.Utils;
@@ -3125,7 +3127,12 @@ public class ParamDerivative {
 
 			SimpleMatrix lhs = Bt.mult(P);
 			SimpleMatrix rhs = Bt.mult(F);
-			SimpleMatrix alpha = lhs.solve(rhs);
+			SimpleMatrix alpha;
+			try {
+				alpha = lhs.solve(rhs);
+			} catch (SingularMatrixException e) {
+				alpha = Utils.filled(lhs.numCols(), rhs.numCols(), 1);
+			}
 
 			// reset r and x array
 			for (int a = 0; a < length; a++) {
