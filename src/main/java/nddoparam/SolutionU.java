@@ -24,6 +24,7 @@ public class SolutionU extends Solution {
 
 	@Override
 	public SolutionU compute() {
+		double damp = 0.8;
 		int nalpha = nElectrons / 2 + (mult - 1);
 		int nbeta = nElectrons / 2;
 
@@ -291,9 +292,7 @@ public class SolutionU extends Solution {
 			ca = matrices1[0].transpose();
 
 			cb = matrices2[0].transpose();
-			if (unstable) System.err.println(ea);
 
-			double damp = 0.8;
 			alphaDensity = calculateDensityMatrix(ca, nalpha).scale(1 - damp)
 					.plus(oldalphadensity.scale(damp));
 
@@ -302,13 +301,12 @@ public class SolutionU extends Solution {
 
 			if (numIt >= 1000000) {
 				unstable = true;
-				System.err.println("SCF Has Not Converged");
+				System.err.println("damp = " + damp);
+				System.err.println("SCF Has Not Converged" + rm.debugName());
 
 				System.err.println(
 						"Damping Coefficient will be Increased, and the run " +
-								"restarted." +
-								"." +
-								".");
+								"restarted...");
 
 				damp += 0.02;
 
@@ -316,9 +314,7 @@ public class SolutionU extends Solution {
 
 				System.out.println(
 						"Exchange (K) matrix ERIs evaluated, beginning SCF " +
-								"iterations." +
-								"." +
-								".");
+								"iterations...");
 
 				ea = matrices[1].diag();
 
