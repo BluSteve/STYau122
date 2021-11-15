@@ -1,7 +1,14 @@
 package nddoparam;
 
+import org.ejml.data.SingularMatrixException;
 import org.ejml.simple.SimpleMatrix;
 import tools.Utils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.ForkJoinTask;
+import java.util.concurrent.RecursiveAction;
 
 public abstract class GeometryOptimization {
 	protected Solution s;
@@ -67,11 +74,14 @@ public abstract class GeometryOptimization {
 	private static SimpleMatrix findNewB(SimpleMatrix B, SimpleMatrix y,
 										 SimpleMatrix searchdir) {
 
-		double a = 1 / y.transpose().mult(searchdir).get(0);
-		double b = searchdir.transpose().mult(B).mult(searchdir).get(0);
-		SimpleMatrix m2 = B.mult(searchdir).mult(searchdir.transpose())
+		SimpleMatrix yt = y.transpose();
+		SimpleMatrix searchdirt = searchdir.transpose();
+
+		double a = 1 / yt.mult(searchdir).get(0);
+		double b = searchdirt.mult(B).mult(searchdir).get(0);
+		SimpleMatrix m2 = B.mult(searchdir).mult(searchdirt)
 				.mult(B.transpose()).scale(b);
-		SimpleMatrix m1 = y.mult(y.transpose()).scale(a);
+		SimpleMatrix m1 = y.mult(yt).scale(a);
 
 		return B.plus(m1).minus(m2);
 	}
@@ -96,8 +106,6 @@ public abstract class GeometryOptimization {
 		SimpleMatrix h = ms[1].diag();
 		SimpleMatrix U = ms[0];
 
-		//replaced h summation with simpleh summation
-
 		int counter = 0;
 		for (int i = 0; i < h.numRows(); i++) {
 			if (Math.abs(h.get(i)) > 1E-5) {
@@ -108,16 +116,14 @@ public abstract class GeometryOptimization {
 		int numIt = 0;
 		while (mag(gradient) > 0.001) {
 			// computes new search direction
-			double lambda = 0;
-			try {
-				lambda = lambda(h, U.transpose().mult(gradient),
-						h.numRows() - counter);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			double lambda = lambda(h, U.transpose().mult(gradient),
+					h.numRows() - counter);
+
 			SimpleMatrix searchDir =
 					B.minus(SimpleMatrix.identity(B.numRows()).scale(lambda))
-							.invert().mult(gradient).scale(-1);
+							.invert()
+							.mult(gradient)
+							.negative();
 
 			if (mag(searchDir) > 0.3) {
 				searchDir = searchDir.scale(0.3 / mag(searchDir));
@@ -143,11 +149,11 @@ public abstract class GeometryOptimization {
 								" " + mag(gradient));
 			logSolution(s);
 
-			/*
-			 re-compute Hessian if still has not converged after 20 iterations
-			*/
+
+			// re-compute Hessian if still has not converged after n
+			// iterations
 			numIt++;
-			if (numIt == 15) {
+			if (numIt == 20) {
 				numIt = 0;
 				matrices = findGH();
 				B = matrices[1];
@@ -156,15 +162,47 @@ public abstract class GeometryOptimization {
 				// creates new gradient
 				SimpleMatrix oldGrad = gradient.copy();
 
-				gradient = new SimpleMatrix(s.atoms.length * 3, 1);
+				int[][] params = new int[3 * s.atoms.length][];
+				double[] results = new double[3 * s.atoms.length];
+
 				coordIndex = 0;
 				for (int a = 0; a < s.atoms.length; a++) {
 					for (int i = 0; i < 3; i++) {
-						gradient.set(coordIndex, 0, findDerivative(a, i));
+						params[coordIndex] = new int[]{a, i};
 						coordIndex++;
 					}
 				}
 
+				int elapsedSize = 0;
+				double cores = Runtime.getRuntime().availableProcessors();
+				int size = Math.max((int) Math.ceil(params.length / cores),
+						6);
+
+				List<RecursiveAction> subtasks = new ArrayList<>();
+				while (elapsedSize < params.length) {
+					int finalElapsedSize = elapsedSize;
+					subtasks.add(new RecursiveAction() {
+						@Override
+						protected void compute() {
+							int[][] subset = Arrays.copyOfRange(params,
+									finalElapsedSize, Math.min(params.length,
+											finalElapsedSize + size));
+
+							double[] output = new double[subset.length];
+							for (int i = 0; i < subset.length; i++) {
+								output[i] = findDerivative(subset[i][0],
+										subset[i][1]);
+							}
+
+							System.arraycopy(output, 0, results,
+									finalElapsedSize, output.length);
+						}
+					});
+					elapsedSize += size;
+				}
+				ForkJoinTask.invokeAll(subtasks);
+
+				gradient = new SimpleMatrix(3 * s.atoms.length, 1, true, results);
 				SimpleMatrix y = gradient.minus(oldGrad);
 
 				try {
@@ -193,6 +231,7 @@ public abstract class GeometryOptimization {
 	protected void updateSolution() {
 		s = s.withNewAtoms(s.atoms);
 	}
+
 	protected abstract SimpleMatrix[] findGH();
 
 	protected abstract double findDerivative(int i, int j);

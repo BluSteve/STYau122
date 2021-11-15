@@ -3,6 +3,7 @@ package nddoparam.param;
 import nddoparam.GeometryDerivative;
 import nddoparam.Solution;
 import nddoparam.SolutionR;
+import org.ejml.data.SingularMatrixException;
 import org.ejml.simple.SimpleMatrix;
 import tools.Utils;
 

@@ -71,7 +71,7 @@ public class Main {
 		for (int runNum = 0; runNum < NUM_RUNS; runNum++) {
 			StopWatch lsw = new StopWatch();
 			lsw.start();
-			boolean isRunHessian = runNum % 2 == 0; // Hessian every other run
+			boolean isRunHessian = runNum % 2 == 1; // Hessian every other run
 
 			AtomHandler.populateAtoms();
 			InputHandler.processInput(INPUT_FILENAME);
@@ -91,7 +91,7 @@ public class Main {
 					"MNDO Parameterization, updated 17 July 2021. " +
 							ri.trainingSet + " training set (PM7)");
 			System.err.println("input.json hash: " + ri.hash);
-			System.err.println("Run number: " + runNum);
+			System.err.println("Run number: " + runNum + ", isRunHessian=" + isRunHessian);
 
 			// converts raw params array to NDDOParams classes and finds
 			// params which need to be differentiated

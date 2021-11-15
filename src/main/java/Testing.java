@@ -458,27 +458,26 @@ public class Testing {
 		rm.mult = 0;
 		rm.name = "C1H4";
 
-
 		SolutionR s = new SolutionR(atoms, rm).compute();
 		SimpleMatrix[][] matrices = GeometryDerivative.gradientRoutine(s);
 		SimpleMatrix[] fockderivstatic = matrices[1];
+		System.out.println("fockderivstatic = " + fockderivstatic.length);
 
 		getxarray(s, fockderivstatic);
 		densityDerivPople(s, fockderivstatic);
 
 
-//		NanoStopWatch nsw = NanoStopWatch.sw();
-//		double time = 0;
-//		for (int i = 0; i < 1000; i++) {
-//			getxarray(s, fockderivstatic);
+		NanoStopWatch nsw = NanoStopWatch.sw();
+		double time = 0;
+		for (int i = 0; i < 1000; i++) {
+
+			nsw.start();
+			s.compute();
+			time += nsw.stop();
+			TimeUnit.MILLISECONDS.sleep(1);
+		}
 //
-//			nsw.start();
-//			s.compute();
-//			time += nsw.stop();
-//			TimeUnit.MILLISECONDS.sleep(1);
-//		}
-//
-//		System.out.println("time = " + time / 1000);
+		System.out.println("time = " + time / 1000);
 //		System.out.println("s.energy = " + s.energy);
 //		GeometryOptimization.of(s).compute();
 //		System.out.println("s.energy = " + s.energy);

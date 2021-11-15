@@ -2590,7 +2590,6 @@ public class GeometrySecondDerivative {
 					try {
 						output = densityDerivPople(soln, subset);
 					} catch (SingularMatrixException e) {
-						e.printStackTrace();
 						output = densityDerivThiel(soln, subset);
 					}
 

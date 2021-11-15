@@ -1,5 +1,6 @@
 package nddoparam;
 
+import org.ejml.data.SingularMatrixException;
 import org.ejml.simple.SimpleMatrix;
 
 public class GeometryOptimizationU extends GeometryOptimization {
@@ -23,8 +24,7 @@ public class GeometryOptimizationU extends GeometryOptimization {
 			 hessian = GeometrySecondDerivative
 					.hessianRoutine((SolutionU) s, matrices[1],
 							matrices[2]);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (SingularMatrixException e) {
 			hessian = SimpleMatrix.identity(gradient.getNumElements());
 		}
 
