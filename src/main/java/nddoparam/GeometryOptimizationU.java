@@ -13,7 +13,7 @@ public class GeometryOptimizationU extends GeometryOptimization {
 	}
 
 	protected SimpleMatrix[] findGH() {
-		SimpleMatrix[][] matrices = GeometryDerivative.gradientRoutine(s.atoms, (SolutionU) s);
+		SimpleMatrix[][] matrices = GeometryDerivative.gradientRoutine((SolutionU) s);
 
 		SimpleMatrix gradient = matrices[0][0];
 		SimpleMatrix hessian;
@@ -21,7 +21,7 @@ public class GeometryOptimizationU extends GeometryOptimization {
 		// dunno if this is ok for unrestricted
 		try {
 			 hessian = GeometrySecondDerivative
-					.hessianRoutine(s.atoms, (SolutionU) s, matrices[1],
+					.hessianRoutine((SolutionU) s, matrices[1],
 							matrices[2]);
 		} catch (Exception e) {
 			e.printStackTrace();

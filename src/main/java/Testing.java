@@ -2,12 +2,15 @@ import jcuda.Pointer;
 import jcuda.Sizeof;
 import jcuda.jcublas.JCublas;
 import jcuda.runtime.JCuda;
+import nddoparam.GeometryDerivative;
 import nddoparam.GeometryOptimization;
 import nddoparam.Solution;
 import nddoparam.SolutionR;
 import nddoparam.mndo.MNDOAtom;
 import nddoparam.mndo.MNDOParams;
 import org.apache.commons.lang3.time.StopWatch;
+import org.ejml.data.DMatrixSparseCSC;
+import org.ejml.simple.SimpleMatrix;
 import org.jblas.DoubleMatrix;
 import runcycle.input.RawMolecule;
 import scf.AtomHandler;
@@ -15,8 +18,12 @@ import tools.NanoStopWatch;
 import tools.Utils;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+
+import static nddoparam.GeometrySecondDerivative.*;
 
 public class Testing {
 	public static void main(String[] args) {
@@ -27,221 +34,356 @@ public class Testing {
 		}
 	}
 
-	private static void testTransferSpeed() throws Exception {
-		JCuda.setExceptionsEnabled(true);
-		for (int i = 0; i < 5; i++) {
-			gpuMmul(DoubleMatrix.rand(1000, 1000),
-					DoubleMatrix.rand(1000, 1000));
+	public static SimpleMatrix[] getxarray(SolutionR soln,
+										   SimpleMatrix[] fockderivstatic) {
+		int NOcc = (int) (soln.nElectrons / 2.0);
+		int NVirt = soln.orbitals.length - NOcc;
+		int length = fockderivstatic.length;
+		int nonv = NOcc * NVirt;
+
+		if (nonv == 0) {
+			SimpleMatrix[] xarray = new SimpleMatrix[length];
+
+			for (int i = 0; i < xarray.length; i++) {
+				xarray[i] = new SimpleMatrix(0, 0);
+			}
+
+			return xarray;
 		}
-		Random r = new Random(123);
-		int n2 = 10;
-		int x = 20;
-		double[][] arrays = new double[x][n2];
-		double[] array = new double[x * n2];
-		for (int j = 0; j < x; j++) {
-			for (int i = 0; i < n2; i++) {
-				arrays[j][i] = r.nextDouble();
+
+		// array initialization
+		SimpleMatrix[] xarray = new SimpleMatrix[length];
+		SimpleMatrix[] barray = new SimpleMatrix[length];
+		SimpleMatrix[] parray = new SimpleMatrix[length];
+		SimpleMatrix[] Farray = new SimpleMatrix[length];
+		SimpleMatrix[] rarray = new SimpleMatrix[length];
+
+		// configure preconditioners
+		SimpleMatrix D = new SimpleMatrix(nonv, nonv, DMatrixSparseCSC.class);
+		SimpleMatrix Dinv = new SimpleMatrix(nonv, nonv, DMatrixSparseCSC.class);
+
+		int counter = 0;
+		for (int i = 0; i < NOcc; i++) {
+			for (int j = 0; j < NVirt; j++) {
+				double e = (-soln.E.get(i) + soln.E.get(NOcc + j));
+
+				D.set(counter, counter, Math.pow(e, -0.5));
+				Dinv.set(counter, counter, Math.pow(e, 0.5));
+				counter++;
 			}
 		}
 
-		long start = System.nanoTime();
-		Pointer[] pointers = new Pointer[x];
-		for (int i = 0; i < pointers.length; i++) {
-			pointers[i] = new Pointer();
-			JCublas.cublasAlloc(n2, Sizeof.DOUBLE, pointers[i]);
-			JCublas.cublasSetVector(n2, Sizeof.DOUBLE, Pointer.to(arrays[i])
-					, 1,
-					pointers[i], 1);
-		}
-		long separate = System.nanoTime() - start;
-		System.out.println("separate = " + separate / 1e6);
+		// convert AO to MO basis
+		for (int a = 0; a < length; a++) {
+			SimpleMatrix F = new SimpleMatrix(nonv, 1);
 
-		start = System.nanoTime();
-		for (int j = 0; j < x; j++) {
-			System.arraycopy(arrays[j], 0, array, j * n2, n2);
-		}
-		Pointer gpuPointerB = new Pointer();
-		JCublas.cublasAlloc(n2 * x, Sizeof.DOUBLE, gpuPointerB);
-		JCublas.cublasSetVector(n2 * x, Sizeof.DOUBLE, Pointer.to(array), 1,
-				gpuPointerB, 1);
-		pointers = new Pointer[x];
-		for (int i = 0; i < pointers.length; i++) {
-			pointers[i] = new Pointer();
-//			JCuda.cudaMemcpy(
-//			JCublas.cublasZcopy(
-		}
-		long together = System.nanoTime() - start;
-		System.out.println("together = " + together / 1e6);
-	}
+			int count = 0;
 
-	private static void testOther() throws IOException, InterruptedException {
-		JCuda.setExceptionsEnabled(true);
-		StopWatch sw = new StopWatch();
-		// warmup
-		for (int i = 0; i < 10; i++) {
-			DoubleMatrix.rand(1000, 1000).mmul(DoubleMatrix.rand(1000));
-			gpuMmul(DoubleMatrix.rand(1000, 1000),
-					DoubleMatrix.rand(1000, 1000));
-		}
-//		for (int N = 2; N <= 1021; N += 50) {
-//			System.out.println("N = " + N);
-//			DoubleMatrix adm = DoubleMatrix.rand(N, N);
-//			DoubleMatrix bdm = DoubleMatrix.rand(N, N);
-//
-//			StopWatch sw = new StopWatch();
-////			sw.start();
-////			DoubleMatrix cdm = adm.mmul(bdm);
-////			sw.stop();
-////			long cpu = sw.getTime();
-////			System.out.println("CPU: " + cpu);
-//
-//			sw.reset();
-//			sw.start();
-//			DoubleMatrix cdmgpu = gpuMmul(adm, bdm);
-//			sw.stop();
-//			long gpu = sw.getTime();
-//			System.out.println("GPU: " + gpu);
-//			System.out.println();
-//			FileWriter fw = new FileWriter("cpuvsgpu2.csv", true);
-//			fw.write(N + "," + cpu + "," + gpu + "\n");
-//			fw.close();
-//			TimeUnit.SECONDS.sleep(1);
-//		}
+			for (int i = 0; i < NOcc; i++) { // kappa
+				for (int j = 0; j < NVirt; j++) { // i
+					double element = 0;
 
-		int s = 1000;
-		int n = 432;
-		DoubleMatrix[] dms = new DoubleMatrix[n];
-		for (int i = 0; i < dms.length; i++) {
-			dms[i] = DoubleMatrix.rand(s, s);
+					for (int u = 0; u < soln.orbitals.length; u++) {
+						for (int v = 0; v < soln.orbitals.length; v++) {
+							element += soln.C.get(i, u) *
+									soln.C.get(j + NOcc, v) *
+									fockderivstatic[a].get(u, v);
+						}
+					}
+
+					element = element / (soln.E.get(j + NOcc) - soln.E.get(i));
+
+					F.set(count, 0, element);
+
+					count++;
+				}
+			}
+
+			F = D.mult(F);
+
+			barray[a] = F;
+			Farray[a] = F;
 		}
 
-		// 2 seconds just to convert from 1d lmao, s=1000,n=432
-		double[][] dms1d = new double[dms.length][];
-		for (int i = 0; i < dms.length; i++) {
-			dms1d[i] = to1d(dms[i]);
-		}
-		long start = System.nanoTime();
+		// main loop
+		int[] iterable = new int[length];
+		ArrayList<SimpleMatrix> prevBs = new ArrayList<>();
+		ArrayList<SimpleMatrix> prevPs = new ArrayList<>();
 
-		// 4 seconds
-		double[] result = gpuMmul(dms1d);
-		long gpu = System.nanoTime() - start;
-
-		DoubleMatrix dmresgpu = from1d(result);
-		System.out.println("GPU = " + gpu / 1E6 + " ");
-
-
-		DoubleMatrix dmres = dms[0];
-		dmres = dmres.mmul(dms[1]);
-
-		start = System.nanoTime();
-		dmres = dms[0];
-		for (int i = 1; i < dms.length; i++) {
-			dmres = dmres.mmul(dms[i]);
-		}
-		long cpu = System.nanoTime() - start;
-
-		System.out.println("CPU = " + cpu / 1E6 + " ");
-		JCublas.cublasShutdown();
-	}
-
-	public static double[] gpuMmul(double[] a, double[] b) {
-		int n2 = a.length;
-		int N = (int) Math.sqrt(n2);
-		double[] c = new double[n2];
-
-		Pointer gpuPointerA = new Pointer();
-		Pointer gpuPointerB = new Pointer();
-		Pointer gpuPointerC = new Pointer();
-
-		JCublas.cublasAlloc(n2, Sizeof.DOUBLE, gpuPointerA);
-		JCublas.cublasAlloc(n2, Sizeof.DOUBLE, gpuPointerB);
-		JCublas.cublasAlloc(n2, Sizeof.DOUBLE, gpuPointerC);
-
-		JCublas.cublasSetVector(n2, Sizeof.DOUBLE, Pointer.to(a), 1,
-				gpuPointerA, 1);
-		JCublas.cublasSetVector(n2, Sizeof.DOUBLE, Pointer.to(b), 1,
-				gpuPointerB, 1);
-		JCublas.cublasSetVector(n2, Sizeof.DOUBLE, Pointer.to(c), 1,
-				gpuPointerC, 1);
-
-		JCublas.cublasDgemm('n', 'n', N, N, N, 1.0, gpuPointerA, N,
-				gpuPointerB, N, 0.0, gpuPointerC, N);
-
-		JCublas.cublasGetVector(n2, Sizeof.DOUBLE, gpuPointerC, 1,
-				Pointer.to(c), 1);
-
-		JCublas.cublasFree(gpuPointerA);
-		JCublas.cublasFree(gpuPointerB);
-		JCublas.cublasFree(gpuPointerC);
-
-		return c;
-	}
-
-	public static double[] gpuMmul(double[][] arrays) {
-		int n2 = arrays[0].length;
-		int N = (int) Math.sqrt(n2);
-		double[] c = new double[n2];
-
-		Pointer gpuPointerA = new Pointer();
-		Pointer gpuPointerB = new Pointer();
-		Pointer gpuPointerC = new Pointer();
-		JCublas.cublasAlloc(n2, Sizeof.DOUBLE, gpuPointerA);
-		JCublas.cublasAlloc(n2, Sizeof.DOUBLE, gpuPointerB);
-		JCublas.cublasAlloc(n2, Sizeof.DOUBLE, gpuPointerC);
-		JCublas.cublasSetVector(n2, Sizeof.DOUBLE, Pointer.to(arrays[0]), 1,
-				gpuPointerA, 1);
-		JCublas.cublasSetVector(n2, Sizeof.DOUBLE, Pointer.to(arrays[1]), 1,
-				gpuPointerB, 1);
-		JCublas.cublasSetVector(n2, Sizeof.DOUBLE, Pointer.to(c), 1,
-				gpuPointerC, 1);
-
-
-		JCublas.cublasDgemm('n', 'n', N, N, N, 1.0, gpuPointerA, N,
-				gpuPointerB, N, 0.0, gpuPointerC, N);
-		for (int i = 2; i < arrays.length; i++) {
-			Pointer gpuPointerD = new Pointer();
-			JCublas.cublasAlloc(n2, Sizeof.DOUBLE, gpuPointerD);
-			JCublas.cublasSetVector(n2, Sizeof.DOUBLE, Pointer.to(arrays[i])
-					, 1, gpuPointerD, 1);
-
-			JCublas.cublasDgemm('n', 'n', N, N, N, 1.0, gpuPointerC, N,
-					gpuPointerD, N, 0.0, gpuPointerC, N);
-			JCublas.cublasFree(gpuPointerD);
+		// convert Farray into matrix form
+		SimpleMatrix F = new SimpleMatrix(nonv, length);
+		for (int i = 0; i < Farray.length; i++) {
+			F.setColumn(i, 0, Farray[i].getDDRM().data);
 		}
 
-		JCublas.cublasGetVector(n2, Sizeof.DOUBLE, gpuPointerC, 1,
-				Pointer.to(c), 1);
-		JCublas.cublasFree(gpuPointerA);
-		JCublas.cublasFree(gpuPointerB);
-		JCublas.cublasFree(gpuPointerC);
-		return c;
-	}
+		while (Utils.numIterable(iterable) > 0) {
+			orthogonalise(barray);
 
-	public static DoubleMatrix gpuMmul(DoubleMatrix a, DoubleMatrix b) {
-		return from1d(gpuMmul(to1d(a), to1d(b)));
-	}
+			for (int i = 0; i < length; i++) {
+				prevBs.add(barray[i]);
 
-	public static double[] to1d(DoubleMatrix dm) {
-		double[] res = new double[dm.rows * dm.rows];
-		for (int i = 0; i < dm.rows; i++) {
-			for (int j = 0; j < dm.rows; j++) {
-				res[i * dm.rows + j] = dm.get(j, i);
+				parray[i] = D.mult(computeResponseVectorsPople(
+						Dinv.mult(barray[i]), soln));
+
+				prevPs.add(parray[i]);
+			}
+
+			for (int i = 0; i < length; i++) {
+				SimpleMatrix newb = parray[i];
+
+				// orthogonalize against all previous Bs
+				for (SimpleMatrix prevB : prevBs) {
+					double num = prevB.transpose().mult(parray[i]).get(0) /
+							prevB.transpose().mult(prevB).get(0);
+
+					newb = newb.minus(prevB.scale(num));
+				}
+
+				barray[i] = newb;
+			}
+
+			// convert prevBs and prevPs into matrix form, transposed
+			SimpleMatrix Bt = new SimpleMatrix(prevBs.size(), nonv);
+			SimpleMatrix P = new SimpleMatrix(nonv, prevPs.size());
+			for (int i = 0; i < prevBs.size(); i++) {
+				Bt.setRow(i, 0, prevBs.get(i).getDDRM().data);
+				P.setColumn(i, 0,
+						prevBs.get(i).minus(prevPs.get(i)).getDDRM().data);
+			}
+
+			SimpleMatrix lhs = Bt.mult(P);
+			SimpleMatrix rhs = Bt.mult(F);
+			SimpleMatrix alpha = lhs.solve(rhs);
+
+			// reset r and x array
+			for (int a = 0; a < length; a++) {
+				rarray[a] = new SimpleMatrix(nonv, 1);
+				xarray[a] = new SimpleMatrix(nonv, 1);
+			}
+
+			for (int i = 0; i < alpha.numRows(); i++) {
+				for (int j = 0; j < alpha.numCols(); j++) {
+					// B with tilde
+					rarray[j] = rarray[j].plus(
+							prevBs.get(i)
+									.minus(prevPs.get(i))
+									.scale(alpha.get(i, j))
+					);
+
+					xarray[j] = xarray[j].plus(
+							prevBs.get(i)
+									.scale(alpha.get(i, j))
+					);
+				}
+			}
+
+			for (int j = 0; j < alpha.numCols(); j++) {
+				// B0 is Farray, no tilde
+				rarray[j] = rarray[j].minus(Farray[j]);
+				xarray[j] = Dinv.mult(xarray[j]);
+
+				double rMag = mag(rarray[j]);
+				if (rMag < 1E-7) {
+					iterable[j] = 1;
+				}
+				else if (Double.isNaN(rMag)) {
+					System.err.println(
+							"Pople algorithm fails; reverting to Thiel " +
+									"algorithm (don't panic)...");
+					return null;
+				}
+				else {
+					iterable[j] = 0;
+				}
 			}
 		}
-		return res;
+
+		return xarray;
 	}
 
-	public static DoubleMatrix from1d(double[] darray) {
-		int n = (int) Math.sqrt(darray.length);
-		DoubleMatrix res = new DoubleMatrix(n, n);
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < n; j++) {
-				res.put(j, i, darray[i * n + j]);
+	public static SimpleMatrix[] densityDerivPople(SolutionR soln,
+												   SimpleMatrix[] fockderivstatic) {
+		int NOcc = (int) (soln.nElectrons / 2.0);
+
+		int NVirt = soln.orbitals.length - NOcc;
+
+		SimpleMatrix[] xarray = new SimpleMatrix[fockderivstatic.length];
+		SimpleMatrix[] barray = new SimpleMatrix[fockderivstatic.length];
+		SimpleMatrix[] parray = new SimpleMatrix[fockderivstatic.length];
+		SimpleMatrix[] Farray = new SimpleMatrix[fockderivstatic.length];
+		SimpleMatrix[] rarray = new SimpleMatrix[fockderivstatic.length];
+
+		double[] arrpreconditioner = new double[NOcc * NVirt];
+		double[] arrpreconditionerinv = new double[NOcc * NVirt];
+
+		int counter = 0;
+
+		for (int i = 0; i < NOcc; i++) {
+			for (int j = 0; j < NVirt; j++) {
+				double e = (-soln.E.get(i) + soln.E.get(NOcc + j));
+
+				arrpreconditioner[counter] = Math.pow(e, -0.5);
+				arrpreconditionerinv[counter] = Math.pow(e, 0.5);
+				counter++;
 			}
 		}
-		return res;
-	}
 
+		SimpleMatrix D = SimpleMatrix.diag(arrpreconditioner);
+
+		SimpleMatrix Dinv = SimpleMatrix.diag(arrpreconditionerinv);
+
+		for (int a = 0; a < xarray.length; a++) {
+			SimpleMatrix F = new SimpleMatrix(NOcc * NVirt, 1);
+
+			int count1 = 0;
+
+			for (int i = 0; i < NOcc; i++) { // kappa
+				for (int j = 0; j < NVirt; j++) { // i
+
+					double element = 0;
+
+					for (int u = 0; u < soln.orbitals.length; u++) {
+						for (int v = 0; v < soln.orbitals.length; v++) {
+							element +=
+									soln.C.get(i, u) * soln.C.get(j + NOcc,
+											v) *
+											fockderivstatic[a].get(u, v);
+						}
+					}
+
+					element = element / (soln.E.get(j + NOcc) - soln.E.get(i));
+
+					F.set(count1, 0, element);
+
+					count1++;
+				}
+			}
+
+			F = D.mult(F);
+
+			xarray[a] = new SimpleMatrix(NOcc * NVirt, 1);
+			rarray[a] = new SimpleMatrix(NOcc * NVirt, 1);
+			barray[a] = F;
+			Farray[a] = F;
+		}
+
+
+		if (barray[0].numRows() == 0) {
+			SimpleMatrix[] densityderivs =
+					new SimpleMatrix[fockderivstatic.length];
+
+			for (int i = 0; i < densityderivs.length; i++) {
+				densityderivs[i] = new SimpleMatrix(0, 0);
+			}
+
+			return densityderivs;
+		}
+
+
+		ArrayList<SimpleMatrix> prevBs = new ArrayList<>();
+
+		ArrayList<SimpleMatrix> prevPs = new ArrayList<>();
+
+		int[] iterable = new int[barray.length];
+
+		SimpleMatrix F =
+				new SimpleMatrix(NOcc * NVirt, Farray.length);
+
+		for (int i = 0; i < Farray.length; i++) {
+			F.setColumn(i, 0, Farray[i].getDDRM().data);
+		}
+
+		while (Utils.numIterable(iterable) > 0) {
+			for (int number = 0; number < 1; number++) {
+				orthogonalise(barray);
+
+
+				for (int i = 0; i < barray.length; i++) {
+					prevBs.add(barray[i]);
+
+					parray[i] = D.mult(computeResponseVectorsPople(
+							Dinv.mult(barray[i]),
+							soln));
+
+					prevPs.add(parray[i]);
+				}
+
+				for (int i = 0; i < barray.length; i++) {
+					SimpleMatrix newb = parray[i];
+
+					for (SimpleMatrix prevB : prevBs) {
+						double num =
+								prevB.transpose().mult(parray[i]).get(0) /
+										prevB.transpose().mult(prevB).get(0);
+
+						newb = newb.minus(prevB.scale(num));
+					}
+
+					barray[i] = newb;
+				}
+			}
+
+			SimpleMatrix B =
+					new SimpleMatrix(NOcc * NVirt, prevBs.size());
+			SimpleMatrix P =
+					new SimpleMatrix(NOcc * NVirt, prevBs.size());
+
+			for (int i = 0; i < prevBs.size(); i++) {
+				B.setColumn(i, 0, prevBs.get(i).getDDRM().data);
+
+				P.setColumn(i, 0,
+						prevBs.get(i).minus(prevPs.get(i)).getDDRM().data);
+			}
+
+
+			SimpleMatrix lhs = B.transpose().mult(P);
+
+			SimpleMatrix rhs = B.transpose().mult(F);
+
+			SimpleMatrix alpha = lhs.solve(rhs);
+
+			for (int a = 0; a < xarray.length; a++) {
+				rarray[a] = new SimpleMatrix(NOcc * NVirt, 1);
+				xarray[a] = new SimpleMatrix(NOcc * NVirt, 1);
+			}
+
+			for (int i = 0; i < alpha.numRows(); i++) {
+				for (int j = 0; j < alpha.numCols(); j++) {
+					// B with tilde
+					rarray[j] = rarray[j].plus((prevBs.get(i)
+							.minus(prevPs.get(i))).scale(
+							alpha.get(i, j)));
+					xarray[j] = xarray[j].plus(
+							prevBs.get(i).scale(alpha.get(i, j)));
+				}
+			}
+
+			for (int j = 0; j < alpha.numCols(); j++) {
+
+				// B0 is Farray, no tilde
+				rarray[j] = rarray[j].minus(Farray[j]);
+
+				xarray[j] = Dinv.mult(xarray[j]);
+
+				if (mag(rarray[j]) < 1E-7) {
+					iterable[j] = 1;
+				}
+				else if (Double.isNaN(mag(rarray[j]))) {
+					System.err.println(
+							"Pople algorithm fails; reverting to Thiel " +
+									"algorithm (don't panic)...");
+					return null;
+				}
+				else {
+					iterable[j] = 0;
+//					System.out.println("convergence test: " + mag(rarray[j]));
+				}
+
+			}
+
+		}
+		return xarray;
+	}
 
 	private static void testMain() throws InterruptedException {
 		AtomHandler.populateAtoms();
@@ -315,21 +457,28 @@ public class Testing {
 		rm.charge = 0;
 		rm.mult = 0;
 		rm.name = "C1H4";
-		Solution s1 = new SolutionR(atoms, rm).compute();
-		Solution s2 = GeometryOptimization.of(s1).compute().getS();
-		System.out.println(s2);
 
-		NanoStopWatch nsw = NanoStopWatch.sw();
-		double time = 0;
-		for (int i = 0; i < 1000; i++) {
-			Solution s = new SolutionR(atoms, rm);
-			nsw.start();
-			s.compute();
-			time += nsw.stop();
-			TimeUnit.MILLISECONDS.sleep(1);
-		}
 
-		System.out.println("time = " + time/1000);
+		SolutionR s = new SolutionR(atoms, rm).compute();
+		SimpleMatrix[][] matrices = GeometryDerivative.gradientRoutine(s);
+		SimpleMatrix[] fockderivstatic = matrices[1];
+
+		getxarray(s, fockderivstatic);
+		densityDerivPople(s, fockderivstatic);
+
+
+//		NanoStopWatch nsw = NanoStopWatch.sw();
+//		double time = 0;
+//		for (int i = 0; i < 1000; i++) {
+//			getxarray(s, fockderivstatic);
+//
+//			nsw.start();
+//			s.compute();
+//			time += nsw.stop();
+//			TimeUnit.MILLISECONDS.sleep(1);
+//		}
+//
+//		System.out.println("time = " + time / 1000);
 //		System.out.println("s.energy = " + s.energy);
 //		GeometryOptimization.of(s).compute();
 //		System.out.println("s.energy = " + s.energy);

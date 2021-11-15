@@ -2111,18 +2111,17 @@ public class GeometryDerivative {
 		return e;
 	}
 
-	public static SimpleMatrix[][] gradientRoutine(NDDOAtom[] atoms,
-												   SolutionR soln) {
+	public static SimpleMatrix[][] gradientRoutine(SolutionR soln) {
 
-		SimpleMatrix[] fockderivatives = new SimpleMatrix[atoms.length * 3];
+		SimpleMatrix[] fockderivatives = new SimpleMatrix[soln.atoms.length * 3];
 
-		SimpleMatrix grad = new SimpleMatrix(atoms.length * 3, 1);
+		SimpleMatrix grad = new SimpleMatrix(soln.atoms.length * 3, 1);
 
 		int count = 0;
 
-		for (int a = 0; a < atoms.length; a++) {
+		for (int a = 0; a < soln.atoms.length; a++) {
 			for (int tau = 0; tau < 3; tau++) {
-				SimpleMatrix[] matrices = staticderivs(atoms, soln, a, tau);
+				SimpleMatrix[] matrices = staticderivs(soln.atoms, soln, a, tau);
 				fockderivatives[count] = matrices[1];
 				double sum = 0;
 
@@ -2134,9 +2133,9 @@ public class GeometryDerivative {
 					}
 				}
 
-				for (int j = 0; j < atoms.length; j++) {
+				for (int j = 0; j < soln.atoms.length; j++) {
 					if (j != a) {
-						sum += atoms[a].crfDeriv(atoms[j], tau);
+						sum += soln.atoms[a].crfDeriv(soln.atoms[j], tau);
 					}
 				}
 
@@ -2150,22 +2149,21 @@ public class GeometryDerivative {
 		return new SimpleMatrix[][]{new SimpleMatrix[]{grad}, fockderivatives};
 	}
 
-	public static SimpleMatrix[][] gradientRoutine(NDDOAtom[] atoms,
-												   SolutionU soln) {
+	public static SimpleMatrix[][] gradientRoutine(SolutionU soln) {
 
 		SimpleMatrix[] fockderivativesalpha =
-				new SimpleMatrix[atoms.length * 3];
+				new SimpleMatrix[soln.atoms.length * 3];
 
 		SimpleMatrix[] fockderivativesbeta =
-				new SimpleMatrix[atoms.length * 3];
+				new SimpleMatrix[soln.atoms.length * 3];
 
-		SimpleMatrix grad = new SimpleMatrix(atoms.length * 3, 1);
+		SimpleMatrix grad = new SimpleMatrix(soln.atoms.length * 3, 1);
 
 		int count = 0;
 
-		for (int a = 0; a < atoms.length; a++) {
+		for (int a = 0; a < soln.atoms.length; a++) {
 			for (int tau = 0; tau < 3; tau++) {
-				SimpleMatrix[] matrices = staticderivs(atoms, soln, a, tau);
+				SimpleMatrix[] matrices = staticderivs(soln.atoms, soln, a, tau);
 				fockderivativesalpha[count] = matrices[1];
 				fockderivativesbeta[count] = matrices[2];
 				double sum = 0;
@@ -2181,9 +2179,9 @@ public class GeometryDerivative {
 					}
 				}
 
-				for (int j = 0; j < atoms.length; j++) {
+				for (int j = 0; j < soln.atoms.length; j++) {
 					if (j != a) {
-						sum += atoms[a].crfDeriv(atoms[j], tau);
+						sum += soln.atoms[a].crfDeriv(soln.atoms[j], tau);
 					}
 				}
 

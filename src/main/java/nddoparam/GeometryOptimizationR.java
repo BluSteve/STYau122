@@ -13,14 +13,14 @@ public class GeometryOptimizationR extends GeometryOptimization {
 	}
 
 	protected SimpleMatrix[] findGH() {
-		SimpleMatrix[][] matrices = GeometryDerivative.gradientRoutine(s.atoms, (SolutionR) s);
+		SimpleMatrix[][] matrices = GeometryDerivative.gradientRoutine((SolutionR) s);
 
 		SimpleMatrix gradient = matrices[0][0];
 		SimpleMatrix hessian;
 
 		try {
 			hessian = GeometrySecondDerivative
-					.hessianRoutine(s.atoms, (SolutionR) s, matrices[1]);
+					.hessianRoutine((SolutionR) s, matrices[1]);
 		} catch (Exception e) {
 			e.printStackTrace();
 			hessian = SimpleMatrix.identity(gradient.getNumElements());
