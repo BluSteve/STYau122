@@ -3376,7 +3376,12 @@ public class ParamDerivative {
 				}
 			}
 
-			SimpleMatrix beta = solver.solve(rhsvec);
+			SimpleMatrix beta;
+			try {
+				beta = solver.solve(rhsvec);
+			} catch (SingularMatrixException e) {
+				beta = Utils.filled(solver.numCols(), rhsvec.numCols(), 1);
+			}
 
 			for (int a = 0; a < rhsvec.numCols(); a++) {
 				if (rarray[a] != null) {
