@@ -343,6 +343,7 @@ public class SolutionU extends Solution {
 									" " +
 									"Exiting " +
 									"program...");
+					System.exit(0);
 
 					for (NDDOAtom a : atoms) {
 						System.out.println(a.getAtomProperties().getZ() + ";" +

@@ -153,7 +153,7 @@ public abstract class GeometryOptimization {
 			// re-compute Hessian if still has not converged after n
 			// iterations
 			numIt++;
-			if (numIt == 15) {
+			if (numIt == 7) {
 				numIt = 0;
 				matrices = findGH();
 				B = matrices[1];

@@ -30,7 +30,7 @@ import java.util.concurrent.RecursiveTask;
 
 public class Main {
 	private static final String INPUT_FILENAME = "input";
-	private static final int NUM_RUNS = 15;
+	private static final int NUM_RUNS = 1;
 	private static final boolean isImportLastRun = true;
 	private static final int MAX_RETRIES = 2;
 	private static RawInput ri;
