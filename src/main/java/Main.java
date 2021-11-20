@@ -24,7 +24,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.ForkJoinTask;
-import java.util.concurrent.RecursiveAction;
 import java.util.concurrent.RecursiveTask;
 
 
@@ -69,7 +68,7 @@ public class Main {
 		for (int runNum = 0; runNum < NUM_RUNS; runNum++) {
 			StopWatch lsw = new StopWatch();
 			lsw.start();
-			boolean isRunHessian = runNum % 2 == 1; // Hessian every other run
+			boolean isRunHessian = runNum % 2 == 0; // Hessian every other run
 
 			AtomHandler.populateAtoms();
 			InputHandler.processInput(INPUT_FILENAME);
@@ -99,7 +98,7 @@ public class Main {
 			int paramLength = 0;
 			for (int[] param : ri.neededParams) paramLength += param.length;
 
-			// creates tasks to run in parallel and then runs them
+			// create tasks to run in parallel and then runs them
 			// excludes ran molecules from previous dynamic output
 			List<RecursiveTask<MoleculeRun>> moleculeTasks = new ArrayList<>();
 			for (RawMolecule request : ri.molecules) {
