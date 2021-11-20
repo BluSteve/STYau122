@@ -7,8 +7,6 @@ import jcuda.jcusolver.JCusolverDn;
 import jcuda.jcusolver.cusolverDnHandle;
 import jcuda.runtime.JCuda;
 import org.ejml.simple.SimpleMatrix;
-import tools.NanoStopWatch;
-import tools.Utils;
 
 import java.io.FileWriter;
 import java.io.IOException;

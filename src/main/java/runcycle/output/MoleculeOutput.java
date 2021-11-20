@@ -2,8 +2,6 @@ package runcycle.output;
 
 import runcycle.input.RawMolecule;
 
-import java.util.Arrays;
-
 public class MoleculeOutput {
 	public RawMolecule rawMolecule;
 	public long time;

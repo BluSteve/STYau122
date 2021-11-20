@@ -1,6 +1,5 @@
 package nddoparam;
 
-import org.ejml.data.SingularMatrixException;
 import org.ejml.simple.SimpleMatrix;
 import tools.Utils;
 

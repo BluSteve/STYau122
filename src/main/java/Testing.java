@@ -1,26 +1,15 @@
-import jcuda.Pointer;
-import jcuda.Sizeof;
-import jcuda.jcublas.JCublas;
-import jcuda.runtime.JCuda;
 import nddoparam.GeometryDerivative;
-import nddoparam.GeometryOptimization;
-import nddoparam.Solution;
 import nddoparam.SolutionR;
 import nddoparam.mndo.MNDOAtom;
 import nddoparam.mndo.MNDOParams;
-import org.apache.commons.lang3.time.StopWatch;
 import org.ejml.data.DMatrixSparseCSC;
 import org.ejml.simple.SimpleMatrix;
-import org.jblas.DoubleMatrix;
 import runcycle.input.RawMolecule;
 import scf.AtomHandler;
 import tools.NanoStopWatch;
 import tools.Utils;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import static nddoparam.GeometrySecondDerivative.*;
