@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import runcycle.MoleculeResult;
 import runcycle.input.RawInput;
+import tools.Utils;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -17,7 +18,6 @@ public class OutputHandler {
 		MoleculeOutput mo = new MoleculeOutput();
 		mo.rawMolecule = result.getRm();
 		mo.time = result.getTime();
-		mo.isExpAvail = result.isExpAvail();
 
 		mo.hf = result.getHF();
 		mo.dipole = result.getDipole();
@@ -44,7 +44,7 @@ public class OutputHandler {
 		try {
 			mos = new Gson().fromJson(new FileReader(inputPath + ".json"),
 					MoleculeOutput[].class);
-		} catch (JsonSyntaxException |FileNotFoundException ignored) {
+		} catch (JsonSyntaxException | FileNotFoundException ignored) {
 		}
 		return mos;
 	}
@@ -55,17 +55,36 @@ public class OutputHandler {
 		builder.setPrettyPrinting();
 		Gson gson = builder.create();
 		try {
-			String jsoned = gson.toJson(mos);
 			double ttError = 0;
+			long ttTime = 0;
+			StringBuilder hashsb = new StringBuilder();
 			for (MoleculeOutput mo : mos) {
 				ttError += mo.totalError;
-			}
-			System.err.println("\nTotal Error: " + ttError);
+				ttTime += mo.time;
 
-			// uses the hash of input to distinguish outputs. if the program is
-			// working correctly inputs should map to outputs one-to-one.
-			FileWriter fw = new FileWriter(output + "-" + ri.hash + ".json");
-			fw.write(jsoned);
+				// remove time to make hashes consistent
+				long t = mo.time;
+				mo.time = 0;
+				hashsb.append(gson.toJson(mo));
+				mo.time = t;
+			}
+
+			AggregateOutput ao = new AggregateOutput();
+			ao.ttTime = ttTime;
+			ao.ttError = ttError;
+			ao.inputHash = ri.hash;
+			ao.mos = mos;
+
+			ao.outputHash = Utils.getHash(hashsb.toString());
+			// as such, the hash of the final file is different
+
+			System.err.println("\nTotal error: " + ttError);
+			System.err.println("Single-threaded time taken: " + ttTime);
+			System.err.println("Output hash: " + ao.outputHash);
+
+			FileWriter fw = new FileWriter(
+					output + "-" + ri.hash + " (" + ao.outputHash + ").json");
+			fw.write(gson.toJson(ao));
 			fw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -93,7 +112,8 @@ public class OutputHandler {
 
 	public static void main(String[] args) {
 		MoleculeOutput[] ranMolecules =
-				OutputHandler.importMoleculeOutputs("outputs/run-0000-output-1547508A");
+				OutputHandler.importMoleculeOutputs(
+						"outputs/run-0000-output-1547508A");
 		long time = 0;
 		long max = 0;
 		double ttError = 0;
@@ -101,7 +121,8 @@ public class OutputHandler {
 			time += mo.time;
 			if (mo.time > max) max = mo.time;
 			ttError += mo.totalError;
-			System.out.println(mo.rawMolecule.index + "mo.totalError = " + mo.totalError);
+			System.out.println(
+					mo.rawMolecule.index + "mo.totalError = " + mo.totalError);
 		}
 		System.out.println(time / 1e3 / 60 / 60);
 		System.out.println("max = " + max / 1e3 / 60);

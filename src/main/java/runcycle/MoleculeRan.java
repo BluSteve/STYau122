@@ -22,7 +22,7 @@ public class MoleculeRan implements MoleculeResult {
 
 	@Override
 	public boolean isExpAvail() {
-		return mo.isExpAvail;
+		return mo.rawMolecule.expGeom != null;
 	}
 
 	@Override

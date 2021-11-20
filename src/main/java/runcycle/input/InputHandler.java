@@ -12,11 +12,9 @@ import tools.Utils;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
-import java.util.zip.CRC32;
 
 import static nddoparam.mndo.MNDOParams.T1ParamNums;
 import static nddoparam.mndo.MNDOParams.T2ParamNums;
@@ -57,10 +55,8 @@ public class InputHandler {
 		builder.setPrettyPrinting();
 		Gson gson = builder.serializeNulls().create();
 		String jsoned = gson.toJson(ri);
-		CRC32 crc32 = new CRC32();
-		crc32.update(jsoned.getBytes(StandardCharsets.UTF_8));
-		String hash = Long.toHexString(crc32.getValue()).toUpperCase();
-		ri.hash = hash;
+		String hash = Utils.getHash(jsoned);
+		ri.hash = hash; // as such, the hash of the final file is different
 
 		try {
 			FileWriter fw = new FileWriter(input + ".json");
@@ -148,7 +144,6 @@ public class InputHandler {
 					RawMolecule rm = new RawMolecule();
 					ArrayList<RawAtom> atomsL = new ArrayList<>();
 					ArrayList<RawAtom> expGeomL = new ArrayList<>();
-					rm.isUsing = true;
 
 					rm.restricted = lines.get(i).equals("RHF");
 					i++;

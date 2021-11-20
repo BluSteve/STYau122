@@ -92,7 +92,6 @@ public class MoleculeRun implements MoleculeResult {
 	 */
 	private void logError(String errorMessage) {
 		System.err.println(errorMessage);
-		rm.isUsing = false;
 		try {
 			FileWriter fw = new FileWriter("errored-molecules.txt", true);
 			fw.write(errorMessage + "\n");

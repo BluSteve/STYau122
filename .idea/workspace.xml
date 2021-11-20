@@ -4,13 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="SolutionU debug">
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Minor constant changes in GeomOpt, sysexit in SolU">
+      <change afterPath="$PROJECT_DIR$/src/main/java/runcycle/output/AggregateOutput.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inputtesting.txt" beforeDir="false" afterPath="$PROJECT_DIR$/inputtesting.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddoparam/GeometryOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddoparam/GeometryOptimization.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddoparam/SolutionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddoparam/SolutionU.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/MoleculeRan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/MoleculeRan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/MoleculeRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/MoleculeRun.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/input/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/input/InputHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/input/RawMolecule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/input/RawMolecule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/output/MoleculeOutput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/output/MoleculeOutput.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/output/OutputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/output/OutputHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Utils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,6 +46,13 @@
         </projects_view>
       </state>
     </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -76,7 +88,7 @@
     <property name="project.structure.proportion" value="0.26182964" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.CommitDialog" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -89,6 +101,9 @@
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam-gradle" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam-gradle\.gradle" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam-gradle\src\main" />
+    </key>
+    <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="tools.Utils" />
     </key>
   </component>
   <component name="RunManager" selected="Application.Main">
@@ -126,19 +141,33 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Utils" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="tools.Utils" />
+      <module name="MNDOParam.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="tools.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="Application.Testing" />
       <item itemvalue="Application.Main" />
       <item itemvalue="Application.CublasTools" />
       <item itemvalue="Application.InputHandler" />
+      <item itemvalue="Application.Utils" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Utils" />
         <item itemvalue="Application.InputHandler" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.CublasTools" />
         <item itemvalue="Application.Testing" />
-        <item itemvalue="Application.CublasTools" />
       </list>
     </recent_temporary>
   </component>
@@ -162,7 +191,8 @@
       <workItem from="1636910215231" duration="8000" />
       <workItem from="1636997274390" duration="118000" />
       <workItem from="1637060585889" duration="3062000" />
-      <workItem from="1637076494003" duration="3777000" />
+      <workItem from="1637076494003" duration="4084000" />
+      <workItem from="1637388628368" duration="11628000" />
     </task>
     <task id="LOCAL-00001" summary="Convert to gradle">
       <created>1636909106825</created>
@@ -213,7 +243,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636970874760</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Minor constant changes in GeomOpt, sysexit in SolU">
+      <created>1637082125074</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1637082125074</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -267,7 +304,8 @@
     <MESSAGE value="Update .gitignore" />
     <MESSAGE value="Minor pople improvements" />
     <MESSAGE value="Fixed ParamDeriv h2 thiel issue" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed ParamDeriv h2 thiel issue" />
+    <MESSAGE value="Minor constant changes in GeomOpt, sysexit in SolU" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor constant changes in GeomOpt, sysexit in SolU" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

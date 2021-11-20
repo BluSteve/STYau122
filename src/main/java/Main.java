@@ -32,10 +32,8 @@ public class Main {
 	private static final String INPUT_FILENAME = "input";
 	private static final int NUM_RUNS = 1;
 	private static final boolean isImportLastRun = true;
-	private static final int MAX_RETRIES = 2;
 	private static RawInput ri;
 	private static MoleculeOutput[] ranMolecules;
-	private static boolean isRetryFailed = false;
 
 	public static void main(String[] args) {
 		Scanner s = new Scanner(System.in);
@@ -88,10 +86,11 @@ public class Main {
 			}
 			ri = InputHandler.ri;
 			System.err.println(
-					"MNDO Parameterization, updated 17 July 2021. " +
+					"MNDO Parameterization, updated 20 Nov 2021. " +
 							ri.trainingSet + " training set (PM7)");
-			System.err.println("input.json hash: " + ri.hash);
-			System.err.println("Run number: " + runNum + ", isRunHessian=" + isRunHessian);
+			System.err.println(INPUT_FILENAME + ".json hash: " + ri.hash);
+			System.err.println(
+					"Run number: " + runNum + ", isRunHessian=" + isRunHessian);
 
 			// converts raw params array to NDDOParams classes and finds
 			// params which need to be differentiated
@@ -101,43 +100,40 @@ public class Main {
 			for (int[] param : ri.neededParams) paramLength += param.length;
 
 			// creates tasks to run in parallel and then runs them
-			int failedCount = 0;
-			List<RecursiveTask> moleculeTasks = new ArrayList<>();
+			// excludes ran molecules from previous dynamic output
+			List<RecursiveTask<MoleculeRun>> moleculeTasks = new ArrayList<>();
 			for (RawMolecule request : ri.molecules) {
-				if (request.isUsing) {
-					boolean isDoneAlready = false;
-					if (ranMolecules != null) {
-						for (MoleculeOutput mo : ranMolecules) {
-							if (mo.rawMolecule.index == request.index) {
-								isDoneAlready = true;
-								break;
-							}
+				boolean isDoneAlready = false;
+				if (ranMolecules != null) {
+					for (MoleculeOutput mo : ranMolecules) {
+						if (mo.rawMolecule.index == request.index) {
+							isDoneAlready = true;
+							break;
 						}
 					}
-					if (!isDoneAlready) {
-						moleculeTasks.add(new RecursiveTask() {
-							@Override
-							protected MoleculeRun compute() {
-								MoleculeRun mr = new MoleculeRun(
-										request, nddoParams, isRunHessian);
-								mr.run();
-								return mr;
-							}
-						});
-					}
 				}
-				else failedCount++;
+				if (!isDoneAlready) {
+					moleculeTasks.add(new RecursiveTask<>() {
+						@Override
+						protected MoleculeRun compute() {
+							MoleculeRun mr = new MoleculeRun(
+									request, nddoParams, isRunHessian);
+							mr.run();
+							return mr;
+						}
+					});
+				}
 			}
 
-			System.err.println(
-					failedCount + " previously failed molecules skipped");
-
+			// shuffles run requests and runs them
 			Collections.shuffle(moleculeTasks, new Random(123));
-//			moleculeTasks = moleculeTasks.subList(0,10);
 			List<MoleculeResult> results = new ArrayList<>();
-			for (ForkJoinTask task : ForkJoinTask.invokeAll(moleculeTasks)) {
-				results.add((MoleculeRun) task.join());
+			for (ForkJoinTask<MoleculeRun> task :
+					ForkJoinTask.invokeAll(moleculeTasks)) {
+				results.add(task.join());
 			}
+
+			// adds previously ran molecules into the final results list
 			if (ranMolecules != null) {
 				for (MoleculeOutput mr : ranMolecules) {
 					results.add(new MoleculeRan(mr));
@@ -154,82 +150,47 @@ public class Main {
 			double[][] ttHessian = isRunHessian ?
 					new double[paramLength][paramLength] : null;
 
-			if (isRetryFailed) {
-				// retries failed molecules until they succeed
-				failedCount = 0;
-				for (MoleculeResult result : results) {
-					if (!result.getRm().isUsing) failedCount++;
-				}
-				int retries = 0;
-				while (failedCount > 0 && retries < MAX_RETRIES) {
-					System.err.println(
-							"Rerunning " + failedCount +
-									" failed molecules for the " + retries +
-									"th time.");
-					List<RecursiveAction> moleculeReruns = new ArrayList<>();
-					for (MoleculeResult result : results) {
-						// if isUsing is false here then that means the
-						// molecule failed during this run, not a previous one
-						if (result instanceof MoleculeRun &&
-								!result.getRm().isUsing) {
-							result.getRm().isUsing = true;
-							moleculeReruns.add(new RecursiveAction() {
-								@Override
-								protected void compute() {
-									((MoleculeRun) result).run();
-								}
-							});
-
-						}
-					}
-					ForkJoinTask.invokeAll(moleculeReruns);
-					failedCount = 0;
-					for (MoleculeResult result : results) {
-						if (!result.getRm().isUsing) failedCount++;
-					}
-					retries++;
-				}
-			}
-
 			for (MoleculeResult result : results) {
-				// if it has not errored
-				if (result.getRm().isUsing) {
-					int[] moleculeATs = result.getRm().mats;
-					int[][] moleculeNPs = result.getRm().mnps;
-					boolean isDepad = true;
+				int[] moleculeATs = result.getRm().mats;
+				int[][] moleculeNPs = result.getRm().mnps;
+				boolean isDepad = true;
 
-					addToPO(o, result, ri.neededParams, moleculeATs,
-							moleculeNPs, isDepad);
+				addToPO(o, result, ri.neededParams, moleculeATs,
+						moleculeNPs, isDepad);
 
-					double[] g = ParamGradient.combine(
-							result.getTotalGradients(),
-							ri.atomTypes, ri.neededParams,
-							moleculeATs, moleculeNPs,
-							isDepad);
+				double[] g = ParamGradient.combine(
+						result.getTotalGradients(),
+						ri.atomTypes, ri.neededParams,
+						moleculeATs, moleculeNPs,
+						isDepad);
 
-					// ttGradient is sum of totalGradients across molecules
-					for (int i = 0; i < g.length; i++) {
-						ttGradient[i] += g[i];
-					}
-
-					if (isRunHessian) {
-						double[][] h =
-								ParamHessian.padHessian(result.getHessian(),
-										result.getRm().mats,
-										ri.atomTypes, ri.neededParams);
-						for (int i = 0; i < h.length; i++) {
-							for (int j = 0; j < h[0].length; j++)
-								ttHessian[i][j] += h[i][j];
-						}
-					}
-
-					mos.add(OutputHandler.toMoleculeOutput(result,
-							isRunHessian));
+				// ttGradient is sum of totalGradients across molecules
+				for (int i = 0; i < g.length; i++) {
+					ttGradient[i] += g[i];
 				}
+
+				if (isRunHessian) {
+					double[][] h = ParamHessian.padHessian(
+							result.getHessian(),
+							result.getRm().mats,
+							ri.atomTypes, ri.neededParams);
+
+					for (int i = 0; i < h.length; i++) {
+						for (int j = 0; j < h[0].length; j++)
+							ttHessian[i][j] += h[i][j];
+					}
+				}
+
+				mos.add(OutputHandler.toMoleculeOutput(result,
+						isRunHessian));
 			}
+
+			mos.sort(Comparator.comparingInt(x -> x.rawMolecule.index));
 
 			// optimizes params based on this run and gets new search direction
-			SimpleMatrix newGradient = new SimpleMatrix(ttGradient.length, 1, true, ttGradient);
+			SimpleMatrix newGradient =
+					new SimpleMatrix(ttGradient.length, 1, true,
+							ttGradient);
 			SimpleMatrix newHessian =
 					isRunHessian ? new SimpleMatrix(ttHessian) :
 							findMockHessian(newGradient,
@@ -240,10 +201,6 @@ public class Main {
 			double[] dir = o.optimize(newHessian, newGradient);
 
 			// updating params and other input information
-			ri.params.lastGradient = ttGradient;
-			ri.params.lastHessian = ParamHessian.utify(
-					Utils.to2dArray(newHessian));
-			ri.params.lastDir = dir;
 			int n = 0;
 			for (int atomI = 0; atomI < ri.neededParams.length; atomI++) {
 				for (int paramI : ri.neededParams[atomI]) {
@@ -251,6 +208,10 @@ public class Main {
 					n++;
 				}
 			}
+			ri.params.lastGradient = ttGradient;
+			ri.params.lastHessian = ParamHessian.utify(
+					Utils.to2dArray(newHessian));
+			ri.params.lastDir = dir;
 
 			// only place with actual file io
 			try {

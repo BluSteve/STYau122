@@ -9,7 +9,7 @@ import java.util.Arrays;
 public class RawMolecule {
 	public int index;
 	public String name;
-	public boolean isUsing, restricted;
+	public boolean restricted;
 	public int charge, mult;
 	public double[] datum;
 	public int[] atomicNumbers;

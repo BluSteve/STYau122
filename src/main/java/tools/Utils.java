@@ -2,18 +2,21 @@ package tools;
 
 import nddoparam.NDDOAtom;
 import nddoparam.NDDOParams;
-import org.apache.commons.math3.primes.Primes;
+import org.apache.commons.lang3.StringUtils;
 import org.ejml.data.DMatrixRMaj;
 import org.ejml.dense.row.decomposition.eig.SymmetricQRAlgorithmDecomposition_DDRM;
 import org.ejml.interfaces.decomposition.EigenDecomposition_F64;
 import org.ejml.simple.SimpleMatrix;
+import org.greenrobot.essentials.hash.Murmur3F;
 import org.jblas.DoubleMatrix;
 import org.jblas.Solve;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 public class Utils {
 	public static final double LAMBDA = 1E-7;
@@ -80,41 +83,6 @@ public class Utils {
 		double[] res = new double[notbohr.length];
 		for (int i = 0; i < notbohr.length; i++) res[i] = notbohr[i] / bohr;
 		return res;
-	}
-
-	public static int[] findTightestTriplet(int n, int c) {
-		List<Integer> primeFactors = Primes.primeFactors(n);
-		primeFactors.sort((a, b) -> b - a);
-		double r = Math.pow(n, 1.0 / c);
-		int[] F = new int[c];
-		for (int i = 0; i < c; i++) F[i] = 1;
-
-		for (int prime : primeFactors) {
-			int i;
-			boolean broken = false;
-			int iSmallest = 0;
-			for (i = 0; i < F.length; i++) {
-				int t = prime * F[i];
-				if (F[i] < F[iSmallest]) iSmallest = i;
-				if (t <= r) {
-					F[i] = F[i] * prime;
-					broken = true;
-					break;
-				}
-			}
-			if (!broken) {
-				F[iSmallest] = F[iSmallest] * prime;
-			}
-		}
-		Arrays.sort(F);
-		return F;
-	}
-
-	public static int getFCores(int index) {
-		int cores = Runtime.getRuntime().availableProcessors();
-		int[] a = Utils.findTightestTriplet(cores, 4);
-		// allocates extra cores to MoleculeRuns to account for geom opt.
-		return index == 2 ? a[0] * a[3] : a[index + 1];
 	}
 
 	public static boolean hasAtomType(int[] mats, int atomType) {
@@ -302,6 +270,17 @@ public class Utils {
 			}
 		}
 		return array;
+	}
+
+	public static String getHash(String str) {
+		Murmur3F murmur3F = new Murmur3F(123);
+		murmur3F.update(str.getBytes(StandardCharsets.UTF_8));
+
+		// gets last 41 bits of hash, 36^8 is 41.34
+		// ensures low collision probability up to 10k runs
+		return StringUtils.leftPad(
+				Long.toUnsignedString(murmur3F.getValue() & 0x1FFFFFFFFFFL, 36)
+						.toUpperCase(), 8, "0");
 	}
 }
 
