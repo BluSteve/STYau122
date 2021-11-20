@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 public class ParamOptimizer {
 	private final ArrayList<ReferenceData> datum;
-	private double[] changes;
 	private double value;
 
 	public ParamOptimizer() {
@@ -21,9 +20,7 @@ public class ParamOptimizer {
 	public double[] optimize(SimpleMatrix B, SimpleMatrix gradient) {
 		SimpleMatrix searchdir = null;
 		try {
-			System.err.println(B);
 			searchdir = B.pseudoInverse().mult(gradient);
-
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		}
@@ -37,7 +34,7 @@ public class ParamOptimizer {
 		double k = -0.001;
 		double lambda = 0;
 		double val = 0;
-		this.changes = new double[searchdir.numRows()];
+		double[] changes = new double[searchdir.numRows()];
 
 		while (Math.abs(val - value) > 1E-6 && Math.abs(lambda) <= 0.05) {
 			lambda += k;

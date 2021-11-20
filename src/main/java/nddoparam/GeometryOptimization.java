@@ -152,7 +152,7 @@ public abstract class GeometryOptimization {
 			// re-compute Hessian if still has not converged after n
 			// iterations
 			numIt++;
-			if (numIt == 7) {
+			if (numIt == 10) {
 				numIt = 0;
 				matrices = findGH();
 				B = matrices[1];
@@ -175,7 +175,7 @@ public abstract class GeometryOptimization {
 				int elapsedSize = 0;
 				double cores = Runtime.getRuntime().availableProcessors();
 				int size = Math.max((int) Math.ceil(params.length / cores),
-						6);
+						1);
 
 				List<RecursiveAction> subtasks = new ArrayList<>();
 				while (elapsedSize < params.length) {

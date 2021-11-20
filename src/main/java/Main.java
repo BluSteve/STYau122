@@ -29,7 +29,7 @@ import java.util.concurrent.RecursiveTask;
 
 public class Main {
 	private static final String INPUT_FILENAME = "input";
-	private static final int NUM_RUNS = 1;
+	private static final int NUM_RUNS = 100;
 	private static final boolean isImportLastRun = true;
 	private static RawInput ri;
 	private static MoleculeOutput[] ranMolecules;
@@ -85,7 +85,7 @@ public class Main {
 			}
 			ri = InputHandler.ri;
 			System.err.println(
-					"MNDO Parameterization, updated 20 Nov 2021. " +
+					"MNDO Parameterization, updated 21 Nov 2021. " +
 							ri.trainingSet + " training set (PM7)");
 			System.err.println(INPUT_FILENAME + ".json hash: " + ri.hash);
 			System.err.println(
