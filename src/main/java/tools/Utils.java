@@ -18,7 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Utils {
-	public static final double LAMBDA = 1E-8;
+	public static final double LAMBDA = 1E-7;
 	public static final double bohr = 1.88973;
 	public static final int maxAtomNum = 10;
 

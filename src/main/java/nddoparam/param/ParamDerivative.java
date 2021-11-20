@@ -3164,7 +3164,7 @@ public class ParamDerivative {
 					if (xarrayHoldNN == xarrayHold.length) {
 						System.err.println(
 								"Some numerical instability encountered; " +
-										"returning lower precision values...");
+										"returning lower precision values..." + mag);
 						xarray = xarrayHold;
 						break bigLoop;
 					}
