@@ -197,7 +197,7 @@ public class SolutionR extends Solution {
 		double DIISError = 10;
 
 		while (DIISError > 1E-11) {
-			olddensity = densityMatrix.copy();
+			olddensity = densityMatrix;
 			integralcount = 0;
 
 			// this entire block of code fills up the G matrix, and it calls
@@ -345,7 +345,6 @@ public class SolutionR extends Solution {
 				}
 
 				B = newB;
-
 				Bforediis = newBforediis;
 			}
 
@@ -382,10 +381,8 @@ public class SolutionR extends Solution {
 				for (int i = 0; i <= n; i++) {
 					for (int[] tbr : TBRS[i]) {
 						try {
-							SimpleMatrix newmat =
-									removeElementsSquare(mat, tbr);
-							SimpleMatrix newrhs =
-									removeElementsLinear(rhs, tbr);
+							SimpleMatrix newmat = removeElements(mat, tbr);
+							SimpleMatrix newrhs = removeElements(rhs, tbr);
 							SimpleMatrix tempEdiis =
 									addRows(newmat.solve(newrhs), tbr);
 							tempEdiis.set(tempEdiis.numRows() - 1, 0);
@@ -497,85 +494,61 @@ public class SolutionR extends Solution {
 		return F.mult(D).minus(D.mult(F));
 	}
 
-	private static SimpleMatrix removeElementsSquare(SimpleMatrix original,
-													 int[] indices) {
-		SimpleMatrix newarray =
-				new SimpleMatrix(original.numRows() - indices.length,
-						original.numRows() - indices.length);
+	private static SimpleMatrix removeElements(SimpleMatrix original,
+											   int[] tbr) {
+		int newN = original.numRows() - tbr.length;
+		boolean isMatrix = original.numCols() > 1;
+		SimpleMatrix newarray = isMatrix ? new SimpleMatrix(newN, newN) :
+				new SimpleMatrix(newN, 1);
 
-		ArrayList<Integer> array = new ArrayList<>();
+		int[] tbk = new int[newN];
+		int q = 0;
 		for (int i = 0; i < original.numRows(); i++) {
-			array.add(i);
-		}
-
-		for (int i : indices) {
-			array.remove(Integer.valueOf(i));
-		}
-
-		int count = 0;
-
-		for (int i : array) {
-			int count1 = 0;
-			for (int j : array) {
-				newarray.set(count, count1, original.get(i, j));
-				count1++;
+			boolean inside = false;
+			for (int index : tbr) {
+				if (i == index) {
+					inside = true;
+					break;
+				}
 			}
 
-			count++;
+			if (!inside) {
+				tbk[q] = i;
+				q++;
+			}
 		}
 
-		return newarray;
-	}
-
-	private static SimpleMatrix removeElementsLinear(SimpleMatrix original,
-													 int[] indices) {//get rid
-		// of the rows given in indices and return downsized vector
-
-		SimpleMatrix newarray =
-				new SimpleMatrix(original.numRows() - indices.length, 1);
-
-		ArrayList<Integer> array = new ArrayList<>();
-		for (int i = 0; i < original.numRows(); i++) {
-			array.add(i);
+		if (isMatrix) {
+			for (int i = 0; i < newarray.numRows(); i++) {
+				for (int j = 0; j < newarray.numCols(); j++) {
+					newarray.set(i, j, original.get(tbk[i], tbk[j]));
+				}
+			}
 		}
-
-		for (int i : indices) {
-			array.remove(Integer.valueOf(i));
-		}
-
-		int count = 0;
-
-		for (int i : array) {
-			newarray.set(count, original.get(i));
-
-			count++;
+		else {
+			for (int i = 0; i < newarray.numRows(); i++) {
+				newarray.set(i, 0, original.get(tbk[i], 0));
+			}
 		}
 
 		return newarray;
 	}
 
 	private static SimpleMatrix addRows(SimpleMatrix original,
-										int[] indices) { // add zero row at
-		// indices
-
-		SimpleMatrix newarray =
-				new SimpleMatrix(original.numRows() + indices.length, 1);
-
+										int[] tbr) {
+		// add zero row at tbr
 		ArrayList<Double> array = new ArrayList<>();
 
 		for (double i : original.getDDRM().data) {
 			array.add(i);
 		}
 
-		for (int index : indices) {
+		for (int index : tbr) {
 			array.add(index, 0.0);
 		}
 
-		for (int i = 0; i < array.size(); i++) {
-			newarray.set(i, array.get(i));
-		}
-
-		return newarray;
+		return new SimpleMatrix(original.numRows() + tbr.length, 1,
+				true, Utils.toDoubles(array));
 	}
 
 	@SuppressWarnings("DuplicatedCode")
@@ -671,42 +644,38 @@ public class SolutionR extends Solution {
 		double[] com = new double[]{0, 0, 0};
 		double mass = 0;
 		for (NDDOAtom atom : atoms) {
-			com[0] = com[0] + atom.getMass() * atom.getCoordinates()[0];
-			com[1] = com[1] + atom.getMass() * atom.getCoordinates()[1];
-			com[2] = com[2] + atom.getMass() * atom.getCoordinates()[2];
+			com[0] += atom.getMass() * atom.getCoordinates()[0];
+			com[1] += atom.getMass() * atom.getCoordinates()[1];
+			com[2] += atom.getMass() * atom.getCoordinates()[2];
 			mass += atom.getMass();
 		}
 
-		com[0] = com[0] / mass;
-		com[1] = com[1] / mass;
-		com[2] = com[2] / mass;
+		com[0] /= mass;
+		com[1] /= mass;
+		com[2] /= mass;
 
 		chargedip = new double[]{0, 0, 0};
 
 		for (int j = 0; j < atoms.length; j++) {
-			chargedip[0] +=
-					2.5416 * populations[j] *
-							(atoms[j].getCoordinates()[0] - com[0]);
-			chargedip[1] +=
-					2.5416 * populations[j] *
-							(atoms[j].getCoordinates()[1] - com[1]);
-			chargedip[2] +=
-					2.5416 * populations[j] *
-							(atoms[j].getCoordinates()[2] - com[2]);
+			chargedip[0] += 2.5416 * populations[j] *
+					(atoms[j].getCoordinates()[0] - com[0]);
+			chargedip[1] += 2.5416 * populations[j] *
+					(atoms[j].getCoordinates()[1] - com[1]);
+			chargedip[2] += 2.5416 * populations[j] *
+					(atoms[j].getCoordinates()[2] - com[2]);
 		}
 
 		hybridip = new double[]{0, 0, 0};
 
 		for (int j = 0; j < atoms.length; j++) {
-
 			if (orbsOfAtom[j][1] != -1) {//exclude hydrogen
-				hybridip[0] = hybridip[0] - 2.5416 * 2 * atoms[j].D1 *
+				hybridip[0] -= 2.5416 * 2 * atoms[j].D1 *
 						densityMatrix.get(orbsOfAtom[j][0],
 								orbsOfAtom[j][1]);
-				hybridip[1] = hybridip[1] - 2.5416 * 2 * atoms[j].D1 *
+				hybridip[1] -= 2.5416 * 2 * atoms[j].D1 *
 						densityMatrix.get(orbsOfAtom[j][0],
 								orbsOfAtom[j][2]);
-				hybridip[2] = hybridip[2] - 2.5416 * 2 * atoms[j].D1 *
+				hybridip[2] -= 2.5416 * 2 * atoms[j].D1 *
 						densityMatrix.get(orbsOfAtom[j][0],
 								orbsOfAtom[j][3]);
 			}
@@ -716,9 +685,9 @@ public class SolutionR extends Solution {
 				chargedip[1] + hybridip[1],
 				chargedip[2] + hybridip[2]};
 
-		dipole = Math.sqrt(
-				dipoletot[0] * dipoletot[0] + dipoletot[1] * dipoletot[1] +
-						dipoletot[2] * dipoletot[2]);
+		dipole = Math.sqrt(dipoletot[0] * dipoletot[0] +
+				dipoletot[1] * dipoletot[1] +
+				dipoletot[2] * dipoletot[2]);
 	}
 
 	private void findHomo() {
@@ -744,7 +713,7 @@ public class SolutionR extends Solution {
 	}
 
 	private SimpleMatrix calculateDensityMatrix(
-			SimpleMatrix c) {//density matrix construction by definition.
+			SimpleMatrix c) { // density matrix construction by definition.
 		SimpleMatrix densityMatrix = new SimpleMatrix(orbitals.length,
 				orbitals.length);
 		for (int i = 0; i < orbitals.length; i++) {
@@ -761,10 +730,6 @@ public class SolutionR extends Solution {
 			}
 		}
 		return densityMatrix;
-	}
-
-	public SimpleMatrix getE() {
-		return E;
 	}
 
 	@Override

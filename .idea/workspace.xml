@@ -7,7 +7,6 @@
     <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Minor but important constant changes + testing&#10;&#10;Numit in geomopt causes hessian nans at 7, looks fine at 10 but&#10;SolutionR had a caught SingularMatrixException.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Testing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddoparam/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddoparam/SolutionR.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +48,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="26dec9a86a0b6917e9ce623d5f70c6782fd198d5" />
+        <entry key="$PROJECT_DIR$" value="6fc934ce4b0e369c9236be5cdd316b05aad10fb4" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -189,9 +188,9 @@
       <item itemvalue="Application.Main" />
       <item itemvalue="Application.InputHandler" />
       <item itemvalue="Application.Utils" />
+      <item itemvalue="Application.Testing" />
       <item itemvalue="Gradle.MNDOParam [jar]" />
       <item itemvalue="Shell Script.Copy" />
-      <item itemvalue="Application.Testing" />
     </list>
     <recent_temporary>
       <list>
