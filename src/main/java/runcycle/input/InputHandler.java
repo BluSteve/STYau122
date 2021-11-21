@@ -263,8 +263,7 @@ public class InputHandler {
 			ri.nMolecules = ri.molecules.length;
 
 			makeInput(ri, "input");
-		} catch (
-				IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 

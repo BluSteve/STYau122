@@ -4,10 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Minor but important constant changes + testing&#10;&#10;Numit in geomopt causes hessian nans at 7, looks fine at 10 but&#10;SolutionR had a caught SingularMatrixException.">
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Minor changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/copy.bat" beforeDir="false" afterPath="$PROJECT_DIR$/copy.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputtesting.txt" beforeDir="false" afterPath="$PROJECT_DIR$/inputtesting.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reference.txt" beforeDir="false" afterPath="$PROJECT_DIR$/reference.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/output/AggregateOutput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/output/AggregateOutput.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/output/OutputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/output/OutputHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -229,6 +232,7 @@
       <workItem from="1637076494003" duration="4084000" />
       <workItem from="1637388628368" duration="22824000" />
       <workItem from="1637466260670" duration="1952000" />
+      <workItem from="1637503048022" duration="1063000" />
     </task>
     <task id="LOCAL-00001" summary="Convert to gradle">
       <created>1636909106825</created>
@@ -314,7 +318,21 @@
       <option name="project" value="LOCAL" />
       <updated>1637426878344</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Minor changes">
+      <created>1637477769191</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1637477769191</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Minor changes">
+      <created>1637478831722</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1637478831722</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -373,9 +391,20 @@
     <MESSAGE value="GCP uploading preparations" />
     <MESSAGE value="Optimize imports" />
     <MESSAGE value="Minor but important constant changes + testing&#10;&#10;Numit in geomopt causes hessian nans at 7, looks fine at 10 but&#10;SolutionR had a caught SingularMatrixException." />
-    <option name="LAST_COMMIT_MESSAGE" value="Minor but important constant changes + testing&#10;&#10;Numit in geomopt causes hessian nans at 7, looks fine at 10 but&#10;SolutionR had a caught SingularMatrixException." />
+    <MESSAGE value="Minor changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor changes" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <condition expression="mp == null" language="JAVA" />
+          <url>file://$PROJECT_DIR$/src/main/java/nddoparam/mndo/MNDOAtom.java</url>
+          <line>56</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="nddoparam.param.ParamHessianRestricted" memberName="gPrime" />

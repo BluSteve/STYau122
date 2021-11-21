@@ -49,6 +49,7 @@ public class OutputHandler {
 		return mos;
 	}
 
+	// assumes updated input
 	public static void output(RawInput ri, MoleculeOutput[] mos,
 							  String output) {
 		GsonBuilder builder = new GsonBuilder();
@@ -73,6 +74,7 @@ public class OutputHandler {
 			ao.ttTime = ttTime;
 			ao.ttError = ttError;
 			ao.inputHash = ri.hash;
+			ao.params = ri.params;
 			ao.mos = mos;
 
 			ao.outputHash = Utils.getHash(hashsb.toString());

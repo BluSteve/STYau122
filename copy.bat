@@ -6,4 +6,3 @@ copy build\libs\MNDOParam.jar \\192.168.31.153\sambashare\home\steve\Downloads\m
 copy atom-properties.json \\192.168.31.153\sambashare\home\steve\Downloads\mndo-server
 
 ssh steve@35.184.169.143 -i C:\Users\billi\Documents\stevecyr "sudo ./mndo-update.sh"
-ssh steve@35.184.169.143 -i C:\Users\billi\Documents\stevecyr
