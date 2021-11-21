@@ -448,18 +448,12 @@ public class Testing {
 		rm.name = "C1H4";
 
 		SolutionR s = new SolutionR(atoms, rm).compute();
-		SimpleMatrix[][] matrices = GeometryDerivative.gradientRoutine(s);
-		SimpleMatrix[] fockderivstatic = matrices[1];
-		System.out.println("fockderivstatic = " + fockderivstatic.length);
-
-		getxarray(s, fockderivstatic);
-		densityDerivPople(s, fockderivstatic);
-
+		System.out.println(s);
 
 		NanoStopWatch nsw = NanoStopWatch.sw();
 		double time = 0;
 		for (int i = 0; i < 1000; i++) {
-
+			s = new SolutionR(atoms, rm).compute();
 			nsw.start();
 			s.compute();
 			time += nsw.stop();

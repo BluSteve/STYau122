@@ -270,58 +270,51 @@ public class SolutionR extends Solution {
 				}
 			}
 
-			F = H.copy().plus(G);
+			F = H.plus(G);
 			if (numIt < Farray.length) {
+				Farray[numIt] = F;
 
-				Farray[numIt] = F.copy();
-
-				Darray[numIt] = densityMatrix.copy();
+				Darray[numIt] = densityMatrix;
 				Earray[numIt] =
 						-0.5 * (H.mult(densityMatrix)).diag().elementSum();
-				commutatorarray[numIt] =
-						commutator(F.copy(), densityMatrix.copy());
+				commutatorarray[numIt] = commutator(F, densityMatrix);
 				DIISError = commutatorarray[numIt].normF();
 
 				for (int i = 0; i <= numIt; i++) {
+					double product = commutatorarray[numIt]
+							.mult(commutatorarray[i].transpose())
+							.diag().elementSum();
 
-					double product =
-							(commutatorarray[numIt]
-									.mult(commutatorarray[i].transpose()))
-									.diag().elementSum();
 					B.set(i, numIt, product);
 					B.set(numIt, i, product);
 
-					product = 0.5 *
-							((Farray[i].mult(Darray[numIt])).diag()
-									.elementSum() +
-									(Farray[numIt].mult(Darray[i])).diag()
-											.elementSum());
+					product = 0.5 * Farray[i].mult(Darray[numIt]).diag()
+							.elementSum() + Farray[numIt].mult(Darray[i]).diag()
+							.elementSum();
 
 					Bforediis.set(i, numIt, product);
 					Bforediis.set(numIt, i, product);
 				}
 			}
 			else {
-
 				for (int i = 0; i < Farray.length - 1; i++) {
-
-					Farray[i] = Farray[i + 1].copy();
-					Darray[i] = Darray[i + 1].copy();
-					commutatorarray[i] = commutatorarray[i + 1].copy();
+					Farray[i] = Farray[i + 1];
+					Darray[i] = Darray[i + 1];
+					commutatorarray[i] = commutatorarray[i + 1];
 					Earray[i] = Earray[i + 1];
 				}
 
-				Farray[Farray.length - 1] = F.copy();
-				Darray[Darray.length - 1] = densityMatrix.copy();
+				Farray[Farray.length - 1] = F;
+				Darray[Darray.length - 1] = densityMatrix;
 				Earray[Darray.length - 1] =
 						-0.5 * (H.mult(densityMatrix)).diag().elementSum();
+
 				commutatorarray[Darray.length - 1] =
-						commutator(F.copy(), densityMatrix.copy());
+						commutator(F, densityMatrix);
 				DIISError = commutatorarray[Darray.length - 1].normF();
 
 				// B is dy/dx sort of, make dy/dx 0
 				SimpleMatrix newB = new SimpleMatrix(8, 8);
-
 				SimpleMatrix newBforediis = new SimpleMatrix(8, 8);
 
 				for (int i = 0; i < Farray.length - 1; i++) {
@@ -334,34 +327,33 @@ public class SolutionR extends Solution {
 				}
 
 				for (int i = 0; i < Farray.length; i++) {
+					double product = commutatorarray[Farray.length - 1]
+							.transpose()
+							.mult(commutatorarray[i])
+							.diag().elementSum();
 
-					double product =
-							commutatorarray[Farray.length - 1].transpose()
-									.mult(commutatorarray[i]).diag()
-									.elementSum();
 					newB.set(i, Farray.length - 1, product);
 					newB.set(Farray.length - 1, i, product);
 
-					product = 0.5 *
-							((Farray[i].mult(Darray[Farray.length - 1])).diag()
-									.elementSum() +
-									(Farray[Farray.length - 1].mult(Darray[i]))
-											.diag()
-											.elementSum());
+					product = 0.5 * Farray[i].mult(Darray[Farray.length - 1])
+							.diag().elementSum() +
+							Farray[Farray.length - 1].mult(Darray[i])
+									.diag().elementSum();
+
 					newBforediis.set(i, Farray.length - 1, product);
 					newBforediis.set(Farray.length - 1, i, product);
 				}
 
-				B = newB.copy();
+				B = newB;
 
-				Bforediis = newBforediis.copy();
+				Bforediis = newBforediis;
 			}
 
 			int ediisSize = Math.min(Farray.length + 1, numIt + 2);
+			// if true do EDIIS else DIIS
 			if (CommonOps_DDRM.elementMax(
 					commutatorarray[Math.min(Farray.length - 1, numIt)]
 							.getDDRM()) > 0.01) {
-				// if true do EDIIS else DIIS
 				SimpleMatrix mat = new SimpleMatrix(ediisSize, ediisSize);
 
 				for (int i = 0; i < ediisSize - 1; i++) {
@@ -422,31 +414,17 @@ public class SolutionR extends Solution {
 					F = F.plus(Farray[i].scale(finalDIIS.get(i)));
 				}
 
-
 				matrices = Utils.symEigen(F);
-
 				E = matrices[1].diag();
-
 				C = matrices[0].transpose();
 
 				if (C.get(0, 0) != C.get(0, 0)) {
-					//System.err.println(
-//							"NaN occurred at very much not DIIS iteration " +
-//							numIt);
-					//System.err.println("Exiting very much not DIIS for 1
-					// Iteration...");
-
 					matrices = Utils.symEigen(this.F);
-
 					E = matrices[1].diag();
-
 					C = matrices[0].transpose();
-
-
 				}
 
 				densityMatrix = calculateDensityMatrix(C);
-
 			}
 			else {
 				SimpleMatrix mat = new SimpleMatrix(ediisSize, ediisSize);
@@ -472,47 +450,31 @@ public class SolutionR extends Solution {
 				try {
 					SimpleMatrix DIIS = mat.solve(rhs);
 
-					SimpleMatrix F =
-							new SimpleMatrix(densityMatrix.numRows(),
-									densityMatrix.numCols());
+					SimpleMatrix F = new SimpleMatrix(densityMatrix.numRows(),
+							densityMatrix.numCols());
 
-					SimpleMatrix D =
-							new SimpleMatrix(densityMatrix.numRows(),
-									densityMatrix.numCols());
-
+					SimpleMatrix D = new SimpleMatrix(densityMatrix.numRows(),
+							densityMatrix.numCols());
 
 					for (int i = 0; i < DIIS.getNumElements() - 1; i++) {
 						F = F.plus(Farray[i].scale(DIIS.get(i)));
 						D = D.plus(Darray[i].scale(DIIS.get(i)));
 					}
 
-
 					matrices = Utils.symEigen(F);
-
 					E = matrices[1].diag();
-
 					C = matrices[0].transpose();
 
 					if (C.get(0, 0) != C.get(0, 0)) {
-						//System.err.println(
-//								"NaN occurred at DIIS iteration " + numIt);
-						//
-						//System.err.println("Exiting DIIS for 1 Iteration..
-						// .");
-
 						matrices = Utils.symEigen(this.F);
-
 						E = matrices[1].diag();
-
 						C = matrices[0].transpose();
 					}
 
 					densityMatrix = calculateDensityMatrix(C);
 				} catch (SingularMatrixException e) { // todo fix adrian
 					matrices = Utils.symEigen(F);
-
 					E = matrices[1].diag();
-
 					C = matrices[0].transpose();
 
 					double damp = 0.8;
