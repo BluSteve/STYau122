@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Minor but important constant changes + testing&#10;&#10;Numit in geomopt causes hessian nans at 7, looks fine at 10 but&#10;SolutionR had a caught SingularMatrixException.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Testing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/copy.bat" beforeDir="false" afterPath="$PROJECT_DIR$/copy.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,6 +65,9 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/mndo-install.sh" root0="FORCE_HIGHLIGHTING" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedIndex" value="2" />
+  </component>
   <component name="ProjectId" id="20unWPR15qlisSQEnzw4ZSYoybm" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -105,7 +109,7 @@
       <recent name="tools.Utils" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Testing">
+  <component name="RunManager" selected="Shell Script.Copy">
     <configuration name="InputHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="runcycle.input.InputHandler" />
       <module name="MNDOParam.main" />

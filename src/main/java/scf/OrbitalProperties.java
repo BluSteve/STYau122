@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class OrbitalProperties implements Serializable {
-	private static String[][] ORBITALS_PER_SHELL =
+	private static final String[][] ORBITALS_PER_SHELL =
 			new String[][]{new String[0], new String[]{"s"},
 					new String[]{"s", "p"},
 					new String[]{"s", "p", "d"},
@@ -13,9 +13,9 @@ public class OrbitalProperties implements Serializable {
 					new String[]{"s", "p", "d", "f"},
 					new String[]{"s", "p", "d", "f"},
 					new String[]{"s", "p", "d", "f"}};
-	private String type;
-	private int shell, L;
-	private int[] config;
+	private final String type;
+	private final int shell, L;
+	private final int[] config;
 
 	private OrbitalProperties(String type, int shell, int[] config) {
 		this.type = type;
