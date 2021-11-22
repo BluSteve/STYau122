@@ -279,7 +279,7 @@ public class InputHandler {
 			ri.molecules[j].index = j;
 		ri.nMolecules = ri.molecules.length;
 
-		outputJSON(ri, "file");
+		outputJSON(ri, "input");
 	}
 
 	private static void outputSubset(int[] ids)
@@ -314,7 +314,7 @@ public class InputHandler {
 	}
 
 	public static void main(String[] args) throws IOException {
-//		convertFromTXT("inputtesting.txt");
-		outputSubset(new int[]{234, 237, 258, 260, 261, 270, 276, 285});
+		convertFromTXT("inputtesting.txt");
+//		outputSubset(new int[]{234, 237, 258, 260, 261, 270, 276, 285});
 	}
 }

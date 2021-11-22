@@ -16,13 +16,13 @@ public abstract class Solution {
 	public static int maxParamNum = 8;
 	private final RawMolecule rm;
 	public double energy, homo, lumo, hf, dipole;
+	public double[] chargedip, hybridip, dipoletot;
 	public int charge, mult, nElectrons, nOrbitals;
 	public int[][] missingOfAtom, orbsOfAtom;
 	public int[] atomicNumbers, atomOfOrb;
 	public NDDOAtom[] atoms;
 	public NDDO6G[] orbitals;
 	protected SimpleMatrix H;
-	protected double[] chargedip, hybridip, dipoletot;
 
 	protected Solution(NDDOAtom[] atoms, RawMolecule rm) {
 		this.atoms = atoms;
