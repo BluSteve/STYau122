@@ -1,5 +1,7 @@
 package scf;
 
+import org.apache.logging.log4j.LogManager;
+
 import java.util.Objects;
 
 public class STO6G extends LCGTO {
@@ -55,7 +57,7 @@ public class STO6G extends LCGTO {
 				return exp2;
 		}
 
-		System.err.println("illegal atom");
+		LogManager.getLogger().error("Illegal atom");
 		return null;
 	}
 
@@ -72,7 +74,7 @@ public class STO6G extends LCGTO {
 				}
 		}
 
-		System.err.println("illegal atom" + shell + L);
+		LogManager.getLogger().error("Illegal atom" + shell + L);
 		return null;
 	}
 

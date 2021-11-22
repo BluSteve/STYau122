@@ -1966,7 +1966,7 @@ public class ParamDerivative {
 		return sum2;
 	}
 
-
+@Deprecated
 	public static double getGderivfinite(NDDO6G a, NDDO6G b, NDDO6G c,
 										 NDDO6G d,
 										 int num, int type) {
@@ -2087,6 +2087,7 @@ public class ParamDerivative {
 
 	}
 
+	@Deprecated
 	public static double crfderivfinite(NDDOAtom A, NDDOAtom B, int num) {
 
 		double initial = A.crf(B);
@@ -2159,6 +2160,7 @@ public class ParamDerivative {
 
 	}
 
+	@Deprecated
 	public static double[] MNDOHfderivs(SolutionR soln, int Z) {
 
 		double[] derivs = new double[8];
@@ -2749,7 +2751,7 @@ public class ParamDerivative {
 		return num - 1;
 	}
 
-	public static int index(NDDO6G orbital) {
+	private static int index(NDDO6G orbital) {
 
 		if (orbital.getL() == 0) {
 			return 0;
@@ -3090,7 +3092,7 @@ public class ParamDerivative {
 
 		bigLoop:
 		while (Utils.numIterable(iterable) > 0) {
-			orthogonalise(barray);
+			Utils.orthogonalise(barray);
 
 			for (int i = 0; i < length; i++) {
 				prevBs.add(barray[i]);
@@ -3160,7 +3162,7 @@ public class ParamDerivative {
 				rarray[j] = rarray[j].minus(Farray[j]);
 				xarray[j] = Dinv.mult(xarray[j]);
 
-				double mag = mag(rarray[j]);
+				double mag = Utils.mag(rarray[j]);
 				if (mag > oldrMags[j] || mag != mag) {
 					if (xarrayHoldNN == xarrayHold.length) {
 						soln.getRm().getLogger().warn(
@@ -3329,7 +3331,7 @@ public class ParamDerivative {
 
 			for (int a = 0; a < rhsvec.numCols(); a++) {
 				if (rarray[a] != null) {
-					double mag = mag(rarray[a]);
+					double mag = Utils.mag(rarray[a]);
 
 					for (int i = 0; i < alpha.numRows(); i++) {
 						xarray[a] =

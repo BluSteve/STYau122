@@ -8,8 +8,12 @@
             <PatternLayout pattern="%d{ISO8601} %08r %-5level %logger{36} - %msg%n"/>
             <Append value="false" />
         </File>
+        <File name="csvFile" fileName="logs/main.csv">
+            <CsvLogEventLayout/>
+        </File>
         <Async name="AsyncFile">
             <AppenderRef ref="MainFile"/>
+            <AppenderRef ref="csvFile"/>
         </Async>
     </Appenders>
     <Loggers>

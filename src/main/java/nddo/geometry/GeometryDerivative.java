@@ -547,8 +547,8 @@ public class GeometryDerivative {
 	}
 
 	protected static double LocalTwoCenterERIderiv(NDDO6G a, NDDO6G b,
-												   NDDO6G c,
-												   NDDO6G d, int tau) {
+												   NDDO6G c, NDDO6G d,
+												   int tau) {
 
 		double[] A = a.getCoords();
 		double[] C = c.getCoords();

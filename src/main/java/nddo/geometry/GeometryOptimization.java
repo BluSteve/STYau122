@@ -5,6 +5,7 @@ import nddo.solution.Solution;
 import nddo.solution.SolutionR;
 import nddo.solution.SolutionU;
 import org.apache.logging.log4j.Logger;
+import org.ejml.data.SingularMatrixException;
 import org.ejml.simple.SimpleMatrix;
 import tools.Utils;
 
@@ -197,19 +198,21 @@ public abstract class GeometryOptimization {
 
 				try {
 					B = findNewB(B, y, searchDir);
-				} catch (Exception e) {
-					e.printStackTrace();
-					System.err.println("Hessian approximation error!");
+				} catch (SingularMatrixException e) {
+					s.getRm().getLogger()
+							.error("Hessian approximation error!");
 					B = SimpleMatrix.identity(s.atoms.length * 3);
 				}
 			}
-			ms = Utils.symEigen(B);
 
+			ms = Utils.symEigen(B);
 			h = ms[1].diag();
 			U = ms[0];
 		}
+
 		updateSolution();
 		logger.debug("final hf: {}", s.hf);
+
 		return this;
 	}
 

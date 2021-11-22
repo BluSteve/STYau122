@@ -4,7 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Major refactor, moving stuff around" />
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Minor bugs">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryOptimization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/input/RawMolecule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/input/RawMolecule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/output/OutputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/output/OutputHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/scf/STO6G.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/scf/STO6G.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -62,7 +74,7 @@
     <setting file="file://$PROJECT_DIR$/mndo-install.sh" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedIndex" value="2" />
+    <option name="selectedIndex" value="3" />
   </component>
   <component name="ProjectId" id="20unWPR15qlisSQEnzw4ZSYoybm" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -82,6 +94,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="extract.method.default.visibility" value="public" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/copy.bat" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Modules" />
@@ -134,6 +147,27 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="MNDOParam [jar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="jar" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
     <configuration name="Copy" type="ShConfigurationType">
       <option name="SCRIPT_TEXT" value="" />
       <option name="INDEPENDENT_SCRIPT_PATH" value="false" />
@@ -156,9 +190,11 @@
       <item itemvalue="Application.InputHandler" />
       <item itemvalue="Application.Testing" />
       <item itemvalue="Shell Script.Copy" />
+      <item itemvalue="Gradle.MNDOParam [jar]" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.MNDOParam [jar]" />
         <item itemvalue="Application.Testing" />
         <item itemvalue="Application.InputHandler" />
         <item itemvalue="Application.Main" />
@@ -190,7 +226,7 @@
       <workItem from="1637466260670" duration="1952000" />
       <workItem from="1637503048022" duration="3534000" />
       <workItem from="1637550668132" duration="21767000" />
-      <workItem from="1637581088379" duration="4967000" />
+      <workItem from="1637581088379" duration="11040000" />
     </task>
     <task id="LOCAL-00001" summary="Convert to gradle">
       <created>1636909106825</created>
@@ -339,7 +375,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637589723800</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Minor bugs">
+      <created>1637590193531</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1637590193531</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -405,7 +448,8 @@
     <MESSAGE value="Add subset input feature" />
     <MESSAGE value="OOP improvements and logging conversion" />
     <MESSAGE value="Major refactor, moving stuff around" />
-    <option name="LAST_COMMIT_MESSAGE" value="Major refactor, moving stuff around" />
+    <MESSAGE value="Minor bugs" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor bugs" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -672,7 +672,7 @@ public class GeometrySecondDerivative {
 								D12, D22, xA, xB, tau1, tau2));
 	}
 
-	protected static double LocalTwoCenterERIderiv2(NDDO6G a, NDDO6G b,
+	private static double LocalTwoCenterERIderiv2(NDDO6G a, NDDO6G b,
 													NDDO6G c, NDDO6G d,
 													int tau1, int tau2) {
 
@@ -1401,6 +1401,7 @@ public class GeometrySecondDerivative {
 		return 0;
 	}
 
+	@Deprecated
 	public static double getGderiv2finite(NDDO6G a, NDDO6G b, NDDO6G c,
 										  NDDO6G d, int tau1, int tau2) {
 		double orig = GeometryDerivative.getGderiv(a, b, c, d, tau1);
@@ -1443,7 +1444,7 @@ public class GeometrySecondDerivative {
 				(perturbed[2] - orig[2]) / 1E-9};
 	}
 
-	public static double[] secondDerivativeDecomposition(double[] point1,
+	private static double[] secondDerivativeDecomposition(double[] point1,
 														 double[] point2,
 														 NDDO6G a, int tau1,
 														 int tau2) {
@@ -1843,7 +1844,7 @@ public class GeometrySecondDerivative {
 				(perturbed[2] - orig[2]) / 1E-9};
 	}
 
-	public static double[] secondDerivativeDecomposition2(double[] point1,
+	private static double[] secondDerivativeDecomposition2(double[] point1,
 														  double[] point2,
 														  NDDO6G a, int tau1,
 														  int tau2) {
@@ -2550,6 +2551,7 @@ public class GeometrySecondDerivative {
 
 	}
 
+	@Deprecated
 	public static double hessianfinite(NDDOAtom[] atoms, SolutionU soln,
 									   int atomnum1, int tau1, int atomnum2,
 									   int tau2) {
@@ -2620,7 +2622,8 @@ public class GeometrySecondDerivative {
 					for (int a = 0; a < soln.atoms.length; a++) {
 						if (a != atomnum1) {
 							E += Ederiv2(atomnum1, a, soln.orbsOfAtom,
-									soln.densityMatrix(), soln.atoms, soln.orbitals,
+									soln.densityMatrix(), soln.atoms,
+									soln.orbitals,
 									tau1, tau2);
 							E += soln.atoms[atomnum1]
 									.crfDeriv2(soln.atoms[a], tau1, tau2);
@@ -2629,7 +2632,8 @@ public class GeometrySecondDerivative {
 				}
 				else {
 					E = -Ederiv2(atomnum1, atomnum2, soln.orbsOfAtom,
-							soln.densityMatrix(), soln.atoms, soln.orbitals, tau1,
+							soln.densityMatrix(), soln.atoms, soln.orbitals,
+							tau1,
 							tau2) - soln.atoms[atomnum1]
 							.crfDeriv2(soln.atoms[atomnum2], tau1, tau2);
 
@@ -2702,7 +2706,8 @@ public class GeometrySecondDerivative {
 				}
 				else {
 					E = -Ederiv2(atomnum1, atomnum2, soln.orbsOfAtom,
-							soln.alphaDensity(), soln.betaDensity(), soln.atoms,
+							soln.alphaDensity(), soln.betaDensity(),
+							soln.atoms,
 							soln.orbitals, tau1, tau2) - soln.atoms[atomnum1]
 							.crfDeriv2(soln.atoms[atomnum2], tau1, tau2);
 
@@ -2842,9 +2847,9 @@ public class GeometrySecondDerivative {
 
 			SimpleMatrix alpha;
 			try {
-				alpha  = solver.solve(rhsvec);
+				alpha = solver.solve(rhsvec);
 			} catch (SingularMatrixException e) {
-				alpha = Utils.filled(solver.numCols(), rhsvec.numCols(),1);
+				alpha = Utils.filled(solver.numCols(), rhsvec.numCols(), 1);
 			}
 
 			for (int a = 0; a < rhsvec.numCols(); a++) {
@@ -2858,7 +2863,7 @@ public class GeometrySecondDerivative {
 
 					}
 
-					if (mag(rarray[a]) < 1E-6) {//todo change this if you want
+					if (Utils.mag(rarray[a]) < 1E-6) {//todo change this if you want
 						rarray[a] = null;
 					}
 					else {
@@ -2939,8 +2944,8 @@ public class GeometrySecondDerivative {
 		return densityMatrixDerivs;
 	}
 
-	public static SimpleMatrix[] getxarrayPople(SolutionR soln,
-												SimpleMatrix[] fockderivstatic) {
+	private static SimpleMatrix[] getxarrayPople(SolutionR soln,
+												 SimpleMatrix[] fockderivstatic) {
 		int NOcc = (int) (soln.nElectrons / 2.0);
 		int NVirt = soln.orbitals.length - NOcc;
 		int length = fockderivstatic.length;
@@ -2965,7 +2970,8 @@ public class GeometrySecondDerivative {
 
 		// configure preconditioners
 		SimpleMatrix D = new SimpleMatrix(nonv, nonv, DMatrixSparseCSC.class);
-		SimpleMatrix Dinv = new SimpleMatrix(nonv, nonv, DMatrixSparseCSC.class);
+		SimpleMatrix Dinv =
+				new SimpleMatrix(nonv, nonv, DMatrixSparseCSC.class);
 
 		int counter = 0;
 		for (int i = 0; i < NOcc; i++) {
@@ -3022,7 +3028,7 @@ public class GeometrySecondDerivative {
 		}
 
 		while (Utils.numIterable(iterable) > 0) {
-			orthogonalise(barray);
+			Utils.orthogonalise(barray);
 
 			for (int i = 0; i < length; i++) {
 				prevBs.add(barray[i]);
@@ -3087,15 +3093,15 @@ public class GeometrySecondDerivative {
 				rarray[j] = rarray[j].minus(Farray[j]);
 				xarray[j] = Dinv.mult(xarray[j]);
 
-				double rMag = mag(rarray[j]);
+				double rMag = Utils.mag(rarray[j]);
 				if (rMag < 1E-7) {
 					iterable[j] = 1;
 				}
 				else if (Double.isNaN(rMag)) {
-					System.err.println(
-							"Pople algorithm fails; reverting to Thiel " +
-									"algorithm (don't panic)...");
-					return null;
+					soln.getRm().getLogger()
+							.warn("Pople algorithm fails; reverting to " +
+									"Thiel algorithm (don't panic)...");
+					throw new SingularMatrixException();
 				}
 				else {
 					iterable[j] = 0;
@@ -3300,7 +3306,6 @@ public class GeometrySecondDerivative {
 
 	public static SimpleMatrix computeResponseVectorsPople(SimpleMatrix x,
 														   SolutionR soln) {
-
 		int NOcc = (int) (soln.nElectrons / 2.0);
 
 		int NVirt = soln.orbitals.length - NOcc;
@@ -3434,25 +3439,5 @@ public class GeometrySecondDerivative {
 
 
 		return R;
-	}
-
-	public static double mag(SimpleMatrix gradient) {
-
-		double sum = 0;
-		for (int i = 0; i < gradient.numRows(); i++) {
-			sum += gradient.get(i) * gradient.get(i);
-		}
-
-		return Math.sqrt(sum);
-	}
-
-	public static void orthogonalise(SimpleMatrix[] vectors) {
-		for (int i = 0; i < vectors.length; i++) {
-			for (int j = 0; j < i; j++) {
-				vectors[i] = vectors[i].minus(vectors[j]
-						.scale(vectors[i].dot(vectors[j]) /
-								vectors[j].dot(vectors[j])));
-			}
-		}
 	}
 }

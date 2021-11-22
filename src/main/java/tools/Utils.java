@@ -3,13 +3,17 @@ package tools;
 import nddo.NDDOAtom;
 import nddo.NDDOParams;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.appender.AsyncAppender;
+import org.apache.logging.log4j.core.appender.FileAppender;
+import org.apache.logging.log4j.core.config.AppenderRef;
+import org.apache.logging.log4j.core.layout.PatternLayout;
 import org.ejml.data.DMatrixRMaj;
 import org.ejml.dense.row.decomposition.eig.SymmetricQRAlgorithmDecomposition_DDRM;
 import org.ejml.interfaces.decomposition.EigenDecomposition_F64;
 import org.ejml.simple.SimpleMatrix;
 import org.greenrobot.essentials.hash.Murmur3F;
-import org.jblas.DoubleMatrix;
-import org.jblas.Solve;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -29,32 +33,6 @@ public class Utils {
 		}
 		return doubles;
 	}
-
-	public static DoubleMatrix toDoubleMatrix(SimpleMatrix matrix) {
-		double[][] array = new double[matrix.numRows()][matrix.numCols()];
-		for (int r = 0; r < matrix.numRows(); r++) {
-			for (int c = 0; c < matrix.numCols(); c++) {
-				array[r][c] = matrix.get(r, c);
-			}
-		}
-		return new DoubleMatrix(array);
-	}
-
-	public static boolean testEJML(DoubleMatrix x, DoubleMatrix y,
-								   double limit) {
-		for (int i = 0; i < y.rows; i++) {
-			for (int j = 0; j < y.columns; j++) {
-				if (Math.abs(Math.abs(x.get(i, j)) - Math.abs(y.get(i, j))) >
-						limit) {
-					System.err.println(i + ", " + j + ", " + Math.abs(
-							Math.abs(x.get(i, j)) - Math.abs(y.get(i, j))));
-					return false;
-				}
-			}
-		}
-		return true;
-	}
-
 
 	public static double[] toDoubles(List<Double> ld) {
 		double[] doubles = new double[ld.size()];
@@ -78,9 +56,9 @@ public class Utils {
 		return res;
 	}
 
-	public static double[] debohr(double[] notbohr) {
-		double[] res = new double[notbohr.length];
-		for (int i = 0; i < notbohr.length; i++) res[i] = notbohr[i] / bohr;
+	public static double[] debohr(double[] bohr) {
+		double[] res = new double[bohr.length];
+		for (int i = 0; i < bohr.length; i++) res[i] = bohr[i] / Utils.bohr;
 		return res;
 	}
 
@@ -91,17 +69,6 @@ public class Utils {
 			}
 		}
 		return false;
-	}
-
-	public static double[][] to2dArray(List<List<Double>> input) {
-		int size = input.size();
-		double[][] array = new double[size][size];
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
-				array[i][j] = input.get(i).get(j);
-			}
-		}
-		return array;
 	}
 
 	public static NDDOAtom[] perturbAtomParams(NDDOAtom[] atoms, int Z,
@@ -164,42 +131,20 @@ public class Utils {
 		return perturbed;
 	}
 
-	public static boolean containsZ(NDDOAtom[] atoms, int Z) {
-		boolean result = false;
-		for (NDDOAtom atom : atoms) {
-			if (atom.getAtomProperties().getZ() == Z) {
-				result = true;
-				break;
-			}
-		}
-		return result;
-	}
-
-	public static int getTrainingSetSize(String trainingSet) {
-		int result = 0;
-		int removeH = 0;
-		if (trainingSet.contains("H")) {
-			result += 5;
-			removeH = 1;
-		}
-		result += (trainingSet.length() - removeH) * 8;
-		return result;
-	}
-
 	public static int numNotNull(Object[] array) {
 		int count = 0;
+
 		for (Object x : array) {
 			if (x != null) count++;
 		}
+
 		return count;
 	}
 
 	public static int numIterable(int[] iterable) {
-
 		int count = 0;
 
 		for (int value : iterable) {
-
 			if (value == 0) {
 				count++;
 			}
@@ -239,28 +184,6 @@ public class Utils {
 		return new SimpleMatrix[]{evectors, evalues};
 	}
 
-	public static synchronized DoubleMatrix solve(DoubleMatrix lhs,
-												  DoubleMatrix rhs) {
-		return Solve.solve(lhs, rhs);
-	}
-
-	public static synchronized DoubleMatrix pinv(DoubleMatrix dm) {
-		return Solve.pinv(dm);
-	}
-
-	public static SimpleMatrix[][] convertToEJML2D(
-			DoubleMatrix[][] doubleMatrices) {
-		SimpleMatrix[][] matrices = new SimpleMatrix[doubleMatrices.length][];
-		for (int i = 0; i < doubleMatrices.length; i++) {
-			DoubleMatrix[] dm = doubleMatrices[i];
-			matrices[i] = new SimpleMatrix[dm.length];
-			for (int j = 0; j < dm.length; j++) {
-				matrices[i][j] = new SimpleMatrix(dm[j].toArray2());
-			}
-		}
-		return matrices;
-	}
-
 	public static double[][] to2dArray(SimpleMatrix matrix) {
 		double[][] array = new double[matrix.numRows()][matrix.numCols()];
 		for (int r = 0; r < matrix.numRows(); r++) {
@@ -281,20 +204,59 @@ public class Utils {
 				Long.toUnsignedString(murmur3F.getValue() & 0x1FFFFFFFFFFL, 36)
 						.toUpperCase(), 8, "0");
 	}
+
+	public static double mag(SimpleMatrix vector) {
+		double sum = 0;
+		for (int i = 0; i < vector.numRows(); i++) {
+			sum += vector.get(i) * vector.get(i);
+		}
+
+		return Math.sqrt(sum);
+	}
+
+	public static void orthogonalise(SimpleMatrix[] vectors) {
+		for (int i = 0; i < vectors.length; i++) {
+			for (int j = 0; j < i; j++) {
+				vectors[i] = vectors[i].minus(vectors[j]
+						.scale(vectors[i].dot(vectors[j]) /
+								vectors[j].dot(vectors[j])));
+			}
+		}
+	}
+
+	// todo make this async
+	public static void addFileAppender(Logger logger, String filename) {
+		org.apache.logging.log4j.core.Logger l =
+				(org.apache.logging.log4j.core.Logger) logger;
+		LoggerContext lc = l.getContext();
+		FileAppender fa = FileAppender.newBuilder()
+				.setName(filename)
+				.withFileName("logs/" + filename + ".log")
+				.setLayout(
+						PatternLayout.newBuilder().withPattern(
+										"%d{ISO8601} %08r %-5level " +
+												"%logger{36} - %msg%n")
+								.build())
+				.setConfiguration(lc.getConfiguration()).build();
+		fa.start();
+		lc.getConfiguration().addAppender(fa);
+		((org.apache.logging.log4j.core.Logger) logger).addAppender(
+				lc.getConfiguration().getAppender(fa.getName()));
+		lc.updateLoggers();
+	}
 }
 
 class Pair<F extends Comparable<F>, S> implements Comparable<Pair<F, S>> {
-	@Override
-	public int compareTo(Pair<F, S> o) {
-		return this.first.compareTo(o.first);
-	}
-
 	public F first;
 	public S second;
-
 	public Pair(F first, S second) {
 		this.first = first;
 		this.second = second;
+	}
+
+	@Override
+	public int compareTo(Pair<F, S> o) {
+		return this.first.compareTo(o.first);
 	}
 
 	@Override

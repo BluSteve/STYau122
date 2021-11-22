@@ -55,65 +55,55 @@ public class OutputHandler {
 
 	// assumes updated input
 	public static void output(RawInput ri, MoleculeOutput[] mos,
-							  String output) {
+							  String output) throws IOException {
 		GsonBuilder builder = new GsonBuilder();
 		builder.setPrettyPrinting();
 		Gson gson = builder.create();
-		try {
-			double ttError = 0;
-			long ttTime = 0;
-			StringBuilder hashsb = new StringBuilder();
-			for (MoleculeOutput mo : mos) {
-				ttError += mo.totalError;
-				ttTime += mo.time;
+		double ttError = 0;
+		long ttTime = 0;
+		StringBuilder hashsb = new StringBuilder();
+		for (MoleculeOutput mo : mos) {
+			ttError += mo.totalError;
+			ttTime += mo.time;
 
-				// remove time to make hashes consistent
-				long t = mo.time;
-				mo.time = 0;
-				hashsb.append(gson.toJson(mo));
-				mo.time = t;
-			}
-
-			AggregateOutput ao = new AggregateOutput();
-			ao.ttTime = ttTime;
-			ao.ttError = ttError;
-			ao.inputHash = ri.hash;
-			ao.params = ri.params;
-			ao.mos = mos;
-
-			ao.outputHash = Utils.getHash(hashsb.toString());
-			// as such, the hash of the final file is different
-
-			logger.info("\nTotal error: {}\n" +
-					"Single-threaded time taken: {}\n" +
-					"Output hash: {}", ao.ttError, ao.ttTime, ao.outputHash);
-
-			FileWriter fw = new FileWriter(
-					output + "-" + ri.hash + " (" + ao.outputHash + ").json");
-			fw.write(gson.toJson(ao));
-			fw.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+			// remove time to make hashes consistent
+			long t = mo.time;
+			mo.time = 0;
+			hashsb.append(gson.toJson(mo));
+			mo.time = t;
 		}
+
+		AggregateOutput ao = new AggregateOutput();
+		ao.ttTime = ttTime;
+		ao.ttError = ttError;
+		ao.inputHash = ri.hash;
+		ao.params = ri.params;
+		ao.mos = mos;
+
+		ao.outputHash = Utils.getHash(hashsb.toString());
+		// as such, the hash of the final file is different
+
+		logger.info("\nTotal error: {}\n" +
+				"Single-threaded time taken: {}\n" +
+				"Output hash: {}", ao.ttError, ao.ttTime, ao.outputHash);
+
+		FileWriter fw = new FileWriter(
+				output + "-" + ri.hash + " (" + ao.outputHash + ").json");
+		fw.write(gson.toJson(ao));
+		fw.close();
 	}
 
-	public static void outputOne(MoleculeOutput mo, String output) {
+	public static void outputOne(MoleculeOutput mo, String output)
+			throws IOException {
 		GsonBuilder builder = new GsonBuilder();
 		builder.serializeNulls();
 		builder.serializeSpecialFloatingPointValues();
 		builder.setPrettyPrinting();
 		Gson gson = builder.create();
-		try {
-			String jsoned = gson.toJson(mo);
-			FileWriter fw = new FileWriter(output + ".json", true);
-			fw.write(jsoned + ",\n");
-			fw.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-			System.err.println(mo.toString());
-		}
+		String jsoned = gson.toJson(mo);
+		FileWriter fw = new FileWriter(output + ".json", true);
+		fw.write(jsoned + ",\n");
+		fw.close();
 	}
 
 	public static void main(String[] args) {
