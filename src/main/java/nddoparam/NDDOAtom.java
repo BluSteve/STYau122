@@ -112,10 +112,6 @@ public abstract class NDDOAtom extends AtomFixed {
 				ParamDerivative.getGderiv(this.s(), this.s(), a, b, num, type);
 	}
 
-	public double getEisol() {
-		return np.getEisol();
-	}
-
 	protected double p0() {
 		return 27.2114 / (2 * np.getGss());
 	}

@@ -4,6 +4,7 @@ import nddoparam.Solution;
 import nddoparam.SolutionR;
 import nddoparam.SolutionU;
 import org.ejml.simple.SimpleMatrix;
+import tools.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,6 @@ import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.RecursiveAction;
 
 public abstract class ParamGradient {
-	protected static final double LAMBDA = 1E-7;
 	protected Solution s, sExp;
 	protected ParamErrorFunction e;
 	protected boolean isExpAvail, analytical;
@@ -219,7 +219,7 @@ public abstract class ParamGradient {
 		}
 		double geomGradient = 627.5 * Math.sqrt(sum);
 		geomDerivs[ZI][paramNum] =
-				1 / LAMBDA * (geomGradient - e.geomGradient);
+				1 / Utils.LAMBDA * (geomGradient - e.geomGradient);
 		totalGradients[ZI][paramNum] +=
 				0.000098 * e.geomGradient * geomDerivs[ZI][paramNum];
 	}

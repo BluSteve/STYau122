@@ -1,7 +1,6 @@
 package nddoparam;
 
 import nddoparam.mndo.MNDOParams;
-import org.apache.logging.log4j.Logger;
 import org.ejml.simple.SimpleMatrix;
 import runcycle.input.RawAtom;
 import runcycle.input.RawMolecule;
@@ -12,22 +11,22 @@ import java.util.Arrays;
 public abstract class Solution {
 	// TODO make most of these private
 	public static int maxParamNum = 8;
+	private final RawMolecule rm;
 	public double energy, homo, lumo, hf, dipole;
-	public double[] chargedip, hybridip, dipoletot;
 	public int charge, mult, nElectrons, nOrbitals;
 	public int[][] missingOfAtom, orbsOfAtom;
+	public int[] atomicNumbers, atomOfOrb;
 	public NDDOAtom[] atoms;
 	public NDDO6G[] orbitals;
-	public int[] atomicNumbers, atomOfOrb;
-	public SimpleMatrix H;
-	protected RawMolecule rm;
+	protected SimpleMatrix H;
+	protected double[] chargedip, hybridip, dipoletot;
 
 	protected Solution(NDDOAtom[] atoms, RawMolecule rm) {
 		this.atoms = atoms;
 		this.rm = rm;
-		this.atomicNumbers = rm.atomicNumbers;
 		this.charge = rm.charge;
 		this.mult = rm.mult;
+		this.atomicNumbers = rm.atomicNumbers;
 		this.nElectrons = rm.nElectrons;
 		this.nOrbitals = rm.nOrbitals;
 
@@ -102,11 +101,6 @@ public abstract class Solution {
 
 	/**
 	 * Checks if two DoubleMatrices are similar below a threshold.
-	 *
-	 * @param x
-	 * @param y
-	 * @param limit
-	 * @return
 	 */
 	protected static boolean isSimilar(SimpleMatrix x, SimpleMatrix y,
 									   double limit) {
@@ -184,26 +178,26 @@ public abstract class Solution {
 	@Override
 	public String toString() {
 		return "Solution{" +
-				"energy=" + energy +
+				"rm=" + rm +
+				", energy=" + energy +
 				", homo=" + homo +
 				", lumo=" + lumo +
 				", hf=" + hf +
 				", dipole=" + dipole +
-				", chargedip=" + Arrays.toString(chargedip) +
-				", hybridip=" + Arrays.toString(hybridip) +
-				", dipoletot=" + Arrays.toString(dipoletot) +
 				", charge=" + charge +
 				", mult=" + mult +
 				", nElectrons=" + nElectrons +
 				", nOrbitals=" + nOrbitals +
 				", missingOfAtom=" + Arrays.toString(missingOfAtom) +
 				", orbsOfAtom=" + Arrays.toString(orbsOfAtom) +
-				", atoms=" + Arrays.toString(atoms) +
-				", orbitals=" + Arrays.toString(orbitals) +
 				", atomicNumbers=" + Arrays.toString(atomicNumbers) +
 				", atomOfOrb=" + Arrays.toString(atomOfOrb) +
+				", atoms=" + Arrays.toString(atoms) +
+				", orbitals=" + Arrays.toString(orbitals) +
 				", H=" + H +
-				", rm=" + rm +
+				", chargedip=" + Arrays.toString(chargedip) +
+				", hybridip=" + Arrays.toString(hybridip) +
+				", dipoletot=" + Arrays.toString(dipoletot) +
 				'}';
 	}
 }

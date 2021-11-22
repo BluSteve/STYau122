@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Add subset input feature" />
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Add subset input feature">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddoparam/GeometryOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddoparam/GeometryOptimization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddoparam/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddoparam/Solution.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddoparam/param/ParamGradient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddoparam/param/ParamGradient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddoparam/param/ParamHessian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddoparam/param/ParamHessian.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -189,7 +195,8 @@
       <workItem from="1637388628368" duration="22824000" />
       <workItem from="1637466260670" duration="1952000" />
       <workItem from="1637503048022" duration="3534000" />
-      <workItem from="1637550668132" duration="21498000" />
+      <workItem from="1637550668132" duration="21767000" />
+      <workItem from="1637581088379" duration="1354000" />
     </task>
     <task id="LOCAL-00001" summary="Convert to gradle">
       <created>1636909106825</created>
@@ -317,7 +324,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637573811583</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Add subset input feature">
+      <created>1637573864352</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1637573864352</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

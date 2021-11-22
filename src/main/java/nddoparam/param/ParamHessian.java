@@ -30,7 +30,7 @@ public class ParamHessian {
 	 *          solution to this molecule, and is not altered
 	 *          throughout the process.
 	 */
-	protected ParamHessian(ParamGradient g) {
+	private ParamHessian(ParamGradient g) {
 		this.g = g;
 		s = g.s;
 		datum = g.datum;

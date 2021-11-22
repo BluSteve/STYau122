@@ -6,7 +6,7 @@ import nddoparam.SolutionU;
 import tools.Utils;
 
 class ParamGradientU extends ParamGradient {
-	private final String errorMessage =
+	private static final String errorMessage =
 			"Analytical derivatives have yet to be implemented for " +
 					"unrestricted!";
 
@@ -17,13 +17,13 @@ class ParamGradientU extends ParamGradient {
 
 	@Override
 	protected void computeBatchedDerivs(int firstZIndex, int firstParamNum) {
-		System.err.println(errorMessage);
+		s.getRm().getLogger().error(errorMessage);
 	}
 
 	@Override
 	protected void computeHFDeriv(int ZI, int paramNum, Solution sPrime) {
 		if (analytical) {
-			System.err.println(errorMessage);
+			s.getRm().getLogger().error(errorMessage);
 		}
 		else {
 			HFDerivs[ZI][paramNum] = (sPrime.hf - s.hf) / Utils.LAMBDA;
@@ -37,7 +37,7 @@ class ParamGradientU extends ParamGradient {
 	protected void computeDipoleDeriv(int ZI, int paramNum, boolean full,
 									  Solution sPrime) {
 		if (analytical) {
-			System.err.println(errorMessage);
+			s.getRm().getLogger().error(errorMessage);
 		}
 		else {
 			HFDerivs[ZI][paramNum] = (sPrime.hf - s.hf) / Utils.LAMBDA;
@@ -53,7 +53,7 @@ class ParamGradientU extends ParamGradient {
 	@Override
 	protected void computeIEDeriv(int ZI, int paramNum, Solution sPrime) {
 		if (analytical) {
-			System.err.println(errorMessage);
+			s.getRm().getLogger().error(errorMessage);
 		}
 		else {
 			IEDerivs[ZI][paramNum] = -(sPrime.homo - s.homo) / Utils.LAMBDA;
