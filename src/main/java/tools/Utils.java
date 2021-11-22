@@ -5,19 +5,19 @@ import nddo.NDDOParams;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
-import org.apache.logging.log4j.core.appender.AsyncAppender;
 import org.apache.logging.log4j.core.appender.FileAppender;
-import org.apache.logging.log4j.core.config.AppenderRef;
 import org.apache.logging.log4j.core.layout.PatternLayout;
 import org.ejml.data.DMatrixRMaj;
 import org.ejml.dense.row.decomposition.eig.SymmetricQRAlgorithmDecomposition_DDRM;
 import org.ejml.interfaces.decomposition.EigenDecomposition_F64;
 import org.ejml.simple.SimpleMatrix;
-import org.greenrobot.essentials.hash.Murmur3F;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -195,13 +195,21 @@ public class Utils {
 	}
 
 	public static String getHash(String str) {
-		Murmur3F murmur3F = new Murmur3F(123);
-		murmur3F.update(str.getBytes(StandardCharsets.UTF_8));
+		MessageDigest digest = null;
+		try {
+			digest = MessageDigest.getInstance("SHA-1");
+		} catch (NoSuchAlgorithmException ignored) {
+		}
+
+		assert digest != null;
+		byte[] b = digest.digest(str.getBytes(StandardCharsets.UTF_8));
+		ByteBuffer wrapped = ByteBuffer.wrap(b);
+		long v = wrapped.getLong();
 
 		// gets last 41 bits of hash, 36^8 is 41.34
 		// ensures low collision probability up to 10k runs
 		return StringUtils.leftPad(
-				Long.toUnsignedString(murmur3F.getValue() & 0x1FFFFFFFFFFL, 36)
+				Long.toUnsignedString(v & 0x1FFFFFFFFFFL, 36)
 						.toUpperCase(), 8, "0");
 	}
 
@@ -244,11 +252,16 @@ public class Utils {
 				lc.getConfiguration().getAppender(fa.getName()));
 		lc.updateLoggers();
 	}
+
+	public static void main(String[] args) {
+		System.out.println(getHash("asdf"));
+	}
 }
 
 class Pair<F extends Comparable<F>, S> implements Comparable<Pair<F, S>> {
 	public F first;
 	public S second;
+
 	public Pair(F first, S second) {
 		this.first = first;
 		this.second = second;
