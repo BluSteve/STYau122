@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Lots of bug fixes, refactorings, csv logging">
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Clean up dependencies including jblas and cublas">
+      <change afterPath="$PROJECT_DIR$/src/main/java/tools/SimpleMatrix.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/EJMLTesting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/EJMLTesting.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tools/CublasTools.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,6 +95,9 @@
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.CommitDialog" />
   </component>
+  <component name="ReaderModeSettings">
+    <option name="enabled" value="false" />
+  </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam-gradle" />
@@ -113,7 +114,7 @@
       <recent name="tools.Utils" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.InputHandler">
+  <component name="RunManager" selected="Gradle.MNDOParam [jar]">
     <configuration name="InputHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="runcycle.input.InputHandler" />
       <module name="MNDOParam.main" />
@@ -235,7 +236,7 @@
       <workItem from="1637466260670" duration="1952000" />
       <workItem from="1637503048022" duration="3534000" />
       <workItem from="1637550668132" duration="21767000" />
-      <workItem from="1637581088379" duration="12144000" />
+      <workItem from="1637581088379" duration="14219000" />
     </task>
     <task id="LOCAL-00001" summary="Convert to gradle">
       <created>1636909106825</created>
@@ -398,7 +399,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637596480809</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Clean up dependencies including jblas and cublas">
+      <created>1637597460810</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1637597460810</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -466,7 +474,8 @@
     <MESSAGE value="Major refactor, moving stuff around" />
     <MESSAGE value="Minor bugs" />
     <MESSAGE value="Lots of bug fixes, refactorings, csv logging" />
-    <option name="LAST_COMMIT_MESSAGE" value="Lots of bug fixes, refactorings, csv logging" />
+    <MESSAGE value="Clean up dependencies including jblas and cublas" />
+    <option name="LAST_COMMIT_MESSAGE" value="Clean up dependencies including jblas and cublas" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

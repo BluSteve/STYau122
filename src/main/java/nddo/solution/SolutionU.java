@@ -14,7 +14,7 @@ public class SolutionU extends Solution {
 		super(atoms, rm);
 		if (nElectrons % 2 == mult % 2 || mult < 1) {
 			rm.getLogger().error("Please check mult and charge: " +
-							"nElectrons: {}, mult: {}", nElectrons, mult);
+					"nElectrons: {}, mult: {}", nElectrons, mult);
 		}
 		nElectrons -= mult - 1;
 	}
@@ -144,9 +144,9 @@ public class SolutionU extends Solution {
 		betaDensity = calculateDensityMatrix(cb, nbeta);
 
 		SimpleMatrix oldalphadensity =
-				Utils.filled(ca.numRows(), ca.numCols(), 0);
+				new SimpleMatrix(ca.numRows(), ca.numCols());
 		SimpleMatrix oldbetadensity =
-				Utils.filled(ca.numRows(), ca.numCols(), 0);
+				new SimpleMatrix(ca.numRows(), ca.numCols());
 
 		int Jcount, Kcount;
 		int numIt = 0;
