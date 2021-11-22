@@ -4,6 +4,9 @@ import nddoparam.mndo.MNDOAtom;
 import nddoparam.mndo.MNDOParams;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.appender.FileAppender;
+import org.apache.logging.log4j.core.layout.PatternLayout;
 import scf.AtomHandler;
 
 import java.util.Arrays;
@@ -34,13 +37,33 @@ public class RawMolecule {
 
 	public String debugName() {
 		if (debugName == null)
-			debugName = String.format("%03d:%s", index, name);
+			debugName = String.format("%03d-%s", index, name);
 
 		return debugName;
 	}
 
 	public Logger getLogger() {
-		if (logger == null) logger = LogManager.getLogger(debugName());
+		if (logger == null) {
+			logger = LogManager.getLogger(debugName());
+			org.apache.logging.log4j.core.Logger l =
+					(org.apache.logging.log4j.core.Logger) logger;
+			LoggerContext lc = l.getContext();
+			FileAppender fa = FileAppender.newBuilder()
+					.setName(debugName)
+					.withAppend(false)
+					.withFileName("logs/" + debugName + ".log")
+					.setLayout(
+							PatternLayout.newBuilder().withPattern(
+											"%d{ISO8601} %08r %-5level " +
+													"%logger{36} - %msg%n")
+									.build())
+					.setConfiguration(lc.getConfiguration()).build();
+			fa.start();
+			lc.getConfiguration().addAppender(fa);
+			((org.apache.logging.log4j.core.Logger) logger).addAppender(
+					lc.getConfiguration().getAppender(fa.getName()));
+			lc.updateLoggers();
+		}
 		return logger;
 	}
 

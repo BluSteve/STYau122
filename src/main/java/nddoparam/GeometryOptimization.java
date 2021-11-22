@@ -83,7 +83,7 @@ public abstract class GeometryOptimization {
 	}
 
 	public GeometryOptimization compute() {
-		logger.debug("initial hf = {}", s.hf);
+		logger.debug("initial hf: {}", s.hf);
 
 		SimpleMatrix[] matrices = findGH();
 		SimpleMatrix gradient = matrices[0];
@@ -131,7 +131,7 @@ public abstract class GeometryOptimization {
 			// creates new solution based on updated atom positions
 			updateSolution();
 			if (logger.isTraceEnabled()) {
-				logger.trace("hf = {}, gradient = {}", s.hf,
+				logger.trace("hf: {}, gradient: {}", s.hf,
 						mag(gradient));
 			}
 
@@ -205,7 +205,7 @@ public abstract class GeometryOptimization {
 			U = ms[0];
 		}
 		updateSolution();
-		logger.debug("final hf = {}", s.hf);
+		logger.debug("final hf: {}", s.hf);
 		return this;
 	}
 

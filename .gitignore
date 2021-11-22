@@ -6,3 +6,4 @@ errored-molecules.txt
 dynamic-output.json
 input.json
 *.json
+logs

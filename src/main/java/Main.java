@@ -35,13 +35,12 @@ public class Main {
 	private static final int NUM_RUNS = 1;
 	private static final boolean isImportLastRun = true;
 	private static final Logger logger = LogManager.getLogger();
-	private static RawInput ri;
-	private static MoleculeOutput[] ranMolecules;
 	private static final ScheduledExecutorService progressBar =
 			Executors.newScheduledThreadPool(1);
+	private static RawInput ri;
+	private static MoleculeOutput[] ranMolecules;
 
-	public static void main(String[] args) {
-		Configurator.setRootLevel(Level.INFO);
+	public static void main(String[] args) throws IOException {
 		System.out.println(logger.getLevel());
 
 		if (isImportLastRun) {
@@ -74,25 +73,20 @@ public class Main {
 			boolean isRunHessian = runNum % 2 == 0; // Hessian every other run
 
 			AtomHandler.populateAtoms();
-			InputHandler.processInput(INPUT_FILENAME);
+			ri = InputHandler.processInput(INPUT_FILENAME);
 
-			try {
-				FileWriter fw1 = new FileWriter("errored-molecules.txt");
-				fw1.write("");
-				FileWriter fw2 = new FileWriter("dynamic-output.json");
-				fw2.write("[");
-				fw1.close();
-				fw2.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			ri = InputHandler.ri;
+			FileWriter fw1 = new FileWriter("errored-molecules.txt");
+			fw1.write("");
+			FileWriter fw2 = new FileWriter("dynamic-output.json");
+			fw2.write("[");
+			fw1.close();
+			fw2.close();
 
 			if (runNum == 0) {
 				logger.info("MNDO Parameterization, updated 21 Nov 2021." +
 						" {} training set (PM7)", ri.trainingSet);
 			}
-			logger.info("Run number: {}, hessian = {}, {}.json hash: {}\n",
+			logger.info("Run number: {}, hessian: {}, {}.json hash: {}\n",
 					runNum, isRunHessian, INPUT_FILENAME, ri.hash);
 
 			// converts raw params array to NDDOParams classes and finds
@@ -242,17 +236,12 @@ public class Main {
 					Utils.to2dArray(newHessian));
 			ri.params.lastDir = dir;
 
-			// only place with actual file io
-			try {
-				Files.createDirectories(Path.of("outputs"));
-				MoleculeOutput[] mosarray =
-						mos.toArray(new MoleculeOutput[0]);
-				OutputHandler.output(ri, mosarray, "outputs/run-"
-						+ String.format("%04d", runNum) + "-output");
-				InputHandler.updateInput(ri, INPUT_FILENAME);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			Files.createDirectories(Path.of("outputs"));
+			MoleculeOutput[] mosarray =
+					mos.toArray(new MoleculeOutput[0]);
+			OutputHandler.output(ri, mosarray, "outputs/run-"
+					+ String.format("%04d", runNum) + "-output");
+			InputHandler.updateInput(ri, INPUT_FILENAME);
 
 			lsw.stop();
 			logger.info("Run {} time taken: {}", runNum, lsw.getTime());

@@ -91,6 +91,67 @@ public class SolutionR extends Solution {
 		super(atoms, rm);
 	}
 
+	private static SimpleMatrix commutator(SimpleMatrix F, SimpleMatrix D) {
+		return F.mult(D).minus(D.mult(F));
+	}
+
+	private static SimpleMatrix removeElements(SimpleMatrix original,
+											   int[] tbr) {
+		int newN = original.numRows() - tbr.length;
+		boolean isMatrix = original.numCols() > 1;
+		SimpleMatrix newarray = isMatrix ? new SimpleMatrix(newN, newN) :
+				new SimpleMatrix(newN, 1);
+
+		int[] tbk = new int[newN];
+		int q = 0;
+		for (int i = 0; i < original.numRows(); i++) {
+			boolean inside = false;
+			for (int index : tbr) {
+				if (i == index) {
+					inside = true;
+					break;
+				}
+			}
+
+			if (!inside) {
+				tbk[q] = i;
+				q++;
+			}
+		}
+
+		if (isMatrix) {
+			for (int i = 0; i < newarray.numRows(); i++) {
+				for (int j = 0; j < newarray.numCols(); j++) {
+					newarray.set(i, j, original.get(tbk[i], tbk[j]));
+				}
+			}
+		}
+		else {
+			for (int i = 0; i < newarray.numRows(); i++) {
+				newarray.set(i, 0, original.get(tbk[i], 0));
+			}
+		}
+
+		return newarray;
+	}
+
+	private static SimpleMatrix addRows(SimpleMatrix original,
+										int[] tbr) {
+		// add zero row at tbr
+		ArrayList<Double> array = new ArrayList<>();
+
+		for (double i : original.getDDRM().data) {
+			array.add(i);
+		}
+
+		for (int index : tbr) {
+			array.add(index, 0.0);
+		}
+
+		return new SimpleMatrix(original.numRows() + tbr.length, 1,
+				true, Utils.toDoubles(array));
+	}
+
 	@Override
 	public SolutionR compute() {
 		integralArray = new double[rm.nIntegrals];
@@ -481,6 +542,9 @@ public class SolutionR extends Solution {
 			}
 
 			numIt++;
+			rm.getLogger()
+					.trace("SolutionR iteration: {}, DIISError: {}", numIt,
+							DIISError);
 		}
 
 		findHF();
@@ -488,67 +552,6 @@ public class SolutionR extends Solution {
 		findDipole();
 
 		return this;
-	}
-
-	private static SimpleMatrix commutator(SimpleMatrix F, SimpleMatrix D) {
-		return F.mult(D).minus(D.mult(F));
-	}
-
-	private static SimpleMatrix removeElements(SimpleMatrix original,
-											   int[] tbr) {
-		int newN = original.numRows() - tbr.length;
-		boolean isMatrix = original.numCols() > 1;
-		SimpleMatrix newarray = isMatrix ? new SimpleMatrix(newN, newN) :
-				new SimpleMatrix(newN, 1);
-
-		int[] tbk = new int[newN];
-		int q = 0;
-		for (int i = 0; i < original.numRows(); i++) {
-			boolean inside = false;
-			for (int index : tbr) {
-				if (i == index) {
-					inside = true;
-					break;
-				}
-			}
-
-			if (!inside) {
-				tbk[q] = i;
-				q++;
-			}
-		}
-
-		if (isMatrix) {
-			for (int i = 0; i < newarray.numRows(); i++) {
-				for (int j = 0; j < newarray.numCols(); j++) {
-					newarray.set(i, j, original.get(tbk[i], tbk[j]));
-				}
-			}
-		}
-		else {
-			for (int i = 0; i < newarray.numRows(); i++) {
-				newarray.set(i, 0, original.get(tbk[i], 0));
-			}
-		}
-
-		return newarray;
-	}
-
-	private static SimpleMatrix addRows(SimpleMatrix original,
-										int[] tbr) {
-		// add zero row at tbr
-		ArrayList<Double> array = new ArrayList<>();
-
-		for (double i : original.getDDRM().data) {
-			array.add(i);
-		}
-
-		for (int index : tbr) {
-			array.add(index, 0.0);
-		}
-
-		return new SimpleMatrix(original.numRows() + tbr.length, 1,
-				true, Utils.toDoubles(array));
 	}
 
 	@SuppressWarnings("DuplicatedCode")
