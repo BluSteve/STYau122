@@ -1,8 +1,8 @@
-package nddoparam.param;
+package nddo.param;
 
-import nddoparam.Solution;
-import nddoparam.SolutionR;
-import nddoparam.SolutionU;
+import nddo.solution.Solution;
+import nddo.solution.SolutionR;
+import nddo.solution.SolutionU;
 import org.ejml.simple.SimpleMatrix;
 import tools.Utils;
 

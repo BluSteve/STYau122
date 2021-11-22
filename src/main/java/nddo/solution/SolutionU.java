@@ -1,5 +1,7 @@
-package nddoparam;
+package nddo.solution;
 
+import nddo.NDDO6G;
+import nddo.NDDOAtom;
 import org.ejml.simple.SimpleMatrix;
 import runcycle.input.RawMolecule;
 import tools.Utils;

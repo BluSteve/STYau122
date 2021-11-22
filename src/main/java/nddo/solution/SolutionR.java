@@ -1,5 +1,7 @@
-package nddoparam;
+package nddo.solution;
 
+import nddo.NDDO6G;
+import nddo.NDDOAtom;
 import org.ejml.data.SingularMatrixException;
 import org.ejml.dense.row.CommonOps_DDRM;
 import org.ejml.simple.SimpleMatrix;

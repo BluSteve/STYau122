@@ -1,6 +1,6 @@
-package nddoparam.param;
+package nddo.param;
 
-import nddoparam.Solution;
+import nddo.solution.Solution;
 import org.apache.commons.lang3.ArrayUtils;
 import tools.Utils;
 

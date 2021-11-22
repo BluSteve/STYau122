@@ -1,6 +1,6 @@
-import nddoparam.SolutionR;
-import nddoparam.mndo.MNDOAtom;
-import nddoparam.mndo.MNDOParams;
+import nddo.solution.SolutionR;
+import nddo.mndo.MNDOAtom;
+import nddo.mndo.MNDOParams;
 import runcycle.input.RawMolecule;
 import scf.AtomHandler;
 import tools.NanoStopWatch;

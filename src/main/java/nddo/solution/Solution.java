@@ -1,6 +1,9 @@
-package nddoparam;
+package nddo.solution;
 
-import nddoparam.mndo.MNDOParams;
+import nddo.NDDO6G;
+import nddo.NDDOAtom;
+import nddo.NDDOParams;
+import nddo.mndo.MNDOParams;
 import org.ejml.simple.SimpleMatrix;
 import runcycle.input.RawAtom;
 import runcycle.input.RawMolecule;

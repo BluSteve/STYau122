@@ -1,6 +1,8 @@
-package nddoparam;
+package nddo;
 
-import nddoparam.param.ParamDerivative;
+import nddo.geometry.GeometryDerivative;
+import nddo.geometry.GeometrySecondDerivative;
+import nddo.param.ParamDerivative;
 import scf.AtomFixed;
 import scf.AtomHandler;
 import scf.AtomProperties;

@@ -1,7 +1,7 @@
 package runcycle.input;
 
-import nddoparam.mndo.MNDOAtom;
-import nddoparam.mndo.MNDOParams;
+import nddo.mndo.MNDOAtom;
+import nddo.mndo.MNDOParams;
 import scf.AtomHandler;
 
 import java.util.Arrays;

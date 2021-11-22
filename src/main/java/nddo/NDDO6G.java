@@ -1,6 +1,6 @@
-package nddoparam;
+package nddo;
 
-import nddoparam.param.ParamDerivative;
+import nddo.param.ParamDerivative;
 import scf.GTO;
 import scf.LCGTO;
 import scf.OrbitalProperties;

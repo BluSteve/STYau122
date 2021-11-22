@@ -1,5 +1,9 @@
-package nddoparam;
+package nddo.geometry;
 
+import nddo.NDDOAtom;
+import nddo.solution.Solution;
+import nddo.solution.SolutionR;
+import nddo.solution.SolutionU;
 import org.apache.logging.log4j.Logger;
 import org.ejml.simple.SimpleMatrix;
 import tools.Utils;

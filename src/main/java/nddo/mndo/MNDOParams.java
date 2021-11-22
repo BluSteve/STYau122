@@ -1,6 +1,6 @@
-package nddoparam.mndo;
+package nddo.mndo;
 
-import nddoparam.NDDOParams;
+import nddo.NDDOParams;
 
 public class MNDOParams extends NDDOParams {
 	public static final int[] T1ParamNums = {0, 1, 3, 5, 7};

@@ -1,7 +1,7 @@
 package runcycle.input;
 
-import nddoparam.mndo.MNDOAtom;
-import nddoparam.mndo.MNDOParams;
+import nddo.mndo.MNDOAtom;
+import nddo.mndo.MNDOParams;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.LoggerContext;

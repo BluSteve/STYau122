@@ -1,19 +1,14 @@
 package runcycle;
 
-import nddoparam.GeometryOptimization;
-import nddoparam.NDDOParams;
-import nddoparam.Solution;
-import nddoparam.param.ParamErrorFunction;
-import nddoparam.param.ParamGradient;
-import nddoparam.param.ParamHessian;
+import nddo.geometry.GeometryOptimization;
+import nddo.NDDOParams;
+import nddo.solution.Solution;
+import nddo.param.ParamErrorFunction;
+import nddo.param.ParamGradient;
+import nddo.param.ParamHessian;
 import org.apache.commons.lang3.time.StopWatch;
 import runcycle.input.RawMolecule;
 import runcycle.output.OutputHandler;
-
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 
 public class MoleculeRun implements MoleculeResult {
 	protected double[] datum;

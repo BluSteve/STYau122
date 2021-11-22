@@ -1,33 +1,33 @@
-package nddoparam;
+package nddo.geometry;
 
+import nddo.solution.SolutionR;
 import org.ejml.data.SingularMatrixException;
 import org.ejml.simple.SimpleMatrix;
 
-public class GeometryOptimizationU extends GeometryOptimization {
+public class GeometryOptimizationR extends GeometryOptimization {
 
-	protected GeometryOptimizationU(SolutionU s) {
+	protected GeometryOptimizationR(SolutionR s) {
 		super(s);
 	}
 
 	protected double findDerivative(int i, int j) {
-		return GeometryDerivative.grad((SolutionU) s, i, j);
+		return GeometryDerivative.grad((SolutionR) s, i, j);
 	}
 
 	protected SimpleMatrix[] findGH() {
-		SimpleMatrix[][] matrices = GeometryDerivative.gradientRoutine((SolutionU) s);
+		SimpleMatrix[][] matrices = GeometryDerivative.gradientRoutine((SolutionR) s);
 
 		SimpleMatrix gradient = matrices[0][0];
 		SimpleMatrix hessian;
 
-		// dunno if this is ok for unrestricted
 		try {
-			 hessian = GeometrySecondDerivative
-					.hessianRoutine((SolutionU) s, matrices[1],
-							matrices[2]);
+			hessian = GeometrySecondDerivative
+					.hessianRoutine((SolutionR) s, matrices[1]);
 		} catch (SingularMatrixException e) {
 			hessian = SimpleMatrix.identity(gradient.getNumElements());
 		}
 
 		return new SimpleMatrix[]{gradient, hessian};
 	}
+
 }

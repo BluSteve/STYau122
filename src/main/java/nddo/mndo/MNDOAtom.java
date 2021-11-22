@@ -1,8 +1,8 @@
-package nddoparam.mndo;
+package nddo.mndo;
 
-import nddoparam.GeometryDerivative;
-import nddoparam.NDDO6G;
-import nddoparam.NDDOAtom;
+import nddo.geometry.GeometryDerivative;
+import nddo.NDDO6G;
+import nddo.NDDOAtom;
 import scf.AtomProperties;
 import scf.GTO;
 

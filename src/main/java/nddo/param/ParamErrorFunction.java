@@ -1,9 +1,9 @@
-package nddoparam.param;
+package nddo.param;
 
-import nddoparam.NDDOAtom;
-import nddoparam.Solution;
-import nddoparam.SolutionR;
-import nddoparam.SolutionU;
+import nddo.NDDOAtom;
+import nddo.solution.Solution;
+import nddo.solution.SolutionR;
+import nddo.solution.SolutionU;
 import scf.GTO;
 
 import java.util.ArrayList;

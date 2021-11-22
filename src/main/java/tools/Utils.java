@@ -1,7 +1,7 @@
 package tools;
 
-import nddoparam.NDDOAtom;
-import nddoparam.NDDOParams;
+import nddo.NDDOAtom;
+import nddo.NDDOParams;
 import org.apache.commons.lang3.StringUtils;
 import org.ejml.data.DMatrixRMaj;
 import org.ejml.dense.row.decomposition.eig.SymmetricQRAlgorithmDecomposition_DDRM;

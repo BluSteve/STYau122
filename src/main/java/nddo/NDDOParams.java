@@ -1,4 +1,4 @@
-package nddoparam;
+package nddo;
 
 import java.io.Serializable;
 

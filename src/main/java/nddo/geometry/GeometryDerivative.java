@@ -1,5 +1,9 @@
-package nddoparam;
+package nddo.geometry;
 
+import nddo.NDDO6G;
+import nddo.NDDOAtom;
+import nddo.solution.SolutionR;
+import nddo.solution.SolutionU;
 import org.ejml.simple.SimpleMatrix;
 import scf.GTO;
 import scf.LCGTO;

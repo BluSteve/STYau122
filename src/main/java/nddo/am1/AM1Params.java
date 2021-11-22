@@ -1,6 +1,6 @@
-package nddoparam.am1;
+package nddo.am1;
 
-import nddoparam.NDDOParams;
+import nddo.NDDOParams;
 
 import java.util.Arrays;
 

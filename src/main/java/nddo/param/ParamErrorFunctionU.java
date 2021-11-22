@@ -1,8 +1,8 @@
-package nddoparam.param;
+package nddo.param;
 
-import nddoparam.GeometryDerivative;
-import nddoparam.Solution;
-import nddoparam.SolutionU;
+import nddo.geometry.GeometryDerivative;
+import nddo.solution.Solution;
+import nddo.solution.SolutionU;
 
 class ParamErrorFunctionU extends ParamErrorFunction {
 	protected ParamErrorFunctionU(Solution soln, double refHeat) {

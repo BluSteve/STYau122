@@ -1,9 +1,9 @@
-package nddoparam.param;
+package nddo.param;
 
-import nddoparam.NDDO6G;
-import nddoparam.NDDOAtom;
-import nddoparam.NDDOParams;
-import nddoparam.SolutionR;
+import nddo.NDDO6G;
+import nddo.NDDOAtom;
+import nddo.NDDOParams;
+import nddo.solution.SolutionR;
 import org.ejml.data.DMatrixSparseCSC;
 import org.ejml.data.SingularMatrixException;
 import org.ejml.simple.SimpleMatrix;
@@ -15,7 +15,7 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static nddoparam.GeometrySecondDerivative.*;
+import static nddo.geometry.GeometrySecondDerivative.*;
 
 public class ParamDerivative {
 

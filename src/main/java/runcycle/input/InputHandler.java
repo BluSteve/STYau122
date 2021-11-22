@@ -2,9 +2,9 @@ package runcycle.input;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import nddoparam.Solution;
-import nddoparam.am1.AM1Params;
-import nddoparam.mndo.MNDOParams;
+import nddo.solution.Solution;
+import nddo.am1.AM1Params;
+import nddo.mndo.MNDOParams;
 import scf.AtomHandler;
 import scf.AtomProperties;
 import tools.Utils;
@@ -16,8 +16,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 
-import static nddoparam.mndo.MNDOParams.T1ParamNums;
-import static nddoparam.mndo.MNDOParams.T2ParamNums;
+import static nddo.mndo.MNDOParams.T1ParamNums;
+import static nddo.mndo.MNDOParams.T2ParamNums;
 
 public class InputHandler {
 	/**
