@@ -64,8 +64,6 @@ class ParamGradientR extends ParamGradient {
 		if (aggregateArrayUnpadded.length > 0) {
 			SimpleMatrix[] xLimitedAggregate =
 					new SimpleMatrix[aggregateArrayUnpadded.length];
-			System.out
-					.println("xLimitedAggregate = " + xLimitedAggregate.length);
 			int elapsedSize = 0;
 			double cores = Runtime.getRuntime().availableProcessors();
 			int size = Math.max((int) Math.ceil(

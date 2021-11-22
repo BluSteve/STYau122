@@ -3191,7 +3191,7 @@ public class ParamDerivative {
 					}
 					else {
 						iterable[j] = 0;
-						System.out.println("Pople convergence test: " + mag);
+						System.out.println(soln.getRm().debugName() + "Pople convergence test: " + mag);
 					}
 				}
 
