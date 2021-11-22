@@ -1,6 +1,7 @@
 package nddoparam;
 
 import nddoparam.mndo.MNDOParams;
+import org.apache.logging.log4j.Logger;
 import org.ejml.simple.SimpleMatrix;
 import runcycle.input.RawAtom;
 import runcycle.input.RawMolecule;
@@ -107,8 +108,8 @@ public abstract class Solution {
 	 * @param limit
 	 * @return
 	 */
-	public static boolean isSimilar(SimpleMatrix x, SimpleMatrix y,
-									double limit) {
+	protected static boolean isSimilar(SimpleMatrix x, SimpleMatrix y,
+									   double limit) {
 		for (int i = 0; i < y.numRows(); i++) {
 			for (int j = 0; j < y.numCols(); j++) {
 				if (Math.abs(x.get(i, j) - y.get(i, j)) > limit) {

@@ -4,10 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Change to full CH training set">
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Minor changes">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/copy.bat" beforeDir="false" afterPath="$PROJECT_DIR$/copy.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddoparam/GeometryOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddoparam/GeometryOptimization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddoparam/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddoparam/Solution.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddoparam/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddoparam/param/ParamDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddoparam/param/ParamGradientR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddoparam/param/ParamGradientR.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddoparam/param/ParamHessian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddoparam/param/ParamHessian.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/MoleculeRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/MoleculeRun.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/input/RawMolecule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/input/RawMolecule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/output/OutputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/output/OutputHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,6 +90,7 @@
     <option name="showMembers" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
@@ -137,40 +147,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Utils" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="tools.Utils" />
-      <module name="MNDOParam.main" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="tools.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="MNDOParam [jar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="jar" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
     <configuration name="Copy" type="ShConfigurationType">
       <option name="SCRIPT_TEXT" value="" />
       <option name="INDEPENDENT_SCRIPT_PATH" value="false" />
@@ -191,16 +167,12 @@
     <list>
       <item itemvalue="Application.Main" />
       <item itemvalue="Application.InputHandler" />
-      <item itemvalue="Application.Utils" />
       <item itemvalue="Application.Testing" />
-      <item itemvalue="Gradle.MNDOParam [jar]" />
       <item itemvalue="Shell Script.Copy" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Testing" />
-        <item itemvalue="Gradle.MNDOParam [jar]" />
-        <item itemvalue="Application.Utils" />
         <item itemvalue="Application.InputHandler" />
         <item itemvalue="Application.Main" />
       </list>
@@ -230,6 +202,7 @@
       <workItem from="1637388628368" duration="22824000" />
       <workItem from="1637466260670" duration="1952000" />
       <workItem from="1637503048022" duration="3534000" />
+      <workItem from="1637550668132" duration="16632000" />
     </task>
     <task id="LOCAL-00001" summary="Convert to gradle">
       <created>1636909106825</created>
@@ -336,7 +309,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637504590368</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Minor changes">
+      <created>1637551102491</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1637551102491</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -380,6 +360,7 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
@@ -395,9 +376,9 @@
     <MESSAGE value="GCP uploading preparations" />
     <MESSAGE value="Optimize imports" />
     <MESSAGE value="Minor but important constant changes + testing&#10;&#10;Numit in geomopt causes hessian nans at 7, looks fine at 10 but&#10;SolutionR had a caught SingularMatrixException." />
-    <MESSAGE value="Minor changes" />
     <MESSAGE value="Change to full CH training set" />
-    <option name="LAST_COMMIT_MESSAGE" value="Change to full CH training set" />
+    <MESSAGE value="Minor changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor changes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

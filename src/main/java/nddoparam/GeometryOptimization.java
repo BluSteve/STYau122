@@ -1,5 +1,6 @@
 package nddoparam;
 
+import org.apache.logging.log4j.Logger;
 import org.ejml.simple.SimpleMatrix;
 import tools.Utils;
 
@@ -10,10 +11,12 @@ import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.RecursiveAction;
 
 public abstract class GeometryOptimization {
+	private final Logger logger;
 	protected Solution s;
 
 	protected GeometryOptimization(Solution s) {
 		this.s = s;
+		logger = s.getRm().getLogger();
 	}
 
 	public static GeometryOptimization of(Solution s) {
@@ -24,21 +27,7 @@ public abstract class GeometryOptimization {
 			return new GeometryOptimizationU((SolutionU) s);
 		}
 		else throw new IllegalArgumentException(
-					"Solution is neither restricted nor unrestricted! " +
-							"Molecule: "
-							+ s.getRm().index + " " + s.getRm().name);
-	}
-
-	private static void logSolution(Solution s) {
-		String str = "";
-		if (s.getRm() != null) {
-			str += s.getRm().index + " " + s.getRm().name + "\n";
-		}
-		str += "Current heat of formation: " + s.hf + "kcal/mol\n" +
-				/*"Current HOMO energy: " + s.homo + " eV\n" +
-				"Current energy: " + s.energy + "\n" +*/
-				"-----------------------------------------------\n";
-		System.out.println(str);
+					"Solution is neither restricted nor unrestricted!");
 	}
 
 	private static double lambda(SimpleMatrix h, SimpleMatrix g, int count) {
@@ -63,8 +52,7 @@ public abstract class GeometryOptimization {
 		}
 
 		if (newGuess != newGuess) {
-			throw new IllegalStateException(
-					"RFO lambda == null! \n" + h);
+			throw new IllegalStateException("RFO lambda == null! \n" + h);
 		}
 
 		return newGuess;
@@ -95,7 +83,7 @@ public abstract class GeometryOptimization {
 	}
 
 	public GeometryOptimization compute() {
-		logSolution(s);
+		logger.debug("initial hf = {}", s.hf);
 
 		SimpleMatrix[] matrices = findGH();
 		SimpleMatrix gradient = matrices[0];
@@ -142,12 +130,10 @@ public abstract class GeometryOptimization {
 
 			// creates new solution based on updated atom positions
 			updateSolution();
-			if (s.getRm() != null)
-				System.out.println(
-						s.getRm().index + " " + s.getRm().name + " Gradient:" +
-								" " + mag(gradient));
-			logSolution(s);
-
+			if (logger.isTraceEnabled()) {
+				logger.trace("hf = {}, gradient = {}", s.hf,
+						mag(gradient));
+			}
 
 			// re-compute Hessian if still has not converged after n
 			// iterations
@@ -201,7 +187,8 @@ public abstract class GeometryOptimization {
 				}
 				ForkJoinTask.invokeAll(subtasks);
 
-				gradient = new SimpleMatrix(3 * s.atoms.length, 1, true, results);
+				gradient =
+						new SimpleMatrix(3 * s.atoms.length, 1, true, results);
 				SimpleMatrix y = gradient.minus(oldGrad);
 
 				try {
@@ -218,8 +205,7 @@ public abstract class GeometryOptimization {
 			U = ms[0];
 		}
 		updateSolution();
-		System.out.println("FINAL:");
-		logSolution(s);
+		logger.debug("final hf = {}", s.hf);
 		return this;
 	}
 

@@ -3,6 +3,8 @@ package runcycle.output;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import runcycle.MoleculeResult;
 import runcycle.input.RawInput;
 import tools.Utils;
@@ -13,6 +15,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class OutputHandler {
+	private static final Logger logger = LogManager.getLogger();
+
 	public static MoleculeOutput toMoleculeOutput(MoleculeResult result,
 												  boolean isRunHessian) {
 		MoleculeOutput mo = new MoleculeOutput();
@@ -80,9 +84,9 @@ public class OutputHandler {
 			ao.outputHash = Utils.getHash(hashsb.toString());
 			// as such, the hash of the final file is different
 
-			System.err.println("\nTotal error: " + ttError);
-			System.err.println("Single-threaded time taken: " + ttTime);
-			System.err.println("Output hash: " + ao.outputHash);
+			logger.info("\nTotal error: {}\n" +
+					"Single-threaded time taken: {}\n" +
+					"Output hash: {}", ao.ttError, ao.ttTime, ao.outputHash);
 
 			FileWriter fw = new FileWriter(
 					output + "-" + ri.hash + " (" + ao.outputHash + ").json");

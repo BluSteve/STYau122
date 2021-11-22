@@ -3028,7 +3028,8 @@ public class ParamDerivative {
 
 		// configure preconditioners
 		SimpleMatrix D = new SimpleMatrix(nonv, nonv, DMatrixSparseCSC.class);
-		SimpleMatrix Dinv = new SimpleMatrix(nonv, nonv, DMatrixSparseCSC.class);
+		SimpleMatrix Dinv =
+				new SimpleMatrix(nonv, nonv, DMatrixSparseCSC.class);
 
 		int counter = 0;
 		for (int i = 0; i < NOcc; i++) {
@@ -3162,22 +3163,25 @@ public class ParamDerivative {
 				double mag = mag(rarray[j]);
 				if (mag > oldrMags[j] || mag != mag) {
 					if (xarrayHoldNN == xarrayHold.length) {
-						System.err.println(
-								"Some numerical instability encountered; " +
-										"returning lower precision values..." + mag);
+						soln.getRm().getLogger().warn(
+								"Slight numerical instability detected; " +
+										"returning lower precision values. " +
+										"rarray mag = {}",
+								mag);
 						xarray = xarrayHold;
 						break bigLoop;
 					}
 					else {
 						if (mag > oldrMags[j]) {
-							System.err.println(
+							soln.getRm().getLogger().error(
 									"Numerical instability detected; " +
-											"reverting to Thiel algorithm...");
+											"reverting to Thiel algorithm.");
 							return xArrayLimitedThiel(soln, fockderivstatic);
 						}
 						if (mag != mag) {
-							System.err.println("Pople algorithm fails; " +
-									"reverting to Thiel algorithm...");
+							soln.getRm().getLogger()
+									.error("Pople algorithm fails; " +
+											"reverting to Thiel algorithm...");
 							return xArrayLimitedThiel(soln, fockderivstatic);
 						}
 					}
@@ -3191,7 +3195,8 @@ public class ParamDerivative {
 					}
 					else {
 						iterable[j] = 0;
-						System.out.println(soln.getRm().debugName() + "Pople convergence test: " + mag);
+						soln.getRm().getLogger().trace(
+								"Pople convergence test: " + mag);
 					}
 				}
 

@@ -47,57 +47,34 @@ public class MoleculeRun implements MoleculeResult {
 
 	public void run() {
 		try {
-			System.err.println(rm.debugName() + " started");
+			rm.getLogger().info("Started");
 			StopWatch sw = new StopWatch();
 			sw.start();
 
 			s = GeometryOptimization
 					.of(Solution.of(rm, rm.atoms, params)).compute().getS();
-
 			// updates geom coords
 			for (int i = 0; i < s.atoms.length; i++) {
 				rm.atoms[i].coords = s.atoms[i].getCoordinates();
 			}
+			rm.getLogger().debug("Finished geometry optimization");
 
 			if (isExpAvail) {
 				sExp = Solution.of(rm, rm.expGeom, params);
 			}
-
 			g = ParamGradient.of(s, datum, sExp).compute();
+			rm.getLogger().debug("Finished param gradient");
 			if (isRunHessian) h = ParamHessian.from(g).compute();
+			rm.getLogger().debug("Finished param hessian");
 
 			sw.stop();
 			time = sw.getTime();
+
 			OutputHandler.outputOne(OutputHandler.toMoleculeOutput(this,
-					isRunHessian),
-					"dynamic-output");
-			System.err.println(rm.debugName() +
-					" finished in " + time);
+					isRunHessian), "dynamic-output");
+			rm.getLogger().info("Finished in {}", time);
 		} catch (Exception e) {
-			e.printStackTrace();
-			StringWriter errors = new StringWriter();
-			e.printStackTrace(new PrintWriter(errors));
-
-			String errorMessage = "ERROR! " + e.getClass() + " " +
-					errors + " " + rm.debugName();
-			logError(errorMessage);
-		}
-	}
-
-	/**
-	 * Logs the error and prevents this molecule from being run in the future
-	 * by changing the isUsing parameter.
-	 *
-	 * @param errorMessage What to print to the console and log file.
-	 */
-	private void logError(String errorMessage) {
-		System.err.println(errorMessage);
-		try {
-			FileWriter fw = new FileWriter("errored-molecules.txt", true);
-			fw.write(errorMessage + "\n");
-			fw.close();
-		} catch (IOException ioException) {
-			ioException.printStackTrace();
+			rm.getLogger().error("", e);
 		}
 	}
 

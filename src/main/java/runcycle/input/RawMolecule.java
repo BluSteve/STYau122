@@ -2,6 +2,8 @@ package runcycle.input;
 
 import nddoparam.mndo.MNDOAtom;
 import nddoparam.mndo.MNDOParams;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import scf.AtomHandler;
 
 import java.util.Arrays;
@@ -17,6 +19,8 @@ public class RawMolecule {
 	public int[] mats; // molecule atom types
 	public int[][] mnps; // molecule needed params
 	public RawAtom[] atoms, expGeom;
+	private transient String debugName;
+	private transient Logger logger;
 
 	public static MNDOAtom[] toMNDOAtoms(RawAtom[] atoms,
 										 MNDOParams[] mndoParams) {
@@ -29,7 +33,15 @@ public class RawMolecule {
 	}
 
 	public String debugName() {
-		return index + ":" + name;
+		if (debugName == null)
+			debugName = String.format("%03d:%s", index, name);
+
+		return debugName;
+	}
+
+	public Logger getLogger() {
+		if (logger == null) logger = LogManager.getLogger(debugName());
+		return logger;
 	}
 
 	@Override
@@ -40,11 +52,18 @@ public class RawMolecule {
 				", restricted=" + restricted +
 				", charge=" + charge +
 				", mult=" + mult +
-				", nElectrons=" + nElectrons +
 				", datum=" + Arrays.toString(datum) +
-				", uniqueZs=" + Arrays.toString(mats) +
+				", atomicNumbers=" + Arrays.toString(atomicNumbers) +
+				", nElectrons=" + nElectrons +
+				", nOrbitals=" + nOrbitals +
+				", nIntegrals=" + nIntegrals +
+				", nCoulombInts=" + nCoulombInts +
+				", nExchangeInts=" + nExchangeInts +
+				", mats=" + Arrays.toString(mats) +
+				", mnps=" + Arrays.toString(mnps) +
 				", atoms=" + Arrays.toString(atoms) +
 				", expGeom=" + Arrays.toString(expGeom) +
+				", debugName='" + debugName + '\'' +
 				'}';
 	}
 }

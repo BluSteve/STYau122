@@ -6,6 +6,10 @@ import nddoparam.param.ParamHessian;
 import optimize.ParamOptimizer;
 import optimize.ReferenceData;
 import org.apache.commons.lang3.time.StopWatch;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.ejml.simple.SimpleMatrix;
 import runcycle.MoleculeRan;
 import runcycle.MoleculeResult;
@@ -23,43 +27,42 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
-import java.util.concurrent.ForkJoinTask;
-import java.util.concurrent.RecursiveTask;
+import java.util.concurrent.*;
 
 
 public class Main {
 	private static final String INPUT_FILENAME = "input";
 	private static final int NUM_RUNS = 1;
 	private static final boolean isImportLastRun = true;
+	private static final Logger logger = LogManager.getLogger();
 	private static RawInput ri;
 	private static MoleculeOutput[] ranMolecules;
+	private static final ScheduledExecutorService progressBar =
+			Executors.newScheduledThreadPool(1);
 
 	public static void main(String[] args) {
-		Scanner s = new Scanner(System.in);
-		System.err.print("Run in verbose mode? (y/N) ");
-		if (!s.next().equals("y")) {
-			System.out.close();
-		}
+		Configurator.setRootLevel(Level.INFO);
+		System.out.println(logger.getLevel());
 
 		if (isImportLastRun) {
 			ranMolecules =
 					OutputHandler.importMoleculeOutputs("dynamic-output");
 			if (ranMolecules != null) {
-				System.err.print(ranMolecules.length +
+				Scanner s = new Scanner(System.in);
+				System.out.print(ranMolecules.length +
 						" molecules from last run found, would you like to " +
 						"import them? (Y/n) ");
 				if (s.next().equals("n")) {
-					System.err.println("Last ran molecules import cancelled!");
+					logger.info("Last ran molecules import cancelled!");
 					ranMolecules = null;
 				}
 				else {
-					System.err.println(ranMolecules.length +
-							" molecules successfully imported from last" +
-							" incomplete run!");
+					logger.info("{} molecules successfully imported from " +
+							"last incomplete run!", ranMolecules.length);
 				}
+				s.close();
 			}
-			else System.err.println("Last ran molecules import failed!");
-			System.err.println();
+			else logger.warn("Last ran molecules import failed!");
 		}
 
 		StopWatch sw = new StopWatch();
@@ -84,12 +87,13 @@ public class Main {
 				e.printStackTrace();
 			}
 			ri = InputHandler.ri;
-			System.err.println(
-					"MNDO Parameterization, updated 21 Nov 2021. " +
-							ri.trainingSet + " training set (PM7)");
-			System.err.println(INPUT_FILENAME + ".json hash: " + ri.hash);
-			System.err.println(
-					"Run number: " + runNum + ", isRunHessian=" + isRunHessian);
+
+			if (runNum == 0) {
+				logger.info("MNDO Parameterization, updated 21 Nov 2021." +
+						" {} training set (PM7)", ri.trainingSet);
+			}
+			logger.info("Run number: {}, hessian = {}, {}.json hash: {}\n",
+					runNum, isRunHessian, INPUT_FILENAME, ri.hash);
 
 			// converts raw params array to NDDOParams classes and finds
 			// params which need to be differentiated
@@ -101,12 +105,14 @@ public class Main {
 			// create tasks to run in parallel and then runs them
 			// excludes ran molecules from previous dynamic output
 			List<RecursiveTask<MoleculeRun>> moleculeTasks = new ArrayList<>();
-			for (RawMolecule request : ri.molecules) {
+			boolean[] isDones = new boolean[ri.nMolecules];
+			for (RawMolecule rm : ri.molecules) {
 				boolean isDoneAlready = false;
 				if (ranMolecules != null) {
 					for (MoleculeOutput mo : ranMolecules) {
-						if (mo.rawMolecule.index == request.index) {
+						if (mo.rawMolecule.index == rm.index) {
 							isDoneAlready = true;
+							isDones[rm.index] = true;
 							break;
 						}
 					}
@@ -116,27 +122,51 @@ public class Main {
 						@Override
 						protected MoleculeRun compute() {
 							MoleculeRun mr = new MoleculeRun(
-									request, nddoParams, isRunHessian);
+									rm, nddoParams, isRunHessian);
 							mr.run();
+							isDones[rm.index] = true;
 							return mr;
 						}
 					});
 				}
 			}
 
-			// shuffles run requests and runs them
-			Collections.shuffle(moleculeTasks, new Random(123));
 			List<MoleculeResult> results = new ArrayList<>();
-			for (ForkJoinTask<MoleculeRun> task :
-					ForkJoinTask.invokeAll(moleculeTasks)) {
-				results.add(task.join());
-			}
 
 			// adds previously ran molecules into the final results list
 			if (ranMolecules != null) {
 				for (MoleculeOutput mr : ranMolecules) {
 					results.add(new MoleculeRan(mr));
 				}
+			}
+
+			if (logger.isInfoEnabled()) {
+				Runnable mLeft = () -> {
+					List<String> done = new ArrayList<>();
+					List<String> left = new ArrayList<>();
+
+					for (RawMolecule rm : ri.molecules) {
+						if (isDones[rm.index]) done.add(rm.debugName());
+						else left.add(rm.debugName());
+					}
+
+					done.sort(String::compareTo);
+					left.sort(String::compareTo);
+
+					logger.info("Molecules done ({}): {}", done.size(), done);
+					logger.info("Molecules left ({}): {}", left.size(), left);
+				};
+
+				int wait = 10;
+				progressBar.scheduleAtFixedRate(mLeft, wait, wait,
+						TimeUnit.SECONDS);
+			}
+
+			// shuffles run requests and runs them
+			Collections.shuffle(moleculeTasks, new Random(123));
+			for (ForkJoinTask<MoleculeRun> task :
+					ForkJoinTask.invokeAll(moleculeTasks)) {
+				results.add(task.join());
 			}
 
 			// outputs output files for reference purposes, not read again in
@@ -225,11 +255,14 @@ public class Main {
 			}
 
 			lsw.stop();
-			System.err.println("\nRun " + runNum + " time taken: "
-					+ lsw.getTime() + "\n\n---\n");
+			logger.info("Run {} time taken: {}", runNum, lsw.getTime());
 		}
 		sw.stop();
-		System.err.println("\nTotal time taken: " + sw.getTime());
+		logger.info("Total time taken: {}", sw.getTime());
+
+		// stop progress bar and terminate program
+		progressBar.shutdownNow();
+		System.exit(0);
 	}
 
 	private static void addToPO(ParamOptimizer o, MoleculeResult result,
