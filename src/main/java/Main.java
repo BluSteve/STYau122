@@ -209,9 +209,7 @@ public class Main {
 			mos.sort(Comparator.comparingInt(x -> x.rawMolecule.index));
 
 			// optimizes params based on this run and gets new search direction
-			SimpleMatrix newGradient =
-					new SimpleMatrix(ttGradient.length, 1, true,
-							ttGradient);
+			SimpleMatrix newGradient = new SimpleMatrix(ttGradient);
 			SimpleMatrix newHessian =
 					isRunHessian ? new SimpleMatrix(ttHessian) :
 							findMockHessian(newGradient,
@@ -230,8 +228,7 @@ public class Main {
 				}
 			}
 			ri.params.lastGradient = ttGradient;
-			ri.params.lastHessian = ParamHessian.utify(
-					Utils.to2dArray(newHessian));
+			ri.params.lastHessian = ParamHessian.utify(newHessian.toArray2());
 			ri.params.lastDir = dir;
 
 			Files.createDirectories(Path.of("outputs"));
@@ -296,7 +293,7 @@ public class Main {
 												double[] oldHessian,
 												double[] oldGradient,
 												double[] oldDir, int size) {
-		SimpleMatrix s = new SimpleMatrix(oldDir.length, 1, true, oldDir);
+		SimpleMatrix s = new SimpleMatrix(oldDir);
 		SimpleMatrix hessian = new SimpleMatrix(size, size);
 		int count = 1;
 		int index = 0;
@@ -309,8 +306,7 @@ public class Main {
 			count++;
 		}
 
-		SimpleMatrix y = newGradient.minus(
-				new SimpleMatrix(oldGradient.length, 1, true, oldGradient));
+		SimpleMatrix y = newGradient.minus(new SimpleMatrix(oldGradient));
 
 		double b = y.transpose().mult(s).get(0);
 		SimpleMatrix A = y.mult(y.transpose()).scale(1 / b);

@@ -192,8 +192,7 @@ public abstract class GeometryOptimization {
 				}
 				ForkJoinTask.invokeAll(subtasks);
 
-				gradient =
-						new SimpleMatrix(3 * s.atoms.length, 1, true, results);
+				gradient = new SimpleMatrix(results);
 				SimpleMatrix y = gradient.minus(oldGrad);
 
 				try {

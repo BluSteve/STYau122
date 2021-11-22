@@ -3132,7 +3132,7 @@ public class ParamDerivative {
 			try {
 				alpha = lhs.solve(rhs);
 			} catch (SingularMatrixException e) {
-				alpha = Utils.filled(lhs.numCols(), rhs.numCols(), 1);
+				alpha = SimpleMatrix.ones(lhs.numCols(), rhs.numCols());
 			}
 
 			// reset r and x array
@@ -3326,7 +3326,7 @@ public class ParamDerivative {
 			try {
 				alpha = solver.solve(rhsvec);
 			} catch (SingularMatrixException e) {
-				alpha = Utils.filled(solver.numCols(), rhsvec.numCols(), 1);
+				alpha = SimpleMatrix.ones(solver.numCols(), rhsvec.numCols());
 			}
 
 			for (int a = 0; a < rhsvec.numCols(); a++) {
@@ -3385,7 +3385,7 @@ public class ParamDerivative {
 			try {
 				beta = solver.solve(rhsvec);
 			} catch (SingularMatrixException e) {
-				beta = Utils.filled(solver.numCols(), rhsvec.numCols(), 1);
+				beta = SimpleMatrix.ones(solver.numCols(), rhsvec.numCols());
 			}
 
 			for (int a = 0; a < rhsvec.numCols(); a++) {

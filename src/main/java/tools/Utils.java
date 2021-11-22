@@ -153,12 +153,6 @@ public class Utils {
 		return count;
 	}
 
-	public static SimpleMatrix filled(int rows, int cols, int a) {
-		SimpleMatrix res = new SimpleMatrix(rows, cols);
-		res.fill(a);
-		return res;
-	}
-
 	public static SimpleMatrix[] symEigen(SimpleMatrix sm) {
 		EigenDecomposition_F64<DMatrixRMaj> evd =
 				new SymmetricQRAlgorithmDecomposition_DDRM(true);

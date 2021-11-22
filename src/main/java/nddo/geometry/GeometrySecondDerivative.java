@@ -2849,7 +2849,7 @@ public class GeometrySecondDerivative {
 			try {
 				alpha = solver.solve(rhsvec);
 			} catch (SingularMatrixException e) {
-				alpha = Utils.filled(solver.numCols(), rhsvec.numCols(), 1);
+				alpha = SimpleMatrix.ones(solver.numCols(), rhsvec.numCols());
 			}
 
 			for (int a = 0; a < rhsvec.numCols(); a++) {

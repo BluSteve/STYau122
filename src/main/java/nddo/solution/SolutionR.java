@@ -412,9 +412,8 @@ public class SolutionR extends Solution {
 			int ediisSize = Math.min(Farray.length + 1, numIt + 2);
 
 			// if true do EDIIS else DIIS
-			if (CommonOps_DDRM.elementMax(
-					commutatorarray[Math.min(Farray.length - 1, numIt)]
-							.getDDRM()) > 0.01) {
+			if (commutatorarray[Math.min(Farray.length - 1, numIt)]
+					.elementMax() > 0.01) {
 				SimpleMatrix mat = new SimpleMatrix(ediisSize, ediisSize);
 
 				for (int i = 0; i < ediisSize - 1; i++) {
@@ -432,7 +431,7 @@ public class SolutionR extends Solution {
 				mat.setRow(mat.numRows() - 1, 0, col);
 				mat.set(mat.numRows() - 1, mat.numCols() - 1, 0);
 
-				SimpleMatrix rhs = Utils.filled(mat.numRows(), 1, 1);
+				SimpleMatrix rhs = SimpleMatrix.ones(mat.numRows(), 1);
 				for (int i = 0; i < ediisSize - 1; i++) {
 					rhs.set(i, earray[i]);
 				}

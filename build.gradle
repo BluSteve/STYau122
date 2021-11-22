@@ -27,7 +27,7 @@ jar {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    implementation 'org.ejml:ejml-all:0.41'
+    implementation files('libs/ejml-v0.42-SNAPSHOT.jar')
     implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'org.apache.commons:commons-lang3:3.12.0'
     implementation 'org.apache.commons:commons-csv:1.9.0'

@@ -4,10 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Clean up dependencies including jblas and cublas">
-      <change afterPath="$PROJECT_DIR$/src/main/java/tools/SimpleMatrix.java" afterDir="false" />
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Reformat">
+      <change afterPath="$PROJECT_DIR$/libs/ejml-v0.42-SNAPSHOT.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Utils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,7 +92,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="extract.method.default.visibility" value="public" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/copy.bat" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/libs" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.26182964" />
@@ -100,6 +105,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\billi\IdeaProjects\MNDOParam\libs" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam-gradle" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam-gradle\src\main\resources" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam-gradle\src\main\java" />
@@ -114,7 +120,7 @@
       <recent name="tools.Utils" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.MNDOParam [jar]">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="InputHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="runcycle.input.InputHandler" />
       <module name="MNDOParam.main" />
@@ -197,9 +203,9 @@
       <item itemvalue="Application.Main" />
       <item itemvalue="Application.InputHandler" />
       <item itemvalue="Application.Testing" />
-      <item itemvalue="Shell Script.Copy" />
-      <item itemvalue="Gradle.MNDOParam [jar]" />
       <item itemvalue="Application.Utils" />
+      <item itemvalue="Gradle.MNDOParam [jar]" />
+      <item itemvalue="Shell Script.Copy" />
     </list>
     <recent_temporary>
       <list>
@@ -236,7 +242,8 @@
       <workItem from="1637466260670" duration="1952000" />
       <workItem from="1637503048022" duration="3534000" />
       <workItem from="1637550668132" duration="21767000" />
-      <workItem from="1637581088379" duration="14219000" />
+      <workItem from="1637581088379" duration="14737000" />
+      <workItem from="1637601269581" duration="2374000" />
     </task>
     <task id="LOCAL-00001" summary="Convert to gradle">
       <created>1636909106825</created>
@@ -406,7 +413,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637597460810</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Reformat">
+      <created>1637599536100</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1637599536100</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -475,7 +489,8 @@
     <MESSAGE value="Minor bugs" />
     <MESSAGE value="Lots of bug fixes, refactorings, csv logging" />
     <MESSAGE value="Clean up dependencies including jblas and cublas" />
-    <option name="LAST_COMMIT_MESSAGE" value="Clean up dependencies including jblas and cublas" />
+    <MESSAGE value="Reformat" />
+    <option name="LAST_COMMIT_MESSAGE" value="Reformat" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
