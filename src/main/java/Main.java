@@ -18,7 +18,6 @@ import runcycle.input.RawMolecule;
 import runcycle.output.MoleculeOutput;
 import runcycle.output.OutputHandler;
 import scf.AtomHandler;
-import tools.Utils;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -31,6 +30,7 @@ import java.util.concurrent.*;
 public class Main {
 	private static final String INPUT_FILENAME = "input";
 	private static final int NUM_RUNS = 1;
+	private static final int MAX_MOLECULES = 1000;
 	private static final boolean isImportLastRun = true;
 	private static final Logger logger = LogManager.getLogger();
 	private static final ScheduledExecutorService progressBar =
@@ -90,6 +90,7 @@ public class Main {
 			// converts raw params array to NDDOParams classes and finds
 			// params which need to be differentiated
 			NDDOParams[] nddoParams = convertToNDDOParams(ri);
+
 			// combined length of all differentiated params
 			int paramLength = 0;
 			for (int[] param : ri.neededParams) paramLength += param.length;
@@ -97,7 +98,7 @@ public class Main {
 			// create tasks to run in parallel and then runs them
 			// excludes ran molecules from previous dynamic output
 			List<RecursiveTask<MoleculeRun>> moleculeTasks = new ArrayList<>();
-			boolean[] isDones = new boolean[ri.nMolecules];
+			boolean[] isDones = new boolean[MAX_MOLECULES];
 			for (RawMolecule rm : ri.molecules) {
 				boolean isDoneAlready = false;
 				if (ranMolecules != null) {

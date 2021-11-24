@@ -255,6 +255,7 @@ public class SolutionR extends Solution {
 		SimpleMatrix[] commutatorarray = new SimpleMatrix[8];
 
 		int numIt = 0;
+		int itSinceDIIS = 50;
 		double DIISError = 10;
 
 		while (DIISError > 1E-11) {
@@ -413,7 +414,9 @@ public class SolutionR extends Solution {
 
 			// if true do EDIIS else DIIS
 			if (commutatorarray[Math.min(Farray.length - 1, numIt)]
-					.elementMax() > 0.01) {
+					.elementMax() > 0.01 && itSinceDIIS < 50) {
+				getRm().getLogger().trace("ediis");
+				itSinceDIIS++;
 				SimpleMatrix mat = new SimpleMatrix(ediisSize, ediisSize);
 
 				for (int i = 0; i < ediisSize - 1; i++) {
@@ -503,6 +506,7 @@ public class SolutionR extends Solution {
 				densityMatrix = calculateDensityMatrix(C);
 			}
 			else {
+				itSinceDIIS = 0;
 				SimpleMatrix mat = new SimpleMatrix(ediisSize, ediisSize);
 
 				for (int i = 0; i < Math.min(Farray.length, numIt + 1); i++) {
@@ -553,7 +557,7 @@ public class SolutionR extends Solution {
 					E = matrices[1].diag();
 					C = matrices[0].transpose();
 
-					double damp = 0.8;
+					double damp = 0.9;
 					densityMatrix = calculateDensityMatrix(C).scale(1 - damp)
 							.plus(olddensity.scale(damp));
 				}

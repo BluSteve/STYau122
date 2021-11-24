@@ -4,15 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Reformat">
-      <change afterPath="$PROJECT_DIR$/libs/ejml-v0.42-SNAPSHOT.jar" afterDir="false" />
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Use own EJML with JBlas syntax improvements">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mndooutput.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/input/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/input/InputHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -243,7 +240,9 @@
       <workItem from="1637503048022" duration="3534000" />
       <workItem from="1637550668132" duration="21767000" />
       <workItem from="1637581088379" duration="14737000" />
-      <workItem from="1637601269581" duration="2374000" />
+      <workItem from="1637601269581" duration="3122000" />
+      <workItem from="1637638892344" duration="658000" />
+      <workItem from="1637741997583" duration="4551000" />
     </task>
     <task id="LOCAL-00001" summary="Convert to gradle">
       <created>1636909106825</created>
@@ -420,7 +419,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637599536100</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="Use own EJML with JBlas syntax improvements">
+      <created>1637603779003</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1637603779003</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -490,7 +496,8 @@
     <MESSAGE value="Lots of bug fixes, refactorings, csv logging" />
     <MESSAGE value="Clean up dependencies including jblas and cublas" />
     <MESSAGE value="Reformat" />
-    <option name="LAST_COMMIT_MESSAGE" value="Reformat" />
+    <MESSAGE value="Use own EJML with JBlas syntax improvements" />
+    <option name="LAST_COMMIT_MESSAGE" value="Use own EJML with JBlas syntax improvements" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

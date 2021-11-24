@@ -316,5 +316,6 @@ public class InputHandler {
 	public static void main(String[] args) throws IOException {
 		convertFromTXT("inputtesting.txt");
 //		outputSubset(new int[]{234, 237, 258, 260, 261, 270, 276, 285});
+		outputSubset(new int[]{285});
 	}
 }
