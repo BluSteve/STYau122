@@ -229,15 +229,15 @@ public class Main {
 			ri.params.lastHessian = ParamHessian.utify(newHessian.toArray2());
 			ri.params.lastDir = dir;
 
+			lsw.stop();
+			logger.info("Run {} time taken: {}", runNum, lsw.getTime());
+
 			Files.createDirectories(Path.of("outputs"));
 			MoleculeOutput[] mosarray =
 					mos.toArray(new MoleculeOutput[0]);
 			OutputHandler.output(ri, mosarray, "outputs/run-"
-					+ String.format("%04d", runNum) + "-output");
+					+ String.format("%04d", runNum) + "-output", lsw.getTime());
 			InputHandler.updateInput(ri, INPUT_FILENAME);
-
-			lsw.stop();
-			logger.info("Run {} time taken: {}", runNum, lsw.getTime());
 		}
 		sw.stop();
 		logger.info("Total time taken: {}", sw.getTime());

@@ -4,10 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Fix symmetric molecule GeomOpt numit issue">
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="SolutionR 50 max diis">
+      <change afterPath="$PROJECT_DIR$/mndoparams (new).txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/input/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/input/InputHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/copy.bat" beforeDir="false" afterPath="$PROJECT_DIR$/copy.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mndoparams.txt" beforeDir="false" afterPath="$PROJECT_DIR$/mndoparams.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/output/OutputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/output/OutputHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,6 +104,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\billi\IdeaProjects\MNDOParam" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\libs" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam-gradle" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam-gradle\src\main\resources" />
@@ -115,7 +120,7 @@
       <recent name="tools.Utils" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Shell Script.Copy">
     <configuration name="InputHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="runcycle.input.InputHandler" />
       <module name="MNDOParam.main" />
@@ -244,7 +249,7 @@
       <workItem from="1637819647700" duration="31000" />
       <workItem from="1637819894018" duration="4626000" />
       <workItem from="1637914199244" duration="601000" />
-      <workItem from="1637917510130" duration="344000" />
+      <workItem from="1637917510130" duration="3305000" />
     </task>
     <task id="LOCAL-00001" summary="Convert to gradle">
       <created>1636909106825</created>
@@ -449,7 +454,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637916343539</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="SolutionR 50 max diis">
+      <created>1637917993670</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1637917993670</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -497,7 +509,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Utils refactor" />
     <MESSAGE value="Create jblas gradle branch" />
     <MESSAGE value="Update .gitignore" />
     <MESSAGE value="Minor pople improvements" />
@@ -522,7 +533,8 @@
     <MESSAGE value="Fix InputHandler subset" />
     <MESSAGE value="Fix symmetric molecule GeomOpt numit issue" />
     <MESSAGE value="Roll back DIIS experiment" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix symmetric molecule GeomOpt numit issue" />
+    <MESSAGE value="SolutionR 50 max diis" />
+    <option name="LAST_COMMIT_MESSAGE" value="SolutionR 50 max diis" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -55,16 +55,14 @@ public class OutputHandler {
 
 	// assumes updated input
 	public static void output(RawInput ri, MoleculeOutput[] mos,
-							  String output) throws IOException {
+							  String output, long ttTime) throws IOException {
 		GsonBuilder builder = new GsonBuilder();
 		builder.setPrettyPrinting();
 		Gson gson = builder.create();
 		double ttError = 0;
-		long ttTime = 0;
 		StringBuilder hashsb = new StringBuilder();
 		for (MoleculeOutput mo : mos) {
 			ttError += mo.totalError;
-			ttTime += mo.time;
 
 			// remove time to make hashes consistent
 			long t = mo.time;
@@ -74,8 +72,8 @@ public class OutputHandler {
 		}
 
 		AggregateOutput ao = new AggregateOutput();
-		ao.ttTime = ttTime;
 		ao.ttError = ttError;
+		ao.ttTime = ttTime;
 		ao.inputHash = ri.hash;
 		ao.params = ri.params;
 		ao.mos = mos;
