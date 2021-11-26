@@ -3421,8 +3421,10 @@ public class ParamDerivative {
 							fockderiv.get(u, v);
 				}
 			}
-			x.set(count1, 0,
-					-element / (soln.E.get(NOcc - 1) - soln.E.get(j)));
+			if (soln.E.get(NOcc - 1) != soln.E.get(j)) {
+				x.set(count1, 0,
+						-element / (soln.E.get(NOcc - 1) - soln.E.get(j)));
+			}
 			count1++;
 		}
 		return x;
