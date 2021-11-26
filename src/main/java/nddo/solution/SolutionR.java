@@ -256,6 +256,7 @@ public class SolutionR extends Solution {
 
 		int numIt = 0;
 		double DIISError = 10;
+		int itSinceLastDIIS = 0;
 
 		while (DIISError > 1E-11) {
 			olddensity = densityMatrix;
@@ -413,7 +414,8 @@ public class SolutionR extends Solution {
 
 			// if true do EDIIS else DIIS
 			if (commutatorarray[Math.min(Farray.length - 1, numIt)]
-					.elementMax() > 0.01) {
+					.elementMax() > 0.01 && itSinceLastDIIS < 50) {
+				itSinceLastDIIS++;
 				SimpleMatrix mat = new SimpleMatrix(ediisSize, ediisSize);
 
 				for (int i = 0; i < ediisSize - 1; i++) {
@@ -503,6 +505,7 @@ public class SolutionR extends Solution {
 				densityMatrix = calculateDensityMatrix(C);
 			}
 			else {
+				itSinceLastDIIS = 0;
 				SimpleMatrix mat = new SimpleMatrix(ediisSize, ediisSize);
 
 				for (int i = 0; i < Math.min(Farray.length, numIt + 1); i++) {
@@ -564,7 +567,6 @@ public class SolutionR extends Solution {
 					.trace("SolutionR iteration: {}, DIISError: {}", numIt,
 							DIISError);
 		}
-		getRm().getLogger().trace(E);
 
 		findEnergyAndHf();
 		findHomo();
