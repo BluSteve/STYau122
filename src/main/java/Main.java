@@ -73,11 +73,8 @@ public class Main {
 			AtomHandler.populateAtoms();
 			ri = InputHandler.processInput(INPUT_FILENAME);
 
-			FileWriter fw1 = new FileWriter("errored-molecules.txt");
-			fw1.write("");
 			FileWriter fw2 = new FileWriter("dynamic-output.json");
 			fw2.write("[");
-			fw1.close();
 			fw2.close();
 
 			if (runNum == 0) {
