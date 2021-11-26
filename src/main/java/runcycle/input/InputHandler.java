@@ -298,7 +298,7 @@ public class InputHandler {
 			}
 		}
 		ri.molecules = newrms;
-		outputJSON(ri, "subset");
+		updateInput(ri, "subset");
 	}
 
 	private static void addAtom(List<RawAtom> rawAtoms, List<String> lines,
