@@ -4,14 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="SolutionR 50 max diis">
-      <change afterPath="$PROJECT_DIR$/mndoparams (new).txt" afterDir="false" />
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Change to original params + minor IO changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/copy.bat" beforeDir="false" afterPath="$PROJECT_DIR$/copy.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mndoparams.txt" beforeDir="false" afterPath="$PROJECT_DIR$/mndoparams.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/output/OutputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/output/OutputHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Testing.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,7 +115,7 @@
       <recent name="tools.Utils" />
     </key>
   </component>
-  <component name="RunManager" selected="Shell Script.Copy">
+  <component name="RunManager" selected="Application.Testing">
     <configuration name="InputHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="runcycle.input.InputHandler" />
       <module name="MNDOParam.main" />
@@ -250,6 +245,8 @@
       <workItem from="1637819894018" duration="4626000" />
       <workItem from="1637914199244" duration="601000" />
       <workItem from="1637917510130" duration="3305000" />
+      <workItem from="1637922611609" duration="157000" />
+      <workItem from="1637923806316" duration="830000" />
     </task>
     <task id="LOCAL-00001" summary="Convert to gradle">
       <created>1636909106825</created>
@@ -461,7 +458,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637917993670</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="Change to original params + minor IO changes">
+      <created>1637922761897</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1637922761897</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -509,7 +513,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Create jblas gradle branch" />
     <MESSAGE value="Update .gitignore" />
     <MESSAGE value="Minor pople improvements" />
     <MESSAGE value="Fixed ParamDeriv h2 thiel issue" />
@@ -534,7 +537,8 @@
     <MESSAGE value="Fix symmetric molecule GeomOpt numit issue" />
     <MESSAGE value="Roll back DIIS experiment" />
     <MESSAGE value="SolutionR 50 max diis" />
-    <option name="LAST_COMMIT_MESSAGE" value="SolutionR 50 max diis" />
+    <MESSAGE value="Change to original params + minor IO changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Change to original params + minor IO changes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -544,16 +548,6 @@
           <url>file://$PROJECT_DIR$/src/main/java/nddo/mndo/MNDOAtom.java</url>
           <line>56</line>
           <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/Testing.java</url>
-          <line>107</line>
-          <option name="timeStamp" value="25" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/Testing.java</url>
-          <line>106</line>
-          <option name="timeStamp" value="34" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

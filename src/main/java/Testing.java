@@ -41,11 +41,13 @@ public class Testing {
 		SimpleMatrix[] xarray = new SimpleMatrix[length];
 		SimpleMatrix[] barray = new SimpleMatrix[length];
 		SimpleMatrix[] parray = new SimpleMatrix[length];
-		for (int i = 0; i < parray.length; i++) {
-			parray[i] = new SimpleMatrix(nonv, nonv);
-		}
 		SimpleMatrix[] Farray = new SimpleMatrix[length];
 		SimpleMatrix[] rarray = new SimpleMatrix[length];
+		for (int i = 0; i < parray.length; i++) {
+			xarray[i] = new SimpleMatrix(nonv, 1);
+			parray[i] = new SimpleMatrix(nonv, nonv);
+			rarray[i] = new SimpleMatrix(nonv, 1);
+		}
 
 		// configure preconditioners
 		SimpleMatrix D = new SimpleMatrix(nonv, nonv, DMatrixSparseCSC.class);
@@ -55,7 +57,7 @@ public class Testing {
 		int counter = 0;
 		for (int i = 0; i < NOcc; i++) {
 			for (int j = 0; j < NVirt; j++) {
-				double e = (-soln.E.get(i) + soln.E.get(NOcc + j));
+				double e = -soln.E.get(i) + soln.E.get(NOcc + j);
 
 				D.set(counter, counter, Math.pow(e, -0.5));
 				Dinv.set(counter, counter, Math.pow(e, 0.5));
@@ -108,13 +110,14 @@ public class Testing {
 			Utils.orthogonalise(barray);
 
 			for (int i = 0; i < length; i++) {
-				prevBs.add(barray[i]);
+				prevBs.add(barray[i].copy());
 
-				CommonOps_DDRM.mult(D.getDDRM(), computeResponseVectorsPople
+				CommonOps_DDRM.mult(D.getDDRM(),
+						computeResponseVectorsPople
 								(Dinv.mult(barray[i]), soln).getDDRM(),
 						parray[i].getDDRM());
 
-				prevPs.add(parray[i]);
+				prevPs.add(parray[i].copy());
 			}
 
 			for (int i = 0; i < length; i++) {
@@ -122,10 +125,11 @@ public class Testing {
 
 				// orthogonalize against all previous Bs
 				for (SimpleMatrix prevB : prevBs) {
-					double num = prevB.transpose().mult(parray[i]).get(0) /
-							prevB.transpose().mult(prevB).get(0);
+					SimpleMatrix transpose = prevB.transpose();
+					double num = transpose.mult(parray[i]).get(0) /
+							transpose.mult(prevB).get(0);
 
-					newb.minusi(prevB.scale(num));
+					newb.plusi(num, prevB.negative());
 				}
 
 				barray[i] = newb;
@@ -154,15 +158,11 @@ public class Testing {
 				for (int j = 0; j < alpha.numCols(); j++) {
 					// B with tilde
 					rarray[j].plusi(
-							prevBs.get(i)
-									.minus(prevPs.get(i))
-									.scale(alpha.get(i, j))
+							prevBs.get(i).plus(alpha.get(i, j),
+									prevPs.get(i).negative())
 					);
 
-					xarray[j].plusi(
-							prevBs.get(i)
-									.scale(alpha.get(i, j))
-					);
+					xarray[j].plusi(alpha.get(i, j), prevBs.get(i));
 				}
 			}
 
