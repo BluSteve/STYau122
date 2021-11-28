@@ -43,12 +43,12 @@ public class InputHandler {
 
 	/**
 	 * Converts from bohr to armstrongs before outputting. Should always be
-	 * used instead of outputJSON.
+	 * used instead of outputJSON for any "processed" input.
 	 *
 	 * @param ri       rawinput object in bohr units
 	 * @param filename filename without extension
 	 */
-	public static void updateInput(RawInput ri, String filename)
+	public static void outputInput(RawInput ri, String filename)
 			throws IOException {
 		for (RawMolecule rm : ri.molecules) {
 			for (int i = 0; i < rm.atoms.length; i++) {
@@ -298,7 +298,7 @@ public class InputHandler {
 			}
 		}
 		ri.molecules = newrms;
-		updateInput(ri, "subset");
+		outputInput(ri, "subset");
 	}
 
 	private static void addAtom(List<RawAtom> rawAtoms, List<String> lines,
@@ -316,6 +316,6 @@ public class InputHandler {
 	public static void main(String[] args) throws IOException {
 		convertFromTXT("inputtesting.txt");
 //		outputSubset(new int[]{234, 237, 258, 260, 261, 270, 276, 285});
-		outputSubset(new int[]{8, 10});
+		outputSubset(new int[]{9});
 	}
 }

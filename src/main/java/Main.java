@@ -1,6 +1,4 @@
 import nddo.NDDOParams;
-import nddo.am1.AM1Params;
-import nddo.mndo.MNDOParams;
 import nddo.param.ParamGradient;
 import nddo.param.ParamHessian;
 import optimize.ParamOptimizer;
@@ -18,6 +16,7 @@ import runcycle.input.RawMolecule;
 import runcycle.output.MoleculeOutput;
 import runcycle.output.OutputHandler;
 import scf.AtomHandler;
+import tools.Utils;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -86,7 +85,7 @@ public class Main {
 
 			// converts raw params array to NDDOParams classes and finds
 			// params which need to be differentiated
-			NDDOParams[] nddoParams = convertToNDDOParams(ri);
+			NDDOParams[] nddoParams = Utils.convertToNDDOParams(ri);
 
 			// combined length of all differentiated params
 			int paramLength = 0;
@@ -237,7 +236,7 @@ public class Main {
 					mos.toArray(new MoleculeOutput[0]);
 			OutputHandler.output(ri, mosarray, "outputs/run-"
 					+ String.format("%04d", runNum) + "-output", lsw.getTime());
-			InputHandler.updateInput(ri, INPUT_FILENAME);
+			InputHandler.outputInput(ri, INPUT_FILENAME);
 		}
 		sw.stop();
 		logger.info("Total time taken: {}", sw.getTime());
@@ -315,22 +314,4 @@ public class Main {
 		return hessian.plus(A).minus(C);
 	}
 
-	private static NDDOParams[] convertToNDDOParams(RawInput ri) {
-		NDDOParams[] nddoParams = null;
-		switch (ri.model) {
-			case "mndo":
-				nddoParams = new MNDOParams[ri.params.nddoParams.length];
-				for (int i = 0; i < ri.params.nddoParams.length; i++)
-					nddoParams[i] = new MNDOParams(ri.params.nddoParams[i]);
-				break;
-			case "am1":
-				nddoParams = new AM1Params[ri.params.nddoParams.length];
-				for (int i = 0; i < ri.params.nddoParams.length; i++)
-					nddoParams[i] = new AM1Params(ri.params.nddoParams[i]);
-				break;
-		}
-
-		assert nddoParams != null;
-		return nddoParams;
-	}
 }

@@ -2,6 +2,8 @@ package tools;
 
 import nddo.NDDOAtom;
 import nddo.NDDOParams;
+import nddo.am1.AM1Params;
+import nddo.mndo.MNDOParams;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
@@ -11,6 +13,7 @@ import org.ejml.data.DMatrixRMaj;
 import org.ejml.dense.row.decomposition.eig.SymmetricQRAlgorithmDecomposition_DDRM;
 import org.ejml.interfaces.decomposition.EigenDecomposition_F64;
 import org.ejml.simple.SimpleMatrix;
+import runcycle.input.RawInput;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -220,7 +223,7 @@ public class Utils {
 		for (int i = 0; i < vectors.length; i++) {
 			for (int j = 0; j < i; j++) {
 				vectors[i].plusi(vectors[i].dot(vectors[j]) /
-						vectors[j].dot(vectors[j]),vectors[j].negativei());
+						vectors[j].dot(vectors[j]), vectors[j].negativei());
 			}
 		}
 	}
@@ -248,6 +251,25 @@ public class Utils {
 
 	public static void main(String[] args) {
 		System.out.println(getHash("asdf"));
+	}
+
+	public static NDDOParams[] convertToNDDOParams(RawInput ri) {
+		NDDOParams[] nddoParams = null;
+		switch (ri.model) {
+			case "mndo":
+				nddoParams = new MNDOParams[ri.params.nddoParams.length];
+				for (int i = 0; i < ri.params.nddoParams.length; i++)
+					nddoParams[i] = new MNDOParams(ri.params.nddoParams[i]);
+				break;
+			case "am1":
+				nddoParams = new AM1Params[ri.params.nddoParams.length];
+				for (int i = 0; i < ri.params.nddoParams.length; i++)
+					nddoParams[i] = new AM1Params(ri.params.nddoParams[i]);
+				break;
+		}
+
+		assert nddoParams != null;
+		return nddoParams;
 	}
 }
 

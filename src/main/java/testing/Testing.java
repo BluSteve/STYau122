@@ -1,3 +1,5 @@
+package testing;
+
 import nddo.geometry.GeometryDerivative;
 import nddo.mndo.MNDOAtom;
 import nddo.mndo.MNDOParams;
@@ -8,11 +10,9 @@ import org.ejml.dense.row.CommonOps_DDRM;
 import org.ejml.simple.SimpleMatrix;
 import runcycle.input.RawMolecule;
 import scf.AtomHandler;
-import tools.NanoStopWatch;
 import tools.Utils;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import static nddo.geometry.GeometrySecondDerivative.computeResponseVectorsPople;
 
@@ -21,8 +21,8 @@ public class Testing {
 		testMain();
 	}
 
-	private static SimpleMatrix[] getxarrayPople(SolutionR soln,
-												 SimpleMatrix[] fockderivstatic) {
+	public static SimpleMatrix[] getxarrayPople(SolutionR soln,
+												SimpleMatrix[] fockderivstatic) {
 		int NOcc = (int) (soln.nElectrons / 2.0);
 		int NVirt = soln.orbitals.length - NOcc;
 		int length = fockderivstatic.length;
@@ -38,16 +38,15 @@ public class Testing {
 			return xarray;
 		}
 
+		// array initialization
 		SimpleMatrix[] xarray = new SimpleMatrix[length];
 		SimpleMatrix[] barray = new SimpleMatrix[length];
 		SimpleMatrix[] parray = new SimpleMatrix[length];
+		for (int i = 0; i < length; i++) {
+			parray[i] = new SimpleMatrix(nonv, 1);
+		}
 		SimpleMatrix[] Farray = new SimpleMatrix[length];
 		SimpleMatrix[] rarray = new SimpleMatrix[length];
-		for (int i = 0; i < parray.length; i++) {
-			xarray[i] = new SimpleMatrix(nonv, 1);
-			parray[i] = new SimpleMatrix(nonv, nonv);
-			rarray[i] = new SimpleMatrix(nonv, 1);
-		}
 
 		// configure preconditioners
 		SimpleMatrix D = new SimpleMatrix(nonv, nonv, DMatrixSparseCSC.class);
@@ -66,8 +65,9 @@ public class Testing {
 		}
 
 		// convert AO to MO basis
+		SimpleMatrix F = new SimpleMatrix(nonv, length);
 		for (int a = 0; a < length; a++) {
-			SimpleMatrix F = new SimpleMatrix(nonv, 1);
+			SimpleMatrix f = new SimpleMatrix(nonv, 1);
 
 			int count = 0;
 
@@ -85,68 +85,80 @@ public class Testing {
 
 					element /= soln.E.get(j + NOcc) - soln.E.get(i);
 
-					F.set(count, 0, element);
+					f.set(count, 0, element);
 
 					count++;
 				}
 			}
 
-			barray[a] = D.mult(F);
+			barray[a] = D.mult(f);
 			Farray[a] = barray[a].copy();
+			F.setColumn(a, 0, barray[a].getDDRM().data);
 		}
 
 		// main loop
 		int[] iterable = new int[length];
 		ArrayList<SimpleMatrix> prevBs = new ArrayList<>();
+		ArrayList<SimpleMatrix> prevBTs = new ArrayList<>();
 		ArrayList<SimpleMatrix> prevPs = new ArrayList<>();
-
-		// convert Farray into matrix form
-		SimpleMatrix F = new SimpleMatrix(nonv, length);
-		for (int i = 0; i < Farray.length; i++) {
-			F.setColumn(i, 0, Farray[i].getDDRM().data);
-		}
+		ArrayList<SimpleMatrix> prevBmP = new ArrayList<>();
+		ArrayList<SimpleMatrix> prevBn = new ArrayList<>();
+		SimpleMatrix rhs2 = new SimpleMatrix(1, length);
 
 		while (Utils.numIterable(iterable) > 0) {
 			Utils.orthogonalise(barray);
 
 			for (int i = 0; i < length; i++) {
-				prevBs.add(barray[i].copy());
+				prevBs.add(barray[i]); // original barray object here
+				prevBTs.add(barray[i].transpose());
+				prevBn.add(barray[i].negative());
 
+				// parray[i] stays the same object throughout
 				CommonOps_DDRM.mult(D.getDDRM(),
 						computeResponseVectorsPople
 								(Dinv.mult(barray[i]), soln).getDDRM(),
 						parray[i].getDDRM());
 
 				prevPs.add(parray[i].copy());
+				prevBmP.add(barray[i].minus(parray[i]));
 			}
 
 			for (int i = 0; i < length; i++) {
 				SimpleMatrix newb = parray[i].copy();
 
 				// orthogonalize against all previous Bs
-				for (SimpleMatrix prevB : prevBs) {
-					SimpleMatrix transpose = prevB.transpose();
+				for (int j = 0; j < prevBs.size(); j++) {
+					SimpleMatrix prevB = prevBs.get(j);
+					SimpleMatrix transpose = prevBTs.get(j);
 					double num = transpose.mult(parray[i]).get(0) /
-							transpose.mult(prevB).get(0);
+							prevB.dot(prevB);
 
-					newb.plusi(num, prevB.negative());
+					newb.plusi(num, prevBn.get(j));
 				}
 
-				barray[i] = newb;
+				barray[i] = newb; // new barray object created
 			}
 
 			// convert prevBs and prevPs into matrix form, transposed
 			SimpleMatrix Bt = new SimpleMatrix(prevBs.size(), nonv);
+			SimpleMatrix Bt2 = new SimpleMatrix(length, nonv);
 			SimpleMatrix P = new SimpleMatrix(nonv, prevPs.size());
+			int prevL = prevBs.size() - length;
 			for (int i = 0; i < prevBs.size(); i++) {
 				Bt.setRow(i, 0, prevBs.get(i).getDDRM().data);
-				P.setColumn(i, 0,
-						prevBs.get(i).minus(prevPs.get(i)).getDDRM().data);
+				if (i >= prevL) {
+					Bt2.setRow(i - prevL, 0, prevBs.get(i).getDDRM().data);
+				}
+				P.setColumn(i, 0, prevBmP.get(i).getDDRM().data);
 			}
 
 			SimpleMatrix lhs = Bt.mult(P);
-			SimpleMatrix rhs = Bt.mult(F);
-			SimpleMatrix alpha = lhs.solve(rhs);
+//			SimpleMatrix rhs = Bt.mult(F);
+			rhs2 = rhs2.combine(prevL, 0, Bt2.mult(F));
+//			System.out.println(rhs);
+//			System.out.println("rhs2 = " + rhs2);
+			// alpha dimensions are prevBs x length
+			SimpleMatrix alpha = lhs.solve(rhs2);
 
 			// reset r and x array
 			for (int a = 0; a < length; a++) {
@@ -157,11 +169,7 @@ public class Testing {
 			for (int i = 0; i < alpha.numRows(); i++) {
 				for (int j = 0; j < alpha.numCols(); j++) {
 					// B with tilde
-					rarray[j].plusi(
-							prevBs.get(i).plus(alpha.get(i, j),
-									prevPs.get(i).negative())
-					);
-
+					rarray[j].plusi(alpha.get(i, j), prevBmP.get(i));
 					xarray[j].plusi(alpha.get(i, j), prevBs.get(i));
 				}
 			}
@@ -267,16 +275,6 @@ public class Testing {
 		SimpleMatrix[][] matrices = GeometryDerivative.gradientRoutine(s);
 		getxarrayPople(s, matrices[1]);
 
-		NanoStopWatch nsw = NanoStopWatch.sw();
-		double time = 0;
-		for (int i = 0; i < 1000; i++) {
-			nsw.start();
-			getxarrayPople(s, matrices[1]);
-			time += nsw.stop();
-			TimeUnit.MILLISECONDS.sleep(1);
-		}
-
-		System.out.println("time = " + time / 1000);
 		System.exit(0);
 	}
 }
