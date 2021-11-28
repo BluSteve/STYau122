@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="enhanced for loop">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" afterDir="false" />
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Change prevs initial size">
       <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -573,7 +571,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638118331533</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="Change prevs initial size">
+      <created>1638119878402</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1638119878402</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -621,7 +626,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Add subset input feature" />
     <MESSAGE value="OOP improvements and logging conversion" />
     <MESSAGE value="Major refactor, moving stuff around" />
     <MESSAGE value="Minor bugs" />
@@ -646,7 +650,8 @@
     <MESSAGE value="Arraylist size initialization" />
     <MESSAGE value="store n * length" />
     <MESSAGE value="enhanced for loop" />
-    <option name="LAST_COMMIT_MESSAGE" value="enhanced for loop" />
+    <MESSAGE value="Change prevs initial size" />
+    <option name="LAST_COMMIT_MESSAGE" value="Change prevs initial size" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

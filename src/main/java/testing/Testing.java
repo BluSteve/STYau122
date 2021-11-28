@@ -97,9 +97,11 @@ public class Testing {
 		// main loop
 		int[] iterable = new int[length];
 
-		int initc = 2 * (int) Math.ceil(length * Math.log(length));
+		int initc =
+				(int) Math.ceil(2 * Math.max(length * Math.log(length), 100));
 		// 0: B, 1: Bt, 2: Bn, 3: P, 4: BmP
 		List<SimpleMatrix[]> prevs = new ArrayList<>(initc);
+		List<Double> dots = new ArrayList<>(initc);
 
 		SimpleMatrix rhs = null;
 		SimpleMatrix lhs = null;
@@ -121,6 +123,7 @@ public class Testing {
 				prev[0] = barray[i]; // original barray object here
 				prev[1] = barray[i].transpose();
 				prev[2] = barray[i].negative();
+				dots.add(barray[i].dot(barray[i]));
 
 				// parray[i] stays the same object throughout
 				SimpleMatrix bc = barray[i].copy();
@@ -139,11 +142,12 @@ public class Testing {
 				SimpleMatrix newb = parray[i].copy();
 
 				// orthogonalize against all previous Bs
-				for (SimpleMatrix[] prev : prevs) {
+				for (int j = 0; j < prevs.size(); j++) {
+					SimpleMatrix[] prev = prevs.get(j);
 					SimpleMatrix prevB = prev[0];
 					SimpleMatrix transpose = prev[1];
 					double num = transpose.mult(parray[i]).get(0) /
-							prevB.dot(prevB);
+							dots.get(j);
 
 					newb.plusi(num, prev[2]);
 				}
@@ -304,6 +308,10 @@ public class Testing {
 		SolutionR s = new SolutionR(atoms, rm).compute();
 		SimpleMatrix[][] matrices = GeometryDerivative.gradientRoutine(s);
 		System.out.println(Arrays.toString(getxarrayPople(s, matrices[1])));
+
+		for (int i = 0; i < 1000; i++) {
+			getxarrayPople(s, matrices[1]);
+		}
 
 		System.exit(0);
 	}
