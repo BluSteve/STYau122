@@ -4,8 +4,6 @@ import nddo.geometry.GeometryDerivative;
 import nddo.mndo.MNDOAtom;
 import nddo.mndo.MNDOParams;
 import nddo.solution.SolutionR;
-import org.ejml.data.DMatrixRMaj;
-import org.ejml.data.DMatrixSparseCSC;
 import org.ejml.data.SingularMatrixException;
 import org.ejml.dense.row.CommonOps_DDRM;
 import org.ejml.simple.SimpleMatrix;
@@ -15,6 +13,7 @@ import tools.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static nddo.geometry.GeometrySecondDerivative.computeResponseVectorsPople;
 
@@ -97,11 +96,9 @@ public class Testing {
 
 		// main loop
 		int[] iterable = new int[length];
-		ArrayList<SimpleMatrix> prevBs = new ArrayList<>();
-		ArrayList<SimpleMatrix> prevBTs = new ArrayList<>();
-		ArrayList<SimpleMatrix> prevPs = new ArrayList<>();
-		ArrayList<SimpleMatrix> prevBmP = new ArrayList<>();
-		ArrayList<SimpleMatrix> prevBn = new ArrayList<>();
+		// 0: B, 1: Bt, 2: Bn, 3: P, 4: BmP
+		List<SimpleMatrix[]> prevs = new ArrayList<>();
+
 		SimpleMatrix rhs = null;
 		SimpleMatrix lhs = null;
 		SimpleMatrix Bt2 = new SimpleMatrix(length, nonv); // last 15
@@ -118,9 +115,10 @@ public class Testing {
 			}
 
 			for (int i = 0; i < length; i++) {
-				prevBs.add(barray[i]); // original barray object here
-				prevBTs.add(barray[i].transpose());
-				prevBn.add(barray[i].negative());
+				SimpleMatrix[] prev = new SimpleMatrix[5];
+				prev[0] = barray[i]; // original barray object here
+				prev[1] = barray[i].transpose();
+				prev[2] = barray[i].negative();
 
 				// parray[i] stays the same object throughout
 				SimpleMatrix bc = barray[i].copy();
@@ -129,21 +127,23 @@ public class Testing {
 				CommonOps_DDRM.multRows(Darr, crv.getDDRM());
 				parray[i] = crv;
 
-				prevPs.add(parray[i]);
-				prevBmP.add(barray[i].minus(parray[i]));
+				prev[3] = parray[i];
+				prev[4] = barray[i].minus(parray[i]);
+
+				prevs.add(prev);
 			}
 
 			for (int i = 0; i < length; i++) {
 				SimpleMatrix newb = parray[i].copy();
 
 				// orthogonalize against all previous Bs
-				for (int j = 0; j < prevBs.size(); j++) {
-					SimpleMatrix prevB = prevBs.get(j);
-					SimpleMatrix transpose = prevBTs.get(j);
+				for (int j = 0; j < prevs.size(); j++) {
+					SimpleMatrix prevB = prevs.get(j)[0];
+					SimpleMatrix transpose = prevs.get(j)[1];
 					double num = transpose.mult(parray[i]).get(0) /
 							prevB.dot(prevB);
 
-					newb.plusi(num, prevBn.get(j));
+					newb.plusi(num, prevs.get(j)[2]);
 				}
 
 				barray[i] = newb; // new barray object created
@@ -154,17 +154,17 @@ public class Testing {
 
 			// everything but last 15
 			SimpleMatrix Bt1 = new SimpleMatrix(prevL, nonv);
-			SimpleMatrix P = new SimpleMatrix(nonv, prevPs.size());
+			SimpleMatrix P = new SimpleMatrix(nonv, prevs.size());
 
-			for (int i = 0; i < prevBs.size(); i++) {
+			for (int i = 0; i < prevs.size(); i++) {
 				if (i >= prevL) {
-					Bt2.setRow(i - prevL, 0, prevBs.get(i).getDDRM().data);
-					P2.setColumn(i - prevL, 0, prevBmP.get(i).getDDRM().data);
+					Bt2.setRow(i - prevL, 0, prevs.get(i)[0].getDDRM().data);
+					P2.setColumn(i - prevL, 0, prevs.get(i)[4].getDDRM().data);
 				}
 				else {
-					Bt1.setRow(i, 0, prevBs.get(i).getDDRM().data);
+					Bt1.setRow(i, 0, prevs.get(i)[0].getDDRM().data);
 				}
-				P.setColumn(i, 0, prevBmP.get(i).getDDRM().data);
+				P.setColumn(i, 0, prevs.get(i)[4].getDDRM().data);
 			}
 
 			SimpleMatrix topright = Bt1.mult(P2);
@@ -175,7 +175,7 @@ public class Testing {
 
 			if (lhs == null) lhs = Bt2.mult(P);
 			else {
-				SimpleMatrix newlhs = new SimpleMatrix(n * length, n*length);
+				SimpleMatrix newlhs = new SimpleMatrix(n * length, n * length);
 				newlhs.insertIntoThis(0, 0, lhs);
 				newlhs.insertIntoThis(0, prevL, topright);
 				newlhs.insertIntoThis(prevL, 0, bottom);
@@ -194,8 +194,8 @@ public class Testing {
 			for (int i = 0; i < alpha.numRows(); i++) {
 				for (int j = 0; j < alpha.numCols(); j++) {
 					// B with tilde
-					rarray[j].plusi(alpha.get(i, j), prevBmP.get(i));
-					xarray[j].plusi(alpha.get(i, j), prevBs.get(i));
+					rarray[j].plusi(alpha.get(i, j), prevs.get(i)[4]);
+					xarray[j].plusi(alpha.get(i, j), prevs.get(i)[0]);
 				}
 			}
 
