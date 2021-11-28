@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Change prevs initial size">
-      <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Merge new pople alg into geom and param">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/copy.bat" beforeDir="false" afterPath="$PROJECT_DIR$/copy.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,10 +61,20 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="17862d5e9b1a74954e67380bb1b6e791bb466dc5" />
+        <entry key="$PROJECT_DIR$" value="2fac9a8e3c69b12db9fb6d9b104e4547f84a5bde" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitRewordedCommitMessages">
+    <option name="commitMessagesMapping">
+      <RewordedCommitMessageMapping>
+        <option name="originalMessage" value="Merge new pople alg into geom and param" />
+        <option name="rewordedMessage" value="Merge new pople alg into geom and param" />
+      </RewordedCommitMessageMapping>
+    </option>
+    <option name="currentCommit" value="1" />
+    <option name="onto" value="2fac9a8e3c69b12db9fb6d9b104e4547f84a5bde" />
   </component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
@@ -125,14 +138,7 @@
       <recent name="tools.Utils" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.MNDOParam [jmh]">
-    <configuration name="Benchmarks" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="core.Benchmarks" />
-      <module name="MNDOParam.jmh" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="Shell Script.Copy">
     <configuration name="InputHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="runcycle.input.InputHandler" />
       <module name="MNDOParam.main" />
@@ -142,6 +148,13 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="MNDOParam.main" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -219,9 +232,9 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.Benchmarks" />
       <item itemvalue="Application.InputHandler" />
       <item itemvalue="Application.Testing" />
+      <item itemvalue="Application.Main" />
       <item itemvalue="Gradle.MNDOParam [jar]" />
       <item itemvalue="Gradle.MNDOParam [jmh]" />
       <item itemvalue="Shell Script.Copy" />
@@ -229,10 +242,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.MNDOParam [jmh]" />
-        <item itemvalue="Application.Testing" />
         <item itemvalue="Gradle.MNDOParam [jar]" />
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Application.Testing" />
         <item itemvalue="Application.InputHandler" />
-        <item itemvalue="Application.Benchmarks" />
       </list>
     </recent_temporary>
   </component>
@@ -276,6 +289,7 @@
       <workItem from="1638000660016" duration="3991000" />
       <workItem from="1638084222568" duration="1823000" />
       <workItem from="1638093965542" duration="18662000" />
+      <workItem from="1638122100409" duration="964000" />
     </task>
     <task id="LOCAL-00001" summary="Convert to gradle">
       <created>1636909106825</created>
@@ -578,7 +592,28 @@
       <option name="project" value="LOCAL" />
       <updated>1638119878402</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="Cached double + initc lower bound">
+      <created>1638121132600</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1638121132600</updated>
+    </task>
+    <task id="LOCAL-00045" summary="Merge new pople alg into geom and param">
+      <created>1638121378995</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1638121378995</updated>
+    </task>
+    <task id="LOCAL-00046" summary="Merge new pople alg into geom and param">
+      <created>1638121475908</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1638121475908</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -626,8 +661,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="OOP improvements and logging conversion" />
-    <MESSAGE value="Major refactor, moving stuff around" />
     <MESSAGE value="Minor bugs" />
     <MESSAGE value="Lots of bug fixes, refactorings, csv logging" />
     <MESSAGE value="Clean up dependencies including jblas and cublas" />
@@ -651,7 +684,9 @@
     <MESSAGE value="store n * length" />
     <MESSAGE value="enhanced for loop" />
     <MESSAGE value="Change prevs initial size" />
-    <option name="LAST_COMMIT_MESSAGE" value="Change prevs initial size" />
+    <MESSAGE value="Cached double + initc lower bound" />
+    <MESSAGE value="Merge new pople alg into geom and param" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge new pople alg into geom and param" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
