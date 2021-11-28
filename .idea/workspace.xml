@@ -4,17 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Attempt to change pople into procedural">
-      <change afterPath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/EJMLTesting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/EJMLTesting.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/input/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/input/InputHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Utils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
-    </list>
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Pople improvements in progress + benchmarking" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -283,7 +273,7 @@
       <workItem from="1637991314458" duration="1549000" />
       <workItem from="1638000660016" duration="3991000" />
       <workItem from="1638084222568" duration="1823000" />
-      <workItem from="1638093965542" duration="11931000" />
+      <workItem from="1638093965542" duration="12371000" />
     </task>
     <task id="LOCAL-00001" summary="Convert to gradle">
       <created>1636909106825</created>
@@ -509,7 +499,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637925740249</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="Pople improvements in progress + benchmarking">
+      <created>1638111353376</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1638111353376</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -557,7 +554,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Minor pople improvements" />
     <MESSAGE value="Fixed ParamDeriv h2 thiel issue" />
     <MESSAGE value="Minor constant changes in GeomOpt, sysexit in SolU" />
     <MESSAGE value="Clean up useless code, change hash fn, io formats" />
@@ -582,7 +578,8 @@
     <MESSAGE value="SolutionR 50 max diis" />
     <MESSAGE value="Change to original params + minor IO changes" />
     <MESSAGE value="Attempt to change pople into procedural" />
-    <option name="LAST_COMMIT_MESSAGE" value="Attempt to change pople into procedural" />
+    <MESSAGE value="Pople improvements in progress + benchmarking" />
+    <option name="LAST_COMMIT_MESSAGE" value="Pople improvements in progress + benchmarking" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

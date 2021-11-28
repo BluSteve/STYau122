@@ -103,7 +103,7 @@ public class Testing {
 		ArrayList<SimpleMatrix> prevPs = new ArrayList<>();
 		ArrayList<SimpleMatrix> prevBmP = new ArrayList<>();
 		ArrayList<SimpleMatrix> prevBn = new ArrayList<>();
-		SimpleMatrix rhs2 = new SimpleMatrix(1, length);
+		SimpleMatrix rhs2 = null;
 
 		while (Utils.numIterable(iterable) > 0) {
 			Utils.orthogonalise(barray);
@@ -153,10 +153,8 @@ public class Testing {
 			}
 
 			SimpleMatrix lhs = Bt.mult(P);
-//			SimpleMatrix rhs = Bt.mult(F);
-			rhs2 = rhs2.combine(prevL, 0, Bt2.mult(F));
-//			System.out.println(rhs);
-//			System.out.println("rhs2 = " + rhs2);
+			if (rhs2 == null) rhs2 = Bt2.mult(F);
+			else rhs2 = rhs2.combine(prevL, 0, Bt2.mult(F));
 			// alpha dimensions are prevBs x length
 			SimpleMatrix alpha = lhs.solve(rhs2);
 
