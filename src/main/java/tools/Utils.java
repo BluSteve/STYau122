@@ -222,8 +222,9 @@ public class Utils {
 	public static void orthogonalise(SimpleMatrix[] vectors) {
 		for (int i = 0; i < vectors.length; i++) {
 			for (int j = 0; j < i; j++) {
-				vectors[i].plusi(vectors[i].dot(vectors[j]) /
-						vectors[j].dot(vectors[j]), vectors[j].negativei());
+				vectors[i] = vectors[i].minus(vectors[j]
+						.scale(vectors[i].dot(vectors[j]) /
+								vectors[j].dot(vectors[j])));
 			}
 		}
 	}

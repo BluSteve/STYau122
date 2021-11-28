@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Lhs cache memory optimization">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Preconditioner change to multrows">
+      <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Utils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -276,7 +278,7 @@
       <workItem from="1637991314458" duration="1549000" />
       <workItem from="1638000660016" duration="3991000" />
       <workItem from="1638084222568" duration="1823000" />
-      <workItem from="1638093965542" duration="17307000" />
+      <workItem from="1638093965542" duration="17905000" />
     </task>
     <task id="LOCAL-00001" summary="Convert to gradle">
       <created>1636909106825</created>
@@ -537,7 +539,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638115576585</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="Preconditioner change to multrows">
+      <created>1638116545424</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1638116545424</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -585,7 +594,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Optimize imports" />
     <MESSAGE value="Minor but important constant changes + testing&#10;&#10;Numit in geomopt causes hessian nans at 7, looks fine at 10 but&#10;SolutionR had a caught SingularMatrixException." />
     <MESSAGE value="Change to full CH training set" />
     <MESSAGE value="Minor changes" />
@@ -610,7 +618,8 @@
     <MESSAGE value="Lhs cache" />
     <MESSAGE value="Lhs cache cleanup" />
     <MESSAGE value="Lhs cache memory optimization" />
-    <option name="LAST_COMMIT_MESSAGE" value="Lhs cache memory optimization" />
+    <MESSAGE value="Preconditioner change to multrows" />
+    <option name="LAST_COMMIT_MESSAGE" value="Preconditioner change to multrows" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

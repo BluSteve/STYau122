@@ -2,6 +2,7 @@ package core;
 
 import nddo.NDDOParams;
 import nddo.geometry.GeometryDerivative;
+import nddo.geometry.GeometrySecondDerivative;
 import nddo.solution.Solution;
 import nddo.solution.SolutionR;
 import org.ejml.simple.SimpleMatrix;

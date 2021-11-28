@@ -44,9 +44,6 @@ public class Testing {
 		SimpleMatrix[] xarray = new SimpleMatrix[length];
 		SimpleMatrix[] barray = new SimpleMatrix[length];
 		SimpleMatrix[] parray = new SimpleMatrix[length];
-		for (int i = 0; i < length; i++) {
-			parray[i] = new SimpleMatrix(nonv, 1);
-		}
 		SimpleMatrix[] Farray = new SimpleMatrix[length];
 		SimpleMatrix[] rarray = new SimpleMatrix[length];
 
@@ -112,7 +109,13 @@ public class Testing {
 		int n = 1;
 
 		while (Utils.numIterable(iterable) > 0) {
-			Utils.orthogonalise(barray);
+			// orthogonalize barray
+			for (int i = 0; i < barray.length; i++) {
+				for (int j = 0; j < i; j++) {
+					barray[i].plusi(barray[i].dot(barray[j]) /
+							barray[j].dot(barray[j]), barray[j].negativei());
+				}
+			}
 
 			for (int i = 0; i < length; i++) {
 				prevBs.add(barray[i]); // original barray object here
@@ -126,7 +129,7 @@ public class Testing {
 				CommonOps_DDRM.multRows(Darr, crv.getDDRM());
 				parray[i] = crv;
 
-				prevPs.add(parray[i].copy());
+				prevPs.add(parray[i]);
 				prevBmP.add(barray[i].minus(parray[i]));
 			}
 

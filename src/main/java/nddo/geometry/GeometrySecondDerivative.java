@@ -2944,8 +2944,8 @@ public class GeometrySecondDerivative {
 		return densityMatrixDerivs;
 	}
 
-	private static SimpleMatrix[] getxarrayPople(SolutionR soln,
-												 SimpleMatrix[] fockderivstatic) {
+	public static SimpleMatrix[] getxarrayPople(SolutionR soln,
+												SimpleMatrix[] fockderivstatic) {
 		int NOcc = (int) (soln.nElectrons / 2.0);
 		int NVirt = soln.orbitals.length - NOcc;
 		int length = fockderivstatic.length;
