@@ -4,6 +4,7 @@ import nddo.geometry.GeometryDerivative;
 import nddo.mndo.MNDOAtom;
 import nddo.mndo.MNDOParams;
 import nddo.solution.SolutionR;
+import org.ejml.data.DMatrixRMaj;
 import org.ejml.data.DMatrixSparseCSC;
 import org.ejml.data.SingularMatrixException;
 import org.ejml.dense.row.CommonOps_DDRM;
@@ -13,6 +14,7 @@ import scf.AtomHandler;
 import tools.Utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static nddo.geometry.GeometrySecondDerivative.computeResponseVectorsPople;
 
@@ -49,17 +51,17 @@ public class Testing {
 		SimpleMatrix[] rarray = new SimpleMatrix[length];
 
 		// configure preconditioners
-		SimpleMatrix D = new SimpleMatrix(nonv, nonv, DMatrixSparseCSC.class);
-		SimpleMatrix Dinv =
-				new SimpleMatrix(nonv, nonv, DMatrixSparseCSC.class);
+		double[] Darr = new double[nonv];
+		double[] Dinvarr = new double[nonv];
 
 		int counter = 0;
 		for (int i = 0; i < NOcc; i++) {
 			for (int j = 0; j < NVirt; j++) {
 				double e = -soln.E.get(i) + soln.E.get(NOcc + j);
 
-				D.set(counter, counter, Math.pow(e, -0.5));
-				Dinv.set(counter, counter, Math.pow(e, 0.5));
+				Darr[counter] = Math.pow(e, -0.5);
+				Dinvarr[counter] = Math.pow(e, 0.5);
+
 				counter++;
 			}
 		}
@@ -90,8 +92,8 @@ public class Testing {
 					count++;
 				}
 			}
-
-			barray[a] = D.mult(f);
+			CommonOps_DDRM.multRows(Darr, f.getDDRM());
+			barray[a] = f;
 			Farray[a] = barray[a].copy();
 			F.setColumn(a, 0, barray[a].getDDRM().data);
 		}
@@ -118,10 +120,11 @@ public class Testing {
 				prevBn.add(barray[i].negative());
 
 				// parray[i] stays the same object throughout
-				CommonOps_DDRM.mult(D.getDDRM(),
-						computeResponseVectorsPople
-								(Dinv.mult(barray[i]), soln).getDDRM(),
-						parray[i].getDDRM());
+				SimpleMatrix bc = barray[i].copy();
+				CommonOps_DDRM.multRows(Dinvarr, bc.getDDRM());
+				SimpleMatrix crv = computeResponseVectorsPople(bc, soln);
+				CommonOps_DDRM.multRows(Darr, crv.getDDRM());
+				parray[i] = crv;
 
 				prevPs.add(parray[i].copy());
 				prevBmP.add(barray[i].minus(parray[i]));
@@ -196,7 +199,7 @@ public class Testing {
 			for (int j = 0; j < alpha.numCols(); j++) {
 				// B0 is Farray, no tilde
 				rarray[j].minusi(Farray[j]);
-				xarray[j] = Dinv.mult(xarray[j]);
+				CommonOps_DDRM.multRows(Dinvarr, xarray[j].getDDRM());
 
 				double rMag = Utils.mag(rarray[j]);
 				if (rMag < 1E-7) {
@@ -294,7 +297,7 @@ public class Testing {
 
 		SolutionR s = new SolutionR(atoms, rm).compute();
 		SimpleMatrix[][] matrices = GeometryDerivative.gradientRoutine(s);
-		getxarrayPople(s, matrices[1]);
+		System.out.println(Arrays.toString(getxarrayPople(s, matrices[1])));
 
 		System.exit(0);
 	}
