@@ -176,7 +176,8 @@ public class Testing {
 
 			if (lhs == null) lhs = Bt2.mult(P);
 			else {
-				SimpleMatrix newlhs = new SimpleMatrix(n * length, n * length);
+				int nl = n * length;
+				SimpleMatrix newlhs = new SimpleMatrix(nl, nl);
 				newlhs.insertIntoThis(0, 0, lhs);
 				newlhs.insertIntoThis(0, prevL, topright);
 				newlhs.insertIntoThis(prevL, 0, bottom);
