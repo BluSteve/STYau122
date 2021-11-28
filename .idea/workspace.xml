@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Rhs cache">
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Lhs cache">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
     </list>
@@ -126,7 +126,7 @@
       <recent name="tools.Utils" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Testing">
+  <component name="RunManager" selected="Gradle.MNDOParam [jmh]">
     <configuration name="Benchmarks" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="core.Benchmarks" />
       <module name="MNDOParam.jmh" />
@@ -276,7 +276,7 @@
       <workItem from="1637991314458" duration="1549000" />
       <workItem from="1638000660016" duration="3991000" />
       <workItem from="1638084222568" duration="1823000" />
-      <workItem from="1638093965542" duration="15317000" />
+      <workItem from="1638093965542" duration="16104000" />
     </task>
     <task id="LOCAL-00001" summary="Convert to gradle">
       <created>1636909106825</created>
@@ -516,7 +516,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638111572129</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="Lhs cache">
+      <created>1638114638968</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1638114638968</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -564,7 +571,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Minor constant changes in GeomOpt, sysexit in SolU" />
     <MESSAGE value="Clean up useless code, change hash fn, io formats" />
     <MESSAGE value="GCP uploading preparations" />
     <MESSAGE value="Optimize imports" />
@@ -589,7 +595,8 @@
     <MESSAGE value="Attempt to change pople into procedural" />
     <MESSAGE value="Pople improvements in progress + benchmarking" />
     <MESSAGE value="Rhs cache" />
-    <option name="LAST_COMMIT_MESSAGE" value="Rhs cache" />
+    <MESSAGE value="Lhs cache" />
+    <option name="LAST_COMMIT_MESSAGE" value="Lhs cache" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

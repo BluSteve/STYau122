@@ -144,7 +144,6 @@ public class Testing {
 			// convert prevBs and prevPs into matrix form, transposed
 			int prevL = (n - 1) * length;
 
-			SimpleMatrix Bt = new SimpleMatrix(prevBs.size(), nonv);
 			// everything but last 15
 			SimpleMatrix Bt1 = new SimpleMatrix(prevL, nonv);
 			SimpleMatrix Bt2 = new SimpleMatrix(length, nonv); // last 15
@@ -153,7 +152,6 @@ public class Testing {
 			SimpleMatrix P2 = new SimpleMatrix(nonv, length);
 
 			for (int i = 0; i < prevBs.size(); i++) {
-				Bt.setRow(i, 0, prevBs.get(i).getDDRM().data);
 				if (i >= prevL) {
 					Bt2.setRow(i - prevL, 0, prevBs.get(i).getDDRM().data);
 					P2.setColumn(i - prevL, 0, prevBmP.get(i).getDDRM().data);
@@ -165,10 +163,7 @@ public class Testing {
 			}
 
 			SimpleMatrix topright = Bt1.mult(P2);
-			System.out.println("topright = " + topright);
-
 			SimpleMatrix bottom = Bt2.mult(P);
-			SimpleMatrix lhs = Bt.mult(P);
 
 			if (rhs2 == null) rhs2 = Bt2.mult(F);
 			else rhs2 = rhs2.combine(prevL, 0, Bt2.mult(F));
@@ -182,10 +177,8 @@ public class Testing {
 				lhs2 = newlhs;
 			}
 
-			System.out.println("lhs = " + lhs);
-			System.out.println("lhs2 = " + lhs2);
 			// alpha dimensions are prevBs x length
-			SimpleMatrix alpha = lhs.solve(rhs2);
+			SimpleMatrix alpha = lhs2.solve(rhs2);
 
 			// reset r and x array
 			for (int a = 0; a < length; a++) {
