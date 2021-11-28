@@ -138,13 +138,13 @@ public class Testing {
 				SimpleMatrix newb = parray[i].copy();
 
 				// orthogonalize against all previous Bs
-				for (int j = 0; j < prevs.size(); j++) {
-					SimpleMatrix prevB = prevs.get(j)[0];
-					SimpleMatrix transpose = prevs.get(j)[1];
+				for (SimpleMatrix[] prev : prevs) {
+					SimpleMatrix prevB = prev[0];
+					SimpleMatrix transpose = prev[1];
 					double num = transpose.mult(parray[i]).get(0) /
 							prevB.dot(prevB);
 
-					newb.plusi(num, prevs.get(j)[2]);
+					newb.plusi(num, prev[2]);
 				}
 
 				barray[i] = newb; // new barray object created
