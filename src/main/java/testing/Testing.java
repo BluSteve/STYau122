@@ -97,7 +97,8 @@ public class Testing {
 		// main loop
 		int[] iterable = new int[length];
 		// 0: B, 1: Bt, 2: Bn, 3: P, 4: BmP
-		List<SimpleMatrix[]> prevs = new ArrayList<>();
+		List<SimpleMatrix[]> prevs =
+				new ArrayList<>(length * (int) Math.ceil(Math.log(length)));
 
 		SimpleMatrix rhs = null;
 		SimpleMatrix lhs = null;
