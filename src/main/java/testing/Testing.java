@@ -104,6 +104,8 @@ public class Testing {
 		ArrayList<SimpleMatrix> prevBmP = new ArrayList<>();
 		ArrayList<SimpleMatrix> prevBn = new ArrayList<>();
 		SimpleMatrix rhs2 = null;
+		SimpleMatrix lhs2 = null;
+		int n = 1;
 
 		while (Utils.numIterable(iterable) > 0) {
 			Utils.orthogonalise(barray);
@@ -140,21 +142,48 @@ public class Testing {
 			}
 
 			// convert prevBs and prevPs into matrix form, transposed
+			int prevL = (n - 1) * length;
+
 			SimpleMatrix Bt = new SimpleMatrix(prevBs.size(), nonv);
-			SimpleMatrix Bt2 = new SimpleMatrix(length, nonv);
+			// everything but last 15
+			SimpleMatrix Bt1 = new SimpleMatrix(prevL, nonv);
+			SimpleMatrix Bt2 = new SimpleMatrix(length, nonv); // last 15
+
 			SimpleMatrix P = new SimpleMatrix(nonv, prevPs.size());
-			int prevL = prevBs.size() - length;
+			SimpleMatrix P2 = new SimpleMatrix(nonv, length);
+
 			for (int i = 0; i < prevBs.size(); i++) {
 				Bt.setRow(i, 0, prevBs.get(i).getDDRM().data);
 				if (i >= prevL) {
 					Bt2.setRow(i - prevL, 0, prevBs.get(i).getDDRM().data);
+					P2.setColumn(i - prevL, 0, prevBmP.get(i).getDDRM().data);
+				}
+				else {
+					Bt1.setRow(i, 0, prevBs.get(i).getDDRM().data);
 				}
 				P.setColumn(i, 0, prevBmP.get(i).getDDRM().data);
 			}
 
+			SimpleMatrix topright = Bt1.mult(P2);
+			System.out.println("topright = " + topright);
+
+			SimpleMatrix bottom = Bt2.mult(P);
 			SimpleMatrix lhs = Bt.mult(P);
+
 			if (rhs2 == null) rhs2 = Bt2.mult(F);
 			else rhs2 = rhs2.combine(prevL, 0, Bt2.mult(F));
+
+			if (lhs2 == null) lhs2 = Bt2.mult(P);
+			else {
+				SimpleMatrix newlhs = new SimpleMatrix(n * length, n*length);
+				newlhs.insertIntoThis(0, 0, lhs2);
+				newlhs.insertIntoThis(0, prevL, topright);
+				newlhs.insertIntoThis(prevL, 0, bottom);
+				lhs2 = newlhs;
+			}
+
+			System.out.println("lhs = " + lhs);
+			System.out.println("lhs2 = " + lhs2);
 			// alpha dimensions are prevBs x length
 			SimpleMatrix alpha = lhs.solve(rhs2);
 
@@ -191,6 +220,8 @@ public class Testing {
 					iterable[j] = 0;
 				}
 			}
+
+			n++;
 		}
 
 		return xarray;
