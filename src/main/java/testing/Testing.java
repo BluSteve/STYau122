@@ -103,8 +103,10 @@ public class Testing {
 		ArrayList<SimpleMatrix> prevPs = new ArrayList<>();
 		ArrayList<SimpleMatrix> prevBmP = new ArrayList<>();
 		ArrayList<SimpleMatrix> prevBn = new ArrayList<>();
-		SimpleMatrix rhs2 = null;
-		SimpleMatrix lhs2 = null;
+		SimpleMatrix rhs = null;
+		SimpleMatrix lhs = null;
+		SimpleMatrix Bt2 = new SimpleMatrix(length, nonv); // last 15
+		SimpleMatrix P2 = new SimpleMatrix(nonv, length);
 		int n = 1;
 
 		while (Utils.numIterable(iterable) > 0) {
@@ -146,10 +148,7 @@ public class Testing {
 
 			// everything but last 15
 			SimpleMatrix Bt1 = new SimpleMatrix(prevL, nonv);
-			SimpleMatrix Bt2 = new SimpleMatrix(length, nonv); // last 15
-
 			SimpleMatrix P = new SimpleMatrix(nonv, prevPs.size());
-			SimpleMatrix P2 = new SimpleMatrix(nonv, length);
 
 			for (int i = 0; i < prevBs.size(); i++) {
 				if (i >= prevL) {
@@ -165,20 +164,20 @@ public class Testing {
 			SimpleMatrix topright = Bt1.mult(P2);
 			SimpleMatrix bottom = Bt2.mult(P);
 
-			if (rhs2 == null) rhs2 = Bt2.mult(F);
-			else rhs2 = rhs2.combine(prevL, 0, Bt2.mult(F));
+			if (rhs == null) rhs = Bt2.mult(F);
+			else rhs = rhs.combine(prevL, 0, Bt2.mult(F));
 
-			if (lhs2 == null) lhs2 = Bt2.mult(P);
+			if (lhs == null) lhs = Bt2.mult(P);
 			else {
 				SimpleMatrix newlhs = new SimpleMatrix(n * length, n*length);
-				newlhs.insertIntoThis(0, 0, lhs2);
+				newlhs.insertIntoThis(0, 0, lhs);
 				newlhs.insertIntoThis(0, prevL, topright);
 				newlhs.insertIntoThis(prevL, 0, bottom);
-				lhs2 = newlhs;
+				lhs = newlhs;
 			}
 
 			// alpha dimensions are prevBs x length
-			SimpleMatrix alpha = lhs2.solve(rhs2);
+			SimpleMatrix alpha = lhs.solve(rhs);
 
 			// reset r and x array
 			for (int a = 0; a < length; a++) {
