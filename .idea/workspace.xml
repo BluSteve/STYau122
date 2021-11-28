@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="parray no longer statically declared">
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/input/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/input/InputHandler.java" afterDir="false" />
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="enhanced for loop">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -59,7 +60,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="c578337249b61b0f112f9282d1c1dc6792091f74" />
+        <entry key="$PROJECT_DIR$" value="17862d5e9b1a74954e67380bb1b6e791bb466dc5" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -222,18 +223,18 @@
     <list>
       <item itemvalue="Application.Benchmarks" />
       <item itemvalue="Application.InputHandler" />
+      <item itemvalue="Application.Testing" />
       <item itemvalue="Gradle.MNDOParam [jar]" />
       <item itemvalue="Gradle.MNDOParam [jmh]" />
       <item itemvalue="Shell Script.Copy" />
-      <item itemvalue="Application.Testing" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.MNDOParam [jmh]" />
         <item itemvalue="Application.Testing" />
+        <item itemvalue="Gradle.MNDOParam [jar]" />
         <item itemvalue="Application.InputHandler" />
         <item itemvalue="Application.Benchmarks" />
-        <item itemvalue="Gradle.MNDOParam [jar]" />
       </list>
     </recent_temporary>
   </component>
@@ -551,7 +552,28 @@
       <option name="project" value="LOCAL" />
       <updated>1638117264210</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="Arraylist size initialization">
+      <created>1638118031334</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1638118031334</updated>
+    </task>
+    <task id="LOCAL-00041" summary="store n * length">
+      <created>1638118093798</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1638118093798</updated>
+    </task>
+    <task id="LOCAL-00042" summary="enhanced for loop">
+      <created>1638118331533</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1638118331533</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -599,9 +621,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Change to full CH training set" />
-    <MESSAGE value="Minor changes" />
-    <MESSAGE value="Implement logging with log4j2" />
     <MESSAGE value="Add subset input feature" />
     <MESSAGE value="OOP improvements and logging conversion" />
     <MESSAGE value="Major refactor, moving stuff around" />
@@ -624,7 +643,10 @@
     <MESSAGE value="Lhs cache memory optimization" />
     <MESSAGE value="Preconditioner change to multrows" />
     <MESSAGE value="parray no longer statically declared" />
-    <option name="LAST_COMMIT_MESSAGE" value="parray no longer statically declared" />
+    <MESSAGE value="Arraylist size initialization" />
+    <MESSAGE value="store n * length" />
+    <MESSAGE value="enhanced for loop" />
+    <option name="LAST_COMMIT_MESSAGE" value="enhanced for loop" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
