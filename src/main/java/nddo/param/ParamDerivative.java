@@ -3071,6 +3071,7 @@ public class ParamDerivative {
 					count++;
 				}
 			}
+
 			CommonOps_DDRM.multRows(Darr, f.getDDRM());
 			barray[a] = f;
 			Farray[a] = barray[a].copy();
@@ -3080,17 +3081,9 @@ public class ParamDerivative {
 		// main loop
 		int[] iterable = new int[length];
 
-		int initc =
-				(int) Math.ceil(2 * Math.max(length * Math.log(length), 100));
 		// 0: B, 1: Bt, 2: Bn, 3: P, 4: BmP
-		List<SimpleMatrix[]> prevs = new ArrayList<>(initc);
-		List<Double> dots = new ArrayList<>(initc);
-
-		SimpleMatrix rhs = null;
-		SimpleMatrix lhs = null;
-		SimpleMatrix Bt2 = new SimpleMatrix(length, nonv); // last 15
-		SimpleMatrix P2 = new SimpleMatrix(nonv, length);
-		int n = 1;
+		List<SimpleMatrix[]> prevs = new ArrayList<>();
+		List<Double> dots = new ArrayList<>();
 
 		double[] oldrMags = new double[rarray.length];
 		Arrays.fill(oldrMags, 1);
@@ -3131,7 +3124,6 @@ public class ParamDerivative {
 				// orthogonalize against all previous Bs
 				for (int j = 0; j < prevs.size(); j++) {
 					SimpleMatrix[] prev = prevs.get(j);
-					SimpleMatrix prevB = prev[0];
 					SimpleMatrix transpose = prev[1];
 					double num = transpose.mult(parray[i]).get(0) /
 							dots.get(j);
@@ -3142,39 +3134,15 @@ public class ParamDerivative {
 				barray[i] = newb; // new barray object created
 			}
 
-			// convert prevBs and prevPs into matrix form, transposed
-			int prevL = (n - 1) * length;
-
-			// everything but last 15
-			SimpleMatrix Bt1 = new SimpleMatrix(prevL, nonv);
+			SimpleMatrix Bt = new SimpleMatrix(prevs.size(), nonv);
 			SimpleMatrix P = new SimpleMatrix(nonv, prevs.size());
-
 			for (int i = 0; i < prevs.size(); i++) {
-				if (i >= prevL) {
-					Bt2.setRow(i - prevL, 0, prevs.get(i)[0].getDDRM().data);
-					P2.setColumn(i - prevL, 0, prevs.get(i)[4].getDDRM().data);
-				}
-				else {
-					Bt1.setRow(i, 0, prevs.get(i)[0].getDDRM().data);
-				}
+				Bt.setRow(i, 0, prevs.get(i)[0].getDDRM().data);
 				P.setColumn(i, 0, prevs.get(i)[4].getDDRM().data);
 			}
 
-			SimpleMatrix topright = Bt1.mult(P2);
-			SimpleMatrix bottom = Bt2.mult(P);
-
-			if (rhs == null) rhs = Bt2.mult(F);
-			else rhs = rhs.combine(prevL, 0, Bt2.mult(F));
-
-			if (lhs == null) lhs = Bt2.mult(P);
-			else {
-				int nl = n * length;
-				SimpleMatrix newlhs = new SimpleMatrix(nl, nl);
-				newlhs.insertIntoThis(0, 0, lhs);
-				newlhs.insertIntoThis(0, prevL, topright);
-				newlhs.insertIntoThis(prevL, 0, bottom);
-				lhs = newlhs;
-			}
+			SimpleMatrix rhs = Bt.mult(F);
+			SimpleMatrix lhs = Bt.mult(P);
 
 			// alpha dimensions are prevBs x length
 			SimpleMatrix alpha;
@@ -3245,7 +3213,6 @@ public class ParamDerivative {
 
 				oldrMags[j] = mag;
 			}
-			n++;
 		}
 		return xarray;
 	}
