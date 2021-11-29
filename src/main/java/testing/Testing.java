@@ -88,6 +88,7 @@ public class Testing {
 					count++;
 				}
 			}
+
 			CommonOps_DDRM.multRows(Darr, f.getDDRM());
 			barray[a] = f;
 			Farray[a] = barray[a].copy();
@@ -97,11 +98,9 @@ public class Testing {
 		// main loop
 		int[] iterable = new int[length];
 
-		int initc =
-				(int) Math.ceil(2 * Math.max(length * Math.log(length), 100));
 		// 0: B, 1: Bt, 2: Bn, 3: P, 4: BmP
-		List<SimpleMatrix[]> prevs = new ArrayList<>(initc);
-		List<Double> dots = new ArrayList<>(initc);
+		List<SimpleMatrix[]> prevs = new ArrayList<>();
+		List<Double> dots = new ArrayList<>();
 
 		while (Utils.numIterable(iterable) > 0) {
 			// orthogonalize barray
@@ -138,7 +137,6 @@ public class Testing {
 				// orthogonalize against all previous Bs
 				for (int j = 0; j < prevs.size(); j++) {
 					SimpleMatrix[] prev = prevs.get(j);
-					SimpleMatrix prevB = prev[0];
 					SimpleMatrix transpose = prev[1];
 					double num = transpose.mult(parray[i]).get(0) /
 							dots.get(j);

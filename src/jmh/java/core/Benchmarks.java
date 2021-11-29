@@ -15,6 +15,7 @@ import testing.Testing;
 import tools.Utils;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 public class Benchmarks {
@@ -29,7 +30,7 @@ public class Benchmarks {
 	@BenchmarkMode(Mode.SampleTime)
 	@OutputTimeUnit(TimeUnit.NANOSECONDS)
 	public static void init(State state) {
-		GeometrySecondDerivative.getxarrayPople(state.s, state.fockderivstatic);
+		Testing.getxarrayPople(state.s, state.fockderivstatic);
 	}
 
 	@org.openjdk.jmh.annotations.State(Scope.Benchmark)
@@ -46,7 +47,7 @@ public class Benchmarks {
 			NDDOParams[] nps = Utils.convertToNDDOParams(ri);
 			s = (SolutionR) Solution.of(rm, rm.atoms, nps);
 			SimpleMatrix[][] matrices = GeometryDerivative.gradientRoutine(s);
-			fockderivstatic = matrices[1];
+			fockderivstatic = Arrays.copyOf(matrices[1], 1);
 
 			System.out.println(fockderivstatic.length);
 			SimpleMatrix[] x = Testing.getxarrayPople(s, fockderivstatic);
