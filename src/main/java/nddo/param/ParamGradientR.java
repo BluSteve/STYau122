@@ -107,7 +107,6 @@ class ParamGradientR extends ParamGradient {
 				i++;
 			}
 		}
-
 	}
 
 	@Override

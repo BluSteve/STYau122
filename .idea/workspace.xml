@@ -4,11 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Merge new pople alg into geom and param">
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Change prevs initial size">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/copy.bat" beforeDir="false" afterPath="$PROJECT_DIR$/copy.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientR.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/input/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/input/InputHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,7 +139,7 @@
       <recent name="tools.Utils" />
     </key>
   </component>
-  <component name="RunManager" selected="Shell Script.Copy">
+  <component name="RunManager" selected="Gradle.MNDOParam [jmh]">
     <configuration name="InputHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="runcycle.input.InputHandler" />
       <module name="MNDOParam.main" />
@@ -290,6 +291,8 @@
       <workItem from="1638084222568" duration="1823000" />
       <workItem from="1638093965542" duration="18662000" />
       <workItem from="1638122100409" duration="964000" />
+      <workItem from="1638124855019" duration="625000" />
+      <workItem from="1638173321050" duration="391000" />
     </task>
     <task id="LOCAL-00001" summary="Convert to gradle">
       <created>1636909106825</created>

@@ -103,12 +103,6 @@ public class Testing {
 		List<SimpleMatrix[]> prevs = new ArrayList<>(initc);
 		List<Double> dots = new ArrayList<>(initc);
 
-		SimpleMatrix rhs = null;
-		SimpleMatrix lhs = null;
-		SimpleMatrix Bt2 = new SimpleMatrix(length, nonv); // last 15
-		SimpleMatrix P2 = new SimpleMatrix(nonv, length);
-		int n = 1;
-
 		while (Utils.numIterable(iterable) > 0) {
 			// orthogonalize barray
 			for (int i = 0; i < barray.length; i++) {
@@ -155,40 +149,16 @@ public class Testing {
 				barray[i] = newb; // new barray object created
 			}
 
-			// convert prevBs and prevPs into matrix form, transposed
-			int prevL = (n - 1) * length;
-
-			// everything but last 15
-			SimpleMatrix Bt1 = new SimpleMatrix(prevL, nonv);
+			SimpleMatrix Bt = new SimpleMatrix(prevs.size(), nonv);
 			SimpleMatrix P = new SimpleMatrix(nonv, prevs.size());
 
 			for (int i = 0; i < prevs.size(); i++) {
-				if (i >= prevL) {
-					Bt2.setRow(i - prevL, 0, prevs.get(i)[0].getDDRM().data);
-					P2.setColumn(i - prevL, 0, prevs.get(i)[4].getDDRM().data);
-				}
-				else {
-					Bt1.setRow(i, 0, prevs.get(i)[0].getDDRM().data);
-				}
+				Bt.setRow(i, 0, prevs.get(i)[0].getDDRM().data);
 				P.setColumn(i, 0, prevs.get(i)[4].getDDRM().data);
 			}
 
-			SimpleMatrix topright = Bt1.mult(P2);
-			SimpleMatrix bottom = Bt2.mult(P);
-
-			if (rhs == null) rhs = Bt2.mult(F);
-			else rhs = rhs.combine(prevL, 0, Bt2.mult(F));
-
-			if (lhs == null) lhs = Bt2.mult(P);
-			else {
-				int nl = n * length;
-				SimpleMatrix newlhs = new SimpleMatrix(nl, nl);
-				newlhs.insertIntoThis(0, 0, lhs);
-				newlhs.insertIntoThis(0, prevL, topright);
-				newlhs.insertIntoThis(prevL, 0, bottom);
-				lhs = newlhs;
-			}
-
+			SimpleMatrix rhs = Bt.mult(F);
+			SimpleMatrix lhs = Bt.mult(P);
 			// alpha dimensions are prevBs x length
 			SimpleMatrix alpha = lhs.solve(rhs);
 
@@ -225,8 +195,6 @@ public class Testing {
 					iterable[j] = 0;
 				}
 			}
-
-			n++;
 		}
 
 		return xarray;
