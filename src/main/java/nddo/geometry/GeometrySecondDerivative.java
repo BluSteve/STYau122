@@ -674,8 +674,8 @@ public class GeometrySecondDerivative {
 	}
 
 	private static double LocalTwoCenterERIderiv2(NDDO6G a, NDDO6G b,
-													NDDO6G c, NDDO6G d,
-													int tau1, int tau2) {
+												  NDDO6G c, NDDO6G d,
+												  int tau1, int tau2) {
 
 		double[] A = a.getCoords();
 		double[] C = c.getCoords();
@@ -1446,9 +1446,9 @@ public class GeometrySecondDerivative {
 	}
 
 	private static double[] secondDerivativeDecomposition(double[] point1,
-														 double[] point2,
-														 NDDO6G a, int tau1,
-														 int tau2) {
+														  double[] point2,
+														  NDDO6G a, int tau1,
+														  int tau2) {
 		if (a.getL() == 0) {
 			return new double[]{0};
 		}
@@ -1846,9 +1846,9 @@ public class GeometrySecondDerivative {
 	}
 
 	private static double[] secondDerivativeDecomposition2(double[] point1,
-														  double[] point2,
-														  NDDO6G a, int tau1,
-														  int tau2) {
+														   double[] point2,
+														   NDDO6G a, int tau1,
+														   int tau2) {
 		if (a.getL() == 0) {
 			return new double[]{0};
 		}
@@ -2976,7 +2976,7 @@ public class GeometrySecondDerivative {
 		int counter = 0;
 		for (int i = 0; i < NOcc; i++) {
 			for (int j = 0; j < NVirt; j++) {
-				double e = -soln.E.get(i) + soln.E.get(NOcc + j);
+				double e = (-soln.E.get(i) + soln.E.get(NOcc + j));
 
 				Darr[counter] = Math.pow(e, -0.5);
 				Dinvarr[counter] = Math.pow(e, 0.5);
@@ -2986,7 +2986,6 @@ public class GeometrySecondDerivative {
 		}
 
 		// convert AO to MO basis
-		SimpleMatrix F = new SimpleMatrix(nonv, length);
 		for (int a = 0; a < length; a++) {
 			SimpleMatrix f = new SimpleMatrix(nonv, 1);
 
@@ -3004,7 +3003,7 @@ public class GeometrySecondDerivative {
 						}
 					}
 
-					element /= soln.E.get(j + NOcc) - soln.E.get(i);
+					element = element / (soln.E.get(j + NOcc) - soln.E.get(i));
 
 					f.set(count, 0, element);
 
@@ -3015,31 +3014,24 @@ public class GeometrySecondDerivative {
 			CommonOps_DDRM.multRows(Darr, f.getDDRM());
 			barray[a] = f;
 			Farray[a] = barray[a].copy();
-			F.setColumn(a, 0, barray[a].getDDRM().data);
 		}
 
 		// main loop
 		int[] iterable = new int[length];
+		ArrayList<SimpleMatrix> prevBs = new ArrayList<>();
+		ArrayList<SimpleMatrix> prevPs = new ArrayList<>();
 
-		// 0: B, 1: Bt, 2: Bn, 3: P, 4: BmP
-		List<SimpleMatrix[]> prevs = new ArrayList<>();
-		List<Double> dots = new ArrayList<>();
+		// convert Farray into matrix form
+		SimpleMatrix F = new SimpleMatrix(nonv, length);
+		for (int i = 0; i < Farray.length; i++) {
+			F.setColumn(i, 0, Farray[i].getDDRM().data);
+		}
 
 		while (Utils.numIterable(iterable) > 0) {
-			// orthogonalize barray
-			for (int i = 0; i < barray.length; i++) {
-				for (int j = 0; j < i; j++) {
-					barray[i].plusi(barray[i].dot(barray[j]) /
-							barray[j].dot(barray[j]), barray[j].negativei());
-				}
-			}
+			Utils.orthogonalise(barray);
 
 			for (int i = 0; i < length; i++) {
-				SimpleMatrix[] prev = new SimpleMatrix[5];
-				prev[0] = barray[i]; // original barray object here
-				prev[1] = barray[i].transpose();
-				prev[2] = barray[i].negative();
-				dots.add(barray[i].dot(barray[i]));
+				prevBs.add(barray[i]);
 
 				// parray[i] stays the same object throughout
 				SimpleMatrix bc = barray[i].copy();
@@ -3048,39 +3040,34 @@ public class GeometrySecondDerivative {
 				CommonOps_DDRM.multRows(Darr, crv.getDDRM());
 				parray[i] = crv;
 
-				prev[3] = parray[i];
-				prev[4] = barray[i].minus(parray[i]);
-
-				prevs.add(prev);
+				prevPs.add(parray[i]);
 			}
 
 			for (int i = 0; i < length; i++) {
-				SimpleMatrix newb = parray[i].copy();
+				SimpleMatrix newb = parray[i];
 
 				// orthogonalize against all previous Bs
-				for (int j = 0; j < prevs.size(); j++) {
-					SimpleMatrix[] prev = prevs.get(j);
-					SimpleMatrix transpose = prev[1];
-					double num = transpose.mult(parray[i]).get(0) /
-							dots.get(j);
+				for (SimpleMatrix prevB : prevBs) {
+					double num = prevB.transpose().mult(parray[i]).get(0) /
+							prevB.transpose().mult(prevB).get(0);
 
-					newb.plusi(num, prev[2]);
+					newb = newb.minus(prevB.scale(num));
 				}
 
-				barray[i] = newb; // new barray object created
+				barray[i] = newb;
 			}
 
-			SimpleMatrix Bt = new SimpleMatrix(prevs.size(), nonv);
-			SimpleMatrix P = new SimpleMatrix(nonv, prevs.size());
-
-			for (int i = 0; i < prevs.size(); i++) {
-				Bt.setRow(i, 0, prevs.get(i)[0].getDDRM().data);
-				P.setColumn(i, 0, prevs.get(i)[4].getDDRM().data);
+			// convert prevBs and prevPs into matrix form, transposed
+			SimpleMatrix Bt = new SimpleMatrix(prevBs.size(), nonv);
+			SimpleMatrix P = new SimpleMatrix(nonv, prevPs.size());
+			for (int i = 0; i < prevBs.size(); i++) {
+				Bt.setRow(i, 0, prevBs.get(i).getDDRM().data);
+				P.setColumn(i, 0,
+						prevBs.get(i).minus(prevPs.get(i)).getDDRM().data);
 			}
 
-			SimpleMatrix rhs = Bt.mult(F);
 			SimpleMatrix lhs = Bt.mult(P);
-			// alpha dimensions are prevBs x length
+			SimpleMatrix rhs = Bt.mult(F);
 			SimpleMatrix alpha = lhs.solve(rhs);
 
 			// reset r and x array
@@ -3092,8 +3079,16 @@ public class GeometrySecondDerivative {
 			for (int i = 0; i < alpha.numRows(); i++) {
 				for (int j = 0; j < alpha.numCols(); j++) {
 					// B with tilde
-					rarray[j].plusi(alpha.get(i, j), prevs.get(i)[4]);
-					xarray[j].plusi(alpha.get(i, j), prevs.get(i)[0]);
+					rarray[j] = rarray[j].plus(
+							prevBs.get(i)
+									.minus(prevPs.get(i))
+									.scale(alpha.get(i, j))
+					);
+
+					xarray[j] = xarray[j].plus(
+							prevBs.get(i)
+									.scale(alpha.get(i, j))
+					);
 				}
 			}
 

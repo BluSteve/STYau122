@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Remove initial capacity">
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="temp2">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -136,7 +136,7 @@
       <recent name="tools.Utils" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.MNDOParam [jmh]">
+  <component name="RunManager" selected="Shell Script.Copy">
     <configuration name="InputHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="runcycle.input.InputHandler" />
       <module name="MNDOParam.main" />
@@ -239,8 +239,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.MNDOParam [jmh]" />
         <item itemvalue="Gradle.MNDOParam [jar]" />
+        <item itemvalue="Gradle.MNDOParam [jmh]" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.Testing" />
         <item itemvalue="Application.InputHandler" />
@@ -290,27 +290,8 @@
       <workItem from="1638122100409" duration="964000" />
       <workItem from="1638124855019" duration="625000" />
       <workItem from="1638173321050" duration="391000" />
-    </task>
-    <task id="LOCAL-00001" summary="Convert to gradle">
-      <created>1636909106825</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1636909106825</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Change README.txt">
-      <created>1636909237020</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1636909237020</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Utils refactor">
-      <created>1636909661565</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1636909661565</updated>
+      <workItem from="1638191899025" duration="593000" />
+      <workItem from="1638533821055" duration="3745000" />
     </task>
     <task id="LOCAL-00004" summary="Create jblas gradle branch">
       <created>1636944830483</created>
@@ -634,7 +615,28 @@
       <option name="project" value="LOCAL" />
       <updated>1638175181878</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="Port changes over to gsd and pd">
+      <created>1638175361986</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1638175361987</updated>
+    </task>
+    <task id="LOCAL-00051" summary="Port changes over to gsd and pd">
+      <created>1638175576036</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1638175576036</updated>
+    </task>
+    <task id="LOCAL-00052" summary="temp2">
+      <created>1638536949325</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1638536949326</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -682,8 +684,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Lots of bug fixes, refactorings, csv logging" />
-    <MESSAGE value="Clean up dependencies including jblas and cublas" />
     <MESSAGE value="Reformat" />
     <MESSAGE value="Use own EJML with JBlas syntax improvements" />
     <MESSAGE value="SolutionR 8 molecule fix + progress bar fix" />
@@ -707,7 +707,9 @@
     <MESSAGE value="Cached double + initc lower bound" />
     <MESSAGE value="Merge new pople alg into geom and param" />
     <MESSAGE value="Remove initial capacity" />
-    <option name="LAST_COMMIT_MESSAGE" value="Remove initial capacity" />
+    <MESSAGE value="Port changes over to gsd and pd" />
+    <MESSAGE value="temp2" />
+    <option name="LAST_COMMIT_MESSAGE" value="temp2" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
