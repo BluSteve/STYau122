@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="temp2">
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="344000ms actually works pretty well">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/copy.bat" beforeDir="false" afterPath="$PROJECT_DIR$/copy.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/input/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/input/InputHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -137,6 +140,19 @@
     </key>
   </component>
   <component name="RunManager" selected="Shell Script.Copy">
+    <configuration name="Benchmarks" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="core.Benchmarks" />
+      <module name="MNDOParam.jmh" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="core.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="InputHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="runcycle.input.InputHandler" />
       <module name="MNDOParam.main" />
@@ -153,19 +169,6 @@
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="MNDOParam.main" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Testing" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="testing.Testing" />
-      <module name="MNDOParam.main" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="testing.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -230,20 +233,20 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.InputHandler" />
-      <item itemvalue="Application.Testing" />
       <item itemvalue="Application.Main" />
       <item itemvalue="Gradle.MNDOParam [jar]" />
       <item itemvalue="Gradle.MNDOParam [jmh]" />
       <item itemvalue="Shell Script.Copy" />
+      <item itemvalue="Application.Benchmarks" />
+      <item itemvalue="Application.InputHandler" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.MNDOParam [jar]" />
         <item itemvalue="Gradle.MNDOParam [jmh]" />
-        <item itemvalue="Application.Main" />
-        <item itemvalue="Application.Testing" />
         <item itemvalue="Application.InputHandler" />
+        <item itemvalue="Application.Benchmarks" />
+        <item itemvalue="Gradle.MNDOParam [jar]" />
+        <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
   </component>
@@ -291,21 +294,9 @@
       <workItem from="1638124855019" duration="625000" />
       <workItem from="1638173321050" duration="391000" />
       <workItem from="1638191899025" duration="593000" />
-      <workItem from="1638533821055" duration="3745000" />
-    </task>
-    <task id="LOCAL-00004" summary="Create jblas gradle branch">
-      <created>1636944830483</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1636944830483</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Update .gitignore">
-      <created>1636944924915</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1636944924915</updated>
+      <workItem from="1638533821055" duration="3867000" />
+      <workItem from="1638540108703" duration="22000" />
+      <workItem from="1638605009968" duration="1928000" />
     </task>
     <task id="LOCAL-00006" summary="Minor pople improvements">
       <created>1636952342087</created>
@@ -636,7 +627,21 @@
       <option name="project" value="LOCAL" />
       <updated>1638536949326</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="340000ms actually works pretty well">
+      <created>1638539320440</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1638539320440</updated>
+    </task>
+    <task id="LOCAL-00054" summary="344000ms actually works pretty well">
+      <created>1638539331851</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1638539331851</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -684,8 +689,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Reformat" />
-    <MESSAGE value="Use own EJML with JBlas syntax improvements" />
     <MESSAGE value="SolutionR 8 molecule fix + progress bar fix" />
     <MESSAGE value="Fix InputHandler subset" />
     <MESSAGE value="Fix symmetric molecule GeomOpt numit issue" />
@@ -709,7 +712,9 @@
     <MESSAGE value="Remove initial capacity" />
     <MESSAGE value="Port changes over to gsd and pd" />
     <MESSAGE value="temp2" />
-    <option name="LAST_COMMIT_MESSAGE" value="temp2" />
+    <MESSAGE value="340000ms actually works pretty well" />
+    <MESSAGE value="344000ms actually works pretty well" />
+    <option name="LAST_COMMIT_MESSAGE" value="344000ms actually works pretty well" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

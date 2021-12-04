@@ -30,7 +30,7 @@ public class Benchmarks {
 	@BenchmarkMode(Mode.SampleTime)
 	@OutputTimeUnit(TimeUnit.NANOSECONDS)
 	public static void init(State state) {
-		Testing.getxarrayPople(state.s, state.fockderivstatic);
+		GeometrySecondDerivative.getxarrayPople(state.s, state.fockderivstatic);
 	}
 
 	@org.openjdk.jmh.annotations.State(Scope.Benchmark)
@@ -47,7 +47,7 @@ public class Benchmarks {
 			NDDOParams[] nps = Utils.convertToNDDOParams(ri);
 			s = (SolutionR) Solution.of(rm, rm.atoms, nps);
 			SimpleMatrix[][] matrices = GeometryDerivative.gradientRoutine(s);
-			fockderivstatic = Arrays.copyOf(matrices[1], 1);
+			fockderivstatic = matrices[1];
 
 			System.out.println(fockderivstatic.length);
 			SimpleMatrix[] x = Testing.getxarrayPople(s, fockderivstatic);

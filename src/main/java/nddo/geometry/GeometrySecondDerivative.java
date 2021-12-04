@@ -2976,7 +2976,7 @@ public class GeometrySecondDerivative {
 		int counter = 0;
 		for (int i = 0; i < NOcc; i++) {
 			for (int j = 0; j < NVirt; j++) {
-				double e = (-soln.E.get(i) + soln.E.get(NOcc + j));
+				double e = -soln.E.get(i) + soln.E.get(NOcc + j);
 
 				Darr[counter] = Math.pow(e, -0.5);
 				Dinvarr[counter] = Math.pow(e, 0.5);
@@ -3004,7 +3004,7 @@ public class GeometrySecondDerivative {
 						}
 					}
 
-					element = element / (soln.E.get(j + NOcc) - soln.E.get(i));
+					element /= soln.E.get(j + NOcc) - soln.E.get(i);
 
 					f.set(count, 0, element);
 
@@ -3067,7 +3067,7 @@ public class GeometrySecondDerivative {
 					newb.plusi(num, prev[2]);
 				}
 
-				barray[i] = newb;
+				barray[i] = newb; // new barray object created
 			}
 
 			SimpleMatrix Bt = new SimpleMatrix(prevs.size(), nonv);
