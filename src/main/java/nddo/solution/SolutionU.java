@@ -311,6 +311,7 @@ public class SolutionU extends Solution {
 					getRm().getLogger().error(
 							"Damping coefficient cannot be increased" +
 									" further.");
+					System.exit(1);
 				}
 			}
 		}

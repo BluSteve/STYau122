@@ -4,12 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="344000ms actually works pretty well">
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="333000ms final pople for both gsd and pd">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/copy.bat" beforeDir="false" afterPath="$PROJECT_DIR$/copy.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputtesting.txt" beforeDir="false" afterPath="$PROJECT_DIR$/inputtesting.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mndoparams.txt" beforeDir="false" afterPath="$PROJECT_DIR$/mndoparams.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reference.txt" beforeDir="false" afterPath="$PROJECT_DIR$/reference.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/input/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/input/InputHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,12 +74,12 @@
   <component name="GitRewordedCommitMessages">
     <option name="commitMessagesMapping">
       <RewordedCommitMessageMapping>
-        <option name="originalMessage" value="Merge new pople alg into geom and param" />
-        <option name="rewordedMessage" value="Merge new pople alg into geom and param" />
+        <option name="originalMessage" value="temp1" />
+        <option name="rewordedMessage" value="340000ms actually works pretty well&#10;&#10;&#10;temp2&#10;&#10;&#10;temp1" />
       </RewordedCommitMessageMapping>
     </option>
     <option name="currentCommit" value="1" />
-    <option name="onto" value="2fac9a8e3c69b12db9fb6d9b104e4547f84a5bde" />
+    <option name="onto" value="407950c0f161a093fabd70750580110a3c89f42d" />
   </component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
@@ -139,7 +143,7 @@
       <recent name="tools.Utils" />
     </key>
   </component>
-  <component name="RunManager" selected="Shell Script.Copy">
+  <component name="RunManager" selected="Application.InputHandler">
     <configuration name="Benchmarks" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="core.Benchmarks" />
       <module name="MNDOParam.jmh" />
@@ -234,11 +238,11 @@
     </configuration>
     <list>
       <item itemvalue="Application.Main" />
+      <item itemvalue="Application.Benchmarks" />
+      <item itemvalue="Application.InputHandler" />
       <item itemvalue="Gradle.MNDOParam [jar]" />
       <item itemvalue="Gradle.MNDOParam [jmh]" />
       <item itemvalue="Shell Script.Copy" />
-      <item itemvalue="Application.Benchmarks" />
-      <item itemvalue="Application.InputHandler" />
     </list>
     <recent_temporary>
       <list>
@@ -296,14 +300,13 @@
       <workItem from="1638191899025" duration="593000" />
       <workItem from="1638533821055" duration="3867000" />
       <workItem from="1638540108703" duration="22000" />
-      <workItem from="1638605009968" duration="1928000" />
-    </task>
-    <task id="LOCAL-00006" summary="Minor pople improvements">
-      <created>1636952342087</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1636952342087</updated>
+      <workItem from="1638605009968" duration="6013000" />
+      <workItem from="1638613074212" duration="1430000" />
+      <workItem from="1638614936182" duration="98000" />
+      <workItem from="1638615577028" duration="1201000" />
+      <workItem from="1638694866637" duration="348000" />
+      <workItem from="1638695878561" duration="413000" />
+      <workItem from="1638696346939" duration="220000" />
     </task>
     <task id="LOCAL-00007" summary="Fixed ParamDeriv h2 thiel issue">
       <created>1636970874760</created>
@@ -641,7 +644,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638539331851</updated>
     </task>
-    <option name="localTasksCounter" value="55" />
+    <task id="LOCAL-00055" summary="333000ms final pople for both gsd and pd">
+      <created>1638607107561</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1638607107562</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -669,7 +679,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="gradle" />
+                        <option value="origin/hessian" />
                       </list>
                     </value>
                   </entry>
@@ -689,7 +699,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="SolutionR 8 molecule fix + progress bar fix" />
     <MESSAGE value="Fix InputHandler subset" />
     <MESSAGE value="Fix symmetric molecule GeomOpt numit issue" />
     <MESSAGE value="Roll back DIIS experiment" />
@@ -714,7 +723,8 @@
     <MESSAGE value="temp2" />
     <MESSAGE value="340000ms actually works pretty well" />
     <MESSAGE value="344000ms actually works pretty well" />
-    <option name="LAST_COMMIT_MESSAGE" value="344000ms actually works pretty well" />
+    <MESSAGE value="333000ms final pople for both gsd and pd" />
+    <option name="LAST_COMMIT_MESSAGE" value="333000ms final pople for both gsd and pd" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

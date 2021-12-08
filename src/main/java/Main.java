@@ -28,7 +28,7 @@ import java.util.concurrent.*;
 
 public class Main {
 	private static final String INPUT_FILENAME = "input";
-	private static final int NUM_RUNS = 1;
+	private static final int NUM_RUNS = 695;
 	private static final int MAX_MOLECULES = 1000;
 	private static final boolean isImportLastRun = true;
 	private static final Logger logger = LogManager.getLogger();
@@ -61,6 +61,31 @@ public class Main {
 			else logger.warn("Last ran molecules import failed!");
 		}
 
+		logger.info("NUM_RUNS = " + NUM_RUNS);
+
+		boolean[] isDones = new boolean[MAX_MOLECULES];
+		if (logger.isInfoEnabled()) {
+			Runnable mLeft = () -> {
+				List<String> done = new ArrayList<>();
+				List<String> left = new ArrayList<>();
+
+				for (RawMolecule rm : ri.molecules) {
+					if (isDones[rm.index]) done.add(rm.debugName());
+					else left.add(rm.debugName());
+				}
+
+				done.sort(String::compareTo);
+				left.sort(String::compareTo);
+
+				logger.info("Molecules done ({}): {}", done.size(), done);
+				logger.info("Molecules left ({}): {}", left.size(), left);
+			};
+
+			int wait = 10;
+			progressBar.scheduleAtFixedRate(mLeft, wait, wait,
+					TimeUnit.SECONDS);
+		}
+
 		StopWatch sw = new StopWatch();
 		sw.start();
 
@@ -71,6 +96,8 @@ public class Main {
 
 			AtomHandler.populateAtoms();
 			ri = InputHandler.processInput(INPUT_FILENAME);
+
+			Arrays.fill(isDones, false);
 
 			FileWriter fw2 = new FileWriter("dynamic-output.json");
 			fw2.write("[");
@@ -94,7 +121,6 @@ public class Main {
 			// create tasks to run in parallel and then runs them
 			// excludes ran molecules from previous dynamic output
 			List<RecursiveTask<MoleculeRun>> moleculeTasks = new ArrayList<>();
-			boolean[] isDones = new boolean[MAX_MOLECULES];
 			for (RawMolecule rm : ri.molecules) {
 				boolean isDoneAlready = false;
 				if (ranMolecules != null) {
@@ -127,28 +153,6 @@ public class Main {
 				for (MoleculeOutput mr : ranMolecules) {
 					results.add(new MoleculeRan(mr));
 				}
-			}
-
-			if (logger.isInfoEnabled()) {
-				Runnable mLeft = () -> {
-					List<String> done = new ArrayList<>();
-					List<String> left = new ArrayList<>();
-
-					for (RawMolecule rm : ri.molecules) {
-						if (isDones[rm.index]) done.add(rm.debugName());
-						else left.add(rm.debugName());
-					}
-
-					done.sort(String::compareTo);
-					left.sort(String::compareTo);
-
-					logger.info("Molecules done ({}): {}", done.size(), done);
-					logger.info("Molecules left ({}): {}", left.size(), left);
-				};
-
-				int wait = 10;
-				progressBar.scheduleAtFixedRate(mLeft, wait, wait,
-						TimeUnit.SECONDS);
 			}
 
 			// shuffles run requests and runs them
@@ -235,7 +239,8 @@ public class Main {
 			MoleculeOutput[] mosarray =
 					mos.toArray(new MoleculeOutput[0]);
 			OutputHandler.output(ri, mosarray, "outputs/run-"
-					+ String.format("%04d", runNum) + "-output", lsw.getTime());
+					+ String.format("%04d", runNum) + "-output",
+					lsw.getTime());
 			InputHandler.outputInput(ri, INPUT_FILENAME);
 		}
 		sw.stop();
@@ -313,5 +318,4 @@ public class Main {
 
 		return hessian.plus(A).minus(C);
 	}
-
 }

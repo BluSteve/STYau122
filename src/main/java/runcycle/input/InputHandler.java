@@ -255,7 +255,7 @@ public class InputHandler {
 		try {
 			i = 0;
 			int j = 0;
-			while (i < datums.size()) {
+			while (i < datums.size() && j < moleculesL.size()) {
 				String[] ss;
 				double[] datum = new double[3];
 				datum[0] = Double.parseDouble(datums.get(i).split(" ")[1]);
@@ -316,6 +316,6 @@ public class InputHandler {
 	public static void main(String[] args) throws IOException {
 		convertFromTXT("inputtesting.txt");
 //		outputSubset(new int[]{234, 237, 258, 260, 261, 270, 276, 285});
-		outputSubset(new int[]{9});
+//		outputSubset(new int[]{9});
 	}
 }
