@@ -282,7 +282,7 @@ public class InputHandler {
 		outputJSON(ri, "input");
 	}
 
-	private static void outputSubset(int[] ids)
+	private static void outputSubset(int... ids)
 			throws IOException {
 		RawInput ri = processInput("input");
 		ri.nMolecules = ids.length;
@@ -316,6 +316,6 @@ public class InputHandler {
 	public static void main(String[] args) throws IOException {
 		convertFromTXT("inputtesting.txt");
 //		outputSubset(new int[]{234, 237, 258, 260, 261, 270, 276, 285});
-//		outputSubset(new int[]{9});
+		outputSubset(9);
 	}
 }
