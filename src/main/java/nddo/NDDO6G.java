@@ -7,132 +7,93 @@ import scf.OrbitalProperties;
 import scf.STO6G;
 
 public class NDDO6G extends STO6G {
-	public double zeta, beta, U, p0, p1, p2, D1, D2;
+	public double beta, U, p0, p1, p2, D1, D2;
 	public double gss, gsp, hsp, gpp, gp2, hp2;
-	private NDDOAtom a;
+	private final NDDOAtom atom;
 	private NDDO6G[] orbitalArray;
 
-	public NDDO6G(NDDOAtom a, OrbitalProperties orbital, double zeta,
-				  double beta, double U) {
-		super(zeta, a, orbital);
+	public NDDO6G(NDDOAtom atom, OrbitalProperties op, double zeta, double beta, double U) {
+		super(op, atom.getCoordinates(), zeta);
 
-		this.a = a;
-		this.zeta = zeta;
+		this.atom = atom;
 		this.beta = beta;
 		this.U = U;
-		this.p0 = a.p0;
-		this.p1 = a.p1;
-		this.p2 = a.p2;
-		this.D1 = a.D1;
-		this.D2 = a.D2;
-		this.gss = a.getParams().getGss();
-		this.gsp = a.getParams().getGsp();
-		this.hsp = a.getParams().getHsp();
-		this.gpp = a.getParams().getGpp();
-		this.gp2 = a.getParams().getGp2();
+		this.p0 = atom.p0;
+		this.p1 = atom.p1;
+		this.p2 = atom.p2;
+		this.D1 = atom.D1;
+		this.D2 = atom.D2;
+		this.gss = atom.getParams().getGss();
+		this.gsp = atom.getParams().getGsp();
+		this.hsp = atom.getParams().getHsp();
+		this.gpp = atom.getParams().getGpp();
+		this.gp2 = atom.getParams().getGp2();
 		this.hp2 = 0.5 * (gpp - gp2);
 	}
 
-	public NDDO6G(int i, int j, int k, NDDO6G nddo6G) {
+	private NDDO6G(NDDO6G nddo6G) {
+		this(nddo6G.atom, nddo6G.op, nddo6G.zeta, nddo6G.beta, nddo6G.U);
+	}
+
+	private NDDO6G(NDDO6G nddo6G, int i, int j, int k) {
+		this(nddo6G);
+
 		super.i = i;
 		super.j = j;
 		super.k = k;
 		super.L = i + j + k;
-		super.coordinates = nddo6G.coordinates;
-		this.p0 = nddo6G.p0;
-		this.p1 = nddo6G.p1;
-		this.p2 = nddo6G.p2;
-		this.D1 = nddo6G.D1;
-		this.D2 = nddo6G.D2;
 	}
 
 	public NDDO6G(NDDO6G nddo6G, double[] coordinates) {
-		this(nddo6G.i, nddo6G.j, nddo6G.k, nddo6G);
+		this(nddo6G);
+
 		super.coordinates = coordinates;
 	}
 
 	public static double OneCenterERI(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d) {
-		if (a.getL() == b.getL() && a.getL() == 0) {//(ss|??)
-			if (c.getL() == d.getL() & c.getL() == 0) {//(gss
-				//System.err.println ("gss");
+		if (a.getL() == b.getL() && a.getL() == 0) {/*(ss|??)*/
+			if (c.getL() == d.getL() & c.getL() == 0) {/*(gss*/
 				return a.gss;
 			}
-			else if ((c.geti() == 1 && d.geti() == 1) ||
-					(c.getj() == 1 && d.getj() == 1) ||
-					(c.getk() == 1 && d.getk() == 1)) {//gsp
-				//System.err.println ("gsp");
+			else if ((c.geti() == 1 && d.geti() == 1) || (c.getj() == 1 && d.getj() == 1) ||
+					(c.getk() == 1 && d.getk() == 1)) {/*gsp*/
 				return a.gsp;
 			}
-			else {
-				return 0;
-			}
+			else return 0;
 		}
-		else if (a.getL() == 1 && b.getL() == 1) {//(pp'|??)
-
-			if ((a.geti() == 1 && b.geti() == 1) ||
-					(a.getj() == 1 && b.getj() == 1) ||
-					(a.getk() == 1 && b.getk() == 1)) {//(pp|??)
-				if (c.getL() == d.getL() && c.getL() == 0) {//gsp
-					//System.err.println ("gsp");
+		else if (a.getL() == 1 && b.getL() == 1) {/*(pp'|??)*/
+			if ((a.geti() == 1 && b.geti() == 1) || (a.getj() == 1 && b.getj() == 1) ||
+					(a.getk() == 1 && b.getk() == 1)) {/*(pp|??)*/
+				if (c.getL() == d.getL() && c.getL() == 0) {/*gsp*/
 					return a.gsp;
 				}
-				else if ((c.geti() == 1 && d.geti() == 1) ||
-						(c.getj() == 1 && d.getj() == 1) ||
-						(c.getk() == 1 && d.getk() == 1)) {
-					if (a.geti() == c.geti() && a.geti() == 1 ||
-							a.getj() == c.getj() && a.getj() == 1 ||
-							a.getk() == c.getk() && a.getk() == 1) {//gpp
-						//System.err.println ("gpp");
+				else if ((c.geti() == 1 && d.geti() == 1) || (c.getj() == 1 && d.getj() == 1) ||
+						(c.getk() == 1 && d.getk() == 1))
+					if (a.geti() == c.geti() && a.geti() == 1 || a.getj() == c.getj() && a.getj() == 1 ||
+							a.getk() == c.getk() && a.getk() == 1) {/*gpp*/
 						return a.gpp;
 					}
-					else {//gpp'
-						//System.err.println ("gpp'");
+					else {/*gpp'*/
 						return a.gp2;
 					}
-				}
-
 			}
-			else if (c.getL() == d.getL() && c.getL() == 1) {//(pp'|p''p''')
-				if (Math.abs(LCGTO.getS(a, c) - 1) < 1E-5 &&
-						Math.abs(LCGTO.getS(b, d) - 1) < 1E-5) {
-					//System.err.println ("hpp");
-					return a.hp2;
-				}
-				else if (Math.abs(LCGTO.getS(a, d) - 1) < 1E-5 &&
-						Math.abs(LCGTO.getS(b, c) - 1) < 1E-5) {
-					//System.err.println ("hpp");
-					return a.hp2;
-				}
+			else if (c.getL() == d.getL() && c.getL() == 1) {/*(pp'|p''p''')*/
+				if (Math.abs(LCGTO.getS(a, c) - 1) < 1E-5 && Math.abs(LCGTO.getS(b, d) - 1) < 1E-5) return a.hp2;
+				else if (Math.abs(LCGTO.getS(a, d) - 1) < 1E-5 && Math.abs(LCGTO.getS(b, c) - 1) < 1E-5) return a.hp2;
 			}
 		}
 		else if (a.getL() == 0 && c.getL() == 0 &&
-				((b.geti() == 1 && d.geti() == 1) ||
-						(b.getj() == 1 && d.getj() == 1) ||
-						(b.getk() == 1 && d.getk() == 1))) {
-			//System.err.println ("hsp");
-			return a.hsp;
-		}
+				((b.geti() == 1 && d.geti() == 1) || (b.getj() == 1 && d.getj() == 1) ||
+						(b.getk() == 1 && d.getk() == 1))) return a.hsp;
 		else if (a.getL() == 0 && d.getL() == 0 &&
-				((b.geti() == 1 && c.geti() == 1) ||
-						(b.getj() == 1 && c.getj() == 1) ||
-						(b.getk() == 1 && c.getk() == 1))) {
-			//System.err.println ("hsp");
-			return a.hsp;
-		}
+				((b.geti() == 1 && c.geti() == 1) || (b.getj() == 1 && c.getj() == 1) ||
+						(b.getk() == 1 && c.getk() == 1))) return a.hsp;
 		else if (b.getL() == 0 && c.getL() == 0 &&
-				((a.geti() == 1 && d.geti() == 1) ||
-						(a.getj() == 1 && d.getj() == 1) ||
-						(a.getk() == 1 && d.getk() == 1))) {
-			//System.err.println ("hsp");
-			return a.hsp;
-		}
+				((a.geti() == 1 && d.geti() == 1) || (a.getj() == 1 && d.getj() == 1) ||
+						(a.getk() == 1 && d.getk() == 1))) return a.hsp;
 		else if (b.getL() == 0 && d.getL() == 0 &&
-				((a.geti() == 1 && c.geti() == 1) ||
-						(a.getj() == 1 && c.getj() == 1) ||
-						(a.getk() == 1 && c.getk() == 1))) {
-			//System.err.println ("hsp");
-			return a.hsp;
-		}
+				((a.geti() == 1 && c.geti() == 1) || (a.getj() == 1 && c.getj() == 1) ||
+						(a.getk() == 1 && c.getk() == 1))) return a.hsp;
 		return 0;
 	}
 
@@ -1223,31 +1184,20 @@ public class NDDO6G extends STO6G {
 		NDDO6G[] C = c.orbitalArray();
 		NDDO6G[] D = d.orbitalArray();
 
-		for (int i = 0; i < coeffA.length; i++) {
-			for (int j = 0; j < coeffB.length; j++) {
-				for (int k = 0; k < coeffC.length; k++) {
-					for (int l = 0; l < coeffD.length; l++) {
-
-						if (coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] !=
-								0) {
-							sum2 += coeffA[i] * coeffB[j] * coeffC[k] *
-									coeffD[l] *
-									LocalTwoCenterERI(A[i], B[j], C[k], D[l]) *
-									27.21;
+		for (int i = 0; i < coeffA.length; i++)
+			for (int j = 0; j < coeffB.length; j++)
+				for (int k = 0; k < coeffC.length; k++)
+					for (int l = 0; l < coeffD.length; l++)
+						if (coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] != 0) {
+							sum2 += coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] *
+											LocalTwoCenterERI(A[i], B[j], C[k], D[l]) * 27.21;
 						}
-
-
-					}
-				}
-			}
-		}
-
 
 		return sum2;
 	}
 
 	public NDDOAtom getAtom() {
-		return this.a;
+		return this.atom;
 	}
 
 	public double U() {
@@ -1259,12 +1209,10 @@ public class NDDO6G extends STO6G {
 	}
 
 	public double[] decomposition(double[] point1, double[] point2) {
-
 		if (this.L == 0) {
 			return new double[]{1};
 		}
 		else if (this.L == 1) {
-
 			double[] zloc = new double[3];
 			double val = GTO.R(point1, point2);
 			for (int i = 0; i < 3; i++) {
@@ -1300,15 +1248,12 @@ public class NDDO6G extends STO6G {
 	}
 
 	public double[] decomposition2(double[] point1, double[] point2) {
-
 		if (this.L == 0) {
 			return new double[]{1};
 		}
 
 		double x = point2[0] - point1[0];
-
 		double y = point2[1] - point1[1];
-
 		double z = point2[2] - point1[2];
 
 		double Rxz = Math.sqrt(x * x + z * z);
@@ -1334,20 +1279,18 @@ public class NDDO6G extends STO6G {
 		}
 
 		return null;
-
-
 	}
 
 	public NDDO6G[] orbitalArray() {
 		if (this.orbitalArray == null) {
 			if (this.L == 0) {
-				orbitalArray = new NDDO6G[]{new NDDO6G(0, 0, 0, this)};
+				orbitalArray = new NDDO6G[]{new NDDO6G(this, 0, 0, 0)};
 			}
 			else if (this.L == 1) {
 				orbitalArray = new NDDO6G[]{
-						new NDDO6G(1, 0, 0, this),
-						new NDDO6G(0, 1, 0, this),
-						new NDDO6G(0, 0, 1, this)};
+						new NDDO6G(this, 1, 0, 0),
+						new NDDO6G(this, 0, 1, 0),
+						new NDDO6G(this, 0, 0, 1)};
 			}
 		}
 

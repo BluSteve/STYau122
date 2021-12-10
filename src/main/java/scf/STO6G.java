@@ -1,11 +1,6 @@
 package scf;
 
-import org.apache.logging.log4j.LogManager;
-
-import java.util.Objects;
-
 public class STO6G extends LCGTO {
-
 	private final static double[] exp1 =
 			new double[]{6.51095E-2, 1.58088E-1, 4.07099E-1, 1.18506, 4.23592,
 					2.31030E+1};
@@ -30,16 +25,14 @@ public class STO6G extends LCGTO {
 					3.76794E-2,
 					3.75970E-3};
 
-	public STO6G(double zeta, AtomFixed atom, OrbitalProperties orbital) {
-		super(exp(orbital.getShell(), zeta), Objects.requireNonNull(coeff(orbital.getShell(), orbital.getL())), atom,
-				orbital, zeta);
+	public double zeta;
+
+	public STO6G(OrbitalProperties op, double[] coordinates, double zeta) {
+		super(op, coordinates, getExps(op.getShell(), zeta), getCoeffs(op.getShell(), op.getL()));
+		this.zeta = zeta;
 	}
 
-	public STO6G() {
-
-	}
-
-	private static double[] exp(int shell, double zeta) {
+	private static double[] getExps(int shell, double zeta) {
 		switch (shell) {
 			case 1:
 				double[] exp1 = new double[6];
@@ -55,11 +48,10 @@ public class STO6G extends LCGTO {
 				return exp2;
 		}
 
-		LogManager.getLogger().error("Illegal atom");
-		return null;
+		throw new IllegalArgumentException("Illegal atom");
 	}
 
-	private static double[] coeff(int shell, int L) {
+	private static double[] getCoeffs(int shell, int L) {
 		switch (shell) {
 			case 1:
 				return coeff1.clone();
@@ -72,7 +64,75 @@ public class STO6G extends LCGTO {
 				}
 		}
 
-		LogManager.getLogger().error("Illegal atom" + shell + L);
-		return null;
+		throw new IllegalArgumentException("Illegal atom" + shell + L);
+	}
+
+	public static double getSderivzeta(STO6G X1, STO6G X2, int type) {
+
+		double Sderiv = 0;
+
+		for (int i = 0; i < X1.getn(); i++) {
+			for (int j = 0; j < X2.getn(); j++) {
+
+				switch (type) {
+					case 0:
+						Sderiv += X1.gaussExponents[i] * 2 / X1.zeta * X1.getCoeffArray()[i] * X2.getCoeffArray()[j] * GTO.getSderivalpha(X1.getGaussArray()[i], X2.getGaussArray()[j], 0);
+						break;
+					case 1:
+						Sderiv += X2.gaussExponents[j] * 2 / X2.zeta * X1.getCoeffArray()[i] * X2.getCoeffArray()[j] * GTO.getSderivalpha(X1.getGaussArray()[i], X2.getGaussArray()[j], 1);
+						break;
+					case 2:
+						Sderiv += X1.gaussExponents[i] * 2 / X1.zeta * X1.getCoeffArray()[i] * X2.getCoeffArray()[j] * GTO.getSderivalpha(X1.getGaussArray()[i], X2.getGaussArray()[j], 0);
+						Sderiv += X2.gaussExponents[j] * 2 / X2.zeta * X1.getCoeffArray()[i] * X2.getCoeffArray()[j] * GTO.getSderivalpha(X1.getGaussArray()[i], X2.getGaussArray()[j], 1);
+				}
+			}
+
+		}
+
+		return Sderiv * X1.getN() * X2.getN();
+	}
+
+	public static double getSderiv2zetadiag (STO6G X1, STO6G X2, int type) {
+
+		double Sderiv = 0;
+
+		for (int i = 0; i < X1.getn(); i++) {
+			for (int j = 0; j < X2.getn(); j++) {
+
+				switch (type) {
+					case 0:
+						Sderiv += X1.gaussExponents[i] * X1.gaussExponents[i] * 4 / (X1.zeta * X1.zeta) * X1.getCoeffArray()[i] * X2.getCoeffArray()[j] * GTO.getSderiv2alphadiag(X1.getGaussArray()[i], X2.getGaussArray()[j], 0);
+						Sderiv += 2 * X1.gaussExponents[i] / (X1.zeta * X1.zeta) * X1.getCoeffArray()[i] * X2.getCoeffArray()[j] * GTO.getSderivalpha(X1.getGaussArray()[i], X2.getGaussArray()[j], 0);
+
+						break;
+					case 1:
+						Sderiv += X2.gaussExponents[j] * X2.gaussExponents[j] * 4 / (X2.zeta * X2.zeta) * X1.getCoeffArray()[i] * X2.getCoeffArray()[j] * GTO.getSderiv2alphadiag(X1.getGaussArray()[i], X2.getGaussArray()[j], 1);
+						Sderiv += 2 * X2.gaussExponents[j] / (X2.zeta * X2.zeta) * X1.getCoeffArray()[i] * X2.getCoeffArray()[j] * GTO.getSderivalpha(X1.getGaussArray()[i], X2.getGaussArray()[j], 1);
+
+						break;
+					case 2:
+						Sderiv += X1.gaussExponents[i] * X1.gaussExponents[i] * 4 / (X1.zeta * X1.zeta) * X1.getCoeffArray()[i] * X2.getCoeffArray()[j] * GTO.getSderiv2alphadiag(X1.getGaussArray()[i], X2.getGaussArray()[j], 0);
+						Sderiv += 2 * X1.gaussExponents[i] / (X1.zeta * X1.zeta) * X1.getCoeffArray()[i] * X2.getCoeffArray()[j] * GTO.getSderivalpha(X1.getGaussArray()[i], X2.getGaussArray()[j], 0);
+						Sderiv += X2.gaussExponents[j] * X2.gaussExponents[j] * 4 / (X2.zeta * X2.zeta) * X1.getCoeffArray()[i] * X2.getCoeffArray()[j] * GTO.getSderiv2alphadiag(X1.getGaussArray()[i], X2.getGaussArray()[j], 1);
+						Sderiv += 2 * X2.gaussExponents[j] / (X2.zeta * X2.zeta) * X1.getCoeffArray()[i] * X2.getCoeffArray()[j] * GTO.getSderivalpha(X1.getGaussArray()[i], X2.getGaussArray()[j], 1);
+						Sderiv += 2 * X1.gaussExponents[i] * X2.gaussExponents[j] * 4 / (X1.zeta * X2.zeta) * X1.getCoeffArray()[i] * X2.getCoeffArray()[j] * GTO.getSderiv2alphacross(X1.getGaussArray()[i], X2.getGaussArray()[j]);
+				}
+			}
+		}
+
+		return Sderiv * X1.getN() * X2.getN();
+	}
+
+	public static double getSderiv2zetacross(STO6G X1, STO6G X2) {
+
+		double Sderiv = 0;
+
+		for (int i = 0; i < X1.getn(); i++) {
+			for (int j = 0; j < X2.getn(); j++) {
+				Sderiv += X1.gaussExponents[i] * X2.gaussExponents[j] * 4 / (X1.zeta * X2.zeta) * X1.getCoeffArray()[i] * X2.getCoeffArray()[j] * GTO.getSderiv2alphacross(X1.getGaussArray()[i], X2.getGaussArray()[j]);
+			}
+		}
+
+		return Sderiv * X1.getN() * X2.getN();
 	}
 }

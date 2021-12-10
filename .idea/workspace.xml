@@ -4,14 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Better outputSubset">
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Analytical SCF refactor in progress">
+      <change afterPath="$PROJECT_DIR$/src/main/java/scf/Orbital.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/scf/AtomHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/scf/AtomHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDO6G.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDO6G.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDOAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDOAtom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/scf/AtomFixed.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/scf/Atom.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/scf/GTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/scf/GTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/scf/LCGTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/scf/LCGTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/scf/OrbitalProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/scf/OrbitalProperties.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/scf/STO6G.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/scf/STO6G.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tools/NanoStopWatch.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -307,13 +310,7 @@
       <workItem from="1638696346939" duration="220000" />
       <workItem from="1638950641870" duration="4981000" />
       <workItem from="1639042083766" duration="1258000" />
-    </task>
-    <task id="LOCAL-00009" summary="Clean up useless code, change hash fn, io formats">
-      <created>1637402546669</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1637402546669</updated>
+      <workItem from="1639133388221" duration="6627000" />
     </task>
     <task id="LOCAL-00010" summary="GCP uploading preparations">
       <created>1637407355290</created>
@@ -651,7 +648,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638951268997</updated>
     </task>
-    <option name="localTasksCounter" value="58" />
+    <task id="LOCAL-00058" summary="Analytical SCF refactor in progress">
+      <created>1639137270034</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1639137270034</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -699,7 +703,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Roll back DIIS experiment" />
     <MESSAGE value="SolutionR 50 max diis" />
     <MESSAGE value="Change to original params + minor IO changes" />
     <MESSAGE value="Attempt to change pople into procedural" />
@@ -724,7 +727,8 @@
     <MESSAGE value="333000ms final pople for both gsd and pd" />
     <MESSAGE value="Main debug and consolidation" />
     <MESSAGE value="Better outputSubset" />
-    <option name="LAST_COMMIT_MESSAGE" value="Better outputSubset" />
+    <MESSAGE value="Analytical SCF refactor in progress" />
+    <option name="LAST_COMMIT_MESSAGE" value="Analytical SCF refactor in progress" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

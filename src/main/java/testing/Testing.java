@@ -19,7 +19,7 @@ import static nddo.geometry.GeometrySecondDerivative.computeResponseVectorsPople
 
 public class Testing {
 	public static void main(String[] args) throws Exception {
-		testMain();
+
 	}
 
 	public static SimpleMatrix[] getxarrayPople(SolutionR soln,

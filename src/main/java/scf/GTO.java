@@ -7,20 +7,13 @@ this is the GTO class, and all the relevant GTO integral routines are implemente
 GTO of the form (x-coordinates[0])^i
  (y-coordinates[1])^j
  (z-coordinates[2])^k exp(-exponent * r^2)*/
-public class GTO {
-	private final int i, j, k; /* angular terms*/
+public class GTO extends Orbital{ // let's not consider this a complete orbital, just a math class
 	private final double N;
-	private final int L; /* L = i + j + k*/
 	private final double exponent; /*radial exponent*/
-	private final double[] coordinates; /*coordinates*/
 
-	public GTO(int i, int j, int k, double exponent, double[] coordinates) {
-		this.i = i;
-		this.j = j;
-		this.k = k;
-		this.L = i + j + k;
+	public GTO(OrbitalProperties op, double[] coordinates, double exponent) {
+		super(op, coordinates);
 		this.exponent = exponent;
-		this.coordinates = coordinates;
 
 		this.N = Math.pow(2 / Math.PI, 0.75) * Math.pow(2, L) *
 				Math.pow(exponent, (2 * L + 3) / 4.0) /
@@ -425,11 +418,13 @@ public class GTO {
 	}
 
 	private static double Iderivalpha(int l1, int l2, double a1, double a2, double R) {
-		double derivnum = -Math.exp(-a1 * a2 * R * R / (a1 + a2)) * R * R *
-				(a2 / (a1 + a2) - a1 * a2 / ((a1 + a2) * (a1 + a2))) * Math.sqrt(Math.PI / (a1 + a2))
-				- Math.exp(-a1 * a2 * R * R / (a1 + a2)) * 0.5 * Math.sqrt(Math.PI) / Math.pow(a1 + a2, 1.5);
+		double exp = Math.exp(-a1 * a2 * R * R / (a1 + a2));
+		double sqrt = Math.sqrt(Math.PI / (a1 + a2));
+		double derivnum = -exp * R * R *
+				(a2 / (a1 + a2) - a1 * a2 / ((a1 + a2) * (a1 + a2))) * sqrt
+				- exp * 0.5 * Math.sqrt(Math.PI) / Math.pow(a1 + a2, 1.5);
 
-		double num = Math.sqrt(Math.PI / (a1 + a2)) * Math.exp(-a1 * a2 * R * R / (a1 + a2));
+		double num = sqrt * exp;
 
 		switch (l1) {
 			case 0:
@@ -455,20 +450,18 @@ public class GTO {
 	}
 
 	private static double Ideriv2alphacross(int l1, int l2, double a1, double a2, double R) {
-		double num = Math.sqrt(Math.PI / (a1 + a2)) * Math.exp(-a1 * a2 * R * R / (a1 + a2));
+		double exp = Math.exp(-a1 * a2 * R * R / (a1 + a2));
+		double sqrt = Math.sqrt(Math.PI / (a1 + a2));
+		double num = sqrt * exp;
 
-		double derivnuma =
-				-Math.exp(-a1 * a2 * R * R / (a1 + a2)) * R * R * (a2 / (a1 + a2) - a1 * a2 / ((a1 + a2) * (a1 + a2))) *
-						Math.sqrt(Math.PI / (a1 + a2))
-						- Math.exp(-a1 * a2 * R * R / (a1 + a2)) * 0.5 * Math.sqrt(Math.PI) / Math.pow(a1 + a2, 1.5);
+		double derivnuma = -exp * R * R * (a2 / (a1 + a2) - a1 * a2 / ((a1 + a2) * (a1 + a2))) *
+						sqrt - exp * 0.5 * Math.sqrt(Math.PI) / Math.pow(a1 + a2, 1.5);
 
-		double derivnumb =
-				-Math.exp(-a1 * a2 * R * R / (a1 + a2)) * R * R * (a1 / (a1 + a2) - a1 * a2 / ((a1 + a2) * (a1 + a2))) *
-						Math.sqrt(Math.PI / (a1 + a2))
-						- Math.exp(-a1 * a2 * R * R / (a1 + a2)) * 0.5 * Math.sqrt(Math.PI) / Math.pow(a1 + a2, 1.5);
+		double derivnumb = -exp * R * R * (a1 / (a1 + a2) - a1 * a2 / ((a1 + a2) * (a1 + a2))) *
+						sqrt - exp * 0.5 * Math.sqrt(Math.PI) / Math.pow(a1 + a2, 1.5);
 
 		double derivnum2 =
-				Math.exp(-a1 * a2 * R * R / (a1 + a2)) * Math.sqrt(Math.PI) * Math.pow(a1 + a2, -4.5) * 0.25 *
+				exp * Math.sqrt(Math.PI) * Math.pow(a1 + a2, -4.5) * 0.25 *
 						(4 * a1 * a1 * a2 * a2 * R * R * R * R +
 								2 * R * R * (a1 + a2) * (a1 * a1 + a2 * a2 - 4 * a1 * a2) + 3 * (a1 + a2) * (a1 + a2));
 
@@ -508,13 +501,15 @@ public class GTO {
 	}
 
 	private static double Ideriv2alphadiag(int l1, int l2, double a1, double a2, double R) {
-		double num = Math.sqrt(Math.PI / (a1 + a2)) * Math.exp(-a1 * a2 * R * R / (a1 + a2));
+		double exp = Math.exp(-a1 * a2 * R * R / (a1 + a2));
+		double sqrt = Math.sqrt(Math.PI / (a1 + a2));
+		double num = sqrt * exp;
 
-		double derivnum = -Math.exp(-a1 * a2 * R * R / (a1 + a2)) * R * R *
-				(a2 / (a1 + a2) - a1 * a2 / ((a1 + a2) * (a1 + a2))) * Math.sqrt(Math.PI / (a1 + a2))
-				- Math.exp(-a1 * a2 * R * R / (a1 + a2)) * 0.5 * Math.sqrt(Math.PI) / Math.pow(a1 + a2, 1.5);
+		double derivnum = -exp * R * R *
+				(a2 / (a1 + a2) - a1 * a2 / ((a1 + a2) * (a1 + a2))) * sqrt
+				- exp * 0.5 * Math.sqrt(Math.PI) / Math.pow(a1 + a2, 1.5);
 
-		double derivnum2 = Math.exp(-a1 * a2 * R * R / (a1 + a2)) * Math.sqrt(Math.PI) * Math.pow(a1 + a2, -4.5) *
+		double derivnum2 = exp * Math.sqrt(Math.PI) * Math.pow(a1 + a2, -4.5) *
 				(Math.pow(R, 4) * Math.pow(a2, 4) + 3 * R * R * a2 * a2 * (a1 + a2) + 0.75 * (a1 + a2) * (a1 + a2));
 		switch (l1) {
 			case 0:
@@ -559,44 +554,12 @@ public class GTO {
 				Math.sqrt(fact2(2 * i - 1) * fact2(2 * j - 1) * fact2(2 * k - 1));
 	}
 
-	public int geti() {
-		return i;
-	}
-
-	public int getj() {
-		return j;
-	}
-
-	public int getk() {
-		return k;
-	}
-
 	public double getExponent() {
 		return exponent;
 	}
 
-	public double getX() {
-		return coordinates[0];
-	}
-
-	public double getY() {
-		return coordinates[1];
-	}
-
-	public double getZ() {
-		return coordinates[2];
-	}
-
-	public double[] getcoords() {
-		return this.coordinates;
-	}
-
 	public double getN() {
 		return this.N;
-	}
-
-	public int getL() {
-		return this.L;
 	}
 
 	public boolean equals(Object b) {

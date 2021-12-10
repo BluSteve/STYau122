@@ -3,12 +3,12 @@ package nddo;
 import nddo.geometry.GeometryDerivative;
 import nddo.geometry.GeometrySecondDerivative;
 import nddo.param.ParamDerivative;
-import scf.AtomFixed;
+import scf.Atom;
 import scf.AtomHandler;
 import scf.AtomProperties;
 import scf.OrbitalProperties;
 
-public abstract class NDDOAtom extends AtomFixed {
+public abstract class NDDOAtom extends Atom {
 	protected static final double bohr = 1.88973;
 	public double p0, p1, p2, D1, D2;
 	protected NDDO6G[] orbitals;

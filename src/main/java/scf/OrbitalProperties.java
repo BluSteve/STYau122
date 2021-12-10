@@ -65,9 +65,10 @@ public class OrbitalProperties implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Orbital{" +
+		return "OrbitalProperties{" +
 				"type='" + type + '\'' +
 				", shell=" + shell +
+				", L=" + L +
 				", config=" + Arrays.toString(config) +
 				'}';
 	}
