@@ -31,10 +31,8 @@ public class STO6G extends LCGTO {
 					3.75970E-3};
 
 	public STO6G(double zeta, AtomFixed atom, OrbitalProperties orbital) {
-		super(exp(orbital.getShell(), zeta),
-				Objects.requireNonNull(
-						coeff(orbital.getShell(), orbital.getL())),
-				atom, orbital);
+		super(exp(orbital.getShell(), zeta), Objects.requireNonNull(coeff(orbital.getShell(), orbital.getL())), atom,
+				orbital, zeta);
 	}
 
 	public STO6G() {
@@ -77,6 +75,4 @@ public class STO6G extends LCGTO {
 		LogManager.getLogger().error("Illegal atom" + shell + L);
 		return null;
 	}
-
-
 }

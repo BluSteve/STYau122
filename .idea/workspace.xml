@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Main debug and consolidation" />
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Better outputSubset">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/scf/AtomHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/scf/AtomHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/scf/GTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/scf/GTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/scf/LCGTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/scf/LCGTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/scf/STO6G.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/scf/STO6G.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tools/NanoStopWatch.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Utils.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -110,7 +118,7 @@
     <property name="project.structure.proportion" value="0.26182964" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.CommitDialog" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Java" />
   </component>
   <component name="ReaderModeSettings">
     <option name="enabled" value="false" />
@@ -297,14 +305,8 @@
       <workItem from="1638694866637" duration="348000" />
       <workItem from="1638695878561" duration="413000" />
       <workItem from="1638696346939" duration="220000" />
-      <workItem from="1638950641870" duration="376000" />
-    </task>
-    <task id="LOCAL-00008" summary="Minor constant changes in GeomOpt, sysexit in SolU">
-      <created>1637082125074</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1637082125074</updated>
+      <workItem from="1638950641870" duration="4981000" />
+      <workItem from="1639042083766" duration="1258000" />
     </task>
     <task id="LOCAL-00009" summary="Clean up useless code, change hash fn, io formats">
       <created>1637402546669</created>
@@ -642,7 +644,14 @@
       <option name="project" value="LOCAL" />
       <updated>1638950817370</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <task id="LOCAL-00057" summary="Better outputSubset">
+      <created>1638951268997</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1638951268997</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -670,7 +679,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="gradle" />
+                        <option value="origin/hessian" />
                       </list>
                     </value>
                   </entry>
@@ -690,7 +699,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Fix symmetric molecule GeomOpt numit issue" />
     <MESSAGE value="Roll back DIIS experiment" />
     <MESSAGE value="SolutionR 50 max diis" />
     <MESSAGE value="Change to original params + minor IO changes" />
@@ -715,7 +723,8 @@
     <MESSAGE value="344000ms actually works pretty well" />
     <MESSAGE value="333000ms final pople for both gsd and pd" />
     <MESSAGE value="Main debug and consolidation" />
-    <option name="LAST_COMMIT_MESSAGE" value="Main debug and consolidation" />
+    <MESSAGE value="Better outputSubset" />
+    <option name="LAST_COMMIT_MESSAGE" value="Better outputSubset" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -733,5 +742,9 @@
         <PinnedItemInfo parentTag="nddoparam.param.ParamHessianRestricted" memberName="gPrime" />
       </pinned-members>
     </pin-to-top-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

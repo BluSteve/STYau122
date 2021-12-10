@@ -17,13 +17,11 @@ public class AtomHandler {
 		try {
 			String json = Files.readString(Path.of("atom-properties.json"));
 			Gson gson = new Gson();
-			AtomProperties[] unindexedAtoms = gson.fromJson(json,
-					AtomProperties[].class);
+			AtomProperties[] unindexedAtoms = gson.fromJson(json, AtomProperties[].class);
 			for (int i = 0; i < unindexedAtoms.length; i++) {
 				AtomProperties atom = unindexedAtoms[i];
 				atom.setIndex(i);
-				atom.setOrbitals(
-						OrbitalProperties.generateOrbitals(atom.getPeriod()));
+				atom.setOrbitals(OrbitalProperties.generateOrbitals(atom.getPeriod()));
 				atoms[atom.getZ()] = atom;
 				atomsMap.put(atom.getName(), atom);
 			}

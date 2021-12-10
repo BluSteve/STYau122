@@ -5,10 +5,6 @@ import nddo.NDDOParams;
 import nddo.am1.AM1Params;
 import nddo.mndo.MNDOParams;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.LoggerContext;
-import org.apache.logging.log4j.core.appender.FileAppender;
-import org.apache.logging.log4j.core.layout.PatternLayout;
 import org.ejml.data.DMatrixRMaj;
 import org.ejml.dense.row.decomposition.eig.SymmetricQRAlgorithmDecomposition_DDRM;
 import org.ejml.interfaces.decomposition.EigenDecomposition_F64;
@@ -181,16 +177,6 @@ public class Utils {
 		return new SimpleMatrix[]{evectors, evalues};
 	}
 
-	public static double[][] to2dArray(SimpleMatrix matrix) {
-		double[][] array = new double[matrix.numRows()][matrix.numCols()];
-		for (int r = 0; r < matrix.numRows(); r++) {
-			for (int c = 0; c < matrix.numCols(); c++) {
-				array[r][c] = matrix.get(r, c);
-			}
-		}
-		return array;
-	}
-
 	public static String getHash(String str) {
 		MessageDigest digest = null;
 		try {
@@ -217,37 +203,6 @@ public class Utils {
 		}
 
 		return Math.sqrt(sum);
-	}
-
-	public static void orthogonalise(SimpleMatrix[] vectors) {
-		for (int i = 0; i < vectors.length; i++) {
-			for (int j = 0; j < i; j++) {
-				vectors[i] = vectors[i].minus(vectors[j]
-						.scale(vectors[i].dot(vectors[j]) /
-								vectors[j].dot(vectors[j])));
-			}
-		}
-	}
-
-	// todo make this async
-	public static void addFileAppender(Logger logger, String filename) {
-		org.apache.logging.log4j.core.Logger l =
-				(org.apache.logging.log4j.core.Logger) logger;
-		LoggerContext lc = l.getContext();
-		FileAppender fa = FileAppender.newBuilder()
-				.setName(filename)
-				.withFileName("logs/" + filename + ".log")
-				.setLayout(
-						PatternLayout.newBuilder().withPattern(
-										"%d{ISO8601} %08r %-5level " +
-												"%logger{36} - %msg%n")
-								.build())
-				.setConfiguration(lc.getConfiguration()).build();
-		fa.start();
-		lc.getConfiguration().addAppender(fa);
-		((org.apache.logging.log4j.core.Logger) logger).addAppender(
-				lc.getConfiguration().getAppender(fa.getName()));
-		lc.updateLoggers();
 	}
 
 	public static void main(String[] args) {
