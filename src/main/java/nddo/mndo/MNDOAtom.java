@@ -11,8 +11,7 @@ import java.util.Objects;
 public class MNDOAtom extends NDDOAtom {
 	private MNDOParams mp;
 
-	public MNDOAtom(AtomProperties atomProperties, double[] coordinates,
-					MNDOParams mp) {
+	public MNDOAtom(AtomProperties atomProperties, double[] coordinates, MNDOParams mp) {
 		super(atomProperties, coordinates, mp);
 		this.mp = mp.clone();
 	}

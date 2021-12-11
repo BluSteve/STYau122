@@ -4,16 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Analytical SCF refactor in progress">
-      <change afterPath="$PROJECT_DIR$/src/main/java/scf/Orbital.java" afterDir="false" />
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Analytical SCF refactor untested">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDO6G.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDO6G.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputtesting.txt" beforeDir="false" afterPath="$PROJECT_DIR$/inputtesting.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDOAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDOAtom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/scf/AtomFixed.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/scf/Atom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDOParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDOParams.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/am1/AM1Params.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/am1/AM1Params.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/mndo/MNDOParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/mndo/MNDOParams.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/scf/Atom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/scf/Atom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/scf/AtomHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/scf/AtomHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/scf/GTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/scf/GTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/scf/LCGTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/scf/LCGTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/scf/OrbitalProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/scf/OrbitalProperties.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/scf/STO6G.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/scf/STO6G.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -121,7 +123,7 @@
     <property name="project.structure.proportion" value="0.26182964" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Java" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="ReaderModeSettings">
     <option name="enabled" value="false" />
@@ -144,7 +146,7 @@
       <recent name="tools.Utils" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.InputHandler">
+  <component name="RunManager" selected="Gradle.MNDOParam [jmh]">
     <configuration name="Benchmarks" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="core.Benchmarks" />
       <module name="MNDOParam.jmh" />
@@ -310,14 +312,8 @@
       <workItem from="1638696346939" duration="220000" />
       <workItem from="1638950641870" duration="4981000" />
       <workItem from="1639042083766" duration="1258000" />
-      <workItem from="1639133388221" duration="6627000" />
-    </task>
-    <task id="LOCAL-00010" summary="GCP uploading preparations">
-      <created>1637407355290</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1637407355290</updated>
+      <workItem from="1639133388221" duration="8437000" />
+      <workItem from="1639202677005" duration="8041000" />
     </task>
     <task id="LOCAL-00011" summary="Optimize imports">
       <created>1637407990301</created>
@@ -655,7 +651,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639137270034</updated>
     </task>
-    <option name="localTasksCounter" value="59" />
+    <task id="LOCAL-00059" summary="Analytical SCF refactor untested">
+      <created>1639150894752</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1639150894752</updated>
+    </task>
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -703,7 +706,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="SolutionR 50 max diis" />
     <MESSAGE value="Change to original params + minor IO changes" />
     <MESSAGE value="Attempt to change pople into procedural" />
     <MESSAGE value="Pople improvements in progress + benchmarking" />
@@ -728,19 +730,10 @@
     <MESSAGE value="Main debug and consolidation" />
     <MESSAGE value="Better outputSubset" />
     <MESSAGE value="Analytical SCF refactor in progress" />
-    <option name="LAST_COMMIT_MESSAGE" value="Analytical SCF refactor in progress" />
+    <MESSAGE value="Analytical SCF refactor untested" />
+    <option name="LAST_COMMIT_MESSAGE" value="Analytical SCF refactor untested" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <condition expression="mp == null" language="JAVA" />
-          <url>file://$PROJECT_DIR$/src/main/java/nddo/mndo/MNDOAtom.java</url>
-          <line>56</line>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="nddoparam.param.ParamHessianRestricted" memberName="gPrime" />

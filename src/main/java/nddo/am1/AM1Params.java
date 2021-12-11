@@ -21,8 +21,7 @@ public class AM1Params extends NDDOParams {
 					 double gp2, double K1, double K2, double K3, double K4,
 					 double L1, double L2, double L3, double L4, double M1,
 					 double M2, double M3, double M4) {
-		super(alpha, betas, betap, uss, upp, zetas, zetap, eisol, gss, gsp,
-				hsp, gpp, gp2);
+		super(alpha, betas, betap, uss, upp, zetas, zetap, eisol, gss, gsp, hsp, gpp, gp2);
 		params2 = new double[]{K1, K2, K3, K4, L1, L2, L3, L4, M1, M2, M3, M4};
 	}
 
@@ -81,10 +80,9 @@ public class AM1Params extends NDDOParams {
 
 	@Override
 	public AM1Params clone() {
-		return new AM1Params(getAlpha(), getBetas(), getBetap(), getUss(),
-				getUpp(), getZetas(), getZetap(), getEisol(), getGss(),
-				getGsp(), getHsp(), getGpp(), getGp2(), getK1(), getK2(),
-				getK3(), getK4(), getL1(), getL2(), getL3(), getL4(), getM1(),
-				getM2(), getM3(), getM4());
+		double[] combinedParams = new double[params.length + params2.length];
+		System.arraycopy(params, 0, combinedParams, 0, params.length);
+		System.arraycopy(params2, 0, combinedParams, params.length, combinedParams.length);
+		return new AM1Params(combinedParams);
 	}
 }

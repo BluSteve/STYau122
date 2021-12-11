@@ -1,24 +1,21 @@
 package nddo;
 
-import java.io.Serializable;
-
-public class NDDOParams implements Serializable {
+public class NDDOParams {
 	protected double[] params;
 
 	protected NDDOParams(double alpha, double betas, double betap, double uss,
 						 double upp, double zetas, double zetap, double eisol,
-						 double gss, double gsp, double hsp, double gpp,
-						 double gp2) {
-		params = new double[]{alpha, betas, betap, uss, upp, zetas, zetap,
-				eisol, gss, gsp, hsp, gpp, gp2};
+						 double gss, double gsp, double hsp, double gpp, double gp2) {
+		params = new double[]{alpha, betas, betap, uss, upp, zetas, zetap, eisol, gss, gsp, hsp, gpp, gp2};
 	}
 
+	/**
+	 * Same as the verbose constructor. Clones array passed in so it's essentially pass-by-value.
+	 * NOTE: Use this the exact same way you would use the verbose constructor! It's all cloned!
+	 * @param params Params array of size 13.
+	 */
 	protected NDDOParams(double[] params) {
 		this.params = params.clone();
-	}
-
-	protected NDDOParams() {
-		params = new double[13];
 	}
 
 	public double getAlpha() {
@@ -79,8 +76,6 @@ public class NDDOParams implements Serializable {
 
 	@Override
 	public NDDOParams clone() {
-		return new NDDOParams(getAlpha(), getBetas(), getBetap(), getUss(),
-				getUpp(), getZetas(), getZetap(), getEisol(), getGss(),
-				getGsp(), getHsp(), getGpp(), getGp2());
+		return new NDDOParams(params);
 	}
 }

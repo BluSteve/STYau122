@@ -4,10 +4,8 @@ import java.util.Arrays;
 
 /*
 this is the GTO class, and all the relevant GTO integral routines are implemented here. The GTO object represents a
-GTO of the form (x-coordinates[0])^i
- (y-coordinates[1])^j
- (z-coordinates[2])^k exp(-exponent * r^2)*/
-public class GTO extends Orbital{ // let's not consider this a complete orbital, just a math class
+GTO of the form (x-coordinates[0])^i (y-coordinates[1])^j (z-coordinates[2])^k exp(-exponent * r^2)*/
+public class GTO extends Orbital{
 	private final double N;
 	private final double exponent; /*radial exponent*/
 
@@ -39,6 +37,70 @@ public class GTO extends Orbital{ // let's not consider this a complete orbital,
 		return a.getN() * b.getN() * I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0]) *
 				I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1]) *
 				I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2]);
+	}
+
+	public static double getSderiv(GTO a, GTO b, int tau) {
+		switch (tau) {
+			case 0:
+				return a.getN() * b.getN() *
+						Ideriv(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0]) *
+						I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1]) *
+						I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2]);
+			case 1:
+				return a.getN() * b.getN() * I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0]) *
+						Ideriv(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1]) *
+						I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2]);
+			case 2:
+				return a.getN() * b.getN() * I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0]) *
+						I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1]) *
+						Ideriv(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2]);
+		}
+		return 0;
+	}
+
+	public static double getSderiv2(GTO a, GTO b, int tau1, int tau2) {
+		int A = Math.min(tau1, tau2);
+		int B = Math.max(tau1, tau2);
+
+		switch (A) {
+			case 0:
+				switch (B) {
+					case 0: /*derivative wrt x and x*/
+						return a.getN() * b.getN() *
+								Ideriv2(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0]) *
+								I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1]) *
+								I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2]);
+					case 1: /* derivative wrt x and y*/
+						return a.getN() * b.getN() *
+								Ideriv(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0]) *
+								Ideriv(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1]) *
+								I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2]);
+					case 2: /* derivative wrt x and z*/
+						return a.getN() * b.getN() *
+								Ideriv(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0]) *
+								I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1]) *
+								Ideriv(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2]);
+
+				}
+			case 1:
+				switch (B) {
+					case 1: /* derivative wrt y and y*/
+						return a.getN() * b.getN() *
+								I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0]) *
+								Ideriv2(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1]) *
+								I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2]);
+					case 2: /* derivative wrt y and z*/
+						return a.getN() * b.getN() *
+								I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0]) *
+								Ideriv(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1]) *
+								Ideriv(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2]);
+				}
+			case 2: /* derivative wrt z and z*/
+				return a.getN() * b.getN() * I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0]) *
+						I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1]) *
+						Ideriv2(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2]);
+		}
+		return 0;
 	}
 
 	public static double getSderivalpha(GTO a, GTO b, int type) {
@@ -279,70 +341,6 @@ public class GTO extends Orbital{ // let's not consider this a complete orbital,
 				* Ideriv2alphacross(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2]);
 	}
 
-	public static double getSderiv(GTO a, GTO b, int tau) {
-		switch (tau) {
-			case 0:
-				return a.getN() * b.getN() *
-						Ideriv(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0]) *
-						I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1]) *
-						I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2]);
-			case 1:
-				return a.getN() * b.getN() * I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0]) *
-						Ideriv(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1]) *
-						I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2]);
-			case 2:
-				return a.getN() * b.getN() * I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0]) *
-						I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1]) *
-						Ideriv(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2]);
-		}
-		return 0;
-	}
-
-	public static double getSderiv2(GTO a, GTO b, int tau1, int tau2) {
-		int A = Math.min(tau1, tau2);
-		int B = Math.max(tau1, tau2);
-
-		switch (A) {
-			case 0:
-				switch (B) {
-					case 0: /*derivative wrt x and x*/
-						return a.getN() * b.getN() *
-								Ideriv2(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0]) *
-								I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1]) *
-								I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2]);
-					case 1: /* derivative wrt x and y*/
-						return a.getN() * b.getN() *
-								Ideriv(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0]) *
-								Ideriv(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1]) *
-								I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2]);
-					case 2: /* derivative wrt x and z*/
-						return a.getN() * b.getN() *
-								Ideriv(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0]) *
-								I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1]) *
-								Ideriv(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2]);
-
-				}
-			case 1:
-				switch (B) {
-					case 1: /* derivative wrt y and y*/
-						return a.getN() * b.getN() *
-								I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0]) *
-								Ideriv2(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1]) *
-								I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2]);
-					case 2: /* derivative wrt y and z*/
-						return a.getN() * b.getN() *
-								I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0]) *
-								Ideriv(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1]) *
-								Ideriv(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2]);
-				}
-			case 2: /* derivative wrt z and z*/
-				return a.getN() * b.getN() * I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0]) *
-						I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1]) *
-						Ideriv2(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2]);
-		}
-		return 0;
-	}
-
 	private static double I(int l1, int l2, double a1, double a2, double R) {
 		double num = Math.sqrt(Math.PI / (a1 + a2)) * Math.exp(-a1 * a2 * R * R / (a1 + a2));
 		switch (l1) {
@@ -449,6 +447,48 @@ public class GTO extends Orbital{ // let's not consider this a complete orbital,
 		return 0;
 	}
 
+	private static double Ideriv2alphadiag(int l1, int l2, double a1, double a2, double R) {
+		double exp = Math.exp(-a1 * a2 * R * R / (a1 + a2));
+		double sqrt = Math.sqrt(Math.PI / (a1 + a2));
+		double num = sqrt * exp;
+
+		double derivnum = -exp * R * R *
+				(a2 / (a1 + a2) - a1 * a2 / ((a1 + a2) * (a1 + a2))) * sqrt
+				- exp * 0.5 * Math.sqrt(Math.PI) / Math.pow(a1 + a2, 1.5);
+
+		double derivnum2 = exp * Math.sqrt(Math.PI) * Math.pow(a1 + a2, -4.5) *
+				(Math.pow(R, 4) * Math.pow(a2, 4) + 3 * R * R * a2 * a2 * (a1 + a2) + 0.75 * (a1 + a2) * (a1 + a2));
+		switch (l1) {
+			case 0:
+				switch (l2) {
+					case 0:
+						return derivnum2;
+					case 1:
+						return num * 2 * a2 * R / ((a1 + a2) * (a1 + a2) * (a1 + a2))
+								- 2 * a2 * R / ((a1 + a2) * (a1 + a2)) * derivnum
+								- a1 * R / (a1 + a2) * derivnum2;
+				}
+			case 1:
+				switch (l2) {
+					case 0:
+						return num * 2 * a2 * R / ((a1 + a2) * (a1 + a2) * (a1 + a2))
+								- 2 * a2 * R / ((a1 + a2) * (a1 + a2)) * derivnum
+								+ a2 * R / (a1 + a2) * derivnum2;
+
+					case 1:
+						return (1 / (2 * (a1 + a2)) - a1 * a2 * R * R / ((a1 + a2) * (a1 + a2))) * derivnum2
+								+ 2 * derivnum * (2 * a1 * a2 * R * R / ((a1 + a2) * (a1 + a2) * (a1 + a2)) -
+								a2 * R * R / ((a1 + a2) * (a1 + a2)) - 1 / (2 * (a1 + a2) * (a1 + a2)))
+								+ num *
+								((4 * a2 * a2 - 2 * a1 * a2) * R * R / Math.pow(a1 + a2, 4) + Math.pow(a1 + a2, -3));
+
+
+				}
+		}
+
+		return 0;
+	}
+
 	private static double Ideriv2alphacross(int l1, int l2, double a1, double a2, double R) {
 		double exp = Math.exp(-a1 * a2 * R * R / (a1 + a2));
 		double sqrt = Math.sqrt(Math.PI / (a1 + a2));
@@ -493,48 +533,6 @@ public class GTO extends Orbital{ // let's not consider this a complete orbital,
 								+ num * ((a1 * a1 - 4 * a1 * a2 + a2 * a2) * R * R /
 								((a1 + a2) * (a1 + a2) * (a1 + a2) * (a1 + a2)) +
 								1 / ((a1 + a2) * (a1 + a2) * (a1 + a2)));
-
-				}
-		}
-
-		return 0;
-	}
-
-	private static double Ideriv2alphadiag(int l1, int l2, double a1, double a2, double R) {
-		double exp = Math.exp(-a1 * a2 * R * R / (a1 + a2));
-		double sqrt = Math.sqrt(Math.PI / (a1 + a2));
-		double num = sqrt * exp;
-
-		double derivnum = -exp * R * R *
-				(a2 / (a1 + a2) - a1 * a2 / ((a1 + a2) * (a1 + a2))) * sqrt
-				- exp * 0.5 * Math.sqrt(Math.PI) / Math.pow(a1 + a2, 1.5);
-
-		double derivnum2 = exp * Math.sqrt(Math.PI) * Math.pow(a1 + a2, -4.5) *
-				(Math.pow(R, 4) * Math.pow(a2, 4) + 3 * R * R * a2 * a2 * (a1 + a2) + 0.75 * (a1 + a2) * (a1 + a2));
-		switch (l1) {
-			case 0:
-				switch (l2) {
-					case 0:
-						return derivnum2;
-					case 1:
-						return num * 2 * a2 * R / ((a1 + a2) * (a1 + a2) * (a1 + a2))
-								- 2 * a2 * R / ((a1 + a2) * (a1 + a2)) * derivnum
-								- a1 * R / (a1 + a2) * derivnum2;
-				}
-			case 1:
-				switch (l2) {
-					case 0:
-						return num * 2 * a2 * R / ((a1 + a2) * (a1 + a2) * (a1 + a2))
-								- 2 * a2 * R / ((a1 + a2) * (a1 + a2)) * derivnum
-								+ a2 * R / (a1 + a2) * derivnum2;
-
-					case 1:
-						return (1 / (2 * (a1 + a2)) - a1 * a2 * R * R / ((a1 + a2) * (a1 + a2))) * derivnum2
-								+ 2 * derivnum * (2 * a1 * a2 * R * R / ((a1 + a2) * (a1 + a2) * (a1 + a2)) -
-								a2 * R * R / ((a1 + a2) * (a1 + a2)) - 1 / (2 * (a1 + a2) * (a1 + a2)))
-								+ num *
-								((4 * a2 * a2 - 2 * a1 * a2) * R * R / Math.pow(a1 + a2, 4) + Math.pow(a1 + a2, -3));
-
 
 				}
 		}

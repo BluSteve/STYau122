@@ -3,6 +3,7 @@ package core;
 import nddo.NDDOParams;
 import nddo.geometry.GeometryDerivative;
 import nddo.geometry.GeometrySecondDerivative;
+import nddo.param.ParamDerivative;
 import nddo.solution.Solution;
 import nddo.solution.SolutionR;
 import org.ejml.simple.SimpleMatrix;
@@ -15,7 +16,6 @@ import testing.Testing;
 import tools.Utils;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 public class Benchmarks {
@@ -50,7 +50,7 @@ public class Benchmarks {
 			fockderivstatic = matrices[1];
 
 			System.out.println(fockderivstatic.length);
-			SimpleMatrix[] x = Testing.getxarrayPople(s, fockderivstatic);
+			SimpleMatrix[] x = ParamDerivative.xArrayLimitedPople(s, fockderivstatic);
 			System.out.println(x[0]);
 		}
 	}

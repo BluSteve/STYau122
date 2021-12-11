@@ -91,7 +91,7 @@ public abstract class Solution {
 	public static int[] getNIntegrals(RawMolecule rm) {
 		MNDOParams[] placeholder = new MNDOParams[Utils.maxAtomNum];
 		for (int i = 0; i < Utils.maxAtomNum; i++) {
-			placeholder[i] = new MNDOParams();
+			placeholder[i] = new MNDOParams(new double[13]);
 		}
 		NDDOAtom[] atoms = RawMolecule.toMNDOAtoms(rm.atoms, placeholder);
 		if (rm.restricted)

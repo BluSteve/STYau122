@@ -198,7 +198,7 @@ public class Testing {
 		return xarray;
 	}
 
-	public static void testMain() throws InterruptedException {
+	public static void testMain() throws Exception {
 		AtomHandler.populateAtoms();
 		MNDOParams h = new MNDOParams(2.92397599125172,
 				-6.222578482830868, 0.0, -12.200235077462583, 0.0,

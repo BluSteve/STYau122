@@ -1,14 +1,10 @@
 package scf;
-// AtomProperties <--HAS-A-- AtomFixed <--IS-A-- MNDOAtom
-// OrbitalProperties <--HAS-A-- LCGTO <--IS-A-- STO6G <--IS-A-- MNDO6G
-public abstract class Atom { // abstract class. Consists of an array of
-	// LCGTO objects (ie. the valence orbitals), a coordinate array, an atomic
-	// charge Z and a core charge Q.
+
+public abstract class Atom {
 	protected double[] coordinates;
 	protected AtomProperties atomProperties;
 
 	public Atom(AtomProperties atomProperties, double[] coordinates) {
-		// HAS AtomProperties and coordinates
 		this.coordinates = coordinates;
 		this.atomProperties = atomProperties;
 	}
