@@ -1,11 +1,11 @@
 package nddo.solution;
 
+import nddo.MoleculeInfo;
 import nddo.NDDO6G;
 import nddo.NDDOAtom;
 import org.ejml.data.SingularMatrixException;
 import org.ejml.dense.row.CommonOps_DDRM;
 import org.ejml.simple.SimpleMatrix;
-import runcycle.input.RawMolecule;
 import tools.Utils;
 
 import java.util.ArrayList;
@@ -85,7 +85,7 @@ public class SolutionR extends Solution {
 	public double[] integralArray;
 	public SimpleMatrix C, F, E, densityMatrix;
 
-	public SolutionR(RawMolecule rm, NDDOAtom[] atoms) {
+	public SolutionR(MoleculeInfo rm, NDDOAtom[] atoms) {
 		super(rm, atoms);
 	}
 
@@ -148,6 +148,11 @@ public class SolutionR extends Solution {
 
 		return new SimpleMatrix(original.numRows() + tbr.length, 1,
 				true, Utils.toDoubles(array));
+	}
+
+	@Override
+	public Solution withNewAtoms(NDDOAtom[] newAtoms) {
+		return new SolutionR(rm, newAtoms).compute();
 	}
 
 	@Override

@@ -1,22 +1,27 @@
 package nddo.solution;
 
+import nddo.MoleculeInfo;
 import nddo.NDDO6G;
 import nddo.NDDOAtom;
 import org.ejml.simple.SimpleMatrix;
-import runcycle.input.RawMolecule;
 import tools.Utils;
 
 
 public class SolutionU extends Solution {
 	private SimpleMatrix Fa, Fb, alphaDensity, betaDensity;
 
-	protected SolutionU(RawMolecule rm, NDDOAtom[] atoms) {
+	protected SolutionU(MoleculeInfo rm, NDDOAtom[] atoms) {
 		super(rm, atoms);
 		if (nElectrons % 2 == mult % 2 || mult < 1) {
 			rm.getLogger().error("Please check mult and charge: " +
 					"nElectrons: {}, mult: {}", nElectrons, mult);
 		}
 		nElectrons -= mult - 1;
+	}
+
+	@Override
+	public Solution withNewAtoms(NDDOAtom[] newAtoms) {
+		return new SolutionU(rm, newAtoms).compute();
 	}
 
 	@Override

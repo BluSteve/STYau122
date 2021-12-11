@@ -12,7 +12,7 @@ import runcycle.output.OutputHandler;
 
 public class MoleculeRun implements MoleculeResult {
 	protected double[] datum;
-	protected NDDOAtom[] nddoAtoms;
+	protected NDDOAtom[] atoms, expGeom;
 	protected Solution s, sExp;
 	protected ParamGradient g;
 	protected ParamHessian h;
@@ -21,16 +21,18 @@ public class MoleculeRun implements MoleculeResult {
 	protected RawMolecule rm;
 	protected long time;
 
-	public MoleculeRun(RawMolecule rm, NDDOAtom[] nddoAtoms, boolean isRunHessian) {
+	public MoleculeRun(RawMolecule rm, NDDOAtom[] atoms, NDDOAtom[] expGeom,
+					   boolean isRunHessian) {
 		// todo change for am1
 		this.rm = rm;
-		this.nddoAtoms = nddoAtoms;
+		this.atoms = atoms;
+		this.expGeom = expGeom;
 		this.isRunHessian = isRunHessian;
 		charge = rm.charge;
 		mult = rm.mult;
 		datum = rm.datum.clone();
 		restricted = rm.restricted;
-		isExpAvail = rm.expGeom != null;
+		isExpAvail = expGeom != null;
 	}
 
 	@Override
@@ -46,11 +48,11 @@ public class MoleculeRun implements MoleculeResult {
 			sw.start();
 
 
-			s = GeometryOptimization.of(Solution.of(rm, nddoAtoms)).compute().getS();
+			s = GeometryOptimization.of(Solution.of(rm, atoms)).compute().getS();
 			rm.getLogger().debug("Finished geometry optimization");
 
 			if (isExpAvail) {
-				sExp = Solution.of(rm, nddoAtoms);
+				sExp = Solution.of(rm, expGeom);
 			}
 
 			g = ParamGradient.of(s, datum, sExp).compute();

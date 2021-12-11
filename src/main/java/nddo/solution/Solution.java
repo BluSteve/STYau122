@@ -1,5 +1,6 @@
 package nddo.solution;
 
+import nddo.MoleculeInfo;
 import nddo.NDDO6G;
 import nddo.NDDOAtom;
 import nddo.NDDOParams;
@@ -13,7 +14,6 @@ import java.util.Arrays;
 
 public abstract class Solution {
 	public static int maxParamNum = 8; // todo compute this on the fly
-	private final RawMolecule rm;
 	public double energy, homo, lumo, hf, dipole;
 	public double[] chargedip, hybridip, dipoletot;
 	public int charge, mult, nElectrons, nOrbitals;
@@ -22,8 +22,9 @@ public abstract class Solution {
 	public NDDOAtom[] atoms;
 	public NDDO6G[] orbitals;
 	protected SimpleMatrix H;
+	protected final MoleculeInfo rm;
 
-	protected Solution(RawMolecule rm, NDDOAtom[] atoms) {
+	protected Solution(MoleculeInfo rm, NDDOAtom[] atoms) {
 		this.atoms = atoms;
 		this.rm = rm;
 		this.charge = rm.charge;
@@ -38,6 +39,7 @@ public abstract class Solution {
 		missingOfAtom = new int[atoms.length][4 * (atoms.length - 1)];
 		for (int[] index : missingOfAtom) Arrays.fill(index, -1);
 
+		// todo cache these
 		int overallOrbitalIndex = 0;
 		for (int atomIndex = 0, atomsLength = atoms.length;
 			 atomIndex < atomsLength; atomIndex++) {
@@ -118,7 +120,7 @@ public abstract class Solution {
 	 *              not be modified.
 	 * @param atoms List of NDDO atoms.
 	 */
-	public static Solution of(RawMolecule rm, NDDOAtom[] atoms) {
+	public static Solution of(MoleculeInfo rm, NDDOAtom[] atoms) {
 		if (rm.restricted) return new SolutionR(rm, atoms).compute();
 		else return new SolutionU(rm, atoms).compute();
 	}
@@ -157,17 +159,11 @@ public abstract class Solution {
 		return true;
 	}
 
-	public Solution withNewAtoms(NDDOAtom[] newAtoms) {
-		if (this instanceof SolutionR)
-			return new SolutionR(rm, newAtoms).compute();
-		else if (this instanceof SolutionU)
-			return new SolutionU(rm, newAtoms).compute();
-		else throw new IllegalStateException("Unidentified Solution type!");
-	}
-
-	public RawMolecule getRm() {
+	public MoleculeInfo getRm() {
 		return rm;
 	}
+
+	public abstract Solution withNewAtoms(NDDOAtom[] newAtoms);
 
 	public abstract Solution compute();
 

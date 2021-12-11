@@ -135,8 +135,9 @@ public class Main {
 						@Override
 						protected MoleculeRun compute() {
 							NDDOAtom[] atoms = Utils.toNDDOAtoms(ri.model, rm.atoms, npMap);
+							NDDOAtom[] expGeom = Utils.toNDDOAtoms(ri.model, rm.expGeom, npMap);
 
-							MoleculeRun mr = new MoleculeRun(rm, atoms, isRunHessian);
+							MoleculeRun mr = new MoleculeRun(rm, atoms, expGeom, isRunHessian);
 							mr.run();
 
 							isDones[rm.index] = true;

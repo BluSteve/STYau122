@@ -17,9 +17,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 
-import static nddo.mndo.MNDOAtom.T1ParamNums;
-import static nddo.mndo.MNDOAtom.T2ParamNums;
-
 public class InputHandler {
 	/**
 	 * Converts geometry coordinates into bohr units before it's used by the
@@ -96,11 +93,8 @@ public class InputHandler {
 		RawInput ri = new RawInput();
 		List<String> lines = Files.readAllLines(Path.of(filename));
 		List<String> datums = Files.readAllLines(Path.of("reference.txt"));
-		List<String> hud = Files.readAllLines(Path.of(
-				"mndohessian.txt"));
-		String[] mndoParamsS =
-				Files.readAllLines(Path.of("mndoparams.txt")).get(0)
-						.split(", ");
+		List<String> hud = Files.readAllLines(Path.of("mndohessian.txt"));
+		String[] mndoParamsS = Files.readAllLines(Path.of("mndoparams.txt")).get(0).split(", ");
 		double[] mp = Utils.toDoubles(mndoParamsS);
 
 		ri.model = Model.MNDO; // TODO change this for AM1
@@ -112,51 +106,48 @@ public class InputHandler {
 					.getZ();
 		}
 		int[][] neededParams = new int[ri.atomTypes.length][];
-		int w = 0;
+		int[][] npMap = new int[Utils.maxAtomNum][];
+		int i = 0;
 		for (int atomType : ri.atomTypes) {
 			switch (ri.model) {
 				case MNDO:
-					if (atomType == 1)
-						neededParams[w] = MNDOAtom.T1ParamNums;
-					else neededParams[w] = MNDOAtom.T2ParamNums;
+					if (atomType == 1) neededParams[i] = npMap[atomType] = MNDOAtom.T1ParamNums;
+					else neededParams[i] = npMap[atomType] = MNDOAtom.T2ParamNums;
 					break;
 				case AM1:
-					if (atomType == 1)
-						neededParams[w] = AM1Atom.HParamNums;
-					if (atomType == 5) neededParams[w] =
-							AM1Atom.NParamNums;
-					if (atomType == 6) neededParams[w] =
-							AM1Atom.CParamNums;
-					if (atomType == 8) neededParams[w] =
-							AM1Atom.OParamNums;
+					if (atomType == 1) neededParams[i] = npMap[atomType] = AM1Atom.HParamNums;
+					if (atomType == 5) neededParams[i] = npMap[atomType] = AM1Atom.NParamNums;
+					if (atomType == 6) neededParams[i] = npMap[atomType] = AM1Atom.CParamNums;
+					if (atomType == 8) neededParams[i] = npMap[atomType] = AM1Atom.OParamNums;
 					break;
 			}
-			w++;
+			i++;
 		}
 		ri.neededParams = neededParams;
-		int PARAMLENGTH = 13;
+
+		int PARAMLENGTH;
+		switch (ri.model) {
+			case MNDO:
+				PARAMLENGTH = 13;
+				break;
+			case AM1:
+				PARAMLENGTH = 25;
+				break;
+			default:
+				throw new IllegalStateException("Unexpected value: " + ri.model);
+		}
 
 		ri.params = new RawParams();
 		ri.params.nddoParams = new double[ri.atomTypes.length][];
-		ri.params.lastHessian =
-				Utils.toDoubles(
-						hud.get(0).split(":")[1].strip().split(","));
-		ri.params.lastGradient =
-				Utils.toDoubles(
-						hud.get(1).split(":")[1].strip().split(","));
-		ri.params.lastDir =
-				Utils.toDoubles(
-						hud.get(2).split(":")[1].strip().split(","));
-		for (int x = 0; x < ri.atomTypes.length; x++) {
-			ri.params.nddoParams[x] =
-					Arrays.copyOfRange(mp, x * PARAMLENGTH,
-							x * PARAMLENGTH +
-									PARAMLENGTH);
-		}
+		ri.params.lastHessian = Utils.toDoubles(hud.get(0).split(":")[1].strip().split(","));
+		ri.params.lastGradient = Utils.toDoubles(hud.get(1).split(":")[1].strip().split(","));
+		ri.params.lastDir = Utils.toDoubles(hud.get(2).split(":")[1].strip().split(","));
+		for (int x = 0; x < ri.atomTypes.length; x++)
+			ri.params.nddoParams[x] = Arrays.copyOfRange(mp, x * PARAMLENGTH, x * PARAMLENGTH + PARAMLENGTH);
 
 		ArrayList<RawMolecule> moleculesL = new ArrayList<>();
 
-		int i = 1;
+		i = 1;
 		try {
 			while (i < lines.size()) {
 				RawMolecule rm = new RawMolecule();
@@ -179,44 +170,29 @@ public class InputHandler {
 				}
 
 				StringBuilder nameBuilder = new StringBuilder();
-				TreeMap<String, Integer> nameOccurrences =
-						new TreeMap<>(Collections.reverseOrder());
-				ArrayList<Integer> tempZs =
-						new ArrayList<>(Utils.maxAtomNum);
+				TreeMap<String, Integer> nameOccurrences = new TreeMap<>(Collections.reverseOrder());
+				ArrayList<Integer> tempZs = new ArrayList<>(Utils.maxAtomNum);
 				ArrayList<Integer> atomicNumbers = new ArrayList<>();
 				HashMap<Integer, int[]> tempNPs = new HashMap<>();
 				for (RawAtom a : atomsL) {
 					atomicNumbers.add(a.Z);
-					AtomProperties ap = AtomHandler.atomsMap.get(a.name);
+					AtomProperties ap = AtomHandler.atoms[a.Z];
 					rm.nElectrons += ap.getQ();
 					rm.nOrbitals += ap.getOrbitals().length;
 					if (!tempZs.contains(ap.getZ())) {
 						tempZs.add(ap.getZ());
-						if (ri.model.equals("mndo")) {
-							if (ap.getZ() == 1)
-								tempNPs.put(ap.getZ(), T1ParamNums);
-							else tempNPs.put(ap.getZ(), T2ParamNums);
-						}
-						// todo implement for am1
+						tempNPs.put(ap.getZ(), npMap[ap.getZ()]);
 					}
-					if (!nameOccurrences.containsKey(a.name))
-						nameOccurrences.put(a.name, 1);
-					else
-						nameOccurrences.put(a.name,
-								nameOccurrences.get(a.name) + 1);
+					if (!nameOccurrences.containsKey(a.name)) nameOccurrences.put(a.name, 1);
+					else nameOccurrences.put(a.name, nameOccurrences.get(a.name) + 1);
 				}
 				rm.nElectrons -= rm.charge;
 				rm.atomicNumbers = Utils.toInts(atomicNumbers);
-				for (String key : nameOccurrences.keySet()) {
-					nameBuilder.append(key)
-							.append(nameOccurrences.get(key));
-				}
+				for (String key : nameOccurrences.keySet()) nameBuilder.append(key).append(nameOccurrences.get(key));
 				Collections.sort(tempZs);
 				int[] moleculeATs = Utils.toInts(tempZs);
 				int[][] moleculeNPs = new int[tempNPs.size()][];
-				for (int j = 0; j < moleculeNPs.length; j++) {
-					moleculeNPs[j] = tempNPs.get(tempZs.get(j));
-				}
+				for (int j = 0; j < moleculeNPs.length; j++) moleculeNPs[j] = tempNPs.get(tempZs.get(j));
 				rm.mnps = moleculeNPs;
 				rm.mats = moleculeATs;
 				String ruhf = rm.restricted ? "RHF" : "UHF";
@@ -316,7 +292,6 @@ public class InputHandler {
 
 	public static void main(String[] args) throws IOException {
 		convertFromTXT("inputtesting.txt");
-//		outputSubset(new int[]{234, 237, 258, 260, 261, 270, 276, 285});
 		outputSubset(9);
 	}
 }
