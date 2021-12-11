@@ -5,7 +5,6 @@ import nddo.NDDOParams;
 import nddo.am1.AM1Atom;
 import nddo.am1.AM1Params;
 import nddo.mndo.MNDOAtom;
-import nddo.mndo.MNDOParams;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.ejml.data.DMatrixRMaj;
@@ -219,7 +218,7 @@ public class Utils {
 		for (int i = 0; i < ri.atomTypes.length; i++) {
 			switch (ri.model) {
 				case MNDO:
-					npMap[ri.atomTypes[i]] = new MNDOParams(ri.params.nddoParams[i]);
+					npMap[ri.atomTypes[i]] = new NDDOParams(ri.params.nddoParams[i]);
 					break;
 				case AM1:
 					npMap[ri.atomTypes[i]] = new AM1Params(ri.params.nddoParams[i]);
@@ -237,8 +236,7 @@ public class Utils {
 			RawAtom ra = ras[i];
 			switch (model) {
 				case MNDO:
-					atoms[i] = new MNDOAtom(AtomHandler.atoms[ra.Z], ra.coords,
-							(MNDOParams) npMap[ra.Z]);
+					atoms[i] = new MNDOAtom(AtomHandler.atoms[ra.Z], ra.coords, npMap[ra.Z]);
 					break;
 				case AM1:
 					atoms[i] = new AM1Atom(AtomHandler.atoms[ra.Z], ra.coords,

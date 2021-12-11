@@ -5,15 +5,7 @@ import nddo.NDDOParams;
 import java.util.Arrays;
 
 public class AM1Params extends NDDOParams {
-	public static final int[] HParamNums =
-			{0, 1, 3, 5, 7, 8, 9, 10, 12, 13, 14, 16, 17, 18};
-	public static final int[] NParamNums =
-			{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 16, 17, 18};
-	public static final int[] OParamNums =
-			{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 13, 16, 17};
-	public static final int[] CParamNums =
-			{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 16, 17, 18, 19};
-	public final double[] params2;
+	protected final double[] params2;
 
 	public AM1Params(double alpha, double betas, double betap, double uss, double upp, double zetas, double zetap,
 					 double eisol, double gss, double gsp, double hsp, double gpp, double gp2,

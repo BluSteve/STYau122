@@ -2,9 +2,9 @@ package runcycle.input;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import nddo.am1.AM1Atom;
+import nddo.mndo.MNDOAtom;
 import nddo.solution.Solution;
-import nddo.am1.AM1Params;
-import nddo.mndo.MNDOParams;
 import scf.AtomHandler;
 import scf.AtomProperties;
 import scf.Model;
@@ -17,8 +17,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 
-import static nddo.mndo.MNDOParams.T1ParamNums;
-import static nddo.mndo.MNDOParams.T2ParamNums;
+import static nddo.mndo.MNDOAtom.T1ParamNums;
+import static nddo.mndo.MNDOAtom.T2ParamNums;
 
 public class InputHandler {
 	/**
@@ -117,18 +117,18 @@ public class InputHandler {
 			switch (ri.model) {
 				case MNDO:
 					if (atomType == 1)
-						neededParams[w] = MNDOParams.T1ParamNums;
-					else neededParams[w] = MNDOParams.T2ParamNums;
+						neededParams[w] = MNDOAtom.T1ParamNums;
+					else neededParams[w] = MNDOAtom.T2ParamNums;
 					break;
 				case AM1:
 					if (atomType == 1)
-						neededParams[w] = AM1Params.HParamNums;
+						neededParams[w] = AM1Atom.HParamNums;
 					if (atomType == 5) neededParams[w] =
-							AM1Params.NParamNums;
+							AM1Atom.NParamNums;
 					if (atomType == 6) neededParams[w] =
-							AM1Params.CParamNums;
+							AM1Atom.CParamNums;
 					if (atomType == 8) neededParams[w] =
-							AM1Params.OParamNums;
+							AM1Atom.OParamNums;
 					break;
 			}
 			w++;

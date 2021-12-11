@@ -1,8 +1,8 @@
 package testing;
 
+import nddo.NDDOParams;
 import nddo.geometry.GeometryDerivative;
 import nddo.mndo.MNDOAtom;
-import nddo.mndo.MNDOParams;
 import nddo.solution.SolutionR;
 import org.ejml.data.SingularMatrixException;
 import org.ejml.dense.row.CommonOps_DDRM;
@@ -200,11 +200,11 @@ public class Testing {
 
 	public static void testMain() throws Exception {
 		AtomHandler.populateAtoms();
-		MNDOParams h = new MNDOParams(2.92397599125172,
+		NDDOParams h = new NDDOParams(2.92397599125172,
 				-6.222578482830868, 0.0, -12.200235077462583, 0.0,
 				1.0693232546199132, 0.0, -13.00142320543855, 12.848,
 				0.0, 0.0, 0.0, 0.0);
-		MNDOParams c = new MNDOParams(2.5572499654157435, -18.854021376560777,
+		NDDOParams c = new NDDOParams(2.5572499654157435, -18.854021376560777,
 				-8.377666892780198, -52.57072065877964, -39.05266019981942,
 				1.838438013363027, 1.805140784089995, -120.60738371097112,
 				12.23, 11.47,

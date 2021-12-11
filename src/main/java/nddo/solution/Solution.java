@@ -2,8 +2,8 @@ package nddo.solution;
 
 import nddo.NDDO6G;
 import nddo.NDDOAtom;
+import nddo.NDDOParams;
 import nddo.mndo.MNDOAtom;
-import nddo.mndo.MNDOParams;
 import org.ejml.simple.SimpleMatrix;
 import runcycle.input.RawAtom;
 import runcycle.input.RawMolecule;
@@ -124,7 +124,7 @@ public abstract class Solution {
 	}
 
 	public static int[] getNIntegrals(RawMolecule rm) {
-		MNDOParams placeholder = new MNDOParams(new double[13]);
+		NDDOParams placeholder = new NDDOParams(new double[13]);
 
 		NDDOAtom[] atoms = new MNDOAtom[rm.atoms.length];
 		for (int i = 0; i < rm.atoms.length; i++) {

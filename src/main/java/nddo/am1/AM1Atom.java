@@ -7,28 +7,20 @@ import scf.AtomProperties;
 import scf.GTO;
 
 public class AM1Atom extends NDDOAtom {
-	private AM1Params mp;
+	public static final int[] HParamNums =
+			{0, 1, 3, 5, 7, 8, 9, 10, 12, 13, 14, 16, 17, 18};
+	public static final int[] NParamNums =
+			{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 16, 17, 18};
+	public static final int[] OParamNums =
+			{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 13, 16, 17};
+	public static final int[] CParamNums =
+			{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 16, 17, 18, 19};
+	private final AM1Params mp;
 
-	public AM1Atom(AtomProperties atomProperties, double[] coordinates,
-				   AM1Params mp) {
+	public AM1Atom(AtomProperties atomProperties, double[] coordinates, AM1Params mp) {
 		super(atomProperties, coordinates, mp);
 		this.mp = mp.clone();
 	}
-
-	// assign new coords
-	public AM1Atom(AM1Atom a, double[] coords) {
-		this(a.atomProperties, coords.clone(), a.mp.clone());
-	}
-
-	public AM1Atom(AM1Atom a) { // copy constructor
-		this(a.atomProperties, a.coordinates.clone(), a.mp.clone());
-	}
-
-	// assign new params
-	public AM1Atom(AM1Atom a, AM1Params mp) {
-		this(a.atomProperties, a.coordinates.clone(), mp.clone());
-	}
-
 
 	private static double getf(AM1Atom a, AM1Atom b, double R) {
 		return 1 + R / bohr * Math.exp(-a.mp.getAlpha() * R / bohr) + Math.exp(-b.mp.getAlpha() * R / bohr);

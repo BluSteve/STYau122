@@ -2,32 +2,30 @@ package nddo.mndo;
 
 import nddo.NDDO6G;
 import nddo.NDDOAtom;
+import nddo.NDDOParams;
 import nddo.geometry.GeometryDerivative;
-import scf.AtomHandler;
 import scf.AtomProperties;
 import scf.GTO;
 
-import java.io.IOException;
-
 public class MNDOAtom extends NDDOAtom {
-	private final MNDOParams mp;
+	public static final int[] T1ParamNums = {0, 1, 3, 5, 7};
+	public static final int[] T2ParamNums = {0, 1, 2, 3, 4, 5, 6, 7};
 
-	public MNDOAtom(AtomProperties atomProperties, double[] coordinates, MNDOParams mp) {
-		super(atomProperties, coordinates, mp);
-		this.mp = mp.clone();
+	public MNDOAtom(AtomProperties atomProperties, double[] coordinates, NDDOParams np) {
+		super(atomProperties, coordinates, np);
 	}
 
 	private static double getf(MNDOAtom a, MNDOAtom b, double R) {
-		return 1 + R / bohr * Math.exp(-a.mp.getAlpha() * R / bohr) + Math.exp(-b.mp.getAlpha() * R / bohr);
+		return 1 + R / bohr * Math.exp(-a.np.getAlpha() * R / bohr) + Math.exp(-b.np.getAlpha() * R / bohr);
 	}
 
 	private static double getfPrime(MNDOAtom a, MNDOAtom b, double R, int tau) {
 		return (a.getCoordinates()[tau] - b.getCoordinates()[tau]) / (R * bohr) *
-				Math.exp(-a.mp.getAlpha() * R / bohr) -
-				a.mp.getAlpha() * (a.getCoordinates()[tau] - b.getCoordinates()[tau]) / (bohr * bohr) *
-						Math.exp(-a.mp.getAlpha() * R / bohr) -
-				b.mp.getAlpha() / bohr * (a.getCoordinates()[tau] - b.getCoordinates()[tau]) / R *
-						Math.exp(-b.mp.getAlpha() * R / bohr);
+				Math.exp(-a.np.getAlpha() * R / bohr) -
+				a.np.getAlpha() * (a.getCoordinates()[tau] - b.getCoordinates()[tau]) / (bohr * bohr) *
+						Math.exp(-a.np.getAlpha() * R / bohr) -
+				b.np.getAlpha() / bohr * (a.getCoordinates()[tau] - b.getCoordinates()[tau]) / R *
+						Math.exp(-b.np.getAlpha() * R / bohr);
 	}
 
 	@Override
@@ -40,7 +38,7 @@ public class MNDOAtom extends NDDOAtom {
 			f = getf(this, b, R);
 		else if ((b.atomProperties.getZ() == 7 || b.atomProperties.getZ() == 8) && this.atomProperties.getZ() == 1)
 			f = getf(b, this, R);
-		else f = 1 + Math.exp(-b.mp.getAlpha() * R / bohr) + Math.exp(-this.mp.getAlpha() * R / bohr);
+		else f = 1 + Math.exp(-b.np.getAlpha() * R / bohr) + Math.exp(-this.np.getAlpha() * R / bohr);
 
 		return f * this.atomProperties.getQ() * b.atomProperties.getQ() * NDDO6G.getG(this.s(), this.s(), b.s(),
 				b.s());
@@ -63,11 +61,11 @@ public class MNDOAtom extends NDDOAtom {
 			fprime = -getfPrime(b, this, R, tau);
 		}
 		else {
-			f = 1 + Math.exp(-b.mp.getAlpha() * r) + Math.exp(-this.mp.getAlpha() * r);
-			fprime = -b.mp.getAlpha() / bohr * (this.getCoordinates()[tau] - b.getCoordinates()[tau]) / R *
-					Math.exp(-b.mp.getAlpha() * r) -
-					this.mp.getAlpha() / bohr * (this.getCoordinates()[tau] - b.getCoordinates()[tau]) / R *
-							Math.exp(-this.mp.getAlpha() * r);
+			f = 1 + Math.exp(-b.np.getAlpha() * r) + Math.exp(-this.np.getAlpha() * r);
+			fprime = -b.np.getAlpha() / bohr * (this.getCoordinates()[tau] - b.getCoordinates()[tau]) / R *
+					Math.exp(-b.np.getAlpha() * r) -
+					this.np.getAlpha() / bohr * (this.getCoordinates()[tau] - b.getCoordinates()[tau]) / R *
+							Math.exp(-this.np.getAlpha() * r);
 		}
 
 		return fprime * this.atomProperties.getQ() * b.atomProperties.getQ() *
@@ -82,7 +80,7 @@ public class MNDOAtom extends NDDOAtom {
 		double[] coords = this.getCoordinates().clone();
 
 		coords[tau2] = coords[tau2] + 1E-7;
-		NDDOAtom perturbed = new MNDOAtom(this.atomProperties, coords, this.mp);
+		NDDOAtom perturbed = new MNDOAtom(this.atomProperties, coords, this.np);
 
 		double newval = perturbed.crfDeriv(c, tau1);
 
@@ -98,8 +96,8 @@ public class MNDOAtom extends NDDOAtom {
 
 		double returnval = 0;
 
-		if (num == 0 || num == 2) returnval += val * -R / bohr * Math.exp(-this.mp.getAlpha() * R / bohr);
-		if (num == 1 || num == 2) returnval += val * -R / bohr * Math.exp(-c.mp.getAlpha() * R / bohr);
+		if (num == 0 || num == 2) returnval += val * -R / bohr * Math.exp(-this.np.getAlpha() * R / bohr);
+		if (num == 1 || num == 2) returnval += val * -R / bohr * Math.exp(-c.np.getAlpha() * R / bohr);
 
 		return returnval;
 	}

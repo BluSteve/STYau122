@@ -3,7 +3,7 @@ package nddo;
 public class NDDOParams {
 	protected final double[] params; // params are final and read only
 
-	protected NDDOParams(double alpha, double betas, double betap, double uss,
+	public NDDOParams(double alpha, double betas, double betap, double uss,
 						 double upp, double zetas, double zetap, double eisol,
 						 double gss, double gsp, double hsp, double gpp, double gp2) {
 		params = new double[]{alpha, betas, betap, uss, upp, zetas, zetap, eisol, gss, gsp, hsp, gpp, gp2};
@@ -14,7 +14,7 @@ public class NDDOParams {
 	 * NOTE: Use this the exact same way you would use the verbose constructor! It's all cloned!
 	 * @param params Params array of size 13.
 	 */
-	protected NDDOParams(double[] params) {
+	public NDDOParams(double[] params) {
 		if (params.length != 13)
 			throw new IllegalArgumentException("Invalid number of NDDO params! (" + params.length + ")");
 
@@ -77,6 +77,7 @@ public class NDDOParams {
 		params[index] += amnt;
 	}
 
+	@SuppressWarnings("MethodDoesntCallSuperMethod")
 	@Override
 	public NDDOParams clone() {
 		return new NDDOParams(params);

@@ -4,33 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="NDDO refactor in progress">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/scf/Model.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDOAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDOAtom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDOParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDOParams.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/am1/AM1Atom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/am1/AM1Atom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/am1/AM1Params.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/am1/AM1Params.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/mndo/MNDOAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/mndo/MNDOAtom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/mndo/MNDOParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/mndo/MNDOParams.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/MoleculeRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/MoleculeRun.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/input/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/input/InputHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/input/RawAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/input/RawAtom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/input/RawInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/input/RawInput.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/input/RawMolecule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/input/RawMolecule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/scf/Atom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/scf/Atom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/scf/AtomHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/scf/AtomHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/scf/AtomProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/scf/AtomProperties.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Utils.java" afterDir="false" />
-    </list>
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="NDDO refactor complete, AM1 somewhat tested" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -336,14 +310,7 @@
       <workItem from="1638950641870" duration="4981000" />
       <workItem from="1639042083766" duration="1258000" />
       <workItem from="1639133388221" duration="8437000" />
-      <workItem from="1639202677005" duration="27412000" />
-    </task>
-    <task id="LOCAL-00012" summary="Minor but important constant changes + testing&#10;&#10;Numit in geomopt causes hessian nans at 7, looks fine at 10 but&#10;SolutionR had a caught SingularMatrixException.">
-      <created>1637426878344</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1637426878344</updated>
+      <workItem from="1639202677005" duration="27507000" />
     </task>
     <task id="LOCAL-00013" summary="Minor changes">
       <created>1637477769191</created>
@@ -681,7 +648,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639211583387</updated>
     </task>
-    <option name="localTasksCounter" value="61" />
+    <task id="LOCAL-00061" summary="NDDO refactor complete, AM1 somewhat tested">
+      <created>1639238084422</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1639238084422</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -729,7 +703,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Attempt to change pople into procedural" />
     <MESSAGE value="Pople improvements in progress + benchmarking" />
     <MESSAGE value="Rhs cache" />
     <MESSAGE value="Lhs cache" />
@@ -754,7 +727,8 @@
     <MESSAGE value="Analytical SCF refactor in progress" />
     <MESSAGE value="Analytical SCF refactor untested" />
     <MESSAGE value="NDDO refactor in progress" />
-    <option name="LAST_COMMIT_MESSAGE" value="NDDO refactor in progress" />
+    <MESSAGE value="NDDO refactor complete, AM1 somewhat tested" />
+    <option name="LAST_COMMIT_MESSAGE" value="NDDO refactor complete, AM1 somewhat tested" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
