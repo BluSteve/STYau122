@@ -1,7 +1,7 @@
 package nddo;
 
 public class NDDOParams {
-	protected double[] params;
+	protected final double[] params; // params are final and read only
 
 	protected NDDOParams(double alpha, double betas, double betap, double uss,
 						 double upp, double zetas, double zetap, double eisol,
@@ -15,6 +15,9 @@ public class NDDOParams {
 	 * @param params Params array of size 13.
 	 */
 	protected NDDOParams(double[] params) {
+		if (params.length != 13)
+			throw new IllegalArgumentException("Invalid number of NDDO params! (" + params.length + ")");
+
 		this.params = params.clone();
 	}
 

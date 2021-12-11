@@ -1,9 +1,12 @@
 package runcycle.input;
 
+import scf.Model;
+
 import java.util.Arrays;
 
 public class RawInput {
-	public String hash, model, trainingSet;
+	public String hash, trainingSet;
+	public Model model; // todo don't hardcode model
 	public int nMolecules;
 	public int[] atomTypes;
 	public int[][] neededParams;

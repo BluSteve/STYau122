@@ -1,11 +1,7 @@
 package runcycle.input;
 
-import nddo.mndo.MNDOAtom;
-import nddo.mndo.MNDOParams;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import scf.AtomHandler;
-import tools.Utils;
 
 import java.util.Arrays;
 
@@ -22,16 +18,6 @@ public class RawMolecule {
 	public RawAtom[] atoms, expGeom;
 	private transient String debugName;
 	private transient Logger logger;
-
-	public static MNDOAtom[] toMNDOAtoms(RawAtom[] atoms,
-										 MNDOParams[] mndoParams) {
-		MNDOAtom[] res = new MNDOAtom[atoms.length];
-		for (int i = 0; i < atoms.length; i++) {
-			res[i] = atoms[i].toMNDOAtom(
-					mndoParams[AtomHandler.atoms[atoms[i].Z].getIndex()]);
-		}
-		return res;
-	}
 
 	public String debugName() {
 		if (debugName == null)

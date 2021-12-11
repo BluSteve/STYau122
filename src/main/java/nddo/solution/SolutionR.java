@@ -85,8 +85,8 @@ public class SolutionR extends Solution {
 	public double[] integralArray;
 	public SimpleMatrix C, F, E, densityMatrix;
 
-	public SolutionR(NDDOAtom[] atoms, RawMolecule rm) {
-		super(atoms, rm);
+	public SolutionR(RawMolecule rm, NDDOAtom[] atoms) {
+		super(rm, atoms);
 	}
 
 	private static SimpleMatrix commutator(SimpleMatrix F, SimpleMatrix D) {

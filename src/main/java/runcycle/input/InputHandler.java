@@ -7,6 +7,7 @@ import nddo.am1.AM1Params;
 import nddo.mndo.MNDOParams;
 import scf.AtomHandler;
 import scf.AtomProperties;
+import scf.Model;
 import tools.Utils;
 
 import java.io.FileReader;
@@ -102,7 +103,7 @@ public class InputHandler {
 						.split(", ");
 		double[] mp = Utils.toDoubles(mndoParamsS);
 
-		ri.model = "mndo"; // TODO change this for AM1
+		ri.model = Model.MNDO; // TODO change this for AM1
 		ri.trainingSet = lines.get(0).split("=")[1];
 		ri.atomTypes = new int[ri.trainingSet.length()];
 		for (int x = 0; x < ri.trainingSet.length(); x++) {
@@ -114,12 +115,12 @@ public class InputHandler {
 		int w = 0;
 		for (int atomType : ri.atomTypes) {
 			switch (ri.model) {
-				case "mndo":
+				case MNDO:
 					if (atomType == 1)
 						neededParams[w] = MNDOParams.T1ParamNums;
 					else neededParams[w] = MNDOParams.T2ParamNums;
 					break;
-				case "am1":
+				case AM1:
 					if (atomType == 1)
 						neededParams[w] = AM1Params.HParamNums;
 					if (atomType == 5) neededParams[w] =

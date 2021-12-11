@@ -1,3 +1,4 @@
+import nddo.NDDOAtom;
 import nddo.NDDOParams;
 import nddo.param.ParamGradient;
 import nddo.param.ParamHessian;
@@ -41,20 +42,17 @@ public class Main {
 		System.out.println(logger.getLevel());
 
 		if (isImportLastRun) {
-			ranMolecules =
-					OutputHandler.importMoleculeOutputs("dynamic-output");
+			ranMolecules = OutputHandler.importMoleculeOutputs("dynamic-output");
 			if (ranMolecules != null) {
 				Scanner s = new Scanner(System.in);
-				System.out.print(ranMolecules.length +
-						" molecules from last run found, would you like to " +
+				System.out.print(ranMolecules.length + " molecules from last run found, would you like to " +
 						"import them? (Y/n) ");
 				if (s.next().equals("n")) {
 					logger.info("Last ran molecules import cancelled!");
 					ranMolecules = null;
 				}
 				else {
-					logger.info("{} molecules successfully imported from " +
-							"last incomplete run!", ranMolecules.length);
+					logger.info("{} molecules successfully imported from last incomplete run!", ranMolecules.length);
 				}
 				s.close();
 			}
@@ -92,6 +90,8 @@ public class Main {
 		for (int runNum = 0; runNum < NUM_RUNS; runNum++) {
 			StopWatch lsw = new StopWatch();
 			lsw.start();
+
+
 			boolean isRunHessian = runNum % 2 == 0; // Hessian every other run
 
 			AtomHandler.populateAtoms();
@@ -104,22 +104,20 @@ public class Main {
 			fw2.close();
 
 			if (runNum == 0) {
-				logger.info("MNDO Parameterization, updated 21 Nov 2021." +
-						" {} training set (PM7)", ri.trainingSet);
+				logger.info("MNDO Parameterization, updated 21 Nov 2021. {} training set (PM7)", ri.trainingSet);
 			}
-			logger.info("Run number: {}, hessian: {}, {}.json hash: {}\n",
-					runNum, isRunHessian, INPUT_FILENAME, ri.hash);
+			logger.info("Run number: {}, hessian: {}, {}.json hash: {}\n", runNum, isRunHessian, INPUT_FILENAME,
+					ri.hash);
 
-			// converts raw params array to NDDOParams classes and finds
-			// params which need to be differentiated
-			NDDOParams[] nddoParams = Utils.convertToNDDOParams(ri);
+
+			// this array is used as a Map<Integer, NDDOParams>
+			NDDOParams[] npMap = Utils.getNpMap(ri);
 
 			// combined length of all differentiated params
 			int paramLength = 0;
 			for (int[] param : ri.neededParams) paramLength += param.length;
 
-			// create tasks to run in parallel and then runs them
-			// excludes ran molecules from previous dynamic output
+			// create tasks to run in parallel and then runs them excludes ran molecules from previous dynamic output
 			List<RecursiveTask<MoleculeRun>> moleculeTasks = new ArrayList<>();
 			for (RawMolecule rm : ri.molecules) {
 				boolean isDoneAlready = false;
@@ -136,9 +134,11 @@ public class Main {
 					moleculeTasks.add(new RecursiveTask<>() {
 						@Override
 						protected MoleculeRun compute() {
-							MoleculeRun mr = new MoleculeRun(
-									rm, nddoParams, isRunHessian);
+							NDDOAtom[] atoms = Utils.toNDDOAtoms(ri.model, rm.atoms, npMap);
+
+							MoleculeRun mr = new MoleculeRun(rm, atoms, isRunHessian);
 							mr.run();
+
 							isDones[rm.index] = true;
 							return mr;
 						}
@@ -157,34 +157,27 @@ public class Main {
 
 			// shuffles run requests and runs them
 			Collections.shuffle(moleculeTasks, new Random(123));
-			for (ForkJoinTask<MoleculeRun> task :
-					ForkJoinTask.invokeAll(moleculeTasks)) {
+			for (ForkJoinTask<MoleculeRun> task : ForkJoinTask.invokeAll(moleculeTasks)) {
 				results.add(task.join());
 			}
 
-			// outputs output files for reference purposes, not read again in
-			// this program
+			// outputs output files for reference purposes, not read again in this program
 			List<MoleculeOutput> mos = new ArrayList<>(results.size());
 
 			// processing results to change input.json for next run
 			ParamOptimizer o = new ParamOptimizer();
 			double[] ttGradient = new double[paramLength];
-			double[][] ttHessian = isRunHessian ?
-					new double[paramLength][paramLength] : null;
+			double[][] ttHessian = isRunHessian ? new double[paramLength][paramLength] : null;
 
 			for (MoleculeResult result : results) {
 				int[] moleculeATs = result.getRm().mats;
 				int[][] moleculeNPs = result.getRm().mnps;
 				boolean isDepad = true;
 
-				addToPO(o, result, ri.neededParams, moleculeATs,
-						moleculeNPs, isDepad);
+				addToPO(o, result, ri.neededParams, moleculeATs, moleculeNPs, isDepad);
 
-				double[] g = ParamGradient.combine(
-						result.getTotalGradients(),
-						ri.atomTypes, ri.neededParams,
-						moleculeATs, moleculeNPs,
-						isDepad);
+				double[] g = ParamGradient.combine(result.getTotalGradients(), ri.atomTypes, ri.neededParams,
+						moleculeATs, moleculeNPs, isDepad);
 
 				// ttGradient is sum of totalGradients across molecules
 				for (int i = 0; i < g.length; i++) {
@@ -192,10 +185,8 @@ public class Main {
 				}
 
 				if (isRunHessian) {
-					double[][] h = ParamHessian.padHessian(
-							result.getHessian(),
-							result.getRm().mats,
-							ri.atomTypes, ri.neededParams);
+					double[][] h = ParamHessian.padHessian(result.getHessian(), result.getRm().mats, ri.atomTypes,
+							ri.neededParams);
 
 					for (int i = 0; i < h.length; i++) {
 						for (int j = 0; j < h[0].length; j++)
@@ -203,21 +194,18 @@ public class Main {
 					}
 				}
 
-				mos.add(OutputHandler.toMoleculeOutput(result,
-						isRunHessian));
+				mos.add(OutputHandler.toMoleculeOutput(result, isRunHessian));
 			}
 
 			mos.sort(Comparator.comparingInt(x -> x.rawMolecule.index));
 
 			// optimizes params based on this run and gets new search direction
 			SimpleMatrix newGradient = new SimpleMatrix(ttGradient);
-			SimpleMatrix newHessian =
-					isRunHessian ? new SimpleMatrix(ttHessian) :
-							findMockHessian(newGradient,
-									ri.params.lastHessian,
-									ri.params.lastGradient,
-									ri.params.lastDir,
-									paramLength);
+			SimpleMatrix newHessian = isRunHessian ?
+					new SimpleMatrix(ttHessian) :
+					findMockHessian(newGradient, ri.params.lastHessian, ri.params.lastGradient, ri.params.lastDir,
+							paramLength);
+
 			double[] dir = o.optimize(newHessian, newGradient);
 
 			// updating params and other input information
@@ -236,10 +224,8 @@ public class Main {
 			logger.info("Run {} time taken: {}", runNum, lsw.getTime());
 
 			Files.createDirectories(Path.of("outputs"));
-			MoleculeOutput[] mosarray =
-					mos.toArray(new MoleculeOutput[0]);
-			OutputHandler.output(ri, mosarray, "outputs/run-"
-					+ String.format("%04d", runNum) + "-output",
+			MoleculeOutput[] mosarray = mos.toArray(new MoleculeOutput[0]);
+			OutputHandler.output(ri, mosarray, "outputs/run-" + String.format("%04d", runNum) + "-output",
 					lsw.getTime());
 			InputHandler.outputInput(ri, INPUT_FILENAME);
 		}
@@ -251,52 +237,30 @@ public class Main {
 		System.exit(0);
 	}
 
-	private static void addToPO(ParamOptimizer o, MoleculeResult result,
-								int[][] neededParams,
-								int[] moleculeATs,
+	private static void addToPO(ParamOptimizer o, MoleculeResult result, int[][] neededParams, int[] moleculeATs,
 								int[][] moleculeNP, boolean isDepad) {
-		o.addData(new ReferenceData(result.getDatum()[0],
-				result.getHF(),
-				ParamGradient.combine(
-						result.getHFDerivs(),
-						ri.atomTypes, neededParams,
-						moleculeATs, moleculeNP,
-						isDepad),
-				ReferenceData.HF_WEIGHT));
-		if (result.getDatum()[1] != 0)
-			o.addData(new ReferenceData(result.getDatum()[1],
-					result.getDipole(),
-					ParamGradient.combine(
-							result.getDipoleDerivs(),
-							ri.atomTypes, neededParams,
-							moleculeATs, moleculeNP,
-							isDepad),
-					ReferenceData.DIPOLE_WEIGHT));
-		if (result.getDatum()[2] != 0)
-			o.addData(new ReferenceData(result.getDatum()[2],
-					result.getIE(),
-					ParamGradient.combine(
-							result.getIEDerivs(),
-							ri.atomTypes, neededParams,
-							moleculeATs, moleculeNP,
-							isDepad),
-					ReferenceData.IE_WEIGHT));
-		if (result.isExpAvail()) o.addData(new ReferenceData(0,
-				result.getGeomGradient(),
-				ParamGradient.combine(
-						result.getGeomDerivs(),
-						ri.atomTypes, neededParams,
-						moleculeATs, moleculeNP,
-						isDepad),
-				ReferenceData.GEOM_WEIGHT));
+		o.addData(new ReferenceData(result.getDatum()[0], result.getHF(),
+				ParamGradient.combine(result.getHFDerivs(), ri.atomTypes, neededParams, moleculeATs, moleculeNP,
+						isDepad), ReferenceData.HF_WEIGHT));
+
+		if (result.getDatum()[1] != 0) o.addData(new ReferenceData(result.getDatum()[1], result.getDipole(),
+				ParamGradient.combine(result.getDipoleDerivs(), ri.atomTypes, neededParams, moleculeATs, moleculeNP,
+						isDepad), ReferenceData.DIPOLE_WEIGHT));
+
+		if (result.getDatum()[2] != 0) o.addData(new ReferenceData(result.getDatum()[2], result.getIE(),
+				ParamGradient.combine(result.getIEDerivs(), ri.atomTypes, neededParams, moleculeATs, moleculeNP,
+						isDepad), ReferenceData.IE_WEIGHT));
+
+		if (result.isExpAvail()) o.addData(new ReferenceData(0, result.getGeomGradient(),
+				ParamGradient.combine(result.getGeomDerivs(), ri.atomTypes, neededParams, moleculeATs, moleculeNP,
+						isDepad), ReferenceData.GEOM_WEIGHT));
 	}
 
-	private static SimpleMatrix findMockHessian(SimpleMatrix newGradient,
-												double[] oldHessian,
-												double[] oldGradient,
+	private static SimpleMatrix findMockHessian(SimpleMatrix newGradient, double[] oldHessian, double[] oldGradient,
 												double[] oldDir, int size) {
 		SimpleMatrix s = new SimpleMatrix(oldDir);
 		SimpleMatrix hessian = new SimpleMatrix(size, size);
+
 		int count = 1;
 		int index = 0;
 		while (index < ((size + 1) * size) / 2) {
@@ -309,12 +273,10 @@ public class Main {
 		}
 
 		SimpleMatrix y = newGradient.minus(new SimpleMatrix(oldGradient));
-
 		double b = y.transpose().mult(s).get(0);
 		SimpleMatrix A = y.mult(y.transpose()).scale(1 / b);
 		double a = s.transpose().mult(hessian).mult(s).get(0);
-		SimpleMatrix C = hessian.mult(s).mult(s.transpose()).mult
-				(hessian.transpose()).scale(1 / a);
+		SimpleMatrix C = hessian.mult(s).mult(s.transpose()).mult(hessian.transpose()).scale(1 / a);
 
 		return hessian.plus(A).minus(C);
 	}

@@ -11,7 +11,7 @@ public abstract class NDDOAtom extends Atom {
 	protected static final double bohr = 1.88973;
 	public double p0, p1, p2, D1, D2;
 	protected NDDO6G[] orbitals;
-	protected NDDOParams np;
+	protected final NDDOParams np;
 
 	public NDDOAtom(AtomProperties atomProperties, double[] coordinates, NDDOParams np) {
 		super(atomProperties, coordinates);
@@ -32,40 +32,11 @@ public abstract class NDDOAtom extends Atom {
 		this.orbitals = setOrbitals();
 	}
 
-	/**
-	 * Create NDDOAtom with new coordinates.
-	 *
-	 * @param a      Existing atom to use as a template.
-	 * @param coords New coordinates.
-	 */
-	public NDDOAtom(NDDOAtom a, double[] coords) {
-		this(a.atomProperties, coords.clone(), a.np);
-	}
-
-	/**
-	 * Copy constructor
-	 *
-	 * @param a NDDOAtom to copy from.
-	 */
-	public NDDOAtom(NDDOAtom a) {
-		this(a.atomProperties, a.coordinates.clone(), a.np.clone());
-	}
-
-	/**
-	 * Create NDDOAtom with new parameters.
-	 *
-	 * @param a  Existing atom to use as a template.
-	 * @param np New params.
-	 */
-	public NDDOAtom(NDDOAtom a, NDDOParams np) {
-		this(a.atomProperties, a.coordinates.clone(), np);
-	}
-
 	public NDDO6G[] getOrbitals() {
 		return this.orbitals;
 	}
 
-	protected NDDO6G[] setOrbitals() { // initialises basis functions
+	protected NDDO6G[] setOrbitals() { // initialises orbitals
 		OrbitalProperties[] orbitalProperties = super.atomProperties.getOrbitals();
 		NDDO6G[] nddoOrbitals = new NDDO6G[orbitalProperties.length];
 		for (int x = 0; x < nddoOrbitals.length; x++)
@@ -95,7 +66,7 @@ public abstract class NDDOAtom extends Atom {
 	}
 
 	public NDDO6G s() {
-		return this.orbitals[0];
+		return this.orbitals[0]; // todo what is this
 	}
 
 	public double V(NDDO6G a, NDDO6G b) {

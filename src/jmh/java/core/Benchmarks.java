@@ -12,7 +12,6 @@ import runcycle.input.InputHandler;
 import runcycle.input.RawInput;
 import runcycle.input.RawMolecule;
 import scf.AtomHandler;
-import testing.Testing;
 import tools.Utils;
 
 import java.io.IOException;
@@ -44,8 +43,8 @@ public class Benchmarks {
 			RawInput ri = InputHandler.processInput("subset");
 			RawMolecule rm = ri.molecules[0];
 
-			NDDOParams[] nps = Utils.convertToNDDOParams(ri);
-			s = (SolutionR) Solution.of(rm, rm.atoms, nps);
+			NDDOParams[] npMap = Utils.getNpMap(ri);
+			s = (SolutionR) Solution.of(rm, Utils.toNDDOAtoms(ri.model, rm.atoms, npMap));
 			SimpleMatrix[][] matrices = GeometryDerivative.gradientRoutine(s);
 			fockderivstatic = matrices[1];
 

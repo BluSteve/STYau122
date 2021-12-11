@@ -10,8 +10,8 @@ import tools.Utils;
 public class SolutionU extends Solution {
 	private SimpleMatrix Fa, Fb, alphaDensity, betaDensity;
 
-	protected SolutionU(NDDOAtom[] atoms, RawMolecule rm) {
-		super(atoms, rm);
+	protected SolutionU(RawMolecule rm, NDDOAtom[] atoms) {
+		super(rm, atoms);
 		if (nElectrons % 2 == mult % 2 || mult < 1) {
 			rm.getLogger().error("Please check mult and charge: " +
 					"nElectrons: {}, mult: {}", nElectrons, mult);

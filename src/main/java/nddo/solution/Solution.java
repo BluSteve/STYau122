@@ -2,18 +2,17 @@ package nddo.solution;
 
 import nddo.NDDO6G;
 import nddo.NDDOAtom;
-import nddo.NDDOParams;
+import nddo.mndo.MNDOAtom;
 import nddo.mndo.MNDOParams;
 import org.ejml.simple.SimpleMatrix;
 import runcycle.input.RawAtom;
 import runcycle.input.RawMolecule;
-import tools.Utils;
+import scf.AtomHandler;
 
 import java.util.Arrays;
 
 public abstract class Solution {
-	// TODO make most of these private
-	public static int maxParamNum = 8;
+	public static int maxParamNum = 8; // todo compute this on the fly
 	private final RawMolecule rm;
 	public double energy, homo, lumo, hf, dipole;
 	public double[] chargedip, hybridip, dipoletot;
@@ -24,7 +23,7 @@ public abstract class Solution {
 	public NDDO6G[] orbitals;
 	protected SimpleMatrix H;
 
-	protected Solution(NDDOAtom[] atoms, RawMolecule rm) {
+	protected Solution(RawMolecule rm, NDDOAtom[] atoms) {
 		this.atoms = atoms;
 		this.rm = rm;
 		this.charge = rm.charge;
@@ -74,53 +73,7 @@ public abstract class Solution {
 			}
 		}
 
-		fillH();
-	}
-
-	public static Solution of(RawMolecule rm, RawAtom[] ras,
-							  NDDOParams[] params) {
-		NDDOAtom[] atoms;
-		if (params instanceof MNDOParams[])
-			atoms = RawMolecule.toMNDOAtoms(ras, (MNDOParams[]) params);
-		else throw new IllegalStateException("Unidentified params type!");
-
-		if (rm.restricted) return new SolutionR(atoms, rm).compute();
-		else return new SolutionU(atoms, rm).compute();
-	}
-
-	public static int[] getNIntegrals(RawMolecule rm) {
-		MNDOParams[] placeholder = new MNDOParams[Utils.maxAtomNum];
-		for (int i = 0; i < Utils.maxAtomNum; i++) {
-			placeholder[i] = new MNDOParams(new double[13]);
-		}
-		NDDOAtom[] atoms = RawMolecule.toMNDOAtoms(rm.atoms, placeholder);
-		if (rm.restricted)
-			return new int[]{new SolutionR(atoms, rm).findNIntegrals()};
-		else {
-			SolutionU s = new SolutionU(atoms, rm);
-			return new int[]{s.findNCoulombInts(), s.findNExchangeInts()};
-		}
-	}
-
-	/**
-	 * Checks if two DoubleMatrices are similar below a threshold.
-	 */
-	protected static boolean isSimilar(SimpleMatrix x, SimpleMatrix y,
-									   double limit) {
-		for (int i = 0; i < y.numRows(); i++) {
-			for (int j = 0; j < y.numCols(); j++) {
-				if (Math.abs(x.get(i, j) - y.get(i, j)) > limit) {
-					return false;
-				}
-			}
-		}
-		return true;
-	}
-
-	/**
-	 * filling up the core matrix in accordance with NDDO formalism
-	 */
-	protected void fillH() {
+		// filling up the core matrix in accordance with NDDO formalism
 		H = new SimpleMatrix(orbitals.length, orbitals.length);
 
 		for (int j = 0; j < orbitals.length; j++) {
@@ -158,19 +111,65 @@ public abstract class Solution {
 		}
 	}
 
-	public Solution withNewAtoms(NDDOAtom[] newAtoms) {
-		if (this instanceof SolutionR)
-			return new SolutionR(newAtoms, rm).compute();
-		else if (this instanceof SolutionU)
-			return new SolutionU(newAtoms, rm).compute();
-		else throw new IllegalStateException("Unidentified Solution type!");
+	/**
+	 * Initializes SCF solution of a molecule.
+	 *
+	 * @param rm    Contains intrinsic and compulsory information about a molecule. The atoms/ expgeom arrays will
+	 *              not be modified.
+	 * @param atoms List of NDDO atoms.
+	 */
+	public static Solution of(RawMolecule rm, NDDOAtom[] atoms) {
+		if (rm.restricted) return new SolutionR(rm, atoms).compute();
+		else return new SolutionU(rm, atoms).compute();
 	}
 
-	public abstract Solution compute();
+	public static int[] getNIntegrals(RawMolecule rm) {
+		MNDOParams placeholder = new MNDOParams(new double[13]);
+
+		NDDOAtom[] atoms = new MNDOAtom[rm.atoms.length];
+		for (int i = 0; i < rm.atoms.length; i++) {
+			RawAtom ra = rm.atoms[i];
+			atoms[i] = new MNDOAtom(AtomHandler.atoms[ra.Z], ra.coords, placeholder);
+		}
+
+		if (rm.restricted) {
+			return new int[]{new SolutionR(rm, atoms).findNIntegrals()};
+		}
+		else {
+			SolutionU s = new SolutionU(rm, atoms);
+			return new int[]{s.findNCoulombInts(), s.findNExchangeInts()};
+		}
+	}
+
+	/**
+	 * Checks if two DoubleMatrices are similar below a threshold.
+	 */
+	protected static boolean isSimilar(SimpleMatrix x, SimpleMatrix y,
+									   double limit) {
+		for (int i = 0; i < y.numRows(); i++) {
+			for (int j = 0; j < y.numCols(); j++) {
+				if (Math.abs(x.get(i, j) - y.get(i, j)) > limit) {
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
+
+	public Solution withNewAtoms(NDDOAtom[] newAtoms) {
+		if (this instanceof SolutionR)
+			return new SolutionR(rm, newAtoms).compute();
+		else if (this instanceof SolutionU)
+			return new SolutionU(rm, newAtoms).compute();
+		else throw new IllegalStateException("Unidentified Solution type!");
+	}
 
 	public RawMolecule getRm() {
 		return rm;
 	}
+
+	public abstract Solution compute();
 
 	public abstract SimpleMatrix alphaDensity();
 

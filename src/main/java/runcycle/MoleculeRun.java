@@ -1,7 +1,7 @@
 package runcycle;
 
+import nddo.NDDOAtom;
 import nddo.geometry.GeometryOptimization;
-import nddo.NDDOParams;
 import nddo.solution.Solution;
 import nddo.param.ParamErrorFunction;
 import nddo.param.ParamGradient;
@@ -12,7 +12,7 @@ import runcycle.output.OutputHandler;
 
 public class MoleculeRun implements MoleculeResult {
 	protected double[] datum;
-	protected NDDOParams[] params;
+	protected NDDOAtom[] nddoAtoms;
 	protected Solution s, sExp;
 	protected ParamGradient g;
 	protected ParamHessian h;
@@ -21,11 +21,10 @@ public class MoleculeRun implements MoleculeResult {
 	protected RawMolecule rm;
 	protected long time;
 
-	public MoleculeRun(RawMolecule rm, NDDOParams[] params,
-					   boolean isRunHessian) {
+	public MoleculeRun(RawMolecule rm, NDDOAtom[] nddoAtoms, boolean isRunHessian) {
 		// todo change for am1
 		this.rm = rm;
-		this.params = params;
+		this.nddoAtoms = nddoAtoms;
 		this.isRunHessian = isRunHessian;
 		charge = rm.charge;
 		mult = rm.mult;
@@ -46,21 +45,24 @@ public class MoleculeRun implements MoleculeResult {
 			StopWatch sw = new StopWatch();
 			sw.start();
 
-			s = GeometryOptimization
-					.of(Solution.of(rm, rm.atoms, params)).compute().getS();
-			// updates geom coords
-			for (int i = 0; i < s.atoms.length; i++) {
-				rm.atoms[i].coords = s.atoms[i].getCoordinates();
-			}
+
+			s = GeometryOptimization.of(Solution.of(rm, nddoAtoms)).compute().getS();
 			rm.getLogger().debug("Finished geometry optimization");
 
 			if (isExpAvail) {
-				sExp = Solution.of(rm, rm.expGeom, params);
+				sExp = Solution.of(rm, nddoAtoms);
 			}
+
 			g = ParamGradient.of(s, datum, sExp).compute();
 			rm.getLogger().debug("Finished param gradient");
 			if (isRunHessian) h = ParamHessian.from(g).compute();
 			rm.getLogger().debug("Finished param hessian");
+
+			// updates geom coords, no IO involved
+			for (int i = 0; i < s.atoms.length; i++) {
+				rm.atoms[i].coords = s.atoms[i].getCoordinates();
+			}
+
 
 			sw.stop();
 			time = sw.getTime();

@@ -2,6 +2,7 @@ package scf;
 
 
 import com.google.gson.Gson;
+import tools.Utils;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -9,7 +10,7 @@ import java.nio.file.Path;
 import java.util.HashMap;
 
 public class AtomHandler {
-	public static AtomProperties[] atoms = new AtomProperties[119];
+	public static AtomProperties[] atoms = new AtomProperties[Utils.maxAtomNum];
 	public static HashMap<String, AtomProperties> atomsMap = new HashMap<>();
 
 	public static void populateAtoms() throws IOException {
@@ -18,10 +19,7 @@ public class AtomHandler {
 
 		AtomProperties[] unindexedAtoms = gson.fromJson(json, AtomProperties[].class);
 
-		for (int i = 0; i < unindexedAtoms.length; i++) {
-			AtomProperties atom = unindexedAtoms[i];
-
-			atom.setIndex(i);
+		for (AtomProperties atom : unindexedAtoms) {
 			atom.setOrbitals(OrbitalProperties.generateOrbitals(atom.getPeriod()));
 
 			atoms[atom.getZ()] = atom;

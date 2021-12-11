@@ -1,12 +1,10 @@
 package nddo.am1;
 
-import nddo.geometry.GeometryDerivative;
 import nddo.NDDO6G;
 import nddo.NDDOAtom;
+import nddo.geometry.GeometryDerivative;
 import scf.AtomProperties;
 import scf.GTO;
-
-import java.util.Objects;
 
 public class AM1Atom extends NDDOAtom {
 	private AM1Params mp;
@@ -33,51 +31,19 @@ public class AM1Atom extends NDDOAtom {
 
 
 	private static double getf(AM1Atom a, AM1Atom b, double R) {
-		return 1 + R / bohr * Math.exp(-a.mp.getAlpha() * R / bohr) +
-				Math.exp(-b.mp.getAlpha() * R / bohr);
+		return 1 + R / bohr * Math.exp(-a.mp.getAlpha() * R / bohr) + Math.exp(-b.mp.getAlpha() * R / bohr);
 	}
 
 	private static double getfPrime(AM1Atom a, AM1Atom b, double R, int tau) {
-		return (a.getCoordinates()[tau] - b.getCoordinates()[tau]) /
-				(R * bohr) *
-				Math.exp(-a.mp.getAlpha() * R / bohr)
-				- a.mp.getAlpha() *
-				(a.getCoordinates()[tau] - b.getCoordinates()[tau]) /
-				(bohr * bohr) * Math.exp(-a.mp.getAlpha() * R / bohr)
-				- b.mp.getAlpha() / bohr *
-				(a.getCoordinates()[tau] - b.getCoordinates()[tau]) / R *
-				Math.exp(-b.mp.getAlpha() * R / bohr);
+		return (a.getCoordinates()[tau] - b.getCoordinates()[tau]) / (R * bohr) *
+				Math.exp(-a.mp.getAlpha() * R / bohr) -
+				a.mp.getAlpha() * (a.getCoordinates()[tau] - b.getCoordinates()[tau]) / (bohr * bohr) *
+						Math.exp(-a.mp.getAlpha() * R / bohr) -
+				b.mp.getAlpha() / bohr * (a.getCoordinates()[tau] - b.getCoordinates()[tau]) / R *
+						Math.exp(-b.mp.getAlpha() * R / bohr);
 	}
 
-	private static double F(AM1Atom a, double R) {
-		return a.getParams().getK1() * Math.exp(
-				-a.getParams().getL1() * (R - a.getParams().getM1()) *
-						(R - a.getParams().getM1())) +
-				a.getParams().getK2() * Math.exp(
-						-a.getParams().getL2() * (R - a.getParams().getM2()) *
-								(R - a.getParams().getM2())) +
-				a.getParams().getK3() * Math.exp(
-						-a.getParams().getL3() * (R - a.getParams().getM3()) *
-								(R - a.getParams().getM3())) +
-				a.getParams().getK4() * Math.exp(
-						-a.getParams().getL4() * (R - a.getParams().getM4()) *
-								(R - a.getParams().getM4()));
-
-	}
-
-	private static double Fderiv(AM1Atom a, double r, double val) {
-		return gaussderiv(a.getParams().getK1(), a.getParams().getL1(),
-				a.getParams().getM1(), r, val) +
-				gaussderiv(a.getParams().getK2(), a.getParams().getL2(),
-						a.getParams().getM2(), r, val) +
-				gaussderiv(a.getParams().getK3(), a.getParams().getL3(),
-						a.getParams().getM3(), r, val) +
-				gaussderiv(a.getParams().getK4(), a.getParams().getL4(),
-						a.getParams().getM4(), r, val);
-	}
-
-	private static double gaussderiv(double K, double L, double M, double R,
-									 double val) {
+	private static double gaussderiv(double K, double L, double M, double R, double val) {
 		double r = R / bohr;
 		double returnval = K * Math.exp(-L * (r - M) * (r - M));
 
@@ -86,12 +52,18 @@ public class AM1Atom extends NDDOAtom {
 		return returnval;
 	}
 
-	@Override
-	public AM1Params getParams() { // TODO this is a workaround
-		if (Objects.isNull(mp)) {
-			return (AM1Params) super.np.clone();
-		}
-		return mp.clone();
+	private double Fderiv(double r, double val) {
+		return gaussderiv(mp.getK1(), mp.getL1(), mp.getM1(), r, val) +
+				gaussderiv(mp.getK2(), mp.getL2(), mp.getM2(), r, val) +
+				gaussderiv(mp.getK3(), mp.getL3(), mp.getM3(), r, val) +
+				gaussderiv(mp.getK4(), mp.getL4(), mp.getM4(), r, val);
+	}
+
+	private double F(double R) {
+		return mp.getK1() * Math.exp(-mp.getL1() * (R - mp.getM1()) * (R - mp.getM1())) +
+				mp.getK2() * Math.exp(-mp.getL2() * (R - mp.getM2()) * (R - mp.getM2())) +
+				mp.getK3() * Math.exp(-mp.getL3() * (R - mp.getM3()) * (R - mp.getM3())) +
+				mp.getK4() * Math.exp(-mp.getL4() * (R - mp.getM4()) * (R - mp.getM4()));
 	}
 
 	@Override
@@ -99,88 +71,56 @@ public class AM1Atom extends NDDOAtom {
 		AM1Atom b = (AM1Atom) c;
 		double f;
 		double R = GTO.R(this.getCoordinates(), b.getCoordinates());
-		if ((this.atomProperties.getZ() == 7 ||
-				this.atomProperties.getZ() == 8) &&
-				b.atomProperties.getZ() == 1) {
+
+		if ((this.atomProperties.getZ() == 7 || this.atomProperties.getZ() == 8) && b.atomProperties.getZ() == 1)
 			f = getf(this, b, R);
-		}
-		else if ((b.atomProperties.getZ() == 7 ||
-				b.atomProperties.getZ() == 8) &&
-				this.atomProperties.getZ() == 1) {
+		else if ((b.atomProperties.getZ() == 7 || b.atomProperties.getZ() == 8) && this.atomProperties.getZ() == 1)
 			f = getf(b, this, R);
-		}
-		else {
-			f = 1 + Math.exp(-b.mp.getAlpha() * R / bohr) +
-					Math.exp(-this.mp.getAlpha() * R / bohr);
-		}
+		else f = 1 + Math.exp(-b.mp.getAlpha() * R / bohr) + Math.exp(-this.mp.getAlpha() * R / bohr);
 
 		return f * this.atomProperties.getQ() * b.atomProperties.getQ() *
 				NDDO6G.getG(this.s(), this.s(), b.s(), b.s()) +
-				(F(this, R) + F(b, R)) * this.getAtomProperties().getQ() *
-						b.getAtomProperties().getQ() / R;
+				(this.F(R) + b.F(R)) * this.getAtomProperties().getQ() * b.getAtomProperties().getQ() / R;
 	}
 
 	@Override
 	public double crfDeriv(NDDOAtom c, int tau) {
 		AM1Atom b = (AM1Atom) c;
 		double R = GTO.R(this.getCoordinates(), b.getCoordinates());
-
 		double r = R / bohr;
 		double f;
 		double fprime;
-		if ((this.atomProperties.getZ() == 7 ||
-				this.atomProperties.getZ() == 8) &&
-				b.atomProperties.getZ() == 1) {
+
+		if ((this.atomProperties.getZ() == 7 || this.atomProperties.getZ() == 8) && b.atomProperties.getZ() == 1) {
 			f = getf(this, b, R);
 			fprime = getfPrime(this, b, R, tau);
 		}
-		else if ((b.atomProperties.getZ() == 7 ||
-				b.atomProperties.getZ() == 8) &&
-				this.atomProperties.getZ() == 1) {
+		else if ((b.atomProperties.getZ() == 7 || b.atomProperties.getZ() == 8) && this.atomProperties.getZ() == 1) {
 			f = getf(b, this, R);
 			fprime = -getfPrime(b, this, R, tau);
 		}
 		else {
-			f = 1 + Math.exp(-b.mp.getAlpha() * r) +
-					Math.exp(-this.mp.getAlpha() * r);
-			fprime = -b.mp.getAlpha() / bohr *
-					(this.getCoordinates()[tau] - b.getCoordinates()[tau]) / R *
-					Math.exp(-b.mp.getAlpha() * r)
-					- this.mp.getAlpha() / bohr *
-					(this.getCoordinates()[tau] - b.getCoordinates()[tau]) / R *
-					Math.exp(-this.mp.getAlpha() * r);
+			f = 1 + Math.exp(-b.mp.getAlpha() * r) + Math.exp(-this.mp.getAlpha() * r);
+			fprime = -b.mp.getAlpha() / bohr * (this.getCoordinates()[tau] - b.getCoordinates()[tau]) / R *
+					Math.exp(-b.mp.getAlpha() * r) -
+					this.mp.getAlpha() / bohr * (this.getCoordinates()[tau] - b.getCoordinates()[tau]) / R *
+							Math.exp(-this.mp.getAlpha() * r);
 		}
 
-		double reciprocalderiv =
-				-this.atomProperties.getQ() * b.atomProperties.getQ() /
-						(r * r) *
-						(this.getCoordinates()[tau] - b.getCoordinates()[tau]) /
-						(R * bohr);
+		double reciprocalderiv = -this.atomProperties.getQ() * b.atomProperties.getQ() / (r * r) *
+				(this.getCoordinates()[tau] - b.getCoordinates()[tau]) / (R * bohr);
 
-		double gaussiancontribution =
-				(Fderiv(this, R,
-						this.getCoordinates()[tau] - b.getCoordinates()[tau]) +
-						Fderiv(b, R,
-								this.getCoordinates()[tau] -
-										b.getCoordinates()[tau])) *
-						this.atomProperties.getQ() * b.atomProperties.getQ() /
-						r +
-						reciprocalderiv * (F(this, r) + F(b, r));
+		double gaussiancontribution = (this.Fderiv(R, this.getCoordinates()[tau] - b.getCoordinates()[tau]) +
+				b.Fderiv(R, this.getCoordinates()[tau] - b.getCoordinates()[tau])) * this.atomProperties.getQ() *
+				b.atomProperties.getQ() / r + reciprocalderiv * (this.F(r) + b.F(r));
 
-		double returnval =
-				fprime * this.atomProperties.getQ() * b.atomProperties.getQ() *
-						NDDO6G.getG(this.s(), this.s(), b.s(), b.s()) +
-						f * this.atomProperties.getQ() *
-								b.atomProperties.getQ() *
-								GeometryDerivative
-										.getGderiv(this.s(), this.s(), b.s(),
-												b.s(),
-												tau) +
-						gaussiancontribution;
-
-		return returnval;
+		return fprime * this.atomProperties.getQ() * b.atomProperties.getQ() *
+				NDDO6G.getG(this.s(), this.s(), b.s(), b.s()) +
+				f * this.atomProperties.getQ() * b.atomProperties.getQ() *
+						GeometryDerivative.getGderiv(this.s(), this.s(), b.s(), b.s(), tau) + gaussiancontribution;
 	}
 
+	@Override
 	public double crfDeriv2(NDDOAtom c, int tau1, int tau2) {
 		return 0;
 	}

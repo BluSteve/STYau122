@@ -1,11 +1,14 @@
 package scf;
 
 public abstract class Atom {
-	protected double[] coordinates;
-	protected AtomProperties atomProperties;
+	protected final double[] coordinates;
+	protected final AtomProperties atomProperties;
 
+	/**
+	 * Coordinates is like passing in 3 double values.
+	 */
 	public Atom(AtomProperties atomProperties, double[] coordinates) {
-		this.coordinates = coordinates;
+		this.coordinates = coordinates.clone();
 		this.atomProperties = atomProperties;
 	}
 

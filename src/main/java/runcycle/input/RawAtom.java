@@ -1,19 +1,15 @@
 package runcycle.input;
 
-import nddo.mndo.MNDOAtom;
-import nddo.mndo.MNDOParams;
-import scf.AtomHandler;
-
 import java.util.Arrays;
 
+/* RawAtom doesn't need AtomProperties because AtomProperties
+	is constant and the user doesn't need to supply it.
+	This is for input.
+*/
 public class RawAtom {
 	public String name;
 	public int Z;
 	public double[] coords = new double[3];
-
-	public MNDOAtom toMNDOAtom(MNDOParams mndoParams) {
-		return new MNDOAtom(AtomHandler.atoms[Z], coords, mndoParams);
-	}
 
 	@Override
 	public String toString() {

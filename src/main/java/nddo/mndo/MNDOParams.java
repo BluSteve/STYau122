@@ -13,6 +13,9 @@ public class MNDOParams extends NDDOParams{
 
 	public MNDOParams(double[] params) {
 		super(params.clone());
+
+		if (params.length != 13)
+			throw new IllegalArgumentException("Invalid number of MNDO params! (" + params.length + ")");
 	}
 
 	@Override

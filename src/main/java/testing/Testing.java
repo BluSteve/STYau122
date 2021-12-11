@@ -271,7 +271,7 @@ public class Testing {
 		rm.mult = 0;
 		rm.name = "C1H4";
 
-		SolutionR s = new SolutionR(atoms, rm).compute();
+		SolutionR s = new SolutionR(rm, atoms).compute();
 		SimpleMatrix[][] matrices = GeometryDerivative.gradientRoutine(s);
 		System.out.println(Arrays.toString(getxarrayPople(s, matrices[1])));
 
