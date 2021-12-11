@@ -93,12 +93,10 @@ public class SolutionR extends Solution {
 		return F.mult(D).minus(D.mult(F));
 	}
 
-	private static SimpleMatrix removeElements(SimpleMatrix original,
-											   int[] tbr) {
+	private static SimpleMatrix removeElements(SimpleMatrix original, int[] tbr) {
 		int newN = original.numRows() - tbr.length;
 		boolean isMatrix = original.numCols() > 1;
-		SimpleMatrix newarray = isMatrix ? new SimpleMatrix(newN, newN) :
-				new SimpleMatrix(newN, 1);
+		SimpleMatrix newarray = isMatrix ? new SimpleMatrix(newN, newN) : new SimpleMatrix(newN, 1);
 
 		int[] tbk = new int[newN];
 		int q = 0;
@@ -133,8 +131,7 @@ public class SolutionR extends Solution {
 		return newarray;
 	}
 
-	private static SimpleMatrix addRows(SimpleMatrix original,
-										int[] tbr) {
+	private static SimpleMatrix addRows(SimpleMatrix original, int[] tbr) {
 		// add zero row at tbr
 		ArrayList<Double> array = new ArrayList<>();
 
@@ -166,14 +163,8 @@ public class SolutionR extends Solution {
 					for (int l : orbsOfAtom[atomOfOrb[j]]) {
 						if (l > -1) {
 							integralArray[integralcount] =
-									(NDDO6G.OneCenterERI(orbitals[j],
-											orbitals[j],
-											orbitals[l],
-											orbitals[l]) - 0.5 *
-											NDDO6G.OneCenterERI(orbitals[j],
-													orbitals[l],
-													orbitals[j],
-													orbitals[l]));
+									NDDO6G.OneCenterERI(orbitals[j], orbitals[j], orbitals[l], orbitals[l]) - 0.5 *
+											NDDO6G.OneCenterERI(orbitals[j], orbitals[l], orbitals[j], orbitals[l]);
 							integralcount++;
 						}
 					}
@@ -184,10 +175,7 @@ public class SolutionR extends Solution {
 								if (m > -1) {
 									if (atomOfOrb[l] == atomOfOrb[m]) {
 										integralArray[integralcount] =
-												(NDDO6G.getG(orbitals[j],
-														orbitals[j],
-														orbitals[l],
-														orbitals[m]));
+												NDDO6G.getG(orbitals[j], orbitals[j], orbitals[l], orbitals[m]);
 										integralcount++;
 									}
 								}
@@ -197,13 +185,9 @@ public class SolutionR extends Solution {
 					}
 				}
 				else if (atomOfOrb[j] == atomOfOrb[k]) { // case 2
-					integralArray[integralcount] = (1.5 *
-							NDDO6G.OneCenterERI(orbitals[j], orbitals[k],
-									orbitals[j],
-									orbitals[k]) - 0.5 *
-							NDDO6G.OneCenterERI(orbitals[j], orbitals[j],
-									orbitals[k],
-									orbitals[k]));
+					integralArray[integralcount] =
+							1.5 * NDDO6G.OneCenterERI(orbitals[j], orbitals[k], orbitals[j], orbitals[k]) -
+									0.5 * NDDO6G.OneCenterERI(orbitals[j], orbitals[j], orbitals[k], orbitals[k]);
 					integralcount++;
 					for (int l : missingOfAtom[atomOfOrb[j]]) {
 						if (l > -1) {
@@ -211,10 +195,7 @@ public class SolutionR extends Solution {
 								if (m > -1) {
 									if (atomOfOrb[l] == atomOfOrb[m]) {
 										integralArray[integralcount] =
-												(NDDO6G.getG(orbitals[j],
-														orbitals[k],
-														orbitals[l],
-														orbitals[m]));
+												NDDO6G.getG(orbitals[j], orbitals[k], orbitals[l], orbitals[m]);
 										integralcount++;
 									}
 								}
@@ -227,10 +208,8 @@ public class SolutionR extends Solution {
 						if (l > -1) {
 							for (int m : orbsOfAtom[atomOfOrb[k]]) {
 								if (m > -1) {
-									integralArray[integralcount] = (-0.5 *
-											NDDO6G.getG(orbitals[j],
-													orbitals[l],
-													orbitals[k], orbitals[m]));
+									integralArray[integralcount] = -0.5 * NDDO6G.getG(orbitals[j], orbitals[l],
+											orbitals[k], orbitals[m]);
 									integralcount++;
 								}
 							}
@@ -276,8 +255,7 @@ public class SolutionR extends Solution {
 
 						for (int l : orbsOfAtom[atomOfOrb[j]]) {
 							if (l > -1) {
-								val += densityMatrix.get(l, l) *
-										integralArray[integralcount];
+								val += densityMatrix.get(l, l) * integralArray[integralcount];
 								integralcount++;
 							}
 						}
@@ -287,8 +265,7 @@ public class SolutionR extends Solution {
 								for (int m : missingOfAtom[atomOfOrb[j]]) {
 									if (m > -1) {
 										if (atomOfOrb[l] == atomOfOrb[m]) {
-											val += densityMatrix.get(l, m) *
-													integralArray[integralcount];
+											val += densityMatrix.get(l, m) * integralArray[integralcount];
 											integralcount++;
 										}
 									}
@@ -298,8 +275,7 @@ public class SolutionR extends Solution {
 						}
 					}
 					else if (atomOfOrb[j] == atomOfOrb[k]) {
-						val += densityMatrix.get(j, k) *
-								integralArray[integralcount];
+						val += densityMatrix.get(j, k) * integralArray[integralcount];
 						integralcount++;
 
 						for (int l : missingOfAtom[atomOfOrb[j]]) {
@@ -307,8 +283,7 @@ public class SolutionR extends Solution {
 								for (int m : missingOfAtom[atomOfOrb[j]]) {
 									if (m > -1) {
 										if (atomOfOrb[l] == atomOfOrb[m]) {
-											val += densityMatrix.get(l, m) *
-													integralArray[integralcount];
+											val += densityMatrix.get(l, m) * integralArray[integralcount];
 											integralcount++;
 										}
 									}
@@ -322,8 +297,7 @@ public class SolutionR extends Solution {
 							if (l > -1) {
 								for (int m : orbsOfAtom[atomOfOrb[k]]) {
 									if (m > -1) {
-										val += densityMatrix.get(l, m) *
-												integralArray[integralcount];
+										val += densityMatrix.get(l, m) * integralArray[integralcount];
 										integralcount++;
 									}
 								}
@@ -342,21 +316,17 @@ public class SolutionR extends Solution {
 				Farray[numIt] = F;
 
 				Darray[numIt] = densityMatrix;
-				earray[numIt] =
-						-0.5 * (H.mult(densityMatrix)).diag().elementSum();
+				earray[numIt] = -0.5 * H.mult(densityMatrix).diag().elementSum();
 				commutatorarray[numIt] = commutator(F, densityMatrix);
 				DIISError = commutatorarray[numIt].normF();
 
 				for (int i = 0; i <= numIt; i++) {
-					double product = commutatorarray[numIt]
-							.mult(commutatorarray[i].transpose())
-							.diag().elementSum();
+					double product = commutatorarray[numIt].mult(commutatorarray[i].transpose()).diag().elementSum();
 
 					B.set(i, numIt, product);
 					B.set(numIt, i, product);
 
-					product = 0.5 *
-							Farray[i].mult(Darray[numIt]).diag().elementSum() +
+					product = 0.5 * Farray[i].mult(Darray[numIt]).diag().elementSum() +
 							Farray[numIt].mult(Darray[i]).diag().elementSum();
 
 					Bforediis.set(i, numIt, product);
@@ -373,11 +343,9 @@ public class SolutionR extends Solution {
 
 				Farray[Farray.length - 1] = F;
 				Darray[Darray.length - 1] = densityMatrix;
-				earray[Darray.length - 1] =
-						-0.5 * (H.mult(densityMatrix)).diag().elementSum();
+				earray[Darray.length - 1] = -0.5 * H.mult(densityMatrix).diag().elementSum();
 
-				commutatorarray[Darray.length - 1] =
-						commutator(F, densityMatrix);
+				commutatorarray[Darray.length - 1] = commutator(F, densityMatrix);
 				DIISError = commutatorarray[Darray.length - 1].normF();
 
 				// B is dy/dx sort of, make dy/dx 0
@@ -394,18 +362,14 @@ public class SolutionR extends Solution {
 				}
 
 				for (int i = 0; i < Farray.length; i++) {
-					double product = commutatorarray[Farray.length - 1]
-							.transpose()
-							.mult(commutatorarray[i])
+					double product = commutatorarray[Farray.length - 1].transpose().mult(commutatorarray[i])
 							.diag().elementSum();
 
 					newB.set(i, Farray.length - 1, product);
 					newB.set(Farray.length - 1, i, product);
 
-					product = 0.5 * Farray[i].mult(Darray[Farray.length - 1])
-							.diag().elementSum() +
-							Farray[Farray.length - 1].mult(Darray[i])
-									.diag().elementSum();
+					product = 0.5 * Farray[i].mult(Darray[Farray.length - 1]).diag().elementSum() +
+							Farray[Farray.length - 1].mult(Darray[i]).diag().elementSum();
 
 					newBforediis.set(i, Farray.length - 1, product);
 					newBforediis.set(Farray.length - 1, i, product);
@@ -418,8 +382,7 @@ public class SolutionR extends Solution {
 			int ediisSize = Math.min(Farray.length + 1, numIt + 2);
 
 			// if true do EDIIS else DIIS
-			if (commutatorarray[Math.min(Farray.length - 1, numIt)]
-					.elementMax() > 0.01 && itSinceLastDIIS < 50) {
+			if (commutatorarray[Math.min(Farray.length - 1, numIt)].elementMax() > 0.01 && itSinceLastDIIS < 50) {
 				itSinceLastDIIS++;
 				SimpleMatrix mat = new SimpleMatrix(ediisSize, ediisSize);
 
@@ -451,29 +414,20 @@ public class SolutionR extends Solution {
 						try {
 							SimpleMatrix newmat = removeElements(mat, tbr);
 							SimpleMatrix newrhs = removeElements(rhs, tbr);
-							SimpleMatrix tempEdiis =
-									addRows(newmat.solve(newrhs), tbr);
+							SimpleMatrix tempEdiis = addRows(newmat.solve(newrhs), tbr);
 							tempEdiis.set(tempEdiis.numRows() - 1, 0);
-							boolean nonNegative = !(CommonOps_DDRM.elementMin(
-									tempEdiis.getDDRM()) < 0);
+							boolean nonNegative = !(CommonOps_DDRM.elementMin(tempEdiis.getDDRM()) < 0);
 
 							if (nonNegative) {
 								double e = 0;
 
-								for (int a = 0;
-									 a < tempEdiis.getNumElements() - 1;
-									 a++) {
+								for (int a = 0; a < tempEdiis.getNumElements() - 1; a++) {
 									e -= earray[a] * tempEdiis.get(a);
 								}
 
-								for (int a = 0;
-									 a < tempEdiis.getNumElements() - 1; a++) {
-									for (int b = 0;
-										 b < tempEdiis.getNumElements() - 1;
-										 b++) {
-										e += 0.5 * tempEdiis.get(a) *
-												tempEdiis.get(b) * 0.5 *
-												B.get(a, b);
+								for (int a = 0; a < tempEdiis.getNumElements() - 1; a++) {
+									for (int b = 0; b < tempEdiis.getNumElements() - 1; b++) {
+										e += 0.5 * tempEdiis.get(a) * tempEdiis.get(b) * 0.5 * B.get(a, b);
 									}
 								}
 
@@ -490,8 +444,7 @@ public class SolutionR extends Solution {
 
 				SimpleMatrix finalDIIS = bestDIIS;
 
-				SimpleMatrix F = new SimpleMatrix(densityMatrix.numRows(),
-						densityMatrix.numCols());
+				SimpleMatrix F = new SimpleMatrix(densityMatrix.numRows(), densityMatrix.numCols());
 
 				for (int i = 0; i < finalDIIS.getNumElements() - 1; i++) {
 					F = F.plus(Farray[i].scale(finalDIIS.get(i)));
@@ -514,8 +467,7 @@ public class SolutionR extends Solution {
 				SimpleMatrix mat = new SimpleMatrix(ediisSize, ediisSize);
 
 				for (int i = 0; i < Math.min(Farray.length, numIt + 1); i++) {
-					for (int j = i; j < Math.min(Farray.length, numIt + 1);
-						 j++) {
+					for (int j = i; j < Math.min(Farray.length, numIt + 1); j++) {
 						mat.set(i, j, B.get(i, j));
 						mat.set(j, i, B.get(i, j));
 
@@ -534,11 +486,9 @@ public class SolutionR extends Solution {
 				try {
 					SimpleMatrix DIIS = mat.solve(rhs);
 
-					SimpleMatrix F = new SimpleMatrix(densityMatrix.numRows(),
-							densityMatrix.numCols());
+					SimpleMatrix F = new SimpleMatrix(densityMatrix.numRows(), densityMatrix.numCols());
 
-					SimpleMatrix D = new SimpleMatrix(densityMatrix.numRows(),
-							densityMatrix.numCols());
+					SimpleMatrix D = new SimpleMatrix(densityMatrix.numRows(), densityMatrix.numCols());
 
 					for (int i = 0; i < DIIS.getNumElements() - 1; i++) {
 						F = F.plus(Farray[i].scale(DIIS.get(i)));
@@ -562,15 +512,12 @@ public class SolutionR extends Solution {
 					C = matrices[0].transpose();
 
 					double damp = 0.8;
-					densityMatrix = calculateDensityMatrix(C).scale(1 - damp)
-							.plus(olddensity.scale(damp));
+					densityMatrix = calculateDensityMatrix(C).scale(1 - damp).plus(olddensity.scale(damp));
 				}
 			}
 
 			numIt++;
-			getRm().getLogger()
-					.trace("SolutionR iteration: {}, DIISError: {}", numIt,
-							DIISError);
+			getRm().getLogger().trace("SolutionR iteration: {}, DIISError: {}", numIt, DIISError);
 		}
 
 		findEnergyAndHf();
@@ -632,12 +579,9 @@ public class SolutionR extends Solution {
 		double v = 2.5416;
 		for (int j = 0; j < atoms.length; j++) {
 			double v1 = v * populations[j];
-			chargedip[0] += v1 *
-					(atoms[j].getCoordinates()[0] - com[0]);
-			chargedip[1] += v1 *
-					(atoms[j].getCoordinates()[1] - com[1]);
-			chargedip[2] += v1 *
-					(atoms[j].getCoordinates()[2] - com[2]);
+			chargedip[0] += v1 * (atoms[j].getCoordinates()[0] - com[0]);
+			chargedip[1] += v1 * (atoms[j].getCoordinates()[1] - com[1]);
+			chargedip[2] += v1 * (atoms[j].getCoordinates()[2] - com[2]);
 		}
 
 		hybridip = new double[]{0, 0, 0};
@@ -645,22 +589,15 @@ public class SolutionR extends Solution {
 		for (int j = 0; j < atoms.length; j++) {
 			if (orbsOfAtom[j][1] != -1) { // exclude hydrogen
 				double v1 = v * 2 * atoms[j].D1;
-				hybridip[0] -= v1 *
-						densityMatrix.get(orbsOfAtom[j][0], orbsOfAtom[j][1]);
-				hybridip[1] -= v1 *
-						densityMatrix.get(orbsOfAtom[j][0], orbsOfAtom[j][2]);
-				hybridip[2] -= v1 *
-						densityMatrix.get(orbsOfAtom[j][0], orbsOfAtom[j][3]);
+				hybridip[0] -= v1 * densityMatrix.get(orbsOfAtom[j][0], orbsOfAtom[j][1]);
+				hybridip[1] -= v1 * densityMatrix.get(orbsOfAtom[j][0], orbsOfAtom[j][2]);
+				hybridip[2] -= v1 * densityMatrix.get(orbsOfAtom[j][0], orbsOfAtom[j][3]);
 			}
 		}
 
-		dipoletot = new double[]{chargedip[0] + hybridip[0],
-				chargedip[1] + hybridip[1],
-				chargedip[2] + hybridip[2]};
+		dipoletot = new double[]{chargedip[0] + hybridip[0], chargedip[1] + hybridip[1], chargedip[2] + hybridip[2]};
 
-		dipole = Math.sqrt(dipoletot[0] * dipoletot[0] +
-				dipoletot[1] * dipoletot[1] +
-				dipoletot[2] * dipoletot[2]);
+		dipole = Math.sqrt(dipoletot[0] * dipoletot[0] + dipoletot[1] * dipoletot[1] + dipoletot[2] * dipoletot[2]);
 	}
 
 	private void findHomo() {
@@ -670,8 +607,7 @@ public class SolutionR extends Solution {
 	}
 
 	private SimpleMatrix calculateDensityMatrix(SimpleMatrix c) {
-		SimpleMatrix densityMatrix = new SimpleMatrix(orbitals.length,
-				orbitals.length);
+		SimpleMatrix densityMatrix = new SimpleMatrix(orbitals.length, orbitals.length);
 
 		for (int i = 0; i < orbitals.length; i++) {
 			for (int j = 0; j < orbitals.length; j++) {

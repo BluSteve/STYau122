@@ -26,7 +26,7 @@ public class InputHandler {
 	 * @return rawinput object in bohr units
 	 */
 	public static RawInput processInput(String filename) throws IOException {
-		RawInput ri = (new Gson()).fromJson(new FileReader(filename + ".json"),
+		RawInput ri = new Gson().fromJson(new FileReader(filename + ".json"),
 				RawInput.class);
 		for (RawMolecule rm : ri.molecules) {
 			for (int i = 0; i < rm.atoms.length; i++) {
