@@ -8,12 +8,12 @@ import tools.Utils;
 
 
 public class SolutionU extends Solution {
-	private SimpleMatrix Fa, Fb, alphaDensity, betaDensity;
+	private SimpleMatrix Fa, Fb;
 
-	protected SolutionU(MoleculeInfo rm, NDDOAtom[] atoms) {
-		super(rm, atoms);
+	protected SolutionU(MoleculeInfo mi, NDDOAtom[] atoms) {
+		super(mi, atoms);
 		if (nElectrons % 2 == mult % 2 || mult < 1) {
-			rm.getLogger().error("Please check mult and charge: nElectrons: {}, mult: {}", nElectrons, mult);
+			mi.getLogger().error("Please check mult and charge: nElectrons: {}, mult: {}", nElectrons, mult);
 		}
 		nElectrons -= mult - 1;
 	}
@@ -113,10 +113,8 @@ public class SolutionU extends Solution {
 		alphaDensity = calculateDensityMatrix(ca, nalpha);
 		betaDensity = calculateDensityMatrix(cb, nbeta);
 
-		SimpleMatrix oldalphadensity =
-				new SimpleMatrix(ca.numRows(), ca.numCols());
-		SimpleMatrix oldbetadensity =
-				new SimpleMatrix(ca.numRows(), ca.numCols());
+		SimpleMatrix oldalphadensity = new SimpleMatrix(ca.numRows(), ca.numCols());
+		SimpleMatrix oldbetadensity = new SimpleMatrix(ca.numRows(), ca.numCols());
 
 		int Jcount, Kcount;
 		int numIt = 0;
@@ -158,9 +156,7 @@ public class SolutionU extends Solution {
 						}
 					}
 					else if (atomOfOrb[j] == atomOfOrb[k]) {
-						val += (alphaDensity.get(j, k) +
-								betaDensity.get(j, k)) *
-								integralArrayCoulomb[Jcount];
+						val += (alphaDensity.get(j, k) + betaDensity.get(j, k)) * integralArrayCoulomb[Jcount];
 						Jcount++;
 
 						for (int l : missingOfAtom[atomOfOrb[j]])
@@ -267,10 +263,8 @@ public class SolutionU extends Solution {
 	private void findEnergyAndHf() {
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = 0; k < orbitals.length; k++) {
-				energy += 0.5 * alphaDensity.get(j, k) *
-						(H.get(j, k) + Fa.get(j, k));
-				energy += 0.5 * betaDensity.get(j, k) *
-						(H.get(j, k) + Fb.get(j, k));
+				energy += 0.5 * alphaDensity.get(j, k) * (H.get(j, k) + Fa.get(j, k));
+				energy += 0.5 * betaDensity.get(j, k) * (H.get(j, k) + Fb.get(j, k));
 			}
 		}
 
@@ -286,78 +280,8 @@ public class SolutionU extends Solution {
 		hf = heat / 4.3363E-2;
 	}
 
-	private void findDipole() {
-		double[] populations = new double[atoms.length];
-
-		for (int j = 0; j < atoms.length; j++) {
-			double sum = 0;
-			for (int k : orbsOfAtom[j]) {
-				if (k > -1) {
-					sum += alphaDensity.get(k, k) + betaDensity.get(k, k);
-				}
-			}
-
-			populations[j] = atoms[j].getAtomProperties().getQ() - sum;
-		}
-
-		double[] com = new double[]{0, 0, 0};
-		double mass = 0;
-		for (NDDOAtom atom : atoms) {
-			com[0] += atom.getMass() * atom.getCoordinates()[0];
-			com[1] += atom.getMass() * atom.getCoordinates()[1];
-			com[2] += atom.getMass() * atom.getCoordinates()[2];
-			mass += atom.getMass();
-		}
-
-		com[0] /= mass;
-		com[1] /= mass;
-		com[2] /= mass;
-
-		chargedip = new double[]{0, 0, 0};
-
-		double v = 2.5416;
-		for (int j = 0; j < atoms.length; j++) {
-			double v1 = v * populations[j];
-			chargedip[0] += v1 *
-					(atoms[j].getCoordinates()[0] - com[0]);
-			chargedip[1] += v1 *
-					(atoms[j].getCoordinates()[1] - com[1]);
-			chargedip[2] += v1 *
-					(atoms[j].getCoordinates()[2] - com[2]);
-		}
-
-		hybridip = new double[]{0, 0, 0};
-
-		for (int j = 0; j < atoms.length; j++) {
-			if (orbsOfAtom[j][1] != -1) { // exclude hydrogen
-				double v1 = v * 2 * atoms[j].D1;
-				hybridip[0] -= v1 *
-						(alphaDensity.get(orbsOfAtom[j][0], orbsOfAtom[j][1]) +
-								betaDensity.get(orbsOfAtom[j][0],
-										orbsOfAtom[j][1]));
-				hybridip[1] -= v1 *
-						(alphaDensity.get(orbsOfAtom[j][0], orbsOfAtom[j][2]) +
-								betaDensity.get(orbsOfAtom[j][0],
-										orbsOfAtom[j][2]));
-				hybridip[2] -= v1 *
-						(alphaDensity.get(orbsOfAtom[j][0], orbsOfAtom[j][3]) +
-								betaDensity.get(orbsOfAtom[j][0],
-										orbsOfAtom[j][3]));
-			}
-		}
-
-		dipoletot = new double[]{chargedip[0] + hybridip[0],
-				chargedip[1] + hybridip[1],
-				chargedip[2] + hybridip[2]};
-
-		dipole = Math.sqrt(dipoletot[0] * dipoletot[0] +
-				dipoletot[1] * dipoletot[1] +
-				dipoletot[2] * dipoletot[2]);
-	}
-
 	private SimpleMatrix calculateDensityMatrix(SimpleMatrix c, int nElectrons) {
-		SimpleMatrix densityMatrix = new SimpleMatrix(orbitals.length,
-				orbitals.length);
+		SimpleMatrix densityMatrix = new SimpleMatrix(orbitals.length, orbitals.length);
 
 		for (int i = 0; i < orbitals.length; i++) {
 			for (int j = 0; j < orbitals.length; j++) {
@@ -378,17 +302,8 @@ public class SolutionU extends Solution {
 	}
 
 	@Override
-	public SimpleMatrix alphaDensity() {
-		return alphaDensity;
-	}
-
-	@Override
-	public SimpleMatrix betaDensity() {
-		return betaDensity;
-	}
-
-	@Override
 	public SimpleMatrix densityMatrix() {
-		return alphaDensity.plus(betaDensity);
+		if (densityMatrix == null) densityMatrix = alphaDensity.plus(betaDensity);
+		return super.densityMatrix();
 	}
 }

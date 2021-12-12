@@ -17,8 +17,7 @@ public abstract class Solution {
 	public int[] atomicNumbers, atomOfOrb;
 	public NDDOAtom[] atoms;
 	public NDDO6G[] orbitals;
-	protected SimpleMatrix H;
-
+	protected SimpleMatrix H, densityMatrix, alphaDensity, betaDensity;
 
 	protected Solution(MoleculeInfo rm, NDDOAtom[] atoms) {
 		this.atoms = atoms;
@@ -30,9 +29,9 @@ public abstract class Solution {
 		this.nOrbitals = rm.nOrbitals;
 
 		orbitals = new NDDO6G[nOrbitals];
-		orbsOfAtom = rm.orbsOfAtom;
-		atomOfOrb = rm.atomOfOrb;
-		missingOfAtom = rm.missingOfAtom;
+		orbsOfAtom = rm.orbsOfAtom; // variable length 2d array
+		missingOfAtom = rm.missingOfAtom; // variable length 2d array, complement of orbsOfAtom
+		atomOfOrb = rm.atomOfOrb; // nOrbitals length 1d array
 
 		int overallOrbitalIndex = 0;
 		for (NDDOAtom atom : atoms) {
@@ -40,6 +39,7 @@ public abstract class Solution {
 				orbitals[overallOrbitalIndex] = orbital;
 			}
 		}
+
 
 		// filling up the core matrix in accordance with NDDO formalism
 		H = new SimpleMatrix(orbitals.length, orbitals.length);
@@ -106,19 +106,78 @@ public abstract class Solution {
 		return true;
 	}
 
+	protected void findDipole() {
+		double[] populations = new double[atoms.length];
+
+		for (int j = 0; j < atoms.length; j++) {
+			double sum = 0;
+			for (int k : orbsOfAtom[j]) {
+				if (k > -1) {
+					sum += densityMatrix().get(k, k);
+				}
+			}
+
+			populations[j] = atoms[j].getAtomProperties().getQ() - sum;
+		}
+
+		double[] com = new double[]{0, 0, 0};
+		double mass = 0;
+		for (NDDOAtom atom : atoms) {
+			com[0] += atom.getMass() * atom.getCoordinates()[0];
+			com[1] += atom.getMass() * atom.getCoordinates()[1];
+			com[2] += atom.getMass() * atom.getCoordinates()[2];
+			mass += atom.getMass();
+		}
+
+		com[0] /= mass;
+		com[1] /= mass;
+		com[2] /= mass;
+
+		chargedip = new double[]{0, 0, 0};
+
+		double v = 2.5416;
+		for (int j = 0; j < atoms.length; j++) {
+			double v1 = v * populations[j];
+			chargedip[0] += v1 * (atoms[j].getCoordinates()[0] - com[0]);
+			chargedip[1] += v1 * (atoms[j].getCoordinates()[1] - com[1]);
+			chargedip[2] += v1 * (atoms[j].getCoordinates()[2] - com[2]);
+		}
+
+		hybridip = new double[]{0, 0, 0};
+
+		for (int j = 0; j < atoms.length; j++) {
+			if (orbsOfAtom[j][1] != -1) { // exclude hydrogen
+				double v1 = v * 2 * atoms[j].D1;
+				hybridip[0] -= v1 * densityMatrix().get(orbsOfAtom[j][0], orbsOfAtom[j][1]);
+				hybridip[1] -= v1 * densityMatrix().get(orbsOfAtom[j][0], orbsOfAtom[j][2]);
+				hybridip[2] -= v1 * densityMatrix().get(orbsOfAtom[j][0], orbsOfAtom[j][3]);
+			}
+		}
+
+		dipoletot = new double[]{chargedip[0] + hybridip[0], chargedip[1] + hybridip[1], chargedip[2] + hybridip[2]};
+
+		dipole = Math.sqrt(dipoletot[0] * dipoletot[0] + dipoletot[1] * dipoletot[1] + dipoletot[2] * dipoletot[2]);
+	}
+
 	public MoleculeInfo getRm() {
 		return rm;
+	}
+
+	public SimpleMatrix densityMatrix() {
+		return densityMatrix;
+	}
+
+	public SimpleMatrix alphaDensity() {
+		return alphaDensity;
+	}
+
+	public SimpleMatrix betaDensity() {
+		return betaDensity;
 	}
 
 	public abstract Solution withNewAtoms(NDDOAtom[] newAtoms);
 
 	public abstract Solution compute();
-
-	public abstract SimpleMatrix alphaDensity();
-
-	public abstract SimpleMatrix betaDensity();
-
-	public abstract SimpleMatrix densityMatrix();
 
 	@Override
 	public String toString() {

@@ -83,10 +83,10 @@ public class SolutionR extends Solution {
 							new int[]{0, 1, 2, 3, 4, 5, 6}}};
 
 	public double[] integralArray;
-	public SimpleMatrix C, F, E, densityMatrix;
+	public SimpleMatrix C, F, E;
 
-	public SolutionR(MoleculeInfo rm, NDDOAtom[] atoms) {
-		super(rm, atoms);
+	public SolutionR(MoleculeInfo mi, NDDOAtom[] atoms) {
+		super(mi, atoms);
 	}
 
 	private static SimpleMatrix commutator(SimpleMatrix F, SimpleMatrix D) {
@@ -163,8 +163,9 @@ public class SolutionR extends Solution {
 					for (int l : orbsOfAtom[atomOfOrb[j]]) {
 						if (l > -1) {
 							integralArray[integralcount] =
-									NDDO6G.OneCenterERI(orbitals[j], orbitals[j], orbitals[l], orbitals[l]) - 0.5 *
-											NDDO6G.OneCenterERI(orbitals[j], orbitals[l], orbitals[j], orbitals[l]);
+									NDDO6G.OneCenterERI(orbitals[j], orbitals[j], orbitals[l], orbitals[l]) -
+											0.5 * NDDO6G.OneCenterERI(orbitals[j], orbitals[l], orbitals[j],
+															orbitals[l]);
 							integralcount++;
 						}
 					}
@@ -521,7 +522,9 @@ public class SolutionR extends Solution {
 		}
 
 		findEnergyAndHf();
-		findHomo();
+		if (nElectrons > 0) homo = E.get(nElectrons / 2 - 1, 0);
+		else homo = 0;
+		lumo = E.get(nElectrons / 2, 0);
 		findDipole();
 
 		return this;
@@ -530,8 +533,7 @@ public class SolutionR extends Solution {
 	private void findEnergyAndHf() {
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = 0; k < orbitals.length; k++) {
-				energy += 0.5 * densityMatrix.get(j, k) *
-						(H.get(j, k) + F.get(j, k));
+				energy += 0.5 * densityMatrix.get(j, k) * (H.get(j, k) + F.get(j, k));
 			}
 		}
 
@@ -545,65 +547,6 @@ public class SolutionR extends Solution {
 
 		heat += energy;
 		hf = heat / 4.3363E-2;
-	}
-
-	private void findDipole() {
-		double[] populations = new double[atoms.length];
-
-		for (int j = 0; j < atoms.length; j++) {
-			double sum = 0;
-			for (int k : orbsOfAtom[j]) {
-				if (k > -1) {
-					sum += densityMatrix.get(k, k);
-				}
-			}
-
-			populations[j] = atoms[j].getAtomProperties().getQ() - sum;
-		}
-
-		double[] com = new double[]{0, 0, 0};
-		double mass = 0;
-		for (NDDOAtom atom : atoms) {
-			com[0] += atom.getMass() * atom.getCoordinates()[0];
-			com[1] += atom.getMass() * atom.getCoordinates()[1];
-			com[2] += atom.getMass() * atom.getCoordinates()[2];
-			mass += atom.getMass();
-		}
-
-		com[0] /= mass;
-		com[1] /= mass;
-		com[2] /= mass;
-
-		chargedip = new double[]{0, 0, 0};
-
-		double v = 2.5416;
-		for (int j = 0; j < atoms.length; j++) {
-			double v1 = v * populations[j];
-			chargedip[0] += v1 * (atoms[j].getCoordinates()[0] - com[0]);
-			chargedip[1] += v1 * (atoms[j].getCoordinates()[1] - com[1]);
-			chargedip[2] += v1 * (atoms[j].getCoordinates()[2] - com[2]);
-		}
-
-		hybridip = new double[]{0, 0, 0};
-
-		for (int j = 0; j < atoms.length; j++) {
-			if (orbsOfAtom[j][1] != -1) { // exclude hydrogen
-				double v1 = v * 2 * atoms[j].D1;
-				hybridip[0] -= v1 * densityMatrix.get(orbsOfAtom[j][0], orbsOfAtom[j][1]);
-				hybridip[1] -= v1 * densityMatrix.get(orbsOfAtom[j][0], orbsOfAtom[j][2]);
-				hybridip[2] -= v1 * densityMatrix.get(orbsOfAtom[j][0], orbsOfAtom[j][3]);
-			}
-		}
-
-		dipoletot = new double[]{chargedip[0] + hybridip[0], chargedip[1] + hybridip[1], chargedip[2] + hybridip[2]};
-
-		dipole = Math.sqrt(dipoletot[0] * dipoletot[0] + dipoletot[1] * dipoletot[1] + dipoletot[2] * dipoletot[2]);
-	}
-
-	private void findHomo() {
-		if (nElectrons > 0) homo = E.get(nElectrons / 2 - 1, 0);
-		else homo = 0;
-		lumo = E.get(nElectrons / 2, 0);
 	}
 
 	private SimpleMatrix calculateDensityMatrix(SimpleMatrix c) {
@@ -628,16 +571,13 @@ public class SolutionR extends Solution {
 
 	@Override
 	public SimpleMatrix alphaDensity() {
-		return densityMatrix.scale(0.5);
+		if (alphaDensity == null) alphaDensity = densityMatrix.scale(0.5);
+		return super.alphaDensity();
 	}
 
 	@Override
 	public SimpleMatrix betaDensity() {
-		return densityMatrix.scale(0.5);
-	}
-
-	@Override
-	public SimpleMatrix densityMatrix() {
-		return densityMatrix;
+		if (betaDensity == null) betaDensity = densityMatrix.scale(0.5);
+		return super.betaDensity();
 	}
 }
