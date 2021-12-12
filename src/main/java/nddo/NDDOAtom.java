@@ -9,9 +9,9 @@ import scf.OrbitalProperties;
 
 public abstract class NDDOAtom extends Atom {
 	protected static final double bohr = 1.88973;
+	protected final NDDOParams np;
 	public double p0, p1, p2, D1, D2;
 	protected NDDO6G[] orbitals;
-	protected final NDDOParams np;
 
 	public NDDOAtom(AtomProperties atomProperties, double[] coordinates, NDDOParams np) {
 		super(atomProperties, coordinates);
@@ -31,7 +31,7 @@ public abstract class NDDOAtom extends Atom {
 
 		OrbitalProperties[] orbitalProperties = this.atomProperties.getOrbitals();
 		orbitals = new NDDO6G[orbitalProperties.length];
-		for (int x = 0; x < orbitals.length; x++)
+		for (int x = 0; x < orbitals.length; x++) {
 			switch (orbitalProperties[x].getType()) {
 				case "s":
 					orbitals[x] = new NDDO6G(this, orbitalProperties[x], np.getZetas(), np.getBetas(), np.getUss());
@@ -40,7 +40,22 @@ public abstract class NDDOAtom extends Atom {
 					orbitals[x] = new NDDO6G(this, orbitalProperties[x], np.getZetap(), np.getBetap(), np.getUpp());
 					break;
 			}
+		}
 	}
+
+	/**
+	 * Returns a brand new NDDOAtom object. Everything is pass-by-value.
+	 * @param np New NDDOParams.
+	 * @return New NDDOAtom.
+	 */
+	public abstract NDDOAtom withNewParams(NDDOParams np);
+
+	/**
+	 * Returns a brand new NDDOAtom object. Everything is pass-by-value.
+	 * @param coordinates New coordinates.
+	 * @return New NDDOAtom.
+	 */
+	public abstract NDDOAtom withNewCoords(double[] coordinates);
 
 	public NDDO6G[] getOrbitals() {
 		return this.orbitals;
@@ -54,6 +69,9 @@ public abstract class NDDOAtom extends Atom {
 		return atomProperties.getHeat();
 	}
 
+	/**
+	 * @return Cloned NDDOParams.
+	 */
 	public NDDOParams getParams() {
 		return np.clone();
 	}
@@ -110,9 +128,8 @@ public abstract class NDDOAtom extends Atom {
 		double newguess = 0.5;
 		while (Math.abs(guess - newguess) > 1E-12) {
 			guess = newguess;
-			double f =
-					1 / guess + 1 / Math.sqrt(guess * guess + 2 * D2 * D2) - 2 / Math.sqrt(guess * guess + D2 * D2) -
-					4 * (np.getGpp() - np.getGp2()) / 27.2114;
+			double f = 1 / guess + 1 / Math.sqrt(guess * guess + 2 * D2 * D2) -
+							2 / Math.sqrt(guess * guess + D2 * D2) - 4 * (np.getGpp() - np.getGp2()) / 27.2114;
 			double fprime = -1 / (guess * guess) - guess / Math.pow(guess * guess + 2 * D2 * D2, 1.5) +
 					2 * guess / Math.pow(guess * guess + D2 * D2, 1.5);
 			newguess = guess - f / fprime;
@@ -126,5 +143,8 @@ public abstract class NDDOAtom extends Atom {
 
 	public abstract double crfDeriv2(NDDOAtom b, int tau1, int tau2);
 
-	public abstract double crfParamDeriv(NDDOAtom b, int num);
+	public abstract double crfAlphaDeriv(NDDOAtom b, int num);
+
+	@Override
+	public abstract NDDOAtom clone();
 }

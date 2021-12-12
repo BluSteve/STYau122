@@ -4,10 +4,14 @@ import nddo.MoleculeInfo;
 import nddo.NDDOParams;
 import nddo.geometry.GeometryDerivative;
 import nddo.mndo.MNDOAtom;
+import nddo.solution.Solution;
 import nddo.solution.SolutionR;
 import org.ejml.data.SingularMatrixException;
 import org.ejml.dense.row.CommonOps_DDRM;
 import org.ejml.simple.SimpleMatrix;
+import runcycle.input.InputHandler;
+import runcycle.input.RawInput;
+import runcycle.input.RawMolecule;
 import scf.AtomHandler;
 import tools.Utils;
 
@@ -19,7 +23,14 @@ import static nddo.geometry.GeometrySecondDerivative.computeResponseVectorsPople
 
 public class Testing {
 	public static void main(String[] args) throws Exception {
+		AtomHandler.populateAtoms();
+		RawInput ri = InputHandler.processInput("subset");
+		RawMolecule rm = ri.molecules[0];
 
+		NDDOParams[] npMap = Utils.getNpMap(ri);
+		Solution s = Solution.of(rm, Utils.toNDDOAtoms(ri.model, rm.atoms, npMap));
+
+		System.out.println("s = " + s);
 	}
 
 	public static SimpleMatrix[] getxarrayPople(SolutionR soln,

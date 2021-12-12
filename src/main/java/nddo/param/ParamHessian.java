@@ -220,12 +220,9 @@ public class ParamHessian {
 		if (analytical && (datum[1] != 0 || datum[2] != 0))
 			gPrime.computeBatchedDerivs(ZIndex2, paramNum2);
 
-		List<RecursiveAction> subtasks =
-				new ArrayList<>(s.getRm().mats.length * Solution.maxParamNum);
-		for (int ZIndex1 = ZIndex2; ZIndex1 < s.getRm().mats.length;
-			 ZIndex1++) {
-			for (int paramNum1 = paramNum2; paramNum1 < Solution.maxParamNum;
-				 paramNum1++) {
+		List<RecursiveAction> subtasks = new ArrayList<>(s.getRm().mats.length * Solution.maxParamNum);
+		for (int ZIndex1 = ZIndex2; ZIndex1 < s.getRm().mats.length; ZIndex1++) {
+			for (int paramNum1 = paramNum2; paramNum1 < Solution.maxParamNum; paramNum1++) {
 				boolean needed = false;
 				for (int p : s.getRm().mnps[ZIndex1]) {
 					if (paramNum1 == p) {
@@ -241,14 +238,12 @@ public class ParamHessian {
 						subtasks.add(new RecursiveAction() {
 							@Override
 							protected void compute() {
-								computeElement(gPrime, ZIndex2, paramNum2,
-										ZIndex, paramNum);
+								computeElement(gPrime, ZIndex2, paramNum2, ZIndex, paramNum);
 							}
 						});
 					}
 					else {
-						computeElement(gPrime, ZIndex2, paramNum2, ZIndex1,
-								paramNum1);
+						computeElement(gPrime, ZIndex2, paramNum2, ZIndex1, paramNum1);
 					}
 				}
 			}
@@ -257,8 +252,7 @@ public class ParamHessian {
 	}
 
 	private ParamGradient constructGPrime(int ZIndex, int paramNum) {
-		return ParamGradient.of(
-				s.withNewAtoms(Utils.perturbAtomParams(s.atoms,
+		return ParamGradient.of(s.withNewAtoms(Utils.perturbAtomParams(s.atoms,
 						s.getRm().mats[ZIndex], paramNum)), datum, sExp);
 	}
 
@@ -275,12 +269,13 @@ public class ParamHessian {
 	private void computeElement(ParamGradient gPrime, int ZIndex2,
 								int paramNum2, int ZIndex1, int paramNum1) {
 		gPrime.computeGradient(ZIndex1, paramNum1);
+
+		double element = (gPrime.getTotalGradients()[ZIndex1][paramNum1] -
+				g.getTotalGradients()[ZIndex1][paramNum1]) / Utils.LAMBDA;
+
 		int i2 = ZIndex2 * Solution.maxParamNum + paramNum2;
 		int i1 = ZIndex1 * Solution.maxParamNum + paramNum1;
 
-		double element = (gPrime.getTotalGradients()[ZIndex1][paramNum1] -
-				g.getTotalGradients()[ZIndex1][paramNum1])
-				/ Utils.LAMBDA;
 		hessian[i2][i1] = element;
 		hessian[i1][i2] = element;
 	}

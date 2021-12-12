@@ -29,7 +29,7 @@ import java.util.concurrent.*;
 
 public class Main {
 	private static final String INPUT_FILENAME = "input";
-	private static final int NUM_RUNS = 695;
+	private static final int NUM_RUNS = 270;
 	private static final int MAX_MOLECULES = 1000;
 	private static final boolean isImportLastRun = true;
 	private static final Logger logger = LogManager.getLogger();
@@ -135,7 +135,8 @@ public class Main {
 						@Override
 						protected MoleculeRun compute() {
 							NDDOAtom[] atoms = Utils.toNDDOAtoms(ri.model, rm.atoms, npMap);
-							NDDOAtom[] expGeom = Utils.toNDDOAtoms(ri.model, rm.expGeom, npMap);
+							NDDOAtom[] expGeom = rm.expGeom == null ? null :
+									Utils.toNDDOAtoms(ri.model, rm.expGeom, npMap);
 
 							MoleculeRun mr = new MoleculeRun(rm, atoms, expGeom, isRunHessian);
 							mr.run();

@@ -37,6 +37,7 @@ public abstract class Solution {
 		for (NDDOAtom atom : atoms) {
 			for (NDDO6G orbital : atom.getOrbitals()) {
 				orbitals[overallOrbitalIndex] = orbital;
+				overallOrbitalIndex++;
 			}
 		}
 
@@ -146,7 +147,7 @@ public abstract class Solution {
 		hybridip = new double[]{0, 0, 0};
 
 		for (int j = 0; j < atoms.length; j++) {
-			if (orbsOfAtom[j][1] != -1) { // exclude hydrogen
+			if (orbsOfAtom[j].length > 1) { // exclude hydrogen
 				double v1 = v * 2 * atoms[j].D1;
 				hybridip[0] -= v1 * densityMatrix().get(orbsOfAtom[j][0], orbsOfAtom[j][1]);
 				hybridip[1] -= v1 * densityMatrix().get(orbsOfAtom[j][0], orbsOfAtom[j][2]);

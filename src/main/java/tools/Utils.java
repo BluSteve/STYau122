@@ -6,7 +6,6 @@ import nddo.am1.AM1Atom;
 import nddo.am1.AM1Params;
 import nddo.mndo.MNDOAtom;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.tuple.Pair;
 import org.ejml.data.DMatrixRMaj;
 import org.ejml.dense.row.decomposition.eig.SymmetricQRAlgorithmDecomposition_DDRM;
 import org.ejml.interfaces.decomposition.EigenDecomposition_F64;
@@ -16,8 +15,6 @@ import runcycle.input.RawInput;
 import scf.AtomHandler;
 import scf.Model;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -26,7 +23,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 public class Utils {
-	public static final double LAMBDA = 1E-7;
+	public static final double LAMBDA = 1E-5;
 	public static final double bohr = 1.88973;
 	public static final int maxAtomNum = 10;
 
@@ -42,7 +39,7 @@ public class Utils {
 		double[] doubles = new double[ld.size()];
 
 		int i = 0;
-		for (Double aDouble: ld) {
+		for (Double aDouble : ld) {
 			doubles[i] = aDouble;
 			i++;
 		}
@@ -54,7 +51,7 @@ public class Utils {
 		int[] ints = new int[li.size()];
 
 		int i = 0;
-		for (Integer integer: li) {
+		for (Integer integer : li) {
 			ints[i] = integer;
 			i++;
 		}
@@ -83,63 +80,40 @@ public class Utils {
 		return false;
 	}
 
-	public static NDDOAtom[] perturbAtomParams(NDDOAtom[] atoms, int Z,
-											   int paramNum) {
+	public static NDDOAtom[] perturbAtomParams(NDDOAtom[] atoms, int Z, int paramNum) {
 		// Z is proton number of the atom that you want to perturb the param
 		// (based on paramNum) of.
 		NDDOAtom[] perturbed = new NDDOAtom[atoms.length];
-		try {
-			Class<? extends NDDOAtom> c = atoms[0].getClass();
-			Constructor<? extends NDDOAtom> ctor =
-					c.getDeclaredConstructor(c,
-							atoms[0].getParams().getClass());
-			ctor.setAccessible(true);
-			Constructor<? extends NDDOAtom> ctor2 =
-					c.getDeclaredConstructor(c);
-			ctor2.setAccessible(true);
-			for (int i = 0; i < atoms.length; i++) {
-				if (atoms[i].getAtomProperties().getZ() == Z) {
-					NDDOParams params = atoms[i].getParams();
-					params.modifyParam(paramNum, Utils.LAMBDA);
-					perturbed[i] = ctor.newInstance(atoms[i], params);
-				}
-				else {
-					perturbed[i] = ctor2.newInstance(atoms[i]);
-				}
+
+		for (int i = 0; i < atoms.length; i++) {
+			if (atoms[i].getAtomProperties().getZ() == Z) {
+				NDDOParams params = atoms[i].getParams();
+				params.modifyParam(paramNum, Utils.LAMBDA);
+				perturbed[i] = atoms[i].withNewParams(params);
 			}
-		} catch (NoSuchMethodException | IllegalAccessException |
-				InstantiationException | InvocationTargetException e) {
-			e.printStackTrace();
+			else {
+				perturbed[i] = atoms[i].clone();
+			}
 		}
+
 		return perturbed;
 	}
 
 	public static NDDOAtom[] perturbAtomCoords(NDDOAtom[] atoms, int atomNum,
 											   int tau) {
 		NDDOAtom[] perturbed = new NDDOAtom[atoms.length];
-		try {
-			Class<? extends NDDOAtom> c = atoms[0].getClass();
-			Constructor<? extends NDDOAtom> ctor =
-					c.getDeclaredConstructor(c,
-							atoms[0].getCoordinates().getClass());
-			ctor.setAccessible(true);
-			Constructor<? extends NDDOAtom> ctor2 =
-					c.getDeclaredConstructor(c);
-			ctor2.setAccessible(true);
-			for (int i = 0; i < atoms.length; i++) {
-				if (i == atomNum) {
-					double[] coords = atoms[i].getCoordinates().clone();
-					coords[tau] = coords[tau] + 1E-7;
-					perturbed[i] = ctor.newInstance(atoms[i], coords);
-				}
-				else {
-					perturbed[i] = ctor2.newInstance(atoms[i]);
-				}
+
+		for (int i = 0; i < atoms.length; i++) {
+			if (i == atomNum) {
+				double[] coords = atoms[i].getCoordinates();
+				coords[tau] = coords[tau] + 1E-7;
+				perturbed[i] = atoms[i].withNewCoords(coords);
 			}
-		} catch (NoSuchMethodException | IllegalAccessException |
-				InstantiationException | InvocationTargetException e) {
-			e.printStackTrace();
+			else {
+				perturbed[i] = atoms[i].clone();
+			}
 		}
+
 		return perturbed;
 	}
 
@@ -166,8 +140,7 @@ public class Utils {
 	}
 
 	public static SimpleMatrix[] symEigen(SimpleMatrix sm) {
-		EigenDecomposition_F64<DMatrixRMaj> evd =
-				new SymmetricQRAlgorithmDecomposition_DDRM(true);
+		EigenDecomposition_F64<DMatrixRMaj> evd = new SymmetricQRAlgorithmDecomposition_DDRM(true);
 		evd.decompose(sm.copy().getDDRM());
 		int noe = evd.getNumberOfEigenvalues();
 
@@ -178,13 +151,13 @@ public class Utils {
 		Pair<Double, DMatrixRMaj>[] epairs = new Pair[noe];
 
 		for (int i = 0; i < noe; i++) {
-			epairs[i] = Pair.of(evd.getEigenvalue(i).real, evd.getEigenVector(i));
+			epairs[i] = new Pair<>(evd.getEigenvalue(i).real, evd.getEigenVector(i));
 		}
 
 		Arrays.sort(epairs);
 		for (int i = 0; i < noe; i++) {
-			evalues.set(i, i, epairs[i].getLeft());
-			evectors.setColumn(i, 0, epairs[i].getRight().data);
+			evalues.set(i, i, epairs[i].first);
+			evectors.setColumn(i, 0, epairs[i].second.data);
 		}
 
 		return new SimpleMatrix[]{evectors, evalues};
@@ -252,6 +225,29 @@ public class Utils {
 		}
 
 		return atoms;
+	}
+}
+
+class Pair<F extends Comparable<F>, S> implements Comparable<Pair<F, S>> {
+	public F first;
+	public S second;
+
+	public Pair(F first, S second) {
+		this.first = first;
+		this.second = second;
+	}
+
+	@Override
+	public int compareTo(Pair<F, S> o) {
+		return this.first.compareTo(o.first);
+	}
+
+	@Override
+	public String toString() {
+		return "Pair{" +
+				"first=" + first.toString() +
+				", second=" + second.toString() +
+				'}';
 	}
 }
 

@@ -11,7 +11,6 @@ import scf.GTO;
 import scf.LCGTO;
 import tools.Utils;
 
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -1989,16 +1988,10 @@ public class ParamDerivative {
 		if (num == 0 || num == 2) {
 
 			try {
-				NDDOParams params = A.getParams().clone();
+				NDDOParams params = A.getParams();
 				params.modifyParam(5 + type, Utils.LAMBDA);
 
-				Class<? extends NDDOAtom> cl = A.getClass();
-				Constructor ctor =
-						cl.getDeclaredConstructor(cl,
-								A.getParams().getClass());
-				ctor.setAccessible(true);
-
-				A = (NDDOAtom) ctor.newInstance(A, params);
+				A = A.withNewParams(params);
 			} catch (Exception e) {
 				e.printStackTrace();
 //				System.exit(0);
@@ -2006,16 +1999,10 @@ public class ParamDerivative {
 		}
 		if (num == 1 || num == 2) {
 			try {
-				NDDOParams params = C.getParams().clone();
+				NDDOParams params = C.getParams();
 				params.modifyParam(5 + type, Utils.LAMBDA);
 
-				Class<? extends NDDOAtom> cl = C.getClass();
-				Constructor ctor =
-						cl.getDeclaredConstructor(cl,
-								C.getParams().getClass());
-				ctor.setAccessible(true);
-
-				C = (NDDOAtom) ctor.newInstance(C, params);
+				C = C.withNewParams(params);
 			} catch (Exception e) {
 				e.printStackTrace();
 //				System.exit(0);
@@ -2047,16 +2034,10 @@ public class ParamDerivative {
 		if (num == 0 || num == 2) {
 
 			try {
-				NDDOParams params = A.getParams().clone();
+				NDDOParams params = A.getParams();
 				params.modifyParam(5 + type, Utils.LAMBDA);
 
-				Class<? extends NDDOAtom> cl = A.getClass();
-				Constructor ctor =
-						cl.getDeclaredConstructor(cl,
-								A.getParams().getClass());
-				ctor.setAccessible(true);
-
-				A = (NDDOAtom) ctor.newInstance(A, params);
+				A = A.withNewParams(params);
 			} catch (Exception e) {
 				e.printStackTrace();
 //				System.exit(0);
@@ -2064,16 +2045,10 @@ public class ParamDerivative {
 		}
 		if (num == 1 || num == 2) {
 			try {
-				NDDOParams params = B.getParams().clone();
+				NDDOParams params = B.getParams();
 				params.modifyParam(5 + type, Utils.LAMBDA);
 
-				Class<? extends NDDOAtom> cl = B.getClass();
-				Constructor ctor =
-						cl.getDeclaredConstructor(cl,
-								B.getParams().getClass());
-				ctor.setAccessible(true);
-
-				B = (NDDOAtom) ctor.newInstance(B, params);
+				B = B.withNewParams(params);
 			} catch (Exception e) {
 				e.printStackTrace();
 //				System.exit(0);
@@ -2096,16 +2071,10 @@ public class ParamDerivative {
 		if (num == 0 || num == 2) {
 
 			try {
-				NDDOParams params = A.getParams().clone();
+				NDDOParams params = A.getParams();
 				params.modifyParam(0, Utils.LAMBDA);
 
-				Class<? extends NDDOAtom> cl = A.getClass();
-				Constructor ctor =
-						cl.getDeclaredConstructor(cl,
-								A.getParams().getClass());
-				ctor.setAccessible(true);
-
-				A = (NDDOAtom) ctor.newInstance(A, params);
+				A = A.withNewParams(params);
 			} catch (Exception e) {
 				e.printStackTrace();
 //				System.exit(0);
@@ -2113,16 +2082,10 @@ public class ParamDerivative {
 		}
 		if (num == 1 || num == 2) {
 			try {
-				NDDOParams params = B.getParams().clone();
+				NDDOParams params = B.getParams();
 				params.modifyParam(0, Utils.LAMBDA);
 
-				Class<? extends NDDOAtom> cl = B.getClass();
-				Constructor ctor =
-						cl.getDeclaredConstructor(cl,
-								B.getParams().getClass());
-				ctor.setAccessible(true);
-
-				B = (NDDOAtom) ctor.newInstance(B, params);
+				B = B.withNewParams(params);
 			} catch (Exception e) {
 				e.printStackTrace();
 //				System.exit(0);
@@ -2714,7 +2677,7 @@ public class ParamDerivative {
 
 		for (int i = 0; i < soln.atoms.length; i++) {
 			for (int j = i + 1; j < soln.atoms.length; j++) {
-				sum += soln.atoms[i].crfParamDeriv(soln.atoms[j],
+				sum += soln.atoms[i].crfAlphaDeriv(soln.atoms[j],
 						getNum(soln.atomicNumbers[i], soln.atomicNumbers[j],
 								Z));
 			}
@@ -3626,7 +3589,7 @@ public class ParamDerivative {
 
 		for (int j = 0; j < atoms.length; j++) {
 
-			if (index[j][1] != -1) {//exclude hydrogen
+			if (index[j].length > 1) { // exclude hydrogen
 				hybridip[0] = hybridip[0] - 2.5416 * 2 * atoms[j].D1 *
 						densityderiv.get(index[j][0], index[j][1]);
 				hybridip[1] = hybridip[1] - 2.5416 * 2 * atoms[j].D1 *
@@ -3664,15 +3627,10 @@ public class ParamDerivative {
 		double D1 = a.D1;
 
 
-		NDDOParams params = a.getParams().clone();
+		NDDOParams params = a.getParams();
 		params.modifyParam(5 + type, Utils.LAMBDA);
 
-		Class<? extends NDDOAtom> c = a.getClass();
-		Constructor ctor =
-				c.getDeclaredConstructor(c, a.getParams().getClass());
-		ctor.setAccessible(true);
-
-		NDDOAtom a2 = (NDDOAtom) ctor.newInstance(a, params);
+		NDDOAtom a2 = a.withNewParams(params);
 
 		double D1perturbed = a2.D1;
 
@@ -3685,15 +3643,10 @@ public class ParamDerivative {
 		double D2 = a.D2;
 
 
-		NDDOParams params = a.getParams().clone();
+		NDDOParams params = a.getParams();
 		params.modifyParam(5 + type, Utils.LAMBDA);
 
-		Class<? extends NDDOAtom> c = a.getClass();
-		Constructor ctor =
-				c.getDeclaredConstructor(c, a.getParams().getClass());
-		ctor.setAccessible(true);
-
-		NDDOAtom a2 = (NDDOAtom) ctor.newInstance(a, params);
+		NDDOAtom a2 = a.withNewParams(params);
 
 		double D2perturbed = a2.D2;
 
@@ -3705,15 +3658,10 @@ public class ParamDerivative {
 
 		double p1 = a.p1;
 
-		NDDOParams params = a.getParams().clone();
+		NDDOParams params = a.getParams();
 		params.modifyParam(5 + type, Utils.LAMBDA);
 
-		Class<? extends NDDOAtom> c = a.getClass();
-		Constructor ctor =
-				c.getDeclaredConstructor(c, a.getParams().getClass());
-		ctor.setAccessible(true);
-
-		NDDOAtom a2 = (NDDOAtom) ctor.newInstance(a, params);
+		NDDOAtom a2 = a.withNewParams(params);
 
 		double p1perturbed = a2.p1;
 
@@ -3725,21 +3673,14 @@ public class ParamDerivative {
 
 		double p2 = a.p2;
 
-		NDDOParams params = a.getParams().clone();
+		NDDOParams params = a.getParams();
 		params.modifyParam(5 + type, Utils.LAMBDA);
 
-		Class<? extends NDDOAtom> c = a.getClass();
-		Constructor ctor =
-				c.getDeclaredConstructor(c, a.getParams().getClass());
-		ctor.setAccessible(true);
-
-		NDDOAtom a2 = (NDDOAtom) ctor.newInstance(a, params);
+		NDDOAtom a2 = a.withNewParams(params);
 
 		double p2perturbed = a2.p2;
 
 		return (p2perturbed - p2) / Utils.LAMBDA;
 
 	}
-
-
 }

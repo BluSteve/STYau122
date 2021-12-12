@@ -2,6 +2,7 @@ package nddo.am1;
 
 import nddo.NDDO6G;
 import nddo.NDDOAtom;
+import nddo.NDDOParams;
 import nddo.geometry.GeometryDerivative;
 import scf.AtomProperties;
 import scf.GTO;
@@ -20,6 +21,21 @@ public class AM1Atom extends NDDOAtom {
 	public AM1Atom(AtomProperties atomProperties, double[] coordinates, AM1Params mp) {
 		super(atomProperties, coordinates, mp);
 		this.mp = mp.clone();
+	}
+
+	@Override
+	public NDDOAtom withNewParams(NDDOParams np) {
+		return new AM1Atom(atomProperties, coordinates, (AM1Params) np); // todo bandaid cos of coming refactor
+	}
+
+	@Override
+	public NDDOAtom withNewCoords(double[] coordinates) {
+		return new AM1Atom(atomProperties, coordinates, mp);
+	}
+
+	@Override
+	public NDDOAtom clone() {
+		return new AM1Atom(atomProperties, coordinates, mp);
 	}
 
 	private static double getf(AM1Atom a, AM1Atom b, double R) {
@@ -118,7 +134,7 @@ public class AM1Atom extends NDDOAtom {
 	}
 
 	@Override
-	public double crfParamDeriv(NDDOAtom b, int num) {//todo ree
+	public double crfAlphaDeriv(NDDOAtom b, int num) {//todo ree
 		return 0;
 	}
 }

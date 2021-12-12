@@ -63,16 +63,13 @@ public abstract class GeometryOptimization {
 		return newGuess;
 	}
 
-	private static SimpleMatrix findNewB(SimpleMatrix B, SimpleMatrix y,
-										 SimpleMatrix searchdir) {
-
+	private static SimpleMatrix findNewB(SimpleMatrix B, SimpleMatrix y, SimpleMatrix searchdir) {
 		SimpleMatrix yt = y.transpose();
 		SimpleMatrix searchdirt = searchdir.transpose();
 
 		double a = 1 / yt.mult(searchdir).get(0);
 		double b = searchdirt.mult(B).mult(searchdir).get(0);
-		SimpleMatrix m2 = B.mult(searchdir).mult(searchdirt)
-				.mult(B.transpose()).scale(b);
+		SimpleMatrix m2 = B.mult(searchdir).mult(searchdirt).mult(B.transpose()).scale(b);
 		SimpleMatrix m1 = y.mult(yt).scale(a);
 
 		return B.plus(m1).minus(m2);
@@ -108,11 +105,9 @@ public abstract class GeometryOptimization {
 		int numIt = 0;
 		while (mag(gradient) > 0.001) {
 			// computes new search direction
-			double lambda = lambda(h, U.transpose().mult(gradient),
-					h.numRows() - counter);
+			double lambda = lambda(h, U.transpose().mult(gradient), h.numRows() - counter);
 
-			SimpleMatrix searchDir =
-					B.minus(SimpleMatrix.identity(B.numRows()).scale(lambda))
+			SimpleMatrix searchDir = B.minus(SimpleMatrix.identity(B.numRows()).scale(lambda))
 							.invert()
 							.mult(gradient)
 							.negative();
@@ -125,9 +120,7 @@ public abstract class GeometryOptimization {
 			int coordIndex = 0;
 			for (NDDOAtom a : s.atoms) {
 				for (int i = 0; i < 3; i++) {
-					a.getCoordinates()[i] = Math.round(
-							(a.getCoordinates()[i] +
-									searchDir.get(coordIndex)) *
+					a.getCoordinates()[i] = Math.round((a.getCoordinates()[i] + searchDir.get(coordIndex)) *
 									1000000000) / 1000000000.0;
 					coordIndex++;
 				}
@@ -136,8 +129,7 @@ public abstract class GeometryOptimization {
 			// creates new solution based on updated atom positions
 			updateSolution();
 			if (logger.isTraceEnabled()) {
-				logger.trace("hf: {}, gradient: {}", s.hf,
-						mag(gradient));
+				logger.trace("hf: {}, gradient: {}", s.hf, mag(gradient));
 			}
 
 			// re-compute Hessian if still has not converged after n
@@ -153,7 +145,6 @@ public abstract class GeometryOptimization {
 				SimpleMatrix oldGrad = gradient.copy();
 
 				int[][] params = new int[3 * s.atoms.length][];
-				double[] results = new double[3 * s.atoms.length];
 
 				coordIndex = 0;
 				for (int a = 0; a < s.atoms.length; a++) {
@@ -165,8 +156,9 @@ public abstract class GeometryOptimization {
 
 				int elapsedSize = 0;
 				double cores = Runtime.getRuntime().availableProcessors();
-				int size = Math.max((int) Math.ceil(params.length / cores),
-						1);
+				int size = Math.max((int) Math.ceil(params.length / cores), 1);
+
+				double[] results = new double[3 * s.atoms.length];
 
 				List<RecursiveAction> subtasks = new ArrayList<>();
 				while (elapsedSize < params.length) {
@@ -174,18 +166,15 @@ public abstract class GeometryOptimization {
 					subtasks.add(new RecursiveAction() {
 						@Override
 						protected void compute() {
-							int[][] subset = Arrays.copyOfRange(params,
-									finalElapsedSize, Math.min(params.length,
+							int[][] subset = Arrays.copyOfRange(params, finalElapsedSize, Math.min(params.length,
 											finalElapsedSize + size));
 
 							double[] output = new double[subset.length];
 							for (int i = 0; i < subset.length; i++) {
-								output[i] = findDerivative(subset[i][0],
-										subset[i][1]);
+								output[i] = findDerivative(subset[i][0], subset[i][1]);
 							}
 
-							System.arraycopy(output, 0, results,
-									finalElapsedSize, output.length);
+							System.arraycopy(output, 0, results, finalElapsedSize, output.length);
 						}
 					});
 					elapsedSize += size;
@@ -193,13 +182,13 @@ public abstract class GeometryOptimization {
 				ForkJoinTask.invokeAll(subtasks);
 
 				gradient = new SimpleMatrix(results);
+
 				SimpleMatrix y = gradient.minus(oldGrad);
 
 				try {
 					B = findNewB(B, y, searchDir);
 				} catch (SingularMatrixException e) {
-					s.getRm().getLogger()
-							.error("Hessian approximation error!");
+					s.getRm().getLogger().error("Hessian approximation error!");
 					B = SimpleMatrix.identity(s.atoms.length * 3);
 				}
 			}

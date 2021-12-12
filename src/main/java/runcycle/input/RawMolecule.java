@@ -3,7 +3,6 @@ package runcycle.input;
 import nddo.MoleculeInfo;
 import scf.AtomHandler;
 import scf.AtomProperties;
-import scf.OrbitalProperties;
 import tools.Utils;
 
 import java.io.IOException;
@@ -217,40 +216,51 @@ public class RawMolecule extends MoleculeInfo { // for storage purposes
 
 			AtomHandler.populateAtoms();
 
-			rm.orbsOfAtom = new int[rm.atoms.length][4];
+			rm.orbsOfAtom = new int[rm.atoms.length][];
 			rm.atomOfOrb = new int[rm.nOrbitals];
-			rm.missingOfAtom = new int[rm.atoms.length][4 * (rm.atoms.length - 1)];
-			for (int[] index : rm.missingOfAtom) Arrays.fill(index, -1);
+			rm.missingOfAtom = new int[rm.atoms.length][];
 
 			int overallOrbitalIndex = 0;
-			for (int atomIndex = 0, atomsLength = rm.atoms.length; atomIndex < atomsLength; atomIndex++) {
-				AtomProperties atom = AtomHandler.atoms[rm.atoms[atomIndex].Z];
-				int orbitalIndex = 0;
-				for (OrbitalProperties ignored : atom.getOrbitals()) {
-					rm.atomOfOrb[overallOrbitalIndex] = atomIndex;
-					rm.orbsOfAtom[atomIndex][orbitalIndex] = overallOrbitalIndex;
-					overallOrbitalIndex++;
-					orbitalIndex++;
-				}
 
-				if (atom.getZ() == 1) {
-					rm.orbsOfAtom[atomIndex][1] = -1;
-					rm.orbsOfAtom[atomIndex][2] = -1;
-					rm.orbsOfAtom[atomIndex][3] = -1;
+			for (int atomIndex = 0; atomIndex < rm.atoms.length; atomIndex++) {
+				AtomProperties atom = AtomHandler.atoms[rm.atoms[atomIndex].Z];
+
+				int olength = atom.getOrbitals().length;
+				rm.orbsOfAtom[atomIndex] = new int[olength];
+
+				for (int orbitalIndex = 0; orbitalIndex < olength; orbitalIndex++) {
+					rm.atomOfOrb[overallOrbitalIndex] = atomIndex;
+
+					rm.orbsOfAtom[atomIndex][orbitalIndex] = overallOrbitalIndex;
+
+					overallOrbitalIndex++;
 				}
 			}
 
 			for (int j = 0; j < rm.atoms.length; j++) {
-				int[] nums = new int[]{rm.orbsOfAtom[j][0], rm.orbsOfAtom[j][1],
-						rm.orbsOfAtom[j][2], rm.orbsOfAtom[j][3]};
+				int[] missing = new int[rm.nOrbitals - rm.orbsOfAtom[j].length];
+
 				int counter = 0;
+
 				for (int k = 0; k < rm.nOrbitals; k++) {
-					if (k != nums[0] && k != nums[1] && k != nums[2] && k != nums[3]) {
-						rm.missingOfAtom[j][counter] = k;
+					// if k not in orbsOfAtom
+					boolean in = false;
+					for (int orb: rm.orbsOfAtom[j]) {
+						if (k == orb) {
+							in = true;
+							break;
+						}
+					}
+
+					if (!in) {
+						missing[counter] = k;
 						counter++;
 					}
 				}
+
+				rm.missingOfAtom[j] = missing;
 			}
+
 
 			if (rm.restricted) {
 				rm.nIntegrals = findNIntegrals(rm);

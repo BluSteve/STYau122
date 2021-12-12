@@ -15,6 +15,21 @@ public class MNDOAtom extends NDDOAtom {
 		super(atomProperties, coordinates, np);
 	}
 
+	@Override
+	public NDDOAtom withNewParams(NDDOParams np) {
+		return new MNDOAtom(atomProperties, coordinates, np);
+	}
+
+	@Override
+	public NDDOAtom withNewCoords(double[] coordinates) {
+		return new MNDOAtom(atomProperties, coordinates, np);
+	}
+
+	@Override
+	public NDDOAtom clone() {
+		return new MNDOAtom(atomProperties, coordinates, np);
+	}
+
 	private static double getf(MNDOAtom a, MNDOAtom b, double R) {
 		return 1 + R / bohr * Math.exp(-a.np.getAlpha() * R / bohr) + Math.exp(-b.np.getAlpha() * R / bohr);
 	}
@@ -88,7 +103,7 @@ public class MNDOAtom extends NDDOAtom {
 	}
 
 	@Override
-	public double crfParamDeriv(NDDOAtom b, int num) {
+	public double crfAlphaDeriv(NDDOAtom b, int num) {
 		MNDOAtom c = (MNDOAtom) b;
 		double R = GTO.R(this.getCoordinates(), b.getCoordinates());
 		double val = this.atomProperties.getQ() * c.atomProperties.getQ() *

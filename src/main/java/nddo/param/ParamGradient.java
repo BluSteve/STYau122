@@ -46,11 +46,9 @@ public abstract class ParamGradient {
 	 */
 	public static ParamGradient of(Solution s, double[] datum, Solution sExp) {
 		if (s instanceof SolutionR)
-			return new ParamGradientR((SolutionR) s, datum, (SolutionR) sExp,
-					true);
+			return new ParamGradientR((SolutionR) s, datum, (SolutionR) sExp, false);
 		else if (s instanceof SolutionU)
-			return new ParamGradientU((SolutionU) s, datum, (SolutionU) sExp,
-					false);
+			return new ParamGradientU((SolutionU) s, datum, (SolutionU) sExp, false);
 		else throw new IllegalArgumentException(
 				"Solution is neither restricted nor unrestricted! Molecule: "
 						+ s.getRm().index + " " + s.getRm().name);
