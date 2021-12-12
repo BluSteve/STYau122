@@ -29,28 +29,21 @@ public abstract class NDDOAtom extends Atom {
 			this.D2 = 0;
 		}
 
-		this.orbitals = setOrbitals();
+		OrbitalProperties[] orbitalProperties = this.atomProperties.getOrbitals();
+		orbitals = new NDDO6G[orbitalProperties.length];
+		for (int x = 0; x < orbitals.length; x++)
+			switch (orbitalProperties[x].getType()) {
+				case "s":
+					orbitals[x] = new NDDO6G(this, orbitalProperties[x], np.getZetas(), np.getBetas(), np.getUss());
+					break;
+				case "p":
+					orbitals[x] = new NDDO6G(this, orbitalProperties[x], np.getZetap(), np.getBetap(), np.getUpp());
+					break;
+			}
 	}
 
 	public NDDO6G[] getOrbitals() {
 		return this.orbitals;
-	}
-
-	protected NDDO6G[] setOrbitals() { // initialises orbitals
-		OrbitalProperties[] orbitalProperties = super.atomProperties.getOrbitals();
-		NDDO6G[] nddoOrbitals = new NDDO6G[orbitalProperties.length];
-		for (int x = 0; x < nddoOrbitals.length; x++)
-			switch (orbitalProperties[x].getType()) {
-				case "s":
-					nddoOrbitals[x] = new NDDO6G(this, orbitalProperties[x], np.getZetas(), np.getBetas(),
-							np.getUss());
-					break;
-				case "p":
-					nddoOrbitals[x] = new NDDO6G(this, orbitalProperties[x], np.getZetap(), np.getBetap(),
-							np.getUpp());
-					break;
-			}
-		return nddoOrbitals;
 	}
 
 	public double getMass() {

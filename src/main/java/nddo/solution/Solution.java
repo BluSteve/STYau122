@@ -3,17 +3,13 @@ package nddo.solution;
 import nddo.MoleculeInfo;
 import nddo.NDDO6G;
 import nddo.NDDOAtom;
-import nddo.NDDOParams;
-import nddo.mndo.MNDOAtom;
 import org.ejml.simple.SimpleMatrix;
-import runcycle.input.RawAtom;
-import runcycle.input.RawMolecule;
-import scf.AtomHandler;
 
 import java.util.Arrays;
 
 public abstract class Solution {
 	public static int maxParamNum = 8; // todo compute this on the fly
+	protected final MoleculeInfo rm;
 	public double energy, homo, lumo, hf, dipole;
 	public double[] chargedip, hybridip, dipoletot;
 	public int charge, mult, nElectrons, nOrbitals;
@@ -22,7 +18,7 @@ public abstract class Solution {
 	public NDDOAtom[] atoms;
 	public NDDO6G[] orbitals;
 	protected SimpleMatrix H;
-	protected final MoleculeInfo rm;
+
 
 	protected Solution(MoleculeInfo rm, NDDOAtom[] atoms) {
 		this.atoms = atoms;
@@ -34,44 +30,14 @@ public abstract class Solution {
 		this.nOrbitals = rm.nOrbitals;
 
 		orbitals = new NDDO6G[nOrbitals];
-		orbsOfAtom = new int[atoms.length][4];
-		atomOfOrb = new int[nOrbitals];
-		missingOfAtom = new int[atoms.length][4 * (atoms.length - 1)];
-		for (int[] index : missingOfAtom) Arrays.fill(index, -1);
+		orbsOfAtom = rm.orbsOfAtom;
+		atomOfOrb = rm.atomOfOrb;
+		missingOfAtom = rm.missingOfAtom;
 
-		// todo cache these
 		int overallOrbitalIndex = 0;
-		for (int atomIndex = 0, atomsLength = atoms.length;
-			 atomIndex < atomsLength; atomIndex++) {
-			NDDOAtom atom = atoms[atomIndex];
-			int orbitalIndex = 0;
+		for (NDDOAtom atom : atoms) {
 			for (NDDO6G orbital : atom.getOrbitals()) {
 				orbitals[overallOrbitalIndex] = orbital;
-				atomOfOrb[overallOrbitalIndex] = atomIndex;
-				orbsOfAtom[atomIndex][orbitalIndex] = overallOrbitalIndex;
-				overallOrbitalIndex++;
-				orbitalIndex++;
-			}
-
-			if (atom.getAtomProperties().getZ() == 1) {
-				orbsOfAtom[atomIndex][1] = -1;
-				orbsOfAtom[atomIndex][2] = -1;
-				orbsOfAtom[atomIndex][3] = -1;
-			}
-		}
-
-		for (int j = 0; j < atoms.length; j++) {
-			int[] nums = new int[]{orbsOfAtom[j][0],
-					orbsOfAtom[j][1],
-					orbsOfAtom[j][2],
-					orbsOfAtom[j][3]};
-			int counter = 0;
-			for (int k = 0; k < orbitals.length; k++) {
-				if (k != nums[0] && k != nums[1] &&
-						k != nums[2] && k != nums[3]) {
-					missingOfAtom[j][counter] = k;
-					counter++;
-				}
 			}
 		}
 
@@ -116,31 +82,12 @@ public abstract class Solution {
 	/**
 	 * Initializes SCF solution of a molecule.
 	 *
-	 * @param rm    Contains intrinsic and compulsory information about a molecule. The atoms/ expgeom arrays will
-	 *              not be modified.
+	 * @param mi    Contains intrinsic and compulsory information about a molecule.
 	 * @param atoms List of NDDO atoms.
 	 */
-	public static Solution of(MoleculeInfo rm, NDDOAtom[] atoms) {
-		if (rm.restricted) return new SolutionR(rm, atoms).compute();
-		else return new SolutionU(rm, atoms).compute();
-	}
-
-	public static int[] getNIntegrals(RawMolecule rm) {
-		NDDOParams placeholder = new NDDOParams(new double[13]);
-
-		NDDOAtom[] atoms = new MNDOAtom[rm.atoms.length];
-		for (int i = 0; i < rm.atoms.length; i++) {
-			RawAtom ra = rm.atoms[i];
-			atoms[i] = new MNDOAtom(AtomHandler.atoms[ra.Z], ra.coords, placeholder);
-		}
-
-		if (rm.restricted) {
-			return new int[]{new SolutionR(rm, atoms).findNIntegrals()};
-		}
-		else {
-			SolutionU s = new SolutionU(rm, atoms);
-			return new int[]{s.findNCoulombInts(), s.findNExchangeInts()};
-		}
+	public static Solution of(MoleculeInfo mi, NDDOAtom[] atoms) {
+		if (mi.restricted) return new SolutionR(mi, atoms).compute();
+		else return new SolutionU(mi, atoms).compute();
 	}
 
 	/**

@@ -24,7 +24,7 @@ public class OrbitalProperties implements Serializable {
 		this.L = config[0] + config[1] + config[2];
 	}
 
-	public static OrbitalProperties[] generateOrbitals(int shell) {
+	static OrbitalProperties[] generateOrbitals(int shell) {
 		ArrayList<OrbitalProperties> orbitals = new ArrayList<>(25);
 
 		for (String x : ORBITALS_PER_SHELL[shell]) {

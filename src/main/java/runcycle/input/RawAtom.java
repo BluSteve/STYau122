@@ -7,14 +7,12 @@ import java.util.Arrays;
 	This is for input.
 */
 public class RawAtom {
-	public String name;
 	public int Z;
-	public double[] coords = new double[3];
+	public double[] coords;
 
 	@Override
 	public String toString() {
 		return "RawAtom{" +
-				"name='" + name + '\'' +
 				", Z=" + Z +
 				", coords=" + Arrays.toString(coords) +
 				'}';

@@ -4,9 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import nddo.am1.AM1Atom;
 import nddo.mndo.MNDOAtom;
-import nddo.solution.Solution;
 import scf.AtomHandler;
-import scf.AtomProperties;
 import scf.Model;
 import tools.Utils;
 
@@ -15,7 +13,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.StringTokenizer;
 
 public class InputHandler {
 	/**
@@ -105,6 +106,9 @@ public class InputHandler {
 					.get(Character.toString(ri.trainingSet.charAt(x)))
 					.getZ();
 		}
+
+
+		// Params
 		int[][] neededParams = new int[ri.atomTypes.length][];
 		int[][] npMap = new int[Utils.maxAtomNum][];
 		int i = 0;
@@ -145,122 +149,90 @@ public class InputHandler {
 		for (int x = 0; x < ri.atomTypes.length; x++)
 			ri.params.nddoParams[x] = Arrays.copyOfRange(mp, x * PARAMLENGTH, x * PARAMLENGTH + PARAMLENGTH);
 
+
+		// Molecules
 		ArrayList<RawMolecule> moleculesL = new ArrayList<>();
-
 		i = 1;
-		try {
-			while (i < lines.size()) {
-				RawMolecule rm = new RawMolecule();
-				ArrayList<RawAtom> atomsL = new ArrayList<>();
-				ArrayList<RawAtom> expGeomL = new ArrayList<>();
+		int datumi = 0;
+		int moleculei = 0;
 
-				rm.restricted = lines.get(i).equals("RHF");
-				i++;
+		while (i < lines.size()) {
+			RawMolecule.RMBuilder builder = new RawMolecule.RMBuilder();
 
-				rm.charge = Integer.parseInt(lines.get(i).split("=")[1]);
-				i++;
+			builder.setRestricted(lines.get(i).equals("RHF"));
+			i++;
 
-				rm.mult = Integer.parseInt(lines.get(i).split("=")[1]);
-				i++;
+			builder.setCharge(Integer.parseInt(lines.get(i).split("=")[1]));
+			i++;
 
-				while (!lines.get(i).equals("---") &&
-						!lines.get(i).equals("EXPGEOM")) {
-					addAtom(atomsL, lines, i);
-					i++;
-				}
+			builder.setMult(Integer.parseInt(lines.get(i).split("=")[1]));
+			i++;
 
-				StringBuilder nameBuilder = new StringBuilder();
-				TreeMap<String, Integer> nameOccurrences = new TreeMap<>(Collections.reverseOrder());
-				ArrayList<Integer> tempZs = new ArrayList<>(Utils.maxAtomNum);
-				ArrayList<Integer> atomicNumbers = new ArrayList<>();
-				HashMap<Integer, int[]> tempNPs = new HashMap<>();
-				for (RawAtom a : atomsL) {
-					atomicNumbers.add(a.Z);
-					AtomProperties ap = AtomHandler.atoms[a.Z];
-					rm.nElectrons += ap.getQ();
-					rm.nOrbitals += ap.getOrbitals().length;
-					if (!tempZs.contains(ap.getZ())) {
-						tempZs.add(ap.getZ());
-						tempNPs.put(ap.getZ(), npMap[ap.getZ()]);
-					}
-					if (!nameOccurrences.containsKey(a.name)) nameOccurrences.put(a.name, 1);
-					else nameOccurrences.put(a.name, nameOccurrences.get(a.name) + 1);
-				}
-				rm.nElectrons -= rm.charge;
-				rm.atomicNumbers = Utils.toInts(atomicNumbers);
-				for (String key : nameOccurrences.keySet()) nameBuilder.append(key).append(nameOccurrences.get(key));
-				Collections.sort(tempZs);
-				int[] moleculeATs = Utils.toInts(tempZs);
-				int[][] moleculeNPs = new int[tempNPs.size()][];
-				for (int j = 0; j < moleculeNPs.length; j++) moleculeNPs[j] = tempNPs.get(tempZs.get(j));
-				rm.mnps = moleculeNPs;
-				rm.mats = moleculeATs;
-				String ruhf = rm.restricted ? "RHF" : "UHF";
-				rm.name = nameBuilder + "_" + rm.charge + "_" + ruhf;
+			builder.setIndex(moleculei);
 
-				if (lines.get(i).equals("EXPGEOM")) {
-					i++;
-					while (!lines.get(i).equals("---")) {
-						addAtom(expGeomL, lines, i);
-						i++;
-					}
-					rm.expGeom = new RawAtom[atomsL.size()];
-					for (int p = 0; p < expGeomL.size(); p++)
-						rm.expGeom[p] = expGeomL.get(p);
-				}
-				else {
-					rm.expGeom = null;
-				}
+			// Atoms
+			ArrayList<RawAtom> atomsL = new ArrayList<>();
 
-				rm.atoms = new RawAtom[atomsL.size()];
-				for (int p = 0; p < atomsL.size(); p++)
-					rm.atoms[p] = atomsL.get(p);
-
-				int[] nIntegrals = Solution.getNIntegrals(rm);
-				if (rm.restricted)
-					rm.nIntegrals = nIntegrals[0];
-				else {
-					rm.nCoulombInts = nIntegrals[0];
-					rm.nExchangeInts = nIntegrals[1];
-				}
-				moleculesL.add(rm);
+			while (!lines.get(i).equals("---") && !lines.get(i).equals("EXPGEOM")) {
+				addAtom(atomsL, lines, i);
 				i++;
 			}
-		} catch (IndexOutOfBoundsException e) {
-			e.printStackTrace();
-		}
-		try {
-			i = 0;
-			int j = 0;
-			while (i < datums.size() && j < moleculesL.size()) {
-				String[] ss;
-				double[] datum = new double[3];
-				datum[0] = Double.parseDouble(datums.get(i).split(" ")[1]);
+			RawAtom[] atoms = new RawAtom[atomsL.size()];
+			for (int p = 0; p < atomsL.size(); p++) atoms[p] = atomsL.get(p);
+			builder.setAtoms(atoms);
+
+
+			// expGeom
+			ArrayList<RawAtom> expGeomL = new ArrayList<>();
+			RawAtom[] expGeom = null;
+			if (lines.get(i).equals("EXPGEOM")) {
 				i++;
-				ss = datums.get(i).split(" ");
-				if (ss.length == 2) datum[1] = Double.parseDouble(ss[1]);
-				i++;
-				ss = datums.get(i).split(" ");
-				if (ss.length == 2) datum[2] = Double.parseDouble(ss[1]);
-				i += 2;
-				moleculesL.get(j).datum = datum;
-				j++;
+				while (!lines.get(i).equals("---")) {
+					addAtom(expGeomL, lines, i);
+					i++;
+				}
+				expGeom = new RawAtom[expGeomL.size()];
+				for (int p = 0; p < expGeomL.size(); p++)
+					expGeom[p] = expGeomL.get(p);
 			}
-		} catch (IndexOutOfBoundsException e) {
-			e.printStackTrace();
+			builder.setExpGeom(expGeom);
+
+			if (expGeomL.size() != 0 && atomsL.size() != expGeomL.size())
+				throw new IllegalArgumentException("Atom and expGeom size mismatch!");
+
+
+			// Datum
+			double[] datum = new double[3];
+
+			datum[0] = Double.parseDouble(datums.get(datumi).split(" ")[1]);
+			datumi++;
+
+			String[] ss = datums.get(datumi).split(" ");
+			if (ss.length > 1) datum[1] = Double.parseDouble(ss[1]);
+			datumi++;
+
+			ss = datums.get(datumi).split(" ");
+			if (ss.length > 1) datum[2] = Double.parseDouble(ss[1]);
+			datumi += 2;
+
+			builder.setDatum(datum);
+
+
+			moleculesL.add(builder.build(npMap));
+			i++;
 		}
+
 		ri.molecules = new RawMolecule[moleculesL.size()];
-		for (int p = 0; p < moleculesL.size(); p++)
+		for (int p = 0; p < moleculesL.size(); p++) {
+			moleculesL.get(p).index = p;
 			ri.molecules[p] = moleculesL.get(p);
-		for (int j = 0; j < ri.molecules.length; j++)
-			ri.molecules[j].index = j;
+		}
 		ri.nMolecules = ri.molecules.length;
 
 		outputJSON(ri, "input");
 	}
 
-	private static void outputSubset(int... ids)
-			throws IOException {
+	private static void outputSubset(int... ids) throws IOException {
 		RawInput ri = processInput("input");
 		ri.nMolecules = ids.length;
 		RawMolecule[] newrms = new RawMolecule[ids.length];
@@ -278,13 +250,13 @@ public class InputHandler {
 		outputInput(ri, "subset");
 	}
 
-	private static void addAtom(List<RawAtom> rawAtoms, List<String> lines,
-								int i) {
+	private static void addAtom(List<RawAtom> rawAtoms, List<String> lines, int i) {
 		RawAtom ra = new RawAtom();
 		StringTokenizer t = new StringTokenizer(lines.get(i), " ");
 		t.nextToken();
-		ra.name = t.nextToken();
-		ra.Z = AtomHandler.atomsMap.get(ra.name).getZ();
+		String name = t.nextToken();
+		ra.Z = AtomHandler.atomsMap.get(name).getZ();
+		ra.coords = new double[3];
 		for (int q = 0; q < 3; q++)
 			ra.coords[q] = Double.parseDouble(t.nextToken());
 		rawAtoms.add(ra);

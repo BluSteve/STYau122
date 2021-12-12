@@ -3,14 +3,16 @@ package nddo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class MoleculeInfo {
-	public int index;
+public class MoleculeInfo { // todo check if moleculeinfo is valid before using it
+	public int index; // optional, for debugging
 	public String name;
 	public boolean restricted;
 	public int charge, mult;
 	public double[] datum;
 	public int[] atomicNumbers;
 	public int nElectrons, nOrbitals, nIntegrals, nCoulombInts, nExchangeInts;
+	public int[][] orbsOfAtom, missingOfAtom;
+	public int[] atomOfOrb;
 	public int[] mats; // molecule atom types
 	public int[][] mnps; // molecule needed params
 

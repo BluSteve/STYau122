@@ -44,7 +44,7 @@ public class AtomProperties { // Only 119 of these, immutable
 		return orbitals;
 	}
 
-	public void setOrbitals(OrbitalProperties[] orbitals) {
+	void setOrbitals(OrbitalProperties[] orbitals) {
 		this.orbitals = orbitals;
 	}
 

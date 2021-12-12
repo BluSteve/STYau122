@@ -23,7 +23,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Collection;
 
 public class Utils {
 	public static final double LAMBDA = 1E-7;
@@ -38,19 +38,27 @@ public class Utils {
 		return doubles;
 	}
 
-	public static double[] toDoubles(List<Double> ld) {
+	public static double[] toDoubles(Collection<Double> ld) {
 		double[] doubles = new double[ld.size()];
-		for (int i = 0; i < ld.size(); i++) {
-			doubles[i] = ld.get(i);
+
+		int i = 0;
+		for (Double aDouble: ld) {
+			doubles[i] = aDouble;
+			i++;
 		}
+
 		return doubles;
 	}
 
-	public static int[] toInts(List<Integer> li) {
+	public static int[] toInts(Collection<Integer> li) {
 		int[] ints = new int[li.size()];
-		for (int i = 0; i < li.size(); i++) {
-			ints[i] = li.get(i);
+
+		int i = 0;
+		for (Integer integer: li) {
+			ints[i] = integer;
+			i++;
 		}
+
 		return ints;
 	}
 

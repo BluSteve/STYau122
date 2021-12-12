@@ -1,5 +1,6 @@
 package testing;
 
+import nddo.MoleculeInfo;
 import nddo.NDDOParams;
 import nddo.geometry.GeometryDerivative;
 import nddo.mndo.MNDOAtom;
@@ -7,7 +8,6 @@ import nddo.solution.SolutionR;
 import org.ejml.data.SingularMatrixException;
 import org.ejml.dense.row.CommonOps_DDRM;
 import org.ejml.simple.SimpleMatrix;
-import runcycle.input.RawMolecule;
 import scf.AtomHandler;
 import tools.Utils;
 
@@ -262,7 +262,7 @@ public class Testing {
 						new double[]{0, 0, 0}, c)};
 		double[] datum = new double[]{-17.9, 0, 13.6};
 
-		RawMolecule rm = new RawMolecule();
+		MoleculeInfo rm = new MoleculeInfo();
 		rm.nIntegrals = 212;
 		rm.nElectrons = 8;
 		rm.nOrbitals = 8;

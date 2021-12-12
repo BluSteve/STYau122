@@ -4,11 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="AM1 for InputHandler and create MoleculeInfo">
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Reformat">
       <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/MoleculeInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/MoleculeInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDOAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDOAtom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/input/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/input/InputHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/input/RawAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/input/RawAtom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/input/RawMolecule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/input/RawMolecule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/scf/AtomProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/scf/AtomProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/scf/OrbitalProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/scf/OrbitalProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Utils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,8 +64,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -89,7 +99,7 @@
     <setting file="file://$PROJECT_DIR$/mndo-install.sh" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedIndex" value="3" />
+    <option name="selectedIndex" value="2" />
   </component>
   <component name="ProjectId" id="20unWPR15qlisSQEnzw4ZSYoybm" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -117,7 +127,7 @@
     <property name="project.structure.proportion" value="0.26182964" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="Errors" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="ReaderModeSettings">
     <option name="enabled" value="false" />
@@ -137,6 +147,7 @@
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam-gradle\src\main" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="nddoadapter.RMBuilder" />
       <recent name="nddo.am1.AM1Atom" />
       <recent name="nddo.mndo.MNDOAtom" />
       <recent name="tools.Utils" />
@@ -145,7 +156,7 @@
       <recent name="tools" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.MNDOParam [jmh]">
+  <component name="RunManager" selected="Application.InputHandler">
     <configuration name="Benchmarks" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="core.Benchmarks" />
       <module name="MNDOParam.jmh" />
@@ -319,14 +330,8 @@
       <workItem from="1639042083766" duration="1258000" />
       <workItem from="1639133388221" duration="8437000" />
       <workItem from="1639202677005" duration="27507000" />
-      <workItem from="1639244357755" duration="4799000" />
-    </task>
-    <task id="LOCAL-00015" summary="Change to full CH training set">
-      <created>1637504590368</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1637504590368</updated>
+      <workItem from="1639244357755" duration="4958000" />
+      <workItem from="1639279533083" duration="12846000" />
     </task>
     <task id="LOCAL-00016" summary="Minor changes">
       <created>1637551102491</created>
@@ -664,7 +669,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639247768634</updated>
     </task>
-    <option name="localTasksCounter" value="64" />
+    <task id="LOCAL-00064" summary="Reformat">
+      <created>1639249334166</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1639249334166</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -712,7 +724,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Lhs cache" />
     <MESSAGE value="Lhs cache cleanup" />
     <MESSAGE value="Lhs cache memory optimization" />
     <MESSAGE value="Preconditioner change to multrows" />
@@ -737,7 +748,8 @@
     <MESSAGE value="NDDO refactor complete, AM1 somewhat tested" />
     <MESSAGE value="Remove MNDOParams" />
     <MESSAGE value="AM1 for InputHandler and create MoleculeInfo" />
-    <option name="LAST_COMMIT_MESSAGE" value="AM1 for InputHandler and create MoleculeInfo" />
+    <MESSAGE value="Reformat" />
+    <option name="LAST_COMMIT_MESSAGE" value="Reformat" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
