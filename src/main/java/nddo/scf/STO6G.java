@@ -30,7 +30,7 @@ public class STO6G extends LCGTO {
 	public double zeta;
 
 	public STO6G(OrbitalProperties op, double[] coordinates, double zeta) {
-		super(op, coordinates, getExps(op.getShell(), zeta), getCoeffs(op.getShell(), op.getL()));
+		super(op, coordinates, getExps(op.shell, zeta), getCoeffs(op.shell, op.L));
 		this.zeta = zeta;
 	}
 

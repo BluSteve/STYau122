@@ -7,153 +7,23 @@ import tools.Utils;
 
 import java.util.*;
 
-public class RawMolecule extends MoleculeInfo { // for storage purposes
-	public RawAtom[] atoms, expGeom;
+public class RawMolecule extends MoleculeInfo{ // for storage purposes
+	public final RawAtom[] atoms, expGeom;
+	public final double[] datum;
 
-	private RawMolecule() {
+	private RawMolecule(MoleculeInfo mi, RawAtom[] atoms, RawAtom[] expGeom, double[] datum) {
+		super(mi);
+		this.atoms = atoms;
+		this.expGeom = expGeom;
+		this.datum = datum;
 	}
 
 	public static class RMBuilder {
-		private int index;
-		private boolean restricted = true;
-		private int charge, mult;
-		private double[] datum;
-		private RawAtom[] atoms, expGeom;
-
-		public static int findNIntegrals(MoleculeInfo mi) {
-			int size = 0;
-
-			for (int j = 0; j < mi.nOrbitals; j++) {
-				for (int k = j; k < mi.nOrbitals; k++) {
-					if (j == k) {
-						for (int l : mi.orbsOfAtom[mi.atomOfOrb[j]]) {
-							if (l > -1) {
-								size++;
-							}
-						}
-
-						for (int l : mi.missingOfAtom[mi.atomOfOrb[j]]) {
-							if (l > -1) {
-								for (int m : mi.missingOfAtom[mi.atomOfOrb[j]]) {
-									if (m > -1) {
-										if (mi.atomOfOrb[l] == mi.atomOfOrb[m]) {
-											size++;
-										}
-									}
-
-								}
-							}
-						}
-					}
-					else if (mi.atomOfOrb[j] == mi.atomOfOrb[k]) {
-						size++;
-
-						for (int l : mi.missingOfAtom[mi.atomOfOrb[j]]) {
-							if (l > -1) {
-								for (int m : mi.missingOfAtom[mi.atomOfOrb[j]]) {
-									if (m > -1) {
-										if (mi.atomOfOrb[l] == mi.atomOfOrb[m]) {
-											size++;
-										}
-									}
-
-								}
-							}
-						}
-					}
-					else {
-						for (int l : mi.orbsOfAtom[mi.atomOfOrb[j]]) {
-							if (l > -1) {
-								for (int m : mi.orbsOfAtom[mi.atomOfOrb[k]]) {
-									if (m > -1) {
-										size++;
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-
-			return size;
-		}
-
-		@SuppressWarnings("DuplicatedCode")
-		public static int findNCoulombInts(MoleculeInfo mi) {
-			int size = 0;
-
-			for (int j = 0; j < mi.nOrbitals; j++) {
-				for (int k = j; k < mi.nOrbitals; k++) {
-					if (j == k) {
-						for (int l : mi.orbsOfAtom[mi.atomOfOrb[j]]) {
-							if (l > -1) {
-								size++;
-							}
-						}
-						for (int l : mi.missingOfAtom[mi.atomOfOrb[j]]) {
-							if (l > -1) {
-								for (int m : mi.missingOfAtom[mi.atomOfOrb[j]]) {
-									if (m > -1) {
-										if (mi.atomOfOrb[l] == mi.atomOfOrb[m]) {
-											size++;
-										}
-									}
-								}
-							}
-						}
-					}
-					else if (mi.atomOfOrb[j] == mi.atomOfOrb[k]) {
-						size++;
-						for (int l : mi.missingOfAtom[mi.atomOfOrb[j]]) {
-							if (l > -1) {
-								for (int m : mi.missingOfAtom[mi.atomOfOrb[j]]) {
-									if (m > -1) {
-										if (mi.atomOfOrb[l] == mi.atomOfOrb[m]) {
-											size++;
-										}
-									}
-
-								}
-							}
-						}
-					}
-				}
-			}
-
-			return size;
-		}
-
-		public static int findNExchangeInts(MoleculeInfo mi) {
-			int size = 0;
-
-			for (int j = 0; j < mi.nOrbitals; j++) {
-				for (int k = j; k < mi.nOrbitals; k++) {
-					if (j == k) {
-						for (int l : mi.orbsOfAtom[mi.atomOfOrb[j]]) {
-							if (l > -1) {
-								size++;
-							}
-						}
-					}
-					else if (mi.atomOfOrb[j] == mi.atomOfOrb[k]) {
-						size++;
-					}
-					else {
-						for (int l : mi.orbsOfAtom[mi.atomOfOrb[j]]) {
-							if (l > -1) {
-								for (int m : mi.orbsOfAtom[mi.atomOfOrb[k]]) {
-									if (m > -1) {
-										size++;
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-
-			return size;
-		}
+		public int index;
+		public boolean restricted = true;
+		public int charge, mult;
+		public double[] datum;
+		public RawAtom[] atoms, expGeom;
 
 		/**
 		 * npMap is the only model dependent field in RawMolecule, so it should be decided at build time.
@@ -165,13 +35,11 @@ public class RawMolecule extends MoleculeInfo { // for storage purposes
 			if (atoms == null) throw new IllegalArgumentException("Atoms cannot be null!");
 			if (datum == null) throw new IllegalArgumentException("Datum cannot be null!");
 
-			RawMolecule rm = new RawMolecule();
-			rm.atoms = atoms;
-			rm.expGeom = expGeom;
-			rm.datum = datum;
-			rm.charge = charge;
-			rm.mult = mult;
-			rm.restricted = restricted;
+			MoleculeInfo.MIBuilder miBuilder = new MoleculeInfo.MIBuilder();
+			
+			miBuilder.charge = charge;
+			miBuilder.mult = mult;
+			miBuilder.restricted = restricted;
 
 			StringBuilder nameBuilder = new StringBuilder();
 			Map<String, Integer> nameOccurrences = new TreeMap<>(Collections.reverseOrder());
@@ -180,12 +48,12 @@ public class RawMolecule extends MoleculeInfo { // for storage purposes
 			// Map of unique Zs and their corresponding param numbers needed for differentiation.
 			Map<Integer, int[]> uniqueNPs = new TreeMap<>();
 
-			for (RawAtom a : rm.atoms) {
+			for (RawAtom a : atoms) {
 				atomicNumbers.add(a.Z);
 
 				AtomProperties ap = AtomHandler.getAtoms()[a.Z];
-				rm.nElectrons += ap.getQ();
-				rm.nOrbitals += ap.getOrbitals().length;
+				miBuilder.nElectrons += ap.getQ();
+				miBuilder.nOrbitals += ap.getOrbitals().length;
 
 				if (!uniqueNPs.containsKey(ap.getZ())) {
 					uniqueNPs.put(ap.getZ(), npMap[ap.getZ()]);
@@ -197,53 +65,53 @@ public class RawMolecule extends MoleculeInfo { // for storage purposes
 			}
 
 			for (String key : nameOccurrences.keySet()) nameBuilder.append(key).append(nameOccurrences.get(key));
-			rm.name = nameBuilder + "_" + rm.charge + "_" + (rm.restricted ? "RHF" : "UHF");
+			miBuilder.name = nameBuilder + "_" + miBuilder.charge + "_" + (miBuilder.restricted ? "RHF" : "UHF");
 
-			rm.nElectrons -= rm.charge;
+			miBuilder.nElectrons -= miBuilder.charge;
 
-			rm.atomicNumbers = Utils.toInts(atomicNumbers);
+			miBuilder.atomicNumbers = Utils.toInts(atomicNumbers);
 
-			rm.mats = Utils.toInts(uniqueNPs.keySet());
+			miBuilder.mats = Utils.toInts(uniqueNPs.keySet());
 
-			rm.mnps = new int[uniqueNPs.size()][];
+			miBuilder.mnps = new int[uniqueNPs.size()][];
 			int i = 0;
 			for (int[] np : uniqueNPs.values()) {
-				rm.mnps[i] = np;
+				miBuilder.mnps[i] = np;
 				i++;
 			}
 
 
 			// Computes cached Solution info
-			rm.orbsOfAtom = new int[rm.atoms.length][];
-			rm.atomOfOrb = new int[rm.nOrbitals];
-			rm.missingOfAtom = new int[rm.atoms.length][];
+			miBuilder.orbsOfAtom = new int[atoms.length][];
+			miBuilder.atomOfOrb = new int[miBuilder.nOrbitals];
+			miBuilder.missingOfAtom = new int[atoms.length][];
 
 			int overallOrbitalIndex = 0;
 
-			for (int atomIndex = 0; atomIndex < rm.atoms.length; atomIndex++) {
-				AtomProperties atom = AtomHandler.getAtoms()[rm.atoms[atomIndex].Z];
+			for (int atomIndex = 0; atomIndex < atoms.length; atomIndex++) {
+				AtomProperties atom = AtomHandler.getAtoms()[atoms[atomIndex].Z];
 
 				int olength = atom.getOrbitals().length;
-				rm.orbsOfAtom[atomIndex] = new int[olength];
+				miBuilder.orbsOfAtom[atomIndex] = new int[olength];
 
 				for (int orbitalIndex = 0; orbitalIndex < olength; orbitalIndex++) {
-					rm.atomOfOrb[overallOrbitalIndex] = atomIndex;
+					miBuilder.atomOfOrb[overallOrbitalIndex] = atomIndex;
 
-					rm.orbsOfAtom[atomIndex][orbitalIndex] = overallOrbitalIndex;
+					miBuilder.orbsOfAtom[atomIndex][orbitalIndex] = overallOrbitalIndex;
 
 					overallOrbitalIndex++;
 				}
 			}
 
-			for (int j = 0; j < rm.atoms.length; j++) {
-				int[] missing = new int[rm.nOrbitals - rm.orbsOfAtom[j].length];
+			for (int j = 0; j < atoms.length; j++) {
+				int[] missing = new int[miBuilder.nOrbitals - miBuilder.orbsOfAtom[j].length];
 
 				int counter = 0;
 
-				for (int k = 0; k < rm.nOrbitals; k++) {
+				for (int k = 0; k < miBuilder.nOrbitals; k++) {
 					// if k not in orbsOfAtom
 					boolean in = false;
-					for (int orb: rm.orbsOfAtom[j]) {
+					for (int orb: miBuilder.orbsOfAtom[j]) {
 						if (k == orb) {
 							in = true;
 							break;
@@ -256,77 +124,12 @@ public class RawMolecule extends MoleculeInfo { // for storage purposes
 					}
 				}
 
-				rm.missingOfAtom[j] = missing;
+				miBuilder.missingOfAtom[j] = missing;
 			}
 
-
-			if (rm.restricted) {
-				rm.nIntegrals = findNIntegrals(rm);
-			}
-			else {
-				rm.nCoulombInts = findNCoulombInts(rm);
-				rm.nExchangeInts = findNExchangeInts(rm);
-			}
-
-			return rm;
+			return new RawMolecule(miBuilder.build(), atoms, expGeom, datum);
 		}
-
-		public int getIndex() {
-			return index;
-		}
-
-		public void setIndex(int index) {
-			this.index = index;
-		}
-
-		public RawAtom[] getAtoms() {
-			return atoms;
-		}
-
-		public void setAtoms(RawAtom[] atoms) {
-			this.atoms = atoms;
-		}
-
-		public RawAtom[] getExpGeom() {
-			return expGeom;
-		}
-
-		public void setExpGeom(RawAtom[] expGeom) {
-			this.expGeom = expGeom;
-		}
-
-		public double[] getDatum() {
-			return datum;
-		}
-
-		public void setDatum(double[] datum) {
-			this.datum = datum;
-		}
-
-		public int getCharge() {
-			return charge;
-		}
-
-		public void setCharge(int charge) {
-			this.charge = charge;
-		}
-
-		public int getMult() {
-			return mult;
-		}
-
-		public void setMult(int mult) {
-			this.mult = mult;
-		}
-
-		public boolean isRestricted() {
-			return restricted;
-		}
-
-		public void setRestricted(boolean restricted) {
-			this.restricted = restricted;
-		}
-
+		
 		public void setAtoms(int[] Zs, double[][] coords) {
 			atoms = toRawAtoms(Zs, coords);
 		}

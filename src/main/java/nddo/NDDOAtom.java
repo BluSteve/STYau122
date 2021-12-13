@@ -41,7 +41,7 @@ public abstract class NDDOAtom {
 		OrbitalProperties[] orbitalProperties = this.atomProperties.getOrbitals();
 		orbitals = new NDDO6G[orbitalProperties.length];
 		for (int x = 0; x < orbitals.length; x++) {
-			switch (orbitalProperties[x].getType()) {
+			switch (orbitalProperties[x].type) {
 				case "s":
 					orbitals[x] = new NDDO6G(this, orbitalProperties[x], np.getZetas(), np.getBetas(), np.getUss());
 					break;

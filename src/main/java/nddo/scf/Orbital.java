@@ -11,11 +11,11 @@ public abstract class Orbital {
 	protected Orbital(OrbitalProperties op, double[] coordinates) {
 		this.coordinates = coordinates;
 		this.op = op;
-		this.type = op.getType();
-		this.shell = op.getShell();
-		this.i = op.geti();
-		this.j = op.getj();
-		this.k = op.getk();
-		this.L = op.getL();
+		this.type = op.type;
+		this.shell = op.shell;
+		this.i = op.i;
+		this.j = op.j;
+		this.k = op.k;
+		this.L = op.L;
 	}
 }

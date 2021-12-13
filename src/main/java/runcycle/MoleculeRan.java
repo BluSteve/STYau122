@@ -34,8 +34,7 @@ public class MoleculeRan implements MoleculeResult {
 	public double[][] getHessian() {
 		if (mo.hessian != null) return mo.hessian;
 		else throw new IllegalStateException(
-				"Hessian not found for previously ran molecule: " +
-						mo.rawMolecule.index + " " + mo.rawMolecule.name);
+				"Hessian not found for previously ran molecule: " + mo.rawMolecule.debugName());
 	}
 
 	@Override

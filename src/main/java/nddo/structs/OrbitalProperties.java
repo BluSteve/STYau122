@@ -14,8 +14,8 @@ public class OrbitalProperties {
 					new String[]{"s", "p", "d", "f"}};
 	private static final List<OrbitalProperties> cache = new ArrayList<>();
 
-	private final String type;
-	private final int shell, L, i, j, k;
+	public final String type;
+	public final int shell, L, i, j, k;
 
 	private OrbitalProperties(String type, int shell, int i, int j, int k) {
 		this.type = type;
@@ -28,6 +28,7 @@ public class OrbitalProperties {
 
 	/**
 	 * Implements the Flyweight pattern. This method ensures a finite number of OrbitalProperties objects.
+	 *
 	 * @return Potentially cached OrbitalProperties object.
 	 */
 	private static OrbitalProperties of(String type, int shell, int i, int j, int k) {
@@ -62,29 +63,5 @@ public class OrbitalProperties {
 		}
 
 		return orbitals.toArray(new OrbitalProperties[0]);
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public int getShell() {
-		return shell;
-	}
-
-	public int geti() {
-		return i;
-	}
-
-	public int getj() {
-		return j;
-	}
-
-	public int getk() {
-		return k;
-	}
-
-	public int getL() {
-		return L;
 	}
 }

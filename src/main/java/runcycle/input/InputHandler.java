@@ -159,16 +159,16 @@ public class InputHandler {
 		while (i < lines.size()) {
 			RawMolecule.RMBuilder builder = new RawMolecule.RMBuilder();
 
-			builder.setRestricted(lines.get(i).equals("RHF"));
+			builder.restricted = lines.get(i).equals("RHF");
 			i++;
 
-			builder.setCharge(Integer.parseInt(lines.get(i).split("=")[1]));
+			builder.charge = Integer.parseInt(lines.get(i).split("=")[1]);
 			i++;
 
-			builder.setMult(Integer.parseInt(lines.get(i).split("=")[1]));
+			builder.mult = Integer.parseInt(lines.get(i).split("=")[1]);
 			i++;
 
-			builder.setIndex(moleculei);
+			builder.index = moleculei;
 
 			// Atoms
 			ArrayList<RawAtom> atomsL = new ArrayList<>();
@@ -179,7 +179,7 @@ public class InputHandler {
 			}
 			RawAtom[] atoms = new RawAtom[atomsL.size()];
 			for (int p = 0; p < atomsL.size(); p++) atoms[p] = atomsL.get(p);
-			builder.setAtoms(atoms);
+			builder.atoms = atoms;
 
 
 			// expGeom
@@ -195,7 +195,7 @@ public class InputHandler {
 				for (int p = 0; p < expGeomL.size(); p++)
 					expGeom[p] = expGeomL.get(p);
 			}
-			builder.setExpGeom(expGeom);
+			builder.expGeom = expGeom;
 
 			if (expGeomL.size() != 0 && atomsL.size() != expGeomL.size())
 				throw new IllegalArgumentException("Atom and expGeom size mismatch!");
@@ -215,7 +215,7 @@ public class InputHandler {
 			if (ss.length > 1) datum[2] = Double.parseDouble(ss[1]);
 			datumi += 2;
 
-			builder.setDatum(datum);
+			builder.datum = datum;
 
 
 			moleculesL.add(builder.build(npMap));
@@ -224,7 +224,6 @@ public class InputHandler {
 
 		ri.molecules = new RawMolecule[moleculesL.size()];
 		for (int p = 0; p < moleculesL.size(); p++) {
-			moleculesL.get(p).index = p;
 			ri.molecules[p] = moleculesL.get(p);
 		}
 		ri.nMolecules = ri.molecules.length;
