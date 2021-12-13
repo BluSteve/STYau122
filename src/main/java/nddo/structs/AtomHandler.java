@@ -12,7 +12,10 @@ public class AtomHandler {
 	private static AtomProperties[] atoms;
 	private static HashMap<String, AtomProperties> atomsMap;
 
-	private static void populateAtoms() {
+	/**
+	 * Atoms must be pre-initialized if you're multithreading!
+	 */
+	public static void populateAtoms() {
 		atoms = new AtomProperties[Constants.maxAtomNum];
 		atomsMap = new HashMap<>();
 

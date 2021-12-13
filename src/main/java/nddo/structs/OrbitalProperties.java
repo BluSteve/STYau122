@@ -64,4 +64,16 @@ public class OrbitalProperties {
 
 		return orbitals.toArray(new OrbitalProperties[0]);
 	}
+
+	@Override
+	public String toString() {
+		return "OrbitalProperties{" +
+				"type='" + type + '\'' +
+				", shell=" + shell +
+				", L=" + L +
+				", i=" + i +
+				", j=" + j +
+				", k=" + k +
+				'}';
+	}
 }

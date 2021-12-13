@@ -3,7 +3,7 @@ package nddo.structs;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class MoleculeInfo { // todo check if moleculeinfo is valid before using it
+public class MoleculeInfo { // low level molecule info representation
 	public final int index; // optional, for debugging
 	public final String name;
 	public final boolean restricted;
@@ -19,9 +19,9 @@ public class MoleculeInfo { // todo check if moleculeinfo is valid before using 
 	private transient Logger logger;
 
 	private MoleculeInfo(int index, String name, boolean restricted, int charge, int mult,
-						int[] atomicNumbers, int nElectrons, int nOrbitals, int nIntegrals, int nCoulombInts,
-						int nExchangeInts, int[][] orbsOfAtom, int[][] missingOfAtom, int[] atomOfOrb, int[] mats,
-						int[][] mnps) {
+						 int[] atomicNumbers, int nElectrons, int nOrbitals, int nIntegrals, int nCoulombInts,
+						 int nExchangeInts, int[][] orbsOfAtom, int[][] missingOfAtom, int[] atomOfOrb, int[] mats,
+						 int[][] mnps) {
 		this.index = index;
 		this.name = name;
 		this.restricted = restricted;
@@ -250,10 +250,7 @@ public class MoleculeInfo { // todo check if moleculeinfo is valid before using 
 
 			if (nOrbitals != atomOfOrb.length) return false;
 
-			if (restricted) {
-				if (mult > 0) return false;
-			}
-			else {
+			if (!restricted) {
 				if (nElectrons % 2 == mult % 2 || mult < 1) {
 					return false;
 				}

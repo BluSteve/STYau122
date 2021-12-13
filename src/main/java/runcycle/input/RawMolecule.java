@@ -1,13 +1,13 @@
 package runcycle.input;
 
-import nddo.structs.MoleculeInfo;
 import nddo.structs.AtomHandler;
 import nddo.structs.AtomProperties;
+import nddo.structs.MoleculeInfo;
 import tools.Utils;
 
 import java.util.*;
 
-public class RawMolecule extends MoleculeInfo{ // for storage purposes
+public class RawMolecule extends MoleculeInfo { // mid-level runnable molecule representation
 	public final RawAtom[] atoms, expGeom;
 	public final double[] datum;
 
@@ -36,7 +36,8 @@ public class RawMolecule extends MoleculeInfo{ // for storage purposes
 			if (datum == null) throw new IllegalArgumentException("Datum cannot be null!");
 
 			MoleculeInfo.MIBuilder miBuilder = new MoleculeInfo.MIBuilder();
-			
+
+			miBuilder.index = index;
 			miBuilder.charge = charge;
 			miBuilder.mult = mult;
 			miBuilder.restricted = restricted;
@@ -111,7 +112,7 @@ public class RawMolecule extends MoleculeInfo{ // for storage purposes
 				for (int k = 0; k < miBuilder.nOrbitals; k++) {
 					// if k not in orbsOfAtom
 					boolean in = false;
-					for (int orb: miBuilder.orbsOfAtom[j]) {
+					for (int orb : miBuilder.orbsOfAtom[j]) {
 						if (k == orb) {
 							in = true;
 							break;
@@ -129,7 +130,7 @@ public class RawMolecule extends MoleculeInfo{ // for storage purposes
 
 			return new RawMolecule(miBuilder.build(), atoms, expGeom, datum);
 		}
-		
+
 		public void setAtoms(int[] Zs, double[][] coords) {
 			atoms = toRawAtoms(Zs, coords);
 		}

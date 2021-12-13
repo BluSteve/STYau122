@@ -3,10 +3,10 @@ package runcycle.input;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import nddo.Constants;
-import runcycle.am1.AM1Atom;
 import nddo.mndo.MNDOAtom;
 import nddo.structs.AtomHandler;
 import nddo.structs.Model;
+import runcycle.am1.AM1Atom;
 import tools.Utils;
 
 import java.io.FileReader;
@@ -220,6 +220,8 @@ public class InputHandler {
 
 			moleculesL.add(builder.build(npMap));
 			i++;
+
+			moleculei++;
 		}
 
 		ri.molecules = new RawMolecule[moleculesL.size()];
@@ -263,6 +265,6 @@ public class InputHandler {
 
 	public static void main(String[] args) throws IOException {
 		convertFromTXT("inputtesting.txt");
-		outputSubset(33);
+		outputSubset(9, 33);
 	}
 }

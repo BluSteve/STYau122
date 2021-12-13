@@ -2,6 +2,7 @@ import nddo.NDDOAtom;
 import nddo.NDDOParams;
 import nddo.param.ParamGradient;
 import nddo.param.ParamHessian;
+import nddo.structs.AtomHandler;
 import runcycle.optimize.ParamOptimizer;
 import runcycle.optimize.ReferenceData;
 import org.apache.commons.lang3.time.StopWatch;
@@ -85,6 +86,8 @@ public class Main {
 
 		StopWatch sw = new StopWatch();
 		sw.start();
+
+		AtomHandler.populateAtoms();
 
 		for (int runNum = 0; runNum < NUM_RUNS; runNum++) {
 			StopWatch lsw = new StopWatch();

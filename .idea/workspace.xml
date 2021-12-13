@@ -4,17 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="More movement + Flyweight pattern for OrbitalProp">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDOAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDOAtom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/scf/Orbital.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/scf/Orbital.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/scf/STO6G.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/scf/STO6G.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/structs/MoleculeInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/structs/MoleculeInfo.java" afterDir="false" />
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Fix multithreading issue in OrbitalProperties">
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/structs/OrbitalProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/structs/OrbitalProperties.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/MoleculeRan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/MoleculeRan.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/input/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/input/InputHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/input/RawMolecule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/input/RawMolecule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -315,21 +306,7 @@
       <workItem from="1639279533083" duration="15304000" />
       <workItem from="1639296224358" duration="3169000" />
       <workItem from="1639306205213" duration="15438000" />
-      <workItem from="1639379619765" duration="8928000" />
-    </task>
-    <task id="LOCAL-00024" summary="Clean up dependencies including jblas and cublas">
-      <created>1637597460810</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1637597460810</updated>
-    </task>
-    <task id="LOCAL-00025" summary="Reformat">
-      <created>1637599536100</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1637599536100</updated>
+      <workItem from="1639379619765" duration="11283000" />
     </task>
     <task id="LOCAL-00026" summary="Use own EJML with JBlas syntax improvements">
       <created>1637603779003</created>
@@ -660,7 +637,21 @@
       <option name="project" value="LOCAL" />
       <updated>1639385675750</updated>
     </task>
-    <option name="localTasksCounter" value="73" />
+    <task id="LOCAL-00073" summary="MoleculeInfo builder">
+      <created>1639389538074</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1639389538074</updated>
+    </task>
+    <task id="LOCAL-00074" summary="Fix multithreading issue in OrbitalProperties">
+      <created>1639391204007</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1639391204007</updated>
+    </task>
+    <option name="localTasksCounter" value="75" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -708,8 +699,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Change prevs initial size" />
-    <MESSAGE value="Cached double + initc lower bound" />
     <MESSAGE value="Merge new pople alg into geom and param" />
     <MESSAGE value="Remove initial capacity" />
     <MESSAGE value="Port changes over to gsd and pd" />
@@ -733,15 +722,21 @@
     <MESSAGE value="Remove explicit AtomHandler initialization" />
     <MESSAGE value="Major movement" />
     <MESSAGE value="More movement + Flyweight pattern for OrbitalProp" />
-    <option name="LAST_COMMIT_MESSAGE" value="More movement + Flyweight pattern for OrbitalProp" />
+    <MESSAGE value="MoleculeInfo builder" />
+    <MESSAGE value="Fix multithreading issue in OrbitalProperties" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix multithreading issue in OrbitalProperties" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <breakpoint enabled="true" type="java-exception">
-          <properties class="java.lang.NullPointerException" package="java.lang" />
-          <option name="timeStamp" value="16" />
-        </breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/nddo/structs/AtomHandler.java</url>
+          <line>17</line>
+          <properties class="nddo.structs.AtomHandler" method="populateAtoms">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>
