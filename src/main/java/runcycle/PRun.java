@@ -49,7 +49,7 @@ public class PRun { // stands for ParameterizationRun
 
 		int count = 1;
 		int index = 0;
-		while (index < ((size + 1) * size) / 2) {
+		while (index < (size + 1) * size / 2) {
 			for (int i = count - 1; i < size; i++) {
 				hessian.set(count - 1, i, oldHessian[index]);
 				hessian.set(i, count - 1, oldHessian[index]);
@@ -65,10 +65,6 @@ public class PRun { // stands for ParameterizationRun
 		SimpleMatrix C = hessian.mult(s).mult(s.transpose()).mult(hessian.transpose()).scale(1 / a);
 
 		return hessian.plus(A).minus(C);
-	}
-
-	public void setRanMolecules(MoleculeOutput[] ranMolecules) {
-		this.ranMolecules = ranMolecules;
 	}
 
 	public RunOutput run(boolean isRunHessian) {
@@ -248,26 +244,10 @@ public class PRun { // stands for ParameterizationRun
 		RawParams rawParams = new RawParams(nddoParams, dir, ttGradient, ParamHessian.utify(newHessian.toArray2()));
 		InputInfo nextRunInfo = new InputInfo(info.atomTypes, info.neededParams, rawParams);
 
-		return new ConcreteRunOutput(nextRunInfo, mos);
+		return new RunOutput(nextRunInfo, mos);
 	}
 
-	private static class ConcreteRunOutput implements RunOutput {
-		InputInfo nextRunInfo;
-		MoleculeOutput[] mos;
-
-		public ConcreteRunOutput(InputInfo nextRunInfo, MoleculeOutput[] mos) {
-			this.nextRunInfo = nextRunInfo;
-			this.mos = mos;
-		}
-
-		@Override
-		public InputInfo getNextRunInfo() {
-			return nextRunInfo;
-		}
-
-		@Override
-		public MoleculeOutput[] getMOs() {
-			return mos;
-		}
+	public void setRanMolecules(MoleculeOutput[] ranMolecules) {
+		this.ranMolecules = ranMolecules;
 	}
 }
