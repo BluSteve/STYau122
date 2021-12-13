@@ -7,8 +7,8 @@ import nddo.param.ParamErrorFunction;
 import nddo.param.ParamGradient;
 import nddo.param.ParamHessian;
 import org.apache.commons.lang3.time.StopWatch;
-import runcycle.input.RawMolecule;
-import runcycle.output.OutputHandler;
+import runcycle.structs.RunnableMolecule;
+import frontend.OutputHandler;
 
 public class MoleculeRun implements MoleculeResult {
 	protected double[] datum;
@@ -18,10 +18,10 @@ public class MoleculeRun implements MoleculeResult {
 	protected ParamHessian h;
 	protected boolean isRunHessian, isExpAvail, restricted;
 	protected int charge, mult;
-	protected RawMolecule rm;
+	protected RunnableMolecule rm;
 	protected long time;
 
-	public MoleculeRun(RawMolecule rm, NDDOAtom[] atoms, NDDOAtom[] expGeom,
+	public MoleculeRun(RunnableMolecule rm, NDDOAtom[] atoms, NDDOAtom[] expGeom,
 					   boolean isRunHessian) {
 		// todo change for am1
 		this.rm = rm;
@@ -81,16 +81,12 @@ public class MoleculeRun implements MoleculeResult {
 		return isExpAvail;
 	}
 
-	public RawMolecule getRm() {
+	public RunnableMolecule getRm() {
 		return rm;
 	}
 
 	public long getTime() {
 		return time;
-	}
-
-	public double[] getDatum() {
-		return datum;
 	}
 
 	@Override

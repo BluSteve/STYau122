@@ -1,12 +1,11 @@
 package runcycle;
 
-import runcycle.input.RawMolecule;
+import runcycle.structs.RunnableMolecule;
 
 public interface MoleculeResult {
-	RawMolecule getRm();
+	RunnableMolecule getRm();
 	long getTime();
 	boolean isExpAvail();
-	double[] getDatum();
 	double[][] getHessian();
 
 	double getHF();

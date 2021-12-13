@@ -1,4 +1,4 @@
-package runcycle.am1;
+package examples.am1;
 
 import nddo.NDDOParams;
 

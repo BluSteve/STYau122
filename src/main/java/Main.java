@@ -2,7 +2,6 @@ import nddo.NDDOAtom;
 import nddo.NDDOParams;
 import nddo.param.ParamGradient;
 import nddo.param.ParamHessian;
-import nddo.structs.AtomHandler;
 import runcycle.optimize.ParamOptimizer;
 import runcycle.optimize.ReferenceData;
 import org.apache.commons.lang3.time.StopWatch;
@@ -12,11 +11,11 @@ import org.ejml.simple.SimpleMatrix;
 import runcycle.MoleculeRan;
 import runcycle.MoleculeResult;
 import runcycle.MoleculeRun;
-import runcycle.input.InputHandler;
-import runcycle.input.RawInput;
-import runcycle.input.RawMolecule;
+import frontend.InputHandler;
+import frontend.RawInput;
+import runcycle.structs.RunnableMolecule;
 import runcycle.output.MoleculeOutput;
-import runcycle.output.OutputHandler;
+import frontend.OutputHandler;
 import tools.Utils;
 
 import java.io.FileWriter;
@@ -67,7 +66,7 @@ public class Main {
 				List<String> done = new ArrayList<>();
 				List<String> left = new ArrayList<>();
 
-				for (RawMolecule rm : ri.molecules) {
+				for (RunnableMolecule rm : ri.molecules) {
 					if (isDones[rm.index]) done.add(rm.debugName());
 					else left.add(rm.debugName());
 				}
@@ -118,11 +117,11 @@ public class Main {
 
 			// create tasks to run in parallel and then runs them excludes ran molecules from previous dynamic output
 			List<RecursiveTask<MoleculeRun>> moleculeTasks = new ArrayList<>();
-			for (RawMolecule rm : ri.molecules) {
+			for (RunnableMolecule rm : ri.molecules) {
 				boolean isDoneAlready = false;
 				if (ranMolecules != null) {
 					for (MoleculeOutput mo : ranMolecules) {
-						if (mo.rawMolecule.index == rm.index) {
+						if (mo.runnableMolecule.index == rm.index) {
 							isDoneAlready = true;
 							isDones[rm.index] = true;
 							break;
@@ -198,7 +197,7 @@ public class Main {
 				mos.add(OutputHandler.toMoleculeOutput(result, isRunHessian));
 			}
 
-			mos.sort(Comparator.comparingInt(x -> x.rawMolecule.index));
+			mos.sort(Comparator.comparingInt(x -> x.runnableMolecule.index));
 
 			// optimizes params based on this run and gets new search direction
 			SimpleMatrix newGradient = new SimpleMatrix(ttGradient);
@@ -240,15 +239,17 @@ public class Main {
 
 	private static void addToPO(ParamOptimizer o, MoleculeResult result, int[][] neededParams, int[] moleculeATs,
 								int[][] moleculeNP, boolean isDepad) {
-		o.addData(new ReferenceData(result.getDatum()[0], result.getHF(),
+		double[] datum = result.getRm().datum;
+
+		o.addData(new ReferenceData(datum[0], result.getHF(),
 				ParamGradient.combine(result.getHFDerivs(), ri.atomTypes, neededParams, moleculeATs, moleculeNP,
 						isDepad), ReferenceData.HF_WEIGHT));
 
-		if (result.getDatum()[1] != 0) o.addData(new ReferenceData(result.getDatum()[1], result.getDipole(),
+		if (datum[1] != 0) o.addData(new ReferenceData(datum[1], result.getDipole(),
 				ParamGradient.combine(result.getDipoleDerivs(), ri.atomTypes, neededParams, moleculeATs, moleculeNP,
 						isDepad), ReferenceData.DIPOLE_WEIGHT));
 
-		if (result.getDatum()[2] != 0) o.addData(new ReferenceData(result.getDatum()[2], result.getIE(),
+		if (datum[2] != 0) o.addData(new ReferenceData(datum[2], result.getIE(),
 				ParamGradient.combine(result.getIEDerivs(), ri.atomTypes, neededParams, moleculeATs, moleculeNP,
 						isDepad), ReferenceData.IE_WEIGHT));
 

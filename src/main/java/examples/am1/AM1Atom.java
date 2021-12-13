@@ -1,4 +1,4 @@
-package runcycle.am1;
+package examples.am1;
 
 import nddo.NDDO6G;
 import nddo.NDDOAtom;

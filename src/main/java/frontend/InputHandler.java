@@ -1,12 +1,13 @@
-package runcycle.input;
+package frontend;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import nddo.Constants;
 import nddo.mndo.MNDOAtom;
-import nddo.structs.AtomHandler;
+import nddo.structs.AtomProperties;
 import nddo.structs.Model;
-import runcycle.am1.AM1Atom;
+import examples.am1.AM1Atom;
+import runcycle.structs.RunnableMolecule;
 import tools.Utils;
 
 import java.io.FileReader;
@@ -30,7 +31,7 @@ public class InputHandler {
 	public static RawInput processInput(String filename) throws IOException {
 		RawInput ri = new Gson().fromJson(new FileReader(filename + ".json"),
 				RawInput.class);
-		for (RawMolecule rm : ri.molecules) {
+		for (RunnableMolecule rm : ri.molecules) {
 			for (int i = 0; i < rm.atoms.length; i++) {
 				rm.atoms[i].coords = Utils.bohr(rm.atoms[i].coords);
 				if (rm.expGeom != null)
@@ -50,7 +51,7 @@ public class InputHandler {
 	 */
 	public static void outputInput(RawInput ri, String filename)
 			throws IOException {
-		for (RawMolecule rm : ri.molecules) {
+		for (RunnableMolecule rm : ri.molecules) {
 			for (int i = 0; i < rm.atoms.length; i++) {
 				rm.atoms[i].coords = Utils.debohr(rm.atoms[i].coords);
 				if (rm.expGeom != null) rm.expGeom[i].coords =
@@ -102,7 +103,7 @@ public class InputHandler {
 		ri.trainingSet = lines.get(0).split("=")[1];
 		ri.atomTypes = new int[ri.trainingSet.length()];
 		for (int x = 0; x < ri.trainingSet.length(); x++) { // assumes atom name is one character
-			ri.atomTypes[x] = AtomHandler.getAtomsMap()
+			ri.atomTypes[x] = AtomProperties.getAtomsMap()
 					.get(Character.toString(ri.trainingSet.charAt(x)))
 					.getZ();
 		}
@@ -151,13 +152,13 @@ public class InputHandler {
 
 
 		// Molecules
-		ArrayList<RawMolecule> moleculesL = new ArrayList<>();
+		ArrayList<RunnableMolecule> moleculesL = new ArrayList<>();
 		i = 1;
 		int datumi = 0;
 		int moleculei = 0;
 
 		while (i < lines.size()) {
-			RawMolecule.RMBuilder builder = new RawMolecule.RMBuilder();
+			RunnableMolecule.RMBuilder builder = new RunnableMolecule.RMBuilder();
 
 			builder.restricted = lines.get(i).equals("RHF");
 			i++;
@@ -224,7 +225,7 @@ public class InputHandler {
 			moleculei++;
 		}
 
-		ri.molecules = new RawMolecule[moleculesL.size()];
+		ri.molecules = new RunnableMolecule[moleculesL.size()];
 		for (int p = 0; p < moleculesL.size(); p++) {
 			ri.molecules[p] = moleculesL.get(p);
 		}
@@ -236,7 +237,7 @@ public class InputHandler {
 	private static void outputSubset(int... ids) throws IOException {
 		RawInput ri = processInput("input");
 		ri.nMolecules = ids.length;
-		RawMolecule[] newrms = new RawMolecule[ids.length];
+		RunnableMolecule[] newrms = new RunnableMolecule[ids.length];
 		int ni = 0;
 		for (int i = 0; i < ri.molecules.length; i++) {
 			for (int id : ids) {
@@ -256,7 +257,7 @@ public class InputHandler {
 		StringTokenizer t = new StringTokenizer(lines.get(i), " ");
 		t.nextToken();
 		String name = t.nextToken();
-		ra.Z = AtomHandler.getAtomsMap().get(name).getZ();
+		ra.Z = AtomProperties.getAtomsMap().get(name).getZ();
 		ra.coords = new double[3];
 		for (int q = 0; q < 3; q++)
 			ra.coords[q] = Double.parseDouble(t.nextToken());

@@ -18,18 +18,17 @@ public class ParamOptimizer {
 	}
 
 	public double[] optimize(SimpleMatrix B, SimpleMatrix gradient) {
-		SimpleMatrix searchdir = null;
-		try {
-			searchdir = B.pseudoInverse().mult(gradient);
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		}
+		SimpleMatrix searchdir = B.pseudoInverse().mult(gradient);
+
 		double sum = 0;
+
 		for (int i = 0; i < searchdir.numRows(); i++) {
 			sum += searchdir.get(i) * searchdir.get(i);
 		}
+
 		sum = Math.sqrt(sum);
 		searchdir = searchdir.scale(1 / sum);
+
 
 		double k = -0.001;
 		double lambda = 0;
@@ -51,6 +50,7 @@ public class ParamOptimizer {
 				k *= -0.5;
 			}
 		}
+
 		return changes;
 	}
 }

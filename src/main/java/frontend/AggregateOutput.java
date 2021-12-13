@@ -1,6 +1,6 @@
-package runcycle.output;
+package frontend;
 
-import runcycle.input.RawParams;
+import runcycle.output.MoleculeOutput;
 
 public class AggregateOutput {
 	public double ttError;

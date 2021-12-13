@@ -4,8 +4,39 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Fix multithreading issue in OrbitalProperties">
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/structs/OrbitalProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/structs/OrbitalProperties.java" afterDir="false" />
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="AtomHandler no longer needs explicit population">
+      <change afterPath="$PROJECT_DIR$/src/main/java/frontend/RawParams.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/nddo/State.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/runcycle/NDDOConverter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/runcycle/PRun.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/runcycle/State.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/runcycle/defaults/MNDOConverter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/runcycle/input/InputInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/runcycle/output/RunOutput.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/Atom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/structs/AtomHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/structs/AtomProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/structs/AtomProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/structs/MoleculeInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/structs/MoleculeInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/MoleculeRan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/MoleculeRan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/MoleculeResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/MoleculeResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/MoleculeRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/MoleculeRun.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/am1/AM1Atom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/examples/am1/AM1Atom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/am1/AM1Params.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/examples/am1/AM1Params.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/input/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/InputHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/input/RawAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/RawAtom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/input/RawInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/RawInput.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/input/RawMolecule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunnableMolecule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/input/RawParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/input/RawParams.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/optimize/ParamOptimizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/optimize/ParamOptimizer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/output/AggregateOutput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/AggregateOutput.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/output/MoleculeOutput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/output/MoleculeOutput.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/output/OutputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/OutputHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/output/ParamGradientOutput.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Utils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -144,11 +175,11 @@
   </component>
   <component name="RunManager" selected="Application.Main">
     <configuration name="InputHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="runcycle.input.InputHandler" />
+      <option name="MAIN_CLASS_NAME" value="frontend.InputHandler" />
       <module name="MNDOParam.main" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="runcycle.input.RawMolecule" />
+          <option name="PATTERN" value="runcycle.structs.RunnableMolecule" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -306,21 +337,8 @@
       <workItem from="1639279533083" duration="15304000" />
       <workItem from="1639296224358" duration="3169000" />
       <workItem from="1639306205213" duration="15438000" />
-      <workItem from="1639379619765" duration="11283000" />
-    </task>
-    <task id="LOCAL-00026" summary="Use own EJML with JBlas syntax improvements">
-      <created>1637603779003</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1637603779003</updated>
-    </task>
-    <task id="LOCAL-00027" summary="SolutionR 8 molecule fix + progress bar fix">
-      <created>1637746769760</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1637746769760</updated>
+      <workItem from="1639379619765" duration="11656000" />
+      <workItem from="1639403039516" duration="9561000" />
     </task>
     <task id="LOCAL-00028" summary="Fix InputHandler subse">
       <created>1637916322999</created>
@@ -651,7 +669,21 @@
       <option name="project" value="LOCAL" />
       <updated>1639391204007</updated>
     </task>
-    <option name="localTasksCounter" value="75" />
+    <task id="LOCAL-00075" summary="Fix multithreading issue in OrbitalProperties">
+      <created>1639391767789</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1639391767789</updated>
+    </task>
+    <task id="LOCAL-00076" summary="AtomHandler no longer needs explicit population">
+      <created>1639391976226</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1639391976226</updated>
+    </task>
+    <option name="localTasksCounter" value="77" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -699,7 +731,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Merge new pople alg into geom and param" />
     <MESSAGE value="Remove initial capacity" />
     <MESSAGE value="Port changes over to gsd and pd" />
     <MESSAGE value="temp2" />
@@ -724,21 +755,10 @@
     <MESSAGE value="More movement + Flyweight pattern for OrbitalProp" />
     <MESSAGE value="MoleculeInfo builder" />
     <MESSAGE value="Fix multithreading issue in OrbitalProperties" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix multithreading issue in OrbitalProperties" />
+    <MESSAGE value="AtomHandler no longer needs explicit population" />
+    <option name="LAST_COMMIT_MESSAGE" value="AtomHandler no longer needs explicit population" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/nddo/structs/AtomHandler.java</url>
-          <line>17</line>
-          <properties class="nddo.structs.AtomHandler" method="populateAtoms">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="22" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="nddoparam.param.ParamHessianRestricted" memberName="gPrime" />

@@ -3,17 +3,17 @@ package tools;
 import nddo.Constants;
 import nddo.NDDOAtom;
 import nddo.NDDOParams;
-import runcycle.am1.AM1Atom;
-import runcycle.am1.AM1Params;
+import examples.am1.AM1Atom;
+import examples.am1.AM1Params;
 import nddo.mndo.MNDOAtom;
 import org.apache.commons.lang3.StringUtils;
 import org.ejml.data.DMatrixRMaj;
 import org.ejml.dense.row.decomposition.eig.SymmetricQRAlgorithmDecomposition_DDRM;
 import org.ejml.interfaces.decomposition.EigenDecomposition_F64;
 import org.ejml.simple.SimpleMatrix;
-import runcycle.input.RawAtom;
-import runcycle.input.RawInput;
-import nddo.structs.AtomHandler;
+import frontend.RawAtom;
+import frontend.RawInput;
+import nddo.structs.AtomProperties;
 import nddo.structs.Model;
 
 import java.nio.ByteBuffer;
@@ -214,10 +214,10 @@ public class Utils {
 			RawAtom ra = ras[i];
 			switch (model) {
 				case MNDO:
-					atoms[i] = new MNDOAtom(AtomHandler.getAtoms()[ra.Z], ra.coords, npMap[ra.Z]);
+					atoms[i] = new MNDOAtom(AtomProperties.getAtoms()[ra.Z], ra.coords, npMap[ra.Z]);
 					break;
 				case AM1:
-					atoms[i] = new AM1Atom(AtomHandler.getAtoms()[ra.Z], ra.coords,
+					atoms[i] = new AM1Atom(AtomProperties.getAtoms()[ra.Z], ra.coords,
 							(AM1Params) npMap[ra.Z]);
 					break;
 			}

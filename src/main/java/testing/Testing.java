@@ -1,23 +1,17 @@
 package testing;
 
-import nddo.Constants;
-import nddo.structs.MoleculeInfo;
 import nddo.NDDOParams;
-import nddo.geometry.GeometryDerivative;
-import nddo.mndo.MNDOAtom;
 import nddo.solution.Solution;
 import nddo.solution.SolutionR;
 import org.ejml.data.SingularMatrixException;
 import org.ejml.dense.row.CommonOps_DDRM;
 import org.ejml.simple.SimpleMatrix;
-import runcycle.input.InputHandler;
-import runcycle.input.RawInput;
-import runcycle.input.RawMolecule;
-import nddo.structs.AtomHandler;
+import frontend.InputHandler;
+import frontend.RawInput;
+import runcycle.structs.RunnableMolecule;
 import tools.Utils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static nddo.geometry.GeometrySecondDerivative.computeResponseVectorsPople;
@@ -25,7 +19,7 @@ import static nddo.geometry.GeometrySecondDerivative.computeResponseVectorsPople
 public class Testing {
 	public static void main(String[] args) throws Exception {
 		RawInput ri = InputHandler.processInput("subset");
-		RawMolecule rm = ri.molecules[0];
+		RunnableMolecule rm = ri.molecules[0];
 
 		NDDOParams[] npMap = Utils.getNpMap(ri);
 		Solution s = Solution.of(rm, Utils.toNDDOAtoms(ri.model, rm.atoms, npMap));

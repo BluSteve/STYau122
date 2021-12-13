@@ -8,9 +8,9 @@ import nddo.solution.Solution;
 import nddo.solution.SolutionR;
 import org.ejml.simple.SimpleMatrix;
 import org.openjdk.jmh.annotations.*;
-import runcycle.input.InputHandler;
-import runcycle.input.RawInput;
-import runcycle.input.RawMolecule;
+import frontend.InputHandler;
+import frontend.RawInput;
+import runcycle.structs.RunnableMolecule;
 import tools.Utils;
 
 import java.io.IOException;
@@ -39,7 +39,7 @@ public class Benchmarks {
 		@Setup(Level.Trial)
 		public void setup() throws IOException {
 			RawInput ri = InputHandler.processInput("subset");
-			RawMolecule rm = ri.molecules[0];
+			RunnableMolecule rm = ri.molecules[0];
 
 			NDDOParams[] npMap = Utils.getNpMap(ri);
 			s = (SolutionR) Solution.of(rm, Utils.toNDDOAtoms(ri.model, rm.atoms, npMap));

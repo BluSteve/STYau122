@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class MoleculeInfo { // low level molecule info representation
-	public final int index; // optional, for debugging
+	public final int index; // must be unique, preferably small
 	public final String name;
 	public final boolean restricted;
 	public final int charge, mult;

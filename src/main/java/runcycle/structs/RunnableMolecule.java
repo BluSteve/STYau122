@@ -1,17 +1,16 @@
-package runcycle.input;
+package runcycle.structs;
 
-import nddo.structs.AtomHandler;
 import nddo.structs.AtomProperties;
 import nddo.structs.MoleculeInfo;
 import tools.Utils;
 
 import java.util.*;
 
-public class RawMolecule extends MoleculeInfo { // mid-level runnable molecule representation
-	public final RawAtom[] atoms, expGeom;
+public class RunnableMolecule extends MoleculeInfo { // mid-level runnable molecule representation
+	public final Atom[] atoms, expGeom;
 	public final double[] datum;
 
-	private RawMolecule(MoleculeInfo mi, RawAtom[] atoms, RawAtom[] expGeom, double[] datum) {
+	private RunnableMolecule(MoleculeInfo mi, Atom[] atoms, Atom[] expGeom, double[] datum) {
 		super(mi);
 		this.atoms = atoms;
 		this.expGeom = expGeom;
@@ -23,7 +22,7 @@ public class RawMolecule extends MoleculeInfo { // mid-level runnable molecule r
 		public boolean restricted = true;
 		public int charge, mult;
 		public double[] datum;
-		public RawAtom[] atoms, expGeom;
+		public Atom[] atoms, expGeom;
 
 		/**
 		 * npMap is the only model dependent field in RawMolecule, so it should be decided at build time.
@@ -31,7 +30,7 @@ public class RawMolecule extends MoleculeInfo { // mid-level runnable molecule r
 		 * @param npMap "Map" of param numbers needed for differentiation. Key is Z.
 		 * @return A complete, valid RawMolecule object.
 		 */
-		public RawMolecule build(int[][] npMap) {
+		public RunnableMolecule build(int[][] npMap) {
 			if (atoms == null) throw new IllegalArgumentException("Atoms cannot be null!");
 			if (datum == null) throw new IllegalArgumentException("Datum cannot be null!");
 
@@ -49,10 +48,10 @@ public class RawMolecule extends MoleculeInfo { // mid-level runnable molecule r
 			// Map of unique Zs and their corresponding param numbers needed for differentiation.
 			Map<Integer, int[]> uniqueNPs = new TreeMap<>();
 
-			for (RawAtom a : atoms) {
+			for (Atom a : atoms) {
 				atomicNumbers.add(a.Z);
 
-				AtomProperties ap = AtomHandler.getAtoms()[a.Z];
+				AtomProperties ap = AtomProperties.getAtoms()[a.Z];
 				miBuilder.nElectrons += ap.getQ();
 				miBuilder.nOrbitals += ap.getOrbitals().length;
 
@@ -90,7 +89,7 @@ public class RawMolecule extends MoleculeInfo { // mid-level runnable molecule r
 			int overallOrbitalIndex = 0;
 
 			for (int atomIndex = 0; atomIndex < atoms.length; atomIndex++) {
-				AtomProperties atom = AtomHandler.getAtoms()[atoms[atomIndex].Z];
+				AtomProperties atom = AtomProperties.getAtoms()[atoms[atomIndex].Z];
 
 				int olength = atom.getOrbitals().length;
 				miBuilder.orbsOfAtom[atomIndex] = new int[olength];
@@ -128,30 +127,28 @@ public class RawMolecule extends MoleculeInfo { // mid-level runnable molecule r
 				miBuilder.missingOfAtom[j] = missing;
 			}
 
-			return new RawMolecule(miBuilder.build(), atoms, expGeom, datum);
+			return new RunnableMolecule(miBuilder.build(), atoms, expGeom, datum);
 		}
 
 		public void setAtoms(int[] Zs, double[][] coords) {
-			atoms = toRawAtoms(Zs, coords);
+			atoms = toAtoms(Zs, coords);
 		}
 
 		public void setExpGeom(int[] Zs, double[][] coords) {
-			expGeom = toRawAtoms(Zs, coords);
+			expGeom = toAtoms(Zs, coords);
 		}
 
-		private RawAtom[] toRawAtoms(int[] Zs, double[][] coords) {
+		private Atom[] toAtoms(int[] Zs, double[][] coords) {
 			if (Zs.length != coords.length) {
 				throw new IllegalArgumentException("Zs and coordinates length mismatch!");
 			}
 
 			int length = Zs.length;
 
-			RawAtom[] ras = new RawAtom[length];
+			Atom[] ras = new Atom[length];
 
 			for (int i = 0; i < length; i++) {
-				ras[i] = new RawAtom();
-				ras[i].Z = Zs[i];
-				ras[i].coords = coords[i];
+				ras[i] = new Atom(Zs[i], coords[i]);
 			}
 
 			return ras;

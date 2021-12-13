@@ -1,12 +1,11 @@
-package runcycle.output;
+package frontend;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import runcycle.MoleculeResult;
-import runcycle.input.RawInput;
+import runcycle.output.MoleculeOutput;
 import tools.Utils;
 
 import java.io.FileNotFoundException;
@@ -16,32 +15,6 @@ import java.io.IOException;
 
 public class OutputHandler {
 	private static final Logger logger = LogManager.getLogger();
-
-	public static MoleculeOutput toMoleculeOutput(MoleculeResult result,
-												  boolean isRunHessian) {
-		MoleculeOutput mo = new MoleculeOutput();
-		mo.rawMolecule = result.getRm();
-		mo.time = result.getTime();
-
-		mo.hf = result.getHF();
-		mo.dipole = result.getDipole();
-		mo.ie = -result.getIE();
-		mo.geomGradient = result.getGeomGradient();
-		mo.totalError = result.getTotalError();
-
-		ParamGradientOutput pgo = new ParamGradientOutput();
-		pgo.hf = result.getHFDerivs();
-		pgo.dipole = result.getDipoleDerivs();
-		pgo.ie = result.getIEDerivs();
-		pgo.geom = result.getGeomDerivs();
-		pgo.total = result.getTotalGradients();
-
-		mo.gradient = pgo;
-
-		if (isRunHessian) mo.hessian = result.getHessian();
-
-		return mo;
-	}
 
 	public static MoleculeOutput[] importMoleculeOutputs(String inputPath) {
 		MoleculeOutput[] mos = null;
@@ -116,7 +89,7 @@ public class OutputHandler {
 			if (mo.time > max) max = mo.time;
 			ttError += mo.totalError;
 			System.out.println(
-					mo.rawMolecule.index + "mo.totalError = " + mo.totalError);
+					mo.runnableMolecule.index + "mo.totalError = " + mo.totalError);
 		}
 		System.out.println(time / 1e3 / 60 / 60);
 		System.out.println("max = " + max / 1e3 / 60);

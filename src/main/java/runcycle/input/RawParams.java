@@ -1,20 +1,15 @@
 package runcycle.input;
 
-import java.util.Arrays;
-
 public class RawParams {
-	public double[][] nddoParams;
-	public double[] lastHessian;
-	public double[] lastGradient; // total gradients
-	public double[] lastDir;
+	public final double[][] nddoParams;
+	public final double[] lastDir;
+	public final double[] lastGradient; // total gradients
+	public final double[] lastHessian;
 
-	@Override
-	public String toString() {
-		return "RawParams{" +
-				"nddoParams=" + Arrays.toString(nddoParams) +
-				", lastHessian=" + Arrays.toString(lastHessian) +
-				", lastGradient=" + Arrays.toString(lastGradient) +
-				", lastSearchDir=" + Arrays.toString(lastDir) +
-				'}';
+	public RawParams(double[][] nddoParams, double[] lastDir, double[] lastGradient, double[] lastHessian) {
+		this.nddoParams = nddoParams;
+		this.lastDir = lastDir;
+		this.lastGradient = lastGradient;
+		this.lastHessian = lastHessian;
 	}
 }

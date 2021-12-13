@@ -1,8 +1,51 @@
 package nddo.structs;
 
+import com.google.gson.Gson;
+import nddo.Constants;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class AtomProperties { // Only 119 of these, immutable
+
+	private static AtomProperties[] atoms = getAtoms();
+	private static HashMap<String, AtomProperties> atomsMap = getAtomsMap();
+
+	private static void populateAtoms() {
+		atoms = new AtomProperties[Constants.maxAtomNum];
+		atomsMap = new HashMap<>();
+
+		try {
+			Gson gson = new Gson();
+			String json = Files.readString(Path.of("atom-properties.json"));
+
+			AtomProperties[] unindexedAtoms = gson.fromJson(json, AtomProperties[].class);
+
+			for (AtomProperties atom : unindexedAtoms) {
+				atom.setOrbitals(OrbitalProperties.generateOrbitals(atom.getPeriod()));
+
+				getAtoms()[atom.getZ()] = atom;
+				getAtomsMap().put(atom.getName(), atom);
+			}
+		} catch (IOException e) {
+			throw new RuntimeException("atom-properties.json not found!");
+		}
+	}
+
+	public static AtomProperties[] getAtoms() {
+		if (atoms == null) populateAtoms();
+
+		return atoms;
+	}
+
+	public static HashMap<String, AtomProperties> getAtomsMap() {
+		if (atomsMap == null) populateAtoms();
+
+		return atomsMap;
+	}
 	private static final double HEATCONV = 4.3363E-2;
 	private int Z, Q;
 	private String name;
