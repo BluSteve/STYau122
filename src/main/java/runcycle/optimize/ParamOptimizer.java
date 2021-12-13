@@ -1,4 +1,4 @@
-package optimize;
+package runcycle.optimize;
 
 import org.ejml.simple.SimpleMatrix;
 

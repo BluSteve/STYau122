@@ -1,11 +1,10 @@
 package runcycle.input;
 
-import nddo.MoleculeInfo;
-import scf.AtomHandler;
-import scf.AtomProperties;
+import nddo.structs.MoleculeInfo;
+import nddo.structs.AtomHandler;
+import nddo.structs.AtomProperties;
 import tools.Utils;
 
-import java.io.IOException;
 import java.util.*;
 
 public class RawMolecule extends MoleculeInfo { // for storage purposes

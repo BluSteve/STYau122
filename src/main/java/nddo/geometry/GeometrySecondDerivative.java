@@ -7,7 +7,7 @@ import nddo.solution.SolutionU;
 import org.ejml.data.SingularMatrixException;
 import org.ejml.dense.row.CommonOps_DDRM;
 import org.ejml.simple.SimpleMatrix;
-import scf.GTO;
+import nddo.scf.GTO;
 import tools.Utils;
 
 import java.util.ArrayList;

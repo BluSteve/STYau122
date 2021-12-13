@@ -1,4 +1,4 @@
-package scf;
+package nddo.structs;
 
 import java.io.Serializable;
 import java.util.ArrayList;

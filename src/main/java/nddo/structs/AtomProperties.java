@@ -1,4 +1,4 @@
-package scf;
+package nddo.structs;
 
 import java.util.Arrays;
 

@@ -1,6 +1,6 @@
 package nddo.solution;
 
-import nddo.MoleculeInfo;
+import nddo.structs.MoleculeInfo;
 import nddo.NDDO6G;
 import nddo.NDDOAtom;
 import org.ejml.data.SingularMatrixException;

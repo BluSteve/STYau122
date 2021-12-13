@@ -11,7 +11,6 @@ import org.openjdk.jmh.annotations.*;
 import runcycle.input.InputHandler;
 import runcycle.input.RawInput;
 import runcycle.input.RawMolecule;
-import scf.AtomHandler;
 import tools.Utils;
 
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package optimize;
+package runcycle.optimize;
 
 public class ReferenceData {
 	private double[] derivatives;

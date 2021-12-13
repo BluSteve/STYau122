@@ -3,9 +3,9 @@ package nddo;
 import nddo.geometry.GeometryDerivative;
 import nddo.geometry.GeometrySecondDerivative;
 import nddo.param.ParamDerivative;
-import scf.Atom;
-import scf.AtomProperties;
-import scf.OrbitalProperties;
+import nddo.structs.Atom;
+import nddo.structs.AtomProperties;
+import nddo.structs.OrbitalProperties;
 
 public abstract class NDDOAtom extends Atom {
 	protected static final double bohr = 1.88973;

@@ -1,4 +1,6 @@
-package scf;
+package nddo.scf;
+
+import nddo.structs.OrbitalProperties;
 
 public class STO6G extends LCGTO {
 	private final static double[] exp1 =

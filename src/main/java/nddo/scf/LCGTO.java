@@ -1,9 +1,12 @@
-package scf;
+package nddo.scf;
+
+import nddo.structs.Orbital;
+import nddo.structs.OrbitalProperties;
 
 import java.util.Arrays;
 
 // this is a complete orbital representation
-public class LCGTO extends Orbital{ // HAS AtomFixed, OrbitalProperties, c, e
+public class LCGTO extends Orbital { // HAS AtomFixed, OrbitalProperties, c, e
 	//LCGTO = Linear Combinations (of) GTOs i.e. contracted basis functions
 	//Each LCGTO is described by an array of GTOs and an array of contraction
 	// coefficients

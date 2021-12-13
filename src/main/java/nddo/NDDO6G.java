@@ -1,10 +1,10 @@
 package nddo;
 
 import nddo.param.ParamDerivative;
-import scf.GTO;
-import scf.LCGTO;
-import scf.OrbitalProperties;
-import scf.STO6G;
+import nddo.scf.GTO;
+import nddo.scf.LCGTO;
+import nddo.structs.OrbitalProperties;
+import nddo.scf.STO6G;
 
 public class NDDO6G extends STO6G {
 	public double beta, U, p0, p1, p2, D1, D2;

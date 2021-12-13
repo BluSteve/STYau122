@@ -1,11 +1,11 @@
-package nddo.am1;
+package runcycle.am1;
 
 import nddo.NDDO6G;
 import nddo.NDDOAtom;
 import nddo.NDDOParams;
 import nddo.geometry.GeometryDerivative;
-import scf.AtomProperties;
-import scf.GTO;
+import nddo.structs.AtomProperties;
+import nddo.scf.GTO;
 
 public class AM1Atom extends NDDOAtom {
 	public static final int[] HParamNums =

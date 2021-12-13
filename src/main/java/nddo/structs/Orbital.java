@@ -1,4 +1,4 @@
-package scf;
+package nddo.structs;
 
 public abstract class Orbital {
 	public OrbitalProperties op;

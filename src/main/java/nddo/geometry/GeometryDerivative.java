@@ -5,8 +5,8 @@ import nddo.NDDOAtom;
 import nddo.solution.SolutionR;
 import nddo.solution.SolutionU;
 import org.ejml.simple.SimpleMatrix;
-import scf.GTO;
-import scf.LCGTO;
+import nddo.scf.GTO;
+import nddo.scf.LCGTO;
 import tools.Utils;
 
 public class GeometryDerivative {

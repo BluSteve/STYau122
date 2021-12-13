@@ -2,10 +2,10 @@ package runcycle.input;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import nddo.am1.AM1Atom;
+import runcycle.am1.AM1Atom;
 import nddo.mndo.MNDOAtom;
-import scf.AtomHandler;
-import scf.Model;
+import nddo.structs.AtomHandler;
+import nddo.structs.Model;
 import tools.Utils;
 
 import java.io.FileReader;

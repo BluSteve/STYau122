@@ -2,8 +2,8 @@ package tools;
 
 import nddo.NDDOAtom;
 import nddo.NDDOParams;
-import nddo.am1.AM1Atom;
-import nddo.am1.AM1Params;
+import runcycle.am1.AM1Atom;
+import runcycle.am1.AM1Params;
 import nddo.mndo.MNDOAtom;
 import org.apache.commons.lang3.StringUtils;
 import org.ejml.data.DMatrixRMaj;
@@ -12,8 +12,8 @@ import org.ejml.interfaces.decomposition.EigenDecomposition_F64;
 import org.ejml.simple.SimpleMatrix;
 import runcycle.input.RawAtom;
 import runcycle.input.RawInput;
-import scf.AtomHandler;
-import scf.Model;
+import nddo.structs.AtomHandler;
+import nddo.structs.Model;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
@@ -208,6 +208,7 @@ public class Utils {
 		return npMap;
 	}
 
+	// todo you know what to do
 	public static NDDOAtom[] toNDDOAtoms(Model model, RawAtom[] ras, NDDOParams[] npMap) {
 		NDDOAtom[] atoms = new NDDOAtom[ras.length];
 

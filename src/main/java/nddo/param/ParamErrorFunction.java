@@ -4,7 +4,7 @@ import nddo.NDDOAtom;
 import nddo.solution.Solution;
 import nddo.solution.SolutionR;
 import nddo.solution.SolutionU;
-import scf.GTO;
+import nddo.scf.GTO;
 
 import java.util.ArrayList;
 

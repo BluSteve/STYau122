@@ -2,8 +2,8 @@ import nddo.NDDOAtom;
 import nddo.NDDOParams;
 import nddo.param.ParamGradient;
 import nddo.param.ParamHessian;
-import optimize.ParamOptimizer;
-import optimize.ReferenceData;
+import runcycle.optimize.ParamOptimizer;
+import runcycle.optimize.ReferenceData;
 import org.apache.commons.lang3.time.StopWatch;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,7 +16,6 @@ import runcycle.input.RawInput;
 import runcycle.input.RawMolecule;
 import runcycle.output.MoleculeOutput;
 import runcycle.output.OutputHandler;
-import scf.AtomHandler;
 import tools.Utils;
 
 import java.io.FileWriter;

@@ -1,5 +1,4 @@
-package scf;
-
+package nddo.structs;
 
 import com.google.gson.Gson;
 import tools.Utils;

@@ -1,6 +1,6 @@
 package runcycle.input;
 
-import scf.Model;
+import nddo.structs.Model;
 
 import java.util.Arrays;
 

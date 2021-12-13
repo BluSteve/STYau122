@@ -4,8 +4,8 @@ import nddo.NDDO6G;
 import nddo.NDDOAtom;
 import nddo.NDDOParams;
 import nddo.geometry.GeometryDerivative;
-import scf.AtomProperties;
-import scf.GTO;
+import nddo.structs.AtomProperties;
+import nddo.scf.GTO;
 
 public class MNDOAtom extends NDDOAtom {
 	public static final int[] T1ParamNums = {0, 1, 3, 5, 7};

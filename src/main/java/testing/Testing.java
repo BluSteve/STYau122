@@ -1,6 +1,6 @@
 package testing;
 
-import nddo.MoleculeInfo;
+import nddo.structs.MoleculeInfo;
 import nddo.NDDOParams;
 import nddo.geometry.GeometryDerivative;
 import nddo.mndo.MNDOAtom;
@@ -12,7 +12,7 @@ import org.ejml.simple.SimpleMatrix;
 import runcycle.input.InputHandler;
 import runcycle.input.RawInput;
 import runcycle.input.RawMolecule;
-import scf.AtomHandler;
+import nddo.structs.AtomHandler;
 import tools.Utils;
 
 import java.util.ArrayList;

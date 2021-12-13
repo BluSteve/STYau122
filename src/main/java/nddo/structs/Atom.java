@@ -1,4 +1,4 @@
-package scf;
+package nddo.structs;
 
 public abstract class Atom {
 	protected final double[] coordinates;

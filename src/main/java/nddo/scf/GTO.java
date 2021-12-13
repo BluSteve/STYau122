@@ -1,11 +1,14 @@
-package scf;
+package nddo.scf;
+
+import nddo.structs.Orbital;
+import nddo.structs.OrbitalProperties;
 
 import java.util.Arrays;
 
 /*
 this is the GTO class, and all the relevant GTO integral routines are implemented here. The GTO object represents a
 GTO of the form (x-coordinates[0])^i (y-coordinates[1])^j (z-coordinates[2])^k exp(-exponent * r^2)*/
-public class GTO extends Orbital{
+public class GTO extends Orbital {
 	private final double N;
 	private final double exponent; /*radial exponent*/
 
