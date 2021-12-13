@@ -87,8 +87,6 @@ public class Main {
 		StopWatch sw = new StopWatch();
 		sw.start();
 
-		AtomHandler.populateAtoms();
-
 		for (int runNum = 0; runNum < NUM_RUNS; runNum++) {
 			StopWatch lsw = new StopWatch();
 			lsw.start();

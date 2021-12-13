@@ -9,13 +9,10 @@ import java.nio.file.Path;
 import java.util.HashMap;
 
 public class AtomHandler {
-	private static AtomProperties[] atoms;
-	private static HashMap<String, AtomProperties> atomsMap;
+	private static AtomProperties[] atoms = getAtoms();
+	private static HashMap<String, AtomProperties> atomsMap = getAtomsMap();
 
-	/**
-	 * Atoms must be pre-initialized if you're multithreading!
-	 */
-	public static void populateAtoms() {
+	private static void populateAtoms() {
 		atoms = new AtomProperties[Constants.maxAtomNum];
 		atomsMap = new HashMap<>();
 
