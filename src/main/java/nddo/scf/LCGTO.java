@@ -1,6 +1,5 @@
 package nddo.scf;
 
-import nddo.structs.Orbital;
 import nddo.structs.OrbitalProperties;
 
 import java.util.Arrays;

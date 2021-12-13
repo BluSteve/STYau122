@@ -8,6 +8,7 @@ import nddo.structs.AtomProperties;
 import nddo.scf.GTO;
 
 public class AM1Atom extends NDDOAtom {
+	private static double bohr = 1.88973;
 	public static final int[] HParamNums =
 			{0, 1, 3, 5, 7, 8, 9, 10, 12, 13, 14, 16, 17, 18};
 	public static final int[] NParamNums =

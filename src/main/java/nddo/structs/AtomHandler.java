@@ -1,7 +1,7 @@
 package nddo.structs;
 
 import com.google.gson.Gson;
-import tools.Utils;
+import nddo.Constants;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,7 +13,7 @@ public class AtomHandler {
 	private static HashMap<String, AtomProperties> atomsMap;
 
 	private static void populateAtoms() {
-		atoms = new AtomProperties[Utils.maxAtomNum];
+		atoms = new AtomProperties[Constants.maxAtomNum];
 		atomsMap = new HashMap<>();
 
 		try {

@@ -1,5 +1,6 @@
 package nddo.param;
 
+import nddo.Constants;
 import nddo.NDDO6G;
 import nddo.NDDOAtom;
 import nddo.NDDOParams;
@@ -1989,7 +1990,7 @@ public class ParamDerivative {
 
 			try {
 				NDDOParams params = A.getParams();
-				params.modifyParam(5 + type, Utils.LAMBDA);
+				params.modifyParam(5 + type, Constants.LAMBDA);
 
 				A = A.withNewParams(params);
 			} catch (Exception e) {
@@ -2000,7 +2001,7 @@ public class ParamDerivative {
 		if (num == 1 || num == 2) {
 			try {
 				NDDOParams params = C.getParams();
-				params.modifyParam(5 + type, Utils.LAMBDA);
+				params.modifyParam(5 + type, Constants.LAMBDA);
 
 				C = C.withNewParams(params);
 			} catch (Exception e) {
@@ -2013,7 +2014,7 @@ public class ParamDerivative {
 				NDDO6G.getG(A.getOrbitals()[aindex], A.getOrbitals()[bindex],
 						C.getOrbitals()[cindex], C.getOrbitals()[dindex]);
 
-		return (finalval - initial) / Utils.LAMBDA;
+		return (finalval - initial) / Constants.LAMBDA;
 
 
 	}
@@ -2035,7 +2036,7 @@ public class ParamDerivative {
 
 			try {
 				NDDOParams params = A.getParams();
-				params.modifyParam(5 + type, Utils.LAMBDA);
+				params.modifyParam(5 + type, Constants.LAMBDA);
 
 				A = A.withNewParams(params);
 			} catch (Exception e) {
@@ -2046,7 +2047,7 @@ public class ParamDerivative {
 		if (num == 1 || num == 2) {
 			try {
 				NDDOParams params = B.getParams();
-				params.modifyParam(5 + type, Utils.LAMBDA);
+				params.modifyParam(5 + type, Constants.LAMBDA);
 
 				B = B.withNewParams(params);
 			} catch (Exception e) {
@@ -2058,7 +2059,7 @@ public class ParamDerivative {
 		double finalval =
 				NDDO6G.getS(A.getOrbitals()[aindex], B.getOrbitals()[bindex]);
 
-		return (finalval - initial) / Utils.LAMBDA;
+		return (finalval - initial) / Constants.LAMBDA;
 
 
 	}
@@ -2072,7 +2073,7 @@ public class ParamDerivative {
 
 			try {
 				NDDOParams params = A.getParams();
-				params.modifyParam(0, Utils.LAMBDA);
+				params.modifyParam(0, Constants.LAMBDA);
 
 				A = A.withNewParams(params);
 			} catch (Exception e) {
@@ -2083,7 +2084,7 @@ public class ParamDerivative {
 		if (num == 1 || num == 2) {
 			try {
 				NDDOParams params = B.getParams();
-				params.modifyParam(0, Utils.LAMBDA);
+				params.modifyParam(0, Constants.LAMBDA);
 
 				B = B.withNewParams(params);
 			} catch (Exception e) {
@@ -2094,7 +2095,7 @@ public class ParamDerivative {
 
 		double finalval = A.crf(B);
 
-		return (finalval - initial) / Utils.LAMBDA;
+		return (finalval - initial) / Constants.LAMBDA;
 
 
 	}
@@ -3628,13 +3629,13 @@ public class ParamDerivative {
 
 
 		NDDOParams params = a.getParams();
-		params.modifyParam(5 + type, Utils.LAMBDA);
+		params.modifyParam(5 + type, Constants.LAMBDA);
 
 		NDDOAtom a2 = a.withNewParams(params);
 
 		double D1perturbed = a2.D1;
 
-		return (D1perturbed - D1) / Utils.LAMBDA;
+		return (D1perturbed - D1) / Constants.LAMBDA;
 
 	}
 
@@ -3644,13 +3645,13 @@ public class ParamDerivative {
 
 
 		NDDOParams params = a.getParams();
-		params.modifyParam(5 + type, Utils.LAMBDA);
+		params.modifyParam(5 + type, Constants.LAMBDA);
 
 		NDDOAtom a2 = a.withNewParams(params);
 
 		double D2perturbed = a2.D2;
 
-		return (D2perturbed - D2) / Utils.LAMBDA;
+		return (D2perturbed - D2) / Constants.LAMBDA;
 
 	}
 
@@ -3659,13 +3660,13 @@ public class ParamDerivative {
 		double p1 = a.p1;
 
 		NDDOParams params = a.getParams();
-		params.modifyParam(5 + type, Utils.LAMBDA);
+		params.modifyParam(5 + type, Constants.LAMBDA);
 
 		NDDOAtom a2 = a.withNewParams(params);
 
 		double p1perturbed = a2.p1;
 
-		return (p1perturbed - p1) / Utils.LAMBDA;
+		return (p1perturbed - p1) / Constants.LAMBDA;
 
 	}
 
@@ -3674,13 +3675,13 @@ public class ParamDerivative {
 		double p2 = a.p2;
 
 		NDDOParams params = a.getParams();
-		params.modifyParam(5 + type, Utils.LAMBDA);
+		params.modifyParam(5 + type, Constants.LAMBDA);
 
 		NDDOAtom a2 = a.withNewParams(params);
 
 		double p2perturbed = a2.p2;
 
-		return (p2perturbed - p2) / Utils.LAMBDA;
+		return (p2perturbed - p2) / Constants.LAMBDA;
 
 	}
 }

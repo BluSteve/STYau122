@@ -1,5 +1,6 @@
 package nddo.param;
 
+import nddo.Constants;
 import nddo.geometry.GeometryDerivative;
 import nddo.solution.Solution;
 import nddo.solution.SolutionU;
@@ -26,7 +27,7 @@ class ParamGradientU extends ParamGradient {
 			s.getRm().getLogger().error(errorMessage);
 		}
 		else {
-			HFDerivs[ZI][paramNum] = (sPrime.hf - s.hf) / Utils.LAMBDA;
+			HFDerivs[ZI][paramNum] = (sPrime.hf - s.hf) / Constants.LAMBDA;
 		}
 
 		totalGradients[ZI][paramNum] +=
@@ -40,9 +41,9 @@ class ParamGradientU extends ParamGradient {
 			s.getRm().getLogger().error(errorMessage);
 		}
 		else {
-			HFDerivs[ZI][paramNum] = (sPrime.hf - s.hf) / Utils.LAMBDA;
+			HFDerivs[ZI][paramNum] = (sPrime.hf - s.hf) / Constants.LAMBDA;
 			if (full) dipoleDerivs[ZI][paramNum] =
-					(sPrime.dipole - s.dipole) / Utils.LAMBDA;
+					(sPrime.dipole - s.dipole) / Constants.LAMBDA;
 		}
 		totalGradients[ZI][paramNum] +=
 				2 * (s.hf - datum[0]) * HFDerivs[ZI][paramNum];
@@ -56,7 +57,7 @@ class ParamGradientU extends ParamGradient {
 			s.getRm().getLogger().error(errorMessage);
 		}
 		else {
-			IEDerivs[ZI][paramNum] = -(sPrime.homo - s.homo) / Utils.LAMBDA;
+			IEDerivs[ZI][paramNum] = -(sPrime.homo - s.homo) / Constants.LAMBDA;
 		}
 		totalGradients[ZI][paramNum] +=
 				200 * -(s.homo + datum[2]) * IEDerivs[ZI][paramNum];

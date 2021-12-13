@@ -1,5 +1,6 @@
 package tools;
 
+import nddo.Constants;
 import nddo.NDDOAtom;
 import nddo.NDDOParams;
 import runcycle.am1.AM1Atom;
@@ -23,9 +24,6 @@ import java.util.Arrays;
 import java.util.Collection;
 
 public class Utils {
-	public static final double LAMBDA = 1E-5;
-	public static final double bohr = 1.88973;
-	public static final int maxAtomNum = 10;
 
 	public static double[] toDoubles(String[] strs) {
 		double[] doubles = new double[strs.length];
@@ -61,13 +59,13 @@ public class Utils {
 
 	public static double[] bohr(double[] notbohr) {
 		double[] res = new double[notbohr.length];
-		for (int i = 0; i < notbohr.length; i++) res[i] = notbohr[i] * bohr;
+		for (int i = 0; i < notbohr.length; i++) res[i] = notbohr[i] * Constants.bohr;
 		return res;
 	}
 
 	public static double[] debohr(double[] bohr) {
 		double[] res = new double[bohr.length];
-		for (int i = 0; i < bohr.length; i++) res[i] = bohr[i] / Utils.bohr;
+		for (int i = 0; i < bohr.length; i++) res[i] = bohr[i] / Constants.bohr;
 		return res;
 	}
 
@@ -88,7 +86,7 @@ public class Utils {
 		for (int i = 0; i < atoms.length; i++) {
 			if (atoms[i].getAtomProperties().getZ() == Z) {
 				NDDOParams params = atoms[i].getParams();
-				params.modifyParam(paramNum, Utils.LAMBDA);
+				params.modifyParam(paramNum, Constants.LAMBDA);
 				perturbed[i] = atoms[i].withNewParams(params);
 			}
 			else {
@@ -192,7 +190,7 @@ public class Utils {
 	}
 
 	public static NDDOParams[] getNpMap(RawInput ri) { // todo move this somewhere else
-		NDDOParams[] npMap = new NDDOParams[Utils.maxAtomNum];
+		NDDOParams[] npMap = new NDDOParams[Constants.maxAtomNum];
 
 		for (int i = 0; i < ri.atomTypes.length; i++) {
 			switch (ri.model) {

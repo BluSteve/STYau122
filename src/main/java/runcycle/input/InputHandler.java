@@ -2,6 +2,7 @@ package runcycle.input;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import nddo.Constants;
 import runcycle.am1.AM1Atom;
 import nddo.mndo.MNDOAtom;
 import nddo.structs.AtomHandler;
@@ -109,7 +110,7 @@ public class InputHandler {
 
 		// Params
 		int[][] neededParams = new int[ri.atomTypes.length][];
-		int[][] npMap = new int[Utils.maxAtomNum][];
+		int[][] npMap = new int[Constants.maxAtomNum][];
 		int i = 0;
 		for (int atomType : ri.atomTypes) {
 			switch (ri.model) {

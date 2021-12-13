@@ -1,10 +1,9 @@
 package nddo.structs;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
-public class OrbitalProperties implements Serializable {
+public class OrbitalProperties {
 	private static final String[][] ORBITALS_PER_SHELL =
 			new String[][]{new String[0], new String[]{"s"},
 					new String[]{"s", "p"},
@@ -13,15 +12,35 @@ public class OrbitalProperties implements Serializable {
 					new String[]{"s", "p", "d", "f"},
 					new String[]{"s", "p", "d", "f"},
 					new String[]{"s", "p", "d", "f"}};
-	private final String type;
-	private final int shell, L;
-	private final int[] config;
+	private static final List<OrbitalProperties> cache = new ArrayList<>();
 
-	private OrbitalProperties(String type, int shell, int[] config) {
+	private final String type;
+	private final int shell, L, i, j, k;
+
+	private OrbitalProperties(String type, int shell, int i, int j, int k) {
 		this.type = type;
 		this.shell = shell;
-		this.config = config;
-		this.L = config[0] + config[1] + config[2];
+		this.i = i;
+		this.j = j;
+		this.k = k;
+		this.L = i + j + k;
+	}
+
+	/**
+	 * Implements the Flyweight pattern. This method ensures a finite number of OrbitalProperties objects.
+	 * @return Potentially cached OrbitalProperties object.
+	 */
+	private static OrbitalProperties of(String type, int shell, int i, int j, int k) {
+		for (OrbitalProperties op : cache) {
+			if (op.type.equals(type) && op.shell == shell && op.i == i && op.j == j && op.k == k) {
+				return op;
+			}
+		}
+
+		OrbitalProperties newop = new OrbitalProperties(type, shell, i, j, k);
+		cache.add(newop);
+
+		return newop;
 	}
 
 	static OrbitalProperties[] generateOrbitals(int shell) {
@@ -30,17 +49,15 @@ public class OrbitalProperties implements Serializable {
 		for (String x : ORBITALS_PER_SHELL[shell]) {
 			switch (x) {
 				case "s":
-					orbitals.add(new OrbitalProperties(x, shell,
-							new int[]{0, 0, 0}));
+					orbitals.add(OrbitalProperties.of(x, shell, 0, 0, 0));
 					break;
 				case "p":
-					orbitals.add(new OrbitalProperties(x, shell,
-							new int[]{1, 0, 0}));
-					orbitals.add(new OrbitalProperties(x, shell,
-							new int[]{0, 1, 0}));
-					orbitals.add(new OrbitalProperties(x, shell,
-							new int[]{0, 0, 1}));
+					orbitals.add(OrbitalProperties.of(x, shell, 1, 0, 0));
+					orbitals.add(OrbitalProperties.of(x, shell, 0, 1, 0));
+					orbitals.add(OrbitalProperties.of(x, shell, 0, 0, 1));
 					break;
+				default:
+					throw new IllegalArgumentException("Unidentified orbital type!");
 			}
 		}
 
@@ -55,21 +72,19 @@ public class OrbitalProperties implements Serializable {
 		return shell;
 	}
 
-	public int[] getConfig() {
-		return config;
+	public int geti() {
+		return i;
+	}
+
+	public int getj() {
+		return j;
+	}
+
+	public int getk() {
+		return k;
 	}
 
 	public int getL() {
 		return L;
-	}
-
-	@Override
-	public String toString() {
-		return "OrbitalProperties{" +
-				"type='" + type + '\'' +
-				", shell=" + shell +
-				", L=" + L +
-				", config=" + Arrays.toString(config) +
-				'}';
 	}
 }

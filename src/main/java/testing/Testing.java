@@ -1,5 +1,6 @@
 package testing;
 
+import nddo.Constants;
 import nddo.structs.MoleculeInfo;
 import nddo.NDDOParams;
 import nddo.geometry.GeometryDerivative;
@@ -219,54 +220,54 @@ public class Testing {
 				12.23, 11.47,
 				2.43, 11.08, 9.84);
 		MNDOAtom atom1 = new MNDOAtom(AtomHandler.getAtomsMap().get("H"),
-				new double[]{0.635 * Utils.bohr, 0.639 * Utils.bohr,
-						0.635 * Utils.bohr},
+				new double[]{0.635 * Constants.bohr, 0.639 * Constants.bohr,
+						0.635 * Constants.bohr},
 				h);
 		MNDOAtom atom2 = new MNDOAtom(AtomHandler.getAtomsMap().get("H"),
-				new double[]{0.635 * Utils.bohr, -0.635 * Utils.bohr,
-						-0.639 * Utils.bohr}, h);
+				new double[]{0.635 * Constants.bohr, -0.635 * Constants.bohr,
+						-0.639 * Constants.bohr}, h);
 		MNDOAtom atom3 = new MNDOAtom(AtomHandler.getAtomsMap().get("H"),
-				new double[]{-0.639 * Utils.bohr, -0.635 * Utils.bohr,
-						0.635 * Utils.bohr}, h);
+				new double[]{-0.639 * Constants.bohr, -0.635 * Constants.bohr,
+						0.635 * Constants.bohr}, h);
 		MNDOAtom atom4 = new MNDOAtom(AtomHandler.getAtomsMap().get("H"),
-				new double[]{-0.639 * Utils.bohr, 0.639 * Utils.bohr,
-						-0.639 * Utils.bohr}, h);
+				new double[]{-0.639 * Constants.bohr, 0.639 * Constants.bohr,
+						-0.639 * Constants.bohr}, h);
 		MNDOAtom carbon = new MNDOAtom(AtomHandler.getAtomsMap().get("C"),
-				new double[]{-0.0021 * Utils.bohr, 0.0021 * Utils.bohr,
-						-0.0021 * Utils.bohr}, c);
+				new double[]{-0.0021 * Constants.bohr, 0.0021 * Constants.bohr,
+						-0.0021 * Constants.bohr}, c);
 
 		MNDOAtom[] atoms = new MNDOAtom[]{atom1, atom2, atom3, atom4, carbon};
 
 		MNDOAtom[] exp = new MNDOAtom[]{
 				new MNDOAtom(AtomHandler.getAtomsMap().get("H"),
-						new double[]{0.6304 * Utils.bohr, 0.6304 * Utils.bohr,
-								0.6304 * Utils.bohr}, h),
+						new double[]{0.6304 * Constants.bohr, 0.6304 * Constants.bohr,
+								0.6304 * Constants.bohr}, h),
 				new MNDOAtom(AtomHandler.getAtomsMap().get("H"),
-						new double[]{0.6304 * Utils.bohr, -0.6304 * Utils.bohr,
-								-0.6304 * Utils.bohr}, h),
+						new double[]{0.6304 * Constants.bohr, -0.6304 * Constants.bohr,
+								-0.6304 * Constants.bohr}, h),
 				new MNDOAtom(AtomHandler.getAtomsMap().get("H"),
-						new double[]{-0.6304 * Utils.bohr,
-								-0.6304 * Utils.bohr,
-								0.6304 * Utils.bohr}, h),
+						new double[]{-0.6304 * Constants.bohr,
+								-0.6304 * Constants.bohr,
+								0.6304 * Constants.bohr}, h),
 				new MNDOAtom(AtomHandler.getAtomsMap().get("H"),
-						new double[]{-0.6304 * Utils.bohr, 0.6304 * Utils.bohr,
-								-0.6304 * Utils.bohr}, h),
+						new double[]{-0.6304 * Constants.bohr, 0.6304 * Constants.bohr,
+								-0.6304 * Constants.bohr}, h),
 				new MNDOAtom(AtomHandler.getAtomsMap().get("C"),
 						new double[]{0, 0, 0}, c)};
 		MNDOAtom[] exp1 = new MNDOAtom[]{
 				new MNDOAtom(AtomHandler.getAtomsMap().get("H"),
-						new double[]{0.6304 * Utils.bohr, 0.6304 * Utils.bohr,
-								0.6304 * Utils.bohr}, h),
+						new double[]{0.6304 * Constants.bohr, 0.6304 * Constants.bohr,
+								0.6304 * Constants.bohr}, h),
 				new MNDOAtom(AtomHandler.getAtomsMap().get("H"),
-						new double[]{0.6304 * Utils.bohr, -0.6304 * Utils.bohr,
-								-0.6304 * Utils.bohr}, h),
+						new double[]{0.6304 * Constants.bohr, -0.6304 * Constants.bohr,
+								-0.6304 * Constants.bohr}, h),
 				new MNDOAtom(AtomHandler.getAtomsMap().get("H"),
-						new double[]{-0.6304 * Utils.bohr,
-								-0.6304 * Utils.bohr,
-								0.6304 * Utils.bohr}, h),
+						new double[]{-0.6304 * Constants.bohr,
+								-0.6304 * Constants.bohr,
+								0.6304 * Constants.bohr}, h),
 				new MNDOAtom(AtomHandler.getAtomsMap().get("H"),
-						new double[]{-0.6304 * Utils.bohr, 0.6304 * Utils.bohr,
-								-0.6304 * Utils.bohr}, h),
+						new double[]{-0.6304 * Constants.bohr, 0.6304 * Constants.bohr,
+								-0.6304 * Constants.bohr}, h),
 				new MNDOAtom(AtomHandler.getAtomsMap().get("C"),
 						new double[]{0, 0, 0}, c)};
 		double[] datum = new double[]{-17.9, 0, 13.6};

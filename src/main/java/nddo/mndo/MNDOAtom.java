@@ -7,6 +7,8 @@ import nddo.geometry.GeometryDerivative;
 import nddo.structs.AtomProperties;
 import nddo.scf.GTO;
 
+import static nddo.Constants.bohr;
+
 public class MNDOAtom extends NDDOAtom {
 	public static final int[] T1ParamNums = {0, 1, 3, 5, 7};
 	public static final int[] T2ParamNums = {0, 1, 2, 3, 4, 5, 6, 7};

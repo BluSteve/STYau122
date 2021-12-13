@@ -3,19 +3,28 @@ package nddo;
 import nddo.geometry.GeometryDerivative;
 import nddo.geometry.GeometrySecondDerivative;
 import nddo.param.ParamDerivative;
-import nddo.structs.Atom;
 import nddo.structs.AtomProperties;
 import nddo.structs.OrbitalProperties;
 
-public abstract class NDDOAtom extends Atom {
-	protected static final double bohr = 1.88973;
+public abstract class NDDOAtom {
+	protected final double[] coordinates;
+	protected final AtomProperties atomProperties;
 	protected final NDDOParams np;
 	public double p0, p1, p2, D1, D2;
 	protected NDDO6G[] orbitals;
 
+	/**
+	 * The standard representation of an atom used all over nddo.
+	 *
+	 * @param atomProperties Fixed atom properties.
+	 * @param coordinates    Coordinates will be cloned/ are passed-by-value.
+	 * @param np             NDDOParams will be cloned/ are pass-by-value.
+	 */
 	public NDDOAtom(AtomProperties atomProperties, double[] coordinates, NDDOParams np) {
-		super(atomProperties, coordinates);
+		this.atomProperties = atomProperties;
+		this.coordinates = coordinates.clone();
 		this.np = np.clone();
+
 		this.p0 = p0();
 		this.D1 = D1();
 		this.D2 = D2();
@@ -44,7 +53,21 @@ public abstract class NDDOAtom extends Atom {
 	}
 
 	/**
+	 * Get coordinates object with no cloning. Can be modified in place!
+	 *
+	 * @return Original coordinates array object.
+	 */
+	public double[] getCoordinates() {
+		return this.coordinates;
+	}
+
+	public AtomProperties getAtomProperties() {
+		return this.atomProperties;
+	}
+
+	/**
 	 * Returns a brand new NDDOAtom object. Everything is pass-by-value.
+	 *
 	 * @param np New NDDOParams.
 	 * @return New NDDOAtom.
 	 */
@@ -52,6 +75,7 @@ public abstract class NDDOAtom extends Atom {
 
 	/**
 	 * Returns a brand new NDDOAtom object. Everything is pass-by-value.
+	 *
 	 * @param coordinates New coordinates.
 	 * @return New NDDOAtom.
 	 */
@@ -129,7 +153,7 @@ public abstract class NDDOAtom extends Atom {
 		while (Math.abs(guess - newguess) > 1E-12) {
 			guess = newguess;
 			double f = 1 / guess + 1 / Math.sqrt(guess * guess + 2 * D2 * D2) -
-							2 / Math.sqrt(guess * guess + D2 * D2) - 4 * (np.getGpp() - np.getGp2()) / 27.2114;
+					2 / Math.sqrt(guess * guess + D2 * D2) - 4 * (np.getGpp() - np.getGp2()) / 27.2114;
 			double fprime = -1 / (guess * guess) - guess / Math.pow(guess * guess + 2 * D2 * D2, 1.5) +
 					2 * guess / Math.pow(guess * guess + D2 * D2, 1.5);
 			newguess = guess - f / fprime;

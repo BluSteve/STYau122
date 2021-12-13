@@ -1,10 +1,10 @@
 package nddo.param;
 
+import nddo.Constants;
 import nddo.solution.Solution;
 import nddo.solution.SolutionR;
 import nddo.solution.SolutionU;
 import org.ejml.simple.SimpleMatrix;
-import tools.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -217,7 +217,7 @@ public abstract class ParamGradient {
 		}
 		double geomGradient = 627.5 * Math.sqrt(sum);
 		geomDerivs[ZI][paramNum] =
-				1 / Utils.LAMBDA * (geomGradient - e.geomGradient);
+				1 / Constants.LAMBDA * (geomGradient - e.geomGradient);
 		totalGradients[ZI][paramNum] +=
 				0.000098 * e.geomGradient * geomDerivs[ZI][paramNum];
 	}

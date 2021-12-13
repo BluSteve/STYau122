@@ -1,5 +1,6 @@
 package nddo.param;
 
+import nddo.Constants;
 import nddo.solution.Solution;
 import org.apache.commons.lang3.ArrayUtils;
 import tools.Utils;
@@ -271,7 +272,7 @@ public class ParamHessian {
 		gPrime.computeGradient(ZIndex1, paramNum1);
 
 		double element = (gPrime.getTotalGradients()[ZIndex1][paramNum1] -
-				g.getTotalGradients()[ZIndex1][paramNum1]) / Utils.LAMBDA;
+				g.getTotalGradients()[ZIndex1][paramNum1]) / Constants.LAMBDA;
 
 		int i2 = ZIndex2 * Solution.maxParamNum + paramNum2;
 		int i1 = ZIndex1 * Solution.maxParamNum + paramNum1;

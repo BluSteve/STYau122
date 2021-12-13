@@ -1,4 +1,6 @@
-package nddo.structs;
+package nddo.scf;
+
+import nddo.structs.OrbitalProperties;
 
 public abstract class Orbital {
 	public OrbitalProperties op;
@@ -11,9 +13,9 @@ public abstract class Orbital {
 		this.op = op;
 		this.type = op.getType();
 		this.shell = op.getShell();
+		this.i = op.geti();
+		this.j = op.getj();
+		this.k = op.getk();
 		this.L = op.getL();
-		this.i = op.getConfig()[0];
-		this.j = op.getConfig()[1];
-		this.k = op.getConfig()[2];
 	}
 }
