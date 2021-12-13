@@ -94,7 +94,6 @@ public class Main {
 
 			boolean isRunHessian = runNum % 2 == 0; // Hessian every other run
 
-			AtomHandler.populateAtoms();
 			ri = InputHandler.processInput(INPUT_FILENAME);
 
 			Arrays.fill(isDones, false);

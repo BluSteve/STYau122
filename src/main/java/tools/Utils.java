@@ -215,10 +215,10 @@ public class Utils {
 			RawAtom ra = ras[i];
 			switch (model) {
 				case MNDO:
-					atoms[i] = new MNDOAtom(AtomHandler.atoms[ra.Z], ra.coords, npMap[ra.Z]);
+					atoms[i] = new MNDOAtom(AtomHandler.getAtoms()[ra.Z], ra.coords, npMap[ra.Z]);
 					break;
 				case AM1:
-					atoms[i] = new AM1Atom(AtomHandler.atoms[ra.Z], ra.coords,
+					atoms[i] = new AM1Atom(AtomHandler.getAtoms()[ra.Z], ra.coords,
 							(AM1Params) npMap[ra.Z]);
 					break;
 			}

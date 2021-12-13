@@ -23,7 +23,6 @@ import static nddo.geometry.GeometrySecondDerivative.computeResponseVectorsPople
 
 public class Testing {
 	public static void main(String[] args) throws Exception {
-		AtomHandler.populateAtoms();
 		RawInput ri = InputHandler.processInput("subset");
 		RawMolecule rm = ri.molecules[0];
 
@@ -210,7 +209,6 @@ public class Testing {
 	}
 
 	public static void testMain() throws Exception {
-		AtomHandler.populateAtoms();
 		NDDOParams h = new NDDOParams(2.92397599125172,
 				-6.222578482830868, 0.0, -12.200235077462583, 0.0,
 				1.0693232546199132, 0.0, -13.00142320543855, 12.848,
@@ -220,56 +218,56 @@ public class Testing {
 				1.838438013363027, 1.805140784089995, -120.60738371097112,
 				12.23, 11.47,
 				2.43, 11.08, 9.84);
-		MNDOAtom atom1 = new MNDOAtom(AtomHandler.atomsMap.get("H"),
+		MNDOAtom atom1 = new MNDOAtom(AtomHandler.getAtomsMap().get("H"),
 				new double[]{0.635 * Utils.bohr, 0.639 * Utils.bohr,
 						0.635 * Utils.bohr},
 				h);
-		MNDOAtom atom2 = new MNDOAtom(AtomHandler.atomsMap.get("H"),
+		MNDOAtom atom2 = new MNDOAtom(AtomHandler.getAtomsMap().get("H"),
 				new double[]{0.635 * Utils.bohr, -0.635 * Utils.bohr,
 						-0.639 * Utils.bohr}, h);
-		MNDOAtom atom3 = new MNDOAtom(AtomHandler.atomsMap.get("H"),
+		MNDOAtom atom3 = new MNDOAtom(AtomHandler.getAtomsMap().get("H"),
 				new double[]{-0.639 * Utils.bohr, -0.635 * Utils.bohr,
 						0.635 * Utils.bohr}, h);
-		MNDOAtom atom4 = new MNDOAtom(AtomHandler.atomsMap.get("H"),
+		MNDOAtom atom4 = new MNDOAtom(AtomHandler.getAtomsMap().get("H"),
 				new double[]{-0.639 * Utils.bohr, 0.639 * Utils.bohr,
 						-0.639 * Utils.bohr}, h);
-		MNDOAtom carbon = new MNDOAtom(AtomHandler.atomsMap.get("C"),
+		MNDOAtom carbon = new MNDOAtom(AtomHandler.getAtomsMap().get("C"),
 				new double[]{-0.0021 * Utils.bohr, 0.0021 * Utils.bohr,
 						-0.0021 * Utils.bohr}, c);
 
 		MNDOAtom[] atoms = new MNDOAtom[]{atom1, atom2, atom3, atom4, carbon};
 
 		MNDOAtom[] exp = new MNDOAtom[]{
-				new MNDOAtom(AtomHandler.atomsMap.get("H"),
+				new MNDOAtom(AtomHandler.getAtomsMap().get("H"),
 						new double[]{0.6304 * Utils.bohr, 0.6304 * Utils.bohr,
 								0.6304 * Utils.bohr}, h),
-				new MNDOAtom(AtomHandler.atomsMap.get("H"),
+				new MNDOAtom(AtomHandler.getAtomsMap().get("H"),
 						new double[]{0.6304 * Utils.bohr, -0.6304 * Utils.bohr,
 								-0.6304 * Utils.bohr}, h),
-				new MNDOAtom(AtomHandler.atomsMap.get("H"),
+				new MNDOAtom(AtomHandler.getAtomsMap().get("H"),
 						new double[]{-0.6304 * Utils.bohr,
 								-0.6304 * Utils.bohr,
 								0.6304 * Utils.bohr}, h),
-				new MNDOAtom(AtomHandler.atomsMap.get("H"),
+				new MNDOAtom(AtomHandler.getAtomsMap().get("H"),
 						new double[]{-0.6304 * Utils.bohr, 0.6304 * Utils.bohr,
 								-0.6304 * Utils.bohr}, h),
-				new MNDOAtom(AtomHandler.atomsMap.get("C"),
+				new MNDOAtom(AtomHandler.getAtomsMap().get("C"),
 						new double[]{0, 0, 0}, c)};
 		MNDOAtom[] exp1 = new MNDOAtom[]{
-				new MNDOAtom(AtomHandler.atomsMap.get("H"),
+				new MNDOAtom(AtomHandler.getAtomsMap().get("H"),
 						new double[]{0.6304 * Utils.bohr, 0.6304 * Utils.bohr,
 								0.6304 * Utils.bohr}, h),
-				new MNDOAtom(AtomHandler.atomsMap.get("H"),
+				new MNDOAtom(AtomHandler.getAtomsMap().get("H"),
 						new double[]{0.6304 * Utils.bohr, -0.6304 * Utils.bohr,
 								-0.6304 * Utils.bohr}, h),
-				new MNDOAtom(AtomHandler.atomsMap.get("H"),
+				new MNDOAtom(AtomHandler.getAtomsMap().get("H"),
 						new double[]{-0.6304 * Utils.bohr,
 								-0.6304 * Utils.bohr,
 								0.6304 * Utils.bohr}, h),
-				new MNDOAtom(AtomHandler.atomsMap.get("H"),
+				new MNDOAtom(AtomHandler.getAtomsMap().get("H"),
 						new double[]{-0.6304 * Utils.bohr, 0.6304 * Utils.bohr,
 								-0.6304 * Utils.bohr}, h),
-				new MNDOAtom(AtomHandler.atomsMap.get("C"),
+				new MNDOAtom(AtomHandler.getAtomsMap().get("C"),
 						new double[]{0, 0, 0}, c)};
 		double[] datum = new double[]{-17.9, 0, 13.6};
 

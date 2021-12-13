@@ -90,7 +90,6 @@ public class InputHandler {
 	 * @param filename filename with extension
 	 */
 	private static void convertFromTXT(String filename) throws IOException {
-		AtomHandler.populateAtoms();
 		RawInput ri = new RawInput();
 		List<String> lines = Files.readAllLines(Path.of(filename));
 		List<String> datums = Files.readAllLines(Path.of("reference.txt"));
@@ -101,8 +100,8 @@ public class InputHandler {
 		ri.model = Model.MNDO; // TODO change this for AM1
 		ri.trainingSet = lines.get(0).split("=")[1];
 		ri.atomTypes = new int[ri.trainingSet.length()];
-		for (int x = 0; x < ri.trainingSet.length(); x++) {
-			ri.atomTypes[x] = AtomHandler.atomsMap
+		for (int x = 0; x < ri.trainingSet.length(); x++) { // assumes atom name is one character
+			ri.atomTypes[x] = AtomHandler.getAtomsMap()
 					.get(Character.toString(ri.trainingSet.charAt(x)))
 					.getZ();
 		}
@@ -255,7 +254,7 @@ public class InputHandler {
 		StringTokenizer t = new StringTokenizer(lines.get(i), " ");
 		t.nextToken();
 		String name = t.nextToken();
-		ra.Z = AtomHandler.atomsMap.get(name).getZ();
+		ra.Z = AtomHandler.getAtomsMap().get(name).getZ();
 		ra.coords = new double[3];
 		for (int q = 0; q < 3; q++)
 			ra.coords[q] = Double.parseDouble(t.nextToken());

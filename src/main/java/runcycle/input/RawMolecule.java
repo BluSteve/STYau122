@@ -162,7 +162,7 @@ public class RawMolecule extends MoleculeInfo { // for storage purposes
 		 * @param npMap "Map" of param numbers needed for differentiation. Key is Z.
 		 * @return A complete, valid RawMolecule object.
 		 */
-		public RawMolecule build(int[][] npMap) throws IOException {
+		public RawMolecule build(int[][] npMap) {
 			if (atoms == null) throw new IllegalArgumentException("Atoms cannot be null!");
 			if (datum == null) throw new IllegalArgumentException("Datum cannot be null!");
 
@@ -184,7 +184,7 @@ public class RawMolecule extends MoleculeInfo { // for storage purposes
 			for (RawAtom a : rm.atoms) {
 				atomicNumbers.add(a.Z);
 
-				AtomProperties ap = AtomHandler.atoms[a.Z];
+				AtomProperties ap = AtomHandler.getAtoms()[a.Z];
 				rm.nElectrons += ap.getQ();
 				rm.nOrbitals += ap.getOrbitals().length;
 
@@ -214,8 +214,7 @@ public class RawMolecule extends MoleculeInfo { // for storage purposes
 			}
 
 
-			AtomHandler.populateAtoms();
-
+			// Computes cached Solution info
 			rm.orbsOfAtom = new int[rm.atoms.length][];
 			rm.atomOfOrb = new int[rm.nOrbitals];
 			rm.missingOfAtom = new int[rm.atoms.length][];
@@ -223,7 +222,7 @@ public class RawMolecule extends MoleculeInfo { // for storage purposes
 			int overallOrbitalIndex = 0;
 
 			for (int atomIndex = 0; atomIndex < rm.atoms.length; atomIndex++) {
-				AtomProperties atom = AtomHandler.atoms[rm.atoms[atomIndex].Z];
+				AtomProperties atom = AtomHandler.getAtoms()[rm.atoms[atomIndex].Z];
 
 				int olength = atom.getOrbitals().length;
 				rm.orbsOfAtom[atomIndex] = new int[olength];

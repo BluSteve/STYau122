@@ -10,20 +10,39 @@ import java.nio.file.Path;
 import java.util.HashMap;
 
 public class AtomHandler {
-	public static AtomProperties[] atoms = new AtomProperties[Utils.maxAtomNum];
-	public static HashMap<String, AtomProperties> atomsMap = new HashMap<>();
+	private static AtomProperties[] atoms;
+	private static HashMap<String, AtomProperties> atomsMap;
 
-	public static void populateAtoms() throws IOException {
-		String json = Files.readString(Path.of("atom-properties.json"));
-		Gson gson = new Gson();
+	private static void populateAtoms() {
+		atoms = new AtomProperties[Utils.maxAtomNum];
+		atomsMap = new HashMap<>();
 
-		AtomProperties[] unindexedAtoms = gson.fromJson(json, AtomProperties[].class);
+		try {
+			Gson gson = new Gson();
+			String json = Files.readString(Path.of("atom-properties.json"));
 
-		for (AtomProperties atom : unindexedAtoms) {
-			atom.setOrbitals(OrbitalProperties.generateOrbitals(atom.getPeriod()));
+			AtomProperties[] unindexedAtoms = gson.fromJson(json, AtomProperties[].class);
 
-			atoms[atom.getZ()] = atom;
-			atomsMap.put(atom.getName(), atom);
+			for (AtomProperties atom : unindexedAtoms) {
+				atom.setOrbitals(OrbitalProperties.generateOrbitals(atom.getPeriod()));
+
+				getAtoms()[atom.getZ()] = atom;
+				getAtomsMap().put(atom.getName(), atom);
+			}
+		} catch (IOException e) {
+			throw new RuntimeException("atom-properties.json not found!");
 		}
+	}
+
+	public static AtomProperties[] getAtoms() {
+		if (atoms == null) populateAtoms();
+
+		return atoms;
+	}
+
+	public static HashMap<String, AtomProperties> getAtomsMap() {
+		if (atomsMap == null) populateAtoms();
+
+		return atomsMap;
 	}
 }

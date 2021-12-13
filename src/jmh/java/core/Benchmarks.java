@@ -39,7 +39,6 @@ public class Benchmarks {
 
 		@Setup(Level.Trial)
 		public void setup() throws IOException {
-			AtomHandler.populateAtoms();
 			RawInput ri = InputHandler.processInput("subset");
 			RawMolecule rm = ri.molecules[0];
 
