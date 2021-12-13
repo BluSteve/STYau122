@@ -29,7 +29,7 @@ import java.util.concurrent.*;
 
 public class Main {
 	private static final String INPUT_FILENAME = "input";
-	private static final int NUM_RUNS = 270;
+	private static final int NUM_RUNS = 1;
 	private static final int MAX_MOLECULES = 1000;
 	private static final boolean isImportLastRun = true;
 	private static final Logger logger = LogManager.getLogger();

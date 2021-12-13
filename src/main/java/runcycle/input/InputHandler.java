@@ -264,6 +264,6 @@ public class InputHandler {
 
 	public static void main(String[] args) throws IOException {
 		convertFromTXT("inputtesting.txt");
-		outputSubset(9);
+		outputSubset(33);
 	}
 }

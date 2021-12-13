@@ -4,24 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Solution refactor - move dipole to superclass">
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Debug session with Adrian">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mndoparams.txt" beforeDir="false" afterPath="$PROJECT_DIR$/mndoparams.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDOAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDOAtom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/am1/AM1Atom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/am1/AM1Atom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryOptimization.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/mndo/MNDOAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/mndo/MNDOAtom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessian.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessian.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/optimize/ReferenceData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/optimize/ReferenceData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/input/RawMolecule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/input/RawMolecule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Utils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/input/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/input/InputHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/scf/Atom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/scf/Atom.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,7 +98,6 @@
   <component name="ProjectViewState">
     <option name="abbreviatePackageNames" value="true" />
     <option name="autoscrollToSource" value="true" />
-    <option name="flattenPackages" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
@@ -159,7 +145,7 @@
       <recent name="tools" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.InputHandler">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="InputHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="runcycle.input.InputHandler" />
       <module name="MNDOParam.main" />
@@ -247,10 +233,10 @@
     <list>
       <item itemvalue="Application.InputHandler" />
       <item itemvalue="Application.MNDOAtom" />
-      <item itemvalue="Gradle.MNDOParam [jmh]" />
-      <item itemvalue="Shell Script.Copy" />
       <item itemvalue="Application.Testing" />
       <item itemvalue="Application.Main" />
+      <item itemvalue="Gradle.MNDOParam [jmh]" />
+      <item itemvalue="Shell Script.Copy" />
     </list>
     <recent_temporary>
       <list>
@@ -322,14 +308,8 @@
       <workItem from="1639244357755" duration="4958000" />
       <workItem from="1639279533083" duration="15304000" />
       <workItem from="1639296224358" duration="3169000" />
-      <workItem from="1639306205213" duration="15331000" />
-    </task>
-    <task id="LOCAL-00019" summary="Add subset input feature">
-      <created>1637573864352</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1637573864352</updated>
+      <workItem from="1639306205213" duration="15438000" />
+      <workItem from="1639379619765" duration="1380000" />
     </task>
     <task id="LOCAL-00020" summary="OOP improvements and logging conversion">
       <created>1637589637682</created>
@@ -667,7 +647,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639309796483</updated>
     </task>
-    <option name="localTasksCounter" value="68" />
+    <task id="LOCAL-00068" summary="Debug session with Adrian">
+      <created>1639322333418</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1639322333418</updated>
+    </task>
+    <option name="localTasksCounter" value="69" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -715,7 +702,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Preconditioner change to multrows" />
     <MESSAGE value="parray no longer statically declared" />
     <MESSAGE value="Arraylist size initialization" />
     <MESSAGE value="store n * length" />
@@ -740,7 +726,8 @@
     <MESSAGE value="Reformat" />
     <MESSAGE value="Major IO changes, cache orbsOfAtom, etc." />
     <MESSAGE value="Solution refactor - move dipole to superclass" />
-    <option name="LAST_COMMIT_MESSAGE" value="Solution refactor - move dipole to superclass" />
+    <MESSAGE value="Debug session with Adrian" />
+    <option name="LAST_COMMIT_MESSAGE" value="Debug session with Adrian" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
