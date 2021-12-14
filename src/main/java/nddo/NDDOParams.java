@@ -1,6 +1,8 @@
 package nddo;
 
-public final class NDDOParams{
+import java.util.Arrays;
+
+public final class NDDOParams {
 	private final double[] params; // unfortunately immutable arrays are not a thing in java
 	private final double[] aParams;
 
@@ -14,22 +16,11 @@ public final class NDDOParams{
 	/**
 	 * Same as the verbose constructor. Clones array passed in so it's essentially pass-by-value.
 	 * NOTE: Use this the exact same way you would use the verbose constructor! It's all cloned!
-	 * @param params Params array of size 13.
+	 * @param params Params array of size 13 by default. More would cause creation of additional parameters array.
 	 */
 	public NDDOParams(double[] params) {
-		if (params.length != 13)
-			throw new IllegalArgumentException("Invalid number of NDDO params! (" + params.length + ")");
-
-		this.params = params.clone();
-		this.aParams = new double[0];
-	}
-
-	public NDDOParams(double[] params, double[] aParams) {
-		if (params.length != 13)
-			throw new IllegalArgumentException("Invalid number of NDDO params! (" + params.length + ")");
-
-		this.params = params.clone();
-		this.aParams = aParams.clone();
+		this.params = Arrays.copyOfRange(params, 0, 13);
+		this.aParams = Arrays.copyOfRange(params, 13, params.length);
 	}
 
 	public double getAlpha() {
@@ -88,12 +79,17 @@ public final class NDDOParams{
 		params[index] += amnt;
 	}
 
-	public double[] getArray() {
-		return params;
+	public double[] getaParams() {
+		return aParams.clone(); // todo maybe not a good idea to clone
 	}
 
 	@Override
 	public NDDOParams clone() {
-		return new NDDOParams(params, aParams);
+		double[] combinedParams = new double[params.length + aParams.length];
+
+		System.arraycopy(params, 0, combinedParams, 0, params.length);
+		System.arraycopy(aParams, 0, combinedParams, params.length, aParams.length);
+
+		return new NDDOParams(combinedParams);
 	} // todo make this a copy constructor instead
 }

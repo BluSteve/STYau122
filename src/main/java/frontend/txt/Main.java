@@ -122,11 +122,12 @@ public class Main {
 
 	public static void convertFromTXT() throws IOException {
 		List<String> pcsv = Files.readAllLines(Path.of("params.csv"));
-		NDDOParams[] npMap = new NDDOParams[Constants.maxAtomNum];
-		for (String line : pcsv) {
-			String[] linea = splitCsvLine(line);
-			npMap[AtomProperties.getAtomsMap().get(linea[0]).getZ()] =
-					new NDDOParams(Utils.toDoubles(Arrays.copyOfRange(linea, 1, linea.length)));
+		int[] Zs = new int[pcsv.size()];
+		double[][] params = new double[pcsv.size()][];
+		for (int i = 0; i < pcsv.size(); i++) {
+			String[] linea = splitCsvLine(pcsv.get(i));
+			Zs[i] = AtomProperties.getAtomsMap().get(linea[0]).getZ();
+			params[i] = Utils.toDoubles(Arrays.copyOfRange(linea, 1, linea.length));
 		}
 
 		List<String> pncsv = Files.readAllLines(Path.of("param-numbers.csv"));
@@ -140,7 +141,7 @@ public class Main {
 			totalParamLength += linea.length - 1;
 		}
 
-		Params p = new Params(npMap, totalParamLength);
+		Params p = new Params(Zs, params, totalParamLength);
 
 		Scanner s = new Scanner(new FileInputStream("molecules.txt"));
 
@@ -153,13 +154,13 @@ public class Main {
 		while (s.hasNextLine()) {
 			RunnableMolecule.RMBuilder builder = new RunnableMolecule.RMBuilder();
 
-			builder.restricted = params.get(i).equals("RHF");
+			builder.restricted = params2.get(i).equals("RHF");
 			i++;
 
-			builder.charge = Integer.parseInt(params.get(i).split("=")[1]);
+			builder.charge = Integer.parseInt(params2.get(i).split("=")[1]);
 			i++;
 
-			builder.mult = Integer.parseInt(params.get(i).split("=")[1]);
+			builder.mult = Integer.parseInt(params2.get(i).split("=")[1]);
 			i++;
 
 			builder.index = moleculei;
@@ -167,8 +168,8 @@ public class Main {
 			// Atoms
 			ArrayList<Atom> atomsL = new ArrayList<>();
 
-			while (!params.get(i).equals("---") && !params.get(i).equals("EXPGEOM")) {
-				addAtom(atomsL, params, i);
+			while (!params2.get(i).equals("---") && !params2.get(i).equals("EXPGEOM")) {
+				addAtom(atomsL, params2, i);
 				i++;
 			}
 			Atom[] atoms = new Atom[atomsL.size()];
@@ -179,10 +180,10 @@ public class Main {
 			// expGeom
 			ArrayList<Atom> expGeomL = new ArrayList<>();
 			Atom[] expGeom = null;
-			if (params.get(i).equals("EXPGEOM")) {
+			if (params2.get(i).equals("EXPGEOM")) {
 				i++;
-				while (!params.get(i).equals("---")) {
-					addAtom(expGeomL, params, i);
+				while (!params2.get(i).equals("---")) {
+					addAtom(expGeomL, params2, i);
 					i++;
 				}
 				expGeom = new Atom[expGeomL.size()];
