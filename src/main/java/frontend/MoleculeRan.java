@@ -1,7 +1,7 @@
-package runcycle;
+package frontend;
 
+import runcycle.IMoleculeResult;
 import runcycle.structs.RunnableMolecule;
-import frontend.MoleculeOutput;
 
 public class MoleculeRan implements IMoleculeResult {
 	MoleculeOutput mo;

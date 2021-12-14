@@ -1,4 +1,4 @@
-package runcycle.input;
+package runcycle.structs;
 
 import runcycle.structs.Params;
 

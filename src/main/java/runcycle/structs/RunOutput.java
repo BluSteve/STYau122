@@ -1,7 +1,6 @@
-package runcycle.output;
+package runcycle.structs;
 
 import runcycle.IMoleculeResult;
-import runcycle.input.InputInfo;
 
 public class RunOutput {
 	public final InputInfo nextRunInfo;

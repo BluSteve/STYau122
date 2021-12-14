@@ -1,6 +1,5 @@
 package runcycle;
 
-import frontend.MoleculeOutput;
 import nddo.NDDOAtom;
 import nddo.param.ParamGradient;
 import nddo.param.ParamHessian;
@@ -8,10 +7,10 @@ import org.apache.commons.lang3.time.StopWatch;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ejml.simple.SimpleMatrix;
-import runcycle.input.InputInfo;
+import runcycle.structs.InputInfo;
 import runcycle.optimize.ParamOptimizer;
 import runcycle.optimize.ReferenceData;
-import runcycle.output.RunOutput;
+import runcycle.structs.RunOutput;
 import runcycle.structs.Params;
 import runcycle.structs.RunnableMolecule;
 
@@ -105,7 +104,7 @@ public class RunIterator implements Iterator<RunOutput> {
 		private final InputInfo info;
 		private final RunnableMolecule[] rms;
 		private final ScheduledExecutorService progressBar = Executors.newScheduledThreadPool(1);
-		private MoleculeOutput[] ranMolecules;
+		private IMoleculeResult[] ranMolecules;
 
 		PRun(InputInfo info, RunnableMolecule[] rms) {
 			this.info = info;
@@ -155,14 +154,6 @@ public class RunIterator implements Iterator<RunOutput> {
 			return rms;
 		}
 
-		public MoleculeOutput[] getRanMolecules() {
-			return ranMolecules;
-		}
-
-		public void setRanMolecules(MoleculeOutput[] ranMolecules) {
-			this.ranMolecules = ranMolecules;
-		}
-
 		public RunOutput run(boolean withHessian) {
 			boolean[] isDones = new boolean[getMaxMoleculeIndex(rms)];
 
@@ -203,8 +194,8 @@ public class RunIterator implements Iterator<RunOutput> {
 				boolean isDoneAlready = false;
 
 				if (ranMolecules != null) {
-					for (MoleculeOutput mo : ranMolecules) {
-						if (mo.updatedMolecule.index == rm.index) {
+					for (IMoleculeResult mo : ranMolecules) {
+						if (mo.getUpdatedRm().index == rm.index) {
 							isDoneAlready = true;
 							isDones[rm.index] = true;
 							break;
@@ -233,11 +224,7 @@ public class RunIterator implements Iterator<RunOutput> {
 			// adds previously ran molecules into the final results list
 			List<IMoleculeResult> results = new ArrayList<>(rms.length);
 
-			if (ranMolecules != null) {
-				for (MoleculeOutput mr : ranMolecules) {
-					results.add(new MoleculeRan(mr));
-				}
-			}
+			if (ranMolecules != null) results.addAll(List.of(ranMolecules));
 
 			// shuffles run requests and runs them, then deshuffles them
 			Collections.shuffle(moleculeTasks, new Random(123));
