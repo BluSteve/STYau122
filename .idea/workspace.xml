@@ -4,9 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Massive runcycle refactor in progress">
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/PRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/PRun.java" afterDir="false" />
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Remove RunOutput unnecessary interface">
+      <change afterPath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/AggregateOutput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/AggregateOutput.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/OutputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/OutputHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/MoleculeRan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/MoleculeRan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/MoleculeResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/IMoleculeResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/MoleculeRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/MoleculeRun.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/NDDOConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/INDDOConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/PRun.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/State.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/State.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/defaults/MNDOConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/defaults/MNDOConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/input/InputInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/input/InputInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/input/RawParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/Params.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/output/MoleculeOutput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/MoleculeOutput.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/output/RunOutput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/output/RunOutput.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunnableMolecule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunnableMolecule.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -308,14 +324,8 @@
       <workItem from="1639296224358" duration="3169000" />
       <workItem from="1639306205213" duration="15438000" />
       <workItem from="1639379619765" duration="11656000" />
-      <workItem from="1639403039516" duration="11064000" />
-    </task>
-    <task id="LOCAL-00029" summary="Fix symmetric molecule GeomOpt numit issue">
-      <created>1637916343539</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1637916343539</updated>
+      <workItem from="1639403039516" duration="11183000" />
+      <workItem from="1639461915867" duration="6538000" />
     </task>
     <task id="LOCAL-00030" summary="SolutionR 50 max diis">
       <created>1637917993670</created>
@@ -653,7 +663,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639414014033</updated>
     </task>
-    <option name="localTasksCounter" value="78" />
+    <task id="LOCAL-00078" summary="Remove RunOutput unnecessary interface">
+      <created>1639414322357</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1639414322357</updated>
+    </task>
+    <option name="localTasksCounter" value="79" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -701,7 +718,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Port changes over to gsd and pd" />
     <MESSAGE value="temp2" />
     <MESSAGE value="340000ms actually works pretty well" />
     <MESSAGE value="344000ms actually works pretty well" />
@@ -726,7 +742,8 @@
     <MESSAGE value="Fix multithreading issue in OrbitalProperties" />
     <MESSAGE value="AtomHandler no longer needs explicit population" />
     <MESSAGE value="Massive runcycle refactor in progress" />
-    <option name="LAST_COMMIT_MESSAGE" value="Massive runcycle refactor in progress" />
+    <MESSAGE value="Remove RunOutput unnecessary interface" />
+    <option name="LAST_COMMIT_MESSAGE" value="Remove RunOutput unnecessary interface" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

@@ -10,8 +10,13 @@ public class RunnableMolecule extends MoleculeInfo { // mid-level runnable molec
 	public final Atom[] atoms, expGeom;
 	public final double[] datum;
 
-	private RunnableMolecule(MoleculeInfo mi, Atom[] atoms, Atom[] expGeom, double[] datum) {
+	// MoleculeInfo will ever change!
+	public RunnableMolecule(MoleculeInfo mi, Atom[] atoms, Atom[] expGeom, double[] datum) {
 		super(mi);
+
+		if (atoms == null) throw new NullPointerException("Atoms cannot be null!");
+		if (datum == null) throw new NullPointerException("Datum cannot be null!");
+
 		this.atoms = atoms;
 		this.expGeom = expGeom;
 		this.datum = datum;
@@ -31,9 +36,6 @@ public class RunnableMolecule extends MoleculeInfo { // mid-level runnable molec
 		 * @return A complete, valid RawMolecule object.
 		 */
 		public RunnableMolecule build(int[][] npMap) {
-			if (atoms == null) throw new IllegalArgumentException("Atoms cannot be null!");
-			if (datum == null) throw new IllegalArgumentException("Datum cannot be null!");
-
 			MoleculeInfo.MIBuilder miBuilder = new MoleculeInfo.MIBuilder();
 
 			miBuilder.index = index;

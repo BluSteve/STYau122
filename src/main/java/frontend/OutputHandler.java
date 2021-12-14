@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import runcycle.output.MoleculeOutput;
 import tools.Utils;
 
 import java.io.FileNotFoundException;
@@ -89,7 +88,7 @@ public class OutputHandler {
 			if (mo.time > max) max = mo.time;
 			ttError += mo.totalError;
 			System.out.println(
-					mo.runnableMolecule.index + "mo.totalError = " + mo.totalError);
+					mo.updatedMolecule.index + "mo.totalError = " + mo.totalError);
 		}
 		System.out.println(time / 1e3 / 60 / 60);
 		System.out.println("max = " + max / 1e3 / 60);

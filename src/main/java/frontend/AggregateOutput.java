@@ -1,7 +1,5 @@
 package frontend;
 
-import runcycle.output.MoleculeOutput;
-
 public class AggregateOutput {
 	public double ttError;
 	public long ttTime;

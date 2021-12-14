@@ -8,6 +8,7 @@ import org.ejml.dense.row.CommonOps_DDRM;
 import org.ejml.simple.SimpleMatrix;
 import frontend.InputHandler;
 import frontend.RawInput;
+import runcycle.State;
 import runcycle.structs.RunnableMolecule;
 import tools.Utils;
 
@@ -22,7 +23,7 @@ public class Testing {
 		RunnableMolecule rm = ri.molecules[0];
 
 		NDDOParams[] npMap = Utils.getNpMap(ri);
-		Solution s = Solution.of(rm, Utils.toNDDOAtoms(ri.model, rm.atoms, npMap));
+		Solution s = Solution.of(rm, State.getConverter().convert(rm.atoms));
 
 		System.out.println("s = " + s);
 	}

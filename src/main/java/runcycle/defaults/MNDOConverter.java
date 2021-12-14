@@ -4,10 +4,10 @@ import nddo.NDDOAtom;
 import nddo.NDDOParams;
 import nddo.mndo.MNDOAtom;
 import nddo.structs.AtomProperties;
-import runcycle.NDDOConverter;
+import runcycle.INDDOConverter;
 import runcycle.structs.Atom;
 
-public class MNDOConverter implements NDDOConverter {
+public class MNDOConverter implements INDDOConverter {
 	private final NDDOParams[] npMap;
 
 	public MNDOConverter(NDDOParams[] npMap) {

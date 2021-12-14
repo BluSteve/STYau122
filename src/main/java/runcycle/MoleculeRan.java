@@ -1,9 +1,9 @@
 package runcycle;
 
 import runcycle.structs.RunnableMolecule;
-import runcycle.output.MoleculeOutput;
+import frontend.MoleculeOutput;
 
-public class MoleculeRan implements MoleculeResult {
+public class MoleculeRan implements IMoleculeResult {
 	MoleculeOutput mo;
 
 	public MoleculeRan(MoleculeOutput mo) {
@@ -11,8 +11,8 @@ public class MoleculeRan implements MoleculeResult {
 	}
 
 	@Override
-	public RunnableMolecule getRm() {
-		return mo.runnableMolecule;
+	public RunnableMolecule getUpdatedRm() {
+		return mo.updatedMolecule;
 	}
 
 	@Override
@@ -22,14 +22,14 @@ public class MoleculeRan implements MoleculeResult {
 
 	@Override
 	public boolean isExpAvail() {
-		return mo.runnableMolecule.expGeom != null;
+		return mo.updatedMolecule.expGeom != null;
 	}
 
 	@Override
 	public double[][] getHessian() {
 		if (mo.hessian != null) return mo.hessian;
 		else throw new IllegalStateException(
-				"Hessian not found for previously ran molecule: " + mo.runnableMolecule.debugName());
+				"Hessian not found for previously ran molecule: " + mo.updatedMolecule.debugName());
 	}
 
 	@Override
