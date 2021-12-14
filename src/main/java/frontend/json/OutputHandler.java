@@ -1,4 +1,4 @@
-package frontend;
+package frontend.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

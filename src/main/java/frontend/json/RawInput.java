@@ -1,4 +1,4 @@
-package frontend;
+package frontend.json;
 
 import runcycle.structs.Params;
 import runcycle.structs.RunnableMolecule;

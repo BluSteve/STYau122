@@ -1,17 +1,9 @@
 package core;
 
-import nddo.NDDOParams;
-import nddo.geometry.GeometryDerivative;
 import nddo.geometry.GeometrySecondDerivative;
-import nddo.param.ParamDerivative;
-import nddo.solution.Solution;
 import nddo.solution.SolutionR;
 import org.ejml.simple.SimpleMatrix;
 import org.openjdk.jmh.annotations.*;
-import frontend.InputHandler;
-import frontend.RawInput;
-import runcycle.structs.RunnableMolecule;
-import tools.Utils;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;

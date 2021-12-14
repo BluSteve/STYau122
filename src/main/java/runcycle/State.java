@@ -1,7 +1,9 @@
 package runcycle;
 
+import runcycle.defaults.MNDOConverter;
+
 public class State {
-	private static INDDOConverter converter;
+	private static INDDOConverter converter = new MNDOConverter();
 
 	public static INDDOConverter getConverter() {
 		if (converter == null) throw new IllegalStateException("NDDOConverter not set!");

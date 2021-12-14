@@ -1,4 +1,4 @@
-package frontend;
+package frontend.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -13,7 +13,6 @@ import tools.Utils;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -79,91 +78,7 @@ public class InputHandler {
 		fwarchive.close();
 	}
 
-	public static void txtToText() throws IOException {
-		List<String> lines = Files.readAllLines(Path.of("input.txt"));
-		List<String> datums = Files.readAllLines(Path.of("reference.txt"));
-		PrintWriter pw = new PrintWriter("molecules.txt");
 
-		// Molecules
-		ArrayList<RunnableMolecule> moleculesL = new ArrayList<>();
-		int inputi = 1;
-		int datumi = 0;
-
-		while (inputi < lines.size()) {
-			String rhf = lines.get(inputi);
-			inputi++;
-
-			String charge = lines.get(inputi);
-			inputi++;
-
-			String mult = lines.get(inputi);
-			inputi++;
-
-			// Atoms
-			ArrayList<Atom> atomsL = new ArrayList<>();
-
-			String atoms = "";
-			while (!lines.get(inputi).equals("---") && !lines.get(inputi).equals("EXPGEOM")) {
-				addAtom(atomsL, lines.get(inputi));
-				atoms += lines.get(inputi) + "\n";
-				inputi++;
-			}
-
-			Map<String, Integer> nameOccurrences = new TreeMap<>(
-					Comparator.comparingInt(o -> AtomProperties.getAtomsMap().get(o).getZ()));
-
-			for (Atom atom : atomsL) {
-				AtomProperties ap = AtomProperties.getAtoms()[atom.Z];
-				String name = ap.getName();
-
-				if (!nameOccurrences.containsKey(name)) nameOccurrences.put(name, 1);
-				else nameOccurrences.put(name, nameOccurrences.get(name) + 1);
-			}
-
-			String name = "";
-			for (String key : nameOccurrences.keySet()) name += key + nameOccurrences.get(key);
-
-			// expGeom
-			String expGeom = "";
-			if (lines.get(inputi).equals("EXPGEOM")) {
-				while (!lines.get(inputi).equals("---")) {
-					expGeom += lines.get(inputi) + "\n";
-					inputi++;
-				}
-			}
-
-			// Datum
-			String[] datum = new String[3];
-
-			datum[0] = "HF=" + datums.get(datumi).split(" ")[1];
-			datumi++;
-
-			String[] ss = datums.get(datumi).split(" ");
-			if (ss.length > 1) datum[1] = "DIPOLE=" + ss[1];
-			datumi++;
-
-			ss = datums.get(datumi).split(" ");
-			if (ss.length > 1) datum[2] = "IE=" + ss[1];
-			datumi += 2;
-
-			List<String> datumL = new ArrayList<>();
-			for (String s : datum) {
-				if (s != null) datumL.add(s);
-			}
-
-
-			pw.write(String.join(", ", name, rhf, charge, mult) + "\n");
-			pw.write(String.join(", ", datumL) + "\n");
-			pw.write(atoms);
-			pw.write(expGeom);
-			pw.write("---\n");
-
-
-			inputi++;
-		}
-
-		pw.close();
-	}
 
 	/**
 	 * Converts from .txt files to json
@@ -338,9 +253,5 @@ public class InputHandler {
 		for (int q = 0; q < 3; q++) coords[q] = Double.parseDouble(t.nextToken());
 		Atom a = new Atom(AtomProperties.getAtomsMap().get(name).getZ(), coords);
 		Atoms.add(a);
-	}
-
-	public static void main(String[] args) throws IOException {
-		txtToText();
 	}
 }

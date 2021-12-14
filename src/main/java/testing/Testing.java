@@ -4,7 +4,7 @@ import nddo.solution.SolutionR;
 import org.ejml.data.SingularMatrixException;
 import org.ejml.dense.row.CommonOps_DDRM;
 import org.ejml.simple.SimpleMatrix;
-import frontend.InputHandler;
+import frontend.json.InputHandler;
 import tools.Utils;
 
 import java.util.ArrayList;

@@ -1,12 +1,14 @@
 package nddo;
 
-public class NDDOParams {
-	protected final double[] params; // params are final and read only
+public final class NDDOParams{
+	private final double[] params; // unfortunately immutable arrays are not a thing in java
+	private final double[] aParams;
 
 	public NDDOParams(double alpha, double betas, double betap, double uss,
 						 double upp, double zetas, double zetap, double eisol,
 						 double gss, double gsp, double hsp, double gpp, double gp2) {
 		params = new double[]{alpha, betas, betap, uss, upp, zetas, zetap, eisol, gss, gsp, hsp, gpp, gp2};
+		aParams = new double[0];
 	}
 
 	/**
@@ -19,6 +21,15 @@ public class NDDOParams {
 			throw new IllegalArgumentException("Invalid number of NDDO params! (" + params.length + ")");
 
 		this.params = params.clone();
+		this.aParams = new double[0];
+	}
+
+	public NDDOParams(double[] params, double[] aParams) {
+		if (params.length != 13)
+			throw new IllegalArgumentException("Invalid number of NDDO params! (" + params.length + ")");
+
+		this.params = params.clone();
+		this.aParams = aParams.clone();
 	}
 
 	public double getAlpha() {
@@ -77,9 +88,12 @@ public class NDDOParams {
 		params[index] += amnt;
 	}
 
-	@SuppressWarnings("MethodDoesntCallSuperMethod")
+	public double[] getArray() {
+		return params;
+	}
+
 	@Override
 	public NDDOParams clone() {
-		return new NDDOParams(params);
-	}
+		return new NDDOParams(params, aParams);
+	} // todo make this a copy constructor instead
 }

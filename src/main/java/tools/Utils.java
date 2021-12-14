@@ -3,16 +3,11 @@ package tools;
 import nddo.Constants;
 import nddo.NDDOAtom;
 import nddo.NDDOParams;
-import examples.am1.AM1Atom;
-import examples.am1.AM1Params;
-import nddo.mndo.MNDOAtom;
 import org.apache.commons.lang3.StringUtils;
 import org.ejml.data.DMatrixRMaj;
 import org.ejml.dense.row.decomposition.eig.SymmetricQRAlgorithmDecomposition_DDRM;
 import org.ejml.interfaces.decomposition.EigenDecomposition_F64;
 import org.ejml.simple.SimpleMatrix;
-import frontend.RawInput;
-import nddo.structs.AtomProperties;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
@@ -29,6 +24,14 @@ public class Utils {
 			doubles[i] = Double.parseDouble(strs[i]);
 		}
 		return doubles;
+	}
+
+	public static int[] toInts(String[] strs) {
+		int[] ints = new int[strs.length];
+		for (int i = 0; i < strs.length; i++) {
+			ints[i] = Integer.parseInt(strs[i]);
+		}
+		return ints;
 	}
 
 	public static double[] toDoubles(Collection<Double> ld) {

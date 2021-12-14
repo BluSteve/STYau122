@@ -1,4 +1,4 @@
-package frontend;
+package frontend.json;
 
 import org.apache.commons.lang3.time.StopWatch;
 import org.apache.logging.log4j.LogManager;

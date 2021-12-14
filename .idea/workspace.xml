@@ -4,24 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="I gave up refactoring nddo. Waiting for adrian.">
-      <change afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/molecules1.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/param-numbers.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/params.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Old txt format to new txt format">
+      <change afterPath="$PROJECT_DIR$/src/main/java/frontend/txt/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/AggregateOutput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/AggregateOutput.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/InputHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/OutputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/OutputHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/RawAtom.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/RawInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/RawInput.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/RawParams.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/structs/Model.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/structs/InputInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/InputInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunnableMolecule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunnableMolecule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/AggregateOutput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/json/AggregateOutput.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/json/InputHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/json/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/MoleculeOutput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/json/MoleculeOutput.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/MoleculeRan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/json/MoleculeRan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/OutputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/json/OutputHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/RawInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/json/RawInput.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDOParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDOParams.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/INDDOConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/INDDOConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/State.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/State.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/defaults/MNDOConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/defaults/MNDOConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/structs/Params.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/Params.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tools/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Utils.java" afterDir="false" />
     </list>
@@ -124,6 +123,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="extract.method.default.visibility" value="public" />
+    <property name="last.edited.regexp" value="asdf,       asdf" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Modules" />
@@ -163,11 +163,11 @@
   </component>
   <component name="RunManager" selected="Application.Testing">
     <configuration name="InputHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="frontend.InputHandler" />
+      <option name="MAIN_CLASS_NAME" value="frontend.json.InputHandler" />
       <module name="MNDOParam.main" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="frontend.*" />
+          <option name="PATTERN" value="frontend.json.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -176,7 +176,7 @@
       </method>
     </configuration>
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="frontend.Main" />
+      <option name="MAIN_CLASS_NAME" value="frontend.json.Main" />
       <module name="MNDOParam.main" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -314,14 +314,8 @@
       <workItem from="1639403039516" duration="11183000" />
       <workItem from="1639461915867" duration="6855000" />
       <workItem from="1639487834084" duration="6846000" />
-      <workItem from="1639494793688" duration="465000" />
-    </task>
-    <task id="LOCAL-00031" summary="Change to original params + minor IO changes">
-      <created>1637922761897</created>
-      <option name="number" value="00031" />
-      <option name="presentableId" value="LOCAL-00031" />
-      <option name="project" value="LOCAL" />
-      <updated>1637922761897</updated>
+      <workItem from="1639494793688" duration="749000" />
+      <workItem from="1639501687113" duration="4074000" />
     </task>
     <task id="LOCAL-00032" summary="Attempt to change pople into procedural">
       <created>1637925740249</created>
@@ -659,7 +653,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639468638029</updated>
     </task>
-    <option name="localTasksCounter" value="80" />
+    <task id="LOCAL-00080" summary="Old txt format to new txt format">
+      <created>1639495513011</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1639495513012</updated>
+    </task>
+    <option name="localTasksCounter" value="81" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -707,7 +708,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="340000ms actually works pretty well" />
     <MESSAGE value="344000ms actually works pretty well" />
     <MESSAGE value="333000ms final pople for both gsd and pd" />
     <MESSAGE value="Main debug and consolidation" />
@@ -732,7 +732,8 @@
     <MESSAGE value="Massive runcycle refactor in progress" />
     <MESSAGE value="Remove RunOutput unnecessary interface" />
     <MESSAGE value="RunIterator and lots of changes in runcycle" />
-    <option name="LAST_COMMIT_MESSAGE" value="RunIterator and lots of changes in runcycle" />
+    <MESSAGE value="Old txt format to new txt format" />
+    <option name="LAST_COMMIT_MESSAGE" value="Old txt format to new txt format" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
