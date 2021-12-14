@@ -1,7 +1,5 @@
 package runcycle.structs;
 
-import runcycle.structs.Params;
-
 public class InputInfo {
 	public final int[] atomTypes;
 	public final int[][] neededParams;

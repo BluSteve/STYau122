@@ -38,17 +38,17 @@ public class Benchmarks {
 
 		@Setup(Level.Trial)
 		public void setup() throws IOException {
-			RawInput ri = InputHandler.processInput("subset");
-			RunnableMolecule rm = ri.molecules[0];
-
-			NDDOParams[] npMap = Utils.getNpMap(ri);
-			s = (SolutionR) Solution.of(rm, Utils.toNDDOAtoms(ri.model, rm.atoms, npMap));
-			SimpleMatrix[][] matrices = GeometryDerivative.gradientRoutine(s);
-			fockderivstatic = matrices[1];
-
-			System.out.println(fockderivstatic.length);
-			SimpleMatrix[] x = ParamDerivative.xArrayLimitedPople(s, fockderivstatic);
-			System.out.println(x[0]);
+//			RawInput ri = InputHandler.processInput("subset");
+//			RunnableMolecule rm = ri.molecules[0];
+//
+//			NDDOParams[] npMap = Utils.getNpMap(ri);
+//			s = (SolutionR) Solution.of(rm, Utils.toNDDOAtoms(ri.model, rm.atoms, npMap));
+//			SimpleMatrix[][] matrices = GeometryDerivative.gradientRoutine(s);
+//			fockderivstatic = matrices[1];
+//
+//			System.out.println(fockderivstatic.length);
+//			SimpleMatrix[] x = ParamDerivative.xArrayLimitedPople(s, fockderivstatic);
+//			System.out.println(x[0]);
 		}
 	}
 }

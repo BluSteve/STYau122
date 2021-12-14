@@ -2,23 +2,21 @@ package frontend;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import examples.am1.AM1Atom;
 import nddo.Constants;
 import nddo.mndo.MNDOAtom;
 import nddo.structs.AtomProperties;
-import nddo.structs.Model;
-import examples.am1.AM1Atom;
+import runcycle.structs.Atom;
 import runcycle.structs.RunnableMolecule;
 import tools.Utils;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class InputHandler {
 	/**
@@ -29,14 +27,11 @@ public class InputHandler {
 	 * @return rawinput object in bohr units
 	 */
 	public static RawInput processInput(String filename) throws IOException {
-		RawInput ri = new Gson().fromJson(new FileReader(filename + ".json"),
-				RawInput.class);
+		RawInput ri = new Gson().fromJson(new FileReader(filename + ".json"), RawInput.class);
 		for (RunnableMolecule rm : ri.molecules) {
 			for (int i = 0; i < rm.atoms.length; i++) {
 				rm.atoms[i].coords = Utils.bohr(rm.atoms[i].coords);
-				if (rm.expGeom != null)
-					rm.expGeom[i].coords =
-							Utils.bohr(rm.expGeom[i].coords);
+				if (rm.expGeom != null) rm.expGeom[i].coords = Utils.bohr(rm.expGeom[i].coords);
 			}
 		}
 		return ri;
@@ -49,13 +44,11 @@ public class InputHandler {
 	 * @param ri       rawinput object in bohr units
 	 * @param filename filename without extension
 	 */
-	public static void outputInput(RawInput ri, String filename)
-			throws IOException {
+	public static void outputInput(RawInput ri, String filename) throws IOException {
 		for (RunnableMolecule rm : ri.molecules) {
 			for (int i = 0; i < rm.atoms.length; i++) {
 				rm.atoms[i].coords = Utils.debohr(rm.atoms[i].coords);
-				if (rm.expGeom != null) rm.expGeom[i].coords =
-						Utils.debohr(rm.expGeom[i].coords);
+				if (rm.expGeom != null) rm.expGeom[i].coords = Utils.debohr(rm.expGeom[i].coords);
 			}
 		}
 		outputJSON(ri, filename);
@@ -86,20 +79,105 @@ public class InputHandler {
 		fwarchive.close();
 	}
 
+	public static void txtToText() throws IOException {
+		List<String> lines = Files.readAllLines(Path.of("input.txt"));
+		List<String> datums = Files.readAllLines(Path.of("reference.txt"));
+		PrintWriter pw = new PrintWriter("molecules.txt");
+
+		// Molecules
+		ArrayList<RunnableMolecule> moleculesL = new ArrayList<>();
+		int inputi = 1;
+		int datumi = 0;
+
+		while (inputi < lines.size()) {
+			String rhf = lines.get(inputi);
+			inputi++;
+
+			String charge = lines.get(inputi);
+			inputi++;
+
+			String mult = lines.get(inputi);
+			inputi++;
+
+			// Atoms
+			ArrayList<Atom> atomsL = new ArrayList<>();
+
+			String atoms = "";
+			while (!lines.get(inputi).equals("---") && !lines.get(inputi).equals("EXPGEOM")) {
+				addAtom(atomsL, lines.get(inputi));
+				atoms += lines.get(inputi) + "\n";
+				inputi++;
+			}
+
+			Map<String, Integer> nameOccurrences = new TreeMap<>(
+					Comparator.comparingInt(o -> AtomProperties.getAtomsMap().get(o).getZ()));
+
+			for (Atom atom : atomsL) {
+				AtomProperties ap = AtomProperties.getAtoms()[atom.Z];
+				String name = ap.getName();
+
+				if (!nameOccurrences.containsKey(name)) nameOccurrences.put(name, 1);
+				else nameOccurrences.put(name, nameOccurrences.get(name) + 1);
+			}
+
+			String name = "";
+			for (String key : nameOccurrences.keySet()) name += key + nameOccurrences.get(key);
+
+			// expGeom
+			String expGeom = "";
+			if (lines.get(inputi).equals("EXPGEOM")) {
+				while (!lines.get(inputi).equals("---")) {
+					expGeom += lines.get(inputi) + "\n";
+					inputi++;
+				}
+			}
+
+			// Datum
+			String[] datum = new String[3];
+
+			datum[0] = "HF=" + datums.get(datumi).split(" ")[1];
+			datumi++;
+
+			String[] ss = datums.get(datumi).split(" ");
+			if (ss.length > 1) datum[1] = "DIPOLE=" + ss[1];
+			datumi++;
+
+			ss = datums.get(datumi).split(" ");
+			if (ss.length > 1) datum[2] = "IE=" + ss[1];
+			datumi += 2;
+
+			List<String> datumL = new ArrayList<>();
+			for (String s : datum) {
+				if (s != null) datumL.add(s);
+			}
+
+
+			pw.write(String.join(", ", name, rhf, charge, mult) + "\n");
+			pw.write(String.join(", ", datumL) + "\n");
+			pw.write(atoms);
+			pw.write(expGeom);
+			pw.write("---\n");
+
+
+			inputi++;
+		}
+
+		pw.close();
+	}
+
 	/**
 	 * Converts from .txt files to json
 	 *
 	 * @param filename filename with extension
 	 */
-	private static void convertFromTXT(String filename) throws IOException {
+	private static void convertFromTXT() throws IOException {
 		RawInput ri = new RawInput();
-		List<String> lines = Files.readAllLines(Path.of(filename));
+		List<String> lines = Files.readAllLines(Path.of("molecules.txt"));
 		List<String> datums = Files.readAllLines(Path.of("reference.txt"));
 		List<String> hud = Files.readAllLines(Path.of("mndohessian.txt"));
 		String[] mndoParamsS = Files.readAllLines(Path.of("mndoparams.txt")).get(0).split(", ");
 		double[] mp = Utils.toDoubles(mndoParamsS);
 
-		ri.model = Model.MNDO; // TODO change this for AM1
 		ri.trainingSet = lines.get(0).split("=")[1];
 		ri.atomTypes = new int[ri.trainingSet.length()];
 		for (int x = 0; x < ri.trainingSet.length(); x++) { // assumes atom name is one character
@@ -111,19 +189,19 @@ public class InputHandler {
 
 		// Params
 		int[][] neededParams = new int[ri.atomTypes.length][];
-		int[][] npMap = new int[Constants.maxAtomNum][];
+		int[][] neededParamsMap = new int[Constants.maxAtomNum][];
 		int i = 0;
 		for (int atomType : ri.atomTypes) {
 			switch (ri.model) {
 				case MNDO:
-					if (atomType == 1) neededParams[i] = npMap[atomType] = MNDOAtom.T1ParamNums;
-					else neededParams[i] = npMap[atomType] = MNDOAtom.T2ParamNums;
+					if (atomType == 1) neededParams[i] = neededParamsMap[atomType] = MNDOAtom.T1ParamNums;
+					else neededParams[i] = neededParamsMap[atomType] = MNDOAtom.T2ParamNums;
 					break;
 				case AM1:
-					if (atomType == 1) neededParams[i] = npMap[atomType] = AM1Atom.HParamNums;
-					if (atomType == 5) neededParams[i] = npMap[atomType] = AM1Atom.NParamNums;
-					if (atomType == 6) neededParams[i] = npMap[atomType] = AM1Atom.CParamNums;
-					if (atomType == 8) neededParams[i] = npMap[atomType] = AM1Atom.OParamNums;
+					if (atomType == 1) neededParams[i] = neededParamsMap[atomType] = AM1Atom.HParamNums;
+					if (atomType == 5) neededParams[i] = neededParamsMap[atomType] = AM1Atom.NParamNums;
+					if (atomType == 6) neededParams[i] = neededParamsMap[atomType] = AM1Atom.CParamNums;
+					if (atomType == 8) neededParams[i] = neededParamsMap[atomType] = AM1Atom.OParamNums;
 					break;
 			}
 			i++;
@@ -172,27 +250,27 @@ public class InputHandler {
 			builder.index = moleculei;
 
 			// Atoms
-			ArrayList<RawAtom> atomsL = new ArrayList<>();
+			ArrayList<Atom> atomsL = new ArrayList<>();
 
 			while (!lines.get(i).equals("---") && !lines.get(i).equals("EXPGEOM")) {
 				addAtom(atomsL, lines, i);
 				i++;
 			}
-			RawAtom[] atoms = new RawAtom[atomsL.size()];
+			Atom[] atoms = new Atom[atomsL.size()];
 			for (int p = 0; p < atomsL.size(); p++) atoms[p] = atomsL.get(p);
 			builder.atoms = atoms;
 
 
 			// expGeom
-			ArrayList<RawAtom> expGeomL = new ArrayList<>();
-			RawAtom[] expGeom = null;
+			ArrayList<Atom> expGeomL = new ArrayList<>();
+			Atom[] expGeom = null;
 			if (lines.get(i).equals("EXPGEOM")) {
 				i++;
 				while (!lines.get(i).equals("---")) {
 					addAtom(expGeomL, lines, i);
 					i++;
 				}
-				expGeom = new RawAtom[expGeomL.size()];
+				expGeom = new Atom[expGeomL.size()];
 				for (int p = 0; p < expGeomL.size(); p++)
 					expGeom[p] = expGeomL.get(p);
 			}
@@ -219,7 +297,7 @@ public class InputHandler {
 			builder.datum = datum;
 
 
-			moleculesL.add(builder.build(npMap));
+			moleculesL.add(builder.build(neededParamsMap));
 			i++;
 
 			moleculei++;
@@ -252,20 +330,17 @@ public class InputHandler {
 		outputInput(ri, "subset");
 	}
 
-	private static void addAtom(List<RawAtom> rawAtoms, List<String> lines, int i) {
-		RawAtom ra = new RawAtom();
-		StringTokenizer t = new StringTokenizer(lines.get(i), " ");
+	private static void addAtom(List<Atom> Atoms, String line) {
+		StringTokenizer t = new StringTokenizer(line, " ");
 		t.nextToken();
 		String name = t.nextToken();
-		ra.Z = AtomProperties.getAtomsMap().get(name).getZ();
-		ra.coords = new double[3];
-		for (int q = 0; q < 3; q++)
-			ra.coords[q] = Double.parseDouble(t.nextToken());
-		rawAtoms.add(ra);
+		double[] coords = new double[3];
+		for (int q = 0; q < 3; q++) coords[q] = Double.parseDouble(t.nextToken());
+		Atom a = new Atom(AtomProperties.getAtomsMap().get(name).getZ(), coords);
+		Atoms.add(a);
 	}
 
 	public static void main(String[] args) throws IOException {
-		convertFromTXT("inputtesting.txt");
-		outputSubset(9, 33);
+		txtToText();
 	}
 }

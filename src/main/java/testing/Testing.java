@@ -1,15 +1,10 @@
 package testing;
 
-import nddo.NDDOParams;
-import nddo.solution.Solution;
 import nddo.solution.SolutionR;
 import org.ejml.data.SingularMatrixException;
 import org.ejml.dense.row.CommonOps_DDRM;
 import org.ejml.simple.SimpleMatrix;
 import frontend.InputHandler;
-import frontend.RawInput;
-import runcycle.State;
-import runcycle.structs.RunnableMolecule;
 import tools.Utils;
 
 import java.util.ArrayList;
@@ -19,13 +14,14 @@ import static nddo.geometry.GeometrySecondDerivative.computeResponseVectorsPople
 
 public class Testing {
 	public static void main(String[] args) throws Exception {
-		RawInput ri = InputHandler.processInput("subset");
-		RunnableMolecule rm = ri.molecules[0];
-
-		NDDOParams[] npMap = Utils.getNpMap(ri);
-		Solution s = Solution.of(rm, State.getConverter().convert(rm.atoms));
-
-		System.out.println("s = " + s);
+//		RawInput ri = InputHandler.processInput("subset");
+//		RunnableMolecule rm = ri.molecules[0];
+//
+//		NDDOParams[] npMap = Utils.getNpMap(ri);
+//		Solution s = Solution.of(rm, State.getConverter().convert(rm.atoms));
+//
+//		System.out.println("s = " + s);
+		InputHandler.txtToText();
 	}
 
 	public static SimpleMatrix[] getxarrayPople(SolutionR soln,

@@ -11,10 +11,8 @@ import org.ejml.data.DMatrixRMaj;
 import org.ejml.dense.row.decomposition.eig.SymmetricQRAlgorithmDecomposition_DDRM;
 import org.ejml.interfaces.decomposition.EigenDecomposition_F64;
 import org.ejml.simple.SimpleMatrix;
-import frontend.RawAtom;
 import frontend.RawInput;
 import nddo.structs.AtomProperties;
-import nddo.structs.Model;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
@@ -189,42 +187,42 @@ public class Utils {
 		return Math.sqrt(sum);
 	}
 
-	public static NDDOParams[] getNpMap(RawInput ri) { // todo move this somewhere else
-		NDDOParams[] npMap = new NDDOParams[Constants.maxAtomNum];
-
-		for (int i = 0; i < ri.atomTypes.length; i++) {
-			switch (ri.model) {
-				case MNDO:
-					npMap[ri.atomTypes[i]] = new NDDOParams(ri.params.nddoParams[i]);
-					break;
-				case AM1:
-					npMap[ri.atomTypes[i]] = new AM1Params(ri.params.nddoParams[i]);
-					break;
-			}
-		}
-
-		return npMap;
-	}
-
-	// todo you know what to do
-	public static NDDOAtom[] toNDDOAtoms(Model model, RawAtom[] ras, NDDOParams[] npMap) {
-		NDDOAtom[] atoms = new NDDOAtom[ras.length];
-
-		for (int i = 0; i < ras.length; i++) {
-			RawAtom ra = ras[i];
-			switch (model) {
-				case MNDO:
-					atoms[i] = new MNDOAtom(AtomProperties.getAtoms()[ra.Z], ra.coords, npMap[ra.Z]);
-					break;
-				case AM1:
-					atoms[i] = new AM1Atom(AtomProperties.getAtoms()[ra.Z], ra.coords,
-							(AM1Params) npMap[ra.Z]);
-					break;
-			}
-		}
-
-		return atoms;
-	}
+//	public static NDDOParams[] getNpMap(RawInput ri) { // todo move this somewhere else
+//		NDDOParams[] npMap = new NDDOParams[Constants.maxAtomNum];
+//
+//		for (int i = 0; i < ri.atomTypes.length; i++) {
+//			switch (ri.model) {
+//				case MNDO:
+//					npMap[ri.atomTypes[i]] = new NDDOParams(ri.params.nddoParams[i]);
+//					break;
+//				case AM1:
+//					npMap[ri.atomTypes[i]] = new AM1Params(ri.params.nddoParams[i]);
+//					break;
+//			}
+//		}
+//
+//		return npMap;
+//	}
+//
+//	// todo you know what to do
+//	public static NDDOAtom[] toNDDOAtoms(Model model, RawAtom[] ras, NDDOParams[] npMap) {
+//		NDDOAtom[] atoms = new NDDOAtom[ras.length];
+//
+//		for (int i = 0; i < ras.length; i++) {
+//			RawAtom ra = ras[i];
+//			switch (model) {
+//				case MNDO:
+//					atoms[i] = new MNDOAtom(AtomProperties.getAtoms()[ra.Z], ra.coords, npMap[ra.Z]);
+//					break;
+//				case AM1:
+//					atoms[i] = new AM1Atom(AtomProperties.getAtoms()[ra.Z], ra.coords,
+//							(AM1Params) npMap[ra.Z]);
+//					break;
+//			}
+//		}
+//
+//		return atoms;
+//	}
 }
 
 class Pair<F extends Comparable<F>, S> implements Comparable<Pair<F, S>> {

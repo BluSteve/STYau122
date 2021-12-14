@@ -38,9 +38,9 @@ public class OutputHandler {
 
 			// remove time to make hashes consistent
 			long t = mo.time;
-			mo.time = 0;
+//			mo.time = 0;
 			hashsb.append(gson.toJson(mo));
-			mo.time = t;
+//			mo.time = t;
 		}
 
 		AggregateOutput ao = new AggregateOutput();

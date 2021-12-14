@@ -10,7 +10,7 @@ public class RunnableMolecule extends MoleculeInfo { // mid-level runnable molec
 	public final Atom[] atoms, expGeom;
 	public final double[] datum;
 
-	// MoleculeInfo will ever change!
+	// MoleculeInfo will ever change, even across runs!
 	public RunnableMolecule(MoleculeInfo mi, Atom[] atoms, Atom[] expGeom, double[] datum) {
 		super(mi);
 
@@ -30,12 +30,12 @@ public class RunnableMolecule extends MoleculeInfo { // mid-level runnable molec
 		public Atom[] atoms, expGeom;
 
 		/**
-		 * npMap is the only model dependent field in RawMolecule, so it should be decided at build time.
+		 * neededParamsMap is the only model dependent field in RawMolecule, so it should be decided at build time.
 		 *
-		 * @param npMap "Map" of param numbers needed for differentiation. Key is Z.
+		 * @param neededParamsMap "Map" of param numbers needed for differentiation. Key is Z.
 		 * @return A complete, valid RawMolecule object.
 		 */
-		public RunnableMolecule build(int[][] npMap) {
+		public RunnableMolecule build(int[][] neededParamsMap) {
 			MoleculeInfo.MIBuilder miBuilder = new MoleculeInfo.MIBuilder();
 
 			miBuilder.index = index;
@@ -44,7 +44,9 @@ public class RunnableMolecule extends MoleculeInfo { // mid-level runnable molec
 			miBuilder.restricted = restricted;
 
 			StringBuilder nameBuilder = new StringBuilder();
-			Map<String, Integer> nameOccurrences = new TreeMap<>(Collections.reverseOrder());
+			Map<String, Integer> nameOccurrences = new TreeMap<>(
+					Comparator.comparingInt(o -> AtomProperties.getAtomsMap().get(o).getZ()));
+
 			List<Integer> atomicNumbers = new ArrayList<>();
 
 			// Map of unique Zs and their corresponding param numbers needed for differentiation.
@@ -58,7 +60,7 @@ public class RunnableMolecule extends MoleculeInfo { // mid-level runnable molec
 				miBuilder.nOrbitals += ap.getOrbitals().length;
 
 				if (!uniqueNPs.containsKey(ap.getZ())) {
-					uniqueNPs.put(ap.getZ(), npMap[ap.getZ()]);
+					uniqueNPs.put(ap.getZ(), neededParamsMap[ap.getZ()]);
 				}
 
 				String name = ap.getName();
@@ -67,6 +69,7 @@ public class RunnableMolecule extends MoleculeInfo { // mid-level runnable molec
 			}
 
 			for (String key : nameOccurrences.keySet()) nameBuilder.append(key).append(nameOccurrences.get(key));
+
 			miBuilder.name = nameBuilder + "_" + miBuilder.charge + "_" + (miBuilder.restricted ? "RHF" : "UHF");
 
 			miBuilder.nElectrons -= miBuilder.charge;
