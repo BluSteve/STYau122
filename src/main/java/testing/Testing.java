@@ -4,7 +4,6 @@ import nddo.solution.SolutionR;
 import org.ejml.data.SingularMatrixException;
 import org.ejml.dense.row.CommonOps_DDRM;
 import org.ejml.simple.SimpleMatrix;
-import frontend.json.InputHandler;
 import tools.Utils;
 
 import java.util.ArrayList;
@@ -21,7 +20,6 @@ public class Testing {
 //		Solution s = Solution.of(rm, State.getConverter().convert(rm.atoms));
 //
 //		System.out.println("s = " + s);
-		InputHandler.txtToText();
 	}
 
 	public static SimpleMatrix[] getxarrayPople(SolutionR soln,

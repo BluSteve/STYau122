@@ -61,7 +61,7 @@ public class MoleculeInfo { // low level molecule info representation
 
 	public String debugName() {
 		if (debugName == null)
-			debugName = String.format("%03d-%s", index, name);
+			debugName = String.format("%03d-%s_%d_%s", index, name, charge, restricted ? "RHF" : "UHF");
 
 		return debugName;
 	}

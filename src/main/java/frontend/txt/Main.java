@@ -1,17 +1,10 @@
 package frontend.txt;
 
-import examples.am1.AM1Atom;
-import frontend.json.RawInput;
-import nddo.Constants;
-import nddo.NDDOParams;
-import nddo.mndo.MNDOAtom;
 import nddo.structs.AtomProperties;
-import runcycle.structs.Atom;
-import runcycle.structs.Params;
-import runcycle.structs.RunnableMolecule;
+import runcycle.RunIterable;
+import runcycle.structs.*;
 import tools.Utils;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
@@ -44,7 +37,7 @@ public class Main {
 
 			String atoms = "";
 			while (!lines.get(inputi).equals("---") && !lines.get(inputi).equals("EXPGEOM")) {
-				addAtom(atomsL, lines.get(inputi));
+				atomsL.add(toAtom(lines.get(inputi)));
 				atoms += lines.get(inputi) + "\n";
 				inputi++;
 			}
@@ -79,7 +72,7 @@ public class Main {
 			datumi++;
 
 			String[] ss = datums.get(datumi).split(" ");
-			if (ss.length > 1) datum[1] = "DIPOLE=" + ss[1];
+			if (ss.length > 1) datum[1] = "DIP=" + ss[1];
 			datumi++;
 
 			ss = datums.get(datumi).split(" ");
@@ -105,14 +98,14 @@ public class Main {
 		pw.close();
 	}
 
-	private static void addAtom(List<Atom> Atoms, String line) {
+	private static Atom toAtom(String line) {
 		StringTokenizer t = new StringTokenizer(line, " ");
 		t.nextToken();
 		String name = t.nextToken();
 		double[] coords = new double[3];
 		for (int q = 0; q < 3; q++) coords[q] = Double.parseDouble(t.nextToken());
-		Atom a = new Atom(AtomProperties.getAtomsMap().get(name).getZ(), coords);
-		Atoms.add(a);
+		Atom a = new Atom(AtomProperties.getAtomsMap().get(name).getZ(), Utils.bohr(coords));
+		return a;
 	}
 
 	private static String[] splitCsvLine(String s) {
@@ -133,62 +126,75 @@ public class Main {
 		List<String> pncsv = Files.readAllLines(Path.of("param-numbers.csv"));
 		int[] atomTypes = new int[pncsv.size()];
 		int[][] neededParams = new int[pncsv.size()][];
-		int totalParamLength = 0;
 		for (int i = 0; i < pncsv.size(); i++) {
 			String[] linea = splitCsvLine(pncsv.get(i));
 			atomTypes[i] = AtomProperties.getAtomsMap().get(linea[0]).getZ();
 			neededParams[i] = Utils.toInts(Arrays.copyOfRange(linea, 1, linea.length));
-			totalParamLength += linea.length - 1;
 		}
 
-		Params p = new Params(Zs, params, totalParamLength);
+		Params p = new Params(Zs, params);
+		InputInfo info = new InputInfo(atomTypes, neededParams, p);
 
-		Scanner s = new Scanner(new FileInputStream("molecules.txt"));
 
 		// Molecules
+		List<String> mtxt = Files.readAllLines(Path.of("molecules.txt"));
+
 		ArrayList<RunnableMolecule> moleculesL = new ArrayList<>();
-		i = 1;
-		int datumi = 0;
+		int i = 0;
 		int moleculei = 0;
 
-		while (s.hasNextLine()) {
+		while (i < mtxt.size()) {
 			RunnableMolecule.RMBuilder builder = new RunnableMolecule.RMBuilder();
 
-			builder.restricted = params2.get(i).equals("RHF");
-			i++;
+			String[] minfo = splitCsvLine(mtxt.get(i));
+			if (!minfo[0].equals("")) builder.name = minfo[0];
 
-			builder.charge = Integer.parseInt(params2.get(i).split("=")[1]);
-			i++;
+			builder.restricted = minfo[1].equals("RHF");
 
-			builder.mult = Integer.parseInt(params2.get(i).split("=")[1]);
-			i++;
+			builder.charge = Integer.parseInt(minfo[2].split("=")[1]);
+
+			builder.mult = Integer.parseInt(minfo[3].split("=")[1]);
 
 			builder.index = moleculei;
 
+			// Datum
+			i++;
+			double[] datum = new double[3];
+			String[] mdatum = splitCsvLine(mtxt.get(i));
+
+			for (String s : mdatum) {
+				if (s.startsWith("HF=")) datum[0] = Double.parseDouble(s.split("=")[1]);
+				if (s.startsWith("DIP=")) datum[0] = Double.parseDouble(s.split("=")[1]);
+				if (s.startsWith("IE=")) datum[0] = Double.parseDouble(s.split("=")[1]);
+			}
+
+			builder.datum = datum;
+
 			// Atoms
+			i++;
 			ArrayList<Atom> atomsL = new ArrayList<>();
 
-			while (!params2.get(i).equals("---") && !params2.get(i).equals("EXPGEOM")) {
-				addAtom(atomsL, params2, i);
+			while (!mtxt.get(i).equals("---") && !mtxt.get(i).equals("EXPGEOM")) {
+				atomsL.add(toAtom(mtxt.get(i)));
 				i++;
 			}
 			Atom[] atoms = new Atom[atomsL.size()];
-			for (int p = 0; p < atomsL.size(); p++) atoms[p] = atomsL.get(p);
+			for (int j = 0; j < atomsL.size(); j++) atoms[j] = atomsL.get(j);
 			builder.atoms = atoms;
 
 
 			// expGeom
 			ArrayList<Atom> expGeomL = new ArrayList<>();
 			Atom[] expGeom = null;
-			if (params2.get(i).equals("EXPGEOM")) {
+			if (mtxt.get(i).equals("EXPGEOM")) {
 				i++;
-				while (!params2.get(i).equals("---")) {
-					addAtom(expGeomL, params2, i);
+				while (!mtxt.get(i).equals("---")) {
+					expGeomL.add(toAtom(mtxt.get(i)));
 					i++;
 				}
 				expGeom = new Atom[expGeomL.size()];
-				for (int p = 0; p < expGeomL.size(); p++)
-					expGeom[p] = expGeomL.get(p);
+				for (int j = 0; j < expGeomL.size(); j++)
+					expGeom[j] = expGeomL.get(j);
 			}
 			builder.expGeom = expGeom;
 
@@ -196,35 +202,25 @@ public class Main {
 				throw new IllegalArgumentException("Atom and expGeom size mismatch!");
 
 
-			// Datum
-			double[] datum = new double[3];
-
-			datum[0] = Double.parseDouble(pncsv.get(datumi).split(" ")[1]);
-			datumi++;
-
-			String[] ss = pncsv.get(datumi).split(" ");
-			if (ss.length > 1) datum[1] = Double.parseDouble(ss[1]);
-			datumi++;
-
-			ss = pncsv.get(datumi).split(" ");
-			if (ss.length > 1) datum[2] = Double.parseDouble(ss[1]);
-			datumi += 2;
-
-			builder.datum = datum;
-
-
-			moleculesL.add(builder.build(neededParamsMap));
+			moleculesL.add(builder.build(atomTypes, neededParams));
 			i++;
 
 			moleculei++;
 		}
 
-		ri.molecules = new RunnableMolecule[moleculesL.size()];
-		for (int p = 0; p < moleculesL.size(); p++) {
-			ri.molecules[p] = moleculesL.get(p);
+		RunnableMolecule[] molecules = new RunnableMolecule[moleculesL.size()];
+		for (int j = 0; j < moleculesL.size(); j++) {
+			molecules[j] = moleculesL.get(j);
 		}
-		ri.nMolecules = ri.molecules.length;
 
-		outputJSON(ri, "input");
+		RunIterable iterable = new RunIterable(info, molecules);
+		iterable.setLimit(1);
+		for (RunOutput ro: iterable) {
+
+		}
+	}
+
+	public static void main(String[] args) throws IOException {
+		convertFromTXT();
 	}
 }

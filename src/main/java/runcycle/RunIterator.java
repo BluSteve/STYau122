@@ -27,12 +27,10 @@ public class RunIterator implements Iterator<RunOutput> {
 	private int runNumber = 0, limit = 0;
 	private InputInfo currentInfo;
 	private RunnableMolecule[] currentRms;
-	private boolean withHessian;
 
-	public RunIterator(InputInfo initialInfo, RunnableMolecule[] initialRms, boolean withHessian) {
+	public RunIterator(InputInfo initialInfo, RunnableMolecule[] initialRms) {
 		this.initialInfo = initialInfo;
 		this.initialRms = initialRms;
-		this.withHessian = withHessian;
 
 		this.currentInfo = initialInfo;
 		this.currentRms = initialRms;
@@ -46,9 +44,9 @@ public class RunIterator implements Iterator<RunOutput> {
 
 	@Override
 	public RunOutput next() {
-		logger.info("Run number: {}, hessian: {}", runNumber, withHessian);
+		logger.info("Run number: {}", runNumber);
 
-		RunOutput output = new PRun(currentInfo, currentRms).run(withHessian);
+		RunOutput output = new PRun(currentInfo, currentRms).run();
 		runNumber++;
 
 		currentInfo = output.nextRunInfo;
@@ -69,14 +67,6 @@ public class RunIterator implements Iterator<RunOutput> {
 
 	public RunnableMolecule[] getCurrentRms() {
 		return currentRms;
-	}
-
-	public boolean isWithHessian() {
-		return withHessian;
-	}
-
-	public void setWithHessian(boolean withHessian) {
-		this.withHessian = withHessian;
 	}
 
 	public int getLimit() {
@@ -155,8 +145,8 @@ public class RunIterator implements Iterator<RunOutput> {
 			return rms;
 		}
 
-		public RunOutput run(boolean withHessian) {
-			boolean[] isDones = new boolean[getMaxMoleculeIndex(rms)];
+		public RunOutput run() {
+			boolean[] isDones = new boolean[getMaxMoleculeIndex(rms) + 1];
 
 			if (logger.isInfoEnabled()) {
 				Runnable mLeft = () -> {
@@ -212,7 +202,7 @@ public class RunIterator implements Iterator<RunOutput> {
 							NDDOAtom[] expGeom = rm.expGeom == null ?
 									null : getConverter().convert(rm.expGeom, info.params.npMap);
 
-							MoleculeRun mr = new MoleculeRun(rm, atoms, expGeom, rm.datum, withHessian);
+							MoleculeRun mr = new MoleculeRun(rm, atoms, expGeom, rm.datum, true);
 							mr.run();
 
 							isDones[rm.index] = true;
@@ -239,7 +229,7 @@ public class RunIterator implements Iterator<RunOutput> {
 			// processing results
 			ParamOptimizer opt = new ParamOptimizer();
 			double[] ttGradient = new double[paramLength];
-			double[][] ttHessian = withHessian ? new double[paramLength][paramLength] : null;
+			double[][] ttHessian = new double[paramLength][paramLength];
 
 			for (IMoleculeResult result : results) {
 				int[] moleculeATs = result.getUpdatedRm().mats;
@@ -286,31 +276,25 @@ public class RunIterator implements Iterator<RunOutput> {
 				}
 
 
-				if (withHessian) {
-					double[][] h =
-							ParamHessian.padHessian(result.getHessian(), result.getUpdatedRm().mats, info.atomTypes,
-									info.neededParams);
+				double[][] h = ParamHessian.padHessian(result.getHessian(), result.getUpdatedRm().mats,
+						info.atomTypes, info.neededParams);
 
-					for (int i = 0; i < h.length; i++) {
-						for (int j = 0; j < h[0].length; j++)
-							ttHessian[i][j] += h[i][j];
-					}
+				for (int i = 0; i < h.length; i++) {
+					for (int j = 0; j < h[0].length; j++)
+						ttHessian[i][j] += h[i][j];
 				}
 			}
 
 			// optimizes params based on this run and gets new search direction
 			SimpleMatrix newGradient = new SimpleMatrix(ttGradient);
-			SimpleMatrix newHessian = withHessian ? new SimpleMatrix(ttHessian) :
-					findMockHessian(newGradient, info.params.lastHessian, info.params.lastGradient,
-							info.params.lastDir,
-							paramLength);
+			SimpleMatrix newHessian = new SimpleMatrix(ttHessian);
 
 			double[] dir = opt.optimize(newHessian, newGradient);
 
 			// generating nextRunInfo
 			NDDOParams[] newNpMap = new NDDOParams[info.params.npMap.length];
 			for (int i = 0; i < newNpMap.length; i++) {
-				newNpMap[i] = info.params.npMap[i].clone();
+				if (info.params.npMap[i] != null) newNpMap[i] = info.params.npMap[i].clone();
 			}
 
 			int n = 0;
@@ -321,7 +305,7 @@ public class RunIterator implements Iterator<RunOutput> {
 				}
 			}
 
-			Params params = new Params(newNpMap, dir, ttGradient, ParamHessian.utify(newHessian.toArray2()));
+			Params params = new Params(newNpMap);
 			InputInfo nextRunInfo = new InputInfo(info.atomTypes, info.neededParams, params);
 
 			lsw.stop();

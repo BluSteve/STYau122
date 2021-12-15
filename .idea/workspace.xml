@@ -4,9 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Work in progress on parsing new input file">
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDOParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDOParams.java" afterDir="false" />
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="npMap dilemma fixed">
+      <change afterPath="$PROJECT_DIR$/src/main/java/runcycle/RunIterable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/examples/am1/AM1Params.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/examples/am1/AM1Params.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/json/InputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/json/InputHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/txt/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/txt/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/scf/STO6G.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/scf/STO6G.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/structs/MoleculeInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/structs/MoleculeInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/structs/Params.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/Params.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunnableMolecule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunnableMolecule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -142,16 +152,30 @@
       <recent name="tools.Utils" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="runcycle" />
       <recent name="tools" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Testing">
+  <component name="RunManager" selected="Application.Main (1)">
     <configuration name="InputHandler" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="frontend.json.InputHandler" />
       <module name="MNDOParam.main" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="frontend.json.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="frontend.txt.Main" />
+      <module name="MNDOParam.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="frontend.txt.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -223,9 +247,11 @@
       <item itemvalue="Application.InputHandler" />
       <item itemvalue="Gradle.MNDOParam [jmh]" />
       <item itemvalue="Shell Script.Copy" />
+      <item itemvalue="Application.Main (1)" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main (1)" />
         <item itemvalue="Application.InputHandler" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Gradle.MNDOParam [jmh]" />
@@ -299,14 +325,8 @@
       <workItem from="1639461915867" duration="6855000" />
       <workItem from="1639487834084" duration="6846000" />
       <workItem from="1639494793688" duration="749000" />
-      <workItem from="1639501687113" duration="5024000" />
-    </task>
-    <task id="LOCAL-00033" summary="Pople improvements in progress + benchmarking">
-      <created>1638111353376</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1638111353376</updated>
+      <workItem from="1639501687113" duration="5471000" />
+      <workItem from="1639555307093" duration="5006000" />
     </task>
     <task id="LOCAL-00034" summary="Rhs cache">
       <created>1638111572129</created>
@@ -644,7 +664,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639506284493</updated>
     </task>
-    <option name="localTasksCounter" value="82" />
+    <task id="LOCAL-00082" summary="npMap dilemma fixed">
+      <created>1639507203362</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1639507203362</updated>
+    </task>
+    <option name="localTasksCounter" value="83" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -692,7 +719,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="333000ms final pople for both gsd and pd" />
     <MESSAGE value="Main debug and consolidation" />
     <MESSAGE value="Better outputSubset" />
     <MESSAGE value="Analytical SCF refactor in progress" />
@@ -717,7 +743,8 @@
     <MESSAGE value="RunIterator and lots of changes in runcycle" />
     <MESSAGE value="Old txt format to new txt format" />
     <MESSAGE value="Work in progress on parsing new input file" />
-    <option name="LAST_COMMIT_MESSAGE" value="Work in progress on parsing new input file" />
+    <MESSAGE value="npMap dilemma fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="npMap dilemma fixed" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

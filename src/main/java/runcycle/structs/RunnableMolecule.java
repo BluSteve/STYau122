@@ -24,18 +24,21 @@ public class RunnableMolecule extends MoleculeInfo { // mid-level runnable molec
 
 	public static class RMBuilder {
 		public int index;
+		public String name;
 		public boolean restricted = true;
 		public int charge, mult;
 		public double[] datum;
 		public Atom[] atoms, expGeom;
 
 		/**
-		 * neededParamsMap is the only model dependent field in RawMolecule, so it should be decided at build time.
+		 * neededParams is the only model dependent field in RawMolecule, so it should be decided at build time.
 		 *
-		 * @param neededParamsMap "Map" of param numbers needed for differentiation. Key is Z.
+		 * @param atomTypes    atomTypes must include all of the atoms present in the molecule.
+		 * @param neededParams The trainable params indices corresponding to the atom number at the same position in
+		 *                     atomTypes
 		 * @return A complete, valid RawMolecule object.
 		 */
-		public RunnableMolecule build(int[][] neededParamsMap) {
+		public RunnableMolecule build(int[] atomTypes, int[][] neededParams) {
 			MoleculeInfo.MIBuilder miBuilder = new MoleculeInfo.MIBuilder();
 
 			miBuilder.index = index;
@@ -60,17 +63,27 @@ public class RunnableMolecule extends MoleculeInfo { // mid-level runnable molec
 				miBuilder.nOrbitals += ap.getOrbitals().length;
 
 				if (!uniqueNPs.containsKey(ap.getZ())) {
-					uniqueNPs.put(ap.getZ(), neededParamsMap[ap.getZ()]);
+					// searches through until it finds corresponding neededParams
+					for (int i = 0; i < atomTypes.length; i++) {
+						if (atomTypes[i] == ap.getZ()) {
+							uniqueNPs.put(ap.getZ(), neededParams[i]);
+							break;
+						}
+					}
 				}
 
-				String name = ap.getName();
-				if (!nameOccurrences.containsKey(name)) nameOccurrences.put(name, 1);
-				else nameOccurrences.put(name, nameOccurrences.get(name) + 1);
+				if (name == null) {
+					String atomName = ap.getName();
+					if (!nameOccurrences.containsKey(atomName)) nameOccurrences.put(atomName, 1);
+					else nameOccurrences.put(atomName, nameOccurrences.get(atomName) + 1);
+				}
 			}
 
-			for (String key : nameOccurrences.keySet()) nameBuilder.append(key).append(nameOccurrences.get(key));
-
-			miBuilder.name = nameBuilder + "_" + miBuilder.charge + "_" + (miBuilder.restricted ? "RHF" : "UHF");
+			if (name == null) { // default name
+				for (String key : nameOccurrences.keySet()) nameBuilder.append(key).append(nameOccurrences.get(key));
+				miBuilder.name = nameBuilder.toString();
+			}
+			else miBuilder.name = name;
 
 			miBuilder.nElectrons -= miBuilder.charge;
 
