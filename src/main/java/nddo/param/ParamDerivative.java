@@ -1954,7 +1954,7 @@ public class ParamDerivative {
 									coeffD[l] *
 									LocalTwoCenterERIderiv(A[i], B[j], C[k],
 											D[l], D1deriv, D2deriv, p1deriv,
-											p2deriv, num, type) * 27.21;
+											p2deriv, num, type) * Constants.eV;
 						}
 
 

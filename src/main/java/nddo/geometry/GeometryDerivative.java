@@ -1,5 +1,6 @@
 package nddo.geometry;
 
+import nddo.Constants;
 import nddo.NDDO6G;
 import nddo.NDDOAtom;
 import nddo.solution.SolutionR;
@@ -1308,7 +1309,7 @@ public class GeometryDerivative {
 										coeffD2[l] *
 										LocalTwoCenterERIderiv(A[i], B[j],
 												C[k],
-												D[l], tau) * 27.21;
+												D[l], tau) * Constants.eV;
 							}
 							if (coeffAderiv2[i] * coeffB2[j] * coeffC2[k] *
 									coeffD2[l] !=
@@ -1318,7 +1319,7 @@ public class GeometryDerivative {
 										coeffD2[l] *
 										NDDO6G.LocalTwoCenterERI(A[i], B[j],
 												C[k], D[l]) *
-										27.21;
+										Constants.eV;
 							}
 
 							if (coeffA2[i] * coeffBderiv2[j] * coeffC2[k] *
@@ -1329,7 +1330,7 @@ public class GeometryDerivative {
 										coeffD2[l] *
 										NDDO6G.LocalTwoCenterERI(A[i], B[j],
 												C[k], D[l]) *
-										27.21;
+										Constants.eV;
 							}
 
 							if (coeffA2[i] * coeffB2[j] * coeffCderiv2[k] *
@@ -1340,7 +1341,7 @@ public class GeometryDerivative {
 										coeffD2[l] *
 										NDDO6G.LocalTwoCenterERI(A[i], B[j],
 												C[k], D[l]) *
-										27.21;
+										Constants.eV;
 							}
 
 							if (coeffA2[i] * coeffB2[j] * coeffC2[k] *
@@ -1350,7 +1351,7 @@ public class GeometryDerivative {
 										coeffDderiv2[l] *
 										NDDO6G.LocalTwoCenterERI(A[i], B[j],
 												C[k], D[l]) *
-										27.21;
+										Constants.eV;
 							}
 
 
@@ -1395,7 +1396,7 @@ public class GeometryDerivative {
 										coeffD[l] *
 										LocalTwoCenterERIderiv(A[i], B[j],
 												C[k],
-												D[l], tau) * 27.21;
+												D[l], tau) * Constants.eV;
 							}
 							if (coeffAderiv[i] * coeffB[j] * coeffC[k] *
 									coeffD[l] != 0) {
@@ -1403,7 +1404,7 @@ public class GeometryDerivative {
 										coeffD[l] *
 										NDDO6G.LocalTwoCenterERI(A[i], B[j],
 												C[k], D[l]) *
-										27.21;
+										Constants.eV;
 							}
 
 							if (coeffA[i] * coeffBderiv[j] * coeffC[k] *
@@ -1412,7 +1413,7 @@ public class GeometryDerivative {
 										coeffD[l] *
 										NDDO6G.LocalTwoCenterERI(A[i], B[j],
 												C[k], D[l]) *
-										27.21;
+										Constants.eV;
 							}
 
 							if (coeffA[i] * coeffB[j] * coeffCderiv[k] *
@@ -1421,7 +1422,7 @@ public class GeometryDerivative {
 										coeffD[l] *
 										NDDO6G.LocalTwoCenterERI(A[i], B[j],
 												C[k], D[l]) *
-										27.21;
+										Constants.eV;
 							}
 
 							if (coeffA[i] * coeffB[j] * coeffC[k] *
@@ -1430,7 +1431,7 @@ public class GeometryDerivative {
 										coeffDderiv[l] *
 										NDDO6G.LocalTwoCenterERI(A[i], B[j],
 												C[k], D[l]) *
-										27.21;
+										Constants.eV;
 							}
 
 

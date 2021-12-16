@@ -15,7 +15,6 @@ public class SolutionU extends Solution {
 		if (nElectrons % 2 == mult % 2 || mult < 1) {
 			mi.getLogger().error("Please check mult and charge: nElectrons: {}, mult: {}", nElectrons, mult);
 		}
-		nElectrons -= mult - 1;
 	}
 
 	@Override
@@ -26,8 +25,8 @@ public class SolutionU extends Solution {
 	@Override
 	public SolutionU compute() {
 		double damp = 0.8;
-		int nalpha = nElectrons / 2 + mult - 1;
-		int nbeta = nElectrons / 2;
+		int nalpha = (nElectrons - mult + 1) / 2 + mult - 1;
+		int nbeta = nElectrons - nalpha;
 
 		double[] integralArrayCoulomb = new double[getRm().nCoulombInts];
 		int integralCount = 0;

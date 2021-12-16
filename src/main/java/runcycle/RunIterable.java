@@ -1,9 +1,7 @@
 package runcycle;
 
-import runcycle.structs.InputInfo;
 import runcycle.structs.RunInput;
 import runcycle.structs.RunOutput;
-import runcycle.structs.RunnableMolecule;
 
 import java.util.Iterator;
 

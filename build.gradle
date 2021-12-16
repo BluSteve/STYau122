@@ -13,7 +13,7 @@ repositories {
 jar {
     manifest {
         attributes(
-                'Main-Class': 'Main',
+                'Main-Class': 'frontend.txt.Main',
                 'Multi-Release': 'true'
         )
     }

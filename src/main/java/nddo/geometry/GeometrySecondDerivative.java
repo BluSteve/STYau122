@@ -1,5 +1,6 @@
 package nddo.geometry;
 
+import nddo.Constants;
 import nddo.NDDO6G;
 import nddo.NDDOAtom;
 import nddo.solution.SolutionR;
@@ -2343,59 +2344,59 @@ public class GeometrySecondDerivative {
 										tau1, tau2);
 
 						sum += coeffAderiv[i] * coeffB[j] * coeffC[k] *
-								coeffD[l] * eri * 27.21;
+								coeffD[l] * eri * Constants.eV;
 						sum += coeffAderiv1[i] * coeffBderiv2[j] * coeffC[k] *
-								coeffD[l] * eri * 27.21;
+								coeffD[l] * eri * Constants.eV;
 						sum += coeffAderiv1[i] * coeffB[j] * coeffCderiv2[k] *
-								coeffD[l] * eri * 27.21;
+								coeffD[l] * eri * Constants.eV;
 						sum += coeffAderiv1[i] * coeffB[j] * coeffC[k] *
-								coeffDderiv2[l] * eri * 27.21;
+								coeffDderiv2[l] * eri * Constants.eV;
 						sum += coeffAderiv1[i] * coeffB[j] * coeffC[k] *
-								coeffD[l] * erideriv2 * 27.21;
+								coeffD[l] * erideriv2 * Constants.eV;
 
 						sum += coeffAderiv2[i] * coeffBderiv1[j] * coeffC[k] *
-								coeffD[l] * eri * 27.21;
+								coeffD[l] * eri * Constants.eV;
 						sum += coeffA[i] * coeffBderiv[j] * coeffC[k] *
-								coeffD[l] * eri * 27.21;
+								coeffD[l] * eri * Constants.eV;
 						sum += coeffA[i] * coeffBderiv1[j] * coeffCderiv2[k] *
-								coeffD[l] * eri * 27.21;
+								coeffD[l] * eri * Constants.eV;
 						sum += coeffA[i] * coeffBderiv1[j] * coeffC[k] *
-								coeffDderiv2[l] * eri * 27.21;
+								coeffDderiv2[l] * eri * Constants.eV;
 						sum += coeffA[i] * coeffBderiv1[j] * coeffC[k] *
-								coeffD[l] * erideriv2 * 27.21;
+								coeffD[l] * erideriv2 * Constants.eV;
 
 						sum += coeffAderiv2[i] * coeffB[j] * coeffCderiv1[k] *
-								coeffD[l] * eri * 27.21;
+								coeffD[l] * eri * Constants.eV;
 						sum += coeffA[i] * coeffBderiv2[j] * coeffCderiv1[k] *
-								coeffD[l] * eri * 27.21;
+								coeffD[l] * eri * Constants.eV;
 						sum += coeffA[i] * coeffB[j] * coeffCderiv[k] *
-								coeffD[l] * eri * 27.21;
+								coeffD[l] * eri * Constants.eV;
 						sum += coeffA[i] * coeffB[j] * coeffCderiv1[k] *
-								coeffDderiv2[l] * eri * 27.21;
+								coeffDderiv2[l] * eri * Constants.eV;
 						sum += coeffA[i] * coeffB[j] * coeffCderiv1[k] *
-								coeffD[l] * erideriv2 * 27.21;
+								coeffD[l] * erideriv2 * Constants.eV;
 
 						sum += coeffAderiv2[i] * coeffB[j] * coeffC[k] *
-								coeffDderiv1[l] * eri * 27.21;
+								coeffDderiv1[l] * eri * Constants.eV;
 						sum += coeffA[i] * coeffBderiv2[j] * coeffC[k] *
-								coeffDderiv1[l] * eri * 27.21;
+								coeffDderiv1[l] * eri * Constants.eV;
 						sum += coeffA[i] * coeffB[j] * coeffCderiv2[k] *
-								coeffDderiv1[l] * eri * 27.21;
+								coeffDderiv1[l] * eri * Constants.eV;
 						sum += coeffA[i] * coeffB[j] * coeffC[k] *
-								coeffDderiv[l] * eri * 27.21;
+								coeffDderiv[l] * eri * Constants.eV;
 						sum += coeffA[i] * coeffB[j] * coeffC[k] *
-								coeffDderiv1[l] * erideriv2 * 27.21;
+								coeffDderiv1[l] * erideriv2 * Constants.eV;
 
 						sum += coeffAderiv2[i] * coeffB[j] * coeffC[k] *
-								coeffD[l] * erideriv1 * 27.21;
+								coeffD[l] * erideriv1 * Constants.eV;
 						sum += coeffA[i] * coeffBderiv2[j] * coeffC[k] *
-								coeffD[l] * erideriv1 * 27.21;
+								coeffD[l] * erideriv1 * Constants.eV;
 						sum += coeffA[i] * coeffB[j] * coeffCderiv2[k] *
-								coeffD[l] * erideriv1 * 27.21;
+								coeffD[l] * erideriv1 * Constants.eV;
 						sum += coeffA[i] * coeffB[j] * coeffC[k] *
-								coeffDderiv2[l] * erideriv1 * 27.21;
+								coeffDderiv2[l] * erideriv1 * Constants.eV;
 						sum += coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] *
-								erideriv * 27.21;
+								erideriv * Constants.eV;
 
 
 					}

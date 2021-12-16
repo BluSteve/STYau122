@@ -168,22 +168,22 @@ public class Main {
 
 
 			// expGeom
-			ArrayList<Atom> expGeomL = new ArrayList<>();
-			Atom[] expGeom = null;
 			if (mtxt.get(i).equals("EXPGEOM")) {
 				i++;
+
+				ArrayList<Atom> expGeomL = new ArrayList<>();
 				while (!mtxt.get(i).equals("---")) {
 					expGeomL.add(toAtom(mtxt.get(i)));
 					i++;
 				}
-				expGeom = new Atom[expGeomL.size()];
+
+				Atom[] expGeom = new Atom[expGeomL.size()];
 				for (int j = 0; j < expGeomL.size(); j++)
 					expGeom[j] = expGeomL.get(j);
-			}
-			builder.expGeom = expGeom;
 
-			if (expGeomL.size() != 0 && atomsL.size() != expGeomL.size())
-				throw new IllegalArgumentException("Atom and expGeom size mismatch!");
+				builder.expGeom = expGeom;
+			}
+
 
 
 			moleculesL.add(builder.build(atomTypes, neededParams));
@@ -201,7 +201,7 @@ public class Main {
 		iterable.setLimit(1);
 		for (RunOutput ro : iterable) {
 			outputMolecules(ro.results);
-			outputParams(ro.nextRunInfo);
+			outputParams(ro.nextRunInfo); // todo make json output
 		}
 
 		System.exit(0);

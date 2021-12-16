@@ -101,7 +101,7 @@ public abstract class NDDOAtom {
 	}
 
 	public NDDO6G s() {
-		return this.orbitals[0]; // todo what is this
+		return this.orbitals[0];
 	}
 
 	public double V(NDDO6G a, NDDO6G b) {

@@ -6,6 +6,8 @@ import nddo.scf.LCGTO;
 import nddo.structs.OrbitalProperties;
 import nddo.scf.STO6G;
 
+import java.util.Arrays;
+
 public class NDDO6G extends STO6G {
 	public double beta, U, p0, p1, p2, D1, D2;
 	public double gss, gsp, hsp, gpp, gp2, hp2;
@@ -1190,7 +1192,7 @@ public class NDDO6G extends STO6G {
 					for (int l = 0; l < coeffD.length; l++)
 						if (coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] != 0) {
 							sum2 += coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] *
-											LocalTwoCenterERI(A[i], B[j], C[k], D[l]) * 27.21;
+											LocalTwoCenterERI(A[i], B[j], C[k], D[l]) * Constants.eV;
 						}
 
 		return sum2;

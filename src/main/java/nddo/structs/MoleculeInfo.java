@@ -9,7 +9,8 @@ public class MoleculeInfo { // low level molecule info representation
 	public final boolean restricted;
 	public final int charge, mult;
 	public final int[] atomicNumbers;
-	public final int nElectrons, nOrbitals, nIntegrals, nCoulombInts, nExchangeInts;
+	public final int nElectrons, nOccAlpha, nOccBeta, nVirtAlpha, nVirtBeta, nOrbitals,
+			nIntegrals, nCoulombInts, nExchangeInts;
 	public final int[][] orbsOfAtom, missingOfAtom;
 	public final int[] atomOfOrb;
 	public final int[] mats; // molecule atom types
@@ -18,10 +19,10 @@ public class MoleculeInfo { // low level molecule info representation
 	private transient String debugName;
 	private transient Logger logger;
 
-	private MoleculeInfo(int index, String name, boolean restricted, int charge, int mult,
-						 int[] atomicNumbers, int nElectrons, int nOrbitals, int nIntegrals, int nCoulombInts,
-						 int nExchangeInts, int[][] orbsOfAtom, int[][] missingOfAtom, int[] atomOfOrb, int[] mats,
-						 int[][] mnps) {
+	public MoleculeInfo(int index, String name, boolean restricted, int charge, int mult, int[] atomicNumbers,
+						int nElectrons, int nOccAlpha, int nOccBeta, int nVirtAlpha, int nVirtBeta, int nOrbitals,
+						int nIntegrals, int nCoulombInts, int nExchangeInts, int[][] orbsOfAtom, int[][] missingOfAtom,
+						int[] atomOfOrb, int[] mats, int[][] mnps) {
 		this.index = index;
 		this.name = name;
 		this.restricted = restricted;
@@ -29,6 +30,10 @@ public class MoleculeInfo { // low level molecule info representation
 		this.mult = mult;
 		this.atomicNumbers = atomicNumbers;
 		this.nElectrons = nElectrons;
+		this.nOccAlpha = nOccAlpha;
+		this.nOccBeta = nOccBeta;
+		this.nVirtAlpha = nVirtAlpha;
+		this.nVirtBeta = nVirtBeta;
 		this.nOrbitals = nOrbitals;
 		this.nIntegrals = nIntegrals;
 		this.nCoulombInts = nCoulombInts;
@@ -48,6 +53,10 @@ public class MoleculeInfo { // low level molecule info representation
 		this.mult = mi.mult;
 		this.atomicNumbers = mi.atomicNumbers;
 		this.nElectrons = mi.nElectrons;
+		this.nOccAlpha = mi.nOccAlpha;
+		this.nOccBeta = mi.nOccBeta;
+		this.nVirtAlpha = mi.nVirtAlpha;
+		this.nVirtBeta = mi.nVirtBeta;
 		this.nOrbitals = mi.nOrbitals;
 		this.nIntegrals = mi.nIntegrals;
 		this.nCoulombInts = mi.nCoulombInts;
@@ -233,8 +242,14 @@ public class MoleculeInfo { // low level molecule info representation
 					nExchangeInts = findNExchangeInts();
 				}
 
+				int nOccAlpha = (nElectrons - mult + 1) / 2 + mult - 1;
+				int nOccBeta = nElectrons - nOccAlpha;
+				int nVirtAlpha = nOrbitals - nOccAlpha;
+				int nVirtBeta = nOrbitals - nOccBeta;
+
 				return new MoleculeInfo(index, name, restricted, charge, mult, atomicNumbers,
-						nElectrons, nOrbitals, nIntegrals, nCoulombInts, nExchangeInts, orbsOfAtom, missingOfAtom,
+						nElectrons, nOccAlpha, nOccBeta, nVirtAlpha, nVirtBeta, nOrbitals, nIntegrals, nCoulombInts,
+						nExchangeInts, orbsOfAtom, missingOfAtom,
 						atomOfOrb, mats, mnps);
 			}
 

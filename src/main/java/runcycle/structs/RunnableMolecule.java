@@ -16,6 +16,9 @@ public class RunnableMolecule extends MoleculeInfo { // mid-level runnable molec
 
 		if (atoms == null) throw new NullPointerException("Atoms cannot be null!");
 		if (datum == null) throw new NullPointerException("Datum cannot be null!");
+		if (expGeom != null && atoms.length != expGeom.length)
+			throw new IllegalArgumentException("Atom and expGeom size mismatch!");
+
 
 		this.atoms = atoms;
 		this.expGeom = expGeom;
@@ -98,6 +101,8 @@ public class RunnableMolecule extends MoleculeInfo { // mid-level runnable molec
 				i++;
 			}
 
+			Arrays.sort(atoms, Comparator.comparingInt(o -> o.Z));
+			if (expGeom != null) Arrays.sort(expGeom, Comparator.comparingInt(o -> o.Z));
 
 			// Computes cached Solution info
 			miBuilder.orbsOfAtom = new int[atoms.length][];
