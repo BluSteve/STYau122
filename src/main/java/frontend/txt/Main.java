@@ -221,7 +221,8 @@ public class Main {
 			if (rm.datum[2] != 0) pw.print(String.format(", IE=%.1f", rm.datum[2]));
 			pw.println();
 
-			String format = "%d    %s    %12.9f    %12.9f    %12.9f";
+			String precision = "%19.16f";
+			String format = String.format("%%d    %%s    %s    %s    %s", precision, precision, precision);
 			for (int i = 0; i < rm.atoms.length; i++) {
 				Atom atom = rm.atoms[i];
 

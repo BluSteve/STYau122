@@ -4,24 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Txt input working">
-      <change afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunInput.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inputtesting.txt" beforeDir="false" afterPath="$PROJECT_DIR$/inputtesting.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/json/AggregateOutput.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/json/InputHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/json/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/json/MoleculeOutput.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/json/MoleculeRan.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/json/OutputHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/json/RawInput.java" beforeDir="false" />
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Txt output working">
       <change beforePath="$PROJECT_DIR$/src/main/java/frontend/txt/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/txt/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDOParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDOParams.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/RunIterable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/RunIterable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/structs/InputInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/InputInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/structs/Params.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -332,14 +316,7 @@
       <workItem from="1639494793688" duration="749000" />
       <workItem from="1639501687113" duration="5471000" />
       <workItem from="1639555307093" duration="5752000" />
-      <workItem from="1639640872738" duration="5881000" />
-    </task>
-    <task id="LOCAL-00035" summary="Lhs cache">
-      <created>1638114638968</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1638114638968</updated>
+      <workItem from="1639640872738" duration="6526000" />
     </task>
     <task id="LOCAL-00036" summary="Lhs cache cleanup">
       <created>1638115351289</created>
@@ -677,7 +654,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639561173242</updated>
     </task>
-    <option name="localTasksCounter" value="84" />
+    <task id="LOCAL-00084" summary="Txt output working">
+      <created>1639650875674</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1639650875674</updated>
+    </task>
+    <option name="localTasksCounter" value="85" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -725,7 +709,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Better outputSubset" />
     <MESSAGE value="Analytical SCF refactor in progress" />
     <MESSAGE value="Analytical SCF refactor untested" />
     <MESSAGE value="NDDO refactor in progress" />
@@ -750,7 +733,8 @@
     <MESSAGE value="Work in progress on parsing new input file" />
     <MESSAGE value="npMap dilemma fixed" />
     <MESSAGE value="Txt input working" />
-    <option name="LAST_COMMIT_MESSAGE" value="Txt input working" />
+    <MESSAGE value="Txt output working" />
+    <option name="LAST_COMMIT_MESSAGE" value="Txt output working" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
