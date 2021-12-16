@@ -79,17 +79,21 @@ public final class NDDOParams {
 		params[index] += amnt;
 	}
 
+	public double[] toArray() {
+		double[] combinedParams = new double[params.length + aParams.length];
+
+		System.arraycopy(params, 0, combinedParams, 0, params.length);
+		System.arraycopy(aParams, 0, combinedParams, params.length, aParams.length);
+
+		return combinedParams;
+	}
+
 	public double[] getaParams() {
 		return aParams.clone(); // todo maybe not a good idea to clone
 	}
 
 	@Override
 	public NDDOParams clone() {
-		double[] combinedParams = new double[params.length + aParams.length];
-
-		System.arraycopy(params, 0, combinedParams, 0, params.length);
-		System.arraycopy(aParams, 0, combinedParams, params.length, aParams.length);
-
-		return new NDDOParams(combinedParams);
+		return new NDDOParams(toArray());
 	} // todo make this a copy constructor instead
 }

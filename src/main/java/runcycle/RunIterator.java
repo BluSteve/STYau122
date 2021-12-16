@@ -11,7 +11,7 @@ import org.ejml.simple.SimpleMatrix;
 import runcycle.optimize.ParamOptimizer;
 import runcycle.optimize.ReferenceData;
 import runcycle.structs.InputInfo;
-import runcycle.structs.Params;
+import runcycle.structs.RunInput;
 import runcycle.structs.RunOutput;
 import runcycle.structs.RunnableMolecule;
 
@@ -22,18 +22,14 @@ import static runcycle.State.getConverter;
 
 public class RunIterator implements Iterator<RunOutput> {
 	private static final Logger logger = LogManager.getLogger();
-	private final InputInfo initialInfo;
-	private final RunnableMolecule[] initialRms;
+	private final RunInput initialRunInput;
 	private int runNumber = 0, limit = 0;
-	private InputInfo currentInfo;
-	private RunnableMolecule[] currentRms;
+	private RunInput currentRunInput;
 
-	public RunIterator(InputInfo initialInfo, RunnableMolecule[] initialRms) {
-		this.initialInfo = initialInfo;
-		this.initialRms = initialRms;
+	public RunIterator(RunInput runInput) {
+		this.initialRunInput = runInput;
 
-		this.currentInfo = initialInfo;
-		this.currentRms = initialRms;
+		this.currentRunInput = runInput;
 	}
 
 	@Override
@@ -46,27 +42,28 @@ public class RunIterator implements Iterator<RunOutput> {
 	public RunOutput next() {
 		logger.info("Run number: {}", runNumber);
 
-		RunOutput output = new PRun(currentInfo, currentRms).run();
-		runNumber++;
+		RunOutput output = new PRun(currentRunInput).run();
 
-		currentInfo = output.nextRunInfo;
-
-		currentRms = new RunnableMolecule[output.results.length];
+		RunnableMolecule[] currentRms = new RunnableMolecule[output.results.length];
 		for (int i = 0; i < currentRms.length; i++) {
 			currentRms[i] = output.results[i].getUpdatedRm();
 		}
 
-		logger.info("Run {} time taken: {}", runNumber, output.timeTaken);
+		currentRunInput = new RunInput(output.nextRunInfo, currentRms);
+
+		logger.info("Run {} time taken: {}\n", runNumber, output.timeTaken);
+
+		runNumber++;
 
 		return output;
 	}
 
-	public InputInfo getCurrentInfo() {
-		return currentInfo;
+	public RunInput getInitialRunInput() {
+		return initialRunInput;
 	}
 
-	public RunnableMolecule[] getCurrentRms() {
-		return currentRms;
+	public RunInput getCurrentRunInput() {
+		return currentRunInput;
 	}
 
 	public int getLimit() {
@@ -75,14 +72,6 @@ public class RunIterator implements Iterator<RunOutput> {
 
 	public void setLimit(int limit) {
 		this.limit = limit;
-	}
-
-	public InputInfo getInitialInfo() {
-		return initialInfo;
-	}
-
-	public RunnableMolecule[] getInitialRms() {
-		return initialRms;
 	}
 
 	public int getRunNumber() {
@@ -96,9 +85,9 @@ public class RunIterator implements Iterator<RunOutput> {
 		private final ScheduledExecutorService progressBar = Executors.newScheduledThreadPool(1);
 		private IMoleculeResult[] ranMolecules;
 
-		PRun(InputInfo info, RunnableMolecule[] rms) {
-			this.info = info;
-			this.rms = rms;
+		PRun(RunInput runInput) {
+			this.info = runInput.info;
+			this.rms = runInput.molecules;
 		}
 
 		private static int getMaxMoleculeIndex(RunnableMolecule[] rms) {
@@ -109,32 +98,6 @@ public class RunIterator implements Iterator<RunOutput> {
 			}
 
 			return max;
-		}
-
-		private static SimpleMatrix findMockHessian(SimpleMatrix newGradient, double[] oldHessian,
-													double[] oldGradient,
-													double[] oldDir, int size) {
-			SimpleMatrix s = new SimpleMatrix(oldDir);
-			SimpleMatrix hessian = new SimpleMatrix(size, size);
-
-			int count = 1;
-			int index = 0;
-			while (index < (size + 1) * size / 2) {
-				for (int i = count - 1; i < size; i++) {
-					hessian.set(count - 1, i, oldHessian[index]);
-					hessian.set(i, count - 1, oldHessian[index]);
-					index++;
-				}
-				count++;
-			}
-
-			SimpleMatrix y = newGradient.minus(new SimpleMatrix(oldGradient));
-			double b = y.transpose().mult(s).get(0);
-			SimpleMatrix A = y.mult(y.transpose()).scale(1 / b);
-			double a = s.transpose().mult(hessian).mult(s).get(0);
-			SimpleMatrix C = hessian.mult(s).mult(s.transpose()).mult(hessian.transpose()).scale(1 / a);
-
-			return hessian.plus(A).minus(C);
 		}
 
 		public InputInfo getInfo() {
@@ -198,9 +161,9 @@ public class RunIterator implements Iterator<RunOutput> {
 					moleculeTasks.add(new RecursiveTask<>() {
 						@Override
 						protected MoleculeRun compute() {
-							NDDOAtom[] atoms = getConverter().convert(rm.atoms, info.params.npMap);
+							NDDOAtom[] atoms = getConverter().convert(rm.atoms, info.npMap);
 							NDDOAtom[] expGeom = rm.expGeom == null ?
-									null : getConverter().convert(rm.expGeom, info.params.npMap);
+									null : getConverter().convert(rm.expGeom, info.npMap);
 
 							MoleculeRun mr = new MoleculeRun(rm, atoms, expGeom, rm.datum, true);
 							mr.run();
@@ -228,6 +191,7 @@ public class RunIterator implements Iterator<RunOutput> {
 
 			// processing results
 			ParamOptimizer opt = new ParamOptimizer();
+			double ttError = 0;
 			double[] ttGradient = new double[paramLength];
 			double[][] ttHessian = new double[paramLength][paramLength];
 
@@ -236,6 +200,7 @@ public class RunIterator implements Iterator<RunOutput> {
 				int[][] moleculeNPs = result.getUpdatedRm().mnps;
 				boolean isDepad = true;
 
+				ttError += result.getTotalError();
 
 				// add things to ParamOptimizer
 				double[] datum = result.getUpdatedRm().datum;
@@ -292,9 +257,9 @@ public class RunIterator implements Iterator<RunOutput> {
 			double[] dir = opt.optimize(newHessian, newGradient);
 
 			// generating nextRunInfo
-			NDDOParams[] newNpMap = new NDDOParams[info.params.npMap.length];
+			NDDOParams[] newNpMap = new NDDOParams[info.npMap.length];
 			for (int i = 0; i < newNpMap.length; i++) {
-				if (info.params.npMap[i] != null) newNpMap[i] = info.params.npMap[i].clone();
+				if (info.npMap[i] != null) newNpMap[i] = info.npMap[i].clone();
 			}
 
 			int n = 0;
@@ -305,11 +270,12 @@ public class RunIterator implements Iterator<RunOutput> {
 				}
 			}
 
-			Params params = new Params(newNpMap);
-			InputInfo nextRunInfo = new InputInfo(info.atomTypes, info.neededParams, params);
+			InputInfo nextRunInfo = new InputInfo(info.atomTypes, info.neededParams, newNpMap);
 
 			lsw.stop();
 			progressBar.shutdownNow();
+
+			logger.info("Total error: {}", ttError);
 
 			return new RunOutput(nextRunInfo, results.toArray(new IMoleculeResult[0]), lsw.getTime());
 		}

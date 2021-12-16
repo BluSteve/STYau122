@@ -1,10 +1,12 @@
 package frontend.txt;
 
 import nddo.structs.AtomProperties;
+import runcycle.IMoleculeResult;
 import runcycle.RunIterable;
 import runcycle.structs.*;
 import tools.Utils;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
@@ -85,11 +87,11 @@ public class Main {
 			}
 
 
-			pw.write(String.join(", ", name, rhf, charge, mult) + "\n");
-			pw.write(String.join(", ", datumL) + "\n");
+			pw.println(String.join(", ", name, rhf, charge, mult));
+			pw.println(String.join(", ", datumL));
 			pw.write(atoms);
 			pw.write(expGeom);
-			pw.write("---\n");
+			pw.println("---");
 
 
 			inputi++;
@@ -98,28 +100,11 @@ public class Main {
 		pw.close();
 	}
 
-	private static Atom toAtom(String line) {
-		StringTokenizer t = new StringTokenizer(line, " ");
-		t.nextToken();
-		String name = t.nextToken();
-		double[] coords = new double[3];
-		for (int q = 0; q < 3; q++) coords[q] = Double.parseDouble(t.nextToken());
-		Atom a = new Atom(AtomProperties.getAtomsMap().get(name).getZ(), Utils.bohr(coords));
-		return a;
-	}
-
-	private static String[] splitCsvLine(String s) {
-		return s.split(", *");
-	}
-
-
 	public static void convertFromTXT() throws IOException {
 		List<String> pcsv = Files.readAllLines(Path.of("params.csv"));
-		int[] Zs = new int[pcsv.size()];
 		double[][] params = new double[pcsv.size()][];
 		for (int i = 0; i < pcsv.size(); i++) {
 			String[] linea = splitCsvLine(pcsv.get(i));
-			Zs[i] = AtomProperties.getAtomsMap().get(linea[0]).getZ();
 			params[i] = Utils.toDoubles(Arrays.copyOfRange(linea, 1, linea.length));
 		}
 
@@ -132,8 +117,7 @@ public class Main {
 			neededParams[i] = Utils.toInts(Arrays.copyOfRange(linea, 1, linea.length));
 		}
 
-		Params p = new Params(Zs, params);
-		InputInfo info = new InputInfo(atomTypes, neededParams, p);
+		InputInfo info = new InputInfo(atomTypes, neededParams, params);
 
 
 		// Molecules
@@ -164,8 +148,8 @@ public class Main {
 
 			for (String s : mdatum) {
 				if (s.startsWith("HF=")) datum[0] = Double.parseDouble(s.split("=")[1]);
-				if (s.startsWith("DIP=")) datum[0] = Double.parseDouble(s.split("=")[1]);
-				if (s.startsWith("IE=")) datum[0] = Double.parseDouble(s.split("=")[1]);
+				if (s.startsWith("DIP=")) datum[1] = Double.parseDouble(s.split("=")[1]);
+				if (s.startsWith("IE=")) datum[2] = Double.parseDouble(s.split("=")[1]);
 			}
 
 			builder.datum = datum;
@@ -213,12 +197,87 @@ public class Main {
 			molecules[j] = moleculesL.get(j);
 		}
 
-		RunIterable iterable = new RunIterable(info, molecules);
+		RunIterable iterable = new RunIterable(new RunInput(info, molecules));
 		iterable.setLimit(1);
-		for (RunOutput ro: iterable) {
-
+		for (RunOutput ro : iterable) {
+			outputMolecules(ro.results);
+			outputParams(ro.nextRunInfo);
 		}
+
+		System.exit(0);
 	}
+
+	public static void outputMolecules(IMoleculeResult[] results) throws FileNotFoundException {
+		PrintWriter pw = new PrintWriter("molecules.txt");
+
+		for (IMoleculeResult r : results) {
+			RunnableMolecule rm = r.getUpdatedRm();
+
+			pw.println(String.format("%s, %s, CHARGE=%d, MULT=%d", rm.name, rm.restricted ? "RHF" : "UHF",
+					rm.charge, rm.mult));
+
+			pw.print(String.format("HF=%.1f", rm.datum[0]));
+			if (rm.datum[1] != 0) pw.print(String.format(", DIP=%.1f", rm.datum[1]));
+			if (rm.datum[2] != 0) pw.print(String.format(", IE=%.1f", rm.datum[2]));
+			pw.println();
+
+			String format = "%d    %s    %12.9f    %12.9f    %12.9f";
+			for (int i = 0; i < rm.atoms.length; i++) {
+				Atom atom = rm.atoms[i];
+
+				double[] coords = Utils.debohr(atom.coords);
+
+				pw.println(String.format(format, i + 1,
+						AtomProperties.getAtoms()[atom.Z].getName(), coords[0], coords[1], coords[2]));
+			}
+
+			if (r.isExpAvail()) {
+				pw.println("EXPGEOM");
+
+				for (int i = 0; i < rm.expGeom.length; i++) {
+					Atom atom = rm.expGeom[i];
+
+					double[] coords = Utils.debohr(atom.coords);
+
+					pw.println(String.format(format, i + 1,
+							AtomProperties.getAtoms()[atom.Z].getName(), coords[0], coords[1], coords[2]));
+				}
+			}
+
+			pw.println("---");
+		}
+
+		pw.close();
+	}
+
+	public static void outputParams(InputInfo info) throws FileNotFoundException {
+		PrintWriter pw = new PrintWriter("params.csv");
+
+		for (int i = 0; i < info.atomTypes.length; i++) {
+			String name = AtomProperties.getAtoms()[info.atomTypes[i]].getName();
+			String paramsStr = Arrays.toString(info.getParams()[i]);
+
+			paramsStr = paramsStr.substring(1, paramsStr.length() - 1);
+
+			pw.println(String.format("%s, %s", name, paramsStr));
+		}
+
+		pw.close();
+	}
+
+	private static Atom toAtom(String line) {
+		StringTokenizer t = new StringTokenizer(line, " ");
+		t.nextToken();
+		String name = t.nextToken();
+		double[] coords = new double[3];
+		for (int q = 0; q < 3; q++) coords[q] = Double.parseDouble(t.nextToken());
+		return new Atom(AtomProperties.getAtomsMap().get(name).getZ(), Utils.bohr(coords));
+	}
+
+	private static String[] splitCsvLine(String s) {
+		return s.split(", *");
+	}
+
 
 	public static void main(String[] args) throws IOException {
 		convertFromTXT();

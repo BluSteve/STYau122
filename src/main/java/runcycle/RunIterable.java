@@ -1,19 +1,18 @@
 package runcycle;
 
 import runcycle.structs.InputInfo;
+import runcycle.structs.RunInput;
 import runcycle.structs.RunOutput;
 import runcycle.structs.RunnableMolecule;
 
 import java.util.Iterator;
 
 public class RunIterable implements Iterable<RunOutput> {
-	private final InputInfo initialInfo;
-	private final RunnableMolecule[] initialRms;
+	private final RunInput runInput;
 	private int limit;
 
-	public RunIterable(InputInfo initialInfo, RunnableMolecule[] initialRms) {
-		this.initialInfo = initialInfo;
-		this.initialRms = initialRms;
+	public RunIterable(RunInput runInput) {
+		this.runInput = runInput;
 	}
 
 	public int getLimit() {
@@ -26,7 +25,7 @@ public class RunIterable implements Iterable<RunOutput> {
 
 	@Override
 	public Iterator<RunOutput> iterator() {
-		RunIterator res = new RunIterator(initialInfo, initialRms);
+		RunIterator res = new RunIterator(runInput);
 		res.setLimit(limit);
 		return res;
 	}
