@@ -4,11 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Json serializers and deserializers">
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Json refactor">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/json/MoleculeSerial.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/json/SerializerTesting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/json/Serializer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/json/Serializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/json/Serializer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/frontend/txt/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/txt/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Utils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -302,14 +303,7 @@
       <workItem from="1639555307093" duration="5752000" />
       <workItem from="1639640872738" duration="16172000" />
       <workItem from="1639671071175" duration="21000" />
-      <workItem from="1639721448920" duration="29485000" />
-    </task>
-    <task id="LOCAL-00043" summary="Change prevs initial size">
-      <created>1638119878402</created>
-      <option name="number" value="00043" />
-      <option name="presentableId" value="LOCAL-00043" />
-      <option name="project" value="LOCAL" />
-      <updated>1638119878402</updated>
+      <workItem from="1639721448920" duration="31315000" />
     </task>
     <task id="LOCAL-00044" summary="Cached double + initc lower bound">
       <created>1638121132600</created>
@@ -647,7 +641,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639759381742</updated>
     </task>
-    <option name="localTasksCounter" value="92" />
+    <task id="LOCAL-00092" summary="Json refactor">
+      <created>1639760959629</created>
+      <option name="number" value="00092" />
+      <option name="presentableId" value="LOCAL-00092" />
+      <option name="project" value="LOCAL" />
+      <updated>1639760959629</updated>
+    </task>
+    <option name="localTasksCounter" value="93" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -695,7 +696,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Major IO changes, cache orbsOfAtom, etc." />
     <MESSAGE value="Solution refactor - move dipole to superclass" />
     <MESSAGE value="Debug session with Adrian" />
     <MESSAGE value="Last unrefactored commit." />
@@ -720,7 +720,8 @@
     <MESSAGE value="Huge refactor seems to be working" />
     <MESSAGE value="Fix stupid Utils perturbCoords bug" />
     <MESSAGE value="Json serializers and deserializers" />
-    <option name="LAST_COMMIT_MESSAGE" value="Json serializers and deserializers" />
+    <MESSAGE value="Json refactor" />
+    <option name="LAST_COMMIT_MESSAGE" value="Json refactor" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

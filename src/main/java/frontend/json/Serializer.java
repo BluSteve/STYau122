@@ -1,27 +1,70 @@
 package frontend.json;
 
 import com.google.gson.*;
+import org.apache.commons.lang3.StringUtils;
 import runcycle.IMoleculeResult;
-import runcycle.structs.Atom;
-import runcycle.structs.InputInfo;
-import runcycle.structs.RunnableMolecule;
+import runcycle.structs.*;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class Serializer {
 	private static final Gson gson = getGson();
 
-	public static void write(Object o, String first, String... filenames) throws IOException {
-		FileWriter fw = new FileWriter(first + ".json");
-		gson.toJson(o, fw);
-		fw.close();
+	public static <T> T read(String filename, Class<T> clazz) throws FileNotFoundException {
+		return gson.fromJson(new FileReader(filename + ".json"), clazz);
+	}
 
-		for (String filename : filenames) {
-			fw = new FileWriter(filename + ".json");
+	public static void write(Object o, String... filenames) throws IOException {
+		if (filenames.length == 0) {
+			FileWriter fw = new FileWriter(getHash(o) + ".json");
 			gson.toJson(o, fw);
 			fw.close();
 		}
+		else for (String filename : filenames) {
+			FileWriter fw = new FileWriter(filename + ".json");
+			gson.toJson(o, fw);
+			fw.close();
+		}
+	}
+
+	public static String getHash(String str) {
+		try {
+			MessageDigest digest = MessageDigest.getInstance("SHA-1");
+			byte[] b = digest.digest(str.getBytes(StandardCharsets.UTF_8));
+			long v = ByteBuffer.wrap(b).getLong();
+
+			// gets last 51 bits of hash, 36^10 is 51.29 bits of hash
+			// ensures low collision probability up to 10k runs
+			return StringUtils.leftPad(Long.toUnsignedString(v & 0x7FFFFFFFFFFFFL, 36).toUpperCase(), 10, "0");
+		} catch (NoSuchAlgorithmException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public static String getHash(RunOutput ro) {
+		MoleculeOutput[] mos = new MoleculeOutput[ro.results.length];
+		for (int i = 0; i < mos.length; i++) {
+			mos[i] = MoleculeOutput.from(ro.results[i]);
+			mos[i].time = 0;
+		}
+		InputInfo info = ro.nextRunInfo;
+
+		return getHash(gson.toJson(info) + gson.toJson(mos));
+	}
+
+	public static String getHash(RunInput ri) {
+		return getHash(gson.toJson(ri));
+	}
+
+	public static String getHash(Object o) {
+		return getHash(gson.toJson(o));
 	}
 
 	private static Gson getGson() {
@@ -84,10 +127,10 @@ public class Serializer {
 		};
 
 		JsonSerializer<IMoleculeResult> imrs =
-				(src, typeOfSrc, context) -> gson.toJsonTree(MoleculeSerial.from(src));
+				(src, typeOfSrc, context) -> gson.toJsonTree(MoleculeOutput.from(src));
 
 		JsonDeserializer<IMoleculeResult> imrds =
-				(json, typeOfT, context) -> gson.fromJson(json, MoleculeSerial.class);
+				(json, typeOfT, context) -> gson.fromJson(json, MoleculeOutput.class);
 
 		GsonBuilder builder = new GsonBuilder();
 		builder.registerTypeAdapter(InputInfo.class, iis);
@@ -96,21 +139,21 @@ public class Serializer {
 		builder.registerTypeAdapter(RunnableMolecule.class, rmds);
 		builder.registerTypeAdapter(IMoleculeResult.class, imrs);
 		builder.registerTypeAdapter(IMoleculeResult.class, imrds);
-		builder.setPrettyPrinting();
+//		builder.setPrettyPrinting();
 
 		return builder.create();
 	}
 
-	private static class MoleculeSerial implements IMoleculeResult {
+	private static class MoleculeOutput implements IMoleculeResult {
 		public RunnableMolecule updatedRm;
 		public long time;
 		public double hf, dipole, ie, geomGradient, totalError;
 		public double[][] hfpg, dipolepg, iepg, geompg, totalpg, hessian;
 
-		public MoleculeSerial() {
+		public MoleculeOutput() {
 		}
 
-		private MoleculeSerial(RunnableMolecule updatedRm, long time, double hf, double dipole, double ie,
+		private MoleculeOutput(RunnableMolecule updatedRm, long time, double hf, double dipole, double ie,
 							   double geomGradient, double totalError, double[][] hfpg, double[][] dipolepg,
 							   double[][] iepg, double[][] geompg, double[][] totalpg, double[][] hessian) {
 			this.updatedRm = updatedRm;
@@ -128,8 +171,8 @@ public class Serializer {
 			this.hessian = hessian;
 		}
 
-		public static MoleculeSerial from(IMoleculeResult result) {
-			return new MoleculeSerial(result.getUpdatedRm(), result.getTime(), result.getHF(),
+		public static MoleculeOutput from(IMoleculeResult result) {
+			return new MoleculeOutput(result.getUpdatedRm(), result.getTime(), result.getHF(),
 					result.getDipole(), result.getIE(), result.getGeomGradient(), result.getTotalError(),
 					result.getHFDerivs(), result.getDipoleDerivs(), result.getIEDerivs(), result.getGeomDerivs(),
 					result.getTotalGradients(), result.getHessian());

@@ -13,7 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 
-import static frontend.json.Serializer.write;
+import static frontend.json.Serializer.*;
 
 public class Main {
 	public static void txtToText() throws IOException {
@@ -204,6 +204,8 @@ public class Main {
 
 	public static void convertFromTXT() throws IOException {
 		InputInfo info = getInputInfo();
+		write(info, "cool");
+		info = read("cool", InputInfo.class);
 		RunnableMolecule[] molecules = getMolecules(info.atomTypes, info.neededParams);
 
 		RunIterable iterable = new RunIterable(new RunInput(info, molecules));
@@ -211,7 +213,7 @@ public class Main {
 		for (RunOutput ro : iterable) {
 //			outputMolecules(ro.results);
 //			outputParams(ro.nextRunInfo); // todo make json output
-			write(ro, "output");
+			write(ro, "output-" + getHash(ro));
 		}
 
 		System.exit(0);

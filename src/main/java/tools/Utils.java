@@ -163,26 +163,7 @@ public class Utils {
 		return new SimpleMatrix[]{evectors, evalues};
 	}
 
-	public static String getHash(String str) {
-		MessageDigest digest = null;
-		try {
-			digest = MessageDigest.getInstance("SHA-1");
-		} catch (NoSuchAlgorithmException ignored) {
-		}
 
-		assert digest != null;
-		byte[] b = digest.digest(str.getBytes(StandardCharsets.UTF_8));
-		ByteBuffer wrapped = ByteBuffer.wrap(b);
-		long v = wrapped.getLong();
-
-		// gets last 41 bits of hash, 36^8 is 41.34
-		// ensures low collision probability up to 10k runs
-		return StringUtils.leftPad(Long.toUnsignedString(v & 0x1FFFFFFFFFFL, 36).toUpperCase(), 8, "0");
-	}
-
-	public static String getHash(Object o) {
-		return getHash(new Gson().toJson(o));
-	}
 
 	public static double mag(SimpleMatrix vector) {
 		double sum = 0;
