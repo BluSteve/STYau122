@@ -4,8 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Json done">
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Cleanup">
       <change beforePath="$PROJECT_DIR$/src/main/java/frontend/txt/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/txt/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDO6GMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDO6GMethods.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDOAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDOAtom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/ERI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/ERI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/Multipoles.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/Multipoles.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tools/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Utils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -138,11 +144,11 @@
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\analysis" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="frontend.txt.Main" />
       <recent name="runcycle.Hasher" />
       <recent name="nddo.scf.Orbital" />
       <recent name="nddo.math.ERI" />
       <recent name="nddo.ERICalc" />
-      <recent name="nddo.Constants" />
     </key>
     <key name="ExtractSuperBase.RECENT_KEYS">
       <recent name="nddo" />
@@ -303,14 +309,7 @@
       <workItem from="1639555307093" duration="5752000" />
       <workItem from="1639640872738" duration="16172000" />
       <workItem from="1639671071175" duration="21000" />
-      <workItem from="1639721448920" duration="36172000" />
-    </task>
-    <task id="LOCAL-00046" summary="Merge new pople alg into geom and param">
-      <created>1638121475908</created>
-      <option name="number" value="00046" />
-      <option name="presentableId" value="LOCAL-00046" />
-      <option name="project" value="LOCAL" />
-      <updated>1638121475908</updated>
+      <workItem from="1639721448920" duration="36448000" />
     </task>
     <task id="LOCAL-00047" summary="Remove initial capacity">
       <created>1638175097274</created>
@@ -648,7 +647,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639767075821</updated>
     </task>
-    <option name="localTasksCounter" value="95" />
+    <task id="LOCAL-00095" summary="Cleanup">
+      <created>1639767331385</created>
+      <option name="number" value="00095" />
+      <option name="presentableId" value="LOCAL-00095" />
+      <option name="project" value="LOCAL" />
+      <updated>1639767331385</updated>
+    </task>
+    <option name="localTasksCounter" value="96" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -696,7 +702,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Last unrefactored commit." />
     <MESSAGE value="Remove explicit AtomHandler initialization" />
     <MESSAGE value="Major movement" />
     <MESSAGE value="More movement + Flyweight pattern for OrbitalProp" />
@@ -721,7 +726,8 @@
     <MESSAGE value="Json refactor" />
     <MESSAGE value="10 bit hash" />
     <MESSAGE value="Json done" />
-    <option name="LAST_COMMIT_MESSAGE" value="Json done" />
+    <MESSAGE value="Cleanup" />
+    <option name="LAST_COMMIT_MESSAGE" value="Cleanup" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

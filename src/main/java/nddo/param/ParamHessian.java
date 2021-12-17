@@ -13,11 +13,12 @@ import java.util.concurrent.RecursiveAction;
 import java.util.stream.IntStream;
 
 public class ParamHessian {
-	protected ParamGradient g;
-	protected Solution s, sExp;
-	protected double[] datum;
+	protected final ParamGradient g;
+	protected final Solution s, sExp;
+	protected final double[] datum;
+	protected final boolean restricted;
 	protected double[][] hessian;
-	protected boolean analytical, restricted;
+	protected boolean analytical;
 
 	/**
 	 * Constructs a ParamHessian object, not a time-intensive process.
@@ -31,12 +32,13 @@ public class ParamHessian {
 	 *          solution to this molecule, and is not altered
 	 *          throughout the process.
 	 */
-	private ParamHessian(ParamGradient g) {
+	private ParamHessian(ParamGradient g, boolean restricted) {
 		this.g = g;
 		s = g.s;
 		datum = g.datum;
 		sExp = g.sExp;
 		analytical = g.analytical;
+		this.restricted = restricted;
 	}
 
 	/**
@@ -49,14 +51,7 @@ public class ParamHessian {
 	 * of g.
 	 */
 	public static ParamHessian from(ParamGradient g) {
-		ParamHessian h = new ParamHessian(g);
-		if (g instanceof ParamGradientR) h.restricted = true;
-		else if (g instanceof ParamGradientU) {
-			h.restricted = false;
-		}
-		else throw new IllegalArgumentException(
-					"ParamGradient g is neither restricted nor unrestricted!");
-		return h;
+		return new ParamHessian(g, g instanceof ParamGradientR);
 	}
 
 	/**
@@ -254,7 +249,7 @@ public class ParamHessian {
 
 	private ParamGradient constructGPrime(int ZIndex, int paramNum) {
 		return ParamGradient.of(s.withNewAtoms(Utils.perturbAtomParams(s.atoms,
-						s.getRm().mats[ZIndex], paramNum)), datum, sExp);
+				s.getRm().mats[ZIndex], paramNum)), datum, sExp);
 	}
 
 	/**

@@ -6,7 +6,7 @@ public abstract class NDDOAtom {
 	protected final double[] coordinates;
 	protected final AtomProperties atomProperties;
 	protected final NDDOParams np;
-	public double p0, p1, p2, D1, D2;
+	public final double p0, p1, p2, D1, D2;
 	protected NDDOOrbital[] orbitals;
 
 	/**
@@ -22,16 +22,18 @@ public abstract class NDDOAtom {
 		this.np = np.clone();
 
 		this.p0 = p0();
-		this.D1 = D1();
-		this.D2 = D2();
-		this.p1 = p1();
-		this.p2 = p2();
 
 		if (this.atomProperties.getZ() == 1) {
 			this.p1 = 0;
 			this.p2 = 0;
 			this.D1 = 0;
 			this.D2 = 0;
+		}
+		else {
+			this.D1 = D1();
+			this.D2 = D2();
+			this.p1 = p1();
+			this.p2 = p2();
 		}
 	}
 
@@ -120,7 +122,7 @@ public abstract class NDDOAtom {
 
 	protected double p1() {
 		double guess = 0;
-		double newguess = 0.5 * Math.pow(D1 * D1 * Constants.eV / (np.getHsp()), 1.0 / 3);
+		double newguess = 0.5 * Math.pow(D1 * D1 * Constants.eV / np.getHsp(), 1.0 / 3);
 		while (Math.abs(guess - newguess) > 1E-12) {
 			guess = newguess;
 			double f = 1 / guess - 1 / Math.sqrt(guess * guess + D1 * D1) - 4 * np.getHsp() / Constants.eV;
@@ -178,7 +180,7 @@ public abstract class NDDOAtom {
 
 		double zetap = getParams().getZetap();
 
-		double zeta = 0;
+		double zeta;
 
 		switch (type) {
 

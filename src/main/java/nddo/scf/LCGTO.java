@@ -10,11 +10,11 @@ public class LCGTO extends Orbital { // HAS AtomFixed, OrbitalProperties, c, e
 	//Each LCGTO is described by an array of GTOs and an array of contraction
 	// coefficients
 
-	protected double N; //normalisation coefficient, should be very close to 1.
-	protected int n; //number of Gaussians in this contraction
-	protected GTO[] gaussArray;
-	protected double[] gaussExponents;
-	protected double[] coefficientArray;
+	protected final double N; //normalisation coefficient, should be very close to 1.
+	protected final int n; //number of Gaussians in this contraction
+	protected final GTO[] gaussArray;
+	protected final double[] gaussExponents;
+	protected final double[] coefficientArray;
 
 	public LCGTO(OrbitalProperties op, double[] coordinates, double[] e, double[] c) {
 		// e = exponent array, c = coefficient array

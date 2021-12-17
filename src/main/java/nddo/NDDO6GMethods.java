@@ -489,8 +489,8 @@ public class NDDO6GMethods implements NDDOOrbitalMethods<NDDO6G> {
 			return 0;
 		}
 
-		int hasA = (a.getL() == type) && num != 1 ? 1 : 0;
-		int hasB = (b.getL() == type) && num != 0 ? 1 : 0;
+		int hasA = a.getL() == type && num != 1 ? 1 : 0;
+		int hasB = b.getL() == type && num != 0 ? 1 : 0;
 
 		hasB <<= 1;
 		int alltogether = hasA + hasB - 1;

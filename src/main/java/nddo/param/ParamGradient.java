@@ -12,14 +12,14 @@ import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.RecursiveAction;
 
 public abstract class ParamGradient {
-	protected Solution s, sExp;
-	protected ParamErrorFunction e;
-	protected boolean isExpAvail, analytical;
-	protected double[] datum;
-	protected double[][] HFDerivs, dipoleDerivs, IEDerivs, geomDerivs,
-			totalGradients;
-	protected SimpleMatrix[][] densityDerivs, xLimited, xComplementary, xForIE,
-			coeffDerivs, responseDerivs, fockDerivs;
+	protected final Solution s, sExp;
+	protected final ParamErrorFunction e;
+	protected final boolean isExpAvail;
+	protected final double[] datum;
+	protected boolean analytical;
+	protected double[][] HFDerivs, dipoleDerivs, IEDerivs, geomDerivs, totalGradients;
+	protected SimpleMatrix[][] densityDerivs, xLimited, xComplementary, xForIE, coeffDerivs, responseDerivs,
+			fockDerivs;
 	protected SimpleMatrix[][][] staticDerivs;
 
 	protected ParamGradient(Solution s, double[] datum, Solution sExp,
@@ -29,6 +29,8 @@ public abstract class ParamGradient {
 		this.sExp = sExp;
 		this.analytical = analytical;
 		e = ParamErrorFunction.of(s, datum[0]);
+
+		isExpAvail = this.sExp != null;
 
 		initializeArrays();
 		initializeErrorFunction();
@@ -50,8 +52,8 @@ public abstract class ParamGradient {
 		else if (s instanceof SolutionU)
 			return new ParamGradientU((SolutionU) s, datum, (SolutionU) sExp, false);
 		else throw new IllegalArgumentException(
-				"Solution is neither restricted nor unrestricted! Molecule: "
-						+ s.getRm().index + " " + s.getRm().name);
+					"Solution is neither restricted nor unrestricted! Molecule: "
+							+ s.getRm().index + " " + s.getRm().name);
 	}
 
 	/**
@@ -229,8 +231,7 @@ public abstract class ParamGradient {
 		if (datum[1] != 0) e.addDipoleError(datum[1]);
 		if (datum[2] != 0) e.addIEError(datum[2]);
 
-		if (this.sExp != null) {
-			isExpAvail = true;
+		if (isExpAvail) {
 			geomDerivs = new double[s.getRm().mats.length]
 					[Solution.maxParamNum];
 			e.createExpGeom(this.sExp);

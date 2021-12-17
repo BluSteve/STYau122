@@ -765,7 +765,7 @@ public class Multipoles {
 							   double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv,
 							   double p1deriv, double p2deriv) {
 		double a12 = p11 + p22;
-		if (num == 0) return +0.125 * ((R + D11 - 2 * D22) * D1deriv + a12 * p1deriv) *
+		if (num == 0) return 0.125 * ((R + D11 - 2 * D22) * D1deriv + a12 * p1deriv) *
 				Math.pow((R + D11 - 2 * D22) * (R + D11 - 2 * D22) + a12 * a12, -1.5) -
 				0.125 * ((D11 + 2 * D22 - R) * D1deriv + a12 * p1deriv) *
 						Math.pow((R - D11 - 2 * D22) * (R - D11 - 2 * D22) + a12 * a12, -1.5) +
@@ -775,7 +775,7 @@ public class Multipoles {
 						Math.pow((R - D11 + 2 * D22) * (R - D11 + 2 * D22) + a12 * a12, -1.5) -
 				0.25 * ((R + D11) * D1deriv + a12 * p1deriv) * Math.pow((R + D11) * (R + D11) + a12 * a12, -1.5) +
 				0.25 * ((D11 - R) * D1deriv + a12 * p1deriv) * Math.pow((R - D11) * (R - D11) + a12 * a12, -1.5);
-		if (num == 1) return +0.125 * (2 * (2 * D22 - D11 - R) * D2deriv + a12 * p2deriv) *
+		if (num == 1) return 0.125 * (2 * (2 * D22 - D11 - R) * D2deriv + a12 * p2deriv) *
 				Math.pow((R + D11 - 2 * D22) * (R + D11 - 2 * D22) + a12 * a12, -1.5) -
 				0.125 * (2 * (D11 + 2 * D22 - R) * D2deriv + a12 * p2deriv) *
 						Math.pow((R - D11 - 2 * D22) * (R - D11 - 2 * D22) + a12 * a12, -1.5) +
@@ -785,7 +785,7 @@ public class Multipoles {
 						Math.pow((R - D11 + 2 * D22) * (R - D11 + 2 * D22) + a12 * a12, -1.5) -
 				0.25 * (a12 * p2deriv) * Math.pow((R + D11) * (R + D11) + a12 * a12, -1.5) +
 				0.25 * (a12 * p2deriv) * Math.pow((R - D11) * (R - D11) + a12 * a12, -1.5);
-		if (num == 2) return +0.125 * ((R + D11 - 2 * D21) * (D1deriv - 2 * D2deriv) + a12 * (p1deriv + p2deriv)) *
+		if (num == 2) return 0.125 * ((R + D11 - 2 * D21) * (D1deriv - 2 * D2deriv) + a12 * (p1deriv + p2deriv)) *
 				Math.pow((R + D11 - 2 * D21) * (R + D11 - 2 * D21) + a12 * a12, -1.5) -
 				0.125 * ((D11 + 2 * D21 - R) * (D1deriv + 2 * D2deriv) + a12 * (p1deriv + p2deriv)) *
 						Math.pow((R - D11 - 2 * D21) * (R - D11 - 2 * D21) + a12 * a12, -1.5) +
@@ -1275,15 +1275,15 @@ public class Multipoles {
 		double sum = 0;
 		double a12 = p11 + p22;
 		double R = GTO.R(xA, xB);
-		if (tau1 == tau2) sum = generalizedform2(+D11 - 2 * D22, a12 * a12, R) * -0.125 +
+		if (tau1 == tau2) sum = generalizedform2(D11 - 2 * D22, a12 * a12, R) * -0.125 +
 				generalizedform2(-D11 - 2 * D22, a12 * a12, R) * 0.125 +
-				generalizedform2(+D11 + 2 * D22, a12 * a12, R) * -0.125 +
+				generalizedform2(D11 + 2 * D22, a12 * a12, R) * -0.125 +
 				generalizedform2(-D11 + 2 * D22, a12 * a12, R) * 0.125 + generalizedform2(+D11, a12 * a12, R) * 0.25 +
 				generalizedform2(-D11, a12 * a12, R) * -0.25;
 		return sum +
-				(xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(+D11 - 2 * D22, a12 * a12, R) * -0.125 +
+				(xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(D11 - 2 * D22, a12 * a12, R) * -0.125 +
 				(xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(-D11 - 2 * D22, a12 * a12, R) * 0.125 +
-				(xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(+D11 + 2 * D22, a12 * a12, R) * -0.125 +
+				(xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(D11 + 2 * D22, a12 * a12, R) * -0.125 +
 				(xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(-D11 + 2 * D22, a12 * a12, R) * 0.125 +
 				(xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(+D11, a12 * a12, R) * 0.25 +
 				(xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(-D11, a12 * a12, R) * -0.25;
@@ -1334,14 +1334,14 @@ public class Multipoles {
 		double R = GTO.R(xA, xB);
 		double denom = 4 * D21 * D21 + a22 * a22;
 		if (tau1 == tau2) sum =
-				generalizedform2(-2 * D22, denom, R) * 0.125 + generalizedform2(+2 * D22, denom, R) * 0.125 +
+				generalizedform2(-2 * D22, denom, R) * 0.125 + generalizedform2(2 * D22, denom, R) * 0.125 +
 						generalizedform2(-2 * D22, a22 * a22, R) * -0.125 +
-						generalizedform2(+2 * D22, a22 * a22, R) * -0.125 + generalizedform2(0, denom, R) * -0.25 +
+						generalizedform2(2 * D22, a22 * a22, R) * -0.125 + generalizedform2(0, denom, R) * -0.25 +
 						generalizedform2(0, a22 * a22, R) * 0.25;
 		return sum + (xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(-2 * D22, denom, R) * 0.125 +
-				(xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(+2 * D22, denom, R) * 0.125 +
+				(xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(2 * D22, denom, R) * 0.125 +
 				(xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(-2 * D22, a22 * a22, R) * -0.125 +
-				(xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(+2 * D22, a22 * a22, R) * -0.125 +
+				(xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(2 * D22, a22 * a22, R) * -0.125 +
 				(xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(0, denom, R) * -0.25 +
 				(xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(0, a22 * a22, R) * 0.25;
 	}
@@ -1352,25 +1352,25 @@ public class Multipoles {
 		double sum = 0;
 		double a22 = p21 + p22;
 		double R = GTO.R(xA, xB);
-		if (tau1 == tau2) sum = generalizedform2(+2 * D21 - 2 * D22, a22 * a22, R) * 0.0625 +
-				generalizedform2(+2 * D21 + 2 * D22, a22 * a22, R) * 0.0625 +
+		if (tau1 == tau2) sum = generalizedform2(2 * D21 - 2 * D22, a22 * a22, R) * 0.0625 +
+				generalizedform2(2 * D21 + 2 * D22, a22 * a22, R) * 0.0625 +
 				generalizedform2(-2 * D21 - 2 * D22, a22 * a22, R) * 0.0625 +
 				generalizedform2(-2 * D21 + 2 * D22, a22 * a22, R) * 0.0625 +
-				generalizedform2(+2 * D21, a22 * a22, R) * -0.125 + generalizedform2(-2 * D21, a22 * a22, R) * -0.125 +
-				generalizedform2(+2 * D22, a22 * a22, R) * -0.125 + generalizedform2(-2 * D22, a22 * a22, R) * -0.125 +
+				generalizedform2(2 * D21, a22 * a22, R) * -0.125 + generalizedform2(-2 * D21, a22 * a22, R) * -0.125 +
+				generalizedform2(2 * D22, a22 * a22, R) * -0.125 + generalizedform2(-2 * D22, a22 * a22, R) * -0.125 +
 				generalizedform2(0, a22 * a22, R) * 0.25;
-		return sum + (xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(+2 * D21 - 2 * D22, a22 * a22,
+		return sum + (xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(2 * D21 - 2 * D22, a22 * a22,
 				R) *
 				0.0625 +
-				(xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(+2 * D21 + 2 * D22, a22 * a22, R) *
+				(xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(2 * D21 + 2 * D22, a22 * a22, R) *
 						0.0625 +
 				(xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(-2 * D21 - 2 * D22, a22 * a22, R) *
 						0.0625 +
 				(xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(-2 * D21 + 2 * D22, a22 * a22, R) *
 						0.0625 +
-				(xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(+2 * D21, a22 * a22, R) * -0.125 +
+				(xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(2 * D21, a22 * a22, R) * -0.125 +
 				(xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(-2 * D21, a22 * a22, R) * -0.125 +
-				(xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(+2 * D22, a22 * a22, R) * -0.125 +
+				(xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(2 * D22, a22 * a22, R) * -0.125 +
 				(xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(-2 * D22, a22 * a22, R) * -0.125 +
 				(xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(0, a22 * a22, R) * 0.25;
 	}
@@ -1384,17 +1384,17 @@ public class Multipoles {
 		double denom1 = (D21 - D22) * (D21 - D22) + a22 * a22;
 		double denom2 = (D21 + D22) * (D21 + D22) + a22 * a22;
 		if (tau1 == tau2) sum =
-				generalizedform2(+D21 - D22, denom1, R) * 0.125 + generalizedform2(+D21 - D22, denom2, R) * -0.125 +
-						generalizedform2(+D21 + D22, denom1, R) * -0.125 +
-						generalizedform2(+D21 + D22, denom2, R) * 0.125 +
+				generalizedform2(D21 - D22, denom1, R) * 0.125 + generalizedform2(D21 - D22, denom2, R) * -0.125 +
+						generalizedform2(D21 + D22, denom1, R) * -0.125 +
+						generalizedform2(D21 + D22, denom2, R) * 0.125 +
 						generalizedform2(-D21 - D22, denom1, R) * -0.125 +
 						generalizedform2(-D21 - D22, denom2, R) * 0.125 +
 						generalizedform2(-D21 + D22, denom1, R) * 0.125 +
 						generalizedform2(-D21 + D22, denom2, R) * -0.125;
-		return sum + (xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(+D21 - D22, denom1, R) * 0.125 +
-				(xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(+D21 - D22, denom2, R) * -0.125 +
-				(xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(+D21 + D22, denom1, R) * -0.125 +
-				(xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(+D21 + D22, denom2, R) * 0.125 +
+		return sum + (xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(D21 - D22, denom1, R) * 0.125 +
+				(xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(D21 - D22, denom2, R) * -0.125 +
+				(xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(D21 + D22, denom1, R) * -0.125 +
+				(xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(D21 + D22, denom2, R) * 0.125 +
 				(xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(-D21 - D22, denom1, R) * -0.125 +
 				(xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(-D21 - D22, denom2, R) * 0.125 +
 				(xB[tau1] - xA[tau1]) * (xB[tau2] - xA[tau2]) * generalizedform(-D21 + D22, denom1, R) * 0.125 +
@@ -1556,7 +1556,7 @@ public class Multipoles {
 
 	private static double generalizedform(double a, double b, double R) {
 		double denom = (R + a) * (R + a) + b;
-		return 1 / (R * R * Math.pow(denom, 1.5)) * (a / R + 3 * (R + a) * (R + a) / (denom));
+		return 1 / (R * R * Math.pow(denom, 1.5)) * (a / R + 3 * (R + a) * (R + a) / denom);
 	}
 
 	private static double generalizedform2(double a, double b, double R) {

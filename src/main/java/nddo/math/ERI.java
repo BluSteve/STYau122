@@ -12,20 +12,20 @@ public class ERI {
 			if (c.getL() == d.getL() & c.getL() == 0) {/*(gss*/
 				return a.gss;
 			}
-			else if ((c.geti() == 1 && d.geti() == 1) || (c.getj() == 1 && d.getj() == 1) ||
-					(c.getk() == 1 && d.getk() == 1)) {/*gsp*/
+			else if (c.geti() == 1 && d.geti() == 1 || c.getj() == 1 && d.getj() == 1 ||
+					c.getk() == 1 && d.getk() == 1) {/*gsp*/
 				return a.gsp;
 			}
 			else return 0;
 		}
 		else if (a.getL() == 1 && b.getL() == 1) {/*(pp'|??)*/
-			if ((a.geti() == 1 && b.geti() == 1) || (a.getj() == 1 && b.getj() == 1) ||
-					(a.getk() == 1 && b.getk() == 1)) {/*(pp|??)*/
+			if (a.geti() == 1 && b.geti() == 1 || a.getj() == 1 && b.getj() == 1 ||
+					a.getk() == 1 && b.getk() == 1) {/*(pp|??)*/
 				if (c.getL() == d.getL() && c.getL() == 0) {/*gsp*/
 					return a.gsp;
 				}
-				else if ((c.geti() == 1 && d.geti() == 1) || (c.getj() == 1 && d.getj() == 1) ||
-						(c.getk() == 1 && d.getk() == 1))
+				else if (c.geti() == 1 && d.geti() == 1 || c.getj() == 1 && d.getj() == 1 ||
+						c.getk() == 1 && d.getk() == 1)
 					if (a.geti() == c.geti() && a.geti() == 1 || a.getj() == c.getj() && a.getj() == 1 ||
 							a.getk() == c.getk() && a.getk() == 1) {/*gpp*/
 						return a.gpp;
@@ -40,17 +40,17 @@ public class ERI {
 			}
 		}
 		else if (a.getL() == 0 && c.getL() == 0 &&
-				((b.geti() == 1 && d.geti() == 1) || (b.getj() == 1 && d.getj() == 1) ||
-						(b.getk() == 1 && d.getk() == 1))) return a.hsp;
+				(b.geti() == 1 && d.geti() == 1 || b.getj() == 1 && d.getj() == 1 ||
+						b.getk() == 1 && d.getk() == 1)) return a.hsp;
 		else if (a.getL() == 0 && d.getL() == 0 &&
-				((b.geti() == 1 && c.geti() == 1) || (b.getj() == 1 && c.getj() == 1) ||
-						(b.getk() == 1 && c.getk() == 1))) return a.hsp;
+				(b.geti() == 1 && c.geti() == 1 || b.getj() == 1 && c.getj() == 1 ||
+						b.getk() == 1 && c.getk() == 1)) return a.hsp;
 		else if (b.getL() == 0 && c.getL() == 0 &&
-				((a.geti() == 1 && d.geti() == 1) || (a.getj() == 1 && d.getj() == 1) ||
-						(a.getk() == 1 && d.getk() == 1))) return a.hsp;
+				(a.geti() == 1 && d.geti() == 1 || a.getj() == 1 && d.getj() == 1 ||
+						a.getk() == 1 && d.getk() == 1)) return a.hsp;
 		else if (b.getL() == 0 && d.getL() == 0 &&
-				((a.geti() == 1 && c.geti() == 1) || (a.getj() == 1 && c.getj() == 1) ||
-						(a.getk() == 1 && c.getk() == 1))) return a.hsp;
+				(a.geti() == 1 && c.geti() == 1 || a.getj() == 1 && c.getj() == 1 ||
+						a.getk() == 1 && c.getk() == 1)) return a.hsp;
 		return 0;
 	}
 

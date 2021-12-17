@@ -18,7 +18,7 @@ public class STO6G extends LCGTO {
 	private final static double[] coeff2p =
 			new double[]{1.01708E-1, 4.25860E-1, 4.18036E-1, 1.73897E-1, 3.76794E-2, 3.75970E-3};
 
-	public double zeta;
+	public final double zeta;
 
 	public STO6G(OrbitalProperties op, double[] coordinates, double zeta) {
 		super(op, coordinates, getExps(op.shell, zeta), getCoeffs(op.shell, op.L));

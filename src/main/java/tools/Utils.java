@@ -12,7 +12,6 @@ import java.util.Arrays;
 import java.util.Collection;
 
 public class Utils {
-
 	public static double[] toDoubles(String[] strs) {
 		double[] doubles = new double[strs.length];
 		for (int i = 0; i < strs.length; i++) {
@@ -51,18 +50,6 @@ public class Utils {
 		}
 
 		return ints;
-	}
-
-	public static double[] bohr(double[] notbohr) {
-		double[] res = new double[notbohr.length];
-		for (int i = 0; i < notbohr.length; i++) res[i] = notbohr[i] * Constants.bohr;
-		return res;
-	}
-
-	public static double[] debohr(double[] bohr) {
-		double[] res = new double[bohr.length];
-		for (int i = 0; i < bohr.length; i++) res[i] = bohr[i] / Constants.bohr;
-		return res;
 	}
 
 	public static boolean hasAtomType(int[] mats, int atomType) {
@@ -168,8 +155,8 @@ public class Utils {
 }
 
 class Pair<F extends Comparable<F>, S> implements Comparable<Pair<F, S>> {
-	public F first;
-	public S second;
+	public final F first;
+	public final S second;
 
 	public Pair(F first, S second) {
 		this.first = first;

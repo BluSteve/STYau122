@@ -4,9 +4,10 @@ import nddo.NDDO6G;
 import nddo.structs.OrbitalProperties;
 
 public abstract class Orbital {
-	public OrbitalProperties op;
-	public String type;
-	public int shell, L, i, j, k;
+	public final OrbitalProperties op;
+	public final String type;
+	public final int shell;
+	public int L, i, j, k;
 	public double[] coordinates;
 
 	protected Orbital(OrbitalProperties op, double[] coordinates) {

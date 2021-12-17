@@ -11,16 +11,17 @@ import java.util.Arrays;
 import static nddo.State.nom;
 
 public abstract class Solution {
-	public static int maxParamNum = 8; // todo compute this on the fly
+	public final static int maxParamNum = 8; // todo compute this on the fly
+	public final int charge, mult, nElectrons, nOrbitals;
+	public final int[][] missingOfAtom, orbsOfAtom;
+	public final int[] atomicNumbers, atomOfOrb;
+	public final NDDOAtom[] atoms;
+	public final NDDOOrbital[] orbitals;
 	protected final MoleculeInfo rm;
+	protected final SimpleMatrix H;
 	public double energy, homo, lumo, hf, dipole;
 	public double[] chargedip, hybridip, dipoletot;
-	public int charge, mult, nElectrons, nOrbitals;
-	public int[][] missingOfAtom, orbsOfAtom;
-	public int[] atomicNumbers, atomOfOrb;
-	public NDDOAtom[] atoms;
-	public NDDOOrbital[] orbitals;
-	protected SimpleMatrix H, densityMatrix, alphaDensity, betaDensity;
+	protected SimpleMatrix densityMatrix, alphaDensity, betaDensity;
 
 	protected Solution(MoleculeInfo rm, NDDOAtom[] atoms) {
 		this.atoms = atoms;

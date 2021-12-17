@@ -212,14 +212,14 @@ public class ParamDerivative {
 								if (m > -1) {
 									if (atomNumber[l] == atomNumber[m]) {
 										sum += soln.densityMatrix().get(l, m) *
-												(nom.getGderiv(orbitals[j],
+												nom.getGderiv(orbitals[j],
 														orbitals[k],
 														orbitals[l],
 														orbitals[m],
 														getNum(atomicnumbers[atomNumber[j]],
 																atomicnumbers[atomNumber[l]],
 																Z),
-														type));
+														type);
 
 									}
 								}
@@ -328,14 +328,14 @@ public class ParamDerivative {
 								if (m > -1) {
 									if (atomNumber[l] == atomNumber[m]) {
 										sum += soln.densityMatrix().get(l, m) *
-												(nom.getGderiv(orbitals[j],
+												nom.getGderiv(orbitals[j],
 														orbitals[k],
 														orbitals[l],
 														orbitals[m],
 														getNum(atomicnumbers[atomNumber[j]],
 																atomicnumbers[atomNumber[l]],
 																Z),
-														type));
+														type);
 
 									}
 								}
@@ -371,9 +371,7 @@ public class ParamDerivative {
 			}
 		}
 
-		SimpleMatrix F = H.copy().plus(G);
-
-		return F;
+		return H.copy().plus(G);
 	}
 
 	private static SimpleMatrix zetaHderivstatic(NDDOAtom[] atoms,
@@ -448,7 +446,7 @@ public class ParamDerivative {
 								if (m > -1) {
 									if (atomNumber[l] == atomNumber[m]) {
 										sum += soln.densityMatrix().get(l, m) *
-												(nom
+												nom
 														.getGderiv(orbitals[j],
 																orbitals[k],
 																orbitals[l],
@@ -456,7 +454,7 @@ public class ParamDerivative {
 																getNum(atomicnumbers[atomNumber[j]],
 																		atomicnumbers[atomNumber[l]],
 																		Z),
-																type));
+																type);
 
 									}
 								}
@@ -1554,7 +1552,7 @@ public class ParamDerivative {
 				dipoletot[2] * soln.dipoletot[2]) / soln.dipole;
 	}
 
-	private static double D1Derivfinite(NDDOAtom a, int type) throws Exception {
+	private static double D1Derivfinite(NDDOAtom a, int type) {
 
 		double D1 = a.D1;
 
@@ -1570,7 +1568,7 @@ public class ParamDerivative {
 
 	}
 
-	private static double D2Derivfinite(NDDOAtom a, int type) throws Exception {
+	private static double D2Derivfinite(NDDOAtom a, int type) {
 
 		double D2 = a.D2;
 
@@ -1586,7 +1584,7 @@ public class ParamDerivative {
 
 	}
 
-	private static double p1Derivfinite(NDDOAtom a, int type) throws Exception {
+	private static double p1Derivfinite(NDDOAtom a, int type) {
 
 		double p1 = a.p1;
 
@@ -1601,7 +1599,7 @@ public class ParamDerivative {
 
 	}
 
-	private static double p2Derivfinite(NDDOAtom a, int type) throws Exception {
+	private static double p2Derivfinite(NDDOAtom a, int type) {
 
 		double p2 = a.p2;
 

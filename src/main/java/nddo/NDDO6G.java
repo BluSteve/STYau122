@@ -5,8 +5,8 @@ import nddo.structs.OrbitalProperties;
 
 public class NDDO6G extends STO6G implements NDDOOrbital {
 	private final NDDOAtom atom;
-	public double beta, U, p0, p1, p2, D1, D2;
-	public double gss, gsp, hsp, gpp, gp2, hp2;
+	public final double beta, U, p0, p1, p2, D1, D2;
+	public final double gss, gsp, hsp, gpp, gp2, hp2;
 	private NDDO6G[] orbitalArray;
 
 	public NDDO6G(NDDOAtom atom, OrbitalProperties op, double zeta, double beta, double U) {

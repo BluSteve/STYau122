@@ -9,12 +9,12 @@ import nddo.solution.SolutionU;
 import java.util.ArrayList;
 
 public abstract class ParamErrorFunction {
-	protected Solution soln, expSoln;
+	protected final Solution soln;
+	protected final NDDOAtom[] atoms;
+	protected final ArrayList<Double> bondErrors, angleErrors, bonds, angles, bondDerivatives, angleDerivatives;
+	protected Solution expSoln;
+	protected NDDOAtom[] expAtoms;
 	protected double HeatError, dipoleError, IEError, geomError, geomGradient;
-	protected NDDOAtom[] atoms, expAtoms;
-	protected ArrayList<Double> bondErrors, angleErrors, bonds, angles,
-			bondDerivatives,
-			angleDerivatives;
 
 	public ParamErrorFunction(Solution soln, double refHeat) {
 		this.atoms = soln.atoms;

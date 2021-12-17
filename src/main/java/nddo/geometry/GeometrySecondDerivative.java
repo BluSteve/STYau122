@@ -185,7 +185,6 @@ public class GeometrySecondDerivative {
 
 	public static SimpleMatrix hessianRoutine(SolutionR soln,
 											  SimpleMatrix[] fockDerivStatic) {
-		@SuppressWarnings("DuplicatedCode")
 		SimpleMatrix[] densityDerivs =
 				new SimpleMatrix[fockDerivStatic.length];
 		int elapsedSize = 0;
