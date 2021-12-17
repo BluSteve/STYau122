@@ -1,10 +1,6 @@
 package nddo;
 
-import nddo.geometry.GeometryDerivative;
-import nddo.geometry.GeometrySecondDerivative;
-import nddo.param.ParamDerivative;
 import nddo.structs.AtomProperties;
-import nddo.structs.OrbitalProperties;
 
 public abstract class NDDOAtom {
 	protected final double[] coordinates;
@@ -146,6 +142,77 @@ public abstract class NDDOAtom {
 			newguess = guess - f / fprime;
 		}
 		return newguess;
+	}
+
+	public double p1Deriv(int type) {
+		double D1deriv = D1Deriv(type);
+
+		if (getAtomProperties().getZ() == 1) {
+			return 0;
+		}
+
+		return -p1 * p1 * D1 / (p1 * p1 * p1 -
+				Math.pow(D1 * D1 + p1 * p1, 1.5)) * D1deriv;
+	}
+
+	public double p2Deriv(int type) {
+		if (type == 0) {
+			return 0;
+		}
+
+		double D2deriv = D2Deriv(type);
+
+		double F1 = 2 * D2 * (Math.pow(D2 * D2 + p2 * p2, -1.5) -
+				Math.pow(2 * D2 * D2 + p2 * p2, -1.5));
+
+		double F2 = p2 * (2 * Math.pow(D2 * D2 + p2 * p2, -1.5) -
+				Math.pow(2 * D2 * D2 + p2 * p2, -1.5)) -
+				1 / (p2 * p2);
+
+		return -F1 / F2 * D2deriv;
+
+	}
+
+	public double D1Deriv(int type) {
+		double zetas = getParams().getZetas();
+
+		double zetap = getParams().getZetap();
+
+		double zeta = 0;
+
+		switch (type) {
+
+			case 0:
+				zeta = zetap;
+				break;
+			case 1:
+				zeta = zetas;
+				break;
+			default:
+				zeta = 0;
+		}
+
+		return (2 * getAtomProperties().getPeriod() + 1) / Math.sqrt(3) *
+				(4 * zeta * (0.5 + getAtomProperties().getPeriod()) *
+						Math.pow(4 * zetas * zetap,
+								-0.5 + getAtomProperties().getPeriod()) /
+						Math.pow(zetas + zetap,
+								2 + 2 * getAtomProperties().getPeriod())
+						- (2 + 2 * getAtomProperties().getPeriod()) *
+						Math.pow(4 * zetas * zetap,
+								0.5 + getAtomProperties().getPeriod()) /
+						Math.pow(zetas + zetap,
+								3 + 2 * getAtomProperties().getPeriod()));
+
+
+	}
+
+	public double D2Deriv(int type) {
+		if (type == 0) {
+			return 0;
+		}
+
+		return -1 / getParams().getZetap() * D2;
 	}
 
 	public abstract double crf(NDDOAtom b);

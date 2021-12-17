@@ -1,9 +1,7 @@
 package nddo.solution;
 
-import nddo.math.ERI;
-import nddo.structs.MoleculeInfo;
-import nddo.NDDO6G;
 import nddo.NDDOAtom;
+import nddo.structs.MoleculeInfo;
 import org.ejml.data.SingularMatrixException;
 import org.ejml.dense.row.CommonOps_DDRM;
 import org.ejml.simple.SimpleMatrix;
@@ -11,6 +9,8 @@ import tools.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import static nddo.State.nom;
 
 public class SolutionR extends Solution {
 	private static final int[][][] TBRS =
@@ -164,9 +164,9 @@ public class SolutionR extends Solution {
 					for (int l : orbsOfAtom[atomOfOrb[j]]) {
 						if (l > -1) {
 							integralArray[integralcount] =
-									ERI.OneCenterERI(orbitals[j], orbitals[j], orbitals[l], orbitals[l]) -
-											0.5 * ERI.OneCenterERI(orbitals[j], orbitals[l], orbitals[j],
-															orbitals[l]);
+									nom.OneCenterERI(orbitals[j], orbitals[j], orbitals[l], orbitals[l]) -
+											0.5 * nom.OneCenterERI(orbitals[j], orbitals[l], orbitals[j],
+													orbitals[l]);
 							integralcount++;
 						}
 					}
@@ -177,7 +177,7 @@ public class SolutionR extends Solution {
 								if (m > -1) {
 									if (atomOfOrb[l] == atomOfOrb[m]) {
 										integralArray[integralcount] =
-												NDDO6G.getG(orbitals[j], orbitals[j], orbitals[l], orbitals[m]);
+												nom.getG(orbitals[j], orbitals[j], orbitals[l], orbitals[m]);
 										integralcount++;
 									}
 								}
@@ -188,8 +188,8 @@ public class SolutionR extends Solution {
 				}
 				else if (atomOfOrb[j] == atomOfOrb[k]) { // case 2
 					integralArray[integralcount] =
-							1.5 * ERI.OneCenterERI(orbitals[j], orbitals[k], orbitals[j], orbitals[k]) -
-									0.5 * ERI.OneCenterERI(orbitals[j], orbitals[j], orbitals[k], orbitals[k]);
+							1.5 * nom.OneCenterERI(orbitals[j], orbitals[k], orbitals[j], orbitals[k]) -
+									0.5 * nom.OneCenterERI(orbitals[j], orbitals[j], orbitals[k], orbitals[k]);
 					integralcount++;
 					for (int l : missingOfAtom[atomOfOrb[j]]) {
 						if (l > -1) {
@@ -197,7 +197,7 @@ public class SolutionR extends Solution {
 								if (m > -1) {
 									if (atomOfOrb[l] == atomOfOrb[m]) {
 										integralArray[integralcount] =
-												NDDO6G.getG(orbitals[j], orbitals[k], orbitals[l], orbitals[m]);
+												nom.getG(orbitals[j], orbitals[k], orbitals[l], orbitals[m]);
 										integralcount++;
 									}
 								}
@@ -210,7 +210,7 @@ public class SolutionR extends Solution {
 						if (l > -1) {
 							for (int m : orbsOfAtom[atomOfOrb[k]]) {
 								if (m > -1) {
-									integralArray[integralcount] = -0.5 * NDDO6G.getG(orbitals[j], orbitals[l],
+									integralArray[integralcount] = -0.5 * nom.getG(orbitals[j], orbitals[l],
 											orbitals[k], orbitals[m]);
 									integralcount++;
 								}

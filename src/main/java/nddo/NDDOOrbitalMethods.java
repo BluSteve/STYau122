@@ -1,6 +1,7 @@
 package nddo;
 
 public interface NDDOOrbitalMethods<T extends NDDOOrbital> {
+	double OneCenterERI(T a, T b, T c, T d);
 	double getG(T a, T b, T c, T d);
 
 	double getGderiv(T a, T b, T c, T d, int tau);
@@ -16,8 +17,6 @@ public interface NDDOOrbitalMethods<T extends NDDOOrbital> {
 	double betaderiv2(T a, T b, int tau1, int tau2);
 
 	double betaparamderiv(T a, T b, int num, int type);
-
-	static double asdf() {
-		return 0;
-	}
+	
+	double betaparambetaderiv(T a, T b, double sum);
 }

@@ -9,6 +9,7 @@ import nddo.scf.GTO;
 import nddo.structs.OrbitalProperties;
 
 import static nddo.Constants.bohr;
+import static nddo.State.nom;
 
 public class MNDOAtom extends NDDOAtom {
 	public static final int[] T1ParamNums = {0, 1, 3, 5, 7};
@@ -70,7 +71,7 @@ public class MNDOAtom extends NDDOAtom {
 			f = getf(b, this, R);
 		else f = 1 + Math.exp(-b.np.getAlpha() * R / bohr) + Math.exp(-this.np.getAlpha() * R / bohr);
 
-		return f * this.atomProperties.getQ() * b.atomProperties.getQ() * NDDO6G.getG(this.s(), this.s(), b.s(),
+		return f * this.atomProperties.getQ() * b.atomProperties.getQ() * nom.getG(this.s(), this.s(), b.s(),
 				b.s());
 	}
 
@@ -99,9 +100,9 @@ public class MNDOAtom extends NDDOAtom {
 		}
 
 		return fprime * this.atomProperties.getQ() * b.atomProperties.getQ() *
-				NDDO6G.getG(this.s(), this.s(), b.s(), b.s()) +
+				nom.getG(this.s(), this.s(), b.s(), b.s()) +
 				f * this.atomProperties.getQ() * b.atomProperties.getQ() *
-						GeometryDerivative.getGderiv(this.s(), this.s(), b.s(), b.s(), tau);
+						nom.getGderiv(this.s(), this.s(), b.s(), b.s(), tau);
 	}
 
 	@Override
@@ -122,7 +123,7 @@ public class MNDOAtom extends NDDOAtom {
 		MNDOAtom c = (MNDOAtom) b;
 		double R = GTO.R(this.getCoordinates(), b.getCoordinates());
 		double val = this.atomProperties.getQ() * c.atomProperties.getQ() *
-				NDDO6G.getG(this.s(), this.s(), b.s(), b.s());
+				nom.getG(this.s(), this.s(), b.s(), b.s());
 
 		double returnval = 0;
 

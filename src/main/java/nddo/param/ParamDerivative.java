@@ -1,257 +1,24 @@
 package nddo.param;
 
-import nddo.*;
-import nddo.math.ERI;
+import nddo.Constants;
+import nddo.NDDOAtom;
+import nddo.NDDOOrbital;
+import nddo.NDDOParams;
+import nddo.scf.LCGTO;
 import nddo.solution.SolutionR;
 import org.ejml.data.SingularMatrixException;
 import org.ejml.dense.row.CommonOps_DDRM;
 import org.ejml.simple.SimpleMatrix;
-import nddo.scf.LCGTO;
 import tools.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static nddo.State.nom;
 import static nddo.geometry.GeometrySecondDerivative.computeResponseVectorsPople;
 
 public class ParamDerivative {
-
-	private static double p1Deriv(NDDOAtom a, int type) {
-
-		double D1deriv = D1Deriv(a, type);
-
-		if (a.getAtomProperties().getZ() == 1) {
-			return 0;
-		}
-
-		return -a.p1 * a.p1 * a.D1 / (a.p1 * a.p1 * a.p1 -
-				Math.pow(a.D1 * a.D1 + a.p1 * a.p1, 1.5)) * D1deriv;
-	}
-
-
-	private static double p2Deriv(NDDOAtom a, int type) {
-
-		if (type == 0) {
-			return 0;
-		}
-
-		double D2deriv = D2Deriv(a, type);
-
-		double F1 = 2 * a.D2 * (Math.pow(a.D2 * a.D2 + a.p2 * a.p2, -1.5) -
-				Math.pow(2 * a.D2 * a.D2 + a.p2 * a.p2, -1.5));
-
-		double F2 = a.p2 * (2 * Math.pow(a.D2 * a.D2 + a.p2 * a.p2, -1.5) -
-				Math.pow(2 * a.D2 * a.D2 + a.p2 * a.p2, -1.5)) -
-				1 / (a.p2 * a.p2);
-
-		return -F1 / F2 * D2deriv;
-
-	}
-
-	private static double D1Deriv(NDDOAtom a, int type) {
-
-		double zetas = a.getParams().getZetas();
-
-		double zetap = a.getParams().getZetap();
-
-		double zeta = 0;
-
-		switch (type) {
-
-			case 0:
-				zeta = zetap;
-				break;
-			case 1:
-				zeta = zetas;
-				break;
-			default:
-				zeta = 0;
-		}
-
-		return (2 * a.getAtomProperties().getPeriod() + 1) / Math.sqrt(3) *
-				(4 * zeta * (0.5 + a.getAtomProperties().getPeriod()) *
-						Math.pow(4 * zetas * zetap,
-								-0.5 + a.getAtomProperties().getPeriod()) /
-						Math.pow(zetas + zetap,
-								2 + 2 * a.getAtomProperties().getPeriod())
-						- (2 + 2 * a.getAtomProperties().getPeriod()) *
-						Math.pow(4 * zetas * zetap,
-								0.5 + a.getAtomProperties().getPeriod()) /
-						Math.pow(zetas + zetap,
-								3 + 2 * a.getAtomProperties().getPeriod()));
-
-
-	}
-
-	private static double D2Deriv(NDDOAtom a, int type) {
-		if (type == 0) {
-			return 0;
-		}
-
-		return -1 / a.getParams().getZetap() * a.D2;
-	}
-
-
-	public static double getGderiv(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d,
-								   int num, int type) {
-		double[] coeffA = a.decomposition(a.getCoords(), c.getCoords());
-		double[] coeffB = b.decomposition(a.getCoords(), c.getCoords());
-		double[] coeffC = c.decomposition(a.getCoords(), c.getCoords());
-		double[] coeffD = d.decomposition(a.getCoords(), c.getCoords());
-
-		double sum2 = 0;
-
-		NDDO6G[] A = a.orbitalArray();
-		NDDO6G[] B = b.orbitalArray();
-		NDDO6G[] C = c.orbitalArray();
-		NDDO6G[] D = d.orbitalArray();
-
-		double p1deriv = 0;
-
-		double p2deriv = 0;
-
-		double D1deriv = 0;
-
-		double D2deriv = 0;
-
-		if (num == 0 || num == 2) {
-
-			p1deriv = p1Deriv(a.getAtom(), type);
-			p2deriv = p2Deriv(a.getAtom(), type);
-			D1deriv = D1Deriv(a.getAtom(), type);
-			D2deriv = D2Deriv(a.getAtom(), type);
-		}
-		else if (num == 1) {
-
-			p1deriv = p1Deriv(c.getAtom(), type);
-			p2deriv = p2Deriv(c.getAtom(), type);
-			D1deriv = D1Deriv(c.getAtom(), type);
-			D2deriv = D2Deriv(c.getAtom(), type);
-		}
-
-		for (int i = 0; i < coeffA.length; i++) {
-			for (int j = 0; j < coeffB.length; j++) {
-				for (int k = 0; k < coeffC.length; k++) {
-					for (int l = 0; l < coeffD.length; l++) {
-
-						if (coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] !=
-								0) {
-							sum2 += coeffA[i] * coeffB[j] * coeffC[k] *
-									coeffD[l] *
-									ERI.LocalTwoCenterERIderiv(A[i], B[j], C[k],
-											D[l], D1deriv, D2deriv, p1deriv,
-											p2deriv, num, type) * Constants.eV;
-						}
-
-
-					}
-				}
-			}
-		}
-
-
-		return sum2;
-	}
-
-	@Deprecated
-	public static double getGderivfinite(NDDO6G a, NDDO6G b, NDDO6G c,
-										 NDDO6G d,
-										 int num, int type) {
-
-		int aindex = index(a);
-
-		int bindex = index(b);
-
-		int cindex = index(c);
-
-		int dindex = index(d);
-
-		double initial = NDDO6G.getG(a, b, c, d);
-
-		NDDOAtom A = a.getAtom();
-
-		NDDOAtom C = c.getAtom();
-
-		if (num == 0 || num == 2) {
-
-			try {
-				NDDOParams params = A.getParams();
-				params.modifyParam(5 + type, Constants.LAMBDA);
-
-				A = A.withNewParams(params);
-			} catch (Exception e) {
-				e.printStackTrace();
-//				System.exit(0);
-			}
-		}
-		if (num == 1 || num == 2) {
-			try {
-				NDDOParams params = C.getParams();
-				params.modifyParam(5 + type, Constants.LAMBDA);
-
-				C = C.withNewParams(params);
-			} catch (Exception e) {
-				e.printStackTrace();
-//				System.exit(0);
-			}
-		}
-
-		double finalval =
-				NDDO6G.getG(A.getOrbitals()[aindex], A.getOrbitals()[bindex],
-						C.getOrbitals()[cindex], C.getOrbitals()[dindex]);
-
-		return (finalval - initial) / Constants.LAMBDA;
-
-
-	}
-	
-	@Deprecated
-	public static double getSderivfinite(NDDO6G a, NDDO6G b, int num,
-										 int type) {
-
-		int aindex = index(a);
-
-		int bindex = index(b);
-
-		double initial = NDDO6G.getS(a, b);
-
-		NDDOAtom A = a.getAtom();
-
-		NDDOAtom B = b.getAtom();
-
-		if (num == 0 || num == 2) {
-
-			try {
-				NDDOParams params = A.getParams();
-				params.modifyParam(5 + type, Constants.LAMBDA);
-
-				A = A.withNewParams(params);
-			} catch (Exception e) {
-				e.printStackTrace();
-//				System.exit(0);
-			}
-		}
-		if (num == 1 || num == 2) {
-			try {
-				NDDOParams params = B.getParams();
-				params.modifyParam(5 + type, Constants.LAMBDA);
-
-				B = B.withNewParams(params);
-			} catch (Exception e) {
-				e.printStackTrace();
-//				System.exit(0);
-			}
-		}
-
-		double finalval =
-				NDDO6G.getS(A.getOrbitals()[aindex], B.getOrbitals()[bindex]);
-
-		return (finalval - initial) / Constants.LAMBDA;
-
-
-	}
-
 	@Deprecated
 	public static double crfderivfinite(NDDOAtom A, NDDOAtom B, int num) {
 
@@ -393,7 +160,7 @@ public class ParamDerivative {
 		SimpleMatrix densitymatrix = soln.densityMatrix();
 
 
-		NDDO6G[] orbitals = soln.orbitals;
+		NDDOOrbital[] orbitals = soln.orbitals;
 
 		int[][] index = soln.orbsOfAtom;
 
@@ -423,7 +190,7 @@ public class ParamDerivative {
 					H.set(k, j, Huv);
 				}
 				else { // case 3
-					double Huk = NDDO6G.betaparamderiv(orbitals[j],
+					double Huk = nom.betaparamderiv(orbitals[j],
 							orbitals[k],
 							getNum(atomicnumbers[atomNumber[j]],
 									atomicnumbers[atomNumber[k]], Z), type);
@@ -446,15 +213,14 @@ public class ParamDerivative {
 								if (m > -1) {
 									if (atomNumber[l] == atomNumber[m]) {
 										sum += soln.densityMatrix().get(l, m) *
-												(ParamDerivative
-														.getGderiv(orbitals[j],
-																orbitals[k],
-																orbitals[l],
-																orbitals[m],
-																getNum(atomicnumbers[atomNumber[j]],
-																		atomicnumbers[atomNumber[l]],
-																		Z),
-																type));
+												(nom.getGderiv(orbitals[j],
+														orbitals[k],
+														orbitals[l],
+														orbitals[m],
+														getNum(atomicnumbers[atomNumber[j]],
+																atomicnumbers[atomNumber[l]],
+																Z),
+														type));
 
 									}
 								}
@@ -469,16 +235,15 @@ public class ParamDerivative {
 								if (m > -1) {
 									sum += soln.densityMatrix().get(l, m) *
 											(-0.5 *
-													ParamDerivative
-															.getGderiv(
-																	orbitals[j],
-																	orbitals[l],
-																	orbitals[k],
-																	orbitals[m],
-																	getNum(atomicnumbers[atomNumber[j]],
-																			atomicnumbers[atomNumber[k]],
-																			Z),
-																	type));
+													nom.getGderiv(
+															orbitals[j],
+															orbitals[l],
+															orbitals[k],
+															orbitals[m],
+															getNum(atomicnumbers[atomNumber[j]],
+																	atomicnumbers[atomNumber[k]],
+																	Z),
+															type));
 								}
 							}
 						}
@@ -511,7 +276,7 @@ public class ParamDerivative {
 													int type) {
 
 
-		NDDO6G[] orbitals = soln.orbitals;
+		NDDOOrbital[] orbitals = soln.orbitals;
 
 		int[][] index = soln.orbsOfAtom;
 
@@ -541,7 +306,7 @@ public class ParamDerivative {
 					H.set(k, j, Huv);
 				}
 				else { // case 3
-					double Huk = NDDO6G.betaparamderiv(orbitals[j],
+					double Huk = nom.betaparamderiv(orbitals[j],
 							orbitals[k],
 							getNum(atomicnumbers[atomNumber[j]],
 									atomicnumbers[atomNumber[k]], Z), type);
@@ -564,15 +329,14 @@ public class ParamDerivative {
 								if (m > -1) {
 									if (atomNumber[l] == atomNumber[m]) {
 										sum += soln.densityMatrix().get(l, m) *
-												(ParamDerivative
-														.getGderiv(orbitals[j],
-																orbitals[k],
-																orbitals[l],
-																orbitals[m],
-																getNum(atomicnumbers[atomNumber[j]],
-																		atomicnumbers[atomNumber[l]],
-																		Z),
-																type));
+												(nom.getGderiv(orbitals[j],
+														orbitals[k],
+														orbitals[l],
+														orbitals[m],
+														getNum(atomicnumbers[atomNumber[j]],
+																atomicnumbers[atomNumber[l]],
+																Z),
+														type));
 
 									}
 								}
@@ -587,7 +351,7 @@ public class ParamDerivative {
 								if (m > -1) {
 									sum += soln.densityMatrix().get(l, m) *
 											(-0.5 *
-													ParamDerivative
+													nom
 															.getGderiv(
 																	orbitals[j],
 																	orbitals[l],
@@ -618,7 +382,7 @@ public class ParamDerivative {
 												 int type) {
 
 
-		NDDO6G[] orbitals = soln.orbitals;
+		NDDOOrbital[] orbitals = soln.orbitals;
 
 		int[] atomNumber = soln.atomOfOrb;
 
@@ -644,7 +408,7 @@ public class ParamDerivative {
 					H.set(k, j, Huv);
 				}
 				else { // case 3
-					double Huk = NDDO6G.betaparamderiv(orbitals[j],
+					double Huk = nom.betaparamderiv(orbitals[j],
 							orbitals[k],
 							getNum(atomicnumbers[atomNumber[j]],
 									atomicnumbers[atomNumber[k]], Z), type);
@@ -662,7 +426,7 @@ public class ParamDerivative {
 												 int type) {
 
 
-		NDDO6G[] orbitals = soln.orbitals;
+		NDDOOrbital[] orbitals = soln.orbitals;
 
 		int[][] index = soln.orbsOfAtom;
 
@@ -685,7 +449,7 @@ public class ParamDerivative {
 								if (m > -1) {
 									if (atomNumber[l] == atomNumber[m]) {
 										sum += soln.densityMatrix().get(l, m) *
-												(ParamDerivative
+												(nom
 														.getGderiv(orbitals[j],
 																orbitals[k],
 																orbitals[l],
@@ -708,7 +472,7 @@ public class ParamDerivative {
 								if (m > -1) {
 									sum += soln.densityMatrix().get(l, m) *
 											(-0.5 *
-													ParamDerivative
+													nom
 															.getGderiv(
 																	orbitals[j],
 																	orbitals[l],
@@ -739,7 +503,7 @@ public class ParamDerivative {
 		SimpleMatrix densitymatrix = soln.densityMatrix();
 
 
-		NDDO6G[] orbitals = soln.orbitals;
+		NDDOOrbital[] orbitals = soln.orbitals;
 
 		int[] atomNumber = soln.atomOfOrb;
 
@@ -781,7 +545,7 @@ public class ParamDerivative {
 		SimpleMatrix densitymatrix = soln.densityMatrix();
 
 
-		NDDO6G[] orbitals = soln.orbitals;
+		NDDOOrbital[] orbitals = soln.orbitals;
 
 		int[] atomNumber = soln.atomOfOrb;
 
@@ -793,16 +557,15 @@ public class ParamDerivative {
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
 				if (atomNumber[j] != atomNumber[k]) {
-
-					double H = betaderiv(atomicnumbers[atomNumber[j]],
+					double sum = betaderivsum(atomicnumbers[atomNumber[j]],
 							atomicnumbers[atomNumber[k]], Z,
 							orbitals[j].getL(),
 							orbitals[k].getL(), type);
 
-					if (H != 0) {
-						H *= LCGTO.getS(orbitals[j], orbitals[k]);
+					if (sum != 0) {
+						double H = nom.betaparambetaderiv(orbitals[j], orbitals[k], sum);
+						e += 2 * densitymatrix.get(j, k) * H;
 					}
-					e += 2 * densitymatrix.get(j, k) * H;
 				}
 			}
 		}
@@ -817,7 +580,7 @@ public class ParamDerivative {
 		SimpleMatrix F =
 				new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
 
-		NDDO6G[] orbitals = soln.orbitals;
+		NDDOOrbital[] orbitals = soln.orbitals;
 
 		int[] atomNumber = soln.atomOfOrb;
 
@@ -826,17 +589,16 @@ public class ParamDerivative {
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
 				if (atomNumber[j] != atomNumber[k]) {
-
-					double H = betaderiv(atomicnumbers[atomNumber[j]],
+					double sum = betaderivsum(atomicnumbers[atomNumber[j]],
 							atomicnumbers[atomNumber[k]], Z,
 							orbitals[j].getL(),
 							orbitals[k].getL(), type);
 
-					if (H != 0) {
-						H *= LCGTO.getS(orbitals[j], orbitals[k]);
+					if (sum != 0) {
+						double H = nom.betaparambetaderiv(orbitals[j], orbitals[k], sum);
+						F.set(j, k, H);
+						F.set(k, j, H);
 					}
-					F.set(j, k, H);
-					F.set(k, j, H);
 				}
 			}
 		}
@@ -875,8 +637,8 @@ public class ParamDerivative {
 		return sum / 4.3363E-2;
 	}
 
-	private static double betaderiv(int Z1, int Z2, int Z, int L1, int L2,
-									int type) {
+	private static double betaderivsum(int Z1, int Z2, int Z, int L1, int L2,
+									   int type) {
 
 		double sum = 0;
 
@@ -902,24 +664,6 @@ public class ParamDerivative {
 		}
 
 		return num - 1;
-	}
-
-	private static int index(NDDO6G orbital) {
-
-		if (orbital.getL() == 0) {
-			return 0;
-		}
-		else if (orbital.geti() == 1) {
-			return 1;
-		}
-		else if (orbital.getj() == 1) {
-			return 2;
-		}
-		else if (orbital.getk() == 1) {
-			return 3;
-		}
-
-		return -1;
 	}
 
 	public static SimpleMatrix responseMatrix(SolutionR soln,
@@ -1722,7 +1466,7 @@ public class ParamDerivative {
 		if (paramnum == 5 || paramnum == 6) {
 			for (int i = 0; i < atoms.length; i++) {
 				if (atoms[i].getAtomProperties().getZ() == Z) {
-					D1deriv = D1Deriv(atoms[i], paramnum - 5);
+					D1deriv = atoms[i].D1Deriv(paramnum - 5);
 					break;
 				}
 			}

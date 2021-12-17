@@ -5,11 +5,7 @@ public interface NDDOOrbital {
 
 	double U();
 
-	double beta();
+	int getL();
 
-	double[] decomposition(double[] point1, double[] point2);
-
-	double[] decomposition2(double[] point1, double[] point2);
-
-	NDDO6G[] orbitalArray();
+	NDDOOrbital[] orbitalArray();
 }
