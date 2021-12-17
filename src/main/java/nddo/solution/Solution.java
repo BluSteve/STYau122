@@ -8,6 +8,8 @@ import org.ejml.simple.SimpleMatrix;
 
 import java.util.Arrays;
 
+import static nddo.State.nom;
+
 public abstract class Solution {
 	public static int maxParamNum = 8; // todo compute this on the fly
 	protected final MoleculeInfo rm;
@@ -72,7 +74,7 @@ public abstract class Solution {
 					H.set(k, j, Huv);
 				}
 				else {
-					double Huk = NDDO6G.beta(orbitals[j], orbitals[k]);
+					double Huk = nom.beta(orbitals[j], orbitals[k]);
 
 					H.set(j, k, Huk);
 					H.set(k, j, Huk);

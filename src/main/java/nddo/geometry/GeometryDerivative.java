@@ -192,8 +192,8 @@ public class GeometryDerivative {
 				double sum = 0;
 				for (int i = 0; i < matrices[1].numRows(); i++)
 					for (int j = 0; j < matrices[1].numRows(); j++) {
-						sum += 0.5 * soln.densityMatrix().get(i, j) * (matrices[0].get(i, j) + matrices[1].get(i, j));
-						sum += 0.5 * soln.densityMatrix().get(i, j) * (matrices[0].get(i, j) + matrices[2].get(i, j));
+						sum += 0.5 * soln.alphaDensity().get(i, j) * (matrices[0].get(i, j) + matrices[1].get(i, j));
+						sum += 0.5 * soln.betaDensity().get(i, j) * (matrices[0].get(i, j) + matrices[2].get(i, j));
 					}
 				for (int j = 0; j < soln.atoms.length; j++)
 					if (j != a) sum += soln.atoms[a].crfDeriv(soln.atoms[j], tau);

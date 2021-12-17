@@ -493,8 +493,8 @@ public class SolutionR extends Solution {
 					SimpleMatrix D = new SimpleMatrix(densityMatrix.numRows(), densityMatrix.numCols());
 
 					for (int i = 0; i < DIIS.getNumElements() - 1; i++) {
-						F = F.plus(Farray[i].scale(DIIS.get(i)));
-						D = D.plus(Darray[i].scale(DIIS.get(i)));
+						F.plusi(Farray[i].scale(DIIS.get(i)));
+						D.plusi(Darray[i].scale(DIIS.get(i)));
 					}
 
 					matrices = Utils.symEigen(F);

@@ -205,8 +205,8 @@ public class Main {
 		RunIterable iterable = new RunIterable(new RunInput(info, molecules));
 		iterable.setLimit(1);
 		for (RunOutput ro : iterable) {
-			outputMolecules(ro.results);
-			outputParams(ro.nextRunInfo); // todo make json output
+//			outputMolecules(ro.results);
+//			outputParams(ro.nextRunInfo); // todo make json output
 		}
 
 		System.exit(0);
