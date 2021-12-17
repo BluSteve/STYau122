@@ -1,7 +1,7 @@
 package nddo.geometry;
 
-import nddo.NDDOOrbital;
 import nddo.NDDOAtom;
+import nddo.NDDOOrbital;
 import nddo.solution.SolutionR;
 import nddo.solution.SolutionU;
 import org.ejml.simple.SimpleMatrix;

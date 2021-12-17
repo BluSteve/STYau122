@@ -1,10 +1,10 @@
 package nddo.param;
 
 import nddo.NDDOAtom;
+import nddo.scf.GTO;
 import nddo.solution.Solution;
 import nddo.solution.SolutionR;
 import nddo.solution.SolutionU;
-import nddo.scf.GTO;
 
 import java.util.ArrayList;
 

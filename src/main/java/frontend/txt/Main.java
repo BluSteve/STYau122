@@ -1,10 +1,8 @@
 package frontend.txt;
 
-import frontend.json.JsonIO;
 import nddo.structs.AtomProperties;
 import runcycle.IMoleculeResult;
 import runcycle.RunIterable;
-import runcycle.RunIterator;
 import runcycle.structs.*;
 import tools.Utils;
 

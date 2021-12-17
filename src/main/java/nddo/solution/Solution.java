@@ -1,9 +1,9 @@
 package nddo.solution;
 
-import nddo.NDDOOrbital;
-import nddo.structs.MoleculeInfo;
 import nddo.NDDO6G;
 import nddo.NDDOAtom;
+import nddo.NDDOOrbital;
+import nddo.structs.MoleculeInfo;
 import org.ejml.simple.SimpleMatrix;
 
 import java.util.Arrays;

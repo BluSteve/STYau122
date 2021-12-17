@@ -3,9 +3,8 @@ package nddo.mndo;
 import nddo.NDDO6G;
 import nddo.NDDOAtom;
 import nddo.NDDOParams;
-import nddo.geometry.GeometryDerivative;
-import nddo.structs.AtomProperties;
 import nddo.scf.GTO;
+import nddo.structs.AtomProperties;
 import nddo.structs.OrbitalProperties;
 
 import static nddo.Constants.bohr;

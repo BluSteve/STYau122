@@ -4,7 +4,6 @@ import nddo.Constants;
 import nddo.NDDOAtom;
 import nddo.NDDOOrbital;
 import nddo.NDDOParams;
-import nddo.scf.LCGTO;
 import nddo.solution.SolutionR;
 import org.ejml.data.SingularMatrixException;
 import org.ejml.dense.row.CommonOps_DDRM;
