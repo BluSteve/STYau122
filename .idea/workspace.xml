@@ -4,14 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Fix stupid Utils perturbCoords bug">
-      <change afterPath="$PROJECT_DIR$/src/main/java/frontend/json/SerializerTesting.java" afterDir="false" />
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Json serializers and deserializers">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/json/MoleculeSerial.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/json/SerializerTesting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/json/Serializer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/frontend/txt/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/txt/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/structs/MoleculeInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/structs/MoleculeInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/IMoleculeResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/IMoleculeResult.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Utils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,11 +130,11 @@
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam-gradle\src\main\java" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\billi\IdeaProjects\MNDOParam\src\main\java\frontend\json" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\src\main\java\examples\json" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\src\main\java" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\analysis" />
-      <recent name="C:\Users\billi\IdeaProjects\MNDOParam-gradle" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
       <recent name="nddo.scf.Orbital" />
@@ -155,26 +152,13 @@
       <recent name="tools" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.SerializerTesting">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true">
       <option name="MAIN_CLASS_NAME" value="frontend.txt.Main" />
       <module name="MNDOParam.main" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="frontend.txt.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="SerializerTesting" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="frontend.json.SerializerTesting" />
-      <module name="MNDOParam.main" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="frontend.json.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -238,11 +222,9 @@
       <item itemvalue="Application.Main" />
       <item itemvalue="Gradle.MNDOParam [jmh]" />
       <item itemvalue="Shell Script.Copy" />
-      <item itemvalue="Application.SerializerTesting" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.SerializerTesting" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Gradle.MNDOParam [jmh]" />
@@ -320,14 +302,7 @@
       <workItem from="1639555307093" duration="5752000" />
       <workItem from="1639640872738" duration="16172000" />
       <workItem from="1639671071175" duration="21000" />
-      <workItem from="1639721448920" duration="26759000" />
-    </task>
-    <task id="LOCAL-00042" summary="enhanced for loop">
-      <created>1638118331533</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1638118331533</updated>
+      <workItem from="1639721448920" duration="29485000" />
     </task>
     <task id="LOCAL-00043" summary="Change prevs initial size">
       <created>1638119878402</created>
@@ -665,7 +640,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639740713844</updated>
     </task>
-    <option name="localTasksCounter" value="91" />
+    <task id="LOCAL-00091" summary="Json serializers and deserializers">
+      <created>1639759381742</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1639759381742</updated>
+    </task>
+    <option name="localTasksCounter" value="92" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -713,7 +695,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Reformat" />
     <MESSAGE value="Major IO changes, cache orbsOfAtom, etc." />
     <MESSAGE value="Solution refactor - move dipole to superclass" />
     <MESSAGE value="Debug session with Adrian" />
@@ -738,7 +719,8 @@
     <MESSAGE value="temp2" />
     <MESSAGE value="Huge refactor seems to be working" />
     <MESSAGE value="Fix stupid Utils perturbCoords bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix stupid Utils perturbCoords bug" />
+    <MESSAGE value="Json serializers and deserializers" />
+    <option name="LAST_COMMIT_MESSAGE" value="Json serializers and deserializers" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -747,11 +729,6 @@
           <properties class="java.lang.NullPointerException" package="java.lang" />
           <option name="timeStamp" value="3" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/frontend/json/SerializerTesting.java</url>
-          <line>125</line>
-          <option name="timeStamp" value="19" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>

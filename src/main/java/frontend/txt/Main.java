@@ -13,6 +13,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 
+import static frontend.json.Serializer.write;
+
 public class Main {
 	public static void txtToText() throws IOException {
 		List<String> lines = Files.readAllLines(Path.of("input.txt"));
@@ -205,10 +207,11 @@ public class Main {
 		RunnableMolecule[] molecules = getMolecules(info.atomTypes, info.neededParams);
 
 		RunIterable iterable = new RunIterable(new RunInput(info, molecules));
-		iterable.setLimit(2);
+		iterable.setLimit(1);
 		for (RunOutput ro : iterable) {
-			outputMolecules(ro.results);
-			outputParams(ro.nextRunInfo); // todo make json output
+//			outputMolecules(ro.results);
+//			outputParams(ro.nextRunInfo); // todo make json output
+			write(ro, "output");
 		}
 
 		System.exit(0);
