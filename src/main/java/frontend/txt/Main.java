@@ -3,7 +3,7 @@ package frontend.txt;
 import nddo.Constants;
 import nddo.structs.AtomProperties;
 import runcycle.IMoleculeResult;
-import runcycle.RunIterable;
+import runcycle.RunIterator;
 import runcycle.structs.*;
 import tools.Utils;
 
@@ -297,9 +297,9 @@ public class Main {
 
 		RunInput input = readInput();
 
-		RunIterable iterable = new RunIterable(input, 10);
+		RunIterator iterator = new RunIterator(input, 10);
 		int i = 0;
-		for (RunOutput ro : iterable) {
+		for (RunOutput ro : iterator) {
 			write(ro.getInput(), String.format("pastinputs/%04d-%s", i, ro.getInput().hash));
 			write(ro, String.format("outputs/%04d-%s-%s", i, ro.getInput().hash, ro.hash));
 			i++;

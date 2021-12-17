@@ -20,22 +20,38 @@ import java.util.concurrent.*;
 
 import static runcycle.State.getConverter;
 
-public final class RunIterator implements Iterator<RunOutput> {
+public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutput> {
 	private static final Logger logger = LogManager.getLogger();
-	private final RunInput initialRunInput;
-	private int runNumber = 0, limit = 0;
+	public final RunInput initialRunInput;
+	private final int limit;
+	private int runNumber = 0;
 	private RunInput currentRunInput;
 	private IMoleculeResult[] ranMolecules;
 
 	public RunIterator(RunInput runInput) {
 		this.initialRunInput = runInput;
 		this.currentRunInput = runInput;
+		this.limit = 0;
+	}
+
+	public RunIterator(RunInput runInput, int limit) {
+		this.initialRunInput = runInput;
+		this.currentRunInput = runInput;
+		this.limit = limit;
 	}
 
 	public RunIterator(RunInput runInput, IMoleculeResult[] ranMolecules) {
 		this.initialRunInput = runInput;
 		this.currentRunInput = runInput;
 		this.ranMolecules = ranMolecules;
+		this.limit = 0;
+	}
+
+	public RunIterator(RunInput runInput, int limit, IMoleculeResult[] ranMolecules) {
+		this.initialRunInput = runInput;
+		this.currentRunInput = runInput;
+		this.ranMolecules = ranMolecules;
+		this.limit = limit;
 	}
 
 	public static RunOutput runOnce(RunInput ri) {
@@ -76,20 +92,9 @@ public final class RunIterator implements Iterator<RunOutput> {
 		return output;
 	}
 
-	public RunInput getInitialRunInput() {
-		return initialRunInput;
-	}
-
-	public RunInput getCurrentRunInput() {
-		return currentRunInput;
-	}
-
-	public int getLimit() {
-		return limit;
-	}
-
-	public void setLimit(int limit) {
-		this.limit = limit;
+	@Override
+	public Iterator<RunOutput> iterator() {
+		return this;
 	}
 
 	public int getRunNumber() {

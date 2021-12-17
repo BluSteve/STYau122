@@ -4,16 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Cleanup">
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/txt/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/txt/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDO6GMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDO6GMethods.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDOAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDOAtom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/ERI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/ERI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/Multipoles.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/Multipoles.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Utils.java" afterDir="false" />
-    </list>
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="ranMolecules in RunIterator" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -309,21 +300,7 @@
       <workItem from="1639555307093" duration="5752000" />
       <workItem from="1639640872738" duration="16172000" />
       <workItem from="1639671071175" duration="21000" />
-      <workItem from="1639721448920" duration="36448000" />
-    </task>
-    <task id="LOCAL-00047" summary="Remove initial capacity">
-      <created>1638175097274</created>
-      <option name="number" value="00047" />
-      <option name="presentableId" value="LOCAL-00047" />
-      <option name="project" value="LOCAL" />
-      <updated>1638175097274</updated>
-    </task>
-    <task id="LOCAL-00048" summary="Remove initial capacity">
-      <created>1638175147541</created>
-      <option name="number" value="00048" />
-      <option name="presentableId" value="LOCAL-00048" />
-      <option name="project" value="LOCAL" />
-      <updated>1638175147541</updated>
+      <workItem from="1639721448920" duration="37882000" />
     </task>
     <task id="LOCAL-00049" summary="Remove initial capacity">
       <created>1638175181878</created>
@@ -654,7 +631,21 @@
       <option name="project" value="LOCAL" />
       <updated>1639767331385</updated>
     </task>
-    <option name="localTasksCounter" value="96" />
+    <task id="LOCAL-00096" summary="More cleanup + fix warnings">
+      <created>1639768617499</created>
+      <option name="number" value="00096" />
+      <option name="presentableId" value="LOCAL-00096" />
+      <option name="project" value="LOCAL" />
+      <updated>1639768617499</updated>
+    </task>
+    <task id="LOCAL-00097" summary="ranMolecules in RunIterator">
+      <created>1639768988509</created>
+      <option name="number" value="00097" />
+      <option name="presentableId" value="LOCAL-00097" />
+      <option name="project" value="LOCAL" />
+      <updated>1639768988509</updated>
+    </task>
+    <option name="localTasksCounter" value="98" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -702,8 +693,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Remove explicit AtomHandler initialization" />
-    <MESSAGE value="Major movement" />
     <MESSAGE value="More movement + Flyweight pattern for OrbitalProp" />
     <MESSAGE value="MoleculeInfo builder" />
     <MESSAGE value="Fix multithreading issue in OrbitalProperties" />
@@ -727,7 +716,9 @@
     <MESSAGE value="10 bit hash" />
     <MESSAGE value="Json done" />
     <MESSAGE value="Cleanup" />
-    <option name="LAST_COMMIT_MESSAGE" value="Cleanup" />
+    <MESSAGE value="More cleanup + fix warnings" />
+    <MESSAGE value="ranMolecules in RunIterator" />
+    <option name="LAST_COMMIT_MESSAGE" value="ranMolecules in RunIterator" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
