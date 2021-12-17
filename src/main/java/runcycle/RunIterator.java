@@ -25,14 +25,26 @@ public final class RunIterator implements Iterator<RunOutput> {
 	private final RunInput initialRunInput;
 	private int runNumber = 0, limit = 0;
 	private RunInput currentRunInput;
+	private IMoleculeResult[] ranMolecules;
 
 	public RunIterator(RunInput runInput) {
 		this.initialRunInput = runInput;
 		this.currentRunInput = runInput;
 	}
 
+	public RunIterator(RunInput runInput, IMoleculeResult[] ranMolecules) {
+		this.initialRunInput = runInput;
+		this.currentRunInput = runInput;
+		this.ranMolecules = ranMolecules;
+	}
+
 	public static RunOutput runOnce(RunInput ri) {
 		RunIterator it = new RunIterator(ri);
+		return it.next();
+	}
+
+	public static RunOutput runOnce(RunInput ri, IMoleculeResult[] ranMolecules) {
+		RunIterator it = new RunIterator(ri, ranMolecules);
 		return it.next();
 	}
 
@@ -46,7 +58,14 @@ public final class RunIterator implements Iterator<RunOutput> {
 	public RunOutput next() {
 		logger.info("Run number: {}, input hash: {}", runNumber, currentRunInput.hash);
 
-		RunOutput output = new PRun(currentRunInput).run();
+		PRun pRun = new PRun(currentRunInput);
+
+		if (ranMolecules != null) {
+			pRun.ranMolecules = ranMolecules;
+			ranMolecules = null;
+		}
+
+		RunOutput output = pRun.run();
 
 		logger.info("Run {} time taken: {}, output hash: {}\n", runNumber, output.timeTaken, output.hash);
 
