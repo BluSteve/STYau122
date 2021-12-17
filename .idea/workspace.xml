@@ -4,12 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Json refactor">
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="10 bit hash">
+      <change afterPath="$PROJECT_DIR$/.idea/jsonSchemas.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/frontend/json/JsonIO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/json/Serializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/json/Serializer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/json/Serializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/Serializer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/frontend/txt/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/txt/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/MoleculeRun.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/RunIterable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/RunIterable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunInput.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunOutput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunOutput.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,11 +143,11 @@
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\analysis" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="runcycle.Hasher" />
       <recent name="nddo.scf.Orbital" />
       <recent name="nddo.math.ERI" />
       <recent name="nddo.ERICalc" />
       <recent name="nddo.Constants" />
-      <recent name="nddoadapter.RMBuilder" />
     </key>
     <key name="ExtractSuperBase.RECENT_KEYS">
       <recent name="nddo" />
@@ -303,14 +308,7 @@
       <workItem from="1639555307093" duration="5752000" />
       <workItem from="1639640872738" duration="16172000" />
       <workItem from="1639671071175" duration="21000" />
-      <workItem from="1639721448920" duration="31315000" />
-    </task>
-    <task id="LOCAL-00044" summary="Cached double + initc lower bound">
-      <created>1638121132600</created>
-      <option name="number" value="00044" />
-      <option name="presentableId" value="LOCAL-00044" />
-      <option name="project" value="LOCAL" />
-      <updated>1638121132600</updated>
+      <workItem from="1639721448920" duration="35786000" />
     </task>
     <task id="LOCAL-00045" summary="Merge new pople alg into geom and param">
       <created>1638121378995</created>
@@ -648,7 +646,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639760959629</updated>
     </task>
-    <option name="localTasksCounter" value="93" />
+    <task id="LOCAL-00093" summary="10 bit hash">
+      <created>1639762686406</created>
+      <option name="number" value="00093" />
+      <option name="presentableId" value="LOCAL-00093" />
+      <option name="project" value="LOCAL" />
+      <updated>1639762686406</updated>
+    </task>
+    <option name="localTasksCounter" value="94" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -696,7 +701,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Solution refactor - move dipole to superclass" />
     <MESSAGE value="Debug session with Adrian" />
     <MESSAGE value="Last unrefactored commit." />
     <MESSAGE value="Remove explicit AtomHandler initialization" />
@@ -721,7 +725,8 @@
     <MESSAGE value="Fix stupid Utils perturbCoords bug" />
     <MESSAGE value="Json serializers and deserializers" />
     <MESSAGE value="Json refactor" />
-    <option name="LAST_COMMIT_MESSAGE" value="Json refactor" />
+    <MESSAGE value="10 bit hash" />
+    <option name="LAST_COMMIT_MESSAGE" value="10 bit hash" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

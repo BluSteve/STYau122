@@ -1,38 +1,16 @@
-package frontend.json;
+package runcycle;
 
 import com.google.gson.*;
 import org.apache.commons.lang3.StringUtils;
-import runcycle.IMoleculeResult;
 import runcycle.structs.*;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class Serializer {
-	private static final Gson gson = getGson();
-
-	public static <T> T read(String filename, Class<T> clazz) throws FileNotFoundException {
-		return gson.fromJson(new FileReader(filename + ".json"), clazz);
-	}
-
-	public static void write(Object o, String... filenames) throws IOException {
-		if (filenames.length == 0) {
-			FileWriter fw = new FileWriter(getHash(o) + ".json");
-			gson.toJson(o, fw);
-			fw.close();
-		}
-		else for (String filename : filenames) {
-			FileWriter fw = new FileWriter(filename + ".json");
-			gson.toJson(o, fw);
-			fw.close();
-		}
-	}
+	public static final Gson gson = getGson();
 
 	public static String getHash(String str) {
 		try {

@@ -1,8 +1,10 @@
 package frontend.txt;
 
+import frontend.json.JsonIO;
 import nddo.structs.AtomProperties;
 import runcycle.IMoleculeResult;
 import runcycle.RunIterable;
+import runcycle.RunIterator;
 import runcycle.structs.*;
 import tools.Utils;
 
@@ -13,7 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 
-import static frontend.json.Serializer.*;
+import static frontend.json.JsonIO.write;
 
 public class Main {
 	public static void txtToText() throws IOException {
@@ -102,7 +104,7 @@ public class Main {
 		pw.close();
 	}
 
-	public static InputInfo getInputInfo() throws IOException {
+	public static RunInput readInput() throws IOException {
 		List<String> pcsv = Files.readAllLines(Path.of("params.csv"));
 		double[][] params = new double[pcsv.size()][];
 		for (int i = 0; i < pcsv.size(); i++) {
@@ -119,11 +121,9 @@ public class Main {
 			neededParams[i] = Utils.toInts(Arrays.copyOfRange(linea, 1, linea.length));
 		}
 
-		return new InputInfo(atomTypes, neededParams, params);
-	}
+		InputInfo info = new InputInfo(atomTypes, neededParams, params);
 
-	public static RunnableMolecule[] getMolecules(int[] atomTypes,
-												  int[][] neededParams) throws IOException {
+
 		List<String> mtxt = Files.readAllLines(Path.of("molecules.txt"));
 
 		ArrayList<RunnableMolecule> moleculesL = new ArrayList<>();
@@ -199,27 +199,11 @@ public class Main {
 			molecules[j] = moleculesL.get(j);
 		}
 
-		return molecules;
+
+		return new RunInput(info, molecules);
 	}
 
-	public static void convertFromTXT() throws IOException {
-		InputInfo info = getInputInfo();
-		write(info, "cool");
-		info = read("cool", InputInfo.class);
-		RunnableMolecule[] molecules = getMolecules(info.atomTypes, info.neededParams);
-
-		RunIterable iterable = new RunIterable(new RunInput(info, molecules));
-		iterable.setLimit(1);
-		for (RunOutput ro : iterable) {
-//			outputMolecules(ro.results);
-//			outputParams(ro.nextRunInfo); // todo make json output
-			write(ro, "output-" + getHash(ro));
-		}
-
-		System.exit(0);
-	}
-
-	public static void outputMolecules(IMoleculeResult[] results) throws FileNotFoundException {
+	public static void updateMolecules(IMoleculeResult[] results) throws FileNotFoundException {
 		PrintWriter pw = new PrintWriter("molecules.txt");
 
 		for (IMoleculeResult r : results) {
@@ -263,7 +247,7 @@ public class Main {
 		pw.close();
 	}
 
-	public static void outputParams(InputInfo info) throws FileNotFoundException {
+	public static void updateParams(InputInfo info) throws FileNotFoundException {
 		PrintWriter pw = new PrintWriter("params.csv");
 
 		for (int i = 0; i < info.atomTypes.length; i++) {
@@ -276,6 +260,11 @@ public class Main {
 		}
 
 		pw.close();
+	}
+
+	public static void updateOutput(RunOutput ro) throws FileNotFoundException {
+		updateMolecules(ro.results);
+		updateParams(ro.nextRunInfo);
 	}
 
 	private static Atom toAtom(String line) {
@@ -291,8 +280,20 @@ public class Main {
 		return s.split(", *");
 	}
 
-
 	public static void main(String[] args) throws IOException {
-		convertFromTXT();
+		Files.createDirectories(Path.of("pastinputs"));
+		Files.createDirectories(Path.of("outputs"));
+
+		RunInput input = readInput();
+
+		RunIterable iterable = new RunIterable(input, 10);
+		int i = 0;
+		for (RunOutput ro : iterable) {
+			write(ro.getInput(), String.format("pastinputs/%04d-%s", i, ro.getInput().hash));
+			write(ro, String.format("outputs/%04d-%s-%s", i, ro.getInput().hash, ro.hash));
+			i++;
+		}
+
+		System.exit(0);
 	}
 }

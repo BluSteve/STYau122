@@ -2,25 +2,25 @@ package runcycle;
 
 import nddo.NDDOAtom;
 import nddo.NDDOParams;
+import nddo.geometry.GeometryOptimization;
+import nddo.param.ParamErrorFunction;
 import nddo.param.ParamGradient;
 import nddo.param.ParamHessian;
+import nddo.solution.Solution;
 import org.apache.commons.lang3.time.StopWatch;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ejml.simple.SimpleMatrix;
 import runcycle.optimize.ParamOptimizer;
 import runcycle.optimize.ReferenceData;
-import runcycle.structs.InputInfo;
-import runcycle.structs.RunInput;
-import runcycle.structs.RunOutput;
-import runcycle.structs.RunnableMolecule;
+import runcycle.structs.*;
 
 import java.util.*;
 import java.util.concurrent.*;
 
 import static runcycle.State.getConverter;
 
-public class RunIterator implements Iterator<RunOutput> {
+public final class RunIterator implements Iterator<RunOutput> {
 	private static final Logger logger = LogManager.getLogger();
 	private final RunInput initialRunInput;
 	private int runNumber = 0, limit = 0;
@@ -28,8 +28,12 @@ public class RunIterator implements Iterator<RunOutput> {
 
 	public RunIterator(RunInput runInput) {
 		this.initialRunInput = runInput;
-
 		this.currentRunInput = runInput;
+	}
+
+	public static RunOutput runOnce(RunInput ri) {
+		RunIterator it = new RunIterator(ri);
+		return it.next();
 	}
 
 	@Override
@@ -40,18 +44,13 @@ public class RunIterator implements Iterator<RunOutput> {
 
 	@Override
 	public RunOutput next() {
-		logger.info("Run number: {}", runNumber);
+		logger.info("Run number: {}, input hash: {}", runNumber, currentRunInput.hash);
 
 		RunOutput output = new PRun(currentRunInput).run();
 
-		RunnableMolecule[] currentRms = new RunnableMolecule[output.results.length];
-		for (int i = 0; i < currentRms.length; i++) {
-			currentRms[i] = output.results[i].getUpdatedRm();
-		}
+		logger.info("Run {} time taken: {}, output hash: {}\n", runNumber, output.timeTaken, output.hash);
 
-		currentRunInput = new RunInput(output.nextRunInfo, currentRms);
-
-		logger.info("Run {} time taken: {}\n", runNumber, output.timeTaken);
+		currentRunInput = output.getNextInput();
 
 		runNumber++;
 
@@ -78,16 +77,14 @@ public class RunIterator implements Iterator<RunOutput> {
 		return runNumber;
 	}
 
-	private static class PRun { // stands for ParameterizationRun
+	private static final class PRun { // stands for ParameterizationRun
 		private static final Logger logger = LogManager.getLogger();
-		private final InputInfo info;
-		private final RunnableMolecule[] rms;
+		private final RunInput ri;
 		private final ScheduledExecutorService progressBar = Executors.newScheduledThreadPool(1);
 		private IMoleculeResult[] ranMolecules;
 
 		PRun(RunInput runInput) {
-			this.info = runInput.info;
-			this.rms = runInput.molecules;
+			this.ri = runInput;
 		}
 
 		private static int getMaxMoleculeIndex(RunnableMolecule[] rms) {
@@ -100,15 +97,10 @@ public class RunIterator implements Iterator<RunOutput> {
 			return max;
 		}
 
-		public InputInfo getInfo() {
-			return info;
-		}
-
-		public RunnableMolecule[] getRms() {
-			return rms;
-		}
-
 		public RunOutput run() {
+			final InputInfo info = ri.info;
+			final RunnableMolecule[] rms = ri.molecules;
+
 			boolean[] isDones = new boolean[getMaxMoleculeIndex(rms) + 1];
 
 			if (logger.isInfoEnabled()) {
@@ -277,7 +269,152 @@ public class RunIterator implements Iterator<RunOutput> {
 
 			logger.info("Total error: {}", ttError);
 
-			return new RunOutput(nextRunInfo, results.toArray(new IMoleculeResult[0]), lsw.getTime());
+			return new RunOutput(ri, nextRunInfo, results.toArray(new IMoleculeResult[0]), lsw.getTime());
+		}
+	}
+
+	private static final class MoleculeRun implements IMoleculeResult {
+		private final NDDOAtom[] nddoAtoms, expGeom;
+		private final boolean withHessian, isExpAvail;
+		private final RunnableMolecule rm;
+		private final double[] datum;
+		private Solution s, sExp;
+		private ParamGradient g;
+		private ParamHessian h;
+		private Atom[] newAtoms;
+		private long time;
+
+		public MoleculeRun(RunnableMolecule rm, NDDOAtom[] nddoAtoms, NDDOAtom[] expGeom, double[] datum,
+						   boolean withHessian) {
+			this.rm = rm;
+			this.nddoAtoms = nddoAtoms;
+			this.expGeom = expGeom;
+			this.datum = datum;
+			this.withHessian = withHessian;
+
+			isExpAvail = expGeom != null;
+		}
+
+		public void run() {
+			try {
+				rm.getLogger().info("Started");
+				StopWatch sw = new StopWatch();
+				sw.start();
+
+
+				s = GeometryOptimization.of(Solution.of(rm, nddoAtoms)).compute().getS();
+				rm.getLogger().debug("Finished geometry optimization");
+
+				if (isExpAvail) {
+					sExp = Solution.of(rm, expGeom);
+				}
+
+				g = ParamGradient.of(s, datum, sExp).compute();
+				rm.getLogger().debug("Finished param gradient");
+				if (withHessian) h = ParamHessian.from(g).compute();
+				rm.getLogger().debug("Finished param hessian");
+
+				// stores new optimized geometry
+				newAtoms = new Atom[s.atoms.length];
+				for (int i = 0; i < newAtoms.length; i++) {
+					newAtoms[i] = new Atom(s.atoms[i].getAtomProperties().getZ(), s.atoms[i].getCoordinates());
+				}
+
+
+				sw.stop();
+				time = sw.getTime();
+
+				rm.getLogger().info("Finished in {}", time);
+			} catch (Exception e) {
+				rm.getLogger().error("", e);
+			}
+		}
+
+		public boolean isExpAvail() {
+			return isExpAvail;
+		}
+
+		public RunnableMolecule getUpdatedRm() {
+			return new RunnableMolecule(rm, newAtoms, rm.expGeom, rm.datum);
+		}
+
+		public long getTime() {
+			return time;
+		}
+
+		@Override
+		public double getHF() {
+			return getS().hf;
+		}
+
+		@Override
+		public double getDipole() {
+			return getS().dipole;
+		}
+
+		@Override
+		public double getIE() {
+			return -getS().homo;
+		}
+
+		@Override
+		public double getGeomGradient() {
+			return getE().getGeomGradient();
+		}
+
+		@Override
+		public double getTotalError() {
+			return getE().getTotalError();
+		}
+
+		@Override
+		public double[][] getHFDerivs() {
+			return getG().getHFDerivs();
+		}
+
+		@Override
+		public double[][] getDipoleDerivs() {
+			return getG().getDipoleDerivs();
+		}
+
+		@Override
+		public double[][] getIEDerivs() {
+			return getG().getIEDerivs();
+		}
+
+		@Override
+		public double[][] getGeomDerivs() {
+			return getG().getGeomDerivs();
+		}
+
+		@Override
+		public double[][] getTotalGradients() {
+			return getG().getTotalGradients();
+		}
+
+		@Override
+		public double[][] getHessian() {
+			if (withHessian) return h.getHessian();
+			else throw new IllegalStateException("Hessian not found for molecule: " + rm.debugName());
+		}
+
+		public ParamGradient getG() {
+			return g;
+		}
+
+		public ParamHessian getH() {
+			return h;
+		}
+
+		/**
+		 * @return Original, unoptimized Solution object.
+		 */
+		public Solution getS() {
+			return s;
+		}
+
+		public ParamErrorFunction getE() {
+			return g.getE();
 		}
 	}
 }

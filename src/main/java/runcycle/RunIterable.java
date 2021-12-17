@@ -5,12 +5,17 @@ import runcycle.structs.RunOutput;
 
 import java.util.Iterator;
 
-public class RunIterable implements Iterable<RunOutput> {
+public final class RunIterable implements Iterable<RunOutput> {
 	private final RunInput runInput;
 	private int limit;
 
 	public RunIterable(RunInput runInput) {
 		this.runInput = runInput;
+	}
+
+	public RunIterable(RunInput runInput, int limit) {
+		this.runInput = runInput;
+		this.limit = limit;
 	}
 
 	public int getLimit() {
