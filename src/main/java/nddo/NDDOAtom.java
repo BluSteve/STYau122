@@ -11,7 +11,7 @@ public abstract class NDDOAtom {
 	protected final AtomProperties atomProperties;
 	protected final NDDOParams np;
 	public double p0, p1, p2, D1, D2;
-	protected NDDO6G[] orbitals;
+	protected NDDOOrbital[] orbitals;
 
 	/**
 	 * The standard representation of an atom used all over nddo.
@@ -36,19 +36,6 @@ public abstract class NDDOAtom {
 			this.p2 = 0;
 			this.D1 = 0;
 			this.D2 = 0;
-		}
-
-		OrbitalProperties[] orbitalProperties = this.atomProperties.getOrbitals();
-		orbitals = new NDDO6G[orbitalProperties.length];
-		for (int x = 0; x < orbitals.length; x++) {
-			switch (orbitalProperties[x].type) {
-				case "s":
-					orbitals[x] = new NDDO6G(this, orbitalProperties[x], np.getZetas(), np.getBetas(), np.getUss());
-					break;
-				case "p":
-					orbitals[x] = new NDDO6G(this, orbitalProperties[x], np.getZetap(), np.getBetap(), np.getUpp());
-					break;
-			}
 		}
 	}
 
@@ -81,7 +68,7 @@ public abstract class NDDOAtom {
 	 */
 	public abstract NDDOAtom withNewCoords(double[] coordinates);
 
-	public NDDO6G[] getOrbitals() {
+	public NDDOOrbital[] getOrbitals() {
 		return this.orbitals;
 	}
 
@@ -100,24 +87,24 @@ public abstract class NDDOAtom {
 		return np.clone();
 	}
 
-	public NDDO6G s() {
+	public NDDOOrbital s() {
 		return this.orbitals[0];
 	}
 
-	public double V(NDDO6G a, NDDO6G b) {
-		return -this.atomProperties.getQ() * NDDO6G.getG(a, b, this.s(), this.s());
+	public double V(NDDOOrbital a, NDDOOrbital b) {
+		return -this.atomProperties.getQ() * State.nom.getG(a, b, this.s(), this.s());
 	}
 
-	public double Vderiv(NDDO6G a, NDDO6G b, int tau) {
-		return -this.atomProperties.getQ() * GeometryDerivative.getGderiv(a, b, this.s(), this.s(), tau);
+	public double Vderiv(NDDOOrbital a, NDDOOrbital b, int tau) {
+		return -this.atomProperties.getQ() * State.nom.getGderiv(a, b, this.s(), this.s(), tau);
 	}
 
-	public double Vderiv2(NDDO6G a, NDDO6G b, int tau1, int tau2) {
-		return -this.atomProperties.getQ() * GeometrySecondDerivative.getGderiv2(a, b, this.s(), this.s(), tau1, tau2);
+	public double Vderiv2(NDDOOrbital a, NDDOOrbital b, int tau1, int tau2) {
+		return -this.atomProperties.getQ() * State.nom.getGderiv2(a, b, this.s(), this.s(), tau1, tau2);
 	}
 
-	public double VParamDeriv(NDDO6G a, NDDO6G b, int num, int type) {
-		return -this.atomProperties.getQ() * ParamDerivative.getGderiv(this.s(), this.s(), a, b, num, type);
+	public double VParamDeriv(NDDOOrbital a, NDDOOrbital b, int num, int type) {
+		return -this.atomProperties.getQ() * State.nom.getGderiv(this.s(), this.s(), a, b, num, type);
 	}
 
 	protected double p0() {

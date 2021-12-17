@@ -1,5 +1,6 @@
 package nddo.solution;
 
+import nddo.math.ERI;
 import nddo.structs.MoleculeInfo;
 import nddo.NDDO6G;
 import nddo.NDDOAtom;
@@ -163,8 +164,8 @@ public class SolutionR extends Solution {
 					for (int l : orbsOfAtom[atomOfOrb[j]]) {
 						if (l > -1) {
 							integralArray[integralcount] =
-									NDDO6G.OneCenterERI(orbitals[j], orbitals[j], orbitals[l], orbitals[l]) -
-											0.5 * NDDO6G.OneCenterERI(orbitals[j], orbitals[l], orbitals[j],
+									ERI.OneCenterERI(orbitals[j], orbitals[j], orbitals[l], orbitals[l]) -
+											0.5 * ERI.OneCenterERI(orbitals[j], orbitals[l], orbitals[j],
 															orbitals[l]);
 							integralcount++;
 						}
@@ -187,8 +188,8 @@ public class SolutionR extends Solution {
 				}
 				else if (atomOfOrb[j] == atomOfOrb[k]) { // case 2
 					integralArray[integralcount] =
-							1.5 * NDDO6G.OneCenterERI(orbitals[j], orbitals[k], orbitals[j], orbitals[k]) -
-									0.5 * NDDO6G.OneCenterERI(orbitals[j], orbitals[j], orbitals[k], orbitals[k]);
+							1.5 * ERI.OneCenterERI(orbitals[j], orbitals[k], orbitals[j], orbitals[k]) -
+									0.5 * ERI.OneCenterERI(orbitals[j], orbitals[j], orbitals[k], orbitals[k]);
 					integralcount++;
 					for (int l : missingOfAtom[atomOfOrb[j]]) {
 						if (l > -1) {

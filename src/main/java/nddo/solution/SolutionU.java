@@ -1,5 +1,6 @@
 package nddo.solution;
 
+import nddo.math.ERI;
 import nddo.structs.MoleculeInfo;
 import nddo.NDDO6G;
 import nddo.NDDOAtom;
@@ -37,7 +38,7 @@ public class SolutionU extends Solution {
 					for (int l : orbsOfAtom[atomOfOrb[j]]) {
 						if (l > -1) {
 							integralArrayCoulomb[integralCount] =
-									NDDO6G.OneCenterERI(orbitals[j], orbitals[j], orbitals[l], orbitals[l]);
+									ERI.OneCenterERI(orbitals[j], orbitals[j], orbitals[l], orbitals[l]);
 							integralCount++;
 						}
 					}
@@ -52,7 +53,7 @@ public class SolutionU extends Solution {
 				}
 				else if (atomOfOrb[j] == atomOfOrb[k]) {
 					integralArrayCoulomb[integralCount] =
-							2 * NDDO6G.OneCenterERI(orbitals[j], orbitals[k], orbitals[j], orbitals[k]);
+							2 * ERI.OneCenterERI(orbitals[j], orbitals[k], orbitals[j], orbitals[k]);
 					integralCount++;
 					for (int l : missingOfAtom[atomOfOrb[j]]) {
 						if (l > -1) for (int m : missingOfAtom[atomOfOrb[j]])
@@ -75,15 +76,15 @@ public class SolutionU extends Solution {
 					for (int l : orbsOfAtom[atomOfOrb[j]]) {
 						if (l > -1) {
 							integralArrayExchange[integralCount] =
-									-1 * NDDO6G.OneCenterERI(orbitals[j], orbitals[l], orbitals[j], orbitals[l]);
+									-1 * ERI.OneCenterERI(orbitals[j], orbitals[l], orbitals[j], orbitals[l]);
 							integralCount++;
 						}
 					}
 				}
 				else if (atomOfOrb[j] == atomOfOrb[k]) {
 					integralArrayExchange[integralCount] =
-							-1 * NDDO6G.OneCenterERI(orbitals[j], orbitals[k], orbitals[j], orbitals[k]) -
-									1 * NDDO6G.OneCenterERI(orbitals[j], orbitals[j], orbitals[k], orbitals[k]);
+							-1 * ERI.OneCenterERI(orbitals[j], orbitals[k], orbitals[j], orbitals[k]) -
+									1 * ERI.OneCenterERI(orbitals[j], orbitals[j], orbitals[k], orbitals[k]);
 					integralCount++;
 				}
 				else for (int l : orbsOfAtom[atomOfOrb[j]]) {

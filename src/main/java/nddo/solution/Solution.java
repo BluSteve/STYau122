@@ -1,5 +1,6 @@
 package nddo.solution;
 
+import nddo.NDDOOrbital;
 import nddo.structs.MoleculeInfo;
 import nddo.NDDO6G;
 import nddo.NDDOAtom;
@@ -16,7 +17,7 @@ public abstract class Solution {
 	public int[][] missingOfAtom, orbsOfAtom;
 	public int[] atomicNumbers, atomOfOrb;
 	public NDDOAtom[] atoms;
-	public NDDO6G[] orbitals;
+	public NDDOOrbital[] orbitals;
 	protected SimpleMatrix H, densityMatrix, alphaDensity, betaDensity;
 
 	protected Solution(MoleculeInfo rm, NDDOAtom[] atoms) {
@@ -35,7 +36,7 @@ public abstract class Solution {
 
 		int overallOrbitalIndex = 0;
 		for (NDDOAtom atom : atoms) {
-			for (NDDO6G orbital : atom.getOrbitals()) {
+			for (NDDOOrbital orbital : atom.getOrbitals()) {
 				orbitals[overallOrbitalIndex] = orbital;
 				overallOrbitalIndex++;
 			}

@@ -75,6 +75,7 @@ public final class NDDOParams {
 		return params[12];
 	}
 
+	// todo make params final
 	public void modifyParam(int index, double amnt) {
 		params[index] += amnt;
 	}

@@ -1,5 +1,9 @@
 package frontend.txt;
 
+import nddo.NDDO6G;
+import nddo.NDDO6GMethods;
+import nddo.NDDOOrbitalMethods;
+import nddo.State;
 import nddo.structs.AtomProperties;
 import runcycle.IMoleculeResult;
 import runcycle.RunIterable;
@@ -196,6 +200,7 @@ public class Main {
 		for (int j = 0; j < moleculesL.size(); j++) {
 			molecules[j] = moleculesL.get(j);
 		}
+
 
 		RunIterable iterable = new RunIterable(new RunInput(info, molecules));
 		iterable.setLimit(1);

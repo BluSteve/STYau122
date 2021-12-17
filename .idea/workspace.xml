@@ -4,25 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="16dp geom precision">
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="debug session with adrian">
+      <change afterPath="$PROJECT_DIR$/src/main/java/nddo/ERICalc.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDO6GMethods.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDOOrbital.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDOOrbitalMethods.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/copy.bat" beforeDir="false" afterPath="$PROJECT_DIR$/copy.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mndo-update.sh" beforeDir="false" afterPath="$PROJECT_DIR$/mndo-update.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params.csv" beforeDir="false" afterPath="$PROJECT_DIR$/params.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/frontend/txt/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/txt/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/Constants.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDO6G.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDO6G.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDOAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDOAtom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDOParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDOParams.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/State.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/State.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryDerivative.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/mndo/MNDOAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/mndo/MNDOAtom.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/structs/MoleculeInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/structs/MoleculeInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/RunIterable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/RunIterable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunnableMolecule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunnableMolecule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,18 +149,21 @@
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam-gradle\src\main" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="nddo.ERICalc" />
       <recent name="nddo.Constants" />
       <recent name="nddoadapter.RMBuilder" />
       <recent name="nddo.am1.AM1Atom" />
       <recent name="nddo.mndo.MNDOAtom" />
-      <recent name="tools.Utils" />
+    </key>
+    <key name="ExtractSuperBase.RECENT_KEYS">
+      <recent name="nddo" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="runcycle" />
       <recent name="tools" />
     </key>
   </component>
-  <component name="RunManager" selected="Shell Script.Copy">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true">
       <option name="MAIN_CLASS_NAME" value="frontend.txt.Main" />
       <module name="MNDOParam.main" />
@@ -311,13 +312,8 @@
       <workItem from="1639501687113" duration="5471000" />
       <workItem from="1639555307093" duration="5752000" />
       <workItem from="1639640872738" duration="16172000" />
-    </task>
-    <task id="LOCAL-00037" summary="Lhs cache memory optimization">
-      <created>1638115576585</created>
-      <option name="number" value="00037" />
-      <option name="presentableId" value="LOCAL-00037" />
-      <option name="project" value="LOCAL" />
-      <updated>1638115576585</updated>
+      <workItem from="1639671071175" duration="21000" />
+      <workItem from="1639721448920" duration="8532000" />
     </task>
     <task id="LOCAL-00038" summary="Preconditioner change to multrows">
       <created>1638116545424</created>
@@ -655,7 +651,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639651045662</updated>
     </task>
-    <option name="localTasksCounter" value="86" />
+    <task id="LOCAL-00086" summary="debug session with adrian">
+      <created>1639671088435</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1639671088435</updated>
+    </task>
+    <option name="localTasksCounter" value="87" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -703,7 +706,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Analytical SCF refactor untested" />
     <MESSAGE value="NDDO refactor in progress" />
     <MESSAGE value="NDDO refactor complete, AM1 somewhat tested" />
     <MESSAGE value="Remove MNDOParams" />
@@ -728,7 +730,8 @@
     <MESSAGE value="Txt input working" />
     <MESSAGE value="Txt output working" />
     <MESSAGE value="16dp geom precision" />
-    <option name="LAST_COMMIT_MESSAGE" value="16dp geom precision" />
+    <MESSAGE value="debug session with adrian" />
+    <option name="LAST_COMMIT_MESSAGE" value="debug session with adrian" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

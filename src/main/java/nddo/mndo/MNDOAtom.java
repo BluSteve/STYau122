@@ -6,6 +6,7 @@ import nddo.NDDOParams;
 import nddo.geometry.GeometryDerivative;
 import nddo.structs.AtomProperties;
 import nddo.scf.GTO;
+import nddo.structs.OrbitalProperties;
 
 import static nddo.Constants.bohr;
 
@@ -15,6 +16,18 @@ public class MNDOAtom extends NDDOAtom {
 
 	public MNDOAtom(AtomProperties atomProperties, double[] coordinates, NDDOParams np) {
 		super(atomProperties, coordinates, np);
+		OrbitalProperties[] orbitalProperties = this.atomProperties.getOrbitals();
+		orbitals = new NDDO6G[orbitalProperties.length];
+		for (int x = 0; x < orbitals.length; x++) {
+			switch (orbitalProperties[x].type) {
+				case "s":
+					orbitals[x] = new NDDO6G(this, orbitalProperties[x], np.getZetas(), np.getBetas(), np.getUss());
+					break;
+				case "p":
+					orbitals[x] = new NDDO6G(this, orbitalProperties[x], np.getZetap(), np.getBetap(), np.getUpp());
+					break;
+			}
+		}
 	}
 
 	@Override
