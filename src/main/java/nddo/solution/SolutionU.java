@@ -575,7 +575,7 @@ public class SolutionU extends Solution {
 
 		for (int j = 0; j < atoms.length; j++) {
 
-			if (orbsOfAtom[j][1] != -1) {//exclude hydrogen
+			if (orbsOfAtom[j].length > 1) {//exclude hydrogen
 				hybridip[0] = hybridip[0] - 2.5416 * 2 * atoms[j].D1 *
 						(alphaDensity.get(orbsOfAtom[j][0], orbsOfAtom[j][1]) +
 								betaDensity.get(orbsOfAtom[j][0],
@@ -602,7 +602,6 @@ public class SolutionU extends Solution {
 						dipoletot[2] * dipoletot[2]);
 
 		//System.err.println ("numit: " + numIt);
-
 		return this;
 	}
 
@@ -814,6 +813,7 @@ public class SolutionU extends Solution {
 	public Solution withNewAtoms(NDDOAtom[] newAtoms) {
 		return new SolutionU(rm, newAtoms).compute();
 	}
+
 	@Override
 	public SimpleMatrix densityMatrix() {
 		return this.alphaDensity.plus(this.betaDensity);

@@ -104,7 +104,7 @@ public class Utils {
 
 		for (int i = 0; i < atoms.length; i++) {
 			if (i == atomNum) {
-				double[] coords = atoms[i].getCoordinates();
+				double[] coords = atoms[i].getCoordinates().clone();
 				coords[tau] = coords[tau] + 1E-7;
 				perturbed[i] = atoms[i].withNewCoords(coords);
 			}

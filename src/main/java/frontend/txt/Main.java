@@ -1,9 +1,5 @@
 package frontend.txt;
 
-import nddo.NDDO6G;
-import nddo.NDDO6GMethods;
-import nddo.NDDOOrbitalMethods;
-import nddo.State;
 import nddo.structs.AtomProperties;
 import runcycle.IMoleculeResult;
 import runcycle.RunIterable;
@@ -189,7 +185,6 @@ public class Main {
 			}
 
 
-
 			moleculesL.add(builder.build(atomTypes, neededParams));
 			i++;
 
@@ -203,10 +198,10 @@ public class Main {
 
 
 		RunIterable iterable = new RunIterable(new RunInput(info, molecules));
-		iterable.setLimit(1);
+		iterable.setLimit(2);
 		for (RunOutput ro : iterable) {
-//			outputMolecules(ro.results);
-//			outputParams(ro.nextRunInfo); // todo make json output
+			outputMolecules(ro.results);
+			outputParams(ro.nextRunInfo); // todo make json output
 		}
 
 		System.exit(0);

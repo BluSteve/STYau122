@@ -4,16 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="temp2">
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Huge refactor seems to be working">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/copy.bat" beforeDir="false" afterPath="$PROJECT_DIR$/copy.bat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/frontend/txt/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/txt/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDO6G.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDO6G.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDOOrbitalMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDOOrbitalMethods.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunnableMolecule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunnableMolecule.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/log4j2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -307,14 +304,7 @@
       <workItem from="1639555307093" duration="5752000" />
       <workItem from="1639640872738" duration="16172000" />
       <workItem from="1639671071175" duration="21000" />
-      <workItem from="1639721448920" duration="13692000" />
-    </task>
-    <task id="LOCAL-00040" summary="Arraylist size initialization">
-      <created>1638118031334</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1638118031334</updated>
+      <workItem from="1639721448920" duration="15737000" />
     </task>
     <task id="LOCAL-00041" summary="store n * length">
       <created>1638118093798</created>
@@ -652,7 +642,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639734117831</updated>
     </task>
-    <option name="localTasksCounter" value="89" />
+    <task id="LOCAL-00089" summary="Huge refactor seems to be working">
+      <created>1639735907378</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1639735907378</updated>
+    </task>
+    <option name="localTasksCounter" value="90" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -700,7 +697,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Remove MNDOParams" />
     <MESSAGE value="AM1 for InputHandler and create MoleculeInfo" />
     <MESSAGE value="Reformat" />
     <MESSAGE value="Major IO changes, cache orbsOfAtom, etc." />
@@ -725,7 +721,8 @@
     <MESSAGE value="debug session with adrian" />
     <MESSAGE value="temp" />
     <MESSAGE value="temp2" />
-    <option name="LAST_COMMIT_MESSAGE" value="temp2" />
+    <MESSAGE value="Huge refactor seems to be working" />
+    <option name="LAST_COMMIT_MESSAGE" value="Huge refactor seems to be working" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -734,6 +731,11 @@
           <properties class="java.lang.NullPointerException" package="java.lang" />
           <option name="timeStamp" value="3" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java</url>
+          <line>34</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>

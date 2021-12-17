@@ -104,7 +104,7 @@ public abstract class NDDOAtom {
 	}
 
 	protected double p0() {
-		return 27.2114 / (2 * np.getGss());
+		return Constants.eV / (2 * np.getGss());
 	}
 
 	protected double D1() {
@@ -120,10 +120,10 @@ public abstract class NDDOAtom {
 
 	protected double p1() {
 		double guess = 0;
-		double newguess = 0.5 * Math.pow(D1 * D1 * 27.2114 / (np.getHsp()), 1.0 / 3);
+		double newguess = 0.5 * Math.pow(D1 * D1 * Constants.eV / (np.getHsp()), 1.0 / 3);
 		while (Math.abs(guess - newguess) > 1E-12) {
 			guess = newguess;
-			double f = 1 / guess - 1 / Math.sqrt(guess * guess + D1 * D1) - 4 * np.getHsp() / 27.2114;
+			double f = 1 / guess - 1 / Math.sqrt(guess * guess + D1 * D1) - 4 * np.getHsp() / Constants.eV;
 			double fprime = -1 / (guess * guess) + guess / Math.pow(guess * guess + D1 * D1, 1.5);
 			newguess = guess - f / fprime;
 		}
@@ -136,7 +136,7 @@ public abstract class NDDOAtom {
 		while (Math.abs(guess - newguess) > 1E-12) {
 			guess = newguess;
 			double f = 1 / guess + 1 / Math.sqrt(guess * guess + 2 * D2 * D2) -
-					2 / Math.sqrt(guess * guess + D2 * D2) - 4 * (np.getGpp() - np.getGp2()) / 27.2114;
+					2 / Math.sqrt(guess * guess + D2 * D2) - 4 * (np.getGpp() - np.getGp2()) / Constants.eV;
 			double fprime = -1 / (guess * guess) - guess / Math.pow(guess * guess + 2 * D2 * D2, 1.5) +
 					2 * guess / Math.pow(guess * guess + D2 * D2, 1.5);
 			newguess = guess - f / fprime;

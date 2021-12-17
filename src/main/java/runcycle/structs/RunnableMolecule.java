@@ -42,6 +42,9 @@ public class RunnableMolecule extends MoleculeInfo { // mid-level runnable molec
 		 * @return A complete, valid RawMolecule object.
 		 */
 		public RunnableMolecule build(int[] atomTypes, int[][] neededParams) {
+			Arrays.sort(atoms, Comparator.comparingInt(o -> -o.Z));
+			if (expGeom != null) Arrays.sort(expGeom, Comparator.comparingInt(o -> -o.Z));
+
 			MoleculeInfo.MIBuilder miBuilder = new MoleculeInfo.MIBuilder();
 
 			miBuilder.index = index;
@@ -100,9 +103,6 @@ public class RunnableMolecule extends MoleculeInfo { // mid-level runnable molec
 				miBuilder.mnps[i] = np;
 				i++;
 			}
-
-			Arrays.sort(atoms, Comparator.comparingInt(o -> o.Z));
-			if (expGeom != null) Arrays.sort(expGeom, Comparator.comparingInt(o -> o.Z));
 
 			// Computes cached Solution info
 			miBuilder.orbsOfAtom = new int[atoms.length][];
