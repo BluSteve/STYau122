@@ -1,5 +1,6 @@
 package tools;
 
+import com.google.gson.Gson;
 import nddo.Constants;
 import nddo.NDDOAtom;
 import nddo.NDDOParams;
@@ -176,9 +177,11 @@ public class Utils {
 
 		// gets last 41 bits of hash, 36^8 is 41.34
 		// ensures low collision probability up to 10k runs
-		return StringUtils.leftPad(
-				Long.toUnsignedString(v & 0x1FFFFFFFFFFL, 36)
-						.toUpperCase(), 8, "0");
+		return StringUtils.leftPad(Long.toUnsignedString(v & 0x1FFFFFFFFFFL, 36).toUpperCase(), 8, "0");
+	}
+
+	public static String getHash(Object o) {
+		return getHash(new Gson().toJson(o));
 	}
 
 	public static double mag(SimpleMatrix vector) {

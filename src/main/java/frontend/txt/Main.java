@@ -100,7 +100,7 @@ public class Main {
 		pw.close();
 	}
 
-	public static void convertFromTXT() throws IOException {
+	public static InputInfo getInputInfo() throws IOException {
 		List<String> pcsv = Files.readAllLines(Path.of("params.csv"));
 		double[][] params = new double[pcsv.size()][];
 		for (int i = 0; i < pcsv.size(); i++) {
@@ -117,10 +117,11 @@ public class Main {
 			neededParams[i] = Utils.toInts(Arrays.copyOfRange(linea, 1, linea.length));
 		}
 
-		InputInfo info = new InputInfo(atomTypes, neededParams, params);
+		return new InputInfo(atomTypes, neededParams, params);
+	}
 
-
-		// Molecules
+	public static RunnableMolecule[] getMolecules(int[] atomTypes,
+												  int[][] neededParams) throws IOException {
 		List<String> mtxt = Files.readAllLines(Path.of("molecules.txt"));
 
 		ArrayList<RunnableMolecule> moleculesL = new ArrayList<>();
@@ -196,6 +197,12 @@ public class Main {
 			molecules[j] = moleculesL.get(j);
 		}
 
+		return molecules;
+	}
+
+	public static void convertFromTXT() throws IOException {
+		InputInfo info = getInputInfo();
+		RunnableMolecule[] molecules = getMolecules(info.atomTypes, info.neededParams);
 
 		RunIterable iterable = new RunIterable(new RunInput(info, molecules));
 		iterable.setLimit(2);

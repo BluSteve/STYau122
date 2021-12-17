@@ -20,9 +20,9 @@ public class MoleculeInfo { // low level molecule info representation
 	private transient Logger logger;
 
 	public MoleculeInfo(int index, String name, boolean restricted, int charge, int mult, int[] atomicNumbers,
-						int nElectrons, int nOccAlpha, int nOccBeta, int nVirtAlpha, int nVirtBeta, int nOrbitals,
-						int nIntegrals, int nCoulombInts, int nExchangeInts, int[][] orbsOfAtom, int[][] missingOfAtom,
-						int[] atomOfOrb, int[] mats, int[][] mnps) {
+						int nElectrons, int nOccAlpha, int nOccBeta, int nVirtAlpha, int nVirtBeta,
+						int nOrbitals, int nIntegrals, int nCoulombInts, int nExchangeInts,
+						int[][] orbsOfAtom, int[][] missingOfAtom, int[] atomOfOrb, int[] mats, int[][] mnps) {
 		this.index = index;
 		this.name = name;
 		this.restricted = restricted;
