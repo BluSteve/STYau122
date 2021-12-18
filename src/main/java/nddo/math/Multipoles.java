@@ -1161,7 +1161,7 @@ public class Multipoles {
 		return QpizQpizpd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv);
 	}
 
-	public static double pxpypxpyderiv(double p01, double p11, double p21, double D11, double D21, double p02,
+	public static double pxpypxpypd(double p01, double p11, double p21, double D11, double D21, double p02,
 									   double p12, double p22, double D12, double D22, double R, int num,
 									   double D1deriv, double D2deriv, double p1deriv, double p2deriv) {
 		return 0.5 *
