@@ -186,7 +186,19 @@ public class TxtIO {
 			ArrayList<Atom> atomsL = new ArrayList<>();
 
 			while (!mtxt.get(i).equals("---") && !mtxt.get(i).equals("EXPGEOM")) {
-				atomsL.add(toAtom(mtxt.get(i)));
+				Atom e = toAtom(mtxt.get(i));
+				atomsL.add(e);
+
+				boolean present = false;
+				for (int atomType : atomTypes) {
+					if (e.Z == atomType) {
+						present = true;
+						break;
+					}
+				}
+
+				if (!present) throw new IllegalArgumentException("Atoms not in training set found in molecules.txt!");
+
 				i++;
 			}
 			Atom[] atoms = new Atom[atomsL.size()];
