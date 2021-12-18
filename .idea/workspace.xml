@@ -4,11 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Make RunIterator implement Iterable">
-      <change afterPath="$PROJECT_DIR$/src/main/java/frontend/Main.java" afterDir="false" />
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Minor refactoring">
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/txt/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/txt/TxtIO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDOAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDOAtom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDO6GMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDO6GMethods.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/ERI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/ERI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/Multipoles.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/Multipoles.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -156,12 +157,12 @@
     </key>
   </component>
   <component name="RunManager" selected="Application.Main">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="frontend.txt.TxtIO" />
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="frontend.Main" />
       <module name="MNDOParam.main" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="frontend.txt.*" />
+          <option name="PATTERN" value="frontend.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -222,9 +223,9 @@
     </configuration>
     <list>
       <item itemvalue="Application.Testing" />
-      <item itemvalue="Application.Main" />
       <item itemvalue="Gradle.MNDOParam [jmh]" />
       <item itemvalue="Shell Script.Copy" />
+      <item itemvalue="Application.Main" />
     </list>
     <recent_temporary>
       <list>
@@ -307,14 +308,7 @@
       <workItem from="1639671071175" duration="21000" />
       <workItem from="1639721448920" duration="37882000" />
       <workItem from="1639769400322" duration="452000" />
-      <workItem from="1639800791257" duration="2195000" />
-    </task>
-    <task id="LOCAL-00050" summary="Port changes over to gsd and pd">
-      <created>1638175361986</created>
-      <option name="number" value="00050" />
-      <option name="presentableId" value="LOCAL-00050" />
-      <option name="project" value="LOCAL" />
-      <updated>1638175361987</updated>
+      <workItem from="1639800791257" duration="4037000" />
     </task>
     <task id="LOCAL-00051" summary="Port changes over to gsd and pd">
       <created>1638175576036</created>
@@ -652,7 +646,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639769854487</updated>
     </task>
-    <option name="localTasksCounter" value="99" />
+    <task id="LOCAL-00099" summary="Minor refactoring">
+      <created>1639803519415</created>
+      <option name="number" value="00099" />
+      <option name="presentableId" value="LOCAL-00099" />
+      <option name="project" value="LOCAL" />
+      <updated>1639803519415</updated>
+    </task>
+    <option name="localTasksCounter" value="100" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -700,7 +701,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="MoleculeInfo builder" />
     <MESSAGE value="Fix multithreading issue in OrbitalProperties" />
     <MESSAGE value="AtomHandler no longer needs explicit population" />
     <MESSAGE value="Massive runcycle refactor in progress" />
@@ -725,7 +725,8 @@
     <MESSAGE value="More cleanup + fix warnings" />
     <MESSAGE value="ranMolecules in RunIterator" />
     <MESSAGE value="Make RunIterator implement Iterable" />
-    <option name="LAST_COMMIT_MESSAGE" value="Make RunIterator implement Iterable" />
+    <MESSAGE value="Minor refactoring" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor refactoring" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

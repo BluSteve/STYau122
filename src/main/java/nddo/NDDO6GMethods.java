@@ -74,7 +74,7 @@ public class NDDO6GMethods implements NDDOOrbitalMethods<NDDO6G> {
 									coeffD2[l] != 0) {
 								sum2 += coeffA2[i] * coeffB2[j] * coeffC2[k] *
 										coeffD2[l] *
-										ERI.LocalTwoCenterERIderiv(A[i], B[j],
+										ERI.LocalTwoCenterERIgd(A[i], B[j],
 												C[k],
 												D[l], tau) * Constants.eV;
 							}
@@ -161,7 +161,7 @@ public class NDDO6GMethods implements NDDOOrbitalMethods<NDDO6G> {
 									0) {
 								sum += coeffA[i] * coeffB[j] * coeffC[k] *
 										coeffD[l] *
-										ERI.LocalTwoCenterERIderiv(A[i], B[j],
+										ERI.LocalTwoCenterERIgd(A[i], B[j],
 												C[k],
 												D[l], tau) * Constants.eV;
 							}
@@ -332,15 +332,15 @@ public class NDDO6GMethods implements NDDOOrbitalMethods<NDDO6G> {
 								D[l]);
 
 						double erideriv1 = ERI
-								.LocalTwoCenterERIderiv(A[i], B[j], C[k], D[l],
+								.LocalTwoCenterERIgd(A[i], B[j], C[k], D[l],
 										tau1);
 
 						double erideriv2 = ERI
-								.LocalTwoCenterERIderiv(A[i], B[j], C[k], D[l],
+								.LocalTwoCenterERIgd(A[i], B[j], C[k], D[l],
 										tau2);
 
 						double erideriv =
-								ERI.LocalTwoCenterERIderiv2(A[i], B[j], C[k], D[l],
+								ERI.LocalTwoCenterERIg2d(A[i], B[j], C[k], D[l],
 										tau1, tau2);
 
 						sum += coeffAderiv[i] * coeffB[j] * coeffC[k] *
@@ -452,7 +452,7 @@ public class NDDO6GMethods implements NDDOOrbitalMethods<NDDO6G> {
 								0) {
 							sum2 += coeffA[i] * coeffB[j] * coeffC[k] *
 									coeffD[l] *
-									ERI.LocalTwoCenterERIderiv(A[i], B[j], C[k],
+									ERI.LocalTwoCenterERIpd(A[i], B[j], C[k],
 											D[l], D1deriv, D2deriv, p1deriv,
 											p2deriv, num, type) * Constants.eV;
 						}

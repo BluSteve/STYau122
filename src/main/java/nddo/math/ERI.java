@@ -703,13 +703,13 @@ public class ERI {
 		return 0;
 	}
 
-	public static double LocalTwoCenterERIderiv(NDDO6G a, NDDO6G b,
-												NDDO6G c,
-												NDDO6G d, double D1deriv,
-												double D2deriv,
-												double p1deriv,
-												double p2deriv, int num,
-												int type) {
+	public static double LocalTwoCenterERIpd(NDDO6G a, NDDO6G b,
+											 NDDO6G c,
+											 NDDO6G d, double D1deriv,
+											 double D2deriv,
+											 double p1deriv,
+											 double p2deriv, int num,
+											 int type) {
 
 
 		double[] A = a.getCoords();
@@ -732,7 +732,7 @@ public class ERI {
 								switch (d.getL()) {
 
 									case 0://(ss|ss)
-										return ssssderiv(a.p0, a.p1, a.p2,
+										return sssspd(a.p0, a.p1, a.p2,
 												a.D1,
 												a.D2, c.p0, c.p1, c.p2, c.D1,
 												c.D2
@@ -741,7 +741,7 @@ public class ERI {
 
 									case 1:
 										if (d.getk() == 1) {//(ss|spz)
-											return ssspzderiv(a.p0, a.p1, a.p2,
+											return ssspzpd(a.p0, a.p1, a.p2,
 													a.D1, a.D2, c.p0, c.p1,
 													c.p2, c.D1, c.D2
 													, R, num, D1deriv, D2deriv,
@@ -761,7 +761,7 @@ public class ERI {
 									switch (d.getL()) {
 
 										case 0://(ss|pzs)
-											return ssspzderiv(a.p0, a.p1, a.p2,
+											return ssspzpd(a.p0, a.p1, a.p2,
 													a.D1, a.D2, c.p0, c.p1,
 													c.p2, c.D1, c.D2
 													, R, num, D1deriv, D2deriv,
@@ -769,7 +769,7 @@ public class ERI {
 
 										case 1:
 											if (d.getk() == 1) {//(ss|pzpz)
-												return sspzpzderiv(a.p0, a.p1,
+												return sspzpzpd(a.p0, a.p1,
 														a.p2, a.D1, a.D2, c.p0,
 														c.p1, c.p2, c.D1, c.D2,
 														R, num, D1deriv,
@@ -789,7 +789,7 @@ public class ERI {
 											c.geti() == d.geti() &&
 											c.getj() == d.getj()) {//(ss
 										// |ppippi)
-										return ssppippideriv(a.p0, a.p1, a.p2,
+										return ssppippipd(a.p0, a.p1, a.p2,
 												a.D1, a.D2, c.p0, c.p1, c.p2,
 												c.D1, c.D2
 												, R, num, D1deriv, D2deriv,
@@ -815,7 +815,7 @@ public class ERI {
 									switch (d.getL()) {
 
 										case 0://(spz|ss)
-											return spzssderiv(a.p0, a.p1, a.p2,
+											return spzsspd(a.p0, a.p1, a.p2,
 													a.D1, a.D2, c.p0, c.p1,
 													c.p2, c.D1, c.D2
 													, R, num, D1deriv, D2deriv,
@@ -823,7 +823,7 @@ public class ERI {
 
 										case 1:
 											if (d.getk() == 1) {//(spz|spz)
-												return spzspzderiv(a.p0, a.p1,
+												return spzspzpd(a.p0, a.p1,
 														a.p2, a.D1, a.D2, c.p0,
 														c.p1, c.p2, c.D1, c.D2,
 														R, num, D1deriv,
@@ -841,7 +841,7 @@ public class ERI {
 										switch (d.getL()) {
 
 											case 0://(spz|pzs)
-												return spzspzderiv(a.p0, a.p1,
+												return spzspzpd(a.p0, a.p1,
 														a.p2, a.D1, a.D2, c.p0,
 														c.p1, c.p2, c.D1, c.D2,
 														R, num, D1deriv,
@@ -851,7 +851,7 @@ public class ERI {
 											case 1:
 												if (d.getk() == 1) {//(spz
 													// |pzpz)
-													return spzpzpzderiv(a.p0,
+													return spzpzpzpd(a.p0,
 															a.p1, a.p2, a.D1,
 															a.D2, c.p0, c.p1,
 															c.p2, c.D1, c.D2
@@ -868,7 +868,7 @@ public class ERI {
 										if (d.geti() == c.geti() &&
 												d.getj() == c.getj() &&
 												d.getk() == 0) {
-											return spzppippideriv(a.p0, a.p1,
+											return spzppippipd(a.p0, a.p1,
 													a.p2, a.D1, a.D2, c.p0,
 													c.p1, c.p2, c.D1, c.D2
 													, R, num, D1deriv, D2deriv,
@@ -890,7 +890,7 @@ public class ERI {
 									if (d.geti() == b.geti() &&
 											d.getj() == b.getj() &&
 											d.getk() == 0) {//(sppi|sppi)
-										return sppisppideriv(a.p0, a.p1, a.p2,
+										return sppisppipd(a.p0, a.p1, a.p2,
 												a.D1, a.D2, c.p0, c.p1, c.p2,
 												c.D1, c.D2
 												, R, num, D1deriv, D2deriv,
@@ -904,7 +904,7 @@ public class ERI {
 										if (d.geti() == b.geti() &&
 												d.getj() == b.getj() &&
 												d.getk() == 0) {//(sppi|pzppi)
-											return sppippipzderiv(a.p0, a.p1,
+											return sppippipzpd(a.p0, a.p1,
 													a.p2, a.D1, a.D2, c.p0,
 													c.p1, c.p2, c.D1, c.D2
 													, R, num, D1deriv, D2deriv,
@@ -920,7 +920,7 @@ public class ERI {
 												c.getk() == 0) {//(sppi|ppi?)
 											switch (d.getL()) {
 												case 0:
-													return sppisppideriv(a.p0,
+													return sppisppipd(a.p0,
 															a.p1, a.p2, a.D1,
 															a.D2, c.p0, c.p1,
 															c.p2, c.D1, c.D2
@@ -929,7 +929,7 @@ public class ERI {
 															p2deriv);
 												case 1:
 													if (d.getk() == 1) {
-														return sppippipzderiv(
+														return sppippipzpd(
 																a.p0, a.p1,
 																a.p2, a.D1,
 																a.D2, c.p0,
@@ -973,7 +973,7 @@ public class ERI {
 									switch (d.getL()) {
 
 										case 0://(pzs|ss)
-											return spzssderiv(a.p0, a.p1, a.p2,
+											return spzsspd(a.p0, a.p1, a.p2,
 													a.D1, a.D2, c.p0, c.p1,
 													c.p2, c.D1, c.D2
 													, R, num, D1deriv, D2deriv,
@@ -981,7 +981,7 @@ public class ERI {
 
 										case 1:
 											if (d.getk() == 1) {//(pzs|spz)
-												return spzspzderiv(a.p0, a.p1,
+												return spzspzpd(a.p0, a.p1,
 														a.p2, a.D1, a.D2, c.p0,
 														c.p1, c.p2, c.D1, c.D2,
 														R, num, D1deriv,
@@ -999,7 +999,7 @@ public class ERI {
 										switch (d.getL()) {
 
 											case 0://(pzs|pzs)
-												return spzspzderiv(a.p0, a.p1,
+												return spzspzpd(a.p0, a.p1,
 														a.p2, a.D1, a.D2, c.p0,
 														c.p1, c.p2, c.D1, c.D2,
 														R, num, D1deriv,
@@ -1009,7 +1009,7 @@ public class ERI {
 											case 1:
 												if (d.getk() == 1) {//(pzs
 													// |pzpz)
-													return spzpzpzderiv(a.p0,
+													return spzpzpzpd(a.p0,
 															a.p1, a.p2, a.D1,
 															a.D2, c.p0, c.p1,
 															c.p2, c.D1, c.D2
@@ -1026,7 +1026,7 @@ public class ERI {
 										if (d.geti() == c.geti() &&
 												d.getj() == c.getj() &&
 												d.getk() == 0) {
-											return spzppippideriv(a.p0, a.p1,
+											return spzppippipd(a.p0, a.p1,
 													a.p2, a.D1, a.D2, c.p0,
 													c.p1, c.p2, c.D1, c.D2
 													, R, num, D1deriv, D2deriv,
@@ -1051,7 +1051,7 @@ public class ERI {
 										switch (d.getL()) {
 
 											case 0://(pzpz|ss)
-												return pzpzssderiv(a.p0, a.p1,
+												return pzpzsspd(a.p0, a.p1,
 														a.p2, a.D1, a.D2, c.p0,
 														c.p1, c.p2, c.D1, c.D2,
 														R, num, D1deriv,
@@ -1061,7 +1061,7 @@ public class ERI {
 											case 1:
 												if (d.getk() == 1) {//(pzpz
 													// |spz)
-													return pzpzspzderiv(a.p0,
+													return pzpzspzpd(a.p0,
 															a.p1, a.p2, a.D1,
 															a.D2, c.p0, c.p1,
 															c.p2, c.D1, c.D2
@@ -1080,7 +1080,7 @@ public class ERI {
 											switch (d.getL()) {
 
 												case 0://(pzpz|pzs)
-													return pzpzspzderiv(a.p0,
+													return pzpzspzpd(a.p0,
 															a.p1, a.p2, a.D1,
 															a.D2, c.p0, c.p1,
 															c.p2, c.D1, c.D2
@@ -1091,7 +1091,7 @@ public class ERI {
 												case 1:
 													if (d.getk() ==
 															1) {//(pzpz|pzpz)
-														return pzpzpzpzderiv(
+														return pzpzpzpzpd(
 																a.p0, a.p1,
 																a.p2, a.D1,
 																a.D2, c.p0,
@@ -1112,7 +1112,7 @@ public class ERI {
 											if (d.geti() == c.geti() &&
 													d.getj() == c.getj() &&
 													d.getk() == 0) {
-												return pzpzppippideriv(a.p0,
+												return pzpzppippipd(a.p0,
 														a.p1, a.p2, a.D1, a.D2,
 														c.p0, c.p1, c.p2, c.D1,
 														c.D2, R, num, D1deriv,
@@ -1135,7 +1135,7 @@ public class ERI {
 										if (d.geti() == b.geti() &&
 												d.getj() == b.getj() &&
 												d.getk() == 0) {//(pzppi|sppi)
-											return ppipzsppideriv(a.p0, a.p1,
+											return ppipzsppipd(a.p0, a.p1,
 													a.p2, a.D1, a.D2, c.p0,
 													c.p1, c.p2, c.D1, c.D2
 													, R, num, D1deriv, D2deriv,
@@ -1150,7 +1150,7 @@ public class ERI {
 													d.getj() == b.getj() &&
 													d.getk() ==
 															0) {//(pzppi|pzppi)
-												return ppipzppipzderiv(a.p0,
+												return ppipzppipzpd(a.p0,
 														a.p1, a.p2, a.D1, a.D2,
 														c.p0, c.p1, c.p2, c.D1,
 														c.D2, R, num, D1deriv,
@@ -1168,7 +1168,7 @@ public class ERI {
 															0) {//(pzppi|ppi?)
 												switch (d.getL()) {
 													case 0:
-														return ppipzsppideriv(
+														return ppipzsppipd(
 																a.p0, a.p1,
 																a.p2, a.D1,
 																a.D2, c.p0,
@@ -1181,7 +1181,7 @@ public class ERI {
 																p2deriv);
 													case 1:
 														if (d.getk() == 1) {
-															return ppipzppipzderiv(
+															return ppipzppipzpd(
 																	a.p0, a.p1,
 																	a.p2, a.D1,
 																	a.D2, c.p0,
@@ -1221,7 +1221,7 @@ public class ERI {
 									if (d.geti() == a.geti() &&
 											d.getj() == a.getj() &&
 											d.getk() == 0) {//(ppis|sppi)
-										return sppisppideriv(a.p0, a.p1, a.p2,
+										return sppisppipd(a.p0, a.p1, a.p2,
 												a.D1, a.D2, c.p0, c.p1, c.p2,
 												c.D1, c.D2
 												, R, num, D1deriv, D2deriv,
@@ -1235,7 +1235,7 @@ public class ERI {
 										if (d.geti() == a.geti() &&
 												d.getj() == a.getj() &&
 												d.getk() == 0) {//(ppis|pzppi)
-											return sppippipzderiv(a.p0, a.p1,
+											return sppippipzpd(a.p0, a.p1,
 													a.p2, a.D1, a.D2, c.p0,
 													c.p1, c.p2, c.D1, c.D2
 													, R, num, D1deriv, D2deriv,
@@ -1251,7 +1251,7 @@ public class ERI {
 												c.getk() == 0) {//(ppis|ppi?)
 											switch (d.getL()) {
 												case 0:
-													return sppisppideriv(a.p0,
+													return sppisppipd(a.p0,
 															a.p1, a.p2, a.D1,
 															a.D2, c.p0, c.p1,
 															c.p2, c.D1, c.D2
@@ -1260,7 +1260,7 @@ public class ERI {
 															p2deriv);
 												case 1:
 													if (d.getk() == 1) {
-														return sppippipzderiv(
+														return sppippipzpd(
 																a.p0, a.p1,
 																a.p2, a.D1,
 																a.D2, c.p0,
@@ -1294,7 +1294,7 @@ public class ERI {
 										if (d.geti() == a.geti() &&
 												d.getj() == a.getj() &&
 												d.getk() == 0) {//(ppipz|sppi)
-											return ppipzsppideriv(a.p0, a.p1,
+											return ppipzsppipd(a.p0, a.p1,
 													a.p2, a.D1, a.D2, c.p0,
 													c.p1, c.p2, c.D1, c.D2
 													, R, num, D1deriv, D2deriv,
@@ -1309,7 +1309,7 @@ public class ERI {
 													d.getj() == a.getj() &&
 													d.getk() ==
 															0) {//(ppipz|pzppi)
-												return ppipzppipzderiv(a.p0,
+												return ppipzppipzpd(a.p0,
 														a.p1, a.p2, a.D1, a.D2,
 														c.p0, c.p1, c.p2, c.D1,
 														c.D2, R, num, D1deriv,
@@ -1327,7 +1327,7 @@ public class ERI {
 															0) {//(ppipz|ppi?)
 												switch (d.getL()) {
 													case 0:
-														return ppipzsppideriv(
+														return ppipzsppipd(
 																a.p0, a.p1,
 																a.p2, a.D1,
 																a.D2, c.p0,
@@ -1340,7 +1340,7 @@ public class ERI {
 																p2deriv);
 													case 1:
 														if (d.getk() == 1) {
-															return ppipzppipzderiv(
+															return ppipzppipzpd(
 																	a.p0, a.p1,
 																	a.p2, a.D1,
 																	a.D2, c.p0,
@@ -1377,7 +1377,7 @@ public class ERI {
 											case 0://(ppippi|ss)
 												if (a.geti() == b.geti() &&
 														a.getj() == b.getj()) {
-													return ppippissderiv(a.p0,
+													return ppippisspd(a.p0,
 															a.p1, a.p2, a.D1,
 															a.D2, c.p0, c.p1,
 															c.p2, c.D1, c.D2
@@ -1392,7 +1392,7 @@ public class ERI {
 												if (d.getk() == 1 &&
 														a.geti() == b.geti() &&
 														a.getj() == b.getj()) {
-													return ppippispzderiv(a.p0,
+													return ppippispzpd(a.p0,
 															a.p1, a.p2, a.D1,
 															a.D2, c.p0, c.p1,
 															c.p2, c.D1, c.D2
@@ -1412,7 +1412,7 @@ public class ERI {
 													if (a.geti() == b.geti() &&
 															a.getj() ==
 																	b.getj()) {
-														return ppippispzderiv(
+														return ppippispzpd(
 																a.p0, a.p1,
 																a.p2, a.D1,
 																a.D2, c.p0,
@@ -1435,7 +1435,7 @@ public class ERI {
 															a.getj() ==
 																	b.getj()) {//(ppippi
 														// |pzpz)
-														return ppippipzpzderiv(
+														return ppippipzpzpd(
 																a.p0, a.p1,
 																a.p2, a.D1,
 																a.D2, c.p0,
@@ -1463,7 +1463,7 @@ public class ERI {
 														c.getj() == d.getj() &&
 														c.getk() == 0) {
 													if (a.geti() == c.geti()) {
-														return ppippippippideriv(
+														return ppippippippipd(
 																a.p0, a.p1,
 																a.p2, a.D1,
 																a.D2, c.p0,
@@ -1475,7 +1475,7 @@ public class ERI {
 																p2deriv);
 													}
 													else {
-														return pxpxpypyderiv(
+														return pxpxpypypd(
 																a.p0, a.p1,
 																a.p2, a.D1,
 																a.D2, c.p0,
@@ -1498,7 +1498,7 @@ public class ERI {
 														c.geti() != d.geti() &&
 														c.getj() != d.getj() &&
 														c.getk() == 0) {
-													return pxpypxpyderiv(a.p0,
+													return pxpypxpypd(a.p0,
 															a.p1, a.p2, a.D1,
 															a.D2, c.p0, c.p1,
 															c.p2, c.D1, c.D2
@@ -1520,12 +1520,12 @@ public class ERI {
 		return 0;
 	}
 
-	public static double LocalTwoCenterERIderiv2(NDDO6G a, NDDO6G b,
-												 NDDO6G c, NDDO6G d,
-												 int tau1, int tau2) {
+	public static double LocalTwoCenterERIg2d(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d, int tau1, int tau2) {
 
 		double[] A = a.getCoords();
 		double[] C = c.getCoords();
+
+		double R = GTO.R(A, C);
 		//(??|??)
 		switch (a.getL()) {
 
@@ -1542,19 +1542,12 @@ public class ERI {
 								switch (d.getL()) {
 
 									case 0://(ss|ss)
-										return ssssderiv2(a.p0, a.p1, a.p2,
-												a.D1, a.D2, c.p0, c.p1, c.p2,
-												c.D1, c.D2, A, C, tau1, tau2);
+										return ssssg2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
 
 									case 1:
 										if (d.getk() == 1) {//(ss|spz)
-											return ssspzderiv2(a.p0, a.p1,
-													a.p2,
-													a.D1, a.D2, c.p0, c.p1,
-													c.p2, c.D1, c.D2, A, C,
-													tau1, tau2);
-										}
-										else {//(ss|sppi) = 0
+											return ssspzg2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
+										} else {//(ss|sppi) = 0
 											return 0;
 										}
 									default:
@@ -1568,37 +1561,22 @@ public class ERI {
 									switch (d.getL()) {
 
 										case 0://(ss|pzs)
-											return ssspzderiv2(a.p0, a.p1,
-													a.p2,
-													a.D1, a.D2, c.p0, c.p1,
-													c.p2, c.D1, c.D2, A, C,
-													tau1, tau2);
+											return ssspzg2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
 
 										case 1:
 											if (d.getk() == 1) {//(ss|pzpz)
-												return sspzpzderiv2(a.p0, a.p1,
-														a.p2, a.D1, a.D2, c.p0,
-														c.p1, c.p2, c.D1, c.D2,
-														A, C, tau1, tau2);
-											}
-											else {//(ss|pzppi) = 0
+												return sspzpzg2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
+											} else {//(ss|pzppi) = 0
 												return 0;
 											}
 										default:
 											return 0;
 									}
-								}
-								else {//(ss|ppi?)
+								} else {//(ss|ppi?)
 
-									if (d.getL() == 1 && d.getk() == 0 &&
-											c.geti() == d.geti() &&
-											c.getj() == d.getj()) {//(ss
-										// |ppippi)
-										return ssppippideriv2(a.p0, a.p1, a.p2,
-												a.D1, a.D2, c.p0, c.p1, c.p2,
-												c.D1, c.D2, A, C, tau1, tau2);
-									}
-									else {//all others are 0
+									if (d.getL() == 1 && d.getk() == 0 && c.geti() == d.geti() && c.getj() == d.getj()) {//(ss|ppippi)
+										return ssppippig2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
+									} else {//all others are 0
 										return 0;
 									}
 								}
@@ -1618,20 +1596,12 @@ public class ERI {
 									switch (d.getL()) {
 
 										case 0://(spz|ss)
-											return spzssderiv2(a.p0, a.p1,
-													a.p2,
-													a.D1, a.D2, c.p0, c.p1,
-													c.p2, c.D1, c.D2, A, C,
-													tau1, tau2);
+											return spzssg2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
 
 										case 1:
 											if (d.getk() == 1) {//(spz|spz)
-												return spzspzderiv2(a.p0, a.p1,
-														a.p2, a.D1, a.D2, c.p0,
-														c.p1, c.p2, c.D1, c.D2,
-														A, C, tau1, tau2);
-											}
-											else {
+												return spzspzg2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
+											} else {
 												return 0;
 											}
 									}
@@ -1642,36 +1612,19 @@ public class ERI {
 										switch (d.getL()) {
 
 											case 0://(spz|pzs)
-												return spzspzderiv2(a.p0, a.p1,
-														a.p2, a.D1, a.D2, c.p0,
-														c.p1, c.p2, c.D1, c.D2,
-														A, C, tau1, tau2);
+												return spzspzg2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
 
 											case 1:
-												if (d.getk() == 1) {//(spz
-													// |pzpz)
-													return spzpzpzderiv2(a.p0,
-															a.p1, a.p2, a.D1,
-															a.D2, c.p0, c.p1,
-															c.p2, c.D1, c.D2
-															, A, C, tau1,
-															tau2);
-												}
-												else {//(spz|pzppi) = 0
+												if (d.getk() == 1) {//(spz|pzpz)
+													return spzpzpzg2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
+												} else {//(spz|pzppi) = 0
 													return 0;
 												}
 										}
-									}
-									else {//(spz|ppi?)
-										if (d.geti() == c.geti() &&
-												d.getj() == c.getj() &&
-												d.getk() == 0) {
-											return spzppippideriv2(a.p0, a.p1,
-													a.p2, a.D1, a.D2, c.p0,
-													c.p1, c.p2, c.D1, c.D2, A,
-													C, tau1, tau2);
-										}
-										else {
+									} else {//(spz|ppi?)
+										if (d.geti() == c.geti() && d.getj() == c.getj() && d.getk() == 0) {
+											return spzppippig2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
+										} else {
 											return 0;
 										}
 									}
@@ -1679,65 +1632,37 @@ public class ERI {
 									System.err.println("oh no");
 									return 0;
 							}
-						}
-						else {//(sppi|??)
+						} else {//(sppi|??)
 
 							switch (c.getL()) {
 								case 0://(sppi|s?)
-									if (d.geti() == b.geti() &&
-											d.getj() == b.getj() &&
-											d.getk() == 0) {//(sppi|sppi)
-										return sppisppideriv2(a.p0, a.p1, a.p2,
-												a.D1, a.D2, c.p0, c.p1, c.p2,
-												c.D1, c.D2, A, C, tau1, tau2);
-									}
-									else {
+									if (d.geti() == b.geti() && d.getj() == b.getj() && d.getk() == 0) {//(sppi|sppi)
+										return sppisppig2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
+									} else {
 										return 0;
 									}
 								case 1:
 									if (c.getk() == 1) {
-										if (d.geti() == b.geti() &&
-												d.getj() == b.getj() &&
-												d.getk() == 0) {//(sppi|pzppi)
-											return sppippipzderiv2(a.p0, a.p1,
-													a.p2, a.D1, a.D2, c.p0,
-													c.p1, c.p2, c.D1, c.D2, A,
-													C, tau1, tau2);
-										}
-										else {
+										if (d.geti() == b.geti() && d.getj() == b.getj() && d.getk() == 0) {//(sppi|pzppi)
+											return sppippipzg2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
+										} else {
 											return 0;
 										}
-									}
-									else {
-										if (c.geti() == b.geti() &&
-												c.getj() == b.getj() &&
-												c.getk() == 0) {//(sppi|ppi?)
+									} else {
+										if (c.geti() == b.geti() && c.getj() == b.getj() && c.getk() == 0) {//(sppi|ppi?)
 											switch (d.getL()) {
 												case 0:
-													return sppisppideriv2(a.p0,
-															a.p1, a.p2, a.D1,
-															a.D2, c.p0, c.p1,
-															c.p2, c.D1, c.D2
-															, A, C, tau1,
-															tau2);
+													return sppisppig2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
 												case 1:
 													if (d.getk() == 1) {
-														return sppippipzderiv2(
-																a.p0, a.p1,
-																a.p2, a.D1,
-																a.D2, c.p0,
-																c.p1, c.p2,
-																c.D1, c.D2, A,
-																C, tau1, tau2);
-													}
-													else {
+														return sppippipzg2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
+													} else {
 														return 0;
 													}
 												default:
 													return 0;
 											}
-										}
-										else {
+										} else {
 											return 0;
 										}
 									}
@@ -1762,20 +1687,12 @@ public class ERI {
 									switch (d.getL()) {
 
 										case 0://(pzs|ss)
-											return spzssderiv2(a.p0, a.p1,
-													a.p2,
-													a.D1, a.D2, c.p0, c.p1,
-													c.p2, c.D1, c.D2, A, C,
-													tau1, tau2);
+											return spzssg2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
 
 										case 1:
 											if (d.getk() == 1) {//(pzs|spz)
-												return spzspzderiv2(a.p0, a.p1,
-														a.p2, a.D1, a.D2, c.p0,
-														c.p1, c.p2, c.D1, c.D2,
-														A, C, tau1, tau2);
-											}
-											else {
+												return spzspzg2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
+											} else {
 												return 0;
 											}
 									}
@@ -1786,36 +1703,19 @@ public class ERI {
 										switch (d.getL()) {
 
 											case 0://(pzs|pzs)
-												return spzspzderiv2(a.p0, a.p1,
-														a.p2, a.D1, a.D2, c.p0,
-														c.p1, c.p2, c.D1, c.D2,
-														A, C, tau1, tau2);
+												return spzspzg2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
 
 											case 1:
-												if (d.getk() == 1) {//(pzs
-													// |pzpz)
-													return spzpzpzderiv2(a.p0,
-															a.p1, a.p2, a.D1,
-															a.D2, c.p0, c.p1,
-															c.p2, c.D1, c.D2
-															, A, C, tau1,
-															tau2);
-												}
-												else {//(pzs|pzppi) = 0
+												if (d.getk() == 1) {//(pzs|pzpz)
+													return spzpzpzg2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
+												} else {//(pzs|pzppi) = 0
 													return 0;
 												}
 										}
-									}
-									else {//(pzs|ppi?)
-										if (d.geti() == c.geti() &&
-												d.getj() == c.getj() &&
-												d.getk() == 0) {
-											return spzppippideriv2(a.p0, a.p1,
-													a.p2, a.D1, a.D2, c.p0,
-													c.p1, c.p2, c.D1, c.D2, A,
-													C, tau1, tau2);
-										}
-										else {
+									} else {//(pzs|ppi?)
+										if (d.geti() == c.geti() && d.getj() == c.getj() && d.getk() == 0) {
+											return spzppippig2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
+										} else {
 											return 0;
 										}
 									}
@@ -1834,22 +1734,12 @@ public class ERI {
 										switch (d.getL()) {
 
 											case 0://(pzpz|ss)
-												return pzpzssderiv2(a.p0, a.p1,
-														a.p2, a.D1, a.D2, c.p0,
-														c.p1, c.p2, c.D1, c.D2,
-														A, C, tau1, tau2);
+												return pzpzssg2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
 
 											case 1:
-												if (d.getk() == 1) {//(pzpz
-													// |spz)
-													return pzpzspzderiv2(a.p0,
-															a.p1, a.p2, a.D1,
-															a.D2, c.p0, c.p1,
-															c.p2, c.D1, c.D2
-															, A, C, tau1,
-															tau2);
-												}
-												else {
+												if (d.getk() == 1) {//(pzpz|spz)
+													return pzpzspzg2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
+												} else {
 													return 0;
 												}
 										}
@@ -1860,40 +1750,19 @@ public class ERI {
 											switch (d.getL()) {
 
 												case 0://(pzpz|pzs)
-													return pzpzspzderiv2(a.p0,
-															a.p1, a.p2, a.D1,
-															a.D2, c.p0, c.p1,
-															c.p2, c.D1, c.D2
-															, A, C, tau1,
-															tau2);
+													return pzpzspzg2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
 
 												case 1:
-													if (d.getk() ==
-															1) {//(pzpz|pzpz)
-														return pzpzpzpzderiv2(
-																a.p0, a.p1,
-																a.p2, a.D1,
-																a.D2, c.p0,
-																c.p1, c.p2,
-																c.D1, c.D2, A,
-																C, tau1, tau2);
-													}
-													else {//(pzpz|pzppi) = 0
+													if (d.getk() == 1) {//(pzpz|pzpz)
+														return pzpzpzpzg2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
+													} else {//(pzpz|pzppi) = 0
 														return 0;
 													}
 											}
-										}
-										else {//(pzpz|ppi?)
-											if (d.geti() == c.geti() &&
-													d.getj() == c.getj() &&
-													d.getk() == 0) {
-												return pzpzppippideriv2(a.p0,
-														a.p1, a.p2, a.D1, a.D2,
-														c.p0, c.p1, c.p2, c.D1,
-														c.D2, A, C, tau1,
-														tau2);
-											}
-											else {
+										} else {//(pzpz|ppi?)
+											if (d.geti() == c.geti() && d.getj() == c.getj() && d.getk() == 0) {
+												return pzpzppippig2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
+											} else {
 												return 0;
 											}
 										}
@@ -1901,71 +1770,37 @@ public class ERI {
 										System.err.println("oh no");
 										return 0;
 								}
-							}
-							else {//(pzppi|??)
+							} else {//(pzppi|??)
 
 								switch (c.getL()) {
 									case 0://(pzppi|s?)
-										if (d.geti() == b.geti() &&
-												d.getj() == b.getj() &&
-												d.getk() == 0) {//(pzppi|sppi)
-											return ppipzsppideriv2(a.p0, a.p1,
-													a.p2, a.D1, a.D2, c.p0,
-													c.p1, c.p2, c.D1, c.D2, A,
-													C, tau1, tau2);
-										}
-										else {
+										if (d.geti() == b.geti() && d.getj() == b.getj() && d.getk() == 0) {//(pzppi|sppi)
+											return ppipzsppig2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
+										} else {
 											return 0;
 										}
 									case 1:
 										if (c.getk() == 1) {
-											if (d.geti() == b.geti() &&
-													d.getj() == b.getj() &&
-													d.getk() ==
-															0) {//(pzppi|pzppi)
-												return ppipzppipzderiv2(a.p0,
-														a.p1, a.p2, a.D1, a.D2,
-														c.p0, c.p1, c.p2, c.D1,
-														c.D2, A, C, tau1,
-														tau2);
-											}
-											else {
+											if (d.geti() == b.geti() && d.getj() == b.getj() && d.getk() == 0) {//(pzppi|pzppi)
+												return ppipzppipzg2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
+											} else {
 												return 0;
 											}
-										}
-										else {
-											if (c.geti() == b.geti() &&
-													c.getj() == b.getj() &&
-													c.getk() ==
-															0) {//(pzppi|ppi?)
+										} else {
+											if (c.geti() == b.geti() && c.getj() == b.getj() && c.getk() == 0) {//(pzppi|ppi?)
 												switch (d.getL()) {
 													case 0:
-														return ppipzsppideriv2(
-																a.p0, a.p1,
-																a.p2, a.D1,
-																a.D2, c.p0,
-																c.p1, c.p2,
-																c.D1, c.D2, A,
-																C, tau1, tau2);
+														return ppipzsppig2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
 													case 1:
 														if (d.getk() == 1) {
-															return ppipzppipzderiv2(
-																	a.p0, a.p1,
-																	a.p2, a.D1,
-																	a.D2, c.p0,
-																	c.p1, c.p2,
-																	c.D1, c.D2,
-																	A, C, tau1,
-																	tau2);
-														}
-														else {
+															return ppipzppipzg2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
+														} else {
 															return 0;
 														}
 													default:
 														return 0;
 												}
-											}
-											else {
+											} else {
 												return 0;
 											}
 										}
@@ -1975,68 +1810,40 @@ public class ERI {
 								}
 							}
 					}
-				}
-				else {//(ppi?|??);
+				} else {//(ppi?|??);
 
 					switch (b.getL()) {
 						case 0://(ppis|??)
 
 							switch (c.getL()) {
 								case 0://(ppis|s?)
-									if (d.geti() == a.geti() &&
-											d.getj() == a.getj() &&
-											d.getk() == 0) {//(ppis|sppi)
-										return sppisppideriv2(a.p0, a.p1, a.p2,
-												a.D1, a.D2, c.p0, c.p1, c.p2,
-												c.D1, c.D2, A, C, tau1, tau2);
-									}
-									else {
+									if (d.geti() == a.geti() && d.getj() == a.getj() && d.getk() == 0) {//(ppis|sppi)
+										return sppisppig2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
+									} else {
 										return 0;
 									}
 								case 1:
 									if (c.getk() == 1) {
-										if (d.geti() == a.geti() &&
-												d.getj() == a.getj() &&
-												d.getk() == 0) {//(ppis|pzppi)
-											return sppippipzderiv2(a.p0, a.p1,
-													a.p2, a.D1, a.D2, c.p0,
-													c.p1, c.p2, c.D1, c.D2, A,
-													C, tau1, tau2);
-										}
-										else {
+										if (d.geti() == a.geti() && d.getj() == a.getj() && d.getk() == 0) {//(ppis|pzppi)
+											return sppippipzg2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
+										} else {
 											return 0;
 										}
-									}
-									else {
-										if (c.geti() == a.geti() &&
-												c.getj() == a.getj() &&
-												c.getk() == 0) {//(ppis|ppi?)
+									} else {
+										if (c.geti() == a.geti() && c.getj() == a.getj() && c.getk() == 0) {//(ppis|ppi?)
 											switch (d.getL()) {
 												case 0:
-													return sppisppideriv2(a.p0,
-															a.p1, a.p2, a.D1,
-															a.D2, c.p0, c.p1,
-															c.p2, c.D1, c.D2
-															, A, C, tau1,
-															tau2);
+													return sppisppig2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
 												case 1:
 													if (d.getk() == 1) {
-														return sppippipzderiv2(
-																a.p0, a.p1,
-																a.p2, a.D1,
-																a.D2, c.p0,
-																c.p1, c.p2,
-																c.D1, c.D2, A,
-																C, tau1, tau2);
-													}
-													else {
+														return sppippipzg2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
+													} else {
 														return 0;
 													}
 												default:
 													return 0;
 											}
-										}
-										else {
+										} else {
 											return 0;
 										}
 									}
@@ -2048,66 +1855,33 @@ public class ERI {
 							if (b.getk() == 1) {//(ppipz|??)
 								switch (c.getL()) {
 									case 0://(ppipz|s?)
-										if (d.geti() == a.geti() &&
-												d.getj() == a.getj() &&
-												d.getk() == 0) {//(ppipz|sppi)
-											return ppipzsppideriv2(a.p0, a.p1,
-													a.p2, a.D1, a.D2, c.p0,
-													c.p1, c.p2, c.D1, c.D2, A,
-													C, tau1, tau2);
-										}
-										else {
+										if (d.geti() == a.geti() && d.getj() == a.getj() && d.getk() == 0) {//(ppipz|sppi)
+											return ppipzsppig2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
+										} else {
 											return 0;
 										}
 									case 1:
 										if (c.getk() == 1) {
-											if (d.geti() == a.geti() &&
-													d.getj() == a.getj() &&
-													d.getk() ==
-															0) {//(ppipz|pzppi)
-												return ppipzppipzderiv2(a.p0,
-														a.p1, a.p2, a.D1, a.D2,
-														c.p0, c.p1, c.p2, c.D1,
-														c.D2, A, C, tau1,
-														tau2);
-											}
-											else {
+											if (d.geti() == a.geti() && d.getj() == a.getj() && d.getk() == 0) {//(ppipz|pzppi)
+												return ppipzppipzg2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
+											} else {
 												return 0;
 											}
-										}
-										else {
-											if (c.geti() == a.geti() &&
-													c.getj() == a.getj() &&
-													c.getk() ==
-															0) {//(ppipz|ppi?)
+										} else {
+											if (c.geti() == a.geti() && c.getj() == a.getj() && c.getk() == 0) {//(ppipz|ppi?)
 												switch (d.getL()) {
 													case 0:
-														return ppipzsppideriv2(
-																a.p0, a.p1,
-																a.p2, a.D1,
-																a.D2, c.p0,
-																c.p1, c.p2,
-																c.D1, c.D2, A,
-																C, tau1, tau2);
+														return ppipzsppig2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
 													case 1:
 														if (d.getk() == 1) {
-															return ppipzppipzderiv2(
-																	a.p0, a.p1,
-																	a.p2, a.D1,
-																	a.D2, c.p0,
-																	c.p1, c.p2,
-																	c.D1, c.D2,
-																	A, C, tau1,
-																	tau2);
-														}
-														else {
+															return ppipzppipzg2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
+														} else {
 															return 0;
 														}
 													default:
 														return 0;
 												}
-											}
-											else {
+											} else {
 												return 0;
 											}
 										}
@@ -2116,37 +1890,21 @@ public class ERI {
 										return 0;
 								}
 
-							}
-							else {
+							} else {
 
 								switch (c.getL()) {
 									case 0://(ppippi|s?)
 										switch (d.getL()) {
 											case 0://(ppippi|ss)
-												if (a.geti() == b.geti() &&
-														a.getj() == b.getj()) {
-													return ppippissderiv2(a.p0,
-															a.p1, a.p2, a.D1,
-															a.D2, c.p0, c.p1,
-															c.p2, c.D1, c.D2
-															, A, C, tau1,
-															tau2);
-												}
-												else {
+												if (a.geti() == b.geti() && a.getj() == b.getj()) {
+													return ppippissg2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
+												} else {
 													return 0;
 												}
 											case 1:
-												if (d.getk() == 1 &&
-														a.geti() == b.geti() &&
-														a.getj() == b.getj()) {
-													return ppippispzderiv2(a.p0,
-															a.p1, a.p2, a.D1,
-															a.D2, c.p0, c.p1,
-															c.p2, c.D1, c.D2
-															, A, C, tau1,
-															tau2);
-												}
-												else {
+												if (d.getk() == 1 && a.geti() == b.geti() && a.getj() == b.getj()) {
+													return ppippispzg2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
+												} else {
 													return 0;
 												}
 										}
@@ -2155,85 +1913,35 @@ public class ERI {
 										if (c.getk() == 1) {
 											switch (d.getL()) {
 												case 0://(ppippi|pzs)
-													if (a.geti() == b.geti() &&
-															a.getj() ==
-																	b.getj()) {
-														return ppippispzderiv2(
-																a.p0, a.p1,
-																a.p2, a.D1,
-																a.D2, c.p0,
-																c.p1, c.p2,
-																c.D1, c.D2, A,
-																C, tau1, tau2);
-													}
-													else {
+													if (a.geti() == b.geti() && a.getj() == b.getj()) {
+														return ppippispzg2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
+													} else {
 														return 0;
 													}
 
 												case 1:
-													if (d.getk() == 1 &&
-															a.geti() ==
-																	b.geti() &&
-															a.getj() ==
-																	b.getj()) {//(ppippi|pzpz)
-														return ppippipzpzderiv2(
-																a.p0, a.p1,
-																a.p2, a.D1,
-																a.D2, c.p0,
-																c.p1, c.p2,
-																c.D1, c.D2, A,
-																C, tau1, tau2);
-													}
-													else {
+													if (d.getk() == 1 && a.geti() == b.geti() && a.getj() == b.getj()) {//(ppippi|pzpz)
+														return ppippipzpzg2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
+													} else {
 														return 0;
 													}
 											}
-										}
-										else {
-											if (a.geti() == b.geti() &&
-													a.getj() ==
-															b.getj()) {//(pxpx
-												// |??) or (pypy|??)
+										} else {
+											if (a.geti() == b.geti() && a.getj() == b.getj()) {//(pxpx|??) or (pypy|??)
 
-												if (c.getL() == d.getL() &&
-														c.geti() == d.geti() &&
-														c.getj() == d.getj() &&
-														c.getk() == 0) {
+												if (c.getL() == d.getL() && c.geti() == d.geti() && c.getj() == d.getj() && c.getk() == 0) {
 													if (a.geti() == c.geti()) {
-														return ppippippippideriv2(
-																a.p0, a.p1,
-																a.p2, a.D1,
-																a.D2, c.p0,
-																c.p1, c.p2,
-																c.D1, c.D2, A,
-																C, tau1, tau2);
+														return ppippippippig2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
+													} else {
+														return pxpxpypyg2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
 													}
-													else {
-														return pxpxpypyderiv2(
-																a.p0, a.p1,
-																a.p2, a.D1,
-																a.D2, c.p0,
-																c.p1, c.p2,
-																c.D1, c.D2, A,
-																C, tau1, tau2);
-													}
-												}
-												else {
+												} else {
 													return 0;
 												}
 
-											}
-											else {//(pxpy|??) or (pypx|??)
-												if (c.getL() == d.getL() &&
-														c.geti() != d.geti() &&
-														c.getj() != d.getj() &&
-														c.getk() == 0) {
-													return pxpypxpyderiv2(a.p0,
-															a.p1, a.p2, a.D1,
-															a.D2, c.p0, c.p1,
-															c.p2, c.D1, c.D2
-															, A, C, tau1,
-															tau2);
+											} else {//(pxpy|??) or (pypx|??)
+												if (c.getL() == d.getL() && c.geti() != d.geti() && c.getj() != d.getj() && c.getk() == 0) {
+													return pxpypxpyg2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau1, tau2);
 												}
 											}
 										}
@@ -2249,12 +1957,13 @@ public class ERI {
 		return 0;
 	}
 
-	public static double LocalTwoCenterERIderiv(NDDO6G a, NDDO6G b,
-												NDDO6G c, NDDO6G d,
-												int tau) {
+	public static double LocalTwoCenterERIgd(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d, int tau) {
 
 		double[] A = a.getCoords();
 		double[] C = c.getCoords();
+
+		double R = GTO.R(A, C);
+
 		//(??|??)
 		switch (a.getL()) {
 
@@ -2271,20 +1980,12 @@ public class ERI {
 								switch (d.getL()) {
 
 									case 0://(ss|ss)
-										return ssssderiv(a.p0, a.p1, a.p2,
-												a.D1,
-												a.D2, c.p0, c.p1, c.p2, c.D1,
-												c.D2
-												, A, C, tau);
+										return ssssgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
 
 									case 1:
 										if (d.getk() == 1) {//(ss|spz)
-											return ssspzderiv(a.p0, a.p1, a.p2,
-													a.D1, a.D2, c.p0, c.p1,
-													c.p2, c.D1, c.D2
-													, A, C, tau);
-										}
-										else {//(ss|sppi) = 0
+											return ssspzgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
+										} else {//(ss|sppi) = 0
 											return 0;
 										}
 									default:
@@ -2298,37 +1999,22 @@ public class ERI {
 									switch (d.getL()) {
 
 										case 0://(ss|pzs)
-											return ssspzderiv(a.p0, a.p1, a.p2,
-													a.D1, a.D2, c.p0, c.p1,
-													c.p2, c.D1, c.D2
-													, A, C, tau);
+											return ssspzgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
 
 										case 1:
 											if (d.getk() == 1) {//(ss|pzpz)
-												return sspzpzderiv(a.p0, a.p1,
-														a.p2, a.D1, a.D2, c.p0,
-														c.p1, c.p2, c.D1, c.D2,
-														A, C, tau);
-											}
-											else {//(ss|pzppi) = 0
+												return sspzpzgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
+											} else {//(ss|pzppi) = 0
 												return 0;
 											}
 										default:
 											return 0;
 									}
-								}
-								else {//(ss|ppi?)
+								} else {//(ss|ppi?)
 
-									if (d.getL() == 1 && d.getk() == 0 &&
-											c.geti() == d.geti() &&
-											c.getj() == d.getj()) {//(ss
-										// |ppippi)
-										return ssppippideriv(a.p0, a.p1, a.p2,
-												a.D1, a.D2, c.p0, c.p1, c.p2,
-												c.D1, c.D2
-												, A, C, tau);
-									}
-									else {//all others are 0
+									if (d.getL() == 1 && d.getk() == 0 && c.geti() == d.geti() && c.getj() == d.getj()) {//(ss|ppippi)
+										return ssppippigd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
+									} else {//all others are 0
 										return 0;
 									}
 								}
@@ -2348,19 +2034,12 @@ public class ERI {
 									switch (d.getL()) {
 
 										case 0://(spz|ss)
-											return spzssderiv(a.p0, a.p1, a.p2,
-													a.D1, a.D2, c.p0, c.p1,
-													c.p2, c.D1, c.D2
-													, A, C, tau);
+											return spzssgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
 
 										case 1:
 											if (d.getk() == 1) {//(spz|spz)
-												return spzspzderiv(a.p0, a.p1,
-														a.p2, a.D1, a.D2, c.p0,
-														c.p1, c.p2, c.D1, c.D2,
-														A, C, tau);
-											}
-											else {
+												return spzspzgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
+											} else {
 												return 0;
 											}
 									}
@@ -2371,35 +2050,19 @@ public class ERI {
 										switch (d.getL()) {
 
 											case 0://(spz|pzs)
-												return spzspzderiv(a.p0, a.p1,
-														a.p2, a.D1, a.D2, c.p0,
-														c.p1, c.p2, c.D1, c.D2,
-														A, C, tau);
+												return spzspzgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
 
 											case 1:
-												if (d.getk() == 1) {//(spz
-													// |pzpz)
-													return spzpzpzderiv(a.p0,
-															a.p1, a.p2, a.D1,
-															a.D2, c.p0, c.p1,
-															c.p2, c.D1, c.D2
-															, A, C, tau);
-												}
-												else {//(spz|pzppi) = 0
+												if (d.getk() == 1) {//(spz|pzpz)
+													return spzpzpzgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
+												} else {//(spz|pzppi) = 0
 													return 0;
 												}
 										}
-									}
-									else {//(spz|ppi?)
-										if (d.geti() == c.geti() &&
-												d.getj() == c.getj() &&
-												d.getk() == 0) {
-											return spzppippideriv(a.p0, a.p1,
-													a.p2, a.D1, a.D2, c.p0,
-													c.p1, c.p2, c.D1, c.D2
-													, A, C, tau);
-										}
-										else {
+									} else {//(spz|ppi?)
+										if (d.geti() == c.geti() && d.getj() == c.getj() && d.getk() == 0) {
+											return spzppippigd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
+										} else {
 											return 0;
 										}
 									}
@@ -2407,65 +2070,37 @@ public class ERI {
 									System.err.println("oh no");
 									return 0;
 							}
-						}
-						else {//(sppi|??)
+						} else {//(sppi|??)
 
 							switch (c.getL()) {
 								case 0://(sppi|s?)
-									if (d.geti() == b.geti() &&
-											d.getj() == b.getj() &&
-											d.getk() == 0) {//(sppi|sppi)
-										return sppisppideriv(a.p0, a.p1, a.p2,
-												a.D1, a.D2, c.p0, c.p1, c.p2,
-												c.D1, c.D2
-												, A, C, tau);
-									}
-									else {
+									if (d.geti() == b.geti() && d.getj() == b.getj() && d.getk() == 0) {//(sppi|sppi)
+										return sppisppigd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
+									} else {
 										return 0;
 									}
 								case 1:
 									if (c.getk() == 1) {
-										if (d.geti() == b.geti() &&
-												d.getj() == b.getj() &&
-												d.getk() == 0) {//(sppi|pzppi)
-											return sppippipzderiv(a.p0, a.p1,
-													a.p2, a.D1, a.D2, c.p0,
-													c.p1, c.p2, c.D1, c.D2
-													, A, C, tau);
-										}
-										else {
+										if (d.geti() == b.geti() && d.getj() == b.getj() && d.getk() == 0) {//(sppi|pzppi)
+											return sppippipzgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
+										} else {
 											return 0;
 										}
-									}
-									else {
-										if (c.geti() == b.geti() &&
-												c.getj() == b.getj() &&
-												c.getk() == 0) {//(sppi|ppi?)
+									} else {
+										if (c.geti() == b.geti() && c.getj() == b.getj() && c.getk() == 0) {//(sppi|ppi?)
 											switch (d.getL()) {
 												case 0:
-													return sppisppideriv(a.p0,
-															a.p1, a.p2, a.D1,
-															a.D2, c.p0, c.p1,
-															c.p2, c.D1, c.D2
-															, A, C, tau);
+													return sppisppigd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
 												case 1:
 													if (d.getk() == 1) {
-														return sppippipzderiv(
-																a.p0, a.p1,
-																a.p2, a.D1,
-																a.D2, c.p0,
-																c.p1, c.p2,
-																c.D1, c.D2
-																, A, C, tau);
-													}
-													else {
+														return sppippipzgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
+													} else {
 														return 0;
 													}
 												default:
 													return 0;
 											}
-										}
-										else {
+										} else {
 											return 0;
 										}
 									}
@@ -2490,19 +2125,12 @@ public class ERI {
 									switch (d.getL()) {
 
 										case 0://(pzs|ss)
-											return spzssderiv(a.p0, a.p1, a.p2,
-													a.D1, a.D2, c.p0, c.p1,
-													c.p2, c.D1, c.D2
-													, A, C, tau);
+											return spzssgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
 
 										case 1:
 											if (d.getk() == 1) {//(pzs|spz)
-												return spzspzderiv(a.p0, a.p1,
-														a.p2, a.D1, a.D2, c.p0,
-														c.p1, c.p2, c.D1, c.D2,
-														A, C, tau);
-											}
-											else {
+												return spzspzgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
+											} else {
 												return 0;
 											}
 									}
@@ -2513,35 +2141,19 @@ public class ERI {
 										switch (d.getL()) {
 
 											case 0://(pzs|pzs)
-												return spzspzderiv(a.p0, a.p1,
-														a.p2, a.D1, a.D2, c.p0,
-														c.p1, c.p2, c.D1, c.D2,
-														A, C, tau);
+												return spzspzgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
 
 											case 1:
-												if (d.getk() == 1) {//(pzs
-													// |pzpz)
-													return spzpzpzderiv(a.p0,
-															a.p1, a.p2, a.D1,
-															a.D2, c.p0, c.p1,
-															c.p2, c.D1, c.D2
-															, A, C, tau);
-												}
-												else {//(pzs|pzppi) = 0
+												if (d.getk() == 1) {//(pzs|pzpz)
+													return spzpzpzgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
+												} else {//(pzs|pzppi) = 0
 													return 0;
 												}
 										}
-									}
-									else {//(pzs|ppi?)
-										if (d.geti() == c.geti() &&
-												d.getj() == c.getj() &&
-												d.getk() == 0) {
-											return spzppippideriv(a.p0, a.p1,
-													a.p2, a.D1, a.D2, c.p0,
-													c.p1, c.p2, c.D1, c.D2
-													, A, C, tau);
-										}
-										else {
+									} else {//(pzs|ppi?)
+										if (d.geti() == c.geti() && d.getj() == c.getj() && d.getk() == 0) {
+											return spzppippigd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
+										} else {
 											return 0;
 										}
 									}
@@ -2560,21 +2172,12 @@ public class ERI {
 										switch (d.getL()) {
 
 											case 0://(pzpz|ss)
-												return pzpzssderiv(a.p0, a.p1,
-														a.p2, a.D1, a.D2, c.p0,
-														c.p1, c.p2, c.D1, c.D2,
-														A, C, tau);
+												return pzpzssgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
 
 											case 1:
-												if (d.getk() == 1) {//(pzpz
-													// |spz)
-													return pzpzspzderiv(a.p0,
-															a.p1, a.p2, a.D1,
-															a.D2, c.p0, c.p1,
-															c.p2, c.D1, c.D2
-															, A, C, tau);
-												}
-												else {
+												if (d.getk() == 1) {//(pzpz|spz)
+													return pzpzspzgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
+												} else {
 													return 0;
 												}
 										}
@@ -2585,38 +2188,19 @@ public class ERI {
 											switch (d.getL()) {
 
 												case 0://(pzpz|pzs)
-													return pzpzspzderiv(a.p0,
-															a.p1, a.p2, a.D1,
-															a.D2, c.p0, c.p1,
-															c.p2, c.D1, c.D2
-															, A, C, tau);
+													return pzpzspzgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
 
 												case 1:
-													if (d.getk() ==
-															1) {//(pzpz|pzpz)
-														return pzpzpzpzderiv(
-																a.p0, a.p1,
-																a.p2, a.D1,
-																a.D2, c.p0,
-																c.p1, c.p2,
-																c.D1, c.D2
-																, A, C, tau);
-													}
-													else {//(pzpz|pzppi) = 0
+													if (d.getk() == 1) {//(pzpz|pzpz)
+														return pzpzpzpzgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
+													} else {//(pzpz|pzppi) = 0
 														return 0;
 													}
 											}
-										}
-										else {//(pzpz|ppi?)
-											if (d.geti() == c.geti() &&
-													d.getj() == c.getj() &&
-													d.getk() == 0) {
-												return pzpzppippideriv(a.p0,
-														a.p1, a.p2, a.D1, a.D2,
-														c.p0, c.p1, c.p2, c.D1,
-														c.D2, A, C, tau);
-											}
-											else {
+										} else {//(pzpz|ppi?)
+											if (d.geti() == c.geti() && d.getj() == c.getj() && d.getk() == 0) {
+												return pzpzppippigd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
+											} else {
 												return 0;
 											}
 										}
@@ -2624,69 +2208,37 @@ public class ERI {
 										System.err.println("oh no");
 										return 0;
 								}
-							}
-							else {//(pzppi|??)
+							} else {//(pzppi|??)
 
 								switch (c.getL()) {
 									case 0://(pzppi|s?)
-										if (d.geti() == b.geti() &&
-												d.getj() == b.getj() &&
-												d.getk() == 0) {//(pzppi|sppi)
-											return ppipzsppideriv(a.p0, a.p1,
-													a.p2, a.D1, a.D2, c.p0,
-													c.p1, c.p2, c.D1, c.D2
-													, A, C, tau);
-										}
-										else {
+										if (d.geti() == b.geti() && d.getj() == b.getj() && d.getk() == 0) {//(pzppi|sppi)
+											return ppipzsppigd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
+										} else {
 											return 0;
 										}
 									case 1:
 										if (c.getk() == 1) {
-											if (d.geti() == b.geti() &&
-													d.getj() == b.getj() &&
-													d.getk() ==
-															0) {//(pzppi|pzppi)
-												return ppipzppipzderiv(a.p0,
-														a.p1, a.p2, a.D1, a.D2,
-														c.p0, c.p1, c.p2, c.D1,
-														c.D2, A, C, tau);
-											}
-											else {
+											if (d.geti() == b.geti() && d.getj() == b.getj() && d.getk() == 0) {//(pzppi|pzppi)
+												return ppipzppipzgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
+											} else {
 												return 0;
 											}
-										}
-										else {
-											if (c.geti() == b.geti() &&
-													c.getj() == b.getj() &&
-													c.getk() ==
-															0) {//(pzppi|ppi?)
+										} else {
+											if (c.geti() == b.geti() && c.getj() == b.getj() && c.getk() == 0) {//(pzppi|ppi?)
 												switch (d.getL()) {
 													case 0:
-														return ppipzsppideriv(
-																a.p0, a.p1,
-																a.p2, a.D1,
-																a.D2, c.p0,
-																c.p1, c.p2,
-																c.D1, c.D2
-																, A, C, tau);
+														return ppipzsppigd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
 													case 1:
 														if (d.getk() == 1) {
-															return ppipzppipzderiv(
-																	a.p0, a.p1,
-																	a.p2, a.D1,
-																	a.D2, c.p0,
-																	c.p1, c.p2,
-																	c.D1, c.D2,
-																	A, C, tau);
-														}
-														else {
+															return ppipzppipzgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
+														} else {
 															return 0;
 														}
 													default:
 														return 0;
 												}
-											}
-											else {
+											} else {
 												return 0;
 											}
 										}
@@ -2696,68 +2248,40 @@ public class ERI {
 								}
 							}
 					}
-				}
-				else {//(ppi?|??);
+				} else {//(ppi?|??);
 
 					switch (b.getL()) {
 						case 0://(ppis|??)
 
 							switch (c.getL()) {
 								case 0://(ppis|s?)
-									if (d.geti() == a.geti() &&
-											d.getj() == a.getj() &&
-											d.getk() == 0) {//(ppis|sppi)
-										return sppisppideriv(a.p0, a.p1, a.p2,
-												a.D1, a.D2, c.p0, c.p1, c.p2,
-												c.D1, c.D2
-												, A, C, tau);
-									}
-									else {
+									if (d.geti() == a.geti() && d.getj() == a.getj() && d.getk() == 0) {//(ppis|sppi)
+										return sppisppigd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
+									} else {
 										return 0;
 									}
 								case 1:
 									if (c.getk() == 1) {
-										if (d.geti() == a.geti() &&
-												d.getj() == a.getj() &&
-												d.getk() == 0) {//(ppis|pzppi)
-											return sppippipzderiv(a.p0, a.p1,
-													a.p2, a.D1, a.D2, c.p0,
-													c.p1, c.p2, c.D1, c.D2
-													, A, C, tau);
-										}
-										else {
+										if (d.geti() == a.geti() && d.getj() == a.getj() && d.getk() == 0) {//(ppis|pzppi)
+											return sppippipzgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
+										} else {
 											return 0;
 										}
-									}
-									else {
-										if (c.geti() == a.geti() &&
-												c.getj() == a.getj() &&
-												c.getk() == 0) {//(ppis|ppi?)
+									} else {
+										if (c.geti() == a.geti() && c.getj() == a.getj() && c.getk() == 0) {//(ppis|ppi?)
 											switch (d.getL()) {
 												case 0:
-													return sppisppideriv(a.p0,
-															a.p1, a.p2, a.D1,
-															a.D2, c.p0, c.p1,
-															c.p2, c.D1, c.D2
-															, A, C, tau);
+													return sppisppigd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
 												case 1:
 													if (d.getk() == 1) {
-														return sppippipzderiv(
-																a.p0, a.p1,
-																a.p2, a.D1,
-																a.D2, c.p0,
-																c.p1, c.p2,
-																c.D1, c.D2
-																, A, C, tau);
-													}
-													else {
+														return sppippipzgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
+													} else {
 														return 0;
 													}
 												default:
 													return 0;
 											}
-										}
-										else {
+										} else {
 											return 0;
 										}
 									}
@@ -2769,64 +2293,33 @@ public class ERI {
 							if (b.getk() == 1) {//(ppipz|??)
 								switch (c.getL()) {
 									case 0://(ppipz|s?)
-										if (d.geti() == a.geti() &&
-												d.getj() == a.getj() &&
-												d.getk() == 0) {//(ppipz|sppi)
-											return ppipzsppideriv(a.p0, a.p1,
-													a.p2, a.D1, a.D2, c.p0,
-													c.p1, c.p2, c.D1, c.D2
-													, A, C, tau);
-										}
-										else {
+										if (d.geti() == a.geti() && d.getj() == a.getj() && d.getk() == 0) {//(ppipz|sppi)
+											return ppipzsppigd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
+										} else {
 											return 0;
 										}
 									case 1:
 										if (c.getk() == 1) {
-											if (d.geti() == a.geti() &&
-													d.getj() == a.getj() &&
-													d.getk() ==
-															0) {//(ppipz|pzppi)
-												return ppipzppipzderiv(a.p0,
-														a.p1, a.p2, a.D1, a.D2,
-														c.p0, c.p1, c.p2, c.D1,
-														c.D2, A, C, tau);
-											}
-											else {
+											if (d.geti() == a.geti() && d.getj() == a.getj() && d.getk() == 0) {//(ppipz|pzppi)
+												return ppipzppipzgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
+											} else {
 												return 0;
 											}
-										}
-										else {
-											if (c.geti() == a.geti() &&
-													c.getj() == a.getj() &&
-													c.getk() ==
-															0) {//(ppipz|ppi?)
+										} else {
+											if (c.geti() == a.geti() && c.getj() == a.getj() && c.getk() == 0) {//(ppipz|ppi?)
 												switch (d.getL()) {
 													case 0:
-														return ppipzsppideriv(
-																a.p0, a.p1,
-																a.p2, a.D1,
-																a.D2, c.p0,
-																c.p1, c.p2,
-																c.D1, c.D2
-																, A, C, tau);
+														return ppipzsppigd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
 													case 1:
 														if (d.getk() == 1) {
-															return ppipzppipzderiv(
-																	a.p0, a.p1,
-																	a.p2, a.D1,
-																	a.D2, c.p0,
-																	c.p1, c.p2,
-																	c.D1, c.D2,
-																	A, C, tau);
-														}
-														else {
+															return ppipzppipzgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
+														} else {
 															return 0;
 														}
 													default:
 														return 0;
 												}
-											}
-											else {
+											} else {
 												return 0;
 											}
 										}
@@ -2835,35 +2328,21 @@ public class ERI {
 										return 0;
 								}
 
-							}
-							else {
+							} else {
 
 								switch (c.getL()) {
 									case 0://(ppippi|s?)
 										switch (d.getL()) {
 											case 0://(ppippi|ss)
-												if (a.geti() == b.geti() &&
-														a.getj() == b.getj()) {
-													return ppippissderiv(a.p0,
-															a.p1, a.p2, a.D1,
-															a.D2, c.p0, c.p1,
-															c.p2, c.D1, c.D2
-															, A, C, tau);
-												}
-												else {
+												if (a.geti() == b.geti() && a.getj() == b.getj()) {
+													return ppippissgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
+												} else {
 													return 0;
 												}
 											case 1:
-												if (d.getk() == 1 &&
-														a.geti() == b.geti() &&
-														a.getj() == b.getj()) {
-													return ppippispzderiv(a.p0,
-															a.p1, a.p2, a.D1,
-															a.D2, c.p0, c.p1,
-															c.p2, c.D1, c.D2
-															, A, C, tau);
-												}
-												else {
+												if (d.getk() == 1 && a.geti() == b.geti() && a.getj() == b.getj()) {
+													return ppippispzgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
+												} else {
 													return 0;
 												}
 										}
@@ -2872,85 +2351,35 @@ public class ERI {
 										if (c.getk() == 1) {
 											switch (d.getL()) {
 												case 0://(ppippi|pzs)
-													if (a.geti() == b.geti() &&
-															a.getj() ==
-																	b.getj()) {
-														return ppippispzderiv(
-																a.p0, a.p1,
-																a.p2, a.D1,
-																a.D2, c.p0,
-																c.p1, c.p2,
-																c.D1, c.D2
-																, A, C, tau);
-													}
-													else {
+													if (a.geti() == b.geti() && a.getj() == b.getj()) {
+														return ppippispzgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
+													} else {
 														return 0;
 													}
 
 												case 1:
-													if (d.getk() == 1 &&
-															a.geti() ==
-																	b.geti() &&
-															a.getj() ==
-																	b.getj()) {//(ppippi
-														// |pzpz)
-														return ppippipzpzderiv(
-																a.p0, a.p1,
-																a.p2, a.D1,
-																a.D2, c.p0,
-																c.p1, c.p2,
-																c.D1, c.D2
-																, A, C, tau);
-													}
-													else {
+													if (d.getk() == 1 && a.geti() == b.geti() && a.getj() == b.getj()) {//(ppippi|pzpz)
+														return ppippipzpzgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
+													} else {
 														return 0;
 													}
 											}
-										}
-										else {
-											if (a.geti() == b.geti() &&
-													a.getj() ==
-															b.getj()) {//(pxpx
-												// |??) or (pypy|??)
+										} else {
+											if (a.geti() == b.geti() && a.getj() == b.getj()) {//(pxpx|??) or (pypy|??)
 
-												if (c.getL() == d.getL() &&
-														c.geti() == d.geti() &&
-														c.getj() == d.getj() &&
-														c.getk() == 0) {
+												if (c.getL() == d.getL() && c.geti() == d.geti() && c.getj() == d.getj() && c.getk() == 0) {
 													if (a.geti() == c.geti()) {
-														return ppippippippideriv(
-																a.p0, a.p1,
-																a.p2, a.D1,
-																a.D2, c.p0,
-																c.p1, c.p2,
-																c.D1, c.D2, A,
-																C, tau);
+														return ppippippippigd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
+													} else {
+														return pxpxpypygd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
 													}
-													else {
-														return pxpxpypyderiv(
-																a.p0, a.p1,
-																a.p2, a.D1,
-																a.D2, c.p0,
-																c.p1, c.p2,
-																c.D1, c.D2
-																, A, C, tau);
-													}
-												}
-												else {
+												} else {
 													return 0;
 												}
 
-											}
-											else {//(pxpy|??) or (pypx|??)
-												if (c.getL() == d.getL() &&
-														c.geti() != d.geti() &&
-														c.getj() != d.getj() &&
-														c.getk() == 0) {
-													return pxpypxpyderiv(a.p0,
-															a.p1, a.p2, a.D1,
-															a.D2, c.p0, c.p1,
-															c.p2, c.D1, c.D2
-															, A, C, tau);
+											} else {//(pxpy|??) or (pypx|??)
+												if (c.getL() == d.getL() && c.geti() != d.geti() && c.getj() != d.getj() && c.getk() == 0) {
+													return pxpypxpygd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, A, C, tau);
 												}
 											}
 										}
