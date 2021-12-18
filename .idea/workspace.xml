@@ -4,15 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Proguard refactor">
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Scripts">
+      <change afterPath="$PROJECT_DIR$/param-numbers.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/JsonIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/JsonIO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/Serializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/Serializer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunInput.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunOutput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunOutput.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/copy.bat" beforeDir="false" afterPath="$PROJECT_DIR$/copy.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -199,7 +195,7 @@
       <recent name="tools" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.MNDOParam [myProguardTask]">
+  <component name="RunManager" selected="Shell Script.Copy">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="frontend.Main" />
       <module name="MNDOParam.main" />
@@ -290,15 +286,15 @@
       <option name="EXECUTE_SCRIPT_FILE" value="true" />
       <envs />
       <method v="2">
-        <option name="Gradle.BeforeRunTask" enabled="true" tasks="fatjar" externalProjectPath="$PROJECT_DIR$" vmOptions="" scriptParameters="" />
+        <option name="Gradle.BeforeRunTask" enabled="true" tasks="myProguardTask" externalProjectPath="$PROJECT_DIR$" vmOptions="" scriptParameters="" />
       </method>
     </configuration>
     <list>
       <item itemvalue="Application.Main" />
       <item itemvalue="Gradle.MNDOParam [myProguardTask]" />
       <item itemvalue="Gradle.MNDOParam [fatjar]" />
-      <item itemvalue="Shell Script.Copy" />
       <item itemvalue="Gradle.MNDOParam [jar]" />
+      <item itemvalue="Shell Script.Copy" />
     </list>
     <recent_temporary>
       <list>
@@ -382,21 +378,7 @@
       <workItem from="1639721448920" duration="37882000" />
       <workItem from="1639769400322" duration="452000" />
       <workItem from="1639800791257" duration="4037000" />
-      <workItem from="1639813356529" duration="12667000" />
-    </task>
-    <task id="LOCAL-00053" summary="340000ms actually works pretty well">
-      <created>1638539320440</created>
-      <option name="number" value="00053" />
-      <option name="presentableId" value="LOCAL-00053" />
-      <option name="project" value="LOCAL" />
-      <updated>1638539320440</updated>
-    </task>
-    <task id="LOCAL-00054" summary="344000ms actually works pretty well">
-      <created>1638539331851</created>
-      <option name="number" value="00054" />
-      <option name="presentableId" value="LOCAL-00054" />
-      <option name="project" value="LOCAL" />
-      <updated>1638539331851</updated>
+      <workItem from="1639813356529" duration="13743000" />
     </task>
     <task id="LOCAL-00055" summary="333000ms final pople for both gsd and pd">
       <created>1638607107561</created>
@@ -727,7 +709,21 @@
       <option name="project" value="LOCAL" />
       <updated>1639823251904</updated>
     </task>
-    <option name="localTasksCounter" value="102" />
+    <task id="LOCAL-00102" summary="Proguard working">
+      <created>1639826473864</created>
+      <option name="number" value="00102" />
+      <option name="presentableId" value="LOCAL-00102" />
+      <option name="project" value="LOCAL" />
+      <updated>1639826473864</updated>
+    </task>
+    <task id="LOCAL-00103" summary="Scripts">
+      <created>1639826784118</created>
+      <option name="number" value="00103" />
+      <option name="presentableId" value="LOCAL-00103" />
+      <option name="project" value="LOCAL" />
+      <updated>1639826784118</updated>
+    </task>
+    <option name="localTasksCounter" value="104" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -775,8 +771,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Massive runcycle refactor in progress" />
-    <MESSAGE value="Remove RunOutput unnecessary interface" />
     <MESSAGE value="RunIterator and lots of changes in runcycle" />
     <MESSAGE value="Old txt format to new txt format" />
     <MESSAGE value="Work in progress on parsing new input file" />
@@ -800,7 +794,9 @@
     <MESSAGE value="Minor refactoring" />
     <MESSAGE value="Constant changes re bounds" />
     <MESSAGE value="Proguard refactor" />
-    <option name="LAST_COMMIT_MESSAGE" value="Proguard refactor" />
+    <MESSAGE value="Proguard working" />
+    <MESSAGE value="Scripts" />
+    <option name="LAST_COMMIT_MESSAGE" value="Scripts" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
