@@ -76,7 +76,7 @@ task myProguardTask(type: ProGuardTask) {
 
     keep "public class frontend.Main { public static void main(java.lang.String[]);}"
 
-    outjars "${buildDir}/libs/${rootProject.name}_proguard.jar"
+    outjars "${buildDir}/libs/proguard.jar"
 }
 
 dependencies {

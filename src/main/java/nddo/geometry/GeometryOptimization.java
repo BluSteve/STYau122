@@ -103,7 +103,7 @@ public abstract class GeometryOptimization {
 		}
 
 		int numIt = 0;
-		while (mag(gradient) > 1E-5) {
+		while (mag(gradient) > 1E-3) {
 			// computes new search direction
 			double lambda = lambda(h, U.transpose().mult(gradient), h.numRows() - counter);
 

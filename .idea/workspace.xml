@@ -5,10 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Scripts">
-      <change afterPath="$PROJECT_DIR$/param-numbers.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/copy.bat" beforeDir="false" afterPath="$PROJECT_DIR$/copy.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryOptimization.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -209,48 +209,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MNDOParam [fatjar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="fatjar" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
-    <configuration name="MNDOParam [jar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="jar" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
     <configuration name="MNDOParam [myProguardTask]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -292,15 +250,11 @@
     <list>
       <item itemvalue="Application.Main" />
       <item itemvalue="Gradle.MNDOParam [myProguardTask]" />
-      <item itemvalue="Gradle.MNDOParam [fatjar]" />
-      <item itemvalue="Gradle.MNDOParam [jar]" />
       <item itemvalue="Shell Script.Copy" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.MNDOParam [myProguardTask]" />
-        <item itemvalue="Gradle.MNDOParam [jar]" />
-        <item itemvalue="Gradle.MNDOParam [fatjar]" />
         <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
@@ -378,14 +332,8 @@
       <workItem from="1639721448920" duration="37882000" />
       <workItem from="1639769400322" duration="452000" />
       <workItem from="1639800791257" duration="4037000" />
-      <workItem from="1639813356529" duration="13743000" />
-    </task>
-    <task id="LOCAL-00055" summary="333000ms final pople for both gsd and pd">
-      <created>1638607107561</created>
-      <option name="number" value="00055" />
-      <option name="presentableId" value="LOCAL-00055" />
-      <option name="project" value="LOCAL" />
-      <updated>1638607107562</updated>
+      <workItem from="1639813356529" duration="14380000" />
+      <workItem from="1639828623457" duration="1076000" />
     </task>
     <task id="LOCAL-00056" summary="Main debug and consolidation">
       <created>1638950817370</created>
@@ -723,7 +671,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639826784118</updated>
     </task>
-    <option name="localTasksCounter" value="104" />
+    <task id="LOCAL-00104" summary="Scripts">
+      <created>1639827444180</created>
+      <option name="number" value="00104" />
+      <option name="presentableId" value="LOCAL-00104" />
+      <option name="project" value="LOCAL" />
+      <updated>1639827444180</updated>
+    </task>
+    <option name="localTasksCounter" value="105" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
