@@ -120,9 +120,9 @@ public class MNDOAtom extends NDDOAtom {
 	@Override
 	public double crfAlphaDeriv(NDDOAtom b, int num) {
 		MNDOAtom c = (MNDOAtom) b;
-		double R = GTO.R(this.getCoordinates(), b.getCoordinates());
+		double R = GTO.R(this.getCoordinates(), c.getCoordinates());
 		double val = this.atomProperties.getQ() * c.atomProperties.getQ() *
-				nom.getG(this.s(), this.s(), b.s(), b.s());
+				nom.getG(this.s(), this.s(), c.s(), c.s());
 
 		double returnval = 0;
 

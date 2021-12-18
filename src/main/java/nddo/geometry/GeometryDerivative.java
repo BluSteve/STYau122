@@ -22,11 +22,9 @@ public class GeometryDerivative {
 				if (atomnumber[j] == atomnumber[k]) {
 					if (atomnumber[j] == atomnum) {
 						for (int a = 0; a < atoms.length; a++)
-							if (a != atomnum) sum -= atoms[a].getAtomProperties().getQ() *
-									nom.getGderiv(orbitals[j], orbitals[k], atoms[a].s(), atoms[a].s(), tau); // todo
+							if (a != atomnum) sum += atoms[a].Vderiv(orbitals[j], orbitals[k], tau);
 					}
-					else sum -= atoms[atomnum].getAtomProperties().getQ() *
-							nom.getGderiv(atoms[atomnum].s(), atoms[atomnum].s(), orbitals[j], orbitals[k], tau);
+					else sum -= atoms[atomnum].Vderiv(orbitals[j], orbitals[k], tau);
 				}
 				else if (atomnumber[j] == atomnum) sum += nom.betaderiv(orbitals[j], orbitals[k], tau);
 				else if (atomnumber[k] == atomnum) sum += nom.betaderiv(orbitals[k], orbitals[j], tau);
@@ -84,11 +82,9 @@ public class GeometryDerivative {
 				if (atomnumber[j] == atomnumber[k]) {
 					if (atomnumber[j] == atomnum) {
 						for (int a = 0; a < atoms.length; a++)
-							if (a != atomnum) sum -= atoms[a].getAtomProperties().getQ() *
-									nom.getGderiv(orbitals[j], orbitals[k], atoms[a].s(), atoms[a].s(), tau);
+							if (a != atomnum) sum += atoms[a].Vderiv(orbitals[j], orbitals[k], tau);
 					}
-					else sum -= atoms[atomnum].getAtomProperties().getQ() *
-							nom.getGderiv(atoms[atomnum].s(), atoms[atomnum].s(), orbitals[j], orbitals[k], tau);
+					else sum -= atoms[atomnum].Vderiv(orbitals[j], orbitals[k], tau);
 				}
 				else if (atomnumber[j] == atomnum) sum += nom.betaderiv(orbitals[j], orbitals[k], tau);
 				else if (atomnumber[k] == atomnum) sum += nom.betaderiv(orbitals[k], orbitals[j], tau);
@@ -290,11 +286,9 @@ public class GeometryDerivative {
 				if (atomnumber[j] == atomnumber[k]) {
 					if (atomnumber[j] == atomnum) {
 						for (int a = 0; a < atoms.length; a++)
-							if (a != atomnum) sum -= atoms[a].getAtomProperties().getQ() *
-									nom.getGderiv(orbitals[j], orbitals[k], atoms[a].s(), atoms[a].s(), tau);
+							if (a != atomnum) sum += atoms[a].Vderiv(orbitals[j], orbitals[k], tau);
 					}
-					else sum -= atoms[atomnum].getAtomProperties().getQ() *
-							nom.getGderiv(atoms[atomnum].s(), atoms[atomnum].s(), orbitals[j], orbitals[k], tau);
+					else sum -= atoms[atomnum].Vderiv(orbitals[j], orbitals[k], tau);
 				}
 				else if (atomnumber[j] == atomnum) sum += nom.betaderiv(orbitals[j], orbitals[k], tau);
 				else if (atomnumber[k] == atomnum) sum += nom.betaderiv(orbitals[k], orbitals[j], tau);
@@ -348,11 +342,9 @@ public class GeometryDerivative {
 				if (atomnumber[j] == atomnumber[k]) {
 					if (atomnumber[j] == atomnum) {
 						for (int a = 0; a < atoms.length; a++)
-							if (a != atomnum) sum -= atoms[a].getAtomProperties().getQ() *
-									nom.getGderiv(orbitals[j], orbitals[k], atoms[a].s(), atoms[a].s(), tau);
+							if (a != atomnum) sum += atoms[a].Vderiv(orbitals[j], orbitals[k], tau);
 					}
-					else sum -= atoms[atomnum].getAtomProperties().getQ() *
-							nom.getGderiv(atoms[atomnum].s(), atoms[atomnum].s(), orbitals[j], orbitals[k], tau);
+					else sum -= atoms[atomnum].Vderiv(orbitals[j], orbitals[k], tau);
 				}
 				else if (atomnumber[j] == atomnum) sum += nom.betaderiv(orbitals[j], orbitals[k], tau);
 				else if (atomnumber[k] == atomnum) sum += nom.betaderiv(orbitals[k], orbitals[j], tau);

@@ -2,7 +2,7 @@ package nddo;
 
 import nddo.structs.AtomProperties;
 
-public abstract class NDDOAtom {
+public abstract class NDDOAtom { // todo make this interface
 	protected final double[] coordinates;
 	protected final AtomProperties atomProperties;
 	protected final NDDOParams np;
@@ -85,7 +85,7 @@ public abstract class NDDOAtom {
 		return np.clone();
 	}
 
-	public NDDOOrbital s() {
+	protected NDDOOrbital s() {
 		return this.orbitals[0];
 	}
 
