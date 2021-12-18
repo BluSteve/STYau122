@@ -11,7 +11,7 @@ public class NDDO6GMethods implements NDDOOrbitalMethods<NDDO6G> {
 	}
 
 	@Override
-	public double getG(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d) {
+	public double G(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d) {
 		double[] coeffA = a.decomposition(a.coordinates, c.coordinates);
 		double[] coeffB = b.decomposition(a.coordinates, c.coordinates);
 		double[] coeffC = c.decomposition(a.coordinates, c.coordinates);
@@ -37,7 +37,7 @@ public class NDDO6GMethods implements NDDOOrbitalMethods<NDDO6G> {
 	}
 
 	@Override
-	public double getGderiv(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d, int tau) {
+	public double Ggd(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d, int tau) {
 		NDDO6G[] A = a.orbitalArray();
 		NDDO6G[] B = b.orbitalArray();
 		NDDO6G[] C = c.orbitalArray();
@@ -105,7 +105,7 @@ public class NDDO6GMethods implements NDDOOrbitalMethods<NDDO6G> {
 	}
 
 	@Override
-	public double getGderiv2(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d, int tau1, int tau2) {
+	public double Gg2d(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d, int tau1, int tau2) {
 		double[] coeffA = a.decomposition(a.getCoords(), c.getCoords());
 		double[] coeffB = b.decomposition(a.getCoords(), c.getCoords());
 		double[] coeffC = c.decomposition(a.getCoords(), c.getCoords());
@@ -205,7 +205,7 @@ public class NDDO6GMethods implements NDDOOrbitalMethods<NDDO6G> {
 	}
 
 	@Override
-	public double getGderiv(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d, int num, int type) {
+	public double Gpd(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d, int num, int type) {
 		double[] coeffA = a.decomposition(a.getCoords(), c.getCoords());
 		double[] coeffB = b.decomposition(a.getCoords(), c.getCoords());
 		double[] coeffC = c.decomposition(a.getCoords(), c.getCoords());
@@ -224,16 +224,16 @@ public class NDDO6GMethods implements NDDOOrbitalMethods<NDDO6G> {
 		double D2deriv = 0;
 
 		if (num == 0 || num == 2) {
-			p1deriv = a.getAtom().p1Deriv(type);
-			p2deriv = a.getAtom().p2Deriv(type);
-			D1deriv = a.getAtom().D1Deriv(type);
-			D2deriv = a.getAtom().D2Deriv(type);
+			p1deriv = a.getAtom().p1pd(type);
+			p2deriv = a.getAtom().p2pd(type);
+			D1deriv = a.getAtom().D1pd(type);
+			D2deriv = a.getAtom().D2pd(type);
 		}
 		else if (num == 1) {
-			p1deriv = c.getAtom().p1Deriv(type);
-			p2deriv = c.getAtom().p2Deriv(type);
-			D1deriv = c.getAtom().D1Deriv(type);
-			D2deriv = c.getAtom().D2Deriv(type);
+			p1deriv = c.getAtom().p1pd(type);
+			p2deriv = c.getAtom().p2pd(type);
+			D1deriv = c.getAtom().D1pd(type);
+			D2deriv = c.getAtom().D2pd(type);
 		}
 
 		for (int i = 0; i < coeffA.length; i++) {
@@ -253,22 +253,22 @@ public class NDDO6GMethods implements NDDOOrbitalMethods<NDDO6G> {
 	}
 
 	@Override
-	public double beta(NDDO6G a, NDDO6G b) {
-		return 0.5 * (a.beta + b.beta) * LCGTO.getS(a, b);
+	public double H(NDDO6G a, NDDO6G b) {
+		return 0.5 * (a.beta + b.beta) * LCGTO.S(a, b);
 	}
 
 	@Override
-	public double betaderiv(NDDO6G a, NDDO6G b, int tau) {
-		return 0.5 * (a.beta + b.beta) * LCGTO.getSDeriv(a, b, tau);
+	public double Hgd(NDDO6G a, NDDO6G b, int tau) {
+		return 0.5 * (a.beta + b.beta) * LCGTO.Sgd(a, b, tau);
 	}
 
 	@Override
-	public double betaderiv2(NDDO6G a, NDDO6G b, int tau1, int tau2) {
-		return 0.5 * (a.beta + b.beta) * LCGTO.getSDeriv2(a, b, tau1, tau2);
+	public double Hg2d(NDDO6G a, NDDO6G b, int tau1, int tau2) {
+		return 0.5 * (a.beta + b.beta) * LCGTO.Sg2d(a, b, tau1, tau2);
 	}
 
 	@Override
-	public double betaparamderiv(NDDO6G a, NDDO6G b, int num, int type) { // todo rename to betaparamzetaderiv
+	public double Hzetapd(NDDO6G a, NDDO6G b, int num, int type) { // todo rename to betaparamzetaderiv
 		if (num == -1) {
 			return 0;
 		}
@@ -279,26 +279,19 @@ public class NDDO6GMethods implements NDDOOrbitalMethods<NDDO6G> {
 		hasB <<= 1;
 		int alltogether = hasA + hasB - 1;
 
-		return 0.5 * (a.beta + b.beta) * STO6G.getSderivzeta(a, b, alltogether);
+		return 0.5 * (a.beta + b.beta) * STO6G.Spd(a, b, alltogether);
 	}
 
 	@Override
-	public double betaparambetaderiv(NDDO6G a, NDDO6G b, int Z, int type) {
-		int Z1 = a.getAtom().getAtomProperties().getZ();
-		int Z2 = b.getAtom().getAtomProperties().getZ();
-		int L1 = a.getL();
-		int L2 = b.getL();
-
-		double sum = 0;
-
-		if (Z1 == Z && L1 == type) {
-			sum += 0.5;
+	public double Hbetapd(NDDO6G a, NDDO6G b, int num) {
+		switch (num) {
+			case 0:
+			case 1:
+				return 0.5 * LCGTO.S(a, b);
+			case 2:
+				return LCGTO.S(a, b);
+			default:
+				return 0;
 		}
-
-		if (Z2 == Z && L2 == type) {
-			sum += 0.5;
-		}
-
-		return sum * LCGTO.getS(a, b);
 	}
 }

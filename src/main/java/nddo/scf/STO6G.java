@@ -60,8 +60,7 @@ public class STO6G extends LCGTO {
 		throw new IllegalArgumentException("Illegal atom" + shell + L);
 	}
 
-	public static double getSderivzeta(STO6G X1, STO6G X2, int type) {
-
+	public static double Spd(STO6G X1, STO6G X2, int type) {
 		double Sderiv = 0;
 
 		for (int i = 0; i < X1.getn(); i++) {
@@ -86,7 +85,6 @@ public class STO6G extends LCGTO {
 	}
 
 	public static double getSderiv2zetadiag (STO6G X1, STO6G X2, int type) {
-
 		double Sderiv = 0;
 
 		for (int i = 0; i < X1.getn(); i++) {
@@ -117,7 +115,6 @@ public class STO6G extends LCGTO {
 	}
 
 	public static double getSderiv2zetacross(STO6G X1, STO6G X2) {
-
 		double Sderiv = 0;
 
 		for (int i = 0; i < X1.getn(); i++) {

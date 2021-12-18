@@ -90,19 +90,19 @@ public abstract class NDDOAtom { // todo make this interface
 	}
 
 	public double V(NDDOOrbital a, NDDOOrbital b) {
-		return -this.atomProperties.getQ() * State.nom.getG(a, b, this.s(), this.s());
+		return -this.atomProperties.getQ() * State.nom.G(a, b, this.s(), this.s());
 	}
 
-	public double Vderiv(NDDOOrbital a, NDDOOrbital b, int tau) {
-		return -this.atomProperties.getQ() * State.nom.getGderiv(a, b, this.s(), this.s(), tau);
+	public double Vgd(NDDOOrbital a, NDDOOrbital b, int tau) {
+		return -this.atomProperties.getQ() * State.nom.Ggd(a, b, this.s(), this.s(), tau);
 	}
 
-	public double Vderiv2(NDDOOrbital a, NDDOOrbital b, int tau1, int tau2) {
-		return -this.atomProperties.getQ() * State.nom.getGderiv2(a, b, this.s(), this.s(), tau1, tau2);
+	public double Vg2d(NDDOOrbital a, NDDOOrbital b, int tau1, int tau2) {
+		return -this.atomProperties.getQ() * State.nom.Gg2d(a, b, this.s(), this.s(), tau1, tau2);
 	}
 
-	public double VParamDeriv(NDDOOrbital a, NDDOOrbital b, int num, int type) {
-		return -this.atomProperties.getQ() * State.nom.getGderiv(this.s(), this.s(), a, b, num, type);
+	public double Vpd(NDDOOrbital a, NDDOOrbital b, int num, int type) {
+		return -this.atomProperties.getQ() * State.nom.Gpd(this.s(), this.s(), a, b, num, type);
 	}
 
 	protected double p0() {
@@ -146,8 +146,8 @@ public abstract class NDDOAtom { // todo make this interface
 		return newguess;
 	}
 
-	public double p1Deriv(int type) {
-		double D1deriv = D1Deriv(type);
+	public double p1pd(int type) {
+		double D1deriv = D1pd(type);
 
 		if (getAtomProperties().getZ() == 1) {
 			return 0;
@@ -157,12 +157,12 @@ public abstract class NDDOAtom { // todo make this interface
 				Math.pow(D1 * D1 + p1 * p1, 1.5)) * D1deriv;
 	}
 
-	public double p2Deriv(int type) {
+	public double p2pd(int type) {
 		if (type == 0) {
 			return 0;
 		}
 
-		double D2deriv = D2Deriv(type);
+		double D2deriv = D2pd(type);
 
 		double F1 = 2 * D2 * (Math.pow(D2 * D2 + p2 * p2, -1.5) -
 				Math.pow(2 * D2 * D2 + p2 * p2, -1.5));
@@ -175,7 +175,7 @@ public abstract class NDDOAtom { // todo make this interface
 
 	}
 
-	public double D1Deriv(int type) {
+	public double D1pd(int type) {
 		double zetas = getParams().getZetas();
 
 		double zetap = getParams().getZetap();
@@ -209,7 +209,7 @@ public abstract class NDDOAtom { // todo make this interface
 
 	}
 
-	public double D2Deriv(int type) {
+	public double D2pd(int type) {
 		if (type == 0) {
 			return 0;
 		}

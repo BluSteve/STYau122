@@ -75,7 +75,7 @@ public abstract class Solution {
 					H.set(k, j, Huv);
 				}
 				else {
-					double Huk = nom.beta(orbitals[j], orbitals[k]);
+					double Huk = nom.H(orbitals[j], orbitals[k]);
 
 					H.set(j, k, Huk);
 					H.set(k, j, Huk);

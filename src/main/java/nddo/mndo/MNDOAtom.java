@@ -70,7 +70,7 @@ public class MNDOAtom extends NDDOAtom {
 			f = getf(b, this, R);
 		else f = 1 + Math.exp(-b.np.getAlpha() * R / bohr) + Math.exp(-this.np.getAlpha() * R / bohr);
 
-		return f * this.atomProperties.getQ() * b.atomProperties.getQ() * nom.getG(this.s(), this.s(), b.s(),
+		return f * this.atomProperties.getQ() * b.atomProperties.getQ() * nom.G(this.s(), this.s(), b.s(),
 				b.s());
 	}
 
@@ -99,9 +99,9 @@ public class MNDOAtom extends NDDOAtom {
 		}
 
 		return fprime * this.atomProperties.getQ() * b.atomProperties.getQ() *
-				nom.getG(this.s(), this.s(), b.s(), b.s()) +
+				nom.G(this.s(), this.s(), b.s(), b.s()) +
 				f * this.atomProperties.getQ() * b.atomProperties.getQ() *
-						nom.getGderiv(this.s(), this.s(), b.s(), b.s(), tau);
+						nom.Ggd(this.s(), this.s(), b.s(), b.s(), tau);
 	}
 
 	@Override
@@ -122,7 +122,7 @@ public class MNDOAtom extends NDDOAtom {
 		MNDOAtom c = (MNDOAtom) b;
 		double R = GTO.R(this.getCoordinates(), c.getCoordinates());
 		double val = this.atomProperties.getQ() * c.atomProperties.getQ() *
-				nom.getG(this.s(), this.s(), c.s(), c.s());
+				nom.G(this.s(), this.s(), c.s(), c.s());
 
 		double returnval = 0;
 

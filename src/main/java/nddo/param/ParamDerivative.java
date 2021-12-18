@@ -179,7 +179,7 @@ public class ParamDerivative {
 					for (int an = 0; an < soln.atoms.length; an++) {
 						if (atomNumber[j] != an) {
 							Huv += soln.atoms[an]
-									.VParamDeriv(orbitals[j], orbitals[k],
+									.Vpd(orbitals[j], orbitals[k],
 											getNum(atomicnumbers[an],
 													atomicnumbers[atomNumber[j]],
 													Z), type);
@@ -189,7 +189,7 @@ public class ParamDerivative {
 					H.set(k, j, Huv);
 				}
 				else { // case 3
-					double Huk = nom.betaparamderiv(orbitals[j],
+					double Huk = nom.Hzetapd(orbitals[j],
 							orbitals[k],
 							getNum(atomicnumbers[atomNumber[j]],
 									atomicnumbers[atomNumber[k]], Z), type);
@@ -212,7 +212,7 @@ public class ParamDerivative {
 								if (m > -1) {
 									if (atomNumber[l] == atomNumber[m]) {
 										sum += soln.densityMatrix().get(l, m) *
-												nom.getGderiv(orbitals[j],
+												nom.Gpd(orbitals[j],
 														orbitals[k],
 														orbitals[l],
 														orbitals[m],
@@ -234,7 +234,7 @@ public class ParamDerivative {
 								if (m > -1) {
 									sum += soln.densityMatrix().get(l, m) *
 											(-0.5 *
-													nom.getGderiv(
+													nom.Gpd(
 															orbitals[j],
 															orbitals[l],
 															orbitals[k],
@@ -295,7 +295,7 @@ public class ParamDerivative {
 					for (int an = 0; an < atoms.length; an++) {
 						if (atomNumber[j] != an) {
 							Huv += atoms[an]
-									.VParamDeriv(orbitals[j], orbitals[k],
+									.Vpd(orbitals[j], orbitals[k],
 											getNum(atomicnumbers[an],
 													atomicnumbers[atomNumber[j]],
 													Z), type);
@@ -305,7 +305,7 @@ public class ParamDerivative {
 					H.set(k, j, Huv);
 				}
 				else { // case 3
-					double Huk = nom.betaparamderiv(orbitals[j],
+					double Huk = nom.Hzetapd(orbitals[j],
 							orbitals[k],
 							getNum(atomicnumbers[atomNumber[j]],
 									atomicnumbers[atomNumber[k]], Z), type);
@@ -328,7 +328,7 @@ public class ParamDerivative {
 								if (m > -1) {
 									if (atomNumber[l] == atomNumber[m]) {
 										sum += soln.densityMatrix().get(l, m) *
-												nom.getGderiv(orbitals[j],
+												nom.Gpd(orbitals[j],
 														orbitals[k],
 														orbitals[l],
 														orbitals[m],
@@ -351,7 +351,7 @@ public class ParamDerivative {
 									sum += soln.densityMatrix().get(l, m) *
 											(-0.5 *
 													nom
-															.getGderiv(
+															.Gpd(
 																	orbitals[j],
 																	orbitals[l],
 																	orbitals[k],
@@ -395,7 +395,7 @@ public class ParamDerivative {
 					for (int an = 0; an < atoms.length; an++) {
 						if (atomNumber[j] != an) {
 							Huv += atoms[an]
-									.VParamDeriv(orbitals[j], orbitals[k],
+									.Vpd(orbitals[j], orbitals[k],
 											getNum(atomicnumbers[an],
 													atomicnumbers[atomNumber[j]],
 													Z), type);
@@ -405,7 +405,7 @@ public class ParamDerivative {
 					H.set(k, j, Huv);
 				}
 				else { // case 3
-					double Huk = nom.betaparamderiv(orbitals[j],
+					double Huk = nom.Hzetapd(orbitals[j],
 							orbitals[k],
 							getNum(atomicnumbers[atomNumber[j]],
 									atomicnumbers[atomNumber[k]], Z), type);
@@ -447,7 +447,7 @@ public class ParamDerivative {
 									if (atomNumber[l] == atomNumber[m]) {
 										sum += soln.densityMatrix().get(l, m) *
 												nom
-														.getGderiv(orbitals[j],
+														.Gpd(orbitals[j],
 																orbitals[k],
 																orbitals[l],
 																orbitals[m],
@@ -470,7 +470,7 @@ public class ParamDerivative {
 									sum += soln.densityMatrix().get(l, m) *
 											(-0.5 *
 													nom
-															.getGderiv(
+															.Gpd(
 																	orbitals[j],
 																	orbitals[l],
 																	orbitals[k],
@@ -510,8 +510,7 @@ public class ParamDerivative {
 
 		for (int j = 0; j < orbitals.length; j++) {
 
-			if (atomicnumbers[atomNumber[j]] == Z &&
-					orbitals[j].getL() == type) {
+			if (atomicnumbers[atomNumber[j]] == Z && orbitals[j].getL() == type) {
 				e += densitymatrix.get(j, j);
 			}
 		}
@@ -554,14 +553,15 @@ public class ParamDerivative {
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
 				if (atomNumber[j] != atomNumber[k]) {
-					double H = nom.betaparambetaderiv(orbitals[j], orbitals[k], Z, type);
+					double H = nom.Hbetapd(orbitals[j], orbitals[k],
+							getNumBeta(atomicnumbers[atomNumber[j]], atomicnumbers[atomNumber[k]],
+									Z, orbitals[j].getL(), orbitals[k].getL(), type));
 					e += 2 * densitymatrix.get(j, k) * H;
 				}
 			}
 		}
 
 		return e / 4.3363E-2;
-
 	}
 
 	private static SimpleMatrix betafockderivstatic(SolutionR soln, int Z,
@@ -579,7 +579,9 @@ public class ParamDerivative {
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
 				if (atomNumber[j] != atomNumber[k]) {
-					double H = nom.betaparambetaderiv(orbitals[j], orbitals[k], Z, type);
+					double H = nom.Hbetapd(orbitals[j], orbitals[k],
+							getNumBeta(atomicnumbers[atomNumber[j]], atomicnumbers[atomNumber[k]],
+									Z, orbitals[j].getL(), orbitals[k].getL(), type));
 					F.set(j, k, H);
 					F.set(k, j, H);
 				}
@@ -630,6 +632,15 @@ public class ParamDerivative {
 		if (Z2 == Z) {
 			num += 2;
 		}
+
+		return num - 1;
+	}
+
+	private static int getNumBeta(int Z1, int Z2, int Z, int L1, int L2, int L) {
+		int num = 0;
+
+		if (Z1 == Z && L1 == L) num += 1;
+		if (Z2 == Z && L2 == L) num += 2;
 
 		return num - 1;
 	}
@@ -1434,7 +1445,7 @@ public class ParamDerivative {
 		if (paramnum == 5 || paramnum == 6) {
 			for (int i = 0; i < atoms.length; i++) {
 				if (atoms[i].getAtomProperties().getZ() == Z) {
-					D1deriv = atoms[i].D1Deriv(paramnum - 5);
+					D1deriv = atoms[i].D1pd(paramnum - 5);
 					break;
 				}
 			}

@@ -28,7 +28,7 @@ public class GeometrySecondDerivative {
 			for (int j : index[atomnum1]) {
 				if (i != -1 && j != -1) {
 					e += densityMatrix.get(i, j) * atoms[atomnum2]
-							.Vderiv2(orbitals[i], orbitals[j], tau1, tau2);
+							.Vg2d(orbitals[i], orbitals[j], tau1, tau2);
 				}
 			}
 		}
@@ -37,7 +37,7 @@ public class GeometrySecondDerivative {
 			for (int l : index[atomnum2]) {
 				if (k != -1 && l != -1) {
 					e += densityMatrix.get(k, l) * atoms[atomnum1]
-							.Vderiv2(orbitals[k], orbitals[l], tau1, tau2);
+							.Vg2d(orbitals[k], orbitals[l], tau1, tau2);
 				}
 			}
 		}
@@ -46,7 +46,7 @@ public class GeometrySecondDerivative {
 			for (int k : index[atomnum2]) {
 				if (i != -1 && k != -1) {
 					e += 2 * densityMatrix.get(i, k) *
-							nom.betaderiv2(orbitals[i], orbitals[k], tau1,
+							nom.Hg2d(orbitals[i], orbitals[k], tau1,
 									tau2);
 				}
 			}
@@ -62,7 +62,7 @@ public class GeometrySecondDerivative {
 									densityMatrix.get(i, k) * 0.5 *
 											densityMatrix.get(j, l))
 									* nom
-									.getGderiv2(orbitals[i], orbitals[j],
+									.Gg2d(orbitals[i], orbitals[j],
 											orbitals[k], orbitals[l], tau1,
 											tau2);
 						}
@@ -88,7 +88,7 @@ public class GeometrySecondDerivative {
 				if (i != -1 && j != -1) {
 					e += (alphaDensity.get(i, j) + betaDensity.get(i, j)) *
 							atoms[atomnum2]
-									.Vderiv2(orbitals[i], orbitals[j], tau1,
+									.Vg2d(orbitals[i], orbitals[j], tau1,
 											tau2);
 				}
 			}
@@ -99,7 +99,7 @@ public class GeometrySecondDerivative {
 				if (k != -1 && l != -1) {
 					e += (alphaDensity.get(k, l) + betaDensity.get(k, l)) *
 							atoms[atomnum1]
-									.Vderiv2(orbitals[k], orbitals[l], tau1,
+									.Vg2d(orbitals[k], orbitals[l], tau1,
 											tau2);
 				}
 			}
@@ -109,7 +109,7 @@ public class GeometrySecondDerivative {
 			for (int k : index[atomnum2]) {
 				if (i != -1 && k != -1) {
 					e += 2 * (alphaDensity.get(i, k) + betaDensity.get(i, k)) *
-							nom.betaderiv2(orbitals[i], orbitals[k], tau1,
+							nom.Hg2d(orbitals[i], orbitals[k], tau1,
 									tau2);
 				}
 			}
@@ -129,7 +129,7 @@ public class GeometrySecondDerivative {
 									betaDensity.get(i, k) *
 											betaDensity.get(j, l))
 									* nom
-									.getGderiv2(orbitals[i], orbitals[j],
+									.Gg2d(orbitals[i], orbitals[j],
 											orbitals[k], orbitals[l], tau1,
 											tau2);
 						}

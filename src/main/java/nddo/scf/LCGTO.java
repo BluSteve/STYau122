@@ -44,7 +44,7 @@ public class LCGTO extends Orbital { // HAS AtomFixed, OrbitalProperties, c, e
 		N = sum;
 	}
 
-	public static double getS(LCGTO X1, LCGTO X2) {//normalised overlap integral
+	public static double S(LCGTO X1, LCGTO X2) {//normalised overlap integral
 		double S = 0;
 
 		for (int i = 0; i < X1.getn(); i++) {
@@ -58,7 +58,7 @@ public class LCGTO extends Orbital { // HAS AtomFixed, OrbitalProperties, c, e
 		return S * X1.getN() * X2.getN();
 	}
 
-	public static double getSDeriv(LCGTO X1, LCGTO X2, int tau) {
+	public static double Sgd(LCGTO X1, LCGTO X2, int tau) {
 		double S = 0;
 
 		for (int i = 0; i < X1.getn(); i++) {
@@ -70,7 +70,7 @@ public class LCGTO extends Orbital { // HAS AtomFixed, OrbitalProperties, c, e
 		return S * X1.getN() * X2.getN();
 	}
 
-	public static double getSDeriv2(LCGTO X1, LCGTO X2, int tau1, int tau2) {
+	public static double Sg2d(LCGTO X1, LCGTO X2, int tau1, int tau2) {
 		double S = 0;
 
 		for (int i = 0; i < X1.getn(); i++) {

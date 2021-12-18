@@ -177,7 +177,7 @@ public class SolutionR extends Solution {
 								if (m > -1) {
 									if (atomOfOrb[l] == atomOfOrb[m]) {
 										integralArray[integralcount] =
-												nom.getG(orbitals[j], orbitals[j], orbitals[l], orbitals[m]);
+												nom.G(orbitals[j], orbitals[j], orbitals[l], orbitals[m]);
 										integralcount++;
 									}
 								}
@@ -197,7 +197,7 @@ public class SolutionR extends Solution {
 								if (m > -1) {
 									if (atomOfOrb[l] == atomOfOrb[m]) {
 										integralArray[integralcount] =
-												nom.getG(orbitals[j], orbitals[k], orbitals[l], orbitals[m]);
+												nom.G(orbitals[j], orbitals[k], orbitals[l], orbitals[m]);
 										integralcount++;
 									}
 								}
@@ -210,7 +210,7 @@ public class SolutionR extends Solution {
 						if (l > -1) {
 							for (int m : orbsOfAtom[atomOfOrb[k]]) {
 								if (m > -1) {
-									integralArray[integralcount] = -0.5 * nom.getG(orbitals[j], orbitals[l],
+									integralArray[integralcount] = -0.5 * nom.G(orbitals[j], orbitals[l],
 											orbitals[k], orbitals[m]);
 									integralcount++;
 								}

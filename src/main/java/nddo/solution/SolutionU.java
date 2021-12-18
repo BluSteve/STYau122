@@ -53,7 +53,7 @@ public class SolutionU extends Solution {
 								if (m > -1) {
 									if (atomOfOrb[l] == atomOfOrb[m]) {
 										integralArrayCoulomb[integralCount] =
-												nom.getG(orbitals[j],
+												nom.G(orbitals[j],
 														orbitals[j],
 														orbitals[l],
 														orbitals[m]);
@@ -76,7 +76,7 @@ public class SolutionU extends Solution {
 								if (m > -1) {
 									if (atomOfOrb[l] == atomOfOrb[m]) {
 										integralArrayCoulomb[integralCount] =
-												nom.getG(orbitals[j],
+												nom.G(orbitals[j],
 														orbitals[k],
 														orbitals[l],
 														orbitals[m]);
@@ -122,7 +122,7 @@ public class SolutionU extends Solution {
 							for (int m : orbsOfAtom[atomOfOrb[k]]) {
 								if (m > -1) {
 									integralArrayExchange[integralCount] = -1 *
-											nom.getG(orbitals[j],
+											nom.G(orbitals[j],
 													orbitals[l],
 													orbitals[k], orbitals[m]);
 									integralCount++;
@@ -746,7 +746,7 @@ public class SolutionU extends Solution {
 			for (int k : index[atomnum2]) {
 				if (i != -1 && k != -1) {
 					e += 2 * densitymatrix.get(i, k) *
-							nom.beta(orbitals[i], orbitals[k]);
+							nom.H(orbitals[i], orbitals[k]);
 				}
 			}
 		}
@@ -763,7 +763,7 @@ public class SolutionU extends Solution {
 											alphaDensity.get(j, l) -
 									betaDensity.get(i, k) *
 											betaDensity.get(j, l))
-									* nom.getG(orbitals[i], orbitals[j],
+									* nom.G(orbitals[i], orbitals[j],
 									orbitals[k],
 									orbitals[l]);
 						}
