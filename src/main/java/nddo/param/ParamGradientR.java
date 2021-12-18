@@ -81,7 +81,7 @@ class ParamGradientR extends ParamGradient {
 										Math.min(aggregateArrayUnpadded.length,
 												finalElapsedSize + size));
 						SimpleMatrix[] output = ParamDerivative
-								.xArrayLimitedPople((SolutionR) s, subset);
+								.xArrayPople((SolutionR) s, subset);
 
 						System.arraycopy(output, 0, xLimitedAggregate,
 								finalElapsedSize, output.length);
@@ -114,7 +114,7 @@ class ParamGradientR extends ParamGradient {
 	protected void computeHFDeriv(int ZI, int paramNum, Solution sPrime) {
 		if (analytical)
 			HFDerivs[ZI][paramNum] = ParamDerivative
-					.HFDeriv((SolutionR) s, s.getRm().mats[ZI], paramNum);
+					.HFDeriv(s, s.getRm().mats[ZI], paramNum);
 		else {
 			assert sPrime != null;
 			HFDerivs[ZI][paramNum] = (sPrime.hf - s.hf) / Constants.LAMBDA;
@@ -131,7 +131,7 @@ class ParamGradientR extends ParamGradient {
 			// HFDerivs. I.e not as a part of dipole.
 			if (paramNum == 0 || paramNum == 7) {
 				HFDerivs[ZI][paramNum] = ParamDerivative
-						.HFDeriv((SolutionR) s, s.getRm().mats[ZI],
+						.HFDeriv(s, s.getRm().mats[ZI],
 								paramNum);
 			}
 			else if (staticDerivs[ZI][0][paramNum] != null ||
@@ -144,7 +144,7 @@ class ParamGradientR extends ParamGradient {
 						.densityDerivativeLimited((SolutionR) s,
 								xLimited[ZI][paramNum]);
 				if (full) dipoleDerivs[ZI][paramNum] =
-						ParamDerivative.MNDODipoleDeriv((SolutionR) s,
+						ParamDerivative.MNDODipoleDeriv(s,
 								densityDerivs[ZI][paramNum],
 								s.getRm().mats[ZI],
 								paramNum);
@@ -182,7 +182,7 @@ class ParamGradientR extends ParamGradient {
 						.HOMOCoefficientDerivativeComplementary(
 								xForIE[ZI][paramNum], (SolutionR) s);
 				IEDerivs[ZI][paramNum] = -ParamDerivative
-						.MNDOIEDeriv((SolutionR) s, coeffDerivs[ZI][paramNum],
+						.MNDOHomoDerivtemp((SolutionR) s, coeffDerivs[ZI][paramNum],
 								fockDerivs[ZI][paramNum]);
 			}
 		}
