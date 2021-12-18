@@ -11,7 +11,7 @@ public interface NDDOOrbitalMethods<T extends NDDOOrbital> {
 
 	double Gpd(T a, T b, T c, T d, int num, int type);
 
-//	double Gp2d(T a, T b, T c, T d, int num1, int type1, int num2, int type2);
+	double Gp2d(T a, T b, T c, T d, int num1, int type1, int num2, int type2);
 
 	double H(T a, T b);
 

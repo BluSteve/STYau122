@@ -4,6 +4,8 @@ import nddo.math.ERI;
 import nddo.scf.LCGTO;
 import nddo.scf.STO6G;
 
+import static nddo.math.ERI.*;
+
 public class NDDO6GMethods implements NDDOOrbitalMethods<NDDO6G> {
 	@Override
 	public double OneCenterERI(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d) {
@@ -30,7 +32,7 @@ public class NDDO6GMethods implements NDDOOrbitalMethods<NDDO6G> {
 					for (int l = 0; l < coeffD.length; l++)
 						if (coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] != 0) {
 							sum2 += coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] *
-									ERI.LocalTwoCenterERI(A[i], B[j], C[k], D[l]);
+									LocalTwoCenterERI(A[i], B[j], C[k], D[l]);
 						}
 
 		return sum2 * Constants.eV;
@@ -74,27 +76,27 @@ public class NDDO6GMethods implements NDDOOrbitalMethods<NDDO6G> {
 					for (int l = 0; l < coeffD.length; l++) {
 						if (coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] != 0) {
 							sum += coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] *
-									ERI.LocalTwoCenterERIgd(A[i], B[j], C[k], D[l], tau);
+									LocalTwoCenterERIgd(A[i], B[j], C[k], D[l], tau);
 						}
 
 						if (coeffAderiv[i] * coeffB[j] * coeffC[k] * coeffD[l] != 0) {
 							sum += coeffAderiv[i] * coeffB[j] * coeffC[k] * coeffD[l] *
-									ERI.LocalTwoCenterERI(A[i], B[j], C[k], D[l]);
+									LocalTwoCenterERI(A[i], B[j], C[k], D[l]);
 						}
 
 						if (coeffA[i] * coeffBderiv[j] * coeffC[k] * coeffD[l] != 0) {
 							sum += coeffA[i] * coeffBderiv[j] * coeffC[k] * coeffD[l] *
-									ERI.LocalTwoCenterERI(A[i], B[j], C[k], D[l]);
+									LocalTwoCenterERI(A[i], B[j], C[k], D[l]);
 						}
 
 						if (coeffA[i] * coeffB[j] * coeffCderiv[k] * coeffD[l] != 0) {
 							sum += coeffA[i] * coeffB[j] * coeffCderiv[k] * coeffD[l] *
-									ERI.LocalTwoCenterERI(A[i], B[j], C[k], D[l]);
+									LocalTwoCenterERI(A[i], B[j], C[k], D[l]);
 						}
 
 						if (coeffA[i] * coeffB[j] * coeffC[k] * coeffDderiv[l] != 0) {
 							sum += coeffA[i] * coeffB[j] * coeffC[k] * coeffDderiv[l] *
-									ERI.LocalTwoCenterERI(A[i], B[j], C[k], D[l]);
+									LocalTwoCenterERI(A[i], B[j], C[k], D[l]);
 						}
 					}
 				}
@@ -162,10 +164,10 @@ public class NDDO6GMethods implements NDDOOrbitalMethods<NDDO6G> {
 			for (int j = 0; j < coeffB.length; j++) {
 				for (int k = 0; k < coeffC.length; k++) {
 					for (int l = 0; l < coeffD.length; l++) {
-						double eri = ERI.LocalTwoCenterERI(A[i], B[j], C[k], D[l]);
-						double erideriva = ERI.LocalTwoCenterERIgd(A[i], B[j], C[k], D[l], tau1);
-						double eriderivb = ERI.LocalTwoCenterERIgd(A[i], B[j], C[k], D[l], tau2);
-						double erideriv2 = ERI.LocalTwoCenterERIg2d(A[i], B[j], C[k], D[l], tau1, tau2);
+						double eri = LocalTwoCenterERI(A[i], B[j], C[k], D[l]);
+						double erideriva = LocalTwoCenterERIgd(A[i], B[j], C[k], D[l], tau1);
+						double eriderivb = LocalTwoCenterERIgd(A[i], B[j], C[k], D[l], tau2);
+						double erideriv2 = LocalTwoCenterERIg2d(A[i], B[j], C[k], D[l], tau1, tau2);
 
 						sum += coeffAderiv[i] * coeffB[j] * coeffC[k] * coeffD[l] * eri;
 						sum += coeffAderiv1[i] * coeffBderiv2[j] * coeffC[k] * coeffD[l] * eri;
@@ -242,7 +244,7 @@ public class NDDO6GMethods implements NDDOOrbitalMethods<NDDO6G> {
 					for (int l = 0; l < coeffD.length; l++) {
 						if (coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] != 0) sum2 +=
 								coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] *
-										ERI.LocalTwoCenterERIpd(A[i], B[j], C[k], D[l], D1deriv, D2deriv, p1deriv,
+										LocalTwoCenterERIpd(A[i], B[j], C[k], D[l], D1deriv, D2deriv, p1deriv,
 												p2deriv, num, type);
 					}
 				}
@@ -250,6 +252,170 @@ public class NDDO6GMethods implements NDDOOrbitalMethods<NDDO6G> {
 		}
 
 		return sum2 * Constants.eV;
+	}
+
+	private static double Gcrossp2d(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d, int num1, int type1, int num2,
+									int type2) {
+		double[] coeffA = a.decomposition(a.getCoords(), c.getCoords());
+		double[] coeffB = b.decomposition(a.getCoords(), c.getCoords());
+		double[] coeffC = c.decomposition(a.getCoords(), c.getCoords());
+		double[] coeffD = d.decomposition(a.getCoords(), c.getCoords());
+
+		double sum2 = 0;
+
+		NDDO6G[] A = a.orbitalArray();
+		NDDO6G[] B = b.orbitalArray();
+		NDDO6G[] C = c.orbitalArray();
+		NDDO6G[] D = d.orbitalArray();
+
+		double p11deriv = 0;
+		double p21deriv = 0;
+		double D11deriv = 0;
+		double D21deriv = 0;
+
+		double p12deriv = 0;
+		double p22deriv = 0;
+		double D12deriv = 0;
+		double D22deriv = 0;
+
+		if (num1 == 0 && num2 == 1) {
+			p11deriv = a.getAtom().p1pd(type1);
+			p21deriv = a.getAtom().p2pd(type1);
+			D11deriv = a.getAtom().D1pd(type1);
+			D21deriv = a.getAtom().D2pd(type1);
+
+			p12deriv = c.getAtom().p1pd(type2);
+			p22deriv = c.getAtom().p2pd(type2);
+			D12deriv = c.getAtom().D1pd(type2);
+			D22deriv = c.getAtom().D2pd(type2);
+		}
+
+		else if (num1 == 1 && num2 == 0) {
+			p11deriv = a.getAtom().p1pd(type2);
+			p21deriv = a.getAtom().p2pd(type2);
+			D11deriv = a.getAtom().D1pd(type2);
+			D21deriv = a.getAtom().D2pd(type2);
+
+			p12deriv = c.getAtom().p1pd(type1);
+			p22deriv = c.getAtom().p2pd(type1);
+			D12deriv = c.getAtom().D1pd(type1);
+			D22deriv = c.getAtom().D2pd(type1);
+		}
+
+
+		for (int i = 0; i < coeffA.length; i++) {
+			for (int j = 0; j < coeffB.length; j++) {
+				for (int k = 0; k < coeffC.length; k++) {
+					for (int l = 0; l < coeffD.length; l++) {
+
+						if (coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] != 0) {
+							sum2 += coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] *
+									LocalTwoCenterERIcrossp2d(A[i], B[j], C[k], D[l], D11deriv, D21deriv, p11deriv,
+											p21deriv, D12deriv, D22deriv, p12deriv, p22deriv) * 27.21;
+						}
+					}
+				}
+			}
+		}
+
+
+		return sum2;
+	}
+
+	private static double Gdiagp2d(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d, int num, int type1, int type2) {
+		double[] coeffA = a.decomposition(a.getCoords(), c.getCoords());
+		double[] coeffB = b.decomposition(a.getCoords(), c.getCoords());
+		double[] coeffC = c.decomposition(a.getCoords(), c.getCoords());
+		double[] coeffD = d.decomposition(a.getCoords(), c.getCoords());
+
+		double sum2 = 0;
+
+		NDDO6G[] A = a.orbitalArray();
+		NDDO6G[] B = b.orbitalArray();
+		NDDO6G[] C = c.orbitalArray();
+		NDDO6G[] D = d.orbitalArray();
+
+		double p1deriva = 0;
+		double p2deriva = 0;
+		double D1deriva = 0;
+		double D2deriva = 0;
+
+		double p1derivb = 0;
+		double p2derivb = 0;
+		double D1derivb = 0;
+		double D2derivb = 0;
+
+		double p1deriv2 = 0;
+		double p2deriv2 = 0;
+		double D1deriv2 = 0;
+		double D2deriv2 = 0;
+
+		if (num == 0 || num == 2) {
+			p1deriva = a.getAtom().D2pd(type1);
+			p2deriva = a.getAtom().D2pd(type1);
+			D1deriva = a.getAtom().D2pd(type1);
+			D2deriva = a.getAtom().D2pd(type1);
+
+			p1derivb = a.getAtom().D2pd(type2);
+			p2derivb = a.getAtom().D2pd(type2);
+			D1derivb = a.getAtom().D2pd(type2);
+			D2derivb = a.getAtom().D2pd(type2);
+
+			p1deriv2 = a.getAtom().p1p2d(type1 + type2);
+			p2deriv2 = a.getAtom().p2p2d(type1 + type2);
+			D1deriv2 = a.getAtom().D1p2d(type1 + type2);
+			D2deriv2 = a.getAtom().D2p2d(type1 + type2);
+
+		}
+		else if (num == 1) {
+			p1deriva = c.getAtom().D2pd(type1);
+			p2deriva = c.getAtom().D2pd(type1);
+			D1deriva = c.getAtom().D2pd(type1);
+			D2deriva = c.getAtom().D2pd(type1);
+
+			p1derivb = c.getAtom().D2pd(type2);
+			p2derivb = c.getAtom().D2pd(type2);
+			D1derivb = c.getAtom().D2pd(type2);
+			D2derivb = c.getAtom().D2pd(type2);
+
+			p1deriv2 = c.getAtom().p1p2d(type1 + type2);
+			p2deriv2 = c.getAtom().p2p2d(type1 + type2);
+			D1deriv2 = c.getAtom().D1p2d(type1 + type2);
+			D2deriv2 = c.getAtom().D2p2d(type1 + type2);
+		}
+
+		for (int i = 0; i < coeffA.length; i++) {
+			for (int j = 0; j < coeffB.length; j++) {
+				for (int k = 0; k < coeffC.length; k++) {
+					for (int l = 0; l < coeffD.length; l++) {
+						if (coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] != 0) {
+							sum2 += coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] *
+									LocalTwoCenterERIdiagp2d(A[i], B[j], C[k], D[l], D1deriva, D2deriva, p1deriva,
+											p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2,
+											p1deriv2, p2deriv2, num) * 27.21;
+						}
+					}
+				}
+			}
+		}
+
+		return sum2;
+	}
+
+	@Override
+	public double Gp2d(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d, int num1, int type1, int num2, int type2) {
+		if (num1 == -1 || num2 == -1) {
+			return 0;
+		}
+
+		else if (num1 + num2 == 1) {
+			return Gcrossp2d(a, b, c, d, num1, type1, num2, type2);
+		}
+		else if (num1 == num2) {
+			return Gdiagp2d(a, b, c, d, num1, type1, type2);
+		}
+
+		return 0;
 	}
 
 	@Override
