@@ -51,7 +51,7 @@ public abstract class NDDOAtom {
 	}
 
 	/**
-	 * Returns a brand new NDDOAtom object. Everything is pass-by-value.
+	 * Returns a brand new NDDOAtom object. Deep copied!
 	 *
 	 * @param np New NDDOParams.
 	 * @return New NDDOAtom.
@@ -59,7 +59,7 @@ public abstract class NDDOAtom {
 	public abstract NDDOAtom withNewParams(NDDOParams np);
 
 	/**
-	 * Returns a brand new NDDOAtom object. Everything is pass-by-value.
+	 * Returns a brand new NDDOAtom object. Not cloned!
 	 *
 	 * @param coordinates New coordinates.
 	 * @return New NDDOAtom.

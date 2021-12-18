@@ -3,7 +3,6 @@ package frontend.txt;
 import nddo.Constants;
 import nddo.structs.AtomProperties;
 import runcycle.IMoleculeResult;
-import runcycle.RunIterator;
 import runcycle.structs.*;
 import tools.Utils;
 
@@ -14,10 +13,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 
-import static frontend.json.JsonIO.write;
-
-public class Main {
-	public static void txtToText() throws IOException {
+public class TxtIO {
+	private static void txtToText() throws IOException {
 		List<String> lines = Files.readAllLines(Path.of("input.txt"));
 		List<String> datums = Files.readAllLines(Path.of("reference.txt"));
 		PrintWriter pw = new PrintWriter("molecules.txt");
@@ -202,7 +199,7 @@ public class Main {
 		return new RunInput(info, molecules);
 	}
 
-	public static void updateMolecules(IMoleculeResult[] results) throws FileNotFoundException {
+	private static void updateMolecules(IMoleculeResult[] results) throws FileNotFoundException {
 		PrintWriter pw = new PrintWriter("molecules.txt");
 
 		for (IMoleculeResult r : results) {
@@ -246,7 +243,7 @@ public class Main {
 		pw.close();
 	}
 
-	public static void updateParams(InputInfo info) throws FileNotFoundException {
+	private static void updateParams(InputInfo info) throws FileNotFoundException {
 		PrintWriter pw = new PrintWriter("params.csv");
 
 		for (int i = 0; i < info.atomTypes.length; i++) {
@@ -291,20 +288,5 @@ public class Main {
 		return res;
 	}
 
-	public static void main(String[] args) throws IOException {
-		Files.createDirectories(Path.of("pastinputs"));
-		Files.createDirectories(Path.of("outputs"));
 
-		RunInput input = readInput();
-
-		RunIterator iterator = new RunIterator(input, 10);
-		int i = 0;
-		for (RunOutput ro : iterator) {
-			write(ro.getInput(), String.format("pastinputs/%04d-%s", i, ro.getInput().hash));
-			write(ro, String.format("outputs/%04d-%s-%s", i, ro.getInput().hash, ro.hash));
-			i++;
-		}
-
-		System.exit(0);
-	}
 }
