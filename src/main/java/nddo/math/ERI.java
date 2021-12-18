@@ -2,11 +2,13 @@ package nddo.math;
 
 import nddo.NDDO6G;
 import nddo.scf.GTO;
-import nddo.scf.LCGTO;
 
 import static nddo.math.Multipoles.*;
 
 public class ERI {
+	private static boolean isSimilar(NDDO6G a, NDDO6G b) {
+		return a.i == b.i && a.j == b.j && a.k == b.k;
+	}
 	public static double OneCenterERI(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d) {
 		if (a.getL() == b.getL() && a.getL() == 0) {/*(ss|??)*/
 			if (c.getL() == d.getL() & c.getL() == 0) {/*(gss*/
@@ -35,22 +37,22 @@ public class ERI {
 					}
 			}
 			else if (c.getL() == d.getL() && c.getL() == 1) {/*(pp'|p''p''')*/
-				if (Math.abs(LCGTO.getS(a, c) - 1) < 1E-5 && Math.abs(LCGTO.getS(b, d) - 1) < 1E-5) return a.hp2;
-				else if (Math.abs(LCGTO.getS(a, d) - 1) < 1E-5 && Math.abs(LCGTO.getS(b, c) - 1) < 1E-5) return a.hp2;
+				if (isSimilar(a, c) && isSimilar(b, d) || isSimilar(a, d) && isSimilar(b, c)) return a.hp2;
 			}
 		}
-		else if (a.getL() == 0 && c.getL() == 0 &&
-				(b.geti() == 1 && d.geti() == 1 || b.getj() == 1 && d.getj() == 1 ||
-						b.getk() == 1 && d.getk() == 1)) return a.hsp;
-		else if (a.getL() == 0 && d.getL() == 0 &&
-				(b.geti() == 1 && c.geti() == 1 || b.getj() == 1 && c.getj() == 1 ||
-						b.getk() == 1 && c.getk() == 1)) return a.hsp;
-		else if (b.getL() == 0 && c.getL() == 0 &&
-				(a.geti() == 1 && d.geti() == 1 || a.getj() == 1 && d.getj() == 1 ||
-						a.getk() == 1 && d.getk() == 1)) return a.hsp;
-		else if (b.getL() == 0 && d.getL() == 0 &&
-				(a.geti() == 1 && c.geti() == 1 || a.getj() == 1 && c.getj() == 1 ||
-						a.getk() == 1 && c.getk() == 1)) return a.hsp;
+
+		else if (a.getL() == 0 && c.getL() == 0 && (b.geti() == 1 && d.geti() == 1 ||
+				b.getj() == 1 && d.getj() == 1 || b.getk() == 1 && d.getk() == 1)) return a.hsp;
+
+		else if (a.getL() == 0 && d.getL() == 0 && (b.geti() == 1 && c.geti() == 1 ||
+				b.getj() == 1 && c.getj() == 1 || b.getk() == 1 && c.getk() == 1)) return a.hsp;
+
+		else if (b.getL() == 0 && c.getL() == 0 && (a.geti() == 1 && d.geti() == 1 ||
+				a.getj() == 1 && d.getj() == 1 || a.getk() == 1 && d.getk() == 1)) return a.hsp;
+
+		else if (b.getL() == 0 && d.getL() == 0 && (a.geti() == 1 && c.geti() == 1 ||
+				a.getj() == 1 && c.getj() == 1 || a.getk() == 1 && c.getk() == 1)) return a.hsp;
+
 		return 0;
 	}
 

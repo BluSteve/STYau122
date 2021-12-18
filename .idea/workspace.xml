@@ -6,8 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Fix paramgradient combine bug">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDO6G.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDO6G.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDO6GMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDO6GMethods.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDOOrbitalMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDOOrbitalMethods.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/ERI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/ERI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/scf/Orbital.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/scf/Orbital.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/optimize/ParamOptimizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/optimize/ParamOptimizer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +111,7 @@
     </favorite-branches>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="2c7fe6ad53c2664702070a01f248abccca8f0dd0" />
+        <entry key="$PROJECT_DIR$" value="8242a6d4dbc128150ce2ad681ea9803ed0de8609" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -194,7 +201,7 @@
       <recent name="tools" />
     </key>
   </component>
-  <component name="RunManager" selected="Shell Script.Copy">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="frontend.Main" />
       <module name="MNDOParam.main" />
@@ -705,7 +712,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/hessian" />
+                        <option value="stratified2" />
                       </list>
                     </value>
                   </entry>

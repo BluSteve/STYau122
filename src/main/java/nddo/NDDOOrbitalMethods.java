@@ -19,5 +19,5 @@ public interface NDDOOrbitalMethods<T extends NDDOOrbital> {
 
 	double betaparamderiv(T a, T b, int num, int type);
 
-	double betaparambetaderiv(T a, T b, double sum);
+	double betaparambetaderiv(T a, T b, int Z, int type);
 }

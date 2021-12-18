@@ -1,6 +1,5 @@
 package nddo.scf;
 
-import nddo.NDDO6G;
 import nddo.structs.OrbitalProperties;
 
 public abstract class Orbital {
@@ -21,14 +20,14 @@ public abstract class Orbital {
 		this.L = op.L;
 	}
 
-	public static double[] derivativeDecomposition(double[] point1, double[] point2, NDDO6G a, int tau) {
-		if (a.getL() == 0) return new double[]{0};
+	public double[] derivativeDecomposition(double[] point1, double[] point2, int tau) {
+		if (L == 0) return new double[]{0};
 		double R = GTO.R(point1, point2);
 		double Rxy = Math.sqrt(
 				(point2[1] - point1[1]) * (point2[1] - point1[1]) + (point2[0] - point1[0]) * (point2[0] - point1[0]));
 		switch (tau) {
 			case 0:
-				if (a.geti() == 1) {
+				if (i == 1) {
 					double x1 = (point2[2] - point1[2]) / (R * Rxy) -
 							(point2[0] - point1[0]) * (point2[0] - point1[0]) * (point2[2] - point1[2]) /
 									(Rxy * Rxy * Rxy * R) -
@@ -38,7 +37,7 @@ public abstract class Orbital {
 					double x3 = (point2[0] - point1[0]) * (point2[0] - point1[0]) / (R * R * R) - 1 / R;
 					return new double[]{x1, x2, x3};
 				}
-				else if (a.getj() == 1) {
+				else if (j == 1) {
 					double x1 = -(point2[0] - point1[0]) * (point2[1] - point1[1]) * (point2[2] - point1[2]) /
 							(Rxy * Rxy * Rxy * R) -
 							(point2[0] - point1[0]) * (point2[1] - point1[1]) * (point2[2] - point1[2]) /
@@ -47,14 +46,14 @@ public abstract class Orbital {
 					double x3 = (point2[0] - point1[0]) * (point2[1] - point1[1]) / (R * R * R);
 					return new double[]{x1, x2, x3};
 				}
-				else if (a.getk() == 1) {
+				else if (k == 1) {
 					double x1 = (point2[0] - point1[0]) * Rxy / (R * R * R) - (point2[0] - point1[0]) / (R * Rxy);
 					double x2 = 0;
 					double x3 = (point2[0] - point1[0]) * (point2[2] - point1[2]) / (R * R * R);
 					return new double[]{x1, x2, x3};
 				}
 			case 1:
-				if (a.geti() == 1) {
+				if (i == 1) {
 					double x1 = -(point2[0] - point1[0]) * (point2[1] - point1[1]) * (point2[2] - point1[2]) /
 							(Rxy * Rxy * Rxy * R) -
 							(point2[0] - point1[0]) * (point2[1] - point1[1]) * (point2[2] - point1[2]) /
@@ -63,7 +62,7 @@ public abstract class Orbital {
 					double x3 = (point2[0] - point1[0]) * (point2[1] - point1[1]) / (R * R * R);
 					return new double[]{x1, x2, x3};
 				}
-				else if (a.getj() == 1) {
+				else if (j == 1) {
 					double x1 = (point2[2] - point1[2]) / (R * Rxy) -
 							(point2[2] - point1[2]) * (point2[1] - point1[1]) * (point2[1] - point1[1]) /
 									(Rxy * Rxy * Rxy * R) -
@@ -73,14 +72,14 @@ public abstract class Orbital {
 					double x3 = (point2[1] - point1[1]) * (point2[1] - point1[1]) / (R * R * R) - 1 / R;
 					return new double[]{x1, x2, x3};
 				}
-				else if (a.getk() == 1) {
+				else if (k == 1) {
 					double x1 = (point2[1] - point1[1]) * Rxy / (R * R * R) - (point2[1] - point1[1]) / (R * Rxy);
 					double x2 = 0;
 					double x3 = (point2[2] - point1[2]) * (point2[1] - point1[1]) / (R * R * R);
 					return new double[]{x1, x2, x3};
 				}
 			case 2:
-				if (a.geti() == 1) {
+				if (i == 1) {
 					double x1 = (point2[0] - point1[0]) / (R * Rxy) -
 							(point2[0] - point1[0]) * (point2[2] - point1[2]) * (point2[2] - point1[2]) /
 									(R * R * R * Rxy);
@@ -88,7 +87,7 @@ public abstract class Orbital {
 					double x3 = (point2[2] - point1[2]) * (point2[0] - point1[0]) / (R * R * R);
 					return new double[]{x1, x2, x3};
 				}
-				else if (a.getj() == 1) {
+				else if (j == 1) {
 					double x1 = (point2[1] - point1[1]) / (R * Rxy) -
 							(point2[1] - point1[1]) * (point2[2] - point1[2]) * (point2[2] - point1[2]) /
 									(R * R * R * Rxy);
@@ -96,7 +95,7 @@ public abstract class Orbital {
 					double x3 = (point2[2] - point1[2]) * (point2[1] - point1[1]) / (R * R * R);
 					return new double[]{x1, x2, x3};
 				}
-				else if (a.getk() == 1) {
+				else if (k == 1) {
 					double x1 = (point2[2] - point1[2]) * Rxy / (R * R * R);
 					double x2 = 0;
 					double x3 = (point2[2] - point1[2]) * (point2[2] - point1[2]) / (R * R * R) - 1 / R;
@@ -106,61 +105,61 @@ public abstract class Orbital {
 		return null;
 	}
 
-	public static double[] derivativeDecomposition2(double[] point1, double[] point2, NDDO6G a, int tau) {
-		if (a.getL() == 0) return new double[]{0};
+	public double[] derivativeDecompositionvar(double[] point1, double[] point2, int tau) {
+		if (L == 0) return new double[]{0};
 		double x = point2[0] - point1[0];
 		double y = point2[1] - point1[1];
 		double z = point2[2] - point1[2];
 		double Rxz = Math.sqrt(x * x + z * z);
 		double R = GTO.R(point1, point2);
-		if (a.getL() == 1) switch (tau) {
+		if (L == 1) switch (tau) {
 			case 0:
-				if (a.geti() == 1) {
+				if (i == 1) {
 					double val1 = x * x * y / (R * R * R * Rxz) + x * x * y / (R * Rxz * Rxz * Rxz) - y / (R * Rxz);
 					double val2 = -x * z / (Rxz * Rxz * Rxz);
 					double val3 = x * x / (R * R * R) - 1 / R;
 					return new double[]{val1, val2, val3};
 				}
-				else if (a.getj() == 1) {
+				else if (j == 1) {
 					double val1 = x / (R * Rxz) - x * Rxz / (R * R * R);
 					double val3 = x * y / (R * R * R);
 					return new double[]{val1, 0, val3};
 				}
-				else if (a.getk() == 1) {
+				else if (k == 1) {
 					double val1 = x * y * z / (R * R * R * Rxz) + x * y * z / (R * Rxz * Rxz * Rxz);
 					double val2 = x * x / (Rxz * Rxz * Rxz) - 1 / Rxz;
 					double val3 = x * z / (R * R * R);
 					return new double[]{val1, val2, val3};
 				}
 			case 1:
-				if (a.geti() == 1) {
+				if (i == 1) {
 					double val1 = x * y * y / (R * R * R * Rxz) - x / (R * Rxz);
 					double val3 = x * y / (R * R * R);
 					return new double[]{val1, 0, val3};
 				}
-				else if (a.getj() == 1) {
+				else if (j == 1) {
 					double val1 = -y * Rxz / (R * R * R);
 					double val3 = y * y / (R * R * R) - 1 / R;
 					return new double[]{val1, 0, val3};
 				}
-				else if (a.getk() == 1) {
+				else if (k == 1) {
 					double val1 = y * y * z / (R * R * R * Rxz) - z / (R * Rxz);
 					double val3 = y * z / (R * R * R);
 					return new double[]{val1, 0, val3};
 				}
 			case 2:
-				if (a.geti() == 1) {
+				if (i == 1) {
 					double val1 = x * y * z / (R * R * R * Rxz) + x * y * z / (R * Rxz * Rxz * Rxz);
 					double val2 = 1 / Rxz - z * z / (Rxz * Rxz * Rxz);
 					double val3 = x * z / (R * R * R);
 					return new double[]{val1, val2, val3};
 				}
-				else if (a.getj() == 1) {
+				else if (j == 1) {
 					double val1 = z / (R * Rxz) - z * Rxz / (R * R * R);
 					double val3 = z * y / (R * R * R);
 					return new double[]{val1, 0, val3};
 				}
-				else if (a.getk() == 1) {
+				else if (k == 1) {
 					double val1 = y * z * z / (R * R * R * Rxz) + y * z * z / (R * Rxz * Rxz * Rxz) - y / (R * Rxz);
 					double val2 = x * z / (Rxz * Rxz * Rxz);
 					double val3 = z * z / (R * R * R) - 1 / R;
@@ -170,9 +169,8 @@ public abstract class Orbital {
 		return null;
 	}
 
-	public static double[] secondDerivativeDecomposition(double[] point1, double[] point2, NDDO6G a, int tau1,
-														 int tau2) {
-		if (a.getL() == 0) return new double[]{0};
+	public double[] secondDerivativeDecomposition(double[] point1, double[] point2, int tau1, int tau2) {
+		if (L == 0) return new double[]{0};
 		int A = Math.min(tau1, tau2);
 		int B = Math.max(tau1, tau2);
 		double x = point2[0] - point1[0];
@@ -181,7 +179,7 @@ public abstract class Orbital {
 		double R = GTO.R(point1, point2);
 		double Rxy = Math.sqrt(x * x + y * y);
 		double[] returnval = new double[3];
-		if (a.geti() == 1 && a.getL() == 1) switch (A) {
+		if (i == 1 && L == 1) switch (A) {
 			case 0:
 				switch (B) {
 					case 0:/*partial wrt x and x*/
@@ -234,7 +232,7 @@ public abstract class Orbital {
 				return returnval;
 			default:
 		}
-		else if (a.getj() == 1 && a.getL() == 1) switch (A) {
+		else if (j == 1 && L == 1) switch (A) {
 			case 0:
 				switch (B) {
 					case 0: /*partial wrt x and x*/
@@ -287,7 +285,7 @@ public abstract class Orbital {
 				return returnval;
 			default:
 		}
-		else if (a.getk() == 1 && a.getL() == 1) switch (A) {
+		else if (k == 1 && L == 1) switch (A) {
 			case 0:
 				switch (B) {
 					case 0: /*partial wrt x and x*/
@@ -334,9 +332,8 @@ public abstract class Orbital {
 		return new double[]{0, 0, 0};
 	}
 
-	public static double[] secondDerivativeDecomposition2(double[] point1, double[] point2, NDDO6G a, int tau1,
-														  int tau2) {
-		if (a.getL() == 0) return new double[]{0};
+	public double[] secondDerivativeDecompositionvar(double[] point1, double[] point2, int tau1, int tau2) {
+		if (L == 0) return new double[]{0};
 		int A = Math.min(tau1, tau2);
 		int B = Math.max(tau1, tau2);
 		double x = point2[0] - point1[0];
@@ -345,7 +342,7 @@ public abstract class Orbital {
 		double R = GTO.R(point1, point2);
 		double Rxz = Math.sqrt(x * x + z * z);
 		double[] returnval = new double[3];
-		if (a.geti() == 1 && a.getL() == 1) switch (A) {
+		if (i == 1 && L == 1) switch (A) {
 			case 0:
 				switch (B) {
 					case 0:/*partial wrt x and x*/
@@ -398,7 +395,7 @@ public abstract class Orbital {
 				return returnval;
 			default:
 		}
-		else if (a.getj() == 1 && a.getL() == 1) switch (A) {
+		else if (j == 1 && L == 1) switch (A) {
 			case 0:
 				switch (B) {
 					case 0: /*partial wrt x and x*/
@@ -442,7 +439,7 @@ public abstract class Orbital {
 				return returnval;
 			default:
 		}
-		else if (a.getk() == 1 && a.getL() == 1) switch (A) {
+		else if (k == 1 && L == 1) switch (A) {
 			case 0:
 				switch (B) {
 					case 0: /*partial wrt x and x*/
@@ -522,7 +519,7 @@ public abstract class Orbital {
 		return null;
 	}
 
-	public double[] decomposition2(double[] point1, double[] point2) {
+	public double[] decompositionvar(double[] point1, double[] point2) {
 		if (this.L == 0) return new double[]{1};
 		double x = point2[0] - point1[0];
 		double y = point2[1] - point1[1];

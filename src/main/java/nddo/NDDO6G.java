@@ -57,7 +57,7 @@ public class NDDO6G extends STO6G implements NDDOOrbital {
 	}
 
 	@Override
-	public NDDO6G[] orbitalArray() {
+	public NDDO6G[] orbitalArray() { // todo make this better
 		if (this.orbitalArray == null) {
 			if (this.L == 0) {
 				orbitalArray = new NDDO6G[]{new NDDO6G(this, 0, 0, 0)};

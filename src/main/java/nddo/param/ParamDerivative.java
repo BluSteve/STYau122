@@ -554,15 +554,8 @@ public class ParamDerivative {
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
 				if (atomNumber[j] != atomNumber[k]) {
-					double sum = betaderivsum(atomicnumbers[atomNumber[j]],
-							atomicnumbers[atomNumber[k]], Z,
-							orbitals[j].getL(),
-							orbitals[k].getL(), type);
-
-					if (sum != 0) {
-						double H = nom.betaparambetaderiv(orbitals[j], orbitals[k], sum);
-						e += 2 * densitymatrix.get(j, k) * H;
-					}
+					double H = nom.betaparambetaderiv(orbitals[j], orbitals[k], Z, type);
+					e += 2 * densitymatrix.get(j, k) * H;
 				}
 			}
 		}
@@ -586,16 +579,9 @@ public class ParamDerivative {
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
 				if (atomNumber[j] != atomNumber[k]) {
-					double sum = betaderivsum(atomicnumbers[atomNumber[j]],
-							atomicnumbers[atomNumber[k]], Z,
-							orbitals[j].getL(),
-							orbitals[k].getL(), type);
-
-					if (sum != 0) {
-						double H = nom.betaparambetaderiv(orbitals[j], orbitals[k], sum);
-						F.set(j, k, H);
-						F.set(k, j, H);
-					}
+					double H = nom.betaparambetaderiv(orbitals[j], orbitals[k], Z, type);
+					F.set(j, k, H);
+					F.set(k, j, H);
 				}
 			}
 		}
@@ -632,21 +618,6 @@ public class ParamDerivative {
 		}
 
 		return sum / 4.3363E-2;
-	}
-
-	private static double betaderivsum(int Z1, int Z2, int Z, int L1, int L2,
-									   int type) {
-
-		double sum = 0;
-
-		if (Z1 == Z && L1 == type) {
-			sum += 0.5;
-		}
-
-		if (Z2 == Z && L2 == type) {
-			sum += 0.5;
-		}
-		return sum;
 	}
 
 	private static int getNum(int Z1, int Z2, int Z) {
