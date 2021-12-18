@@ -1,6 +1,6 @@
 package frontend;
 
-import runcycle.Serializer;
+import runcycle.structs.Serializer;
 import runcycle.structs.RunInput;
 import runcycle.structs.RunOutput;
 

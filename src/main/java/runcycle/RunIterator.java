@@ -21,7 +21,7 @@ import java.util.concurrent.*;
 import static runcycle.State.getConverter;
 
 public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutput> {
-	private static final Logger logger = LogManager.getLogger(RunIterator.class);
+	private static final Logger logger = LogManager.getLogger("RunIterator.class");
 	public final RunInput initialRunInput;
 	private final int limit;
 	private int runNumber = 0;
@@ -102,7 +102,7 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 	}
 
 	private static final class PRun { // stands for ParameterizationRun
-		private static final Logger logger = LogManager.getLogger(PRun.class);
+		private static final Logger logger = LogManager.getLogger("PRun.class");
 		private final RunInput ri;
 		private final ScheduledExecutorService progressBar = Executors.newScheduledThreadPool(1);
 		private IMoleculeResult[] ranMolecules;

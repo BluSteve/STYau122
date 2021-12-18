@@ -1,7 +1,5 @@
 package runcycle.structs;
 
-import runcycle.Serializer;
-
 public final class RunInput {
 	public final String hash;
 	public final InputInfo info; // info can vary independently of molecules

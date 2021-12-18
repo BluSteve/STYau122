@@ -1,7 +1,6 @@
 package runcycle.structs;
 
 import runcycle.IMoleculeResult;
-import runcycle.Serializer;
 
 public final class RunOutput { // non-transient fields must be for reference purposes only
 	public final String hash;

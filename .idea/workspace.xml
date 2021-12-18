@@ -4,20 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Constant changes re bounds">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/atom-properties.json" afterDir="false" />
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Proguard refactor">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/atom-properties.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/param-numbers.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/param-numbers.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/JsonIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/JsonIO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/frontend/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/json/JsonIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/JsonIO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/txt/TxtIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/TxtIO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/structs/AtomProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/structs/AtomProperties.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/Serializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/Serializer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunInput.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunOutput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunOutput.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -164,11 +159,11 @@
     <property name="last.edited.regexp" value="asdf,       asdf" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Facets" />
+    <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.26182964" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="de.santiv.fastscrolling.configuration.Configuration" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
   </component>
   <component name="ReaderModeSettings">
     <option name="enabled" value="false" />
@@ -239,6 +234,27 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
+    <configuration name="MNDOParam [jar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="jar" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
     <configuration name="MNDOParam [myProguardTask]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -282,10 +298,12 @@
       <item itemvalue="Gradle.MNDOParam [myProguardTask]" />
       <item itemvalue="Gradle.MNDOParam [fatjar]" />
       <item itemvalue="Shell Script.Copy" />
+      <item itemvalue="Gradle.MNDOParam [jar]" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.MNDOParam [myProguardTask]" />
+        <item itemvalue="Gradle.MNDOParam [jar]" />
         <item itemvalue="Gradle.MNDOParam [fatjar]" />
         <item itemvalue="Application.Main" />
       </list>
@@ -364,14 +382,7 @@
       <workItem from="1639721448920" duration="37882000" />
       <workItem from="1639769400322" duration="452000" />
       <workItem from="1639800791257" duration="4037000" />
-      <workItem from="1639813356529" duration="9553000" />
-    </task>
-    <task id="LOCAL-00052" summary="temp2">
-      <created>1638536949325</created>
-      <option name="number" value="00052" />
-      <option name="presentableId" value="LOCAL-00052" />
-      <option name="project" value="LOCAL" />
-      <updated>1638536949326</updated>
+      <workItem from="1639813356529" duration="12667000" />
     </task>
     <task id="LOCAL-00053" summary="340000ms actually works pretty well">
       <created>1638539320440</created>
@@ -709,7 +720,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639811983481</updated>
     </task>
-    <option name="localTasksCounter" value="101" />
+    <task id="LOCAL-00101" summary="Proguard refactor">
+      <created>1639823251903</created>
+      <option name="number" value="00101" />
+      <option name="presentableId" value="LOCAL-00101" />
+      <option name="project" value="LOCAL" />
+      <updated>1639823251904</updated>
+    </task>
+    <option name="localTasksCounter" value="102" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -757,7 +775,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="AtomHandler no longer needs explicit population" />
     <MESSAGE value="Massive runcycle refactor in progress" />
     <MESSAGE value="Remove RunOutput unnecessary interface" />
     <MESSAGE value="RunIterator and lots of changes in runcycle" />
@@ -782,7 +799,8 @@
     <MESSAGE value="Make RunIterator implement Iterable" />
     <MESSAGE value="Minor refactoring" />
     <MESSAGE value="Constant changes re bounds" />
-    <option name="LAST_COMMIT_MESSAGE" value="Constant changes re bounds" />
+    <MESSAGE value="Proguard refactor" />
+    <option name="LAST_COMMIT_MESSAGE" value="Proguard refactor" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

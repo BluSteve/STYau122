@@ -63,11 +63,13 @@ task myProguardTask(type: ProGuardTask) {
     keep "class * implements com.google.gson.TypeAdapterFactory"
     keep "class * implements com.google.gson.JsonSerializer"
     keep "class * implements com.google.gson.JsonDeserializer"
+
     keep "public class runcycle.structs.** {*;}"
-    keep "public class runcycle.Serializer {*;}"
+    keep "public class nddo.structs.** {*;}"
     keep "public class frontend.** {*;}"
 
     dontobfuscate()
+    optimizations("!library/gson")
 
     dontwarn "org.ejml.**"
     dontwarn "pabeles.**"

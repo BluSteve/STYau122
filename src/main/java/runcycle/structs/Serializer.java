@@ -1,8 +1,8 @@
-package runcycle;
+package runcycle.structs;
 
 import com.google.gson.*;
 import org.apache.commons.lang3.StringUtils;
-import runcycle.structs.*;
+import runcycle.IMoleculeResult;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
