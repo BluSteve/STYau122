@@ -2,25 +2,27 @@ package nddo.structs;
 
 import com.google.gson.Gson;
 import nddo.Constants;
+import tools.Utils;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashMap;
 
 public class AtomProperties { // Only 119 of these, immutable
-
-	private static AtomProperties[] atoms = getAtoms();
-	private static HashMap<String, AtomProperties> atomsMap = getAtomsMap();
+	private static final double HEATCONV = 4.3363E-2;
+	private int Z, Q;
+	private String name;
+	private double mass, heat;	private static AtomProperties[] atoms = getAtoms();
+	private OrbitalProperties[] orbitals;
 
 	private static void populateAtoms() {
 		atoms = new AtomProperties[Constants.maxAtomNum];
 		atomsMap = new HashMap<>();
 
 		try {
+			String json = Utils.getResource("atom-properties.json");
+
 			Gson gson = new Gson();
-			String json = Files.readString(Path.of("atom-properties.json"));
 
 			AtomProperties[] unindexedAtoms = gson.fromJson(json, AtomProperties[].class);
 
@@ -30,7 +32,7 @@ public class AtomProperties { // Only 119 of these, immutable
 				getAtoms()[atom.getZ()] = atom;
 				getAtomsMap().put(atom.getName(), atom);
 			}
-		} catch (IOException e) {
+		} catch (IOException | NullPointerException e) {
 			throw new RuntimeException("atom-properties.json not found!");
 		}
 	}
@@ -45,12 +47,7 @@ public class AtomProperties { // Only 119 of these, immutable
 		if (atomsMap == null) populateAtoms();
 
 		return atomsMap;
-	}
-	private static final double HEATCONV = 4.3363E-2;
-	private int Z, Q;
-	private String name;
-	private double mass, heat;
-	private OrbitalProperties[] orbitals;
+	}	private static HashMap<String, AtomProperties> atomsMap = getAtomsMap();
 
 	public int getPeriod() {
 		int period = 1;
@@ -102,4 +99,10 @@ public class AtomProperties { // Only 119 of these, immutable
 				", orbitals=" + Arrays.toString(orbitals) +
 				'}';
 	}
+
+
+
+
+
+
 }

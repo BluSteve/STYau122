@@ -1,4 +1,4 @@
-package frontend.txt;
+package frontend;
 
 import nddo.Constants;
 import nddo.structs.AtomProperties;
@@ -108,7 +108,11 @@ public class TxtIO {
 			params[i] = Utils.toDoubles(Arrays.copyOfRange(linea, 1, linea.length));
 		}
 
-		List<String> pncsv = Files.readAllLines(Path.of("param-numbers.csv"));
+		final String pncsvname = "param-numbers.csv";
+		// if specified then take specified else default
+		List<String> pncsv = Files.exists(Path.of(pncsvname)) ?
+				Files.readAllLines(Path.of(pncsvname)) : Utils.getResourceAsList(pncsvname);
+
 		int[] atomTypes = new int[pncsv.size()];
 		int[][] neededParams = new int[pncsv.size()][];
 		for (int i = 0; i < pncsv.size(); i++) {

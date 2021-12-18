@@ -4,13 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Minor refactoring">
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Constant changes re bounds">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/atom-properties.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/atom-properties.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/param-numbers.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/param-numbers.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/frontend/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryOptimization.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/Multipoles.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/Multipoles.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/optimize/ParamOptimizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/optimize/ParamOptimizer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/json/JsonIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/JsonIO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/txt/TxtIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/TxtIO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/structs/AtomProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/structs/AtomProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Utils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,9 +72,49 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <excluded-from-favorite>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="master" />
+              </list>
+            </value>
+          </entry>
+          <entry type="REMOTE">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="origin/master" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </excluded-from-favorite>
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="stratified2" />
+              </list>
+            </value>
+          </entry>
+          <entry type="REMOTE">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="origin/hessian" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="stratified" />
+        <entry key="$PROJECT_DIR$" value="2c7fe6ad53c2664702070a01f248abccca8f0dd0" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -135,11 +182,11 @@
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam-gradle\src\main\java" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\billi\IdeaProjects\MNDOParam\src\main\resources" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\src\main\java\frontend\json" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\src\main\java\examples\json" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\src\main\java" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam" />
-      <recent name="C:\Users\billi\IdeaProjects\MNDOParam\analysis" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
       <recent name="frontend.txt.Main" />
@@ -157,7 +204,7 @@
       <recent name="tools" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Gradle.MNDOParam [myProguardTask]">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="frontend.Main" />
       <module name="MNDOParam.main" />
@@ -171,20 +218,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Testing" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="testing.Testing" />
-      <module name="MNDOParam.main" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="testing.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="MNDOParam [jmh]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="MNDOParam [fatjar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -195,7 +229,28 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value="jmh" />
+            <option value="fatjar" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="MNDOParam [myProguardTask]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="myProguardTask" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -219,21 +274,20 @@
       <option name="EXECUTE_SCRIPT_FILE" value="true" />
       <envs />
       <method v="2">
-        <option name="Gradle.BeforeRunTask" enabled="true" tasks="jar" externalProjectPath="$PROJECT_DIR$" vmOptions="" scriptParameters="" />
+        <option name="Gradle.BeforeRunTask" enabled="true" tasks="fatjar" externalProjectPath="$PROJECT_DIR$" vmOptions="" scriptParameters="" />
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.Testing" />
       <item itemvalue="Application.Main" />
-      <item itemvalue="Gradle.MNDOParam [jmh]" />
+      <item itemvalue="Gradle.MNDOParam [myProguardTask]" />
+      <item itemvalue="Gradle.MNDOParam [fatjar]" />
       <item itemvalue="Shell Script.Copy" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.MNDOParam [myProguardTask]" />
+        <item itemvalue="Gradle.MNDOParam [fatjar]" />
         <item itemvalue="Application.Main" />
-        <item itemvalue="Application.Main" />
-        <item itemvalue="Gradle.MNDOParam [jmh]" />
-        <item itemvalue="Application.Testing" />
       </list>
     </recent_temporary>
   </component>
@@ -310,13 +364,7 @@
       <workItem from="1639721448920" duration="37882000" />
       <workItem from="1639769400322" duration="452000" />
       <workItem from="1639800791257" duration="4037000" />
-    </task>
-    <task id="LOCAL-00051" summary="Port changes over to gsd and pd">
-      <created>1638175576036</created>
-      <option name="number" value="00051" />
-      <option name="presentableId" value="LOCAL-00051" />
-      <option name="project" value="LOCAL" />
-      <updated>1638175576036</updated>
+      <workItem from="1639813356529" duration="9553000" />
     </task>
     <task id="LOCAL-00052" summary="temp2">
       <created>1638536949325</created>
@@ -654,7 +702,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639803519415</updated>
     </task>
-    <option name="localTasksCounter" value="100" />
+    <task id="LOCAL-00100" summary="Constant changes re bounds">
+      <created>1639811983481</created>
+      <option name="number" value="00100" />
+      <option name="presentableId" value="LOCAL-00100" />
+      <option name="project" value="LOCAL" />
+      <updated>1639811983481</updated>
+    </task>
+    <option name="localTasksCounter" value="101" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -682,7 +737,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="stratified" />
+                        <option value="stratified2" />
                       </list>
                     </value>
                   </entry>
@@ -702,7 +757,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Fix multithreading issue in OrbitalProperties" />
     <MESSAGE value="AtomHandler no longer needs explicit population" />
     <MESSAGE value="Massive runcycle refactor in progress" />
     <MESSAGE value="Remove RunOutput unnecessary interface" />
@@ -727,7 +781,8 @@
     <MESSAGE value="ranMolecules in RunIterator" />
     <MESSAGE value="Make RunIterator implement Iterable" />
     <MESSAGE value="Minor refactoring" />
-    <option name="LAST_COMMIT_MESSAGE" value="Minor refactoring" />
+    <MESSAGE value="Constant changes re bounds" />
+    <option name="LAST_COMMIT_MESSAGE" value="Constant changes re bounds" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -8,8 +8,9 @@ import org.ejml.dense.row.decomposition.eig.SymmetricQRAlgorithmDecomposition_DD
 import org.ejml.interfaces.decomposition.EigenDecomposition_F64;
 import org.ejml.simple.SimpleMatrix;
 
-import java.util.Arrays;
-import java.util.Collection;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
 public class Utils {
 	public static double[] toDoubles(String[] strs) {
@@ -96,6 +97,34 @@ public class Utils {
 		}
 
 		return perturbed;
+	}
+
+	public static String getResource(String resourceName) throws IOException {
+		InputStream inputStream =
+				Objects.requireNonNull(Utils.class.getClassLoader().getResourceAsStream(resourceName));
+
+		ByteArrayOutputStream result = new ByteArrayOutputStream();
+		byte[] buffer = new byte[1024];
+		for (int length; (length = inputStream.read(buffer)) != -1; ) {
+			result.write(buffer, 0, length);
+		}
+
+		return result.toString(StandardCharsets.UTF_8);
+	}
+
+	public static List<String> getResourceAsList(String resourceName) throws IOException {
+		InputStream inputStream =
+				Objects.requireNonNull(Utils.class.getClassLoader().getResourceAsStream(resourceName));
+
+		BufferedReader r = new BufferedReader(new InputStreamReader(inputStream));
+		List<String> res = new ArrayList<>();
+
+		String line;
+		while ((line=r.readLine()) != null) {
+			res.add(line);
+		}
+
+		return res;
 	}
 
 	public static int numNotNull(Object[] array) {

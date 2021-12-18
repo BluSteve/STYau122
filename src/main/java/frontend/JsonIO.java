@@ -1,4 +1,4 @@
-package frontend.json;
+package frontend;
 
 import runcycle.Serializer;
 import runcycle.structs.RunInput;

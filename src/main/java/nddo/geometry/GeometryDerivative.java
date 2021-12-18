@@ -23,7 +23,7 @@ public class GeometryDerivative {
 					if (atomnumber[j] == atomnum) {
 						for (int a = 0; a < atoms.length; a++)
 							if (a != atomnum) sum -= atoms[a].getAtomProperties().getQ() *
-									nom.getGderiv(orbitals[j], orbitals[k], atoms[a].s(), atoms[a].s(), tau);
+									nom.getGderiv(orbitals[j], orbitals[k], atoms[a].s(), atoms[a].s(), tau); // todo
 					}
 					else sum -= atoms[atomnum].getAtomProperties().getQ() *
 							nom.getGderiv(atoms[atomnum].s(), atoms[atomnum].s(), orbitals[j], orbitals[k], tau);
