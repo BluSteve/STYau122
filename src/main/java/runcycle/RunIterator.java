@@ -275,7 +275,7 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 			// generating nextRunInfo
 			NDDOParams[] newNpMap = new NDDOParams[info.npMap.length];
 			for (int i = 0; i < newNpMap.length; i++) {
-				if (info.npMap[i] != null) newNpMap[i] = info.npMap[i].clone();
+				if (info.npMap[i] != null) newNpMap[i] = info.npMap[i].copy();
 			}
 
 			int n = 0;

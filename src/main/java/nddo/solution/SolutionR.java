@@ -540,7 +540,7 @@ public class SolutionR extends Solution {
 
 		double heat = 0;
 		for (int j = 0; j < atoms.length; j++) {
-			heat += atoms[j].getHeat() - atoms[j].getParams().getEisol();
+			heat += atoms[j].getAtomProperties().getHeat() - atoms[j].getParams().getEisol();
 			for (int k = j + 1; k < atoms.length; k++) {
 				energy += atoms[j].crf(atoms[k]);
 			}

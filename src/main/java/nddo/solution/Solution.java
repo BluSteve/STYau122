@@ -1,6 +1,6 @@
 package nddo.solution;
 
-import nddo.NDDO6G;
+import nddo.defaults.NDDO6G;
 import nddo.NDDOAtom;
 import nddo.NDDOOrbital;
 import nddo.structs.MoleculeInfo;
@@ -128,10 +128,10 @@ public abstract class Solution {
 		double[] com = new double[]{0, 0, 0};
 		double mass = 0;
 		for (NDDOAtom atom : atoms) {
-			com[0] += atom.getMass() * atom.getCoordinates()[0];
-			com[1] += atom.getMass() * atom.getCoordinates()[1];
-			com[2] += atom.getMass() * atom.getCoordinates()[2];
-			mass += atom.getMass();
+			com[0] += atom.getAtomProperties().getMass() * atom.getCoordinates()[0];
+			com[1] += atom.getAtomProperties().getMass() * atom.getCoordinates()[1];
+			com[2] += atom.getAtomProperties().getMass() * atom.getCoordinates()[2];
+			mass += atom.getAtomProperties().getMass();
 		}
 
 		com[0] /= mass;
@@ -152,7 +152,7 @@ public abstract class Solution {
 
 		for (int j = 0; j < atoms.length; j++) {
 			if (orbsOfAtom[j].length > 1) { // exclude hydrogen
-				double v1 = v * 2 * atoms[j].D1;
+				double v1 = v * 2 * atoms[j].D1();
 				hybridip[0] -= v1 * densityMatrix().get(orbsOfAtom[j][0], orbsOfAtom[j][1]);
 				hybridip[1] -= v1 * densityMatrix().get(orbsOfAtom[j][0], orbsOfAtom[j][2]);
 				hybridip[2] -= v1 * densityMatrix().get(orbsOfAtom[j][0], orbsOfAtom[j][3]);

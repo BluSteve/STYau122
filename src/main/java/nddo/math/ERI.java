@@ -1,6 +1,6 @@
 package nddo.math;
 
-import nddo.NDDO6G;
+import nddo.defaults.NDDO6G;
 import nddo.scf.GTO;
 
 import static nddo.math.Multipoles.*;

@@ -69,12 +69,12 @@ public class Utils {
 
 		for (int i = 0; i < atoms.length; i++) {
 			if (atoms[i].getAtomProperties().getZ() == Z) {
-				NDDOParams params = atoms[i].getParams();
+				NDDOParams params = atoms[i].getParams().copy();
 				params.modifyParam(paramNum, Constants.LAMBDA);
 				perturbed[i] = atoms[i].withNewParams(params);
 			}
 			else {
-				perturbed[i] = atoms[i].clone();
+				perturbed[i] = atoms[i].copy();
 			}
 		}
 
@@ -92,7 +92,7 @@ public class Utils {
 				perturbed[i] = atoms[i].withNewCoords(coords);
 			}
 			else {
-				perturbed[i] = atoms[i].clone();
+				perturbed[i] = atoms[i].copy();
 			}
 		}
 

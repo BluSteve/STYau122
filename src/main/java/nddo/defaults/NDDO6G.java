@@ -1,5 +1,7 @@
-package nddo;
+package nddo.defaults;
 
+import nddo.NDDOAtom;
+import nddo.NDDOOrbital;
 import nddo.scf.STO6G;
 import nddo.structs.OrbitalProperties;
 
@@ -15,11 +17,11 @@ public class NDDO6G extends STO6G implements NDDOOrbital {
 		this.atom = atom;
 		this.beta = beta;
 		this.U = U;
-		this.p0 = atom.p0;
-		this.p1 = atom.p1;
-		this.p2 = atom.p2;
-		this.D1 = atom.D1;
-		this.D2 = atom.D2;
+		this.p0 = atom.p0();
+		this.p1 = atom.p1();
+		this.p2 = atom.p2();
+		this.D1 = atom.D1();
+		this.D2 = atom.D2();
 		this.gss = atom.getParams().getGss();
 		this.gsp = atom.getParams().getGsp();
 		this.hsp = atom.getParams().getHsp();
@@ -39,12 +41,6 @@ public class NDDO6G extends STO6G implements NDDOOrbital {
 		super.j = j;
 		super.k = k;
 		super.L = i + j + k;
-	}
-
-	public NDDO6G(NDDO6G nddo6G, double[] coordinates) {
-		this(nddo6G);
-
-		super.coordinates = coordinates;
 	}
 
 	@Override

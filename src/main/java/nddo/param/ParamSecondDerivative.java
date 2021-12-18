@@ -1,6 +1,6 @@
 //package nddo.param;
 //
-//import nddo.NDDO6G;
+//import nddo.defaults.NDDO6G;
 //import nddo.NDDOAtom;
 //import nddo.NDDOParams;
 //import nddo.geometry.GeometryDerivative;
@@ -937,10 +937,10 @@
 //		double mass = 0;
 //
 //		for (NDDOAtom atom : atoms) {
-//			com[0] = com[0] + atom.getMass() * atom.getCoordinates()[0];
-//			com[1] = com[1] + atom.getMass() * atom.getCoordinates()[1];
-//			com[2] = com[2] + atom.getMass() * atom.getCoordinates()[2];
-//			mass += atom.getMass();
+//			com[0] = com[0] + atom.getAtomProperties().getMass() * atom.getCoordinates()[0];
+//			com[1] = com[1] + atom.getAtomProperties().getMass() * atom.getCoordinates()[1];
+//			com[2] = com[2] + atom.getAtomProperties().getMass() * atom.getCoordinates()[2];
+//			mass += atom.getAtomProperties().getMass();
 //		}
 //
 //		com[0] = com[0] / mass;

@@ -1,5 +1,7 @@
-package nddo;
+package nddo.defaults;
 
+import nddo.Constants;
+import nddo.NDDOOrbitalMethods;
 import nddo.math.ERI;
 import nddo.scf.LCGTO;
 import nddo.scf.STO6G;

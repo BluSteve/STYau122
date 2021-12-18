@@ -511,7 +511,7 @@ public class SolutionU extends Solution {
 
 		double heat = 0;
 		for (int j = 0; j < atoms.length; j++) {
-			heat += atoms[j].getHeat() - atoms[j].getParams().getEisol();
+			heat += atoms[j].getAtomProperties().getHeat() - atoms[j].getParams().getEisol();
 			for (int k = j + 1; k < atoms.length; k++) {
 				e += atoms[j].crf(atoms[k]);
 			}
@@ -545,10 +545,10 @@ public class SolutionU extends Solution {
 		double mass = 0;
 
 		for (NDDOAtom atom : atoms) {
-			com[0] = com[0] + atom.getMass() * atom.getCoordinates()[0];
-			com[1] = com[1] + atom.getMass() * atom.getCoordinates()[1];
-			com[2] = com[2] + atom.getMass() * atom.getCoordinates()[2];
-			mass += atom.getMass();
+			com[0] = com[0] + atom.getAtomProperties().getMass() * atom.getCoordinates()[0];
+			com[1] = com[1] + atom.getAtomProperties().getMass() * atom.getCoordinates()[1];
+			com[2] = com[2] + atom.getAtomProperties().getMass() * atom.getCoordinates()[2];
+			mass += atom.getAtomProperties().getMass();
 		}
 
 		com[0] = com[0] / mass;
@@ -576,15 +576,15 @@ public class SolutionU extends Solution {
 		for (int j = 0; j < atoms.length; j++) {
 
 			if (orbsOfAtom[j].length > 1) {//exclude hydrogen
-				hybridip[0] = hybridip[0] - 2.5416 * 2 * atoms[j].D1 *
+				hybridip[0] = hybridip[0] - 2.5416 * 2 * atoms[j].D1() *
 						(alphaDensity.get(orbsOfAtom[j][0], orbsOfAtom[j][1]) +
 								betaDensity.get(orbsOfAtom[j][0],
 										orbsOfAtom[j][1]));
-				hybridip[1] = hybridip[1] - 2.5416 * 2 * atoms[j].D1 *
+				hybridip[1] = hybridip[1] - 2.5416 * 2 * atoms[j].D1() *
 						(alphaDensity.get(orbsOfAtom[j][0], orbsOfAtom[j][2]) +
 								betaDensity.get(orbsOfAtom[j][0],
 										orbsOfAtom[j][2]));
-				hybridip[2] = hybridip[2] - 2.5416 * 2 * atoms[j].D1 *
+				hybridip[2] = hybridip[2] - 2.5416 * 2 * atoms[j].D1() *
 						(alphaDensity.get(orbsOfAtom[j][0], orbsOfAtom[j][3]) +
 								betaDensity.get(orbsOfAtom[j][0],
 										orbsOfAtom[j][3]));

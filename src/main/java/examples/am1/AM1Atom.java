@@ -1,6 +1,6 @@
 //package examples.am1;
 //
-//import nddo.NDDO6G;
+//import nddo.defaults.NDDO6G;
 //import nddo.NDDOAtom;
 //import nddo.NDDOParams;
 //import nddo.geometry.GeometryDerivative;

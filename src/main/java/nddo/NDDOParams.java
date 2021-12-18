@@ -93,8 +93,7 @@ public final class NDDOParams {
 		return aParams.clone(); // todo maybe not a good idea to clone
 	}
 
-	@Override
-	public NDDOParams clone() {
+	public NDDOParams copy() {
 		return new NDDOParams(toArray());
-	} // todo make this a copy constructor instead
+	}
 }

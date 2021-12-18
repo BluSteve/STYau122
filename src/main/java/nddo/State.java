@@ -1,5 +1,6 @@
 package nddo;
 
+import nddo.defaults.NDDO6GMethods;
 import nddo.geometry.GeometryDerivative;
 import nddo.geometry.GeometrySecondDerivative;
 import nddo.param.ParamDerivative;
