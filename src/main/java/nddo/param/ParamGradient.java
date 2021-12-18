@@ -109,13 +109,13 @@ public abstract class ParamGradient {
 		if (isDepad) derivs = depad(derivs, moleculeNPs);
 
 		double[][] paddedDerivs = new double[atomTypes.length][];
-		for (int i = 0; i < atomTypes.length; i++) {
+		for (int i = 0; i < atomTypes.length; i++) { // todo
 			for (int j = 0; j < moleculeATs.length; j++) {
 				if (atomTypes[i] == moleculeATs[j]) {
 					paddedDerivs[i] = derivs[j];
 				}
 				else {
-					paddedDerivs[i] = new double[neededParams[i].length];
+					if (paddedDerivs[i] == null) paddedDerivs[i] = new double[neededParams[i].length];
 				}
 			}
 		}
