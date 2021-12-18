@@ -519,7 +519,7 @@ public class ParamDerivative {
 
 		for (int i = 0; i < soln.atoms.length; i++) {
 			for (int j = i + 1; j < soln.atoms.length; j++) {
-				sum += soln.atoms[i].crfAlphaDeriv(soln.atoms[j],
+				sum += soln.atoms[i].crfpd(soln.atoms[j],
 						getNum(soln.atomicNumbers[i], soln.atomicNumbers[j],
 								Z));
 			}

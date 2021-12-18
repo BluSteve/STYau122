@@ -53,11 +53,11 @@ public interface NDDOAtom<T extends NDDOAtom, S extends NDDOOrbital> { // todo m
 
 	double crf(T b);
 
-	double crfDeriv(T b, int tau);
+	double crfgd(T b, int tau);
 
-	double crfDeriv2(T b, int tau1, int tau2);
+	double crfg2d(T b, int tau1, int tau2);
 
-	double crfAlphaDeriv(T b, int num);
+	double crfpd(T b, int num);
 
 	T copy();
 }

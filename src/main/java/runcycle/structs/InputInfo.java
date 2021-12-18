@@ -20,11 +20,13 @@ public class InputInfo {
 		this.npMap = npMap;
 	}
 
-	private static NDDOParams[] constructNpMap(int[] Zs, double[][] params) {
+	private static NDDOParams[] constructNpMap(int[] atomTypes, double[][] params) {
+		if (atomTypes.length != params.length) throw new NullPointerException("atomTypes and params size mismatch!");
+
 		NDDOParams[] result = new NDDOParams[Constants.maxAtomNum];
 
-		for (int i = 0; i < Zs.length; i++) {
-			result[Zs[i]] = new NDDOParams(params[i]);
+		for (int i = 0; i < atomTypes.length; i++) {
+			result[atomTypes[i]] = new NDDOParams(params[i]);
 		}
 
 		return result;
@@ -35,7 +37,7 @@ public class InputInfo {
 
 		for (int i = 0; i < atomTypes.length; i++) {
 			int Z = atomTypes[i];
-			res[i] = npMap[Z].toArray();
+			res[i] = npMap[Z].params;
 		}
 
 		return res;

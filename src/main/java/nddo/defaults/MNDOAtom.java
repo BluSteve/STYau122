@@ -8,11 +8,13 @@ import nddo.structs.OrbitalProperties;
 import static nddo.Constants.bohr;
 import static nddo.State.nom;
 
-public class MNDOAtom extends NDDOAtomBase {
+public class MNDOAtom extends NDDOAtomBasic {
 	public MNDOAtom(AtomProperties atomProperties, double[] coordinates, NDDOParams np) {
 		super(atomProperties, coordinates, np);
+
 		OrbitalProperties[] orbitalProperties = this.atomProperties.getOrbitals();
 		orbitals = new NDDO6G[orbitalProperties.length];
+
 		for (int x = 0; x < orbitals.length; x++) {
 			switch (orbitalProperties[x].type) {
 				case "s":
@@ -25,12 +27,12 @@ public class MNDOAtom extends NDDOAtomBase {
 		}
 	}
 
-	private static double getf(NDDOAtomBase a, NDDOAtomBase b, double R) {
+	private static double getf(NDDOAtomBasic a, NDDOAtomBasic b, double R) {
 		return 1 + R / bohr * Math.exp(-a.getParams().getAlpha() * R / bohr) +
 				Math.exp(-b.getParams().getAlpha() * R / bohr);
 	}
 
-	private static double getfPrime(NDDOAtomBase a, NDDOAtomBase b, double R, int tau) {
+	private static double getfPrime(NDDOAtomBasic a, NDDOAtomBasic b, double R, int tau) {
 		return (a.getCoordinates()[tau] - b.getCoordinates()[tau]) / (R * bohr) *
 				Math.exp(-a.getParams().getAlpha() * R / bohr) -
 				a.getParams().getAlpha() * (a.getCoordinates()[tau] - b.getCoordinates()[tau]) / (bohr * bohr) *
@@ -55,7 +57,7 @@ public class MNDOAtom extends NDDOAtomBase {
 	}
 
 	@Override
-	public double crf(NDDOAtomBase b) {
+	public double crf(NDDOAtomBasic b) {
 		double f;
 		double R = GTO.R(coordinates, b.getCoordinates());
 
@@ -70,7 +72,7 @@ public class MNDOAtom extends NDDOAtomBase {
 	}
 
 	@Override
-	public double crfDeriv(NDDOAtomBase b, int tau) {
+	public double crfgd(NDDOAtomBasic b, int tau) {
 		double f;
 		double fprime;
 		double R = GTO.R(coordinates, b.getCoordinates());
@@ -100,20 +102,20 @@ public class MNDOAtom extends NDDOAtomBase {
 	}
 
 	@Override
-	public double crfDeriv2(NDDOAtomBase c, int tau1, int tau2) {/*TODO*/
-		double orig = this.crfDeriv(c, tau1);
+	public double crfg2d(NDDOAtomBasic c, int tau1, int tau2) {/*TODO*/
+		double orig = this.crfgd(c, tau1); // todo maybe cast instead of using nddoatombasic directly
 		double[] coords = coordinates.clone();
 
 		coords[tau2] = coords[tau2] + 1E-7;
 		MNDOAtom perturbed = new MNDOAtom(atomProperties, coords, this.np);
 
-		double newval = perturbed.crfDeriv(c, tau1);
+		double newval = perturbed.crfgd(c, tau1);
 
 		return 1E7 * (newval - orig);
 	}
 
 	@Override
-	public double crfAlphaDeriv(NDDOAtomBase c, int num) {
+	public double crfpd(NDDOAtomBasic c, int num) {
 		double R = GTO.R(coordinates, c.getCoordinates());
 		double val = atomProperties.getQ() * c.getAtomProperties().getQ() *
 				nom.G(this.s(), this.s(), c.s(), c.s());

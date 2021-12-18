@@ -1,15 +1,14 @@
-package runcycle.defaults;
+package examples.am1;
 
 import nddo.NDDOAtom;
 import nddo.NDDOParams;
-import nddo.defaults.MNDOAtom;
 import nddo.structs.AtomProperties;
 import runcycle.INDDOConverter;
 import runcycle.structs.Atom;
 
-public class MNDOConverter implements INDDOConverter {
+public class AM1Converter implements INDDOConverter {
 	@Override
 	public NDDOAtom convert(Atom atom, NDDOParams[] npMap) {
-		return new MNDOAtom(AtomProperties.getAtoms()[atom.Z], atom.coords, npMap[atom.Z]);
+		return new AM1Atom(AtomProperties.getAtoms()[atom.Z], atom.coords, npMap[atom.Z]);
 	}
 }

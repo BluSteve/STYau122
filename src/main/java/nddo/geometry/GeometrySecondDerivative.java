@@ -1280,7 +1280,7 @@ public class GeometrySecondDerivative {
 									soln.orbitals,
 									tau1, tau2);
 							E += soln.atoms[atomnum1]
-									.crfDeriv2(soln.atoms[a], tau1, tau2);
+									.crfg2d(soln.atoms[a], tau1, tau2);
 						}
 					}
 				}
@@ -1289,7 +1289,7 @@ public class GeometrySecondDerivative {
 							soln.densityMatrix(), soln.atoms, soln.orbitals,
 							tau1,
 							tau2) - soln.atoms[atomnum1]
-							.crfDeriv2(soln.atoms[atomnum2], tau1, tau2);
+							.crfg2d(soln.atoms[atomnum2], tau1, tau2);
 
 				}
 
@@ -1354,7 +1354,7 @@ public class GeometrySecondDerivative {
 									soln.alphaDensity(), soln.betaDensity(),
 									soln.atoms, soln.orbitals, tau1, tau2);
 							E += soln.atoms[atomnum1]
-									.crfDeriv2(soln.atoms[a], tau1, tau2);
+									.crfg2d(soln.atoms[a], tau1, tau2);
 						}
 					}
 				}
@@ -1363,7 +1363,7 @@ public class GeometrySecondDerivative {
 							soln.alphaDensity(), soln.betaDensity(),
 							soln.atoms,
 							soln.orbitals, tau1, tau2) - soln.atoms[atomnum1]
-							.crfDeriv2(soln.atoms[atomnum2], tau1, tau2);
+							.crfg2d(soln.atoms[atomnum2], tau1, tau2);
 
 				}
 

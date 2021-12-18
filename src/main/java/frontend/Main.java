@@ -1,5 +1,6 @@
 package frontend;
 
+import examples.am1.AM1Converter;
 import runcycle.RunIterator;
 import runcycle.structs.RunInput;
 import runcycle.structs.RunOutput;
@@ -14,6 +15,7 @@ public class Main {
 		Files.createDirectories(Path.of("outputs"));
 
 		RunInput input = TxtIO.readInput();
+		runcycle.State.setConverter(new AM1Converter());
 
 		RunIterator iterator = new RunIterator(input, 10);
 		int i = 0;

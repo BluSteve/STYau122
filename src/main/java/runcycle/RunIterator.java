@@ -320,38 +320,34 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 		}
 
 		public void run() {
-			try {
-				rm.getLogger().info("Started");
-				StopWatch sw = new StopWatch();
-				sw.start();
+			rm.getLogger().info("Started");
+			StopWatch sw = new StopWatch();
+			sw.start();
 
 
-				s = GeometryOptimization.of(Solution.of(rm, nddoAtoms)).compute().getS();
-				rm.getLogger().debug("Finished geometry optimization");
+			s = GeometryOptimization.of(Solution.of(rm, nddoAtoms)).compute().getS();
+			rm.getLogger().debug("Finished geometry optimization");
 
-				if (isExpAvail) {
-					sExp = Solution.of(rm, expGeom);
-				}
-
-				g = ParamGradient.of(s, datum, sExp).compute();
-				rm.getLogger().debug("Finished param gradient");
-				if (withHessian) h = ParamHessian.from(g).compute();
-				rm.getLogger().debug("Finished param hessian");
-
-				// stores new optimized geometry
-				newAtoms = new Atom[s.atoms.length];
-				for (int i = 0; i < newAtoms.length; i++) {
-					newAtoms[i] = new Atom(s.atoms[i].getAtomProperties().getZ(), s.atoms[i].getCoordinates());
-				}
-
-
-				sw.stop();
-				time = sw.getTime();
-
-				rm.getLogger().info("Finished in {}", time);
-			} catch (Exception e) {
-				rm.getLogger().error("", e);
+			if (isExpAvail) {
+				sExp = Solution.of(rm, expGeom);
 			}
+
+			g = ParamGradient.of(s, datum, sExp).compute();
+			rm.getLogger().debug("Finished param gradient");
+			if (withHessian) h = ParamHessian.from(g).compute();
+			rm.getLogger().debug("Finished param hessian");
+
+			// stores new optimized geometry
+			newAtoms = new Atom[s.atoms.length];
+			for (int i = 0; i < newAtoms.length; i++) {
+				newAtoms[i] = new Atom(s.atoms[i].getAtomProperties().getZ(), s.atoms[i].getCoordinates());
+			}
+
+
+			sw.stop();
+			time = sw.getTime();
+
+			rm.getLogger().info("Finished in {}", time);
 		}
 
 		public boolean isExpAvail() {

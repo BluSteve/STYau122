@@ -101,13 +101,6 @@ public class TxtIO {
 	}
 
 	public static RunInput readInput() throws IOException {
-		List<String> pcsv = Files.readAllLines(Path.of("params.csv"));
-		double[][] params = new double[pcsv.size()][];
-		for (int i = 0; i < pcsv.size(); i++) {
-			String[] linea = splitCsvLine(pcsv.get(i));
-			params[i] = Utils.toDoubles(Arrays.copyOfRange(linea, 1, linea.length));
-		}
-
 		final String pncsvname = "param-numbers.csv";
 		// if specified then take specified else default
 		List<String> pncsv = Files.exists(Path.of(pncsvname)) ?
@@ -119,6 +112,37 @@ public class TxtIO {
 			String[] linea = splitCsvLine(pncsv.get(i));
 			atomTypes[i] = AtomProperties.getAtomsMap().get(linea[0]).getZ();
 			neededParams[i] = Utils.toInts(Arrays.copyOfRange(linea, 1, linea.length));
+		}
+
+
+		List<String> pcsv = Files.readAllLines(Path.of("params.csv"));
+		double[][] params = new double[pcsv.size()][];
+		for (int i = 0; i < pcsv.size(); i++) {
+			String[] linea = splitCsvLine(pcsv.get(i));
+
+			int Z = AtomProperties.getAtomsMap().get(linea[0]).getZ();
+
+			// if Z is in atomTypes then check corresponding neededparams to see if a needed param exceeds size of
+			// params
+
+			boolean present = false;
+			int pindex = -1;
+			for (int atomType : atomTypes) {
+				pindex++;
+				if (Z == atomType) {
+					present = true;
+					break;
+				}
+			}
+
+			if (present) {
+				for (int neededp : neededParams[pindex]) {
+					if (neededp > linea.length - 1)
+						throw new IndexOutOfBoundsException("Not enough parameters in params.csv!");
+				}
+			}
+
+			params[i] = Utils.toDoubles(Arrays.copyOfRange(linea, 1, linea.length));
 		}
 
 		InputInfo info = new InputInfo(atomTypes, neededParams, params);
@@ -194,13 +218,7 @@ public class TxtIO {
 			moleculei++;
 		}
 
-		RunnableMolecule[] molecules = new RunnableMolecule[moleculesL.size()];
-		for (int j = 0; j < moleculesL.size(); j++) {
-			molecules[j] = moleculesL.get(j);
-		}
-
-
-		return new RunInput(info, molecules);
+		return new RunInput(info, moleculesL.toArray(RunnableMolecule[]::new));
 	}
 
 	private static void updateMolecules(IMoleculeResult[] results) throws FileNotFoundException {

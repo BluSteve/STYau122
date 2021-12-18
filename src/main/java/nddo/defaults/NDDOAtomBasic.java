@@ -4,24 +4,17 @@ import nddo.*;
 import nddo.structs.AtomProperties;
 
 // some methods that might come in handy if you're doing your own NDDO impl.
-public abstract class NDDOAtomBase implements NDDOAtom<NDDOAtomBase, NDDOOrbital> {
+public abstract class NDDOAtomBasic implements NDDOAtom<NDDOAtomBasic, NDDOOrbital> {
 	protected final double p0, p1, p2, D1, D2;
 	protected final double[] coordinates;
 	protected final AtomProperties atomProperties;
 	protected final NDDOParams np;
 	protected NDDOOrbital[] orbitals;
 
-	/**
-	 * The standard representation of an atom used all over nddo.
-	 *
-	 * @param atomProperties Fixed atom properties.
-	 * @param coordinates    Coordinates will be cloned/ are passed-by-value.
-	 * @param np             NDDOParams will be cloned/ are pass-by-value.
-	 */
-	public NDDOAtomBase(AtomProperties atomProperties, double[] coordinates, NDDOParams np) {
+	public NDDOAtomBasic(AtomProperties atomProperties, double[] coordinates, NDDOParams np) {
 		this.atomProperties = atomProperties;
-		this.coordinates = coordinates.clone();
-		this.np = np.copy();
+		this.coordinates = coordinates;
+		this.np = np;
 
 		this.p0 = findp0();
 
@@ -86,7 +79,7 @@ public abstract class NDDOAtomBase implements NDDOAtom<NDDOAtomBase, NDDOOrbital
 	 * @return New NDDOAtom.
 	 */
 	@Override
-	public abstract NDDOAtomBase withNewParams(NDDOParams np);
+	public abstract NDDOAtomBasic withNewParams(NDDOParams np);
 
 	/**
 	 * Returns a brand new NDDOAtom object. Not cloned!
@@ -95,7 +88,7 @@ public abstract class NDDOAtomBase implements NDDOAtom<NDDOAtomBase, NDDOOrbital
 	 * @return New NDDOAtom.
 	 */
 	@Override
-	public abstract NDDOAtomBase withNewCoords(double[] coordinates);
+	public abstract NDDOAtomBasic withNewCoords(double[] coordinates);
 
 	@Override
 	public NDDOOrbital[] getOrbitals() {

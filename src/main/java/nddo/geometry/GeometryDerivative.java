@@ -65,7 +65,7 @@ public class GeometryDerivative {
 		double e = 0;
 		for (int j = 0; j < orbitals.length; j++)
 			for (int k = 0; k < orbitals.length; k++) e += 0.5 * densitymatrix.get(j, k) * (H.get(j, k) + F.get(j, k));
-		for (int j = 0; j < atoms.length; j++) if (j != atomnum) e += atoms[atomnum].crfDeriv(atoms[j], tau);
+		for (int j = 0; j < atoms.length; j++) if (j != atomnum) e += atoms[atomnum].crfgd(atoms[j], tau);
 		return e;
 	}
 
@@ -151,7 +151,7 @@ public class GeometryDerivative {
 				e += 0.5 * alphadensity.get(j, k) * (H.get(j, k) + Fa.get(j, k));
 				e += 0.5 * betadensity.get(j, k) * (H.get(j, k) + Fb.get(j, k));
 			}
-		for (int j = 0; j < atoms.length; j++) if (j != atomnum) e += atoms[atomnum].crfDeriv(atoms[j], tau);
+		for (int j = 0; j < atoms.length; j++) if (j != atomnum) e += atoms[atomnum].crfgd(atoms[j], tau);
 		return e;
 	}
 
@@ -168,7 +168,7 @@ public class GeometryDerivative {
 					for (int j = 0; j < matrices[1].numRows(); j++)
 						sum += 0.5 * soln.densityMatrix().get(i, j) * (matrices[0].get(i, j) + matrices[1].get(i, j));
 				for (int j = 0; j < soln.atoms.length; j++)
-					if (j != a) sum += soln.atoms[a].crfDeriv(soln.atoms[j], tau);
+					if (j != a) sum += soln.atoms[a].crfgd(soln.atoms[j], tau);
 				grad.set(count, 0, sum);
 				count++;
 			}
@@ -192,7 +192,7 @@ public class GeometryDerivative {
 						sum += 0.5 * soln.betaDensity().get(i, j) * (matrices[0].get(i, j) + matrices[2].get(i, j));
 					}
 				for (int j = 0; j < soln.atoms.length; j++)
-					if (j != a) sum += soln.atoms[a].crfDeriv(soln.atoms[j], tau);
+					if (j != a) sum += soln.atoms[a].crfgd(soln.atoms[j], tau);
 				grad.set(count, 0, sum);
 				count++;
 			}
@@ -204,7 +204,7 @@ public class GeometryDerivative {
 		for (int a = 0; a < soln.atoms.length; a++)
 			if (a != atomnum) {
 				e += Ederiv(atomnum, a, soln.orbsOfAtom, soln.densityMatrix(), soln.atoms, soln.orbitals, tau);
-				e += soln.atoms[atomnum].crfDeriv(soln.atoms[a], tau);
+				e += soln.atoms[atomnum].crfgd(soln.atoms[a], tau);
 			}
 		return e;
 	}
@@ -215,7 +215,7 @@ public class GeometryDerivative {
 			if (a != atomnum) {
 				e += Ederiv(atomnum, a, soln.orbsOfAtom, soln.alphaDensity(), soln.betaDensity(), soln.atoms,
 						soln.orbitals, tau);
-				e += soln.atoms[atomnum].crfDeriv(soln.atoms[a], tau);
+				e += soln.atoms[atomnum].crfgd(soln.atoms[a], tau);
 			}
 		return e;
 	}

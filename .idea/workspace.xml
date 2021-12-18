@@ -4,25 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="ParamSecondDerivative incomplete refactor">
-      <change afterPath="$PROJECT_DIR$/src/main/java/nddo/defaults/NDDOAtomBase.java" afterDir="false" />
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Convert NDDOAtom to interface">
+      <change afterPath="$PROJECT_DIR$/am1param-numbers.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/examples/am1/AM1Converter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/param-numbers.csv" beforeDir="false" afterPath="$PROJECT_DIR$/param-numbers.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/examples/am1/AM1Atom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/examples/am1/AM1Atom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDO6G.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/defaults/NDDO6G.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDO6GMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/defaults/NDDO6GMethods.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/examples/am1/AM1Params.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/TxtIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/TxtIO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDOAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDOAtom.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDOParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDOParams.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/State.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/State.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/ERI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/ERI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/mndo/MNDOAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/defaults/MNDOAtom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/defaults/MNDOAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/defaults/MNDOAtom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/defaults/NDDOAtomBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/defaults/NDDOAtomBasic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/INDDOConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/INDDOConverter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/defaults/MNDOConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/defaults/MNDOConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/structs/InputInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/InputInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -348,14 +351,7 @@
       <workItem from="1639800791257" duration="4037000" />
       <workItem from="1639813356529" duration="14380000" />
       <workItem from="1639828623457" duration="3284000" />
-      <workItem from="1639849512604" duration="3670000" />
-    </task>
-    <task id="LOCAL-00062" summary="Remove MNDOParams">
-      <created>1639244959104</created>
-      <option name="number" value="00062" />
-      <option name="presentableId" value="LOCAL-00062" />
-      <option name="project" value="LOCAL" />
-      <updated>1639244959105</updated>
+      <workItem from="1639849512604" duration="7018000" />
     </task>
     <task id="LOCAL-00063" summary="AM1 for InputHandler and create MoleculeInfo">
       <created>1639247768634</created>
@@ -693,7 +689,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639843934070</updated>
     </task>
-    <option name="localTasksCounter" value="111" />
+    <task id="LOCAL-00111" summary="Convert NDDOAtom to interface">
+      <created>1639853443192</created>
+      <option name="number" value="00111" />
+      <option name="presentableId" value="LOCAL-00111" />
+      <option name="project" value="LOCAL" />
+      <updated>1639853443192</updated>
+    </task>
+    <option name="localTasksCounter" value="112" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -741,7 +744,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="16dp geom precision" />
     <MESSAGE value="debug session with adrian" />
     <MESSAGE value="temp" />
     <MESSAGE value="temp2" />
@@ -766,19 +768,21 @@
     <MESSAGE value="Rename" />
     <MESSAGE value="ParamSecondDerivatives merge + renaming" />
     <MESSAGE value="ParamSecondDerivative incomplete refactor" />
-    <option name="LAST_COMMIT_MESSAGE" value="ParamSecondDerivative incomplete refactor" />
+    <MESSAGE value="Convert NDDOAtom to interface" />
+    <option name="LAST_COMMIT_MESSAGE" value="Convert NDDOAtom to interface" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <breakpoint enabled="true" type="java-exception">
-          <properties class="java.lang.NullPointerException" package="java.lang" />
-          <option name="timeStamp" value="3" />
-        </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java</url>
-          <line>254</line>
-          <option name="timeStamp" value="6" />
+          <url>file://$PROJECT_DIR$/src/main/java/nddo/NDDOParams.java</url>
+          <line>87</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/runcycle/structs/InputInfo.java</url>
+          <line>25</line>
+          <option name="timeStamp" value="23" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
