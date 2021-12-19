@@ -26,12 +26,11 @@ public class GeometrySecondDerivative {
 		StopWatch sw = new StopWatch();
 		sw.start();
 
+		int NOccAlpha = soln.getRm().nOccAlpha;
+		int NOccBeta = soln.getRm().nOccBeta;
 
-		int NOccAlpha = soln.nElectrons / 2 + (soln.mult - 1);
-		int NOccBeta = soln.nElectrons / 2;
-
-		int NVirtAlpha = soln.orbitals.length - NOccAlpha;
-		int NVirtBeta = soln.orbitals.length - NOccBeta;
+		int NVirtAlpha = soln.getRm().nVirtAlpha;
+		int NVirtBeta = soln.getRm().nVirtBeta;
 
 		SimpleMatrix[] xarray = new SimpleMatrix[fockderivstaticalpha.length];
 
@@ -45,7 +44,7 @@ public class GeometrySecondDerivative {
 
 		for (int i = 0; i < NOccAlpha; i++) {
 			for (int j = 0; j < NVirtAlpha; j++) {
-				double e = (-soln.Ea.get(i) + soln.Ea.get(NOccAlpha + j));
+				double e = -soln.Ea.get(i) + soln.Ea.get(NOccAlpha + j);
 				preconditioner.set(counter, Math.pow(e, -0.5));
 				counter++;
 			}
@@ -53,7 +52,7 @@ public class GeometrySecondDerivative {
 
 		for (int i = 0; i < NOccBeta; i++) {
 			for (int j = 0; j < NVirtBeta; j++) {
-				double e = (-soln.Eb.get(i) + soln.Eb.get(NOccBeta + j));
+				double e = -soln.Eb.get(i) + soln.Eb.get(NOccBeta + j);
 				preconditioner.set(counter, Math.pow(e, -0.5));
 				counter++;
 			}
@@ -159,9 +158,7 @@ public class GeometrySecondDerivative {
 					SimpleMatrix rhs = new SimpleMatrix(p.size(), 1);
 
 					for (int i = 0; i < rhs.numRows(); i++) {
-						rhs.set(i, 0, 2 *
-								rarray[a].transpose().mult(d.get(i)).get(0,
-										0));
+						rhs.set(i, 0, 2 * rarray[a].transpose().mult(d.get(i)).get(0, 0));
 
 					}
 
@@ -173,8 +170,7 @@ public class GeometrySecondDerivative {
 				for (int j = i; j < solver.numRows(); j++) {
 
 					double val = p.get(j).transpose().mult(d.get(i)).get(0,
-							0) +
-							p.get(i).transpose().mult(d.get(j)).get(0, 0);
+							0) + p.get(i).transpose().mult(d.get(j)).get(0, 0);
 					solver.set(i, j, val);
 					solver.set(j, i, val);
 				}
@@ -313,12 +309,11 @@ public class GeometrySecondDerivative {
 
 		StopWatch sw = new StopWatch();
 		sw.start();
+		int NOccAlpha = soln.getRm().nOccAlpha;
+		int NOccBeta = soln.getRm().nOccBeta;
 
-		int NOccAlpha = soln.nElectrons / 2 + (soln.mult - 1);
-		int NOccBeta = soln.nElectrons / 2;
-
-		int NVirtAlpha = soln.orbitals.length - NOccAlpha;
-		int NVirtBeta = soln.orbitals.length - NOccBeta;
+		int NVirtAlpha = soln.getRm().nVirtAlpha;
+		int NVirtBeta = soln.getRm().nVirtBeta;
 
 		SimpleMatrix[] xarray = new SimpleMatrix[fockderivstaticalpha.length];
 		SimpleMatrix[] barray = new SimpleMatrix[fockderivstaticalpha.length];
@@ -604,11 +599,11 @@ public class GeometrySecondDerivative {
 
 	public static SimpleMatrix computeResponseVectorsThiel(SimpleMatrix xarray, SolutionU soln) {
 
-		int NOccAlpha = soln.nElectrons / 2 + (soln.mult - 1);
-		int NOccBeta = soln.nElectrons / 2;
+		int NOccAlpha = soln.getRm().nOccAlpha;
+		int NOccBeta = soln.getRm().nOccBeta;
 
-		int NVirtAlpha = soln.orbitals.length - NOccAlpha;
-		int NVirtBeta = soln.orbitals.length - NOccBeta;
+		int NVirtAlpha = soln.getRm().nVirtAlpha;
+		int NVirtBeta = soln.getRm().nVirtBeta;
 
 		SimpleMatrix densityderivalpha = new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
 
@@ -840,11 +835,11 @@ public class GeometrySecondDerivative {
 
 	private static SimpleMatrix computeResponseVectorsPople(SimpleMatrix xarray, SolutionU soln) {
 
-		int NOccAlpha = soln.nElectrons / 2 + (soln.mult - 1);
-		int NOccBeta = soln.nElectrons / 2;
+		int NOccAlpha = soln.getRm().nOccAlpha;
+		int NOccBeta = soln.getRm().nOccBeta;
 
-		int NVirtAlpha = soln.orbitals.length - NOccAlpha;
-		int NVirtBeta = soln.orbitals.length - NOccBeta;
+		int NVirtAlpha = soln.getRm().nVirtAlpha;
+		int NVirtBeta = soln.getRm().nVirtBeta;
 
 		SimpleMatrix densityderivalpha = new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
 
@@ -1310,7 +1305,7 @@ public class GeometrySecondDerivative {
 	public static SimpleMatrix hessianRoutine(SolutionU soln,
 											  SimpleMatrix[] fockderivstaticalpha,
 											  SimpleMatrix[] fockderivstaticbeta) {
-
+// todo analyticify
 
 		SimpleMatrix[] densityderivsalpha =
 				new SimpleMatrix[fockderivstaticalpha.length];

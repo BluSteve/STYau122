@@ -4,11 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Input verification">
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="minor changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/TxtIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/TxtIO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDOParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDOParams.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/structs/InputInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/InputInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/param-numbers.csv" beforeDir="false" afterPath="$PROJECT_DIR$/param-numbers.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/params.csv" beforeDir="false" afterPath="$PROJECT_DIR$/params.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDOOrbitalMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDOOrbitalMethods.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/defaults/NDDO6GMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/defaults/NDDO6GMethods.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/scf/STO6G.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/scf/STO6G.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -335,14 +342,7 @@
       <workItem from="1639813356529" duration="14380000" />
       <workItem from="1639828623457" duration="3284000" />
       <workItem from="1639849512604" duration="8905000" />
-      <workItem from="1639884527176" duration="857000" />
-    </task>
-    <task id="LOCAL-00065" summary="Major IO changes, cache orbsOfAtom, etc.">
-      <created>1639295270261</created>
-      <option name="number" value="00065" />
-      <option name="presentableId" value="LOCAL-00065" />
-      <option name="project" value="LOCAL" />
-      <updated>1639295270261</updated>
+      <workItem from="1639884527176" duration="5559000" />
     </task>
     <task id="LOCAL-00066" summary="Solution refactor - move dipole to superclass">
       <created>1639308253968</created>
@@ -680,7 +680,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639858346857</updated>
     </task>
-    <option name="localTasksCounter" value="114" />
+    <task id="LOCAL-00114" summary="minor changes">
+      <created>1639885838563</created>
+      <option name="number" value="00114" />
+      <option name="presentableId" value="LOCAL-00114" />
+      <option name="project" value="LOCAL" />
+      <updated>1639885838563</updated>
+    </task>
+    <option name="localTasksCounter" value="115" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -744,7 +751,6 @@
     <MESSAGE value="Proguard refactor" />
     <MESSAGE value="Proguard working" />
     <MESSAGE value="Scripts" />
-    <MESSAGE value="minor changes" />
     <MESSAGE value="Fix paramgradient combine bug" />
     <MESSAGE value="NDDO6GMethods minor refactor" />
     <MESSAGE value="Rename" />
@@ -753,7 +759,8 @@
     <MESSAGE value="Convert NDDOAtom to interface" />
     <MESSAGE value="AM1 compatibility" />
     <MESSAGE value="Input verification" />
-    <option name="LAST_COMMIT_MESSAGE" value="Input verification" />
+    <MESSAGE value="minor changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="minor changes" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

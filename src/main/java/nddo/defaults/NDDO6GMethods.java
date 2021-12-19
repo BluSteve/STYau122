@@ -436,18 +436,8 @@ public class NDDO6GMethods implements NDDOOrbitalMethods<NDDO6G> {
 	}
 
 	@Override
-	public double Hzetapd(NDDO6G a, NDDO6G b, int num, int type) { // todo rename to betaparamzetaderiv
-		if (num == -1) {
-			return 0;
-		}
-
-		int hasA = a.getL() == type && num != 1 ? 1 : 0;
-		int hasB = b.getL() == type && num != 0 ? 1 : 0;
-
-		hasB <<= 1;
-		int alltogether = hasA + hasB - 1;
-
-		return 0.5 * (a.beta + b.beta) * STO6G.Spd(a, b, alltogether);
+	public double Hzetapd(NDDO6G a, NDDO6G b, int num, int type) {
+		return 0.5 * (a.beta + b.beta) * STO6G.Spd(a, b, num, type);
 	}
 
 	@Override
@@ -461,5 +451,15 @@ public class NDDO6GMethods implements NDDOOrbitalMethods<NDDO6G> {
 			default:
 				return 0;
 		}
+	}
+
+	@Override
+	public double Hzetazetap2d(NDDO6G a, NDDO6G b, int num1, int type1, int num2, int type2) {
+		return 0.5 * (a.beta + b.beta) * STO6G.Sp2d(a, b, num1, type1, num2, type2);
+	}
+
+	@Override
+	public double Hbetazetap2d(NDDO6G a, NDDO6G b, int num1, int type1, int num2, int type2) {
+		return 0;
 	}
 }

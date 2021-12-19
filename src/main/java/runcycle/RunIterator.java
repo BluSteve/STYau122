@@ -348,6 +348,10 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 			time = sw.getTime();
 
 			rm.getLogger().info("Finished in {}", time);
+
+//			for (int i = 1; i < 7; i++) {
+//				ParamSecondDerivative.verifyEquations((SolutionU) s, 6, i);
+//			}
 		}
 
 		public boolean isExpAvail() {

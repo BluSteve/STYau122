@@ -22,4 +22,8 @@ public interface NDDOOrbitalMethods<T extends NDDOOrbital> {
 	double Hzetapd(T a, T b, int num, int type);
 
 	double Hbetapd(T a, T b, int num);
+
+	double Hzetazetap2d(T a, T b, int num1, int type1, int num2, int type2);
+
+	double Hbetazetap2d(T a, T b, int num1, int type1, int num2, int type2);
 }
