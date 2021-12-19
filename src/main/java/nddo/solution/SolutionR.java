@@ -244,7 +244,7 @@ public class SolutionR extends Solution {
 		double DIISError = 10;
 		int itSinceLastDIIS = 0;
 
-		while (DIISError > 1E-13) {
+		while (DIISError > 1E-12) {
 			olddensity = densityMatrix;
 			integralcount = 0;
 

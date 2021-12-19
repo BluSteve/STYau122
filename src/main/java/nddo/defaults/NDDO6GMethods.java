@@ -107,14 +107,14 @@ public class NDDO6GMethods implements NDDOOrbitalMethods<NDDO6G> {
 		double D2deriv2 = 0;
 
 		if (num == 0 || num == 2) {
-			p1deriva = a.getAtom().D2pd(type1);
-			p2deriva = a.getAtom().D2pd(type1);
-			D1deriva = a.getAtom().D2pd(type1);
+			p1deriva = a.getAtom().p1pd(type1);
+			p2deriva = a.getAtom().p2pd(type1);
+			D1deriva = a.getAtom().D1pd(type1);
 			D2deriva = a.getAtom().D2pd(type1);
 
-			p1derivb = a.getAtom().D2pd(type2);
-			p2derivb = a.getAtom().D2pd(type2);
-			D1derivb = a.getAtom().D2pd(type2);
+			p1derivb = a.getAtom().p1pd(type2);
+			p2derivb = a.getAtom().p2pd(type2);
+			D1derivb = a.getAtom().D1pd(type2);
 			D2derivb = a.getAtom().D2pd(type2);
 
 			p1deriv2 = a.getAtom().p1p2d(type1 + type2);
@@ -124,14 +124,14 @@ public class NDDO6GMethods implements NDDOOrbitalMethods<NDDO6G> {
 
 		}
 		else if (num == 1) {
-			p1deriva = c.getAtom().D2pd(type1);
-			p2deriva = c.getAtom().D2pd(type1);
-			D1deriva = c.getAtom().D2pd(type1);
+			p1deriva = c.getAtom().p1pd(type1);
+			p2deriva = c.getAtom().p2pd(type1);
+			D1deriva = c.getAtom().D1pd(type1);
 			D2deriva = c.getAtom().D2pd(type1);
 
-			p1derivb = c.getAtom().D2pd(type2);
-			p2derivb = c.getAtom().D2pd(type2);
-			D1derivb = c.getAtom().D2pd(type2);
+			p1derivb = c.getAtom().p1pd(type2);
+			p2derivb = c.getAtom().p2pd(type2);
+			D1derivb = c.getAtom().D1pd(type2);
 			D2derivb = c.getAtom().D2pd(type2);
 
 			p1deriv2 = c.getAtom().p1p2d(type1 + type2);
@@ -145,10 +145,10 @@ public class NDDO6GMethods implements NDDOOrbitalMethods<NDDO6G> {
 				for (int k = 0; k < coeffC.length; k++) {
 					for (int l = 0; l < coeffD.length; l++) {
 						if (coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] != 0) {
-							sum2 += coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] *
-									LocalTwoCenterERIdiagp2d(A[i], B[j], C[k], D[l], D1deriva, D2deriva, p1deriva,
-											p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2,
-											p1deriv2, p2deriv2, num) * 27.21;
+							if (coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] != 0) {
+								sum2 += coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] *
+										LocalTwoCenterERIdiagp2d(A[i], B[j], C[k], D[l], D1deriva, D2deriva, p1deriva, p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, num) * 27.21;
+							}
 						}
 					}
 				}
@@ -405,7 +405,73 @@ public class NDDO6GMethods implements NDDOOrbitalMethods<NDDO6G> {
 		return sum2 * Constants.eV;
 	}
 
-	@Override
+	private static int index(NDDO6G orbital) {
+
+		if (orbital.getL() == 0) {
+			return 0;
+		}
+		else if (orbital.geti() == 1) {
+			return 1;
+		}
+		else if (orbital.getj() == 1) {
+			return 2;
+		}
+		else if (orbital.getk() == 1) {
+			return 3;
+		}
+
+		return -1;
+	}
+
+	public double Gp2dfinite (NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d, int num1, int type1, int num2, int type2) {
+
+		int aindex = index(a);
+
+		int bindex = index(b);
+
+		int cindex = index(c);
+
+		int dindex = index(d);
+
+		double initial = Gpd(a, b, c, d, num1, type1);
+
+		NDDOAtomBasic A = a.getAtom();
+
+		NDDOAtomBasic C = c.getAtom();
+
+		if (num2 == 0 || num2 == 2) {
+
+			try {
+				NDDOParams params = A.getParams().copy();
+				params.modifyParam(5 + type2, Constants.LAMBDA);
+
+				A = A.withNewParams(params);
+			} catch (Exception e) {
+				e.printStackTrace();
+//				System.exit(0);
+			}
+		}
+		if (num2 == 1 || num2 == 2) {
+			try {
+				NDDOParams params = C.getParams().copy();
+				params.modifyParam(5 + type2, Constants.LAMBDA);
+
+				C = C.withNewParams(params);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		double finalval =
+				Gpd(A.getOrbitals()[aindex], A.getOrbitals()[bindex],
+						C.getOrbitals()[cindex], C.getOrbitals()[dindex], num1, type1);
+
+		return (finalval - initial) / Constants.LAMBDA;
+
+
+	}
+
 	public double Gp2d(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d, int num1, int type1, int num2, int type2) {
 		if (num1 == -1 || num2 == -1) {
 			return 0;

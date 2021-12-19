@@ -8,7 +8,7 @@ import nddo.param.ParamGradient;
 import nddo.param.ParamHessian;
 import nddo.param.ParamSecondDerivative;
 import nddo.solution.Solution;
-import nddo.solution.SolutionU;
+import nddo.solution.SolutionR;
 import org.apache.commons.lang3.time.StopWatch;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -353,14 +353,14 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 
 			for (int i = 1; i < 7; i++) {
 				for (int j = i; j < 7; j++) {
-					System.out.println("carbon " + i + j);
-
-					if (!ParamSecondDerivative.verifyEquations((SolutionU) s, 6, i, 6, j)) {
-						System.exit(1);
-					}
 					System.out.println("nitrogen " + i + j);
 
-					if (!ParamSecondDerivative.verifyEquations((SolutionU) s, 6, i, 7, j)) {
+					if (!ParamSecondDerivative.verifyEquations((SolutionR) s, 6, i, 7, j)) {
+						System.exit(1);
+					}
+					System.out.println("carbon " + i + j);
+
+					if (!ParamSecondDerivative.verifyEquations((SolutionR) s, 6, i, 6, j)) {
 						System.exit(1);
 					}
 				}

@@ -76,7 +76,7 @@ public class STO6G extends LCGTO {
 		for (int i = 0; i < X1.getn(); i++) {
 			for (int j = 0; j < X2.getn(); j++) {
 
-				switch (type) {
+				switch (alltogether) {
 					case 0:
 						Sderiv += X1.gaussExponents[i] * 2 / X1.zeta * X1.getCoeffArray()[i] * X2.getCoeffArray()[j] *
 								GTO.getSderivalpha(X1.getGaussArray()[i], X2.getGaussArray()[j], 0);

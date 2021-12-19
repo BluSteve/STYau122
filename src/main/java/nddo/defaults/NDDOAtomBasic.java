@@ -1,6 +1,9 @@
 package nddo.defaults;
 
-import nddo.*;
+import nddo.Constants;
+import nddo.NDDOAtom;
+import nddo.NDDOParams;
+import nddo.State;
 import nddo.structs.AtomProperties;
 
 // some methods that might come in handy if you're doing your own NDDO impl.
@@ -164,17 +167,15 @@ public abstract class NDDOAtomBasic implements NDDOAtom<NDDOAtomBasic, NDDO6G> {
 		double p1 = this.p1;
 
 		double D1sderiv = D1pd(0);
-		double D1pderiv = p1pd(1);
+		double D1pderiv = D1pd(1);
 		double p1sderiv = p1pd(0);
 		double p1pderiv = p1pd(1);
-
 		double D1ssderiv2 = D1p2d(0);
 		double D1spderiv2 = D1p2d(1);
 		double D1ppderiv2 = D1p2d(2);
 
 		double num0 = Math.sqrt(D1 * D1 + p1 * p1);
 		double num1 = Math.pow(p1 * p1 + D1 * D1, 1.5);
-
 		switch (type) {
 			case 0:
 				return -(3 * (p1 * p1 - p1 * num0) * p1sderiv * p1sderiv +
@@ -199,9 +200,10 @@ public abstract class NDDOAtomBasic implements NDDOAtom<NDDOAtomBasic, NDDO6G> {
 		double newguess = 0.5;
 		while (Math.abs(guess - newguess) > 1E-12) {
 			guess = newguess;
-			double f = 1 / guess + 1 / Math.sqrt(guess * guess + 2 * D2 * D2) -
-					2 / Math.sqrt(guess * guess + D2 * D2) - 4 * (np.getGpp() - np.getGp2()) / Constants.eV;
-			double fprime = -1 / (guess * guess) - guess / Math.pow(guess * guess + 2 * D2 * D2, 1.5) +
+			double a = guess * guess + 2 * D2 * D2;
+			double f = 1 / guess + 1 / Math.sqrt(a) - 2 / Math.sqrt(guess * guess + D2 * D2) -
+					4 * (np.getGpp() - np.getGp2()) / Constants.eV;
+			double fprime = -1 / (guess * guess) - guess / Math.pow(a, 1.5) +
 					2 * guess / Math.pow(guess * guess + D2 * D2, 1.5);
 			newguess = guess - f / fprime;
 		}
@@ -216,15 +218,13 @@ public abstract class NDDOAtomBasic implements NDDOAtom<NDDOAtomBasic, NDDO6G> {
 
 		double D2deriv = D2pd(type);
 
-		double F1 = 2 * D2 * (Math.pow(D2 * D2 + p2 * p2, -1.5) -
-				Math.pow(2 * D2 * D2 + p2 * p2, -1.5));
+		double pow = Math.pow(D2 * D2 + p2 * p2, -1.5);
+		double pow1 = Math.pow(2 * D2 * D2 + p2 * p2, -1.5);
 
-		double F2 = p2 * (2 * Math.pow(D2 * D2 + p2 * p2, -1.5) -
-				Math.pow(2 * D2 * D2 + p2 * p2, -1.5)) -
-				1 / (p2 * p2);
+		double F1 = 2 * D2 * (pow - pow1);
+		double F2 = p2 * (2 * pow - pow1) - 1 / (p2 * p2);
 
 		return -F1 / F2 * D2deriv;
-
 	}
 
 	@Override
@@ -323,7 +323,6 @@ public abstract class NDDOAtomBasic implements NDDOAtom<NDDOAtomBasic, NDDO6G> {
 				return (2 * getAtomProperties().getPeriod() + 1) / Math.sqrt(3) *
 						(16 * zetas * zetas * (n + 0.5) * (n - 0.5) * num0 / num1 -
 								8 * zetas * (n + 0.5) * (2 * n + 2) * num2 / num3 + num4);
-
 		}
 
 		return 0;
