@@ -4,12 +4,12 @@ import nddo.*;
 import nddo.structs.AtomProperties;
 
 // some methods that might come in handy if you're doing your own NDDO impl.
-public abstract class NDDOAtomBasic implements NDDOAtom<NDDOAtomBasic, NDDOOrbital> {
+public abstract class NDDOAtomBasic implements NDDOAtom<NDDOAtomBasic, NDDO6G> {
 	protected final double p0, p1, p2, D1, D2;
 	protected final double[] coordinates;
 	protected final AtomProperties atomProperties;
 	protected final NDDOParams np;
-	protected NDDOOrbital[] orbitals;
+	protected NDDO6G[] orbitals;
 
 	public NDDOAtomBasic(AtomProperties atomProperties, double[] coordinates, NDDOParams np) {
 		this.atomProperties = atomProperties;
@@ -91,7 +91,7 @@ public abstract class NDDOAtomBasic implements NDDOAtom<NDDOAtomBasic, NDDOOrbit
 	public abstract NDDOAtomBasic withNewCoords(double[] coordinates);
 
 	@Override
-	public NDDOOrbital[] getOrbitals() {
+	public NDDO6G[] getOrbitals() {
 		return this.orbitals;
 	}
 
@@ -101,32 +101,32 @@ public abstract class NDDOAtomBasic implements NDDOAtom<NDDOAtomBasic, NDDOOrbit
 	}
 
 	@Override
-	public NDDOOrbital s() {
+	public NDDO6G s() {
 		return this.orbitals[0];
 	}
 
 	@Override
-	public double V(NDDOOrbital a, NDDOOrbital b) {
+	public double V(NDDO6G a, NDDO6G b) {
 		return -this.atomProperties.getQ() * State.nom.G(a, b, this.s(), this.s());
 	}
 
 	@Override
-	public double Vgd(NDDOOrbital a, NDDOOrbital b, int tau) {
+	public double Vgd(NDDO6G a, NDDO6G b, int tau) {
 		return -this.atomProperties.getQ() * State.nom.Ggd(a, b, this.s(), this.s(), tau);
 	}
 
 	@Override
-	public double Vg2d(NDDOOrbital a, NDDOOrbital b, int tau1, int tau2) {
+	public double Vg2d(NDDO6G a, NDDO6G b, int tau1, int tau2) {
 		return -this.atomProperties.getQ() * State.nom.Gg2d(a, b, this.s(), this.s(), tau1, tau2);
 	}
 
 	@Override
-	public double Vpd(NDDOOrbital a, NDDOOrbital b, int num, int type) {
+	public double Vpd(NDDO6G a, NDDO6G b, int num, int type) {
 		return -this.atomProperties.getQ() * State.nom.Gpd(this.s(), this.s(), a, b, num, type);
 	}
 
 	@Override
-	public double Vp2d(NDDOOrbital a, NDDOOrbital b, int num1, int type1, int num2, int type2) {
+	public double Vp2d(NDDO6G a, NDDO6G b, int num1, int type1, int num2, int type2) {
 		return -this.atomProperties.getQ() * State.nom.Gp2d(this.s(), this.s(), a, b, num1, type1, num2, type2);
 	}
 

@@ -1159,17 +1159,21 @@ public class Multipoles {
 		return -quzpd(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriv, D2deriv, p1deriv, p2deriv);
 	}
 
-	public static double spzppippipd(double p01, double p11, double p21, double D11, double D21, double p02, double p12,
+	public static double spzppippipd(double p01, double p11, double p21, double D11, double D21, double p02,
+									 double p12,
 									 double p22, double D12, double D22, double R, int num, double D1deriv,
 									 double D2deriv, double p1deriv, double p2deriv) {
-		return -quzpd(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriv, D2deriv, p1deriv, p2deriv) +
-				uzQpipipd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv);
+		return -quzpd(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriv, D2deriv, p1deriv,
+				p2deriv) +
+				uzQpipipd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv,
+						p2deriv);
 	}
 
 	public static double spzpzpzpd(double p01, double p11, double p21, double D11, double D21, double p02, double p12,
 								   double p22, double D12, double D22, double R, int num, double D1deriv,
 								   double D2deriv, double p1deriv, double p2deriv) {
-		return -quzpd(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriv, D2deriv, p1deriv, p2deriv) +
+		return -quzpd(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriv, D2deriv, p1deriv,
+				p2deriv) +
 				uzQzzpd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv);
 	}
 
@@ -1179,7 +1183,8 @@ public class Multipoles {
 		return quzpd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv);
 	}
 
-	public static double ppippispzpd(double p01, double p11, double p21, double D11, double D21, double p02, double p12,
+	public static double ppippispzpd(double p01, double p11, double p21, double D11, double D21, double p02,
+									 double p12,
 									 double p22, double D12, double D22, double R, int num, double D1deriv,
 									 double D2deriv, double p1deriv, double p2deriv) {
 		return quzpd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv) -
@@ -1202,18 +1207,21 @@ public class Multipoles {
 	}
 
 	public static double spzspzpd(double p01, double p11, double p21, double D11, double D21, double p02, double p12,
-								  double p22, double D12, double D22, double R, int num, double D1deriv, double D2deriv,
+								  double p22, double D12, double D22, double R, int num, double D1deriv,
+								  double D2deriv,
 								  double p1deriv, double p2deriv) {
 		return uzuzpd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv);
 	}
 
-	public static double sppippipzpd(double p01, double p11, double p21, double D11, double D21, double p02, double p12,
+	public static double sppippipzpd(double p01, double p11, double p21, double D11, double D21, double p02,
+									 double p12,
 									 double p22, double D12, double D22, double R, int num, double D1deriv,
 									 double D2deriv, double p1deriv, double p2deriv) {
 		return upiQpizpd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv);
 	}
 
-	public static double ppipzsppipd(double p01, double p11, double p21, double D11, double D21, double p02, double p12,
+	public static double ppipzsppipd(double p01, double p11, double p21, double D11, double D21, double p02,
+									 double p12,
 									 double p22, double D12, double D22, double R, int num, double D1deriv,
 									 double D2deriv, double p1deriv, double p2deriv) {
 		return -upiQpizpd(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriv, D2deriv, p1deriv,
@@ -1221,9 +1229,11 @@ public class Multipoles {
 	}
 
 	public static double ppipzppipzpd(double p01, double p11, double p21, double D11, double D21, double p02,
-									  double p12, double p22, double D12, double D22, double R, int num, double D1deriv,
+									  double p12, double p22, double D12, double D22, double R, int num,
+									  double D1deriv,
 									  double D2deriv, double p1deriv, double p2deriv) {
-		return QpizQpizpd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv, p2deriv);
+		return QpizQpizpd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv, p1deriv,
+				p2deriv);
 	}
 
 	public static double pxpypxpypd(double p01, double p11, double p21, double D11, double D21, double p02, double p12,
@@ -1242,7 +1252,15 @@ public class Multipoles {
 		return -1;
 	}
 
-	public static double qqcrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
+	public static double qqcrossp2d(double p01, double p11, double p21, double D11, double D21, double p02, double p12,
+									double p22, double D12, double D22, double R, double D11deriv, double D21deriv,
+									double p11deriv, double p21deriv, double D12deriv, double D22deriv,
+									double p12deriv,
+									double p22deriv) {
+		return 0;
+	}
+
+	public static double quzcrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
 									 double p12,
 									 double p22, double D12, double D22, double R, double D11deriv, double D21deriv,
 									 double p11deriv, double p21deriv, double D12deriv, double D22deriv,
@@ -1250,34 +1268,27 @@ public class Multipoles {
 		return 0;
 	}
 
-	public static double quzcrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
+	public static double qQpipicrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
+										double p12, double p22, double D12, double D22, double R, double D11deriv,
+										double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										double D22deriv, double p12deriv, double p22deriv) {
+		return 0;
+	}
+
+	public static double qQzzcrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
 									  double p12, double p22, double D12, double D22, double R, double D11deriv,
 									  double D21deriv, double p11deriv, double p21deriv, double D12deriv,
 									  double D22deriv, double p12deriv, double p22deriv) {
 		return 0;
 	}
 
-	public static double qQpipicrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										 double p12, double p22, double D12, double D22, double R, double D11deriv,
-										 double D21deriv, double p11deriv, double p21deriv, double D12deriv,
-										 double D22deriv, double p12deriv, double p22deriv) {
-		return 0;
-	}
-
-	public static double qQzzcrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-									   double p12, double p22, double D12, double D22, double R, double D11deriv,
-									   double D21deriv, double p11deriv, double p21deriv, double D12deriv,
-									   double D22deriv, double p12deriv, double p22deriv) {
-		return 0;
-	}
-
 	public static double h1(int a1, int a2, int b1, int b2, double Dn1deriv, double Dm2deriv, double pn1deriv,
-							 double pm2deriv) {
+							double pm2deriv) {
 		return (a1 * a2 + b1 * b2) * Dn1deriv * Dm2deriv + pn1deriv * pm2deriv;
 	}
 
 	public static double f1crossp2d(int a1, int a2, int b1, int b2, double Dn1, double Dm2, double pn1, double pm2,
-									 double R, double Dn1deriv, double Dm2deriv, double pn1deriv, double pm2deriv) {
+									double R, double Dn1deriv, double Dm2deriv, double pn1deriv, double pm2deriv) {
 		double f1 = f1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R);
 		return 3 * Math.pow(f1, 5) * g1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dn1deriv, pn1deriv, 0) *
 				g1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dm2deriv, pm2deriv, 1) -
@@ -1285,17 +1296,17 @@ public class Multipoles {
 	}
 
 	public static double upiupicrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										 double p12, double p22, double D12, double D22, double R, double D11deriv,
-										 double D21deriv, double p11deriv, double p21deriv, double D12deriv,
-										 double D22deriv, double p12deriv, double p22deriv) {
+										double p12, double p22, double D12, double D22, double R, double D11deriv,
+										double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										double D22deriv, double p12deriv, double p22deriv) {
 		return 0.5 * (+f1crossp2d(0, 0, 1, -1, D11, D12, p11, p12, R, D11deriv, D12deriv, p11deriv, p12deriv) -
 				f1crossp2d(0, 0, 1, +1, D11, D12, p11, p12, R, D11deriv, D12deriv, p11deriv, p12deriv));
 	}
 
 	public static double uzuzcrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-									   double p12, double p22, double D12, double D22, double R, double D11deriv,
-									   double D21deriv, double p11deriv, double p21deriv, double D12deriv,
-									   double D22deriv, double p12deriv, double p22deriv) {
+									  double p12, double p22, double D12, double D22, double R, double D11deriv,
+									  double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+									  double D22deriv, double p12deriv, double p22deriv) {
 		return 0.25 * (+f1crossp2d(+1, -1, 0, 0, D11, D12, p11, p12, R, D11deriv, D12deriv, p11deriv, p12deriv) +
 				f1crossp2d(-1, +1, 0, 0, D11, D12, p11, p12, R, D11deriv, D12deriv, p11deriv, p12deriv) -
 				f1crossp2d(-1, -1, 0, 0, D11, D12, p11, p12, R, D11deriv, D12deriv, p11deriv, p12deriv) -
@@ -1303,9 +1314,9 @@ public class Multipoles {
 	}
 
 	public static double upiQpizcrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										  double p12, double p22, double D12, double D22, double R, double D11deriv,
-										  double D21deriv, double p11deriv, double p21deriv, double D12deriv,
-										  double D22deriv, double p12deriv, double p22deriv) {
+										 double p12, double p22, double D12, double D22, double R, double D11deriv,
+										 double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										 double D22deriv, double p12deriv, double p22deriv) {
 		return 0.25 * (+f1crossp2d(0, -1, +1, +1, D11, D22, p11, p22, R, D11deriv, D22deriv, p11deriv, p22deriv) -
 				f1crossp2d(0, -1, +1, -1, D11, D22, p11, p22, R, D11deriv, D22deriv, p11deriv, p22deriv) +
 				f1crossp2d(0, +1, +1, -1, D11, D22, p11, p22, R, D11deriv, D22deriv, p11deriv, p22deriv) -
@@ -1313,9 +1324,9 @@ public class Multipoles {
 	}
 
 	public static double uzQpipicrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										  double p12, double p22, double D12, double D22, double R, double D11deriv,
-										  double D21deriv, double p11deriv, double p21deriv, double D12deriv,
-										  double D22deriv, double p12deriv, double p22deriv) {
+										 double p12, double p22, double D12, double D22, double R, double D11deriv,
+										 double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										 double D22deriv, double p12deriv, double p22deriv) {
 		return 0.25 * (-f1crossp2d(+1, 0, 0, 2, D11, D22, p11, p22, R, D11deriv, D22deriv, p11deriv, p22deriv) +
 				f1crossp2d(-1, 0, 0, 2, D11, D22, p11, p22, R, D11deriv, D22deriv, p11deriv, p22deriv) +
 				f1crossp2d(+1, 0, 0, 0, D11, D22, p11, p22, R, D11deriv, D22deriv, p11deriv, p22deriv) -
@@ -1323,9 +1334,9 @@ public class Multipoles {
 	}
 
 	public static double uzQzzcrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										double p12, double p22, double D12, double D22, double R, double D11deriv,
-										double D21deriv, double p11deriv, double p21deriv, double D12deriv,
-										double D22deriv, double p12deriv, double p22deriv) {
+									   double p12, double p22, double D12, double D22, double R, double D11deriv,
+									   double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+									   double D22deriv, double p12deriv, double p22deriv) {
 		return 0.125 * (-f1crossp2d(+1, -2, 0, 0, D11, D22, p11, p22, R, D11deriv, D22deriv, p11deriv, p22deriv) +
 				f1crossp2d(-1, -2, 0, 0, D11, D22, p11, p22, R, D11deriv, D22deriv, p11deriv, p22deriv) -
 				f1crossp2d(+1, +2, 0, 0, D11, D22, p11, p22, R, D11deriv, D22deriv, p11deriv, p22deriv) +
@@ -1335,9 +1346,9 @@ public class Multipoles {
 	}
 
 	public static double QpipiQpipicrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-											 double p12, double p22, double D12, double D22, double R, double D11deriv,
-											 double D21deriv, double p11deriv, double p21deriv, double D12deriv,
-											 double D22deriv, double p12deriv, double p22deriv) {
+											double p12, double p22, double D12, double D22, double R, double D11deriv,
+											double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+											double D22deriv, double p12deriv, double p22deriv) {
 		return 0.125 * (+f1crossp2d(0, 0, +2, -2, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv) +
 				f1crossp2d(0, 0, +2, +2, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv) -
 				2 * f1crossp2d(0, 0, +2, 0, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv) -
@@ -1350,7 +1361,7 @@ public class Multipoles {
 	}
 
 	public static double f2crossp2d(int a1, int a2, int b1, int b2, double D21, double D22, double p21, double p22,
-									 double R, double D21deriv, double D22deriv, double p21deriv, double p22deriv) {
+									double R, double D21deriv, double D22deriv, double p21deriv, double p22deriv) {
 		double f2 = f2(a1, a2, b1, b2, D21, D22, p21, p22, R);
 		return 3 * Math.pow(f2, 5) * g2(a1, a2, b1, b2, D21, D22, p21, p22, R, D21deriv, p21deriv, 0) *
 				g2(a1, a2, b1, b2, D21, D22, p21, p22, R, D22deriv, p22deriv, 1) -
@@ -1358,9 +1369,9 @@ public class Multipoles {
 	}
 
 	public static double QxxQyycrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										 double p12, double p22, double D12, double D22, double R, double D11deriv,
-										 double D21deriv, double p11deriv, double p21deriv, double D12deriv,
-										 double D22deriv, double p12deriv, double p22deriv) {
+										double p12, double p22, double D12, double D22, double R, double D11deriv,
+										double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										double D22deriv, double p12deriv, double p22deriv) {
 		return 0.25 * (+f2crossp2d(0, 0, 2, 2, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv) -
 				f2crossp2d(0, 0, 2, 0, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv) -
 				f2crossp2d(0, 0, 0, 2, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv) +
@@ -1368,9 +1379,9 @@ public class Multipoles {
 	}
 
 	public static double QpipiQzzcrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										   double p12, double p22, double D12, double D22, double R, double D11deriv,
-										   double D21deriv, double p11deriv, double p21deriv, double D12deriv,
-										   double D22deriv, double p12deriv, double p22deriv) {
+										  double p12, double p22, double D12, double D22, double R, double D11deriv,
+										  double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										  double D22deriv, double p12deriv, double p22deriv) {
 		return 0.125 * (+f1crossp2d(0, -2, +2, 0, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv) +
 				f1crossp2d(0, +2, +2, 0, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv) -
 				f1crossp2d(0, -2, 0, 0, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv) -
@@ -1380,9 +1391,9 @@ public class Multipoles {
 	}
 
 	public static double QzzQzzcrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										 double p12, double p22, double D12, double D22, double R, double D11deriv,
-										 double D21deriv, double p11deriv, double p21deriv, double D12deriv,
-										 double D22deriv, double p12deriv, double p22deriv) {
+										double p12, double p22, double D12, double D22, double R, double D11deriv,
+										double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										double D22deriv, double p12deriv, double p22deriv) {
 		return 0.0625 * (+f1crossp2d(+2, -2, 0, 0, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv) +
 				f1crossp2d(+2, +2, 0, 0, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv) +
 				f1crossp2d(-2, -2, 0, 0, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv) +
@@ -1395,9 +1406,9 @@ public class Multipoles {
 	}
 
 	public static double QpizQpizcrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										   double p12, double p22, double D12, double D22, double R, double D11deriv,
-										   double D21deriv, double p11deriv, double p21deriv, double D12deriv,
-										   double D22deriv, double p12deriv, double p22deriv) {
+										  double p12, double p22, double D12, double D22, double R, double D11deriv,
+										  double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										  double D22deriv, double p12deriv, double p22deriv) {
 		return 0.125 * (+f1crossp2d(+1, -1, +1, -1, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv) -
 				f1crossp2d(+1, -1, +1, +1, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv) -
 				f1crossp2d(+1, +1, +1, -1, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv) +
@@ -1409,17 +1420,17 @@ public class Multipoles {
 	}
 
 	public static double sssscrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-									   double p12, double p22, double D12, double D22, double R, double D11deriv,
-									   double D21deriv, double p11deriv, double p21deriv, double D12deriv,
-									   double D22deriv, double p12deriv, double p22deriv) {
+									  double p12, double p22, double D12, double D22, double R, double D11deriv,
+									  double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+									  double D22deriv, double p12deriv, double p22deriv) {
 		return qqcrossp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv, p21deriv,
 				D12deriv, D22deriv, p12deriv, p22deriv);
 	}
 
 	public static double ssppippicrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										   double p12, double p22, double D12, double D22, double R, double D11deriv,
-										   double D21deriv, double p11deriv, double p21deriv, double D12deriv,
-										   double D22deriv, double p12deriv, double p22deriv) {
+										  double p12, double p22, double D12, double D22, double R, double D11deriv,
+										  double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										  double D22deriv, double p12deriv, double p22deriv) {
 		return qqcrossp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv, p21deriv,
 				D12deriv, D22deriv, p12deriv, p22deriv) +
 				qQpipicrossp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv,
@@ -1427,9 +1438,9 @@ public class Multipoles {
 	}
 
 	public static double sspzpzcrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										 double p12, double p22, double D12, double D22, double R, double D11deriv,
-										 double D21deriv, double p11deriv, double p21deriv, double D12deriv,
-										 double D22deriv, double p12deriv, double p22deriv) {
+										double p12, double p22, double D12, double D22, double R, double D11deriv,
+										double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										double D22deriv, double p12deriv, double p22deriv) {
 		return qqcrossp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv, p21deriv,
 				D12deriv, D22deriv, p12deriv, p22deriv) +
 				qQzzcrossp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv,
@@ -1437,9 +1448,9 @@ public class Multipoles {
 	}
 
 	public static double ppippisscrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										   double p12, double p22, double D12, double D22, double R, double D11deriv,
-										   double D21deriv, double p11deriv, double p21deriv, double D12deriv,
-										   double D22deriv, double p12deriv, double p22deriv) {
+										  double p12, double p22, double D12, double D22, double R, double D11deriv,
+										  double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										  double D22deriv, double p12deriv, double p22deriv) {
 		return qqcrossp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv, p21deriv,
 				D12deriv, D22deriv, p12deriv, p22deriv) +
 				qQpipicrossp2d(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, D12deriv, D22deriv, p12deriv,
@@ -1447,9 +1458,9 @@ public class Multipoles {
 	}
 
 	public static double pzpzsscrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										 double p12, double p22, double D12, double D22, double R, double D11deriv,
-										 double D21deriv, double p11deriv, double p21deriv, double D12deriv,
-										 double D22deriv, double p12deriv, double p22deriv) {
+										double p12, double p22, double D12, double D22, double R, double D11deriv,
+										double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										double D22deriv, double p12deriv, double p22deriv) {
 		return qqcrossp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv, p21deriv,
 				D12deriv, D22deriv, p12deriv, p22deriv) +
 				qQzzcrossp2d(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, D12deriv, D22deriv, p12deriv,
@@ -1457,9 +1468,10 @@ public class Multipoles {
 	}
 
 	public static double ppippippippicrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-											   double p12, double p22, double D12, double D22, double R,
-											   double D11deriv, double D21deriv, double p11deriv, double p21deriv,
-											   double D12deriv, double D22deriv, double p12deriv, double p22deriv) {
+											  double p12, double p22, double D12, double D22, double R,
+											  double D11deriv,
+											  double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+											  double D22deriv, double p12deriv, double p22deriv) {
 		return qqcrossp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv, p21deriv,
 				D12deriv, D22deriv, p12deriv, p22deriv) +
 				qQpipicrossp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv,
@@ -1471,9 +1483,9 @@ public class Multipoles {
 	}
 
 	public static double pxpxpypycrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										   double p12, double p22, double D12, double D22, double R, double D11deriv,
-										   double D21deriv, double p11deriv, double p21deriv, double D12deriv,
-										   double D22deriv, double p12deriv, double p22deriv) {
+										  double p12, double p22, double D12, double D22, double R, double D11deriv,
+										  double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										  double D22deriv, double p12deriv, double p22deriv) {
 		return qqcrossp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv, p21deriv,
 				D12deriv, D22deriv, p12deriv, p22deriv) +
 				qQpipicrossp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv,
@@ -1485,9 +1497,9 @@ public class Multipoles {
 	}
 
 	public static double ppippipzpzcrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-											 double p12, double p22, double D12, double D22, double R, double D11deriv,
-											 double D21deriv, double p11deriv, double p21deriv, double D12deriv,
-											 double D22deriv, double p12deriv, double p22deriv) {
+											double p12, double p22, double D12, double D22, double R, double D11deriv,
+											double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+											double D22deriv, double p12deriv, double p22deriv) {
 		return qqcrossp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv, p21deriv,
 				D12deriv, D22deriv, p12deriv, p22deriv) +
 				qQzzcrossp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv,
@@ -1499,9 +1511,9 @@ public class Multipoles {
 	}
 
 	public static double pzpzppippicrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-											 double p12, double p22, double D12, double D22, double R, double D11deriv,
-											 double D21deriv, double p11deriv, double p21deriv, double D12deriv,
-											 double D22deriv, double p12deriv, double p22deriv) {
+											double p12, double p22, double D12, double D22, double R, double D11deriv,
+											double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+											double D22deriv, double p12deriv, double p22deriv) {
 		return qqcrossp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv, p21deriv,
 				D12deriv, D22deriv, p12deriv, p22deriv) +
 				qQpipicrossp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv,
@@ -1513,9 +1525,9 @@ public class Multipoles {
 	}
 
 	public static double pzpzpzpzcrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										   double p12, double p22, double D12, double D22, double R, double D11deriv,
-										   double D21deriv, double p11deriv, double p21deriv, double D12deriv,
-										   double D22deriv, double p12deriv, double p22deriv) {
+										  double p12, double p22, double D12, double D22, double R, double D11deriv,
+										  double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										  double D22deriv, double p12deriv, double p22deriv) {
 		return qqcrossp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv, p21deriv,
 				D12deriv, D22deriv, p12deriv, p22deriv) +
 				qQzzcrossp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv,
@@ -1527,18 +1539,18 @@ public class Multipoles {
 	}
 
 	public static double spzsscrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										double p12, double p22, double D12, double D22, double R, double D11deriv,
-										double D21deriv, double p11deriv, double p21deriv, double D12deriv,
-										double D22deriv, double p12deriv, double p22deriv) {
+									   double p12, double p22, double D12, double D22, double R, double D11deriv,
+									   double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+									   double D22deriv, double p12deriv, double p22deriv) {
 		return -quzcrossp2d(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, D12deriv, D22deriv, p12deriv,
 				p22deriv,
 				D11deriv, D21deriv, p11deriv, p21deriv);
 	}
 
 	public static double spzppippicrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-											double p12, double p22, double D12, double D22, double R, double D11deriv,
-											double D21deriv, double p11deriv, double p21deriv, double D12deriv,
-											double D22deriv, double p12deriv, double p22deriv) {
+										   double p12, double p22, double D12, double D22, double R, double D11deriv,
+										   double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										   double D22deriv, double p12deriv, double p22deriv) {
 		return -quzcrossp2d(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, D12deriv, D22deriv, p12deriv,
 				p22deriv,
 				D11deriv, D21deriv, p11deriv, p21deriv) +
@@ -1547,9 +1559,9 @@ public class Multipoles {
 	}
 
 	public static double spzpzpzcrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										  double p12, double p22, double D12, double D22, double R, double D11deriv,
-										  double D21deriv, double p11deriv, double p21deriv, double D12deriv,
-										  double D22deriv, double p12deriv, double p22deriv) {
+										 double p12, double p22, double D12, double D22, double R, double D11deriv,
+										 double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										 double D22deriv, double p12deriv, double p22deriv) {
 		return -quzcrossp2d(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, D12deriv, D22deriv, p12deriv,
 				p22deriv,
 				D11deriv, D21deriv, p11deriv, p21deriv) +
@@ -1558,17 +1570,17 @@ public class Multipoles {
 	}
 
 	public static double ssspzcrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										double p12, double p22, double D12, double D22, double R, double D11deriv,
-										double D21deriv, double p11deriv, double p21deriv, double D12deriv,
-										double D22deriv, double p12deriv, double p22deriv) {
+									   double p12, double p22, double D12, double D22, double R, double D11deriv,
+									   double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+									   double D22deriv, double p12deriv, double p22deriv) {
 		return quzcrossp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv, p21deriv,
 				D12deriv, D22deriv, p12deriv, p22deriv);
 	}
 
 	public static double ppippispzcrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-											double p12, double p22, double D12, double D22, double R, double D11deriv,
-											double D21deriv, double p11deriv, double p21deriv, double D12deriv,
-											double D22deriv, double p12deriv, double p22deriv) {
+										   double p12, double p22, double D12, double D22, double R, double D11deriv,
+										   double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										   double D22deriv, double p12deriv, double p22deriv) {
 		return quzcrossp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv, p21deriv,
 				D12deriv, D22deriv, p12deriv, p22deriv) -
 				uzQpipicrossp2d(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, D12deriv, D22deriv, p12deriv,
@@ -1576,9 +1588,9 @@ public class Multipoles {
 	}
 
 	public static double pzpzspzcrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										  double p12, double p22, double D12, double D22, double R, double D11deriv,
-										  double D21deriv, double p11deriv, double p21deriv, double D12deriv,
-										  double D22deriv, double p12deriv, double p22deriv) {
+										 double p12, double p22, double D12, double D22, double R, double D11deriv,
+										 double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										 double D22deriv, double p12deriv, double p22deriv) {
 		return quzcrossp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv, p21deriv,
 				D12deriv, D22deriv, p12deriv, p22deriv) -
 				uzQzzcrossp2d(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, D12deriv, D22deriv, p12deriv,
@@ -1586,77 +1598,77 @@ public class Multipoles {
 	}
 
 	public static double sppisppicrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										   double p12, double p22, double D12, double D22, double R, double D11deriv,
-										   double D21deriv, double p11deriv, double p21deriv, double D12deriv,
-										   double D22deriv, double p12deriv, double p22deriv) {
+										  double p12, double p22, double D12, double D22, double R, double D11deriv,
+										  double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										  double D22deriv, double p12deriv, double p22deriv) {
 		return upiupicrossp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv,
 				p21deriv, D12deriv, D22deriv, p12deriv, p22deriv);
 	}
 
 	public static double spzspzcrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										 double p12, double p22, double D12, double D22, double R, double D11deriv,
-										 double D21deriv, double p11deriv, double p21deriv, double D12deriv,
-										 double D22deriv, double p12deriv, double p22deriv) {
+										double p12, double p22, double D12, double D22, double R, double D11deriv,
+										double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										double D22deriv, double p12deriv, double p22deriv) {
 		return uzuzcrossp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv,
-				p21deriv, D12deriv, D22deriv, p12deriv, p22deriv);
+				p21deriv,
+				D12deriv, D22deriv, p12deriv, p22deriv);
 	}
 
 	public static double sppippipzcrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-											double p12, double p22, double D12, double D22, double R, double D11deriv,
-											double D21deriv, double p11deriv, double p21deriv, double D12deriv,
-											double D22deriv, double p12deriv, double p22deriv) {
+										   double p12, double p22, double D12, double D22, double R, double D11deriv,
+										   double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										   double D22deriv, double p12deriv, double p22deriv) {
 		return upiQpizcrossp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv,
 				p21deriv, D12deriv, D22deriv, p12deriv, p22deriv);
 	}
 
 	public static double ppipzsppicrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-											double p12, double p22, double D12, double D22, double R, double D11deriv,
-											double D21deriv, double p11deriv, double p21deriv, double D12deriv,
-											double D22deriv, double p12deriv, double p22deriv) {
+										   double p12, double p22, double D12, double D22, double R, double D11deriv,
+										   double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										   double D22deriv, double p12deriv, double p22deriv) {
 		return -upiQpizcrossp2d(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, D12deriv, D22deriv, p12deriv,
 				p22deriv, D11deriv, D21deriv, p11deriv, p21deriv);
 	}
 
 	public static double ppipzppipzcrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-											 double p12, double p22, double D12, double D22, double R, double D11deriv,
-											 double D21deriv, double p11deriv, double p21deriv, double D12deriv,
-											 double D22deriv, double p12deriv, double p22deriv) {
+											double p12, double p22, double D12, double D22, double R, double D11deriv,
+											double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+											double D22deriv, double p12deriv, double p22deriv) {
 		return QpizQpizcrossp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv,
 				p21deriv, D12deriv, D22deriv, p12deriv, p22deriv);
 	}
 
 	public static double pxpypxpycrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										   double p12, double p22, double D12, double D22, double R, double D11deriv,
-										   double D21deriv, double p11deriv, double p21deriv, double D12deriv,
-										   double D22deriv, double p12deriv, double p22deriv) {
+										  double p12, double p22, double D12, double D22, double R, double D11deriv,
+										  double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										  double D22deriv, double p12deriv, double p22deriv) {
 		return 0.5 *
-				(ppippippippicrossp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv,
+				(ppippippippicrossp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv,
+						p11deriv,
 						p21deriv, D12deriv, D22deriv, p12deriv, p22deriv) -
 						pxpxpypycrossp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv,
 								p11deriv, p21deriv, D12deriv, D22deriv, p12deriv, p22deriv));
 	}
 
 	public static double h0(int a2, int b2, double Dn2, double p01, double pn2, double R, double Dn2deriva,
-							 double pn2deriva, double Dn2derivb, double pn2derivb, double Dn2deriv2,
-							 double pn2deriv2) {
+							double pn2deriva, double Dn2derivb, double pn2derivb, double Dn2deriv2, double pn2deriv2) {
 		return a2 * Dn2deriv2 * (R + a2 * Dn2) + a2 * a2 * Dn2deriva * Dn2derivb +
 				b2 * b2 * (Dn2 * Dn2deriv2 + Dn2deriva * Dn2derivb) + (p01 + pn2) * pn2deriv2 + pn2deriva * pn2derivb;
 	}
 
 	public static double f0diagp2dpartial(int a2, int b2, double Dn2, double p01, double pn2, double R,
-										   double Dn2deriva, double pn2deriva, double Dn2derivb, double pn2derivb,
-										   double Dn2deriv2, double pn2deriv2) {
+										  double Dn2deriva, double pn2deriva, double Dn2derivb, double pn2derivb,
+										  double Dn2deriv2, double pn2deriv2) {
 		double f0 = f0(a2, b2, Dn2, p01, pn2, R);
-
 		return 3 * Math.pow(f0, 5) * g0(a2, b2, Dn2, p01, pn2, R, Dn2deriva, pn2deriva) *
-				g0(a2, b2, Dn2, p01, pn2, R, Dn2derivb, pn2derivb)
-				- h0(a2, b2, Dn2, p01, pn2, R, Dn2deriva, pn2deriva, Dn2derivb, pn2derivb, Dn2deriv2, pn2deriv2) *
-				Math.pow(f0, 3);
+				g0(a2, b2, Dn2, p01, pn2, R, Dn2derivb, pn2derivb) -
+				h0(a2, b2, Dn2, p01, pn2, R, Dn2deriva, pn2deriva, Dn2derivb, pn2derivb, Dn2deriv2, pn2deriv2) *
+						Math.pow(f0, 3);
 	}
 
 	public static double f0diagp2d(int a2, int b2, double Dn2, double p01, double pn2, double R, double Dn2deriva,
-									double pn2deriva, double Dn2derivb, double pn2derivb, double Dn2deriv2,
-									double pn2deriv2, int type) {
+								   double pn2deriva, double Dn2derivb, double pn2derivb, double Dn2deriv2,
+								   double pn2deriv2, int type) {
 		switch (type) {
 			case 0:
 				return 0;
@@ -1669,63 +1681,55 @@ public class Multipoles {
 		return 0;
 	}
 
-
 	public static double qqdiagp2d(double p01, double p11, double p21, double D11, double D21, double p02, double p12,
+								   double p22, double D12, double D22, double R, int num, double D1deriva,
+								   double D2deriva, double p1deriva, double p2deriva, double D1derivb, double D2derivb,
+								   double p1derivb, double p2derivb, double D1deriv2, double D2deriv2, double p1deriv2,
+								   double p2deriv2) {
+		return 0;
+	}
+
+	public static double quzdiagp2d(double p01, double p11, double p21, double D11, double D21, double p02, double p12,
 									double p22, double D12, double D22, double R, int num, double D1deriva,
 									double D2deriva, double p1deriva, double p2deriva, double D1derivb,
 									double D2derivb,
 									double p1derivb, double p2derivb, double D1deriv2, double D2deriv2,
 									double p1deriv2,
 									double p2deriv2) {
-		return 0;
+		return 0.5 *
+				(+f0diagp2d(+1, 0, D12, p01, p12, R, D1deriva, p1deriva, D1derivb, p1derivb, D1deriv2, p1deriv2, num) -
+						f0diagp2d(-1, 0, D12, p01, p12, R, D1deriva, p1deriva, D1derivb, p1derivb, D1deriv2, p1deriv2,
+								num));
 	}
 
-	public static double quzdiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
+	public static double qQpipidiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
+									   double p12, double p22, double D12, double D22, double R, int num,
+									   double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+									   double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+									   double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
+		return 0.5 *
+				(+f0diagp2d(0, 2, D22, p01, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num) -
+						f0diagp2d(0, 0, D22, p01, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2,
+								num));
+	}
+
+	public static double qQzzdiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
 									 double p12,
 									 double p22, double D12, double D22, double R, int num, double D1deriva,
 									 double D2deriva, double p1deriva, double p2deriva, double D1derivb,
 									 double D2derivb, double p1derivb, double p2derivb, double D1deriv2,
 									 double D2deriv2, double p1deriv2, double p2deriv2) {
-		return 0.5 * (
-				+f0diagp2d(+1, 0, D12, p01, p12, R, D1deriva, p1deriva, D1derivb, p1derivb, D1deriv2, p1deriv2, num)
-						- f0diagp2d(-1, 0, D12, p01, p12, R, D1deriva, p1deriva, D1derivb, p1derivb, D1deriv2,
-						p1deriv2,
-						num)
-		);
-	}
-
-	public static double qQpipidiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										double p12, double p22, double D12, double D22, double R, int num,
-										double D1deriva, double D2deriva, double p1deriva, double p2deriva,
-										double D1derivb, double D2derivb, double p1derivb, double p2derivb,
-										double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
-		return 0.5 * (
-				+f0diagp2d(0, 2, D22, p01, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num)
-						- f0diagp2d(0, 0, D22, p01, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2,
-						num)
-		);
-	}
-
-	public static double qQzzdiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-									  double p12, double p22, double D12, double D22, double R, int num,
-									  double D1deriva, double D2deriva, double p1deriva, double p2deriva,
-									  double D1derivb, double D2derivb, double p1derivb, double p2derivb,
-									  double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
-		return 0.25 * (
-				+f0diagp2d(+2, 0, D22, p01, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num)
-						+ f0diagp2d(-2, 0, D22, p01, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
-						p2deriv2,
-						num)
-						- 2 *
+		return 0.25 *
+				(+f0diagp2d(+2, 0, D22, p01, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num) +
+						f0diagp2d(-2, 0, D22, p01, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2,
+								num) - 2 *
 						f0diagp2d(0, 0, D22, p01, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2,
-								num)
-
-		);
+								num));
 	}
 
 	public static double h1(int a1, int a2, int b1, int b2, double Dn1, double Dm2, double pn1, double pm2, double R,
-							 double Dxderiva, double pxderiva, double Dxderivb, double pxderivb, double Dxderiv2,
-							 double pxderiv2, int type) {
+							double Dxderiva, double pxderiva, double Dxderivb, double pxderivb, double Dxderiv2,
+							double pxderiv2, int type) {
 		switch (type) {
 			case 0:
 				return a1 * a1 * Dxderiva * Dxderivb + a1 * Dxderiv2 * (R + a1 * Dn1 + a2 * Dm2) +
@@ -1735,27 +1739,23 @@ public class Multipoles {
 				return a2 * a2 * Dxderiva * Dxderivb + a2 * Dxderiv2 * (R + a1 * Dn1 + a2 * Dm2) +
 						b2 * b2 * Dxderiva * Dxderivb + b2 * Dxderiv2 * (b1 * Dn1 + b2 * Dm2) + pxderiva * pxderivb +
 						(pn1 + pm2) * pxderiv2;
-
 		}
-
 		return 0;
 	}
 
 	public static double f1diagp2dpartial(int a1, int a2, int b1, int b2, double Dn1, double Dm2, double pn1,
-										   double pm2, double R, double Dxderiva, double pxderiva, double Dxderivb,
-										   double pxderivb, double Dxderiv2, double pxderiv2, int type) {
+										  double pm2, double R, double Dxderiva, double pxderiva, double Dxderivb,
+										  double pxderivb, double Dxderiv2, double pxderiv2, int type) {
 		double f1 = f1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R);
-
 		return 3 * Math.pow(f1, 5) * g1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiva, pxderiva, type) *
-				g1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderivb, pxderivb, type)
-				- Math.pow(f1, 3) *
+				g1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderivb, pxderivb, type) - Math.pow(f1, 3) *
 				h1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiva, pxderiva, Dxderivb, pxderivb, Dxderiv2, pxderiv2,
 						type);
 	}
 
 	public static double f1diagp2d(int a1, int a2, int b1, int b2, double Dn1, double Dm2, double pn1, double pm2,
-									double R, double Dxderiva, double pxderiva, double Dxderivb, double pxderivb,
-									double Dxderiv2, double pxderiv2, int type) {
+								   double R, double Dxderiva, double pxderiva, double Dxderivb, double pxderivb,
+								   double Dxderiv2, double pxderiv2, int type) {
 		switch (type) {
 			case 0:
 			case 1:
@@ -1763,59 +1763,47 @@ public class Multipoles {
 						Dxderiv2, pxderiv2, type);
 			case 2:
 				return f1diagp2dpartial(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiva, pxderiva, Dxderivb, pxderivb,
-						Dxderiv2, pxderiv2, 0)
-						+
+						Dxderiv2, pxderiv2, 0) +
 						f1diagp2dpartial(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiva, pxderiva, Dxderivb, pxderivb,
-								Dxderiv2, pxderiv2, 1)
-						+ f1crossp2d(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiva, Dxderivb, pxderiva, pxderivb) * 2;
+								Dxderiv2, pxderiv2, 1) +
+						f1crossp2d(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiva, Dxderivb, pxderiva, pxderivb) * 2;
 		}
-
 		return 0;
 	}
 
 	public static double upiupidiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										double p12, double p22, double D12, double D22, double R, int num,
-										double D1deriva, double D2deriva, double p1deriva, double p2deriva,
-										double D1derivb, double D2derivb, double p1derivb, double p2derivb,
-										double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
-		return 0.5 * (
-				+f1diagp2d(0, 0, 1, -1, D11, D12, p11, p12, R, D1deriva, p1deriva, D1derivb, p1derivb, D1deriv2,
-						p1deriv2, num)
-						-
-						f1diagp2d(0, 0, 1, +1, D11, D12, p11, p12, R, D1deriva, p1deriva, D1derivb, p1derivb, D1deriv2,
-								p1deriv2, num)
-		);
+									   double p12, double p22, double D12, double D22, double R, int num,
+									   double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+									   double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+									   double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
+		return 0.5 * (+f1diagp2d(0, 0, 1, -1, D11, D12, p11, p12, R, D1deriva, p1deriva, D1derivb, p1derivb, D1deriv2,
+				p1deriv2, num) -
+				f1diagp2d(0, 0, 1, +1, D11, D12, p11, p12, R, D1deriva, p1deriva, D1derivb, p1derivb, D1deriv2,
+						p1deriv2, num));
 	}
 
 	public static double uzuzdiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-									  double p12, double p22, double D12, double D22, double R, int num,
-									  double D1deriva, double D2deriva, double p1deriva, double p2deriva,
-									  double D1derivb, double D2derivb, double p1derivb, double p2derivb,
-									  double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
-		return 0.25 * (
-				+f1diagp2d(+1, -1, 0, 0, D11, D12, p11, p12, R, D1deriva, p1deriva, D1derivb, p1derivb, D1deriv2,
-						p1deriv2, num)
-						+
-						f1diagp2d(-1, +1, 0, 0, D11, D12, p11, p12, R, D1deriva, p1deriva, D1derivb, p1derivb,
-								D1deriv2,
-								p1deriv2, num)
-						-
-						f1diagp2d(-1, -1, 0, 0, D11, D12, p11, p12, R, D1deriva, p1deriva, D1derivb, p1derivb,
-								D1deriv2,
-								p1deriv2, num)
-						-
-						f1diagp2d(+1, +1, 0, 0, D11, D12, p11, p12, R, D1deriva, p1deriva, D1derivb, p1derivb,
-								D1deriv2,
-								p1deriv2, num)
-		);
+									 double p12,
+									 double p22, double D12, double D22, double R, int num, double D1deriva,
+									 double D2deriva, double p1deriva, double p2deriva, double D1derivb,
+									 double D2derivb, double p1derivb, double p2derivb, double D1deriv2,
+									 double D2deriv2, double p1deriv2, double p2deriv2) {
+		return 0.25 * (+f1diagp2d(+1, -1, 0, 0, D11, D12, p11, p12, R, D1deriva, p1deriva, D1derivb, p1derivb,
+				D1deriv2,
+				p1deriv2, num) +
+				f1diagp2d(-1, +1, 0, 0, D11, D12, p11, p12, R, D1deriva, p1deriva, D1derivb, p1derivb, D1deriv2,
+						p1deriv2, num) -
+				f1diagp2d(-1, -1, 0, 0, D11, D12, p11, p12, R, D1deriva, p1deriva, D1derivb, p1derivb, D1deriv2,
+						p1deriv2, num) -
+				f1diagp2d(+1, +1, 0, 0, D11, D12, p11, p12, R, D1deriva, p1deriva, D1derivb, p1derivb, D1deriv2,
+						p1deriv2, num));
 	}
 
 	public static double varf1diagp2d(int a1, int a2, int b1, int b2, double Dn1, double Dm2, double pn1, double pm2,
-									   double R, double Dn1deriva, double pn1deriva, double Dn1derivb,
-									   double pn1derivb,
-									   double Dn1deriv2, double pn1deriv2, double Dm2deriva, double pm2deriva,
-									   double Dm2derivb, double pm2derivb, double Dm2deriv2, double pm2deriv2,
-									   int type) {
+									  double R, double Dn1deriva, double pn1deriva, double Dn1derivb, double pn1derivb,
+									  double Dn1deriv2, double pn1deriv2, double Dm2deriva, double pm2deriva,
+									  double Dm2derivb, double pm2derivb, double Dm2deriv2, double pm2deriv2,
+									  int type) {
 		switch (type) {
 			case 0:
 				return f1diagp2dpartial(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dn1deriva, pn1deriva, Dn1derivb,
@@ -1825,100 +1813,89 @@ public class Multipoles {
 						pm2derivb, Dm2deriv2, pm2deriv2, type);
 			case 2:
 				return f1diagp2dpartial(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dn1deriva, pn1deriva, Dn1derivb,
-						pn1derivb, Dn1deriv2, pn1deriv2, 0)
-						+ f1diagp2dpartial(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dm2deriva, pm2deriva, Dm2derivb,
-						pm2derivb, Dm2deriv2, pm2deriv2, 1)
-						+ f1crossp2d(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dn1deriva, Dm2derivb, pn1deriva, pm2derivb)
-						+ f1crossp2d(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dn1derivb, Dm2deriva, pn1derivb,
-						pm2deriva);
+						pn1derivb, Dn1deriv2, pn1deriv2, 0) +
+						f1diagp2dpartial(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dm2deriva, pm2deriva, Dm2derivb,
+								pm2derivb, Dm2deriv2, pm2deriv2, 1) +
+						f1crossp2d(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dn1deriva, Dm2derivb, pn1deriva, pm2derivb) +
+						f1crossp2d(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dn1derivb, Dm2deriva, pn1derivb, pm2deriva);
 		}
-
 		return 0;
 	}
 
 	public static double upiQpizdiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										 double p12, double p22, double D12, double D22, double R, int num,
-										 double D1deriva, double D2deriva, double p1deriva, double p2deriva,
-										 double D1derivb, double D2derivb, double p1derivb, double p2derivb,
-										 double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
-		return 0.25 * (
-				+varf1diagp2d(0, -1, +1, +1, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb, D1deriv2,
-						p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num)
-						- varf1diagp2d(0, -1, +1, -1, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb,
-						D1deriv2, p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num)
-						+ varf1diagp2d(0, +1, +1, -1, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb,
-						D1deriv2, p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num)
-						- varf1diagp2d(0, +1, +1, +1, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb,
-						D1deriv2, p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num)
-		);
+										double p12, double p22, double D12, double D22, double R, int num,
+										double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
+		return 0.25 *
+				(+varf1diagp2d(0, -1, +1, +1, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb, D1deriv2,
+						p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num) -
+						varf1diagp2d(0, -1, +1, -1, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb,
+								D1deriv2, p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num) +
+						varf1diagp2d(0, +1, +1, -1, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb,
+								D1deriv2, p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num) -
+						varf1diagp2d(0, +1, +1, +1, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb,
+								D1deriv2, p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num));
 	}
 
 	public static double uzQpipidiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										 double p12, double p22, double D12, double D22, double R, int num,
-										 double D1deriva, double D2deriva, double p1deriva, double p2deriva,
-										 double D1derivb, double D2derivb, double p1derivb, double p2derivb,
-										 double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
-		return 0.25 * (
-				-varf1diagp2d(+1, 0, 0, 2, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb, D1deriv2,
-						p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num)
-						+ varf1diagp2d(-1, 0, 0, 2, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb,
-						D1deriv2, p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num)
-						+ varf1diagp2d(+1, 0, 0, 0, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb,
-						D1deriv2, p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num)
-						- varf1diagp2d(-1, 0, 0, 0, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb,
-						D1deriv2, p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num)
-		);
+										double p12, double p22, double D12, double D22, double R, int num,
+										double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
+		return 0.25 *
+				(-varf1diagp2d(+1, 0, 0, 2, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb, D1deriv2,
+						p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num) +
+						varf1diagp2d(-1, 0, 0, 2, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb,
+								D1deriv2, p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num) +
+						varf1diagp2d(+1, 0, 0, 0, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb,
+								D1deriv2, p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num) -
+						varf1diagp2d(-1, 0, 0, 0, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb,
+								D1deriv2, p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num));
 	}
 
 	public static double uzQzzdiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-									   double p12, double p22, double D12, double D22, double R, int num,
-									   double D1deriva, double D2deriva, double p1deriva, double p2deriva,
-									   double D1derivb, double D2derivb, double p1derivb, double p2derivb,
-									   double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
-		return 0.125 * (
-				-varf1diagp2d(+1, -2, 0, 0, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb, D1deriv2,
-						p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num)
-						+ varf1diagp2d(-1, -2, 0, 0, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb,
-						D1deriv2, p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num)
-						- varf1diagp2d(+1, +2, 0, 0, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb,
-						D1deriv2, p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num)
-						+ varf1diagp2d(-1, +2, 0, 0, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb,
-						D1deriv2, p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num)
-						+ 2 * varf1diagp2d(+1, 0, 0, 0, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb,
-						D1deriv2, p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num)
-						- 2 * varf1diagp2d(-1, 0, 0, 0, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb,
-						D1deriv2, p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num)
-		);
+									  double p12, double p22, double D12, double D22, double R, int num,
+									  double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+									  double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+									  double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
+		return 0.125 *
+				(-varf1diagp2d(+1, -2, 0, 0, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb, D1deriv2,
+						p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num) +
+						varf1diagp2d(-1, -2, 0, 0, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb,
+								D1deriv2, p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num) -
+						varf1diagp2d(+1, +2, 0, 0, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb,
+								D1deriv2, p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num) +
+						varf1diagp2d(-1, +2, 0, 0, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb,
+								D1deriv2, p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num) +
+						2 * varf1diagp2d(+1, 0, 0, 0, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb,
+								D1deriv2, p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num) -
+						2 * varf1diagp2d(-1, 0, 0, 0, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb,
+								D1deriv2, p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num));
 	}
 
-
 	public static double QpipiQpipidiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-											double p12, double p22, double D12, double D22, double R, int num,
-											double D1deriva, double D2deriva, double p1deriva, double p2deriva,
-											double D1derivb, double D2derivb, double p1derivb, double p2derivb,
-											double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
-		return 0.125 * (
-				+f1diagp2d(0, 0, +2, -2, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
-						p2deriv2, num)
-						+
+										   double p12, double p22, double D12, double D22, double R, int num,
+										   double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										   double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										   double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
+		return 0.125 *
+				(+f1diagp2d(0, 0, +2, -2, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
+						p2deriv2, num) +
 						f1diagp2d(0, 0, +2, +2, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
 								D2deriv2,
-								p2deriv2, num)
-						- 2 *
+								p2deriv2, num) - 2 *
 						f1diagp2d(0, 0, +2, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
-								p2deriv2, num)
-						- 2 *
+								p2deriv2, num) - 2 *
 						f1diagp2d(0, 0, 0, +2, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
-								p2deriv2, num)
-						+ 2 *
+								p2deriv2, num) + 2 *
 						f1diagp2d(0, 0, 0, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
-								p2deriv2, num)
-		);
+								p2deriv2, num));
 	}
 
 	public static double h2(int a1, int a2, int b1, int b2, double Dn1, double Dm2, double pn1, double pm2, double R,
-							 double Dxderiva, double pxderiva, double Dxderivb, double pxderivb, double Dxderiv2,
-							 double pxderiv2, int type) {
+							double Dxderiva, double pxderiva, double Dxderivb, double pxderivb, double Dxderiv2,
+							double pxderiv2, int type) {
 		switch (type) {
 			case 0:
 				return a1 * a1 * Dxderiva * Dxderivb + a1 * Dxderiv2 * (R + a1 * Dn1 + a2 * Dm2) +
@@ -1928,27 +1905,23 @@ public class Multipoles {
 				return a2 * a2 * Dxderiva * Dxderivb + a2 * Dxderiv2 * (R + a1 * Dn1 + a2 * Dm2) +
 						b2 * b2 * Dxderiva * Dxderivb + b2 * Dxderiv2 * b2 * Dm2 + pxderiva * pxderivb +
 						(pn1 + pm2) * pxderiv2;
-
 		}
-
 		return 0;
 	}
 
 	public static double f2diagp2dpartial(int a1, int a2, int b1, int b2, double Dn1, double Dm2, double pn1,
-										   double pm2, double R, double Dxderiva, double pxderiva, double Dxderivb,
-										   double pxderivb, double Dxderiv2, double pxderiv2, int type) {
+										  double pm2, double R, double Dxderiva, double pxderiva, double Dxderivb,
+										  double pxderivb, double Dxderiv2, double pxderiv2, int type) {
 		double f2 = f2(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R);
-
 		return 3 * Math.pow(f2, 5) * g2(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiva, pxderiva, type) *
-				g2(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderivb, pxderivb, type)
-				- Math.pow(f2, 3) *
+				g2(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderivb, pxderivb, type) - Math.pow(f2, 3) *
 				h2(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiva, pxderiva, Dxderivb, pxderivb, Dxderiv2, pxderiv2,
 						type);
 	}
 
 	public static double f2diagp2d(int a1, int a2, int b1, int b2, double Dn1, double Dm2, double pn1, double pm2,
-									double R, double Dxderiva, double pxderiva, double Dxderivb, double pxderivb,
-									double Dxderiv2, double pxderiv2, int type) {
+								   double R, double Dxderiva, double pxderiva, double Dxderivb, double pxderivb,
+								   double Dxderiv2, double pxderiv2, int type) {
 		switch (type) {
 			case 0:
 			case 1:
@@ -1956,142 +1929,118 @@ public class Multipoles {
 						Dxderiv2, pxderiv2, type);
 			case 2:
 				return f2diagp2dpartial(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiva, pxderiva, Dxderivb, pxderivb,
-						Dxderiv2, pxderiv2, 0)
-						+
+						Dxderiv2, pxderiv2, 0) +
 						f2diagp2dpartial(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiva, pxderiva, Dxderivb, pxderivb,
-								Dxderiv2, pxderiv2, 1)
-						+ f2crossp2d(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiva, Dxderivb, pxderiva, pxderivb) * 2;
+								Dxderiv2, pxderiv2, 1) +
+						f2crossp2d(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiva, Dxderivb, pxderiva, pxderivb) * 2;
 		}
-
 		return 0;
 	}
 
-
 	public static double QxxQyydiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										double p12, double p22, double D12, double D22, double R, int num,
-										double D1deriva, double D2deriva, double p1deriva, double p2deriva,
-										double D1derivb, double D2derivb, double p1derivb, double p2derivb,
-										double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
-		return 0.25 * (
-				+f2diagp2d(0, 0, 2, 2, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
-						p2deriv2, num)
-						- f2diagp2d(0, 0, 2, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
-						D2deriv2,
-						p2deriv2, num)
-						- f2diagp2d(0, 0, 0, 2, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
-						D2deriv2,
-						p2deriv2, num)
-						+ f2diagp2d(0, 0, 0, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
-						D2deriv2,
-						p2deriv2, num)
-		);
+									   double p12, double p22, double D12, double D22, double R, int num,
+									   double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+									   double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+									   double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
+		return 0.25 * (+f2diagp2d(0, 0, 2, 2, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
+				p2deriv2, num) -
+				f2diagp2d(0, 0, 2, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
+						p2deriv2,
+						num) -
+				f2diagp2d(0, 0, 0, 2, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
+						p2deriv2,
+						num) +
+				f2diagp2d(0, 0, 0, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
+						p2deriv2,
+						num));
 	}
 
 	public static double QpipiQzzdiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										  double p12, double p22, double D12, double D22, double R, int num,
-										  double D1deriva, double D2deriva, double p1deriva, double p2deriva,
-										  double D1derivb, double D2derivb, double p1derivb, double p2derivb,
-										  double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
-		return 0.125 * (
-				+f1diagp2d(0, -2, +2, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
-						p2deriv2, num)
-						+
+										 double p12, double p22, double D12, double D22, double R, int num,
+										 double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										 double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										 double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
+		return 0.125 *
+				(+f1diagp2d(0, -2, +2, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
+						p2deriv2, num) +
 						f1diagp2d(0, +2, +2, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
 								D2deriv2,
-								p2deriv2, num)
-						-
+								p2deriv2, num) -
 						f1diagp2d(0, -2, 0, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
-								p2deriv2, num)
-						-
+								p2deriv2, num) -
 						f1diagp2d(0, +2, 0, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
-								p2deriv2, num)
-						- 2 *
+								p2deriv2, num) - 2 *
 						f1diagp2d(0, 0, 2, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
-								p2deriv2, num)
-						+ 2 *
+								p2deriv2, num) + 2 *
 						f1diagp2d(0, 0, 0, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
-								p2deriv2, num)
-		);
-
+								p2deriv2, num));
 	}
 
 	public static double QzzQzzdiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										double p12, double p22, double D12, double D22, double R, int num,
-										double D1deriva, double D2deriva, double p1deriva, double p2deriva,
-										double D1derivb, double D2derivb, double p1derivb, double p2derivb,
-										double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
-		return 0.0625 * (
-				+f1diagp2d(+2, -2, 0, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
-						p2deriv2, num)
-						+
+									   double p12, double p22, double D12, double D22, double R, int num,
+									   double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+									   double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+									   double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
+		return 0.0625 *
+				(+f1diagp2d(+2, -2, 0, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
+						p2deriv2, num) +
 						f1diagp2d(+2, +2, 0, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
-								D2deriv2,
-								p2deriv2, num)
-						+
+								D2deriv2, p2deriv2, num) +
 						f1diagp2d(-2, -2, 0, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
-								D2deriv2,
-								p2deriv2, num)
-						+
+								D2deriv2, p2deriv2, num) +
 						f1diagp2d(-2, +2, 0, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
-								D2deriv2,
-								p2deriv2, num)
-						- 2 *
+								D2deriv2, p2deriv2, num) - 2 *
 						f1diagp2d(+2, 0, 0, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
-								p2deriv2, num)
-						- 2 *
+								p2deriv2, num) - 2 *
 						f1diagp2d(-2, 0, 0, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
-								p2deriv2, num)
-						- 2 *
+								p2deriv2, num) - 2 *
 						f1diagp2d(0, +2, 0, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
-								p2deriv2, num)
-						- 2 *
+								p2deriv2, num) - 2 *
 						f1diagp2d(0, -2, 0, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
-								p2deriv2, num)
-						+ 4 *
+								p2deriv2, num) + 4 *
 						f1diagp2d(0, 0, 0, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
-								p2deriv2, num)
-		);
+								p2deriv2, num));
 	}
 
 	public static double QpizQpizdiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										  double p12, double p22, double D12, double D22, double R, int num,
-										  double D1deriva, double D2deriva, double p1deriva, double p2deriva,
-										  double D1derivb, double D2derivb, double p1derivb, double p2derivb,
-										  double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
-		return 0.125 * (
-				+f1diagp2d(+1, -1, +1, -1, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
-						p2deriv2, num)
-						- f1diagp2d(+1, -1, +1, +1, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
-						D2deriv2, p2deriv2, num)
-						- f1diagp2d(+1, +1, +1, -1, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
-						D2deriv2, p2deriv2, num)
-						+ f1diagp2d(+1, +1, +1, +1, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
-						D2deriv2, p2deriv2, num)
-						- f1diagp2d(-1, -1, +1, -1, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
-						D2deriv2, p2deriv2, num)
-						+ f1diagp2d(-1, -1, +1, +1, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
-						D2deriv2, p2deriv2, num)
-						+ f1diagp2d(-1, +1, +1, -1, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
-						D2deriv2, p2deriv2, num)
-						- f1diagp2d(-1, +1, +1, +1, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
-						D2deriv2, p2deriv2, num)
-		);
+										 double p12, double p22, double D12, double D22, double R, int num,
+										 double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										 double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										 double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
+		return 0.125 *
+				(+f1diagp2d(+1, -1, +1, -1, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
+						p2deriv2, num) -
+						f1diagp2d(+1, -1, +1, +1, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
+								D2deriv2, p2deriv2, num) -
+						f1diagp2d(+1, +1, +1, -1, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
+								D2deriv2, p2deriv2, num) +
+						f1diagp2d(+1, +1, +1, +1, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
+								D2deriv2, p2deriv2, num) -
+						f1diagp2d(-1, -1, +1, -1, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
+								D2deriv2, p2deriv2, num) +
+						f1diagp2d(-1, -1, +1, +1, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
+								D2deriv2, p2deriv2, num) +
+						f1diagp2d(-1, +1, +1, -1, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
+								D2deriv2, p2deriv2, num) -
+						f1diagp2d(-1, +1, +1, +1, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
+								D2deriv2, p2deriv2, num));
 	}
 
 	public static double ssssdiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										double p12, double p22, double D12, double D22, double R, int num,
-										double D1deriva, double D2deriva, double p1deriva, double p2deriva,
-										double D1derivb, double D2derivb, double p1derivb, double p2derivb,
-										double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
+									 double p12,
+									 double p22, double D12, double D22, double R, int num, double D1deriva,
+									 double D2deriva, double p1deriva, double p2deriva, double D1derivb,
+									 double D2derivb, double p1derivb, double p2derivb, double D1deriv2,
+									 double D2deriv2, double p1deriv2, double p2deriv2) {
 		return qqdiagp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
 				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2);
 	}
 
 	public static double ssppippidiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-											double p12, double p22, double D12, double D22, double R, int num,
-											double D1deriva, double D2deriva, double p1deriva, double p2deriva,
-											double D1derivb, double D2derivb, double p1derivb, double p2derivb,
-											double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
+										 double p12, double p22, double D12, double D22, double R, int num,
+										 double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										 double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										 double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
 		return qqdiagp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
 				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2) +
 				qQpipidiagp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
@@ -2099,10 +2048,10 @@ public class Multipoles {
 	}
 
 	public static double sspzpzdiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										  double p12, double p22, double D12, double D22, double R, int num,
-										  double D1deriva, double D2deriva, double p1deriva, double p2deriva,
-										  double D1derivb, double D2derivb, double p1derivb, double p2derivb,
-										  double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
+									   double p12, double p22, double D12, double D22, double R, int num,
+									   double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+									   double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+									   double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
 		return qqdiagp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
 				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2) +
 				qQzzdiagp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
@@ -2110,22 +2059,22 @@ public class Multipoles {
 	}
 
 	public static double ppippissdiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-											double p12, double p22, double D12, double D22, double R, int num,
-											double D1deriva, double D2deriva, double p1deriva, double p2deriva,
-											double D1derivb, double D2derivb, double p1derivb, double p2derivb,
-											double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
+										 double p12, double p22, double D12, double D22, double R, int num,
+										 double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										 double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										 double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
 		return qqdiagp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
 				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2) +
 				qQpipidiagp2d(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriva, D2deriva,
-						p1deriva,
-						p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2);
+						p1deriva, p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2,
+						p2deriv2);
 	}
 
 	public static double pzpzssdiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										  double p12, double p22, double D12, double D22, double R, int num,
-										  double D1deriva, double D2deriva, double p1deriva, double p2deriva,
-										  double D1derivb, double D2derivb, double p1derivb, double p2derivb,
-										  double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
+									   double p12, double p22, double D12, double D22, double R, int num,
+									   double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+									   double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+									   double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
 		return qqdiagp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
 				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2) +
 				qQzzdiagp2d(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriva, D2deriva, p1deriva,
@@ -2133,59 +2082,59 @@ public class Multipoles {
 	}
 
 	public static double ppippippippidiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-												double p12, double p22, double D12, double D22, double R, int num,
-												double D1deriva, double D2deriva, double p1deriva, double p2deriva,
-												double D1derivb, double D2derivb, double p1derivb, double p2derivb,
-												double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
+											 double p12, double p22, double D12, double D22, double R, int num,
+											 double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+											 double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+											 double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
 		return qqdiagp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
 				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2) +
 				qQpipidiagp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
 						p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2) +
 				qQpipidiagp2d(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriva, D2deriva,
-						p1deriva,
-						p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2) +
+						p1deriva, p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2,
+						p2deriv2) +
 				QpipiQpipidiagp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva,
 						p1deriva, p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2,
 						p2deriv2);
 	}
 
 	public static double pxpxpypydiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-											double p12, double p22, double D12, double D22, double R, int num,
-											double D1deriva, double D2deriva, double p1deriva, double p2deriva,
-											double D1derivb, double D2derivb, double p1derivb, double p2derivb,
-											double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
+										 double p12, double p22, double D12, double D22, double R, int num,
+										 double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										 double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										 double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
 		return qqdiagp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
 				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2) +
 				qQpipidiagp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
 						p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2) +
 				qQpipidiagp2d(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriva, D2deriva,
-						p1deriva,
-						p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2) +
+						p1deriva, p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2,
+						p2deriv2) +
 				QxxQyydiagp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
 						p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2);
 	}
 
 	public static double ppippipzpzdiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-											  double p12, double p22, double D12, double D22, double R, int num,
-											  double D1deriva, double D2deriva, double p1deriva, double p2deriva,
-											  double D1derivb, double D2derivb, double p1derivb, double p2derivb,
-											  double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
+										   double p12, double p22, double D12, double D22, double R, int num,
+										   double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										   double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										   double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
 		return qqdiagp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
 				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2) +
 				qQzzdiagp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
 						p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2) +
 				qQpipidiagp2d(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriva, D2deriva,
-						p1deriva,
-						p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2) +
+						p1deriva, p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2,
+						p2deriv2) +
 				QpipiQzzdiagp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
 						p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2);
 	}
 
 	public static double pzpzppippidiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-											  double p12, double p22, double D12, double D22, double R, int num,
-											  double D1deriva, double D2deriva, double p1deriva, double p2deriva,
-											  double D1derivb, double D2derivb, double p1derivb, double p2derivb,
-											  double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
+										   double p12, double p22, double D12, double D22, double R, int num,
+										   double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										   double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										   double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
 		return qqdiagp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
 				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2) +
 				qQpipidiagp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
@@ -2198,10 +2147,10 @@ public class Multipoles {
 	}
 
 	public static double pzpzpzpzdiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-											double p12, double p22, double D12, double D22, double R, int num,
-											double D1deriva, double D2deriva, double p1deriva, double p2deriva,
-											double D1derivb, double D2derivb, double p1derivb, double p2derivb,
-											double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
+										 double p12, double p22, double D12, double D22, double R, int num,
+										 double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										 double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										 double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
 		return qqdiagp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
 				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2) +
 				qQzzdiagp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
@@ -2213,19 +2162,19 @@ public class Multipoles {
 	}
 
 	public static double spzssdiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										 double p12, double p22, double D12, double D22, double R, int num,
-										 double D1deriva, double D2deriva, double p1deriva, double p2deriva,
-										 double D1derivb, double D2derivb, double p1derivb, double p2derivb,
-										 double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
+									  double p12, double p22, double D12, double D22, double R, int num,
+									  double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+									  double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+									  double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
 		return -quzdiagp2d(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriva, D2deriva, p1deriva,
 				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2);
 	}
 
 	public static double spzppippidiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-											 double p12, double p22, double D12, double D22, double R, int num,
-											 double D1deriva, double D2deriva, double p1deriva, double p2deriva,
-											 double D1derivb, double D2derivb, double p1derivb, double p2derivb,
-											 double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
+										  double p12, double p22, double D12, double D22, double R, int num,
+										  double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										  double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										  double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
 		return -quzdiagp2d(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriva, D2deriva, p1deriva,
 				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2) +
 				uzQpipidiagp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
@@ -2233,10 +2182,10 @@ public class Multipoles {
 	}
 
 	public static double spzpzpzdiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										   double p12, double p22, double D12, double D22, double R, int num,
-										   double D1deriva, double D2deriva, double p1deriva, double p2deriva,
-										   double D1derivb, double D2derivb, double p1derivb, double p2derivb,
-										   double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
+										double p12, double p22, double D12, double D22, double R, int num,
+										double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
 		return -quzdiagp2d(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriva, D2deriva, p1deriva,
 				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2) +
 				uzQzzdiagp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
@@ -2244,19 +2193,19 @@ public class Multipoles {
 	}
 
 	public static double ssspzdiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										 double p12, double p22, double D12, double D22, double R, int num,
-										 double D1deriva, double D2deriva, double p1deriva, double p2deriva,
-										 double D1derivb, double D2derivb, double p1derivb, double p2derivb,
-										 double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
+									  double p12, double p22, double D12, double D22, double R, int num,
+									  double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+									  double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+									  double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
 		return quzdiagp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
 				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2);
 	}
 
 	public static double ppippispzdiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-											 double p12, double p22, double D12, double D22, double R, int num,
-											 double D1deriva, double D2deriva, double p1deriva, double p2deriva,
-											 double D1derivb, double D2derivb, double p1derivb, double p2derivb,
-											 double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
+										  double p12, double p22, double D12, double D22, double R, int num,
+										  double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										  double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										  double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
 		return quzdiagp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
 				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2) -
 				uzQpipidiagp2d(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriva, D2deriva,
@@ -2265,10 +2214,10 @@ public class Multipoles {
 	}
 
 	public static double pzpzspzdiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										   double p12, double p22, double D12, double D22, double R, int num,
-										   double D1deriva, double D2deriva, double p1deriva, double p2deriva,
-										   double D1derivb, double D2derivb, double p1derivb, double p2derivb,
-										   double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
+										double p12, double p22, double D12, double D22, double R, int num,
+										double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
 		return quzdiagp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
 				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2) -
 				uzQzzdiagp2d(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriva, D2deriva, p1deriva,
@@ -2276,61 +2225,58 @@ public class Multipoles {
 	}
 
 	public static double sppisppidiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-											double p12, double p22, double D12, double D22, double R, int num,
-											double D1deriva, double D2deriva, double p1deriva, double p2deriva,
-											double D1derivb, double D2derivb, double p1derivb, double p2derivb,
-											double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
+										 double p12, double p22, double D12, double D22, double R, int num,
+										 double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										 double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										 double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
 		return upiupidiagp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
 				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2);
 	}
 
 	public static double spzspzdiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-										  double p12, double p22, double D12, double D22, double R, int num,
-										  double D1deriva, double D2deriva, double p1deriva, double p2deriva,
-										  double D1derivb, double D2derivb, double p1derivb, double p2derivb,
-										  double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
+									   double p12, double p22, double D12, double D22, double R, int num,
+									   double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+									   double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+									   double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
 		return uzuzdiagp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
 				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2);
 	}
 
 	public static double sppippipzdiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-											 double p12, double p22, double D12, double D22, double R, int num,
-											 double D1deriva, double D2deriva, double p1deriva, double p2deriva,
-											 double D1derivb, double D2derivb, double p1derivb, double p2derivb,
-											 double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
+										  double p12, double p22, double D12, double D22, double R, int num,
+										  double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										  double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										  double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
 		return upiQpizdiagp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
 				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2);
 	}
 
 	public static double ppipzsppidiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-											 double p12, double p22, double D12, double D22, double R, int num,
-											 double D1deriva, double D2deriva, double p1deriva, double p2deriva,
-											 double D1derivb, double D2derivb, double p1derivb, double p2derivb,
-											 double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
+										  double p12, double p22, double D12, double D22, double R, int num,
+										  double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										  double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										  double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
 		return -upiQpizdiagp2d(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriva, D2deriva,
 				p1deriva, p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2);
 	}
 
 	public static double ppipzppipzdiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-											  double p12, double p22, double D12, double D22, double R, int num,
-											  double D1deriva, double D2deriva, double p1deriva, double p2deriva,
-											  double D1derivb, double D2derivb, double p1derivb, double p2derivb,
-											  double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
+										   double p12, double p22, double D12, double D22, double R, int num,
+										   double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										   double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										   double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
 		return QpizQpizdiagp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
 				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2);
 	}
 
 	public static double pxpypxpydiagp2d(double p01, double p11, double p21, double D11, double D21, double p02,
-											double p12, double p22, double D12, double D22, double R, int num,
-											double D1deriva, double D2deriva, double p1deriva, double p2deriva,
-											double D1derivb, double D2derivb, double p1derivb, double p2derivb,
-											double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
-		return 0.5 *
-				(ppippippippidiagp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva,
-						p1deriva, p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2,
-						p2deriv2) -
-						pxpxpypydiagp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva,
-								p1deriva, p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2,
-								p1deriv2, p2deriv2));
+										 double p12, double p22, double D12, double D22, double R, int num,
+										 double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										 double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										 double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2) {
+		return 0.5 * (ppippippippidiagp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva,
+				p1deriva, p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2) -
+				pxpxpypydiagp2d(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
+						p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2));
 	}
 }

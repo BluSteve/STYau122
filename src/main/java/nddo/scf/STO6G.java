@@ -166,11 +166,11 @@ public class STO6G extends LCGTO {
 		double returnval = 0;
 
 		if (num1 != -1 && num2 != -1) {
-			int hasA1 = (a.getL() == type1) && num1 != 1 ? 1 : 0;
-			int hasB1 = (b.getL() == type1) && num1 != 0 ? 1 : 0;
+			int hasA1 = a.getL() == type1 && num1 != 1 ? 1 : 0;
+			int hasB1 = b.getL() == type1 && num1 != 0 ? 1 : 0;
 
-			int hasA2 = (a.getL() == type2) && num2 != 1 ? 1 : 0;
-			int hasB2 = (b.getL() == type2) && num2 != 0 ? 1 : 0;
+			int hasA2 = a.getL() == type2 && num2 != 1 ? 1 : 0;
+			int hasB2 = b.getL() == type2 && num2 != 0 ? 1 : 0;
 
 
 			if (num1 == num2 && type1 == type2 && hasA1 + hasB1 > 0) {

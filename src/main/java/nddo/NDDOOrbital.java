@@ -1,11 +1,11 @@
 package nddo;
 
-public interface NDDOOrbital {
-	NDDOAtom getAtom();
+public interface NDDOOrbital<T extends NDDOAtom, S extends NDDOOrbital> {
+	T getAtom();
 
 	double U();
 
 	int getL();
 
-	NDDOOrbital[] orbitalArray();
+	S[] orbitalArray();
 }

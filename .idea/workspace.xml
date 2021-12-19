@@ -4,17 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="fix thiel bug in paramderivative uhf">
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="broken but it runs (p2d)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/examples/am1/AM1Atom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/examples/am1/AM1Atom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDOAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDOAtom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDOOrbitalMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDOOrbitalMethods.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/defaults/MNDOAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/defaults/MNDOAtom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDOOrbital.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDOOrbital.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/defaults/NDDO6G.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/defaults/NDDO6G.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/defaults/NDDO6GMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/defaults/NDDO6GMethods.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/defaults/NDDOAtomBasic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/defaults/NDDOAtomBasic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/Multipoles.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/Multipoles.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/scf/STO6G.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/scf/STO6G.java" afterDir="false" />
+    </list>
+    <list id="dc66f540-b8ec-493a-a0e2-f1f208176d5a" name="Changes by flyingfalcon" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/defaults/NDDO6GMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/defaults/NDDO6GMethods.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -138,6 +142,16 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/mndo-install.sh" root0="FORCE_HIGHLIGHTING" />
   </component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/src/main/java/nddo/defaults/NDDO6GMethods.java">
+      <ranges>
+        <range start1="4" end1="4" start2="4" end2="5" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
+        <range start1="68" end1="69" start2="69" end2="70" changelist="dc66f540-b8ec-493a-a0e2-f1f208176d5a" />
+        <range start1="76" end1="77" start2="77" end2="78" changelist="dc66f540-b8ec-493a-a0e2-f1f208176d5a" />
+        <range start1="406" end1="408" start2="407" end2="483" changelist="dc66f540-b8ec-493a-a0e2-f1f208176d5a" />
+      </ranges>
+    </file>
+  </component>
   <component name="ProblemsViewState">
     <option name="selectedIndex" value="2" />
   </component>
@@ -158,6 +172,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="codeWithMe.voiceChat.enabledByDefault" value="false" />
     <property name="extract.method.default.visibility" value="public" />
     <property name="last.edited.regexp" value="asdf,       asdf" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -166,7 +181,7 @@
     <property name="project.structure.proportion" value="0.26182964" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="ReaderModeSettings">
     <option name="enabled" value="false" />
@@ -343,14 +358,7 @@
       <workItem from="1639828623457" duration="3284000" />
       <workItem from="1639849512604" duration="8905000" />
       <workItem from="1639884527176" duration="5590000" />
-      <workItem from="1639917043412" duration="2740000" />
-    </task>
-    <task id="LOCAL-00067" summary="Solution refactor - move dipole to superclass">
-      <created>1639309796483</created>
-      <option name="number" value="00067" />
-      <option name="presentableId" value="LOCAL-00067" />
-      <option name="project" value="LOCAL" />
-      <updated>1639309796483</updated>
+      <workItem from="1639917043412" duration="6364000" />
     </task>
     <task id="LOCAL-00068" summary="Debug session with Adrian">
       <created>1639322333418</created>
@@ -688,7 +696,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639890124475</updated>
     </task>
-    <option name="localTasksCounter" value="116" />
+    <task id="LOCAL-00116" summary="broken but it runs (p2d)">
+      <created>1639920106225</created>
+      <option name="number" value="00116" />
+      <option name="presentableId" value="LOCAL-00116" />
+      <option name="project" value="LOCAL" />
+      <updated>1639920106226</updated>
+    </task>
+    <option name="localTasksCounter" value="117" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -736,7 +751,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Huge refactor seems to be working" />
     <MESSAGE value="Fix stupid Utils perturbCoords bug" />
     <MESSAGE value="Json serializers and deserializers" />
     <MESSAGE value="Json refactor" />
@@ -761,7 +775,8 @@
     <MESSAGE value="Input verification" />
     <MESSAGE value="minor changes" />
     <MESSAGE value="fix thiel bug in paramderivative uhf" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix thiel bug in paramderivative uhf" />
+    <MESSAGE value="broken but it runs (p2d)" />
+    <option name="LAST_COMMIT_MESSAGE" value="broken but it runs (p2d)" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

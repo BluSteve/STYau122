@@ -1,17 +1,16 @@
 package nddo.defaults;
 
-import nddo.NDDOAtom;
 import nddo.NDDOOrbital;
 import nddo.scf.STO6G;
 import nddo.structs.OrbitalProperties;
 
-public class NDDO6G extends STO6G implements NDDOOrbital {
-	private final NDDOAtom atom;
+public class NDDO6G extends STO6G implements NDDOOrbital<NDDOAtomBasic, NDDO6G> {
+	private final NDDOAtomBasic atom;
 	public final double beta, U, p0, p1, p2, D1, D2;
 	public final double gss, gsp, hsp, gpp, gp2, hp2;
 	private NDDO6G[] orbitalArray;
 
-	public NDDO6G(NDDOAtom atom, OrbitalProperties op, double zeta, double beta, double U) {
+	public NDDO6G(NDDOAtomBasic atom, OrbitalProperties op, double zeta, double beta, double U) {
 		super(op, atom.getCoordinates(), zeta);
 
 		this.atom = atom;
@@ -44,7 +43,7 @@ public class NDDO6G extends STO6G implements NDDOOrbital {
 	}
 
 	@Override
-	public NDDOAtom getAtom() {
+	public NDDOAtomBasic getAtom() {
 		return this.atom;
 	}
 

@@ -390,7 +390,9 @@ public class ParamSecondDerivative {
 				if (atomNumber[j] != atomNumber[k]) {
 					double Huk = State.nom.Hbetazetap2d(orbitals[j], orbitals[k],
 							ParamDerivative.getNumBeta(atomicnumbers[atomNumber[j]], atomicnumbers[atomNumber[k]], Z1,
-									orbitals[j].getL(), orbitals[k].getL(), type1), Z2, type2);
+									orbitals[j].getL(), orbitals[k].getL(), type1),
+							ParamDerivative.getNum(atomicnumbers[atomNumber[j]], atomicnumbers[atomNumber[k]], Z2),
+							type2);
 					H.set(j, k, Huk);
 					H.set(k, j, Huk);
 
