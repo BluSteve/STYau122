@@ -98,8 +98,8 @@ public abstract class Solution {
 	/**
 	 * Checks if two DoubleMatrices are similar below a threshold.
 	 */
-	protected static boolean isSimilar(SimpleMatrix x, SimpleMatrix y,
-									   double limit) {
+	public static boolean isSimilar(SimpleMatrix x, SimpleMatrix y,
+									double limit) {
 		for (int i = 0; i < y.numRows(); i++) {
 			for (int j = 0; j < y.numCols(); j++) {
 				if (Math.abs(x.get(i, j) - y.get(i, j)) > limit) {

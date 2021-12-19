@@ -25,6 +25,8 @@ public interface NDDOAtom<T extends NDDOAtom, S extends NDDOOrbital> { // todo m
 
 	double Vpd(S a, S b, int num, int type);
 
+	double Vp2d(S a, S b, int num1, int type1, int num2, int type2);
+
 	double p0();
 
 	double p1();
@@ -57,7 +59,7 @@ public interface NDDOAtom<T extends NDDOAtom, S extends NDDOOrbital> { // todo m
 
 	double crfg2d(T b, int tau1, int tau2);
 
-	double crfpd(T b, int num);
+	double crfalphapd(T b, int num);
 
 	T copy();
 }

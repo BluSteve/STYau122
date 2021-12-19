@@ -135,7 +135,7 @@ public class AM1Atom extends NDDOAtomBasic {
 	}
 
 	@Override
-	public double crfpd(NDDOAtomBasic b, int num) {//todo ree
+	public double crfalphapd(NDDOAtomBasic b, int num) {//todo ree
 		return 0;
 	}
 

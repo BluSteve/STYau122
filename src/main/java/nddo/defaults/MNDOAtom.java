@@ -115,7 +115,7 @@ public class MNDOAtom extends NDDOAtomBasic {
 	}
 
 	@Override
-	public double crfpd(NDDOAtomBasic c, int num) {
+	public double crfalphapd(NDDOAtomBasic c, int num) {
 		double R = GTO.R(coordinates, c.getCoordinates());
 		double val = atomProperties.getQ() * c.getAtomProperties().getQ() *
 				nom.G(this.s(), this.s(), c.s(), c.s());

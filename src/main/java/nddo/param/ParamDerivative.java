@@ -639,7 +639,7 @@ public class ParamDerivative {
 
 		for (int i = 0; i < soln.atoms.length; i++) {
 			for (int j = i + 1; j < soln.atoms.length; j++) {
-				sum += soln.atoms[i].crfpd(soln.atoms[j],
+				sum += soln.atoms[i].crfalphapd(soln.atoms[j],
 						getNum(soln.atomicNumbers[i], soln.atomicNumbers[j],
 								Z));
 			}
@@ -648,7 +648,7 @@ public class ParamDerivative {
 		return sum / 4.3363E-2;
 	}
 
-	private static int getNum(int Z1, int Z2, int Z) {
+	static int getNum(int Z1, int Z2, int Z) {
 		int num = 0;
 
 		if (Z1 == Z) {
@@ -662,7 +662,7 @@ public class ParamDerivative {
 		return num - 1;
 	}
 
-	private static int getNumBeta(int Z1, int Z2, int Z, int L1, int L2, int L) {
+	static int getNumBeta(int Z1, int Z2, int Z, int L1, int L2, int L) {
 		int num = 0;
 
 		if (Z1 == Z && L1 == L) num += 1;
