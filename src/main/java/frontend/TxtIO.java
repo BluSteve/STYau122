@@ -321,6 +321,4 @@ public class TxtIO {
 		for (int i = 0; i < bohr.length; i++) res[i] = bohr[i] / Constants.bohr;
 		return res;
 	}
-
-
 }

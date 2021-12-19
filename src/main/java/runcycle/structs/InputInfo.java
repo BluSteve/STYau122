@@ -5,7 +5,7 @@ import nddo.NDDOParams;
 
 public class InputInfo {
 	public final int[] atomTypes;
-	public final int[][] neededParams;
+	public final int[][] neededParams; // todo make this a map
 	public final NDDOParams[] npMap;
 
 	public InputInfo(int[] atomTypes, int[][] neededParams, double[][] params) {

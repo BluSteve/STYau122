@@ -3,18 +3,12 @@ package nddo;
 public final class NDDOParams { // params finality is up to the user
 	public final double[] params;
 
-	public NDDOParams(double alpha, double betas, double betap, double uss,
-						 double upp, double zetas, double zetap, double eisol,
-						 double gss, double gsp, double hsp, double gpp, double gp2) {
-		params = new double[]{alpha, betas, betap, uss, upp, zetas, zetap, eisol, gss, gsp, hsp, gpp, gp2};
-	}
-
 	/**
 	 * Same as the verbose constructor. Clones array passed in so it's essentially pass-by-value.
 	 * NOTE: Use this the exact same way you would use the verbose constructor! It's all cloned!
 	 * @param params Params array.
 	 */
-	public NDDOParams(double[] params) {
+	public NDDOParams(double ...params) {
 		if (params == null) throw new NullPointerException("Params cannot be null!");
 		this.params = params.clone();
 	}
