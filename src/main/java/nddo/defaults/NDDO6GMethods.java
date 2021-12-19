@@ -2,7 +2,6 @@ package nddo.defaults;
 
 import nddo.Constants;
 import nddo.NDDOOrbitalMethods;
-import nddo.NDDOParams;
 import nddo.math.ERI;
 import nddo.scf.LCGTO;
 import nddo.scf.STO6G;
@@ -405,73 +404,7 @@ public class NDDO6GMethods implements NDDOOrbitalMethods<NDDO6G> {
 		return sum2 * Constants.eV;
 	}
 
-	private static int index(NDDO6G orbital) {
-
-		if (orbital.getL() == 0) {
-			return 0;
-		}
-		else if (orbital.geti() == 1) {
-			return 1;
-		}
-		else if (orbital.getj() == 1) {
-			return 2;
-		}
-		else if (orbital.getk() == 1) {
-			return 3;
-		}
-
-		return -1;
-	}
-
-	public double Gp2dfinite (NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d, int num1, int type1, int num2, int type2) {
-
-		int aindex = index(a);
-
-		int bindex = index(b);
-
-		int cindex = index(c);
-
-		int dindex = index(d);
-
-		double initial = Gpd(a, b, c, d, num1, type1);
-
-		NDDOAtomBasic A = a.getAtom();
-
-		NDDOAtomBasic C = c.getAtom();
-
-		if (num2 == 0 || num2 == 2) {
-
-			try {
-				NDDOParams params = A.getParams().copy();
-				params.modifyParam(5 + type2, Constants.LAMBDA);
-
-				A = A.withNewParams(params);
-			} catch (Exception e) {
-				e.printStackTrace();
-//				System.exit(0);
-			}
-		}
-		if (num2 == 1 || num2 == 2) {
-			try {
-				NDDOParams params = C.getParams().copy();
-				params.modifyParam(5 + type2, Constants.LAMBDA);
-
-				C = C.withNewParams(params);
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-
-		double finalval =
-				Gpd(A.getOrbitals()[aindex], A.getOrbitals()[bindex],
-						C.getOrbitals()[cindex], C.getOrbitals()[dindex], num1, type1);
-
-		return (finalval - initial) / Constants.LAMBDA;
-
-
-	}
-
+	@Override
 	public double Gp2d(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d, int num1, int type1, int num2, int type2) {
 		if (num1 == -1 || num2 == -1) {
 			return 0;
