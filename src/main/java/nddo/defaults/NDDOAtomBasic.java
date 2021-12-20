@@ -76,7 +76,7 @@ public abstract class NDDOAtomBasic implements NDDOAtom<NDDOAtomBasic, NDDO6G> {
 	}
 
 	/**
-	 * Returns a brand new NDDOAtom object. Deep copied!
+	 * Returns a brand new NDDOAtom object. Not copied!
 	 *
 	 * @param np New NDDOParams.
 	 * @return New NDDOAtom.
@@ -85,7 +85,7 @@ public abstract class NDDOAtomBasic implements NDDOAtom<NDDOAtomBasic, NDDO6G> {
 	public abstract NDDOAtomBasic withNewParams(NDDOParams np);
 
 	/**
-	 * Returns a brand new NDDOAtom object. Not cloned!
+	 * Returns a brand new NDDOAtom object. Not copied!
 	 *
 	 * @param coordinates New coordinates.
 	 * @return New NDDOAtom.

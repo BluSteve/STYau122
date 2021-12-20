@@ -481,8 +481,8 @@ public class NDDO6GMethods implements NDDOOrbitalMethods<NDDO6G> {
 									LocalTwoCenterERIpgd(A[i], B[j], C[k], D[l], D1deriv, D2deriv, p1deriv, p2deriv, num, tau);
 						}
 
-						double erideriv = LocalTwoCenterERIpgd(A[i], B[j], C[k], D[l], D1deriv,
-										D2deriv, p1deriv, p2deriv, num, type);
+						double erideriv = LocalTwoCenterERIpd(A[i], B[j], C[k], D[l], D1deriv,
+										D2deriv, p1deriv, p2deriv, num);
 
 						if (coeffAderiv[i] * coeffB[j] * coeffC[k] * coeffD[l] != 0) {
 							sum += coeffAderiv[i] * coeffB[j] * coeffC[k] * coeffD[l] * erideriv;
