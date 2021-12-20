@@ -12,12 +12,12 @@
             <CsvLogEventLayout/>
         </File>
         <Async name="AsyncFile">
-            <AppenderRef ref="MainFile"/>
+            <AppenderRef ref="MainFile"/>52670.691011158975
             <AppenderRef ref="csvFile"/>
         </Async>
     </Appenders>
     <Loggers>
-        <Root level="trace">
+        <Root level="info">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="AsyncFile"/>
         </Root>

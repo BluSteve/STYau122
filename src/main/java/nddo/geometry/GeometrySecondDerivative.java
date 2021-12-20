@@ -1673,23 +1673,19 @@ public class GeometrySecondDerivative {
 				}
 			}
 
-			Batcher.forloop(length, subset -> {
-				for (int i : subset) {
-					// parray[i] stays the same object throughout
-					SimpleMatrix bc = barray[i].copy();
-					CommonOps_DDRM.multRows(Dinvarr, bc.getDDRM());
-					SimpleMatrix rvp = computeResponseVectorsPople(bc, soln);
-					CommonOps_DDRM.multRows(Darr, rvp.getDDRM());
-					parray[i] = rvp;
-				}
-			});
-
 			for (int i = 0; i < length; i++) {
 				SimpleMatrix[] prev = new SimpleMatrix[5];
 				prev[0] = barray[i]; // original barray object here
 				prev[1] = barray[i].transpose();
 				prev[2] = barray[i].negative();
 				dots.add(barray[i].dot(barray[i]));
+
+				// parray[i] stays the same object throughout
+				SimpleMatrix bc = barray[i].copy();
+				CommonOps_DDRM.multRows(Dinvarr, bc.getDDRM());
+				SimpleMatrix rvp = computeResponseVectorsPople(bc, soln);
+				CommonOps_DDRM.multRows(Darr, rvp.getDDRM());
+				parray[i] = rvp;
 
 				prev[3] = parray[i];
 				prev[4] = barray[i].minus(parray[i]);

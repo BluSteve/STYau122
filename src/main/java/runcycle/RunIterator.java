@@ -141,8 +141,10 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 					done.sort(String::compareTo);
 					left.sort(String::compareTo);
 
-					logger.info("Molecules done ({}): {}", done.size(), done);
-					logger.info("Molecules left ({}): {}", left.size(), left);
+					double percent = Math.round(1000.0 * done.size() / (done.size() + left.size())) / 10.0;
+
+					logger.info("{} molecules done ({}%): {}", done.size(), percent, done);
+					logger.info("{} molecules left ({}%): {}", left.size(), 100 - percent, left);
 				};
 
 				int wait = 10;

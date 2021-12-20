@@ -4,16 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="minor refactorings">
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="multithreaded presponsev + json debug">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/frontend/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/TxtIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/TxtIO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryOptimizationR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryOptimizationR.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/structs/Serializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/Serializer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Batcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Batcher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/log4j2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -202,7 +198,7 @@
       <recent name="tools" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Shell Script.Copy">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="frontend.Main" />
       <module name="MNDOParam.main" />
@@ -384,14 +380,7 @@
       <workItem from="1639917043412" duration="6364000" />
       <workItem from="1639974855155" duration="12427000" />
       <workItem from="1640002347385" duration="10567000" />
-      <workItem from="1640013842516" duration="3411000" />
-    </task>
-    <task id="LOCAL-00077" summary="Massive runcycle refactor in progress">
-      <created>1639414014033</created>
-      <option name="number" value="00077" />
-      <option name="presentableId" value="LOCAL-00077" />
-      <option name="project" value="LOCAL" />
-      <updated>1639414014033</updated>
+      <workItem from="1640013842516" duration="7720000" />
     </task>
     <task id="LOCAL-00078" summary="Remove RunOutput unnecessary interface">
       <created>1639414322357</created>
@@ -729,7 +718,14 @@
       <option name="project" value="LOCAL" />
       <updated>1640013003591</updated>
     </task>
-    <option name="localTasksCounter" value="126" />
+    <task id="LOCAL-00126" summary="multithreaded presponsev + json debug">
+      <created>1640019982373</created>
+      <option name="number" value="00126" />
+      <option name="presentableId" value="LOCAL-00126" />
+      <option name="project" value="LOCAL" />
+      <updated>1640019982374</updated>
+    </task>
+    <option name="localTasksCounter" value="127" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -777,7 +773,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Make RunIterator implement Iterable" />
     <MESSAGE value="Minor refactoring" />
     <MESSAGE value="Constant changes re bounds" />
     <MESSAGE value="Proguard refactor" />
@@ -802,9 +797,19 @@
     <MESSAGE value="Homo derivs" />
     <MESSAGE value="Batcher" />
     <MESSAGE value="minor refactorings" />
-    <option name="LAST_COMMIT_MESSAGE" value="minor refactorings" />
+    <MESSAGE value="multithreaded presponsev + json debug" />
+    <option name="LAST_COMMIT_MESSAGE" value="multithreaded presponsev + json debug" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/runcycle/structs/Serializer.java</url>
+          <line>87</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="nddoparam.param.ParamHessianRestricted" memberName="gPrime" />
