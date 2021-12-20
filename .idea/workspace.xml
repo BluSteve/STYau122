@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="multithreaded presponsev + json debug">
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="multithreading rvp is not faster + better pbar">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,6 +57,7 @@
       <list>
         <option value="Class" />
         <option value="Interface" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>
@@ -162,7 +159,7 @@
     <property name="project.structure.proportion" value="0.26182964" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="configurable.group.tools" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="ReaderModeSettings">
     <option name="enabled" value="false" />
@@ -198,7 +195,7 @@
       <recent name="tools" />
     </key>
   </component>
-  <component name="RunManager" selected="Shell Script.Copy">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="frontend.Main" />
       <module name="MNDOParam.main" />
@@ -380,14 +377,7 @@
       <workItem from="1639917043412" duration="6364000" />
       <workItem from="1639974855155" duration="12427000" />
       <workItem from="1640002347385" duration="10567000" />
-      <workItem from="1640013842516" duration="7720000" />
-    </task>
-    <task id="LOCAL-00078" summary="Remove RunOutput unnecessary interface">
-      <created>1639414322357</created>
-      <option name="number" value="00078" />
-      <option name="presentableId" value="LOCAL-00078" />
-      <option name="project" value="LOCAL" />
-      <updated>1639414322357</updated>
+      <workItem from="1640013842516" duration="10013000" />
     </task>
     <task id="LOCAL-00079" summary="RunIterator and lots of changes in runcycle">
       <created>1639468638029</created>
@@ -725,7 +715,14 @@
       <option name="project" value="LOCAL" />
       <updated>1640019982374</updated>
     </task>
-    <option name="localTasksCounter" value="127" />
+    <task id="LOCAL-00127" summary="multithreading rvp is not faster + better pbar">
+      <created>1640021828969</created>
+      <option name="number" value="00127" />
+      <option name="presentableId" value="LOCAL-00127" />
+      <option name="project" value="LOCAL" />
+      <updated>1640021828969</updated>
+    </task>
+    <option name="localTasksCounter" value="128" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -773,7 +770,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Minor refactoring" />
     <MESSAGE value="Constant changes re bounds" />
     <MESSAGE value="Proguard refactor" />
     <MESSAGE value="Proguard working" />
@@ -798,7 +794,8 @@
     <MESSAGE value="Batcher" />
     <MESSAGE value="minor refactorings" />
     <MESSAGE value="multithreaded presponsev + json debug" />
-    <option name="LAST_COMMIT_MESSAGE" value="multithreaded presponsev + json debug" />
+    <MESSAGE value="multithreading rvp is not faster + better pbar" />
+    <option name="LAST_COMMIT_MESSAGE" value="multithreading rvp is not faster + better pbar" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

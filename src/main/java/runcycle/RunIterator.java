@@ -128,31 +128,30 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 
 			boolean[] isDones = new boolean[getMaxMoleculeIndex(rms) + 1];
 
+			StopWatch lsw = new StopWatch();
+			lsw.start();
+
 			if (logger.isInfoEnabled()) {
 				Runnable mLeft = () -> {
-					List<String> done = new ArrayList<>();
 					List<String> left = new ArrayList<>();
+					int doneCount = 0;
 
 					for (RunnableMolecule rm : rms) {
-						if (isDones[rm.index]) done.add(rm.debugName());
-						else left.add(rm.debugName());
+						if (!isDones[rm.index]) left.add(rm.debugName());
+						else doneCount++;
 					}
 
-					done.sort(String::compareTo);
 					left.sort(String::compareTo);
 
-					double percent = Math.round(1000.0 * done.size() / (done.size() + left.size())) / 10.0;
+					String percent = String.format("%.2f", 100.0 * doneCount / (doneCount + left.size()));
 
-					logger.info("{} molecules done ({}%): {}", done.size(), percent, done);
-					logger.info("{} molecules left ({}%): {}", left.size(), 100 - percent, left);
+					logger.info("Time: {} s, {}/{} left ({}% done): {}", lsw.getTime(TimeUnit.SECONDS), left.size(),
+							doneCount + left.size(), percent, left);
 				};
 
 				int wait = 10;
 				progressBar.scheduleAtFixedRate(mLeft, wait, wait, TimeUnit.SECONDS);
 			}
-
-			StopWatch lsw = new StopWatch();
-			lsw.start();
 
 
 			// combined length of all differentiated params
