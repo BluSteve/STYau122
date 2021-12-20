@@ -16,7 +16,7 @@ public class AtomProperties { // Only 119 of these, immutable
 	private OrbitalProperties[] orbitals;
 
 	private static void populateAtoms() {
-		atoms = new AtomProperties[Constants.maxAtomNum];
+		atoms = new AtomProperties[Constants.MAX_ATOM_NUM];
 		atomsMap = new HashMap<>();
 
 		try {

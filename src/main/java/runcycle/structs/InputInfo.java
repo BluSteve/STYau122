@@ -21,9 +21,9 @@ public class InputInfo {
 	}
 
 	private static NDDOParams[] constructNpMap(int[] atomTypes, double[][] params) {
-		if (atomTypes.length != params.length) throw new NullPointerException("atomTypes and params size mismatch!");
+		if (atomTypes.length > params.length) throw new NullPointerException("Not enough params for atomTypes!");
 
-		NDDOParams[] result = new NDDOParams[Constants.maxAtomNum];
+		NDDOParams[] result = new NDDOParams[Constants.MAX_ATOM_NUM];
 
 		for (int i = 0; i < atomTypes.length; i++) {
 			result[atomTypes[i]] = new NDDOParams(params[i]);

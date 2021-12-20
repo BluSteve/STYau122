@@ -6,10 +6,32 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.RecursiveAction;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class Batcher {
+public final class Batcher {
 	private static final double cores = Runtime.getRuntime().availableProcessors();
+
+	public static <T> void consume(T[] inputArr, Consumer<T[]> consumer) {
+		final int length = inputArr.length;
+		final int batchSize = Math.max((int) Math.ceil(length / cores), 1);
+
+		final List<RecursiveAction> subtasks = new ArrayList<>(length);
+
+		for (int es = 0; es < length; es += batchSize) {
+			int elapsedSize = es;
+
+			subtasks.add(new RecursiveAction() {
+				@Override
+				protected void compute() {
+					consumer.accept(Arrays.copyOfRange(inputArr, elapsedSize,
+							Math.min(length, elapsedSize + batchSize)));
+				}
+			});
+		}
+
+		ForkJoinTask.invokeAll(subtasks);
+	}
 
 	public static <T, R> R[] apply(T[] inputArr, Function<T[], R[]> function) {
 		final int length = inputArr.length;
@@ -40,7 +62,7 @@ public class Batcher {
 	public static <T> double[] applyDouble(T[] inputArr, Function<T[], double[]> function) {
 		final int length = inputArr.length;
 		final int batchSize = Math.max((int) Math.ceil(length / cores), 1);
-		
+
 		final var results = new double[length];
 		final List<RecursiveAction> subtasks = new ArrayList<>(length);
 

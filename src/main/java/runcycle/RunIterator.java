@@ -1,5 +1,6 @@
 package runcycle;
 
+import nddo.Constants;
 import nddo.NDDOAtom;
 import nddo.NDDOParams;
 import nddo.geometry.GeometryOptimization;
@@ -21,7 +22,7 @@ import java.util.concurrent.*;
 import static runcycle.State.getConverter;
 
 public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutput> {
-	private static final Logger logger = LogManager.getLogger("RunIterator.class");
+	private static final Logger logger = LogManager.getLogger("RunIterator");
 	public final RunInput initialRunInput;
 	private final int limit;
 	private int runNumber = 0;
@@ -102,7 +103,7 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 	}
 
 	private static final class PRun { // stands for ParameterizationRun
-		private static final Logger logger = LogManager.getLogger("PRun.class");
+		private static final Logger logger = LogManager.getLogger("PRun");
 		private final RunInput ri;
 		private final ScheduledExecutorService progressBar = Executors.newScheduledThreadPool(1);
 		private IMoleculeResult[] ranMolecules;
@@ -182,7 +183,6 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 									null : getConverter().convert(rm.expGeom, info.npMap);
 
 							MoleculeRun mr = new MoleculeRun(rm, atoms, expGeom, rm.datum, true);
-							mr.run();
 
 							isDones[rm.index] = true;
 							return mr;
@@ -191,14 +191,13 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 				}
 			}
 
-
 			// adds previously ran molecules into the final results list
 			List<IMoleculeResult> results = new ArrayList<>(rms.length);
 
 			if (ranMolecules != null) results.addAll(List.of(ranMolecules));
 
 			// shuffles run requests and runs them, then deshuffles them
-			Collections.shuffle(moleculeTasks, new Random(123));
+			Collections.shuffle(moleculeTasks, new Random(Constants.RANDOM_SEED));
 			for (ForkJoinTask<MoleculeRun> task : ForkJoinTask.invokeAll(moleculeTasks)) {
 				results.add(task.join());
 			}
@@ -299,43 +298,34 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 	}
 
 	private static final class MoleculeRun implements IMoleculeResult {
-		private final NDDOAtom[] nddoAtoms, expGeom;
 		private final boolean withHessian, isExpAvail;
 		private final RunnableMolecule rm;
-		private final double[] datum;
-		private Solution s, sExp;
-		private ParamGradient g;
-		private ParamHessian h;
-		private Atom[] newAtoms;
-		private long time;
+		private final Solution s;
+		private final ParamGradient g;
+		private final ParamHessian h;
+		private final Atom[] newAtoms;
+		private final long time;
 
 		public MoleculeRun(RunnableMolecule rm, NDDOAtom[] nddoAtoms, NDDOAtom[] expGeom, double[] datum,
 						   boolean withHessian) {
 			this.rm = rm;
-			this.nddoAtoms = nddoAtoms;
-			this.expGeom = expGeom;
-			this.datum = datum;
 			this.withHessian = withHessian;
+			this.isExpAvail = expGeom != null;
 
-			isExpAvail = expGeom != null;
-		}
-
-		public void run() {
 			rm.getLogger().info("Started");
 			StopWatch sw = new StopWatch();
 			sw.start();
 
+			Solution initialS = Solution.of(rm, nddoAtoms);
+			rm.getLogger().debug("Finished initial solution computation");
 
-			s = GeometryOptimization.of(Solution.of(rm, nddoAtoms)).compute().getS();
+			s = GeometryOptimization.of(initialS).compute().getS();
 			rm.getLogger().debug("Finished geometry optimization");
 
-			if (isExpAvail) {
-				sExp = Solution.of(rm, expGeom);
-			}
-
-			g = ParamGradient.of(s, datum, sExp).compute();
+			g = ParamGradient.of(s, datum, isExpAvail ? Solution.of(rm, expGeom) : null).compute();
 			rm.getLogger().debug("Finished param gradient");
-			if (withHessian) h = ParamHessian.from(g).compute();
+
+			h = withHessian ? ParamHessian.from(g).compute() : null;
 			rm.getLogger().debug("Finished param hessian");
 
 			// stores new optimized geometry
@@ -347,6 +337,7 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 			sw.stop();
 			time = sw.getTime();
 
+			rm.getLogger().info("Finished in {}", time);
 
 //			for (int i = 1; i < 7; i++) {
 //				for (int j = 1; j < 7; j++) {

@@ -181,6 +181,18 @@ public class Utils {
 
 		return Math.sqrt(sum);
 	}
+
+	public static <T> void shuffleArray(T[] array) {
+		int index;
+		T temp;
+		Random random = new Random(Constants.RANDOM_SEED);
+		for (int i = array.length - 1; i > 0; i--) {
+			index = random.nextInt(i + 1);
+			temp = array[index];
+			array[index] = array[i];
+			array[i] = temp;
+		}
+	}
 }
 
 class Pair<F extends Comparable<F>, S> implements Comparable<Pair<F, S>> {

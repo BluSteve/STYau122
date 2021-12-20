@@ -6,7 +6,7 @@ import tools.Utils;
 
 import java.util.*;
 
-public class RunnableMolecule extends MoleculeInfo { // mid-level runnable molecule representation
+public final class RunnableMolecule extends MoleculeInfo { // mid-level runnable molecule representation
 	public final Atom[] atoms, expGeom;
 	public final double[] datum;
 
