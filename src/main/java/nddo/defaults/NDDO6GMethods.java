@@ -66,7 +66,7 @@ public class NDDO6GMethods implements NDDOOrbitalMethods<NDDO6G> {
 						if (coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] != 0) {
 							sum2 += coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] *
 									LocalTwoCenterERIcrossp2d(A[i], B[j], C[k], D[l], D11deriv, D21deriv, p11deriv,
-											p21deriv, D12deriv, D22deriv, p12deriv, p22deriv) * 27.21;
+											p21deriv, D12deriv, D22deriv, p12deriv, p22deriv) * Constants.eV;
 						}
 					}
 				}
@@ -146,7 +146,9 @@ public class NDDO6GMethods implements NDDOOrbitalMethods<NDDO6G> {
 						if (coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] != 0) {
 							if (coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] != 0) {
 								sum2 += coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] *
-										LocalTwoCenterERIdiagp2d(A[i], B[j], C[k], D[l], D1deriva, D2deriva, p1deriva, p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, num) * 27.21;
+										LocalTwoCenterERIdiagp2d(A[i], B[j], C[k], D[l], D1deriva, D2deriva,
+												p1deriva, p2deriva, D1derivb, D2derivb, p1derivb, p2derivb,
+												D1deriv2, D2deriv2, p1deriv2, p2deriv2, num) * Constants.eV;
 							}
 						}
 					}
@@ -263,45 +265,44 @@ public class NDDO6GMethods implements NDDOOrbitalMethods<NDDO6G> {
 		double[] coeffC = c.decomposition(a.getCoords(), c.getCoords());
 		double[] coeffD = d.decomposition(a.getCoords(), c.getCoords());
 
-		double[] coeffAderiv1 = a.derivativeDecomposition(a.getCoords(), c.getCoords(), tau1);
-		double[] coeffBderiv1 = b.derivativeDecomposition(a.getCoords(), c.getCoords(), tau1);
-		double[] coeffCderiv1 = c.derivativeDecomposition(a.getCoords(), c.getCoords(), tau1);
-		double[] coeffDderiv1 = d.derivativeDecomposition(a.getCoords(), c.getCoords(), tau1);
+		double[] coeffAderiva = a.derivativeDecomposition(a.getCoords(), c.getCoords(), tau1);
+		double[] coeffBderiva = b.derivativeDecomposition(a.getCoords(), c.getCoords(), tau1);
+		double[] coeffCderiva = c.derivativeDecomposition(a.getCoords(), c.getCoords(), tau1);
+		double[] coeffDderiva = d.derivativeDecomposition(a.getCoords(), c.getCoords(), tau1);
 
-		double[] coeffAderiv2 = a.derivativeDecomposition(a.getCoords(), c.getCoords(), tau2);
-		double[] coeffBderiv2 = b.derivativeDecomposition(a.getCoords(), c.getCoords(), tau2);
-		double[] coeffCderiv2 = c.derivativeDecomposition(a.getCoords(), c.getCoords(), tau2);
-		double[] coeffDderiv2 = d.derivativeDecomposition(a.getCoords(), c.getCoords(), tau2);
+		double[] coeffAderivb = a.derivativeDecomposition(a.getCoords(), c.getCoords(), tau2);
+		double[] coeffBderivb = b.derivativeDecomposition(a.getCoords(), c.getCoords(), tau2);
+		double[] coeffCderivb = c.derivativeDecomposition(a.getCoords(), c.getCoords(), tau2);
+		double[] coeffDderivb = d.derivativeDecomposition(a.getCoords(), c.getCoords(), tau2);
 
-		double[] coeffAderiv = a.secondDerivativeDecomposition(a.getCoords(), c.getCoords(), tau1, tau2);
-		double[] coeffBderiv = b.secondDerivativeDecomposition(a.getCoords(), c.getCoords(), tau1, tau2);
-		double[] coeffCderiv = c.secondDerivativeDecomposition(a.getCoords(), c.getCoords(), tau1, tau2);
-		double[] coeffDderiv = d.secondDerivativeDecomposition(a.getCoords(), c.getCoords(), tau1, tau2);
+		double[] coeffAderiv2 = a.secondDerivativeDecomposition(a.getCoords(), c.getCoords(), tau1, tau2);
+		double[] coeffBderiv2 = b.secondDerivativeDecomposition(a.getCoords(), c.getCoords(), tau1, tau2);
+		double[] coeffCderiv2 = c.secondDerivativeDecomposition(a.getCoords(), c.getCoords(), tau1, tau2);
+		double[] coeffDderiv2 = d.secondDerivativeDecomposition(a.getCoords(), c.getCoords(), tau1, tau2);
 
 		if (Math.abs(a.getCoords()[0] - c.getCoords()[0]) < 1E-3 &&
 				Math.abs(a.getCoords()[1] - c.getCoords()[1]) < 1E-3) {
 
-			coeffAderiv = a.secondDerivativeDecompositionvar(a.getCoords(), c.getCoords(), tau1, tau2);
-			coeffBderiv = b.secondDerivativeDecompositionvar(a.getCoords(), c.getCoords(), tau1, tau2);
-			coeffCderiv = c.secondDerivativeDecompositionvar(a.getCoords(), c.getCoords(), tau1, tau2);
-			coeffDderiv = d.secondDerivativeDecompositionvar(a.getCoords(), c.getCoords(), tau1, tau2);
+			coeffAderiv2 = a.secondDerivativeDecompositionvar(a.getCoords(), c.getCoords(), tau1, tau2);
+			coeffBderiv2 = b.secondDerivativeDecompositionvar(a.getCoords(), c.getCoords(), tau1, tau2);
+			coeffCderiv2 = c.secondDerivativeDecompositionvar(a.getCoords(), c.getCoords(), tau1, tau2);
+			coeffDderiv2 = d.secondDerivativeDecompositionvar(a.getCoords(), c.getCoords(), tau1, tau2);
 
-			coeffAderiv2 = a.derivativeDecompositionvar(a.getCoords(), c.getCoords(), tau2);
-			coeffBderiv2 = b.derivativeDecompositionvar(a.getCoords(), c.getCoords(), tau2);
-			coeffCderiv2 = c.derivativeDecompositionvar(a.getCoords(), c.getCoords(), tau2);
-			coeffDderiv2 = d.derivativeDecompositionvar(a.getCoords(), c.getCoords(), tau2);
+			coeffAderivb = a.derivativeDecompositionvar(a.getCoords(), c.getCoords(), tau2);
+			coeffBderivb = b.derivativeDecompositionvar(a.getCoords(), c.getCoords(), tau2);
+			coeffCderivb = c.derivativeDecompositionvar(a.getCoords(), c.getCoords(), tau2);
+			coeffDderivb = d.derivativeDecompositionvar(a.getCoords(), c.getCoords(), tau2);
 
-			coeffAderiv1 = a.derivativeDecompositionvar(a.getCoords(), c.getCoords(), tau1);
-			coeffBderiv1 = b.derivativeDecompositionvar(a.getCoords(), c.getCoords(), tau1);
-			coeffCderiv1 = c.derivativeDecompositionvar(a.getCoords(), c.getCoords(), tau1);
-			coeffDderiv1 = d.derivativeDecompositionvar(a.getCoords(), c.getCoords(), tau1);
+			coeffAderiva = a.derivativeDecompositionvar(a.getCoords(), c.getCoords(), tau1);
+			coeffBderiva = b.derivativeDecompositionvar(a.getCoords(), c.getCoords(), tau1);
+			coeffCderiva = c.derivativeDecompositionvar(a.getCoords(), c.getCoords(), tau1);
+			coeffDderiva = d.derivativeDecompositionvar(a.getCoords(), c.getCoords(), tau1);
 
 			coeffA = a.decompositionvar(a.getCoords(), c.getCoords());
 			coeffB = b.decompositionvar(a.getCoords(), c.getCoords());
 			coeffC = c.decompositionvar(a.getCoords(), c.getCoords());
 			coeffD = d.decompositionvar(a.getCoords(), c.getCoords());
 		}
-
 
 		NDDO6G[] A = a.orbitalArray();
 		NDDO6G[] B = b.orbitalArray();
@@ -319,34 +320,34 @@ public class NDDO6GMethods implements NDDOOrbitalMethods<NDDO6G> {
 						double eriderivb = LocalTwoCenterERIgd(A[i], B[j], C[k], D[l], tau2);
 						double erideriv2 = LocalTwoCenterERIg2d(A[i], B[j], C[k], D[l], tau1, tau2);
 
-						sum += coeffAderiv[i] * coeffB[j] * coeffC[k] * coeffD[l] * eri;
-						sum += coeffAderiv1[i] * coeffBderiv2[j] * coeffC[k] * coeffD[l] * eri;
-						sum += coeffAderiv1[i] * coeffB[j] * coeffCderiv2[k] * coeffD[l] * eri;
-						sum += coeffAderiv1[i] * coeffB[j] * coeffC[k] * coeffDderiv2[l] * eri;
-						sum += coeffAderiv1[i] * coeffB[j] * coeffC[k] * coeffD[l] * eriderivb;
+						sum += coeffAderiv2[i] * coeffB[j] * coeffC[k] * coeffD[l] * eri;
+						sum += coeffAderiva[i] * coeffBderivb[j] * coeffC[k] * coeffD[l] * eri;
+						sum += coeffAderiva[i] * coeffB[j] * coeffCderivb[k] * coeffD[l] * eri;
+						sum += coeffAderiva[i] * coeffB[j] * coeffC[k] * coeffDderivb[l] * eri;
+						sum += coeffAderiva[i] * coeffB[j] * coeffC[k] * coeffD[l] * eriderivb;
 
-						sum += coeffAderiv2[i] * coeffBderiv1[j] * coeffC[k] * coeffD[l] * eri;
-						sum += coeffA[i] * coeffBderiv[j] * coeffC[k] * coeffD[l] * eri;
-						sum += coeffA[i] * coeffBderiv1[j] * coeffCderiv2[k] * coeffD[l] * eri;
-						sum += coeffA[i] * coeffBderiv1[j] * coeffC[k] * coeffDderiv2[l] * eri;
-						sum += coeffA[i] * coeffBderiv1[j] * coeffC[k] * coeffD[l] * eriderivb;
+						sum += coeffAderivb[i] * coeffBderiva[j] * coeffC[k] * coeffD[l] * eri;
+						sum += coeffA[i] * coeffBderiv2[j] * coeffC[k] * coeffD[l] * eri;
+						sum += coeffA[i] * coeffBderiva[j] * coeffCderivb[k] * coeffD[l] * eri;
+						sum += coeffA[i] * coeffBderiva[j] * coeffC[k] * coeffDderivb[l] * eri;
+						sum += coeffA[i] * coeffBderiva[j] * coeffC[k] * coeffD[l] * eriderivb;
 
-						sum += coeffAderiv2[i] * coeffB[j] * coeffCderiv1[k] * coeffD[l] * eri;
-						sum += coeffA[i] * coeffBderiv2[j] * coeffCderiv1[k] * coeffD[l] * eri;
-						sum += coeffA[i] * coeffB[j] * coeffCderiv[k] * coeffD[l] * eri;
-						sum += coeffA[i] * coeffB[j] * coeffCderiv1[k] * coeffDderiv2[l] * eri;
-						sum += coeffA[i] * coeffB[j] * coeffCderiv1[k] * coeffD[l] * eriderivb;
+						sum += coeffAderivb[i] * coeffB[j] * coeffCderiva[k] * coeffD[l] * eri;
+						sum += coeffA[i] * coeffBderivb[j] * coeffCderiva[k] * coeffD[l] * eri;
+						sum += coeffA[i] * coeffB[j] * coeffCderiv2[k] * coeffD[l] * eri;
+						sum += coeffA[i] * coeffB[j] * coeffCderiva[k] * coeffDderivb[l] * eri;
+						sum += coeffA[i] * coeffB[j] * coeffCderiva[k] * coeffD[l] * eriderivb;
 
-						sum += coeffAderiv2[i] * coeffB[j] * coeffC[k] * coeffDderiv1[l] * eri;
-						sum += coeffA[i] * coeffBderiv2[j] * coeffC[k] * coeffDderiv1[l] * eri;
-						sum += coeffA[i] * coeffB[j] * coeffCderiv2[k] * coeffDderiv1[l] * eri;
-						sum += coeffA[i] * coeffB[j] * coeffC[k] * coeffDderiv[l] * eri;
-						sum += coeffA[i] * coeffB[j] * coeffC[k] * coeffDderiv1[l] * eriderivb;
+						sum += coeffAderivb[i] * coeffB[j] * coeffC[k] * coeffDderiva[l] * eri;
+						sum += coeffA[i] * coeffBderivb[j] * coeffC[k] * coeffDderiva[l] * eri;
+						sum += coeffA[i] * coeffB[j] * coeffCderivb[k] * coeffDderiva[l] * eri;
+						sum += coeffA[i] * coeffB[j] * coeffC[k] * coeffDderiv2[l] * eri;
+						sum += coeffA[i] * coeffB[j] * coeffC[k] * coeffDderiva[l] * eriderivb;
 
-						sum += coeffAderiv2[i] * coeffB[j] * coeffC[k] * coeffD[l] * erideriva;
-						sum += coeffA[i] * coeffBderiv2[j] * coeffC[k] * coeffD[l] * erideriva;
-						sum += coeffA[i] * coeffB[j] * coeffCderiv2[k] * coeffD[l] * erideriva;
-						sum += coeffA[i] * coeffB[j] * coeffC[k] * coeffDderiv2[l] * erideriva;
+						sum += coeffAderivb[i] * coeffB[j] * coeffC[k] * coeffD[l] * erideriva;
+						sum += coeffA[i] * coeffBderivb[j] * coeffC[k] * coeffD[l] * erideriva;
+						sum += coeffA[i] * coeffB[j] * coeffCderivb[k] * coeffD[l] * erideriva;
+						sum += coeffA[i] * coeffB[j] * coeffC[k] * coeffDderivb[l] * erideriva;
 						sum += coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] * erideriv2;
 					}
 				}
@@ -395,7 +396,7 @@ public class NDDO6GMethods implements NDDOOrbitalMethods<NDDO6G> {
 						if (coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] != 0) sum2 +=
 								coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] *
 										LocalTwoCenterERIpd(A[i], B[j], C[k], D[l], D1deriv, D2deriv, p1deriv,
-												p2deriv, num, type);
+												p2deriv, num);
 					}
 				}
 			}
@@ -418,6 +419,93 @@ public class NDDO6GMethods implements NDDOOrbitalMethods<NDDO6G> {
 		}
 
 		return 0;
+	}
+
+	@Override
+	public double Gpgd(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d, int num, int type, int tau) {
+		NDDO6G[] A = a.orbitalArray();
+		NDDO6G[] B = b.orbitalArray();
+		NDDO6G[] C = c.orbitalArray();
+		NDDO6G[] D = d.orbitalArray();
+
+		double p1deriv = 0;
+		double p2deriv = 0;
+		double D1deriv = 0;
+		double D2deriv = 0;
+
+		if (num == 0 || num == 2) {
+			p1deriv = a.getAtom().p1pd(type);
+			p2deriv = a.getAtom().p2pd(type);
+			D1deriv = a.getAtom().D1pd(type);
+			D2deriv = a.getAtom().D2pd(type);
+		}
+		else if (num == 1) {
+			p1deriv = c.getAtom().p1pd(type);
+			p2deriv = c.getAtom().p2pd(type);
+			D1deriv = c.getAtom().D1pd(type);
+			D2deriv = c.getAtom().D2pd(type);
+		}
+
+		double[] coeffA = a.decomposition(a.getCoords(), c.getCoords());
+		double[] coeffB = b.decomposition(a.getCoords(), c.getCoords());
+		double[] coeffC = c.decomposition(a.getCoords(), c.getCoords());
+		double[] coeffD = d.decomposition(a.getCoords(), c.getCoords());
+
+		double[] coeffAderiv = a.derivativeDecomposition(a.getCoords(), c.getCoords(), tau);
+		double[] coeffBderiv = b.derivativeDecomposition(a.getCoords(), c.getCoords(), tau);
+		double[] coeffCderiv = c.derivativeDecomposition(a.getCoords(), c.getCoords(), tau);
+		double[] coeffDderiv = d.derivativeDecomposition(a.getCoords(), c.getCoords(), tau);
+
+		if (Math.abs(a.getCoords()[0] - c.getCoords()[0]) < 1E-3 &&
+				Math.abs(a.getCoords()[1] - c.getCoords()[1]) < 1E-3) {
+			coeffA = a.decompositionvar(a.getCoords(), c.getCoords());
+			coeffB = b.decompositionvar(a.getCoords(), c.getCoords());
+			coeffC = c.decompositionvar(a.getCoords(), c.getCoords());
+			coeffD = d.decompositionvar(a.getCoords(), c.getCoords());
+
+			coeffAderiv = a.derivativeDecompositionvar(a.getCoords(), c.getCoords(), tau);
+			coeffBderiv = b.derivativeDecompositionvar(a.getCoords(), c.getCoords(), tau);
+			coeffCderiv = c.derivativeDecompositionvar(a.getCoords(), c.getCoords(), tau);
+			coeffDderiv = d.derivativeDecompositionvar(a.getCoords(), c.getCoords(), tau);
+
+		}
+
+		double sum = 0;
+
+		for (int i = 0; i < coeffA.length; i++) {
+			for (int j = 0; j < coeffB.length; j++) {
+				for (int k = 0; k < coeffC.length; k++) {
+					for (int l = 0; l < coeffD.length; l++) {
+						if (coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] != 0) {
+							sum += coeffA[i] * coeffB[j] * coeffC[k] * coeffD[l] *
+									LocalTwoCenterERIpgd(A[i], B[j], C[k], D[l], D1deriv, D2deriv, p1deriv, p2deriv, num, tau);
+						}
+
+						double erideriv = LocalTwoCenterERIpgd(A[i], B[j], C[k], D[l], D1deriv,
+										D2deriv, p1deriv, p2deriv, num, type);
+
+						if (coeffAderiv[i] * coeffB[j] * coeffC[k] * coeffD[l] != 0) {
+							sum += coeffAderiv[i] * coeffB[j] * coeffC[k] * coeffD[l] * erideriv;
+						}
+
+						if (coeffA[i] * coeffBderiv[j] * coeffC[k] * coeffD[l] != 0) {
+							sum += coeffA[i] * coeffBderiv[j] * coeffC[k] * coeffD[l] * erideriv;
+						}
+
+						if (coeffA[i] * coeffB[j] * coeffCderiv[k] * coeffD[l] != 0) {
+							sum += coeffA[i] * coeffB[j] * coeffCderiv[k] * coeffD[l] * erideriv;
+						}
+
+						if (coeffA[i] * coeffB[j] * coeffC[k] * coeffDderiv[l] != 0) {
+							sum += coeffA[i] * coeffB[j] * coeffC[k] * coeffDderiv[l] * erideriv;
+						}
+					}
+				}
+			}
+		}
+
+
+		return sum * Constants.eV;
 	}
 
 	@Override
@@ -466,6 +554,24 @@ public class NDDO6GMethods implements NDDOOrbitalMethods<NDDO6G> {
 				return 0.5 * STO6G.Spd(a, b, num2, type2);
 			case 2:
 				return STO6G.Spd(a, b, num2, type2);
+			default:
+				return 0;
+		}
+	}
+
+	@Override
+	public double Hzetapgd (NDDO6G a, NDDO6G b, int num, int type, int tau) {
+		return 0.5 * (a.beta + b.beta) * STO6G.Spgd(a, b, num, type, tau);
+	}
+
+	@Override
+	public double Hbetapgd (NDDO6G a, NDDO6G b, int num, int tau) {
+		switch (num) {
+			case 0:
+			case 1:
+				return 0.5 * STO6G.Sgd(a, b, tau);
+			case 2:
+				return STO6G.Sgd(a, b, tau);
 			default:
 				return 0;
 		}

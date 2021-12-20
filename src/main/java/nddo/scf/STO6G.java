@@ -79,18 +79,18 @@ public class STO6G extends LCGTO {
 				switch (alltogether) {
 					case 0:
 						Sderiv += X1.gaussExponents[i] * 2 / X1.zeta * X1.getCoeffArray()[i] * X2.getCoeffArray()[j] *
-								GTO.getSderivalpha(X1.getGaussArray()[i], X2.getGaussArray()[j], 0);
+								GTO.Salphapd(X1.getGaussArray()[i], X2.getGaussArray()[j], 0);
 						break;
 					case 1:
 						Sderiv += X2.gaussExponents[j] * 2 / X2.zeta * X1.getCoeffArray()[i] * X2.getCoeffArray()[j] *
-								GTO.getSderivalpha(X1.getGaussArray()[i], X2.getGaussArray()[j], 1);
+								GTO.Salphapd(X1.getGaussArray()[i], X2.getGaussArray()[j], 1);
 						break;
 					case 2:
 						Sderiv += X1.gaussExponents[i] * 2 / X1.zeta * X1.getCoeffArray()[i] * X2.getCoeffArray()[j] *
-								GTO.getSderivalpha(X1.getGaussArray()[i], X2.getGaussArray()[j], 0);
+								GTO.Salphapd(X1.getGaussArray()[i], X2.getGaussArray()[j], 0);
 
 						Sderiv += X2.gaussExponents[j] * 2 / X2.zeta * X1.getCoeffArray()[i] * X2.getCoeffArray()[j] *
-								GTO.getSderivalpha(X1.getGaussArray()[i], X2.getGaussArray()[j], 1);
+								GTO.Salphapd(X1.getGaussArray()[i], X2.getGaussArray()[j], 1);
 				}
 			}
 
@@ -109,37 +109,37 @@ public class STO6G extends LCGTO {
 					case 0:
 						Sderiv += X1.gaussExponents[i] * X1.gaussExponents[i] * 4 / (X1.zeta * X1.zeta) *
 								X1.getCoeffArray()[i] * X2.getCoeffArray()[j] *
-								GTO.getSderiv2alphadiag(X1.getGaussArray()[i], X2.getGaussArray()[j], 0);
+								GTO.Salphadiagp2d(X1.getGaussArray()[i], X2.getGaussArray()[j], 0);
 						Sderiv += 2 * X1.gaussExponents[i] / (X1.zeta * X1.zeta) * X1.getCoeffArray()[i] *
 								X2.getCoeffArray()[j] *
-								GTO.getSderivalpha(X1.getGaussArray()[i], X2.getGaussArray()[j], 0);
+								GTO.Salphapd(X1.getGaussArray()[i], X2.getGaussArray()[j], 0);
 
 						break;
 					case 1:
 						Sderiv += X2.gaussExponents[j] * X2.gaussExponents[j] * 4 / (X2.zeta * X2.zeta) *
 								X1.getCoeffArray()[i] * X2.getCoeffArray()[j] *
-								GTO.getSderiv2alphadiag(X1.getGaussArray()[i], X2.getGaussArray()[j], 1);
+								GTO.Salphadiagp2d(X1.getGaussArray()[i], X2.getGaussArray()[j], 1);
 						Sderiv += 2 * X2.gaussExponents[j] / (X2.zeta * X2.zeta) * X1.getCoeffArray()[i] *
 								X2.getCoeffArray()[j] *
-								GTO.getSderivalpha(X1.getGaussArray()[i], X2.getGaussArray()[j], 1);
+								GTO.Salphapd(X1.getGaussArray()[i], X2.getGaussArray()[j], 1);
 
 						break;
 					case 2:
 						Sderiv += X1.gaussExponents[i] * X1.gaussExponents[i] * 4 / (X1.zeta * X1.zeta) *
 								X1.getCoeffArray()[i] * X2.getCoeffArray()[j] *
-								GTO.getSderiv2alphadiag(X1.getGaussArray()[i], X2.getGaussArray()[j], 0);
+								GTO.Salphadiagp2d(X1.getGaussArray()[i], X2.getGaussArray()[j], 0);
 						Sderiv += 2 * X1.gaussExponents[i] / (X1.zeta * X1.zeta) * X1.getCoeffArray()[i] *
 								X2.getCoeffArray()[j] *
-								GTO.getSderivalpha(X1.getGaussArray()[i], X2.getGaussArray()[j], 0);
+								GTO.Salphapd(X1.getGaussArray()[i], X2.getGaussArray()[j], 0);
 						Sderiv += X2.gaussExponents[j] * X2.gaussExponents[j] * 4 / (X2.zeta * X2.zeta) *
 								X1.getCoeffArray()[i] * X2.getCoeffArray()[j] *
-								GTO.getSderiv2alphadiag(X1.getGaussArray()[i], X2.getGaussArray()[j], 1);
+								GTO.Salphadiagp2d(X1.getGaussArray()[i], X2.getGaussArray()[j], 1);
 						Sderiv += 2 * X2.gaussExponents[j] / (X2.zeta * X2.zeta) * X1.getCoeffArray()[i] *
 								X2.getCoeffArray()[j] *
-								GTO.getSderivalpha(X1.getGaussArray()[i], X2.getGaussArray()[j], 1);
+								GTO.Salphapd(X1.getGaussArray()[i], X2.getGaussArray()[j], 1);
 						Sderiv += 2 * X1.gaussExponents[i] * X2.gaussExponents[j] * 4 / (X1.zeta * X2.zeta) *
 								X1.getCoeffArray()[i] * X2.getCoeffArray()[j] *
-								GTO.getSderiv2alphacross(X1.getGaussArray()[i], X2.getGaussArray()[j]);
+								GTO.Salphacrossp2d(X1.getGaussArray()[i], X2.getGaussArray()[j]);
 				}
 			}
 		}
@@ -152,10 +152,9 @@ public class STO6G extends LCGTO {
 
 		for (int i = 0; i < X1.getn(); i++) {
 			for (int j = 0; j < X2.getn(); j++) {
-				Sderiv +=
-						X1.gaussExponents[i] * X2.gaussExponents[j] * 4 / (X1.zeta * X2.zeta) * X1.getCoeffArray()[i] *
-								X2.getCoeffArray()[j] *
-								GTO.getSderiv2alphacross(X1.getGaussArray()[i], X2.getGaussArray()[j]);
+				Sderiv += X1.gaussExponents[i] * X2.gaussExponents[j] * 4 / (X1.zeta * X2.zeta) *
+								X1.getCoeffArray()[i] * X2.getCoeffArray()[j] *
+								GTO.Salphacrossp2d(X1.getGaussArray()[i], X2.getGaussArray()[j]);
 			}
 		}
 
@@ -188,5 +187,43 @@ public class STO6G extends LCGTO {
 		}
 
 		return returnval;
+	}
+
+	public static double Spgd(STO6G a, STO6G b, int num, int type, int tau) {
+		if (num == -1) {
+			return 0;
+		}
+
+		int hasA = a.getL() == type && num != 1 ? 1 : 0;
+		int hasB = b.getL() == type && num != 0 ? 1 : 0;
+
+		hasB <<= 1;
+		int alltogether = hasA + hasB - 1;
+
+		double Sderiv = 0;
+
+		for (int i = 0; i < a.getn(); i++) {
+			for (int j = 0; j < b.getn(); j++) {
+				switch (alltogether) {
+					case 0:
+						Sderiv += a.gaussExponents[i] * 2 / a.zeta * a.getCoeffArray()[i] * b.getCoeffArray()[j] *
+								GTO.Salphapgd(a.getGaussArray()[i], b.getGaussArray()[j], 0, tau);
+						break;
+					case 1:
+						Sderiv += b.gaussExponents[j] * 2 / b.zeta * a.getCoeffArray()[i] * b.getCoeffArray()[j] *
+								GTO.Salphapgd(a.getGaussArray()[i], b.getGaussArray()[j], 1, tau);
+						break;
+					case 2:
+						Sderiv += a.gaussExponents[i] * 2 / a.zeta * a.getCoeffArray()[i] * b.getCoeffArray()[j] *
+								GTO.Salphapgd(a.getGaussArray()[i], b.getGaussArray()[j], 0, tau);
+
+						Sderiv += b.gaussExponents[j] * 2 / b.zeta * a.getCoeffArray()[i] * b.getCoeffArray()[j] *
+								GTO.Salphapgd(a.getGaussArray()[i], b.getGaussArray()[j], 1, tau);
+				}
+			}
+
+		}
+
+		return Sderiv * a.getN() * b.getN();
 	}
 }

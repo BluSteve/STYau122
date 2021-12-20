@@ -27,6 +27,8 @@ public interface NDDOAtom<T extends NDDOAtom, S extends NDDOOrbital> { // todo m
 
 	double Vp2d(S a, S b, int num1, int type1, int num2, int type2);
 
+	double Vpgd (S a, S b, int num, int type, int tau);
+
 	double p0();
 
 	double p1();

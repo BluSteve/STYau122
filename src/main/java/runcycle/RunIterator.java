@@ -6,7 +6,9 @@ import nddo.geometry.GeometryOptimization;
 import nddo.param.ParamErrorFunction;
 import nddo.param.ParamGradient;
 import nddo.param.ParamHessian;
+import nddo.param.ParamSecondDerivative;
 import nddo.solution.Solution;
+import nddo.solution.SolutionU;
 import org.apache.commons.lang3.time.StopWatch;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -343,9 +345,16 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 				newAtoms[i] = new Atom(s.atoms[i].getAtomProperties().getZ(), s.atoms[i].getCoordinates());
 			}
 
-
 			sw.stop();
 			time = sw.getTime();
+
+			for (int i = 5; i < 7; i++) {
+				System.err.println("i = " + i);
+				if (!ParamSecondDerivative.verifyEquations((SolutionU) s, 6, i)) {
+					System.err.println("clown");
+					System.exit(0);
+				}
+			}
 		}
 
 		public boolean isExpAvail() {

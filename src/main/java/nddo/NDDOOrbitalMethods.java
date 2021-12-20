@@ -13,6 +13,8 @@ public interface NDDOOrbitalMethods<T extends NDDOOrbital> {
 
 	double Gp2d(T a, T b, T c, T d, int num1, int type1, int num2, int type2);
 
+	double Gpgd (T a, T b, T c, T d, int num, int type, int tau);
+
 	double H(T a, T b);
 
 	double Hgd(T a, T b, int tau);
@@ -26,4 +28,8 @@ public interface NDDOOrbitalMethods<T extends NDDOOrbital> {
 	double Hzetazetap2d(T a, T b, int num1, int type1, int num2, int type2);
 
 	double Hbetazetap2d(T a, T b, int num1, int num2, int type2);
+
+	double Hzetapgd (T a, T b, int num, int type, int tau);
+
+	double Hbetapgd (T a, T b, int num, int tau);
 }
