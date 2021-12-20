@@ -1747,6 +1747,9 @@ public class ParamSecondDerivative {
 		SimpleMatrix x2mat =
 				xmatrix(soln.C.mult(F2.plus(ParamDerivative.responseMatrix(soln, D2))).mult(soln.C.transpose()), soln);
 
+		SimpleMatrix x2matprime =
+				xmatrix(solnprime.C.mult(F2prime.plus(ParamDerivative.responseMatrix(solnprime, D2prime))).mult(solnprime.C.transpose()), solnprime);
+
 		SimpleMatrix totalderiv = rhsmat.plus(
 				soln.C.mult(ParamDerivative.responseMatrix(soln, densityderiv2response)).mult(soln.C.transpose()));
 
@@ -1761,15 +1764,10 @@ public class ParamSecondDerivative {
 
 		double IEtest = MNDOIEDeriv2(soln, x1mat, x2mat, totalderiv, Fderiva, Fderivb, Fderiv2);
 
-		double IEderiv = ParamDerivative.MNDOHomoDerivtemp(soln,
-				ParamDerivative.HOMOCoefficientDerivativeComplementary(
-						ParamDerivative.xarrayForIE(soln, x2, ParamDerivative.xArrayComplementary(soln, Fderivb)),
-						soln),
-				Fderivb);
+		double IEderiv = ParamDerivative.MNDOHomoDerivNew(soln, x2mat, Fderivb);
 
-		double IEderivprime = ParamDerivative.MNDOHomoDerivtemp(solnprime,
-				ParamDerivative.HOMOCoefficientDerivativeComplementary(ParamDerivative.xarrayForIE(solnprime, x2prime,
-						ParamDerivative.xArrayComplementary(solnprime, Fderivbprime)), solnprime), Fderivbprime);
+		double IEderivprime = ParamDerivative.MNDOHomoDerivNew(solnprime, x2matprime, Fderivbprime);
+
 
 		double IEderiv2 = 1 / Constants.LAMBDA * (IEderivprime - IEderiv);
 
@@ -1949,11 +1947,12 @@ public class ParamSecondDerivative {
 		SimpleMatrix Fderivbprime = F2alphaprime.plus(ParamDerivative.responseMatrices(solnprime, D2prime)[0]);
 //
 		double IEtest = MNDOIEDeriv2(soln, x1matrix[0], x2matrix[0], totalderiv, Fderiva, Fderivb, Fderiv2);
-//
-		double IEderiv = ParamDerivative.MNDOHomoDeriv(soln, C2alpha, Fderivb);
+
+
+
+		double IEderiv = ParamDerivative.MNDOHomoDerivNew(soln, x2matrix[0], Fderivb);
 		double IEderivprime =
-				ParamDerivative.MNDOHomoDeriv(solnprime, solnprime.ca.transpose().mult(x2primematrix[0]),
-						Fderivbprime);
+				ParamDerivative.MNDOHomoDerivNew(solnprime, x2primematrix[0], Fderivbprime);
 		double IEderiv2 = 1 / Constants.LAMBDA * (IEderivprime - IEderiv);
 //
 		System.err.println("----TESTING IE DERIVATIVES----");
@@ -2067,7 +2066,7 @@ public class ParamSecondDerivative {
 
 		double homoderiv = (solnprime.homo - soln.homo) / Constants.LAMBDA;
 
-		double homoderivcheck = ParamDerivative.MNDOHomoDeriv(soln, Ca, Fa.plus(responsematrices[0]));
+		double homoderivcheck = ParamDerivative.MNDOHomoDerivNew(soln, x[0], Fa.plus(responsematrices[0]));
 		System.err.println ("---------");
 
 		System.err.println(homoderiv);

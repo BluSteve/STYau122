@@ -1847,7 +1847,18 @@ public class ParamDerivative {
 
 	}
 
-	public static double MNDOHomoDeriv(SolutionU soln, SimpleMatrix Caderiv, SimpleMatrix Faderiv) {
+	public static double MNDOHomoDerivNew(SolutionR soln, SimpleMatrix x, SimpleMatrix Fderiv) {
+
+		SimpleMatrix Caderiv = soln.C.transpose().mult(x);
+		SimpleMatrix Eaderiv = Caderiv.transpose().mult(soln.F).mult(soln.C.transpose())
+				.plus(soln.C.mult(Fderiv).mult(soln.C.transpose())).plus(soln.C.mult(soln.F).mult(Caderiv));
+
+		return Eaderiv.diag().get(soln.getRm().nOccAlpha - 1);
+	}
+
+	public static double MNDOHomoDerivNew(SolutionU soln, SimpleMatrix xa, SimpleMatrix Faderiv) {
+
+		SimpleMatrix Caderiv = soln.ca.transpose().mult(xa);
 		SimpleMatrix Eaderiv = Caderiv.transpose().mult(soln.Fa).mult(soln.ca.transpose())
 				.plus(soln.ca.mult(Faderiv).mult(soln.ca.transpose())).plus(soln.ca.mult(soln.Fa).mult(Caderiv));
 

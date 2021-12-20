@@ -4,28 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Fix PGD">
-      <change afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGeometrySecondDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDOAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDOAtom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDOOrbitalMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDOOrbitalMethods.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/defaults/NDDO6GMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/defaults/NDDO6GMethods.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/ERI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/ERI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/scf/GTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/scf/GTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/scf/STO6G.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/scf/STO6G.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" afterDir="false" />
-    </list>
-    <list id="310c3a8a-8294-4df0-8de6-f25088126c93" name="Changes by flyingfalcon" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/defaults/NDDO6GMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/defaults/NDDO6GMethods.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/defaults/NDDOAtomBasic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/defaults/NDDOAtomBasic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/ERI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/ERI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/Multipoles.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/Multipoles.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/scf/GTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/scf/GTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/scf/STO6G.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/scf/STO6G.java" afterDir="false" />
-    </list>
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="ParamGeometrySecondDerivative" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -146,135 +125,6 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/mndo-install.sh" root0="FORCE_HIGHLIGHTING" />
-  </component>
-  <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java">
-      <ranges>
-        <range start1="1809" end1="1821" start2="1809" end2="1817" changelist="310c3a8a-8294-4df0-8de6-f25088126c93" />
-        <range start1="1822" end1="1824" start2="1818" end2="1819" changelist="310c3a8a-8294-4df0-8de6-f25088126c93" />
-        <range start1="1825" end1="1826" start2="1820" end2="1822" changelist="310c3a8a-8294-4df0-8de6-f25088126c93" />
-        <range start1="1831" end1="1833" start2="1827" end2="1829" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="1970" end1="1975" start2="1966" end2="1967" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2001" end1="2015" start2="1993" end2="2007" changelist="310c3a8a-8294-4df0-8de6-f25088126c93" />
-        <range start1="2023" end1="2024" start2="2015" end2="2016" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-      </ranges>
-    </file>
-    <file path="$PROJECT_DIR$/src/main/java/nddo/scf/STO6G.java">
-      <ranges>
-        <range start1="2" end1="2" start2="2" end2="3" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="155" end1="157" start2="156" end2="158" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="228" end1="228" start2="229" end2="323" changelist="310c3a8a-8294-4df0-8de6-f25088126c93" />
-      </ranges>
-    </file>
-    <file path="$PROJECT_DIR$/src/main/java/nddo/defaults/NDDO6GMethods.java">
-      <ranges>
-        <range start1="8" end1="8" start2="8" end2="9" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="68" end1="69" start2="69" end2="70" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="150" end1="151" start2="151" end2="152" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="161" end1="161" start2="162" end2="386" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="189" end1="190" start2="414" end2="415" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="257" end1="258" start2="482" end2="483" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="356" end1="357" start2="581" end2="582" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="404" end1="405" start2="629" end2="630" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="480" end1="481" start2="705" end2="707" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="484" end1="485" start2="710" end2="711" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="507" end1="508" start2="733" end2="734" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="509" end1="509" start2="735" end2="751" changelist="310c3a8a-8294-4df0-8de6-f25088126c93" />
-        <range start1="562" end1="563" start2="804" end2="805" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="567" end1="568" start2="809" end2="810" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="578" end1="578" start2="820" end2="838" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-      </ranges>
-    </file>
-    <file path="$PROJECT_DIR$/src/main/java/nddo/math/ERI.java">
-      <ranges>
-        <range start1="2398" end1="2399" start2="2398" end2="2400" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2410" end1="2411" start2="2411" end2="2413" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2436" end1="2437" start2="2438" end2="2440" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2532" end1="2533" start2="2535" end2="2537" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2594" end1="2595" start2="2598" end2="2600" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2619" end1="2620" start2="2624" end2="2626" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2631" end1="2633" start2="2637" end2="2639" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2655" end1="2656" start2="2661" end2="2663" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2659" end1="2661" start2="2666" end2="2670" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2674" end1="2675" start2="2683" end2="2685" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2678" end1="2680" start2="2688" end2="2692" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2685" end1="2686" start2="2697" end2="2699" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2687" end1="2690" start2="2700" end2="2706" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2709" end1="2710" start2="2725" end2="2727" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2713" end1="2715" start2="2730" end2="2734" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2725" end1="2726" start2="2744" end2="2746" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2729" end1="2731" start2="2749" end2="2754" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2734" end1="2735" start2="2757" end2="2759" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2736" end1="2738" start2="2760" end2="2764" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2745" end1="2746" start2="2771" end2="2773" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2750" end1="2752" start2="2777" end2="2781" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2756" end1="2759" start2="2785" end2="2791" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2761" end1="2763" start2="2793" end2="2797" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2765" end1="2766" start2="2799" end2="2802" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2768" end1="2770" start2="2804" end2="2809" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2775" end1="2776" start2="2814" end2="2816" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2800" end1="2801" start2="2840" end2="2842" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2804" end1="2806" start2="2845" end2="2849" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2816" end1="2817" start2="2859" end2="2861" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2820" end1="2822" start2="2864" end2="2869" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2825" end1="2826" start2="2872" end2="2874" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2827" end1="2829" start2="2875" end2="2879" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2847" end1="2848" start2="2897" end2="2899" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2851" end1="2853" start2="2902" end2="2907" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2863" end1="2864" start2="2917" end2="2920" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2867" end1="2869" start2="2923" end2="2928" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2872" end1="2873" start2="2931" end2="2933" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2874" end1="2876" start2="2934" end2="2939" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2883" end1="2884" start2="2946" end2="2948" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2887" end1="2890" start2="2951" end2="2957" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2894" end1="2897" start2="2961" end2="2968" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2899" end1="2901" start2="2970" end2="2974" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2903" end1="2904" start2="2976" end2="2979" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2906" end1="2908" start2="2981" end2="2986" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2913" end1="2914" start2="2991" end2="2993" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2923" end1="2924" start2="3002" end2="3004" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2931" end1="2933" start2="3011" end2="3015" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2937" end1="2940" start2="3019" end2="3025" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2942" end1="2944" start2="3027" end2="3031" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2946" end1="2947" start2="3033" end2="3036" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2949" end1="2951" start2="3038" end2="3043" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2956" end1="2957" start2="3048" end2="3050" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2968" end1="2971" start2="3061" end2="3067" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2975" end1="2978" start2="3071" end2="3078" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2980" end1="2982" start2="3080" end2="3084" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2984" end1="2985" start2="3086" end2="3089" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2987" end1="2989" start2="3091" end2="3096" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2994" end1="2995" start2="3101" end2="3103" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="3003" end1="3004" start2="3111" end2="3113" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="3010" end1="3012" start2="3119" end2="3124" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="3016" end1="3018" start2="3128" end2="3133" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="3027" end1="3029" start2="3142" end2="3147" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="3033" end1="3036" start2="3151" end2="3158" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="3039" end1="3040" start2="3161" end2="3163" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="3042" end1="3043" start2="3165" end2="3167" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="3044" end1="3047" start2="3168" end2="3177" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="3048" end1="3049" start2="3178" end2="3180" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="3052" end1="3055" start2="3183" end2="3190" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="3069" end1="3069" start2="3204" end2="4483" changelist="310c3a8a-8294-4df0-8de6-f25088126c93" />
-      </ranges>
-    </file>
-    <file path="$PROJECT_DIR$/src/main/java/nddo/scf/GTO.java">
-      <ranges>
-        <range start1="10" end1="12" start2="10" end2="12" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="483" end1="483" start2="483" end2="1061" changelist="310c3a8a-8294-4df0-8de6-f25088126c93" />
-        <range start1="601" end1="601" start2="1179" end2="1180" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="638" end1="639" start2="1217" end2="1218" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="641" end1="642" start2="1220" end2="1221" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="684" end1="686" start2="1263" end2="1267" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="691" end1="692" start2="1272" end2="1274" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="699" end1="700" start2="1281" end2="1283" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="704" end1="705" start2="1287" end2="1289" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="708" end1="710" start2="1292" end2="1296" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="716" end1="716" start2="1302" end2="1440" changelist="310c3a8a-8294-4df0-8de6-f25088126c93" />
-        <range start1="729" end1="733" start2="1453" end2="1453" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="735" end1="736" start2="1455" end2="1456" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-      </ranges>
-    </file>
   </component>
   <component name="ProblemsViewState">
     <option name="selectedIndex" value="2" />
@@ -498,14 +348,7 @@
       <workItem from="1639849512604" duration="8905000" />
       <workItem from="1639884527176" duration="5590000" />
       <workItem from="1639917043412" duration="6364000" />
-      <workItem from="1639974855155" duration="11115000" />
-    </task>
-    <task id="LOCAL-00072" summary="More movement + Flyweight pattern for OrbitalProp">
-      <created>1639385675750</created>
-      <option name="number" value="00072" />
-      <option name="presentableId" value="LOCAL-00072" />
-      <option name="project" value="LOCAL" />
-      <updated>1639385675750</updated>
+      <workItem from="1639974855155" duration="11738000" />
     </task>
     <task id="LOCAL-00073" summary="MoleculeInfo builder">
       <created>1639389538074</created>
@@ -843,7 +686,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639986909443</updated>
     </task>
-    <option name="localTasksCounter" value="121" />
+    <task id="LOCAL-00121" summary="ParamGeometrySecondDerivative">
+      <created>1639992095616</created>
+      <option name="number" value="00121" />
+      <option name="presentableId" value="LOCAL-00121" />
+      <option name="project" value="LOCAL" />
+      <updated>1639992095616</updated>
+    </task>
+    <option name="localTasksCounter" value="122" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -891,7 +741,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Json done" />
     <MESSAGE value="Cleanup" />
     <MESSAGE value="More cleanup + fix warnings" />
     <MESSAGE value="ranMolecules in RunIterator" />
@@ -916,7 +765,8 @@
     <MESSAGE value="Clean up" />
     <MESSAGE value="ParamGeometryDerivative not working" />
     <MESSAGE value="Fix PGD" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix PGD" />
+    <MESSAGE value="ParamGeometrySecondDerivative" />
+    <option name="LAST_COMMIT_MESSAGE" value="ParamGeometrySecondDerivative" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
