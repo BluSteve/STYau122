@@ -14,9 +14,8 @@ public class Main {
 		Files.createDirectories(Path.of("outputs"));
 
 		RunInput input = TxtIO.readInput();
-//		runcycle.State.setConverter(new AM1Converter());
 
-		RunIterator iterator = new RunIterator(input, 1);
+		RunIterator iterator = new RunIterator(input, 10);
 		int i = 0;
 		for (RunOutput ro : iterator) {
 			JsonIO.write(ro.getInput(), String.format("pastinputs/%04d-%s", i, ro.getInput().hash));

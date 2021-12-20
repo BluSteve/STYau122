@@ -6,9 +6,7 @@ import nddo.geometry.GeometryOptimization;
 import nddo.param.ParamErrorFunction;
 import nddo.param.ParamGradient;
 import nddo.param.ParamHessian;
-import nddo.param.ParamSecondDerivative;
 import nddo.solution.Solution;
-import nddo.solution.SolutionR;
 import org.apache.commons.lang3.time.StopWatch;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -204,6 +202,7 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 			for (ForkJoinTask<MoleculeRun> task : ForkJoinTask.invokeAll(moleculeTasks)) {
 				results.add(task.join());
 			}
+
 			results.sort(Comparator.comparingInt(x -> x.getUpdatedRm().index));
 
 
@@ -349,33 +348,33 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 			time = sw.getTime();
 
 
-			for (int i = 1; i < 7; i++) {
-				for (int j = 1; j < 7; j++) {
-					System.err.println("C" + i + " C" + j);
-					if (!ParamSecondDerivative.verifyEquations((SolutionR) s, 6, i, 6, j)) {
-						System.err.println("clown");
-						System.exit(0);
-					}
-
-					System.err.println("C" + i + " N" + j);
-					if (!ParamSecondDerivative.verifyEquations((SolutionR) s, 6, i, 7, j)) {
-						System.err.println("clown");
-						System.exit(0);
-					}
-
-					System.err.println("N" + i + " C" + j);
-					if (!ParamSecondDerivative.verifyEquations((SolutionR) s, 7, i, 6, j)) {
-						System.err.println("clown");
-						System.exit(0);
-					}
-
-					System.err.println("N" + i + " N" + j);
-					if (!ParamSecondDerivative.verifyEquations((SolutionR) s, 7, i, 7, j)) {
-						System.err.println("clown");
-						System.exit(0);
-					}
-				}
-			}
+//			for (int i = 1; i < 7; i++) {
+//				for (int j = 1; j < 7; j++) {
+//					System.err.println("C" + i + " C" + j);
+//					if (!ParamSecondDerivative.verifyEquations((SolutionR) s, 6, i, 6, j)) {
+//						System.err.println("clown");
+//						System.exit(0);
+//					}
+//
+//					System.err.println("C" + i + " N" + j);
+//					if (!ParamSecondDerivative.verifyEquations((SolutionR) s, 6, i, 7, j)) {
+//						System.err.println("clown");
+//						System.exit(0);
+//					}
+//
+//					System.err.println("N" + i + " C" + j);
+//					if (!ParamSecondDerivative.verifyEquations((SolutionR) s, 7, i, 6, j)) {
+//						System.err.println("clown");
+//						System.exit(0);
+//					}
+//
+//					System.err.println("N" + i + " N" + j);
+//					if (!ParamSecondDerivative.verifyEquations((SolutionR) s, 7, i, 7, j)) {
+//						System.err.println("clown");
+//						System.exit(0);
+//					}
+//				}
+//			}
 		}
 
 		public boolean isExpAvail() {

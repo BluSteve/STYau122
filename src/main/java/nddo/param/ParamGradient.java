@@ -161,6 +161,7 @@ public abstract class ParamGradient {
 					});
 				}
 			}
+
 			ForkJoinTask.invokeAll(subtasks);
 		}
 		else {

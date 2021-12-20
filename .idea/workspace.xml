@@ -4,7 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="ParamGeometrySecondDerivative" />
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Homo derivs">
+      <change afterPath="$PROJECT_DIR$/src/main/java/tools/Batcher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryOptimization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientR.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -348,14 +359,8 @@
       <workItem from="1639849512604" duration="8905000" />
       <workItem from="1639884527176" duration="5590000" />
       <workItem from="1639917043412" duration="6364000" />
-      <workItem from="1639974855155" duration="11738000" />
-    </task>
-    <task id="LOCAL-00073" summary="MoleculeInfo builder">
-      <created>1639389538074</created>
-      <option name="number" value="00073" />
-      <option name="presentableId" value="LOCAL-00073" />
-      <option name="project" value="LOCAL" />
-      <updated>1639389538074</updated>
+      <workItem from="1639974855155" duration="12427000" />
+      <workItem from="1640002347385" duration="5827000" />
     </task>
     <task id="LOCAL-00074" summary="Fix multithreading issue in OrbitalProperties">
       <created>1639391204007</created>
@@ -693,7 +698,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639992095616</updated>
     </task>
-    <option name="localTasksCounter" value="122" />
+    <task id="LOCAL-00122" summary="Homo derivs">
+      <created>1639993220073</created>
+      <option name="number" value="00122" />
+      <option name="presentableId" value="LOCAL-00122" />
+      <option name="project" value="LOCAL" />
+      <updated>1639993220073</updated>
+    </task>
+    <option name="localTasksCounter" value="123" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -741,7 +753,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Cleanup" />
     <MESSAGE value="More cleanup + fix warnings" />
     <MESSAGE value="ranMolecules in RunIterator" />
     <MESSAGE value="Make RunIterator implement Iterable" />
@@ -766,7 +777,8 @@
     <MESSAGE value="ParamGeometryDerivative not working" />
     <MESSAGE value="Fix PGD" />
     <MESSAGE value="ParamGeometrySecondDerivative" />
-    <option name="LAST_COMMIT_MESSAGE" value="ParamGeometrySecondDerivative" />
+    <MESSAGE value="Homo derivs" />
+    <option name="LAST_COMMIT_MESSAGE" value="Homo derivs" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

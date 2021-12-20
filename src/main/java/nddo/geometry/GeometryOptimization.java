@@ -7,13 +7,8 @@ import nddo.solution.SolutionU;
 import org.apache.logging.log4j.Logger;
 import org.ejml.data.SingularMatrixException;
 import org.ejml.simple.SimpleMatrix;
+import tools.Batcher;
 import tools.Utils;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.ForkJoinTask;
-import java.util.concurrent.RecursiveAction;
 
 public abstract class GeometryOptimization {
 	private final Logger logger;
@@ -145,7 +140,6 @@ public abstract class GeometryOptimization {
 				SimpleMatrix oldGrad = gradient.copy();
 
 				int[][] params = new int[3 * s.atoms.length][];
-
 				coordIndex = 0;
 				for (int a = 0; a < s.atoms.length; a++) {
 					for (int i = 0; i < 3; i++) {
@@ -154,32 +148,13 @@ public abstract class GeometryOptimization {
 					}
 				}
 
-				int elapsedSize = 0;
-				double cores = Runtime.getRuntime().availableProcessors();
-				int size = Math.max((int) Math.ceil(params.length / cores), 1);
-
-				double[] results = new double[3 * s.atoms.length];
-
-				List<RecursiveAction> subtasks = new ArrayList<>();
-				while (elapsedSize < params.length) {
-					int finalElapsedSize = elapsedSize;
-					subtasks.add(new RecursiveAction() {
-						@Override
-						protected void compute() {
-							int[][] subset = Arrays.copyOfRange(params, finalElapsedSize, Math.min(params.length,
-											finalElapsedSize + size));
-
-							double[] output = new double[subset.length];
-							for (int i = 0; i < subset.length; i++) {
-								output[i] = findDerivative(subset[i][0], subset[i][1]);
-							}
-
-							System.arraycopy(output, 0, results, finalElapsedSize, output.length);
-						}
-					});
-					elapsedSize += size;
-				}
-				ForkJoinTask.invokeAll(subtasks);
+				double[] results = Batcher.applyDouble(params, subset -> {
+					final double[] output = new double[subset.length];
+					for (int i = 0; i < subset.length; i++) {
+						output[i] = findDerivative(subset[i][0], subset[i][1]);
+					}
+					return output;
+				});
 
 				gradient = new SimpleMatrix(results);
 

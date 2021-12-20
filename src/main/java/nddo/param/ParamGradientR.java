@@ -5,14 +5,12 @@ import nddo.geometry.GeometryDerivative;
 import nddo.solution.Solution;
 import nddo.solution.SolutionR;
 import org.ejml.simple.SimpleMatrix;
+import tools.Batcher;
 import tools.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.ForkJoinTask;
-import java.util.concurrent.RecursiveAction;
 
 import static tools.Utils.perturbAtomParams;
 
@@ -53,8 +51,7 @@ class ParamGradientR extends ParamGradient {
 
 		SimpleMatrix[] aggregateArray = aggregate.toArray(new SimpleMatrix[0]);
 
-		SimpleMatrix[] aggregateArrayUnpadded =
-				new SimpleMatrix[Utils.numNotNull(aggregateArray)];
+		SimpleMatrix[] aggregateArrayUnpadded = new SimpleMatrix[Utils.numNotNull(aggregateArray)];
 		int j = 0;
 		for (SimpleMatrix dm : aggregateArray) {
 			if (dm != null) {
@@ -63,36 +60,11 @@ class ParamGradientR extends ParamGradient {
 			}
 		}
 		if (aggregateArrayUnpadded.length > 0) {
-			SimpleMatrix[] xLimitedAggregate =
-					new SimpleMatrix[aggregateArrayUnpadded.length];
-			int elapsedSize = 0;
-			double cores = Runtime.getRuntime().availableProcessors();
-			int size = Math.max((int) Math.ceil(
-					aggregateArrayUnpadded.length / cores), 1);
-			List<RecursiveAction> subtasks = new ArrayList<>();
-			while (elapsedSize < aggregateArrayUnpadded.length) {
-				int finalElapsedSize = elapsedSize;
-				subtasks.add(new RecursiveAction() {
-					@Override
-					protected void compute() {
-						SimpleMatrix[] subset =
-								Arrays.copyOfRange(aggregateArrayUnpadded,
-										finalElapsedSize,
-										Math.min(aggregateArrayUnpadded.length,
-												finalElapsedSize + size));
-						SimpleMatrix[] output = ParamDerivative
-								.xArrayPople((SolutionR) s, subset);
+			SimpleMatrix[] xLimitedAggregate = Batcher.apply(aggregateArrayUnpadded,
+					subset -> ParamDerivative.xArrayPople((SolutionR) s, subset));
 
-						System.arraycopy(output, 0, xLimitedAggregate,
-								finalElapsedSize, output.length);
-					}
-				});
-				elapsedSize += size;
-			}
-			ForkJoinTask.invokeAll(subtasks);
+			SimpleMatrix[] xLimitedPadded = new SimpleMatrix[aggregateArray.length];
 
-			SimpleMatrix[] xLimitedPadded =
-					new SimpleMatrix[aggregateArray.length];
 			int unpaddedI = 0;
 			for (int i = 0; i < aggregateArray.length; i++) {
 				if (aggregateArray[i] != null) {
