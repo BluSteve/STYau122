@@ -1,6 +1,5 @@
 package frontend;
 
-import nddo.Constants;
 import nddo.structs.AtomProperties;
 import runcycle.IMoleculeResult;
 import runcycle.structs.*;
@@ -252,7 +251,7 @@ public class TxtIO {
 			for (int i = 0; i < rm.atoms.length; i++) {
 				Atom atom = rm.atoms[i];
 
-				double[] coords = debohr(atom.coords);
+				double[] coords = Utils.debohr(atom.coords);
 
 				pw.println(String.format(format, i + 1,
 						AtomProperties.getAtoms()[atom.Z].getName(), coords[0], coords[1], coords[2]));
@@ -264,7 +263,7 @@ public class TxtIO {
 				for (int i = 0; i < rm.expGeom.length; i++) {
 					Atom atom = rm.expGeom[i];
 
-					double[] coords = debohr(atom.coords);
+					double[] coords = Utils.debohr(atom.coords);
 
 					pw.println(String.format(format, i + 1,
 							AtomProperties.getAtoms()[atom.Z].getName(), coords[0], coords[1], coords[2]));
@@ -303,23 +302,11 @@ public class TxtIO {
 		String name = t.nextToken();
 		double[] coords = new double[3];
 		for (int q = 0; q < 3; q++) coords[q] = Double.parseDouble(t.nextToken());
-		return new Atom(AtomProperties.getAtomsMap().get(name).getZ(), bohr(coords));
+		return new Atom(AtomProperties.getAtomsMap().get(name).getZ(), Utils.bohr(coords));
 	}
 
 	private static String[] splitCsvLine(String s) {
 		return s.split(", *");
-	}
-
-	private static double[] bohr(double[] notbohr) {
-		double[] res = new double[notbohr.length];
-		for (int i = 0; i < notbohr.length; i++) res[i] = notbohr[i] * Constants.bohr;
-		return res;
-	}
-
-	private static double[] debohr(double[] bohr) {
-		double[] res = new double[bohr.length];
-		for (int i = 0; i < bohr.length; i++) res[i] = bohr[i] / Constants.bohr;
-		return res;
 	}
 
 	public static void main(String[] args) throws IOException {

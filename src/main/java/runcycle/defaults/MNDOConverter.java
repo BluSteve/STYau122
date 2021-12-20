@@ -9,7 +9,7 @@ import runcycle.structs.Atom;
 
 public class MNDOConverter implements INDDOConverter {
 	@Override
-	public NDDOAtom convert(Atom atom, NDDOParams[] npMap) {
-		return new MNDOAtom(AtomProperties.getAtoms()[atom.Z], atom.coords, npMap[atom.Z]);
+	public NDDOAtom convert(Atom atom, NDDOParams[] npMap) { // atom.coords must be cloned!
+		return new MNDOAtom(AtomProperties.getAtoms()[atom.Z], atom.coords.clone(), npMap[atom.Z]);
 	}
 }

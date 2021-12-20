@@ -21,13 +21,11 @@ public class GeometryOptimizationR extends GeometryOptimization {
 		SimpleMatrix hessian;
 
 		try {
-			hessian = GeometrySecondDerivative
-					.hessianRoutine((SolutionR) s, matrices[1]);
+			hessian = GeometrySecondDerivative.hessianRoutine((SolutionR) s, matrices[1]);
 		} catch (SingularMatrixException e) {
 			hessian = SimpleMatrix.identity(gradient.getNumElements());
 		}
 
 		return new SimpleMatrix[]{gradient, hessian};
 	}
-
 }

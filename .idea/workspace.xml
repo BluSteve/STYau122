@@ -4,18 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Batcher">
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="minor refactorings">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/copy.bat" beforeDir="false" afterPath="$PROJECT_DIR$/copy.bat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/param-numbers.csv" beforeDir="false" afterPath="$PROJECT_DIR$/param-numbers.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/Constants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/structs/AtomProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/structs/AtomProperties.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/structs/InputInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/InputInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunnableMolecule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunnableMolecule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/TxtIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/TxtIO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryOptimizationR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryOptimizationR.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/structs/Serializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/Serializer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tools/Batcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Batcher.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tools/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -167,7 +166,7 @@
     <property name="project.structure.proportion" value="0.26182964" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="ide.date.format" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.tools" />
   </component>
   <component name="ReaderModeSettings">
     <option name="enabled" value="false" />
@@ -188,11 +187,11 @@
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\src\main\java" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="tools.Utils" />
       <recent name="frontend.txt.Main" />
       <recent name="runcycle.Hasher" />
       <recent name="nddo.scf.Orbital" />
       <recent name="nddo.math.ERI" />
-      <recent name="nddo.ERICalc" />
     </key>
     <key name="ExtractSuperBase.RECENT_KEYS">
       <recent name="nddo" />
@@ -203,7 +202,7 @@
       <recent name="tools" />
     </key>
   </component>
-  <component name="RunManager" selected="Shell Script.Copy">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="frontend.Main" />
       <module name="MNDOParam.main" />
@@ -293,15 +292,15 @@
       <item itemvalue="Application.Main" />
       <item itemvalue="Application.TxtIO" />
       <item itemvalue="Gradle.MNDOParam [myProguardTask]" />
-      <item itemvalue="Shell Script.Copy" />
       <item itemvalue="Gradle.MNDOParam [jar]" />
+      <item itemvalue="Shell Script.Copy" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main" />
         <item itemvalue="Gradle.MNDOParam [jar]" />
         <item itemvalue="Application.TxtIO" />
         <item itemvalue="Gradle.MNDOParam [myProguardTask]" />
-        <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
   </component>
@@ -384,21 +383,8 @@
       <workItem from="1639884527176" duration="5590000" />
       <workItem from="1639917043412" duration="6364000" />
       <workItem from="1639974855155" duration="12427000" />
-      <workItem from="1640002347385" duration="9831000" />
-    </task>
-    <task id="LOCAL-00075" summary="Fix multithreading issue in OrbitalProperties">
-      <created>1639391767789</created>
-      <option name="number" value="00075" />
-      <option name="presentableId" value="LOCAL-00075" />
-      <option name="project" value="LOCAL" />
-      <updated>1639391767789</updated>
-    </task>
-    <task id="LOCAL-00076" summary="AtomHandler no longer needs explicit population">
-      <created>1639391976226</created>
-      <option name="number" value="00076" />
-      <option name="presentableId" value="LOCAL-00076" />
-      <option name="project" value="LOCAL" />
-      <updated>1639391976226</updated>
+      <workItem from="1640002347385" duration="10567000" />
+      <workItem from="1640013842516" duration="3411000" />
     </task>
     <task id="LOCAL-00077" summary="Massive runcycle refactor in progress">
       <created>1639414014033</created>
@@ -729,7 +715,21 @@
       <option name="project" value="LOCAL" />
       <updated>1640008827508</updated>
     </task>
-    <option name="localTasksCounter" value="124" />
+    <task id="LOCAL-00124" summary="minor refactorings">
+      <created>1640012763981</created>
+      <option name="number" value="00124" />
+      <option name="presentableId" value="LOCAL-00124" />
+      <option name="project" value="LOCAL" />
+      <updated>1640012763981</updated>
+    </task>
+    <task id="LOCAL-00125" summary="minor refactorings">
+      <created>1640013003591</created>
+      <option name="number" value="00125" />
+      <option name="presentableId" value="LOCAL-00125" />
+      <option name="project" value="LOCAL" />
+      <updated>1640013003591</updated>
+    </task>
+    <option name="localTasksCounter" value="126" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -777,7 +777,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="ranMolecules in RunIterator" />
     <MESSAGE value="Make RunIterator implement Iterable" />
     <MESSAGE value="Minor refactoring" />
     <MESSAGE value="Constant changes re bounds" />
@@ -802,18 +801,10 @@
     <MESSAGE value="ParamGeometrySecondDerivative" />
     <MESSAGE value="Homo derivs" />
     <MESSAGE value="Batcher" />
-    <option name="LAST_COMMIT_MESSAGE" value="Batcher" />
+    <MESSAGE value="minor refactorings" />
+    <option name="LAST_COMMIT_MESSAGE" value="minor refactorings" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java</url>
-          <line>188</line>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="nddoparam.param.ParamHessianRestricted" memberName="gPrime" />

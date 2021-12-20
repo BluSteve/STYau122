@@ -11,129 +11,114 @@ import java.util.function.Function;
 
 public final class Batcher {
 	private static final double cores = Runtime.getRuntime().availableProcessors();
+	private static final int minBatchSize = 1;
+
+	public static void forloop(int length, Consumer<int[]> consumer) {
+		int[] inputArr = new int[length];
+		for (int i = 0; i < length; i++) inputArr[i] = i;
+
+		if (length <= minBatchSize) consumer.accept(inputArr);
+		else {
+			final int batchSize = Math.max((int) Math.ceil(length / cores), minBatchSize);
+
+			final List<RecursiveAction> subtasks = new ArrayList<>(length);
+
+			for (int es = 0; es < length; es += batchSize) {
+				int elapsedSize = es;
+
+				subtasks.add(new RecursiveAction() {
+					@Override
+					protected void compute() {
+						consumer.accept(Arrays.copyOfRange(inputArr, elapsedSize,
+								Math.min(length, elapsedSize + batchSize)));
+					}
+				});
+			}
+
+			ForkJoinTask.invokeAll(subtasks);
+		}
+	}
 
 	public static <T> void consume(T[] inputArr, Consumer<T[]> consumer) {
 		final int length = inputArr.length;
-		final int batchSize = Math.max((int) Math.ceil(length / cores), 1);
 
-		final List<RecursiveAction> subtasks = new ArrayList<>(length);
+		if (length <= minBatchSize) consumer.accept(inputArr);
+		else {
+			final int batchSize = Math.max((int) Math.ceil(length / cores), minBatchSize);
 
-		for (int es = 0; es < length; es += batchSize) {
-			int elapsedSize = es;
+			final List<RecursiveAction> subtasks = new ArrayList<>(length);
 
-			subtasks.add(new RecursiveAction() {
-				@Override
-				protected void compute() {
-					consumer.accept(Arrays.copyOfRange(inputArr, elapsedSize,
-							Math.min(length, elapsedSize + batchSize)));
-				}
-			});
+			for (int es = 0; es < length; es += batchSize) {
+				int elapsedSize = es;
+
+				subtasks.add(new RecursiveAction() {
+					@Override
+					protected void compute() {
+						consumer.accept(Arrays.copyOfRange(inputArr, elapsedSize,
+								Math.min(length, elapsedSize + batchSize)));
+					}
+				});
+			}
+
+			ForkJoinTask.invokeAll(subtasks);
 		}
-
-		ForkJoinTask.invokeAll(subtasks);
 	}
 
 	public static <T, R> R[] apply(T[] inputArr, Function<T[], R[]> function) {
 		final int length = inputArr.length;
-		final int batchSize = Math.max((int) Math.ceil(length / cores), 1);
+		if (length <= minBatchSize) return function.apply(inputArr);
+		else {
+			final int batchSize = Math.max((int) Math.ceil(length / cores), minBatchSize);
 
-		final var results = (R[]) Array.newInstance(inputArr[0].getClass(), length);
-		final List<RecursiveAction> subtasks = new ArrayList<>(length);
+			final var results = (R[]) Array.newInstance(inputArr[0].getClass(), length);
+			final List<RecursiveAction> subtasks = new ArrayList<>(length);
 
-		for (int es = 0; es < length; es += batchSize) {
-			int elapsedSize = es;
+			for (int es = 0; es < length; es += batchSize) {
+				int elapsedSize = es;
 
-			subtasks.add(new RecursiveAction() {
-				@Override
-				protected void compute() {
-					int endSize = Math.min(length, elapsedSize + batchSize);
+				subtasks.add(new RecursiveAction() {
+					@Override
+					protected void compute() {
+						int endSize = Math.min(length, elapsedSize + batchSize);
 
-					System.arraycopy(function.apply(Arrays.copyOfRange(inputArr, elapsedSize, endSize)),
-							0, results, elapsedSize, endSize - elapsedSize);
-				}
-			});
+						System.arraycopy(function.apply(Arrays.copyOfRange(inputArr, elapsedSize, endSize)),
+								0, results, elapsedSize, endSize - elapsedSize);
+					}
+				});
+			}
+
+			ForkJoinTask.invokeAll(subtasks);
+
+			return results;
 		}
-
-		ForkJoinTask.invokeAll(subtasks);
-
-		return results;
 	}
 
 	public static <T> double[] applyDouble(T[] inputArr, Function<T[], double[]> function) {
 		final int length = inputArr.length;
-		final int batchSize = Math.max((int) Math.ceil(length / cores), 1);
+		if (length <= minBatchSize) return function.apply(inputArr);
+		else {
+			final int batchSize = Math.max((int) Math.ceil(length / cores), minBatchSize);
 
-		final var results = new double[length];
-		final List<RecursiveAction> subtasks = new ArrayList<>(length);
+			final var results = new double[length];
+			final List<RecursiveAction> subtasks = new ArrayList<>(length);
 
-		for (int es = 0; es < length; es += batchSize) {
-			int elapsedSize = es;
+			for (int es = 0; es < length; es += batchSize) {
+				int elapsedSize = es;
 
-			subtasks.add(new RecursiveAction() {
-				@Override
-				protected void compute() {
-					int endSize = Math.min(length, elapsedSize + batchSize);
+				subtasks.add(new RecursiveAction() {
+					@Override
+					protected void compute() {
+						int endSize = Math.min(length, elapsedSize + batchSize);
 
-					System.arraycopy(function.apply(Arrays.copyOfRange(inputArr, elapsedSize, endSize)),
-							0, results, elapsedSize, endSize - elapsedSize);
-				}
-			});
+						System.arraycopy(function.apply(Arrays.copyOfRange(inputArr, elapsedSize, endSize)),
+								0, results, elapsedSize, endSize - elapsedSize);
+					}
+				});
+			}
+
+			ForkJoinTask.invokeAll(subtasks);
+
+			return results;
 		}
-
-		ForkJoinTask.invokeAll(subtasks);
-
-		return results;
-	}
-
-	public static <T> int[] applyInt(T[] inputArr, Function<T[], int[]> function) {
-		final int length = inputArr.length;
-		final int batchSize = Math.max((int) Math.ceil(length / cores), 1);
-
-		final var results = new int[length];
-		final List<RecursiveAction> subtasks = new ArrayList<>(length);
-
-		for (int es = 0; es < length; es += batchSize) {
-			int elapsedSize = es;
-
-			subtasks.add(new RecursiveAction() {
-				@Override
-				protected void compute() {
-					int endSize = Math.min(length, elapsedSize + batchSize);
-
-					System.arraycopy(function.apply(Arrays.copyOfRange(inputArr, elapsedSize, endSize)),
-							0, results, elapsedSize, endSize - elapsedSize);
-				}
-			});
-		}
-
-		ForkJoinTask.invokeAll(subtasks);
-
-		return results;
-	}
-
-	public static <T> boolean[] applyBoolean(T[] inputArr, Function<T[], boolean[]> function) {
-		final int length = inputArr.length;
-		final int batchSize = Math.max((int) Math.ceil(length / cores), 1);
-
-		final var results = new boolean[length];
-		final List<RecursiveAction> subtasks = new ArrayList<>(length);
-
-		for (int es = 0; es < length; es += batchSize) {
-			int elapsedSize = es;
-
-			subtasks.add(new RecursiveAction() {
-				@Override
-				protected void compute() {
-					int endSize = Math.min(length, elapsedSize + batchSize);
-
-					System.arraycopy(function.apply(Arrays.copyOfRange(inputArr, elapsedSize, endSize)),
-							0, results, elapsedSize, endSize - elapsedSize);
-				}
-			});
-		}
-
-		ForkJoinTask.invokeAll(subtasks);
-
-		return results;
 	}
 }

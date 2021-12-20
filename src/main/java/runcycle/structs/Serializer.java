@@ -3,6 +3,7 @@ package runcycle.structs;
 import com.google.gson.*;
 import org.apache.commons.lang3.StringUtils;
 import runcycle.IMoleculeResult;
+import tools.Utils;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
@@ -78,8 +79,21 @@ public class Serializer {
 			json.add("datum", gson.toJsonTree(src.datum));
 			json.add("mats", gson.toJsonTree(src.mats));
 			json.add("mnps", gson.toJsonTree(src.mnps));
-			json.add("atoms", gson.toJsonTree(src.atoms));
-			json.add("expGeom", gson.toJsonTree(src.expGeom));
+
+			Atom[] bohratoms = new Atom[src.atoms.length];
+			for (int i = 0; i < bohratoms.length; i++) {
+				bohratoms[i] = new Atom(src.atoms[i].Z, Utils.debohr(src.atoms[i].coords));
+			}
+
+			json.add("atoms", gson.toJsonTree(bohratoms));
+
+			if (src.expGeom != null) {
+				Atom[] bohrexp = new Atom[src.expGeom.length];
+				for (int i = 0; i < bohratoms.length; i++) {
+					bohrexp[i] = new Atom(src.expGeom[i].Z, Utils.debohr(src.expGeom[i].coords));
+				}
+				json.add("expGeom", gson.toJsonTree(bohrexp));
+			}
 
 			return json;
 		};
@@ -98,23 +112,32 @@ public class Serializer {
 			builder.atoms = gson.fromJson(object.get("atoms"), Atom[].class);
 			builder.expGeom = gson.fromJson(object.get("expGeom"), Atom[].class);
 
+			for (int i = 0; i < builder.atoms.length; i++) {
+				builder.atoms[i] = new Atom(builder.atoms[i].Z, Utils.bohr(builder.atoms[i].coords));
+				if (builder.expGeom != null)
+					builder.expGeom[i] = new Atom(builder.expGeom[i].Z, Utils.bohr(builder.expGeom[i].coords));
+			}
+
 			int[] mats = gson.fromJson(object.get("mats"), int[].class);
 			int[][] mnps = gson.fromJson(object.get("mnps"), int[][].class);
 
 			return builder.build(mats, mnps);
 		};
 
-		JsonSerializer<IMoleculeResult> imrs =
-				(src, typeOfSrc, context) -> gson.toJsonTree(MoleculeOutput.from(src));
-
-		JsonDeserializer<IMoleculeResult> imrds =
-				(json, typeOfT, context) -> gson.fromJson(json, MoleculeOutput.class);
-
 		GsonBuilder builder = new GsonBuilder();
 		builder.registerTypeAdapter(InputInfo.class, iis);
 		builder.registerTypeAdapter(InputInfo.class, iids);
 		builder.registerTypeAdapter(RunnableMolecule.class, rms);
 		builder.registerTypeAdapter(RunnableMolecule.class, rmds);
+
+		Gson finalgson = builder.create();
+
+		JsonSerializer<IMoleculeResult> imrs =
+				(src, typeOfSrc, context) -> finalgson.toJsonTree(MoleculeOutput.from(src));
+
+		JsonDeserializer<IMoleculeResult> imrds =
+				(json, typeOfT, context) -> finalgson.fromJson(json, MoleculeOutput.class);
+
 		builder.registerTypeAdapter(IMoleculeResult.class, imrs);
 		builder.registerTypeAdapter(IMoleculeResult.class, imrds);
 //		builder.setPrettyPrinting();

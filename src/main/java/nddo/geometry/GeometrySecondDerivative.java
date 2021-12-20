@@ -1585,8 +1585,7 @@ public class GeometrySecondDerivative {
 		return densityMatrixDerivs;
 	}
 
-	public static SimpleMatrix[] getxarrayPople(SolutionR soln,
-												SimpleMatrix[] fockderivstatic) {
+	public static SimpleMatrix[] getxarrayPople(SolutionR soln, SimpleMatrix[] fockderivstatic) {
 		int NOcc = (int) (soln.nElectrons / 2.0);
 		int NVirt = soln.orbitals.length - NOcc;
 		int length = fockderivstatic.length;
@@ -1674,19 +1673,23 @@ public class GeometrySecondDerivative {
 				}
 			}
 
+			Batcher.forloop(length, subset -> {
+				for (int i : subset) {
+					// parray[i] stays the same object throughout
+					SimpleMatrix bc = barray[i].copy();
+					CommonOps_DDRM.multRows(Dinvarr, bc.getDDRM());
+					SimpleMatrix rvp = computeResponseVectorsPople(bc, soln);
+					CommonOps_DDRM.multRows(Darr, rvp.getDDRM());
+					parray[i] = rvp;
+				}
+			});
+
 			for (int i = 0; i < length; i++) {
 				SimpleMatrix[] prev = new SimpleMatrix[5];
 				prev[0] = barray[i]; // original barray object here
 				prev[1] = barray[i].transpose();
 				prev[2] = barray[i].negative();
 				dots.add(barray[i].dot(barray[i]));
-
-				// parray[i] stays the same object throughout
-				SimpleMatrix bc = barray[i].copy();
-				CommonOps_DDRM.multRows(Dinvarr, bc.getDDRM());
-				SimpleMatrix crv = computeResponseVectorsPople(bc, soln);
-				CommonOps_DDRM.multRows(Darr, crv.getDDRM());
-				parray[i] = crv;
 
 				prev[3] = parray[i];
 				prev[4] = barray[i].minus(parray[i]);
@@ -1701,8 +1704,7 @@ public class GeometrySecondDerivative {
 				for (int j = 0; j < prevs.size(); j++) {
 					SimpleMatrix[] prev = prevs.get(j);
 					SimpleMatrix transpose = prev[1];
-					double num = transpose.mult(parray[i]).get(0) /
-							dots.get(j);
+					double num = transpose.mult(parray[i]).get(0) / dots.get(j);
 
 					newb.plusi(num, prev[2]);
 				}
@@ -1748,8 +1750,7 @@ public class GeometrySecondDerivative {
 				}
 				else if (Double.isNaN(rMag)) {
 					soln.getRm().getLogger()
-							.warn("Pople algorithm fails; reverting to " +
-									"Thiel algorithm (don't panic)...");
+							.warn("Pople algorithm fails; reverting to Thiel algorithm (don't panic)...");
 					throw new SingularMatrixException();
 				}
 				else {
@@ -1953,14 +1954,12 @@ public class GeometrySecondDerivative {
 		return p;
 	}
 
-	public static SimpleMatrix computeResponseVectorsPople(SimpleMatrix x,
-														   SolutionR soln) {
+	public static SimpleMatrix computeResponseVectorsPople(SimpleMatrix x, SolutionR soln) {
 		int NOcc = (int) (soln.nElectrons / 2.0);
 
 		int NVirt = soln.orbitals.length - NOcc;
 
-		SimpleMatrix densityMatrixDeriv =
-				new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
+		SimpleMatrix densityMatrixDeriv = new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
 
 		for (int u = 0; u < densityMatrixDeriv.numRows(); u++) {
 			for (int v = u; v < densityMatrixDeriv.numCols(); v++) {
@@ -1968,10 +1967,8 @@ public class GeometrySecondDerivative {
 				int count = 0;
 				for (int i = 0; i < NOcc; i++) {
 					for (int j = 0; j < NVirt; j++) {
-						sum -= 2 * (soln.C.get(i, u) * soln.C.get(j + NOcc,
-								v) +
-								soln.C.get(j + NOcc, u) * soln.C.get(i, v)) *
-								x.get(count, 0);
+						sum -= 2 * (soln.C.get(i, u) * soln.C.get(j + NOcc, v) +
+								soln.C.get(j + NOcc, u) * soln.C.get(i, v)) * x.get(count, 0);
 						count++;
 					}
 				}
@@ -1982,8 +1979,7 @@ public class GeometrySecondDerivative {
 		}
 
 
-		SimpleMatrix responsematrix =
-				new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
+		SimpleMatrix responsematrix = new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
 
 		double[] integralArray = soln.integralArray;
 
@@ -1993,65 +1989,38 @@ public class GeometrySecondDerivative {
 			for (int k = j; k < soln.orbitals.length; k++) {
 				double val = 0;
 				if (j == k) {
-
 					for (int l : soln.orbsOfAtom[soln.atomOfOrb[j]]) {
-						if (l > -1) {
-							val += densityMatrixDeriv.get(l, l) *
-									integralArray[integralcount];
-							integralcount++;
-						}
+						val += densityMatrixDeriv.get(l, l) * integralArray[integralcount];
+						integralcount++;
 					}
 
 					for (int l : soln.missingOfAtom[soln.atomOfOrb[j]]) {
-						if (l > -1) {
-							for (int m :
-									soln.missingOfAtom[soln.atomOfOrb[j]]) {
-								if (m > -1) {
-									if (soln.atomOfOrb[l] ==
-											soln.atomOfOrb[m]) {
-										val += densityMatrixDeriv.get(l, m) *
-												integralArray[integralcount];
-										integralcount++;
-									}
-								}
-
+						for (int m : soln.missingOfAtom[soln.atomOfOrb[j]]) {
+							if (soln.atomOfOrb[l] == soln.atomOfOrb[m]) {
+								val += densityMatrixDeriv.get(l, m) * integralArray[integralcount];
+								integralcount++;
 							}
 						}
 					}
 				}
 				else if (soln.atomOfOrb[j] == soln.atomOfOrb[k]) {
-					val += densityMatrixDeriv.get(j, k) *
-							integralArray[integralcount];
+					val += densityMatrixDeriv.get(j, k) * integralArray[integralcount];
 					integralcount++;
 
 					for (int l : soln.missingOfAtom[soln.atomOfOrb[j]]) {
-						if (l > -1) {
-							for (int m :
-									soln.missingOfAtom[soln.atomOfOrb[j]]) {
-								if (m > -1) {
-									if (soln.atomOfOrb[l] ==
-											soln.atomOfOrb[m]) {
-										val += densityMatrixDeriv.get(l, m) *
-												integralArray[integralcount];
-										integralcount++;
-									}
-								}
-
+						for (int m : soln.missingOfAtom[soln.atomOfOrb[j]]) {
+							if (soln.atomOfOrb[l] == soln.atomOfOrb[m]) {
+								val += densityMatrixDeriv.get(l, m) * integralArray[integralcount];
+								integralcount++;
 							}
 						}
 					}
 				}
 				else {
 					for (int l : soln.orbsOfAtom[soln.atomOfOrb[j]]) {
-						if (l > -1) {
-							for (int m :
-									soln.orbsOfAtom[soln.atomOfOrb[k]]) {
-								if (m > -1) {
-									val += densityMatrixDeriv.get(l, m) *
-											integralArray[integralcount];
-									integralcount++;
-								}
-							}
+						for (int m : soln.orbsOfAtom[soln.atomOfOrb[k]]) {
+							val += densityMatrixDeriv.get(l, m) * integralArray[integralcount];
+							integralcount++;
 						}
 					}
 				}
@@ -2077,7 +2046,7 @@ public class GeometrySecondDerivative {
 					}
 				}
 
-				element = element / (soln.E.get(j + NOcc) - soln.E.get(i));
+				element /= soln.E.get(j + NOcc) - soln.E.get(i);
 
 
 				R.set(count1, 0, element);

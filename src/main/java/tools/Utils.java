@@ -193,6 +193,18 @@ public class Utils {
 			array[i] = temp;
 		}
 	}
+
+	public static double[] bohr(double[] notbohr) {
+		double[] res = new double[notbohr.length];
+		for (int i = 0; i < notbohr.length; i++) res[i] = notbohr[i] * Constants.bohr;
+		return res;
+	}
+
+	public static double[] debohr(double[] bohr) {
+		double[] res = new double[bohr.length];
+		for (int i = 0; i < bohr.length; i++) res[i] = bohr[i] / Constants.bohr;
+		return res;
+	}
 }
 
 class Pair<F extends Comparable<F>, S> implements Comparable<Pair<F, S>> {
