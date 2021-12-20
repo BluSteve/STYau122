@@ -2396,7 +2396,8 @@ public class ERI {
 															D2deriv2, p1deriv2, p2deriv2);
 												case 1:
 													if (d.getk() == 1) {/*(pzpz|pzpz)*/
-														return pzpzpzpzdiagp2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+														return pzpzpzpzdiagp2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0,
+																c.p1,
 																c.p2, c.D1, c.D2, R, num, D1deriva, D2deriva, p1deriva,
 																p2deriva, D1derivb, D2derivb, p1derivb, p2derivb,
 																D1deriv2, D2deriv2, p1deriv2, p2deriv2);
@@ -2408,7 +2409,8 @@ public class ERI {
 										}
 										else {/*(pzpz|ppi?)*/
 											if (d.geti() == c.geti() && d.getj() == c.getj() && d.getk() == 0)
-												return pzpzppippidiagp2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+												return pzpzppippidiagp2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+														c.p2,
 														c.D1, c.D2, R, num, D1deriva, D2deriva, p1deriva, p2deriva,
 														D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2,
 														p1deriv2, p2deriv2);
@@ -2434,7 +2436,8 @@ public class ERI {
 										if (c.getk() == 1) {
 											if (d.geti() == b.geti() && d.getj() == b.getj() &&
 													d.getk() == 0) {/*(pzppi|pzppi)*/
-												return ppipzppipzdiagp2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+												return ppipzppipzdiagp2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+														c.p2,
 														c.D1, c.D2, R, num, D1deriva, D2deriva, p1deriva, p2deriva,
 														D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2,
 														p1deriv2, p2deriv2);
@@ -2530,7 +2533,8 @@ public class ERI {
 										if (c.getk() == 1) {
 											if (d.geti() == a.geti() && d.getj() == a.getj() &&
 													d.getk() == 0) {/*(ppipz|pzppi)*/
-												return ppipzppipzdiagp2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+												return ppipzppipzdiagp2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+														c.p2,
 														c.D1, c.D2, R, num, D1deriva, D2deriva, p1deriva, p2deriva,
 														D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2,
 														p1deriv2, p2deriv2);
@@ -2592,7 +2596,8 @@ public class ERI {
 										case 1:
 											if (d.getk() == 1 && a.geti() == b.geti() &&
 													a.getj() == b.getj()) {/*(ppippi|pzpz)*/
-												return ppippipzpzdiagp2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+												return ppippipzpzdiagp2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+														c.p2,
 														c.D1, c.D2, R, num, D1deriva, D2deriva, p1deriva, p2deriva,
 														D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2,
 														p1deriv2, p2deriv2);
@@ -2617,7 +2622,8 @@ public class ERI {
 									else {/*(pxpy|??) or (pypx|??)*/
 										if (c.getL() == d.getL() && c.geti() != d.geti() && c.getj() != d.getj() &&
 												c.getk() == 0)
-											return pxpypxpydiagp2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1,
+											return pxpypxpydiagp2d(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+													c.D1,
 													c.D2, R, num, D1deriva, D2deriva, p1deriva, p2deriva, D1derivb,
 													D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2,
 													p2deriv2);
@@ -2629,8 +2635,8 @@ public class ERI {
 		return 0;
 	}
 
-	public static double LocalTwoCenterERIpgd(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d, double D1deriv, double D2deriv, double p1deriv, double p2deriv, int num, int tau) {
-
+	public static double LocalTwoCenterERIpgd(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d, double D1deriv, double D2deriv,
+											  double p1deriv, double p2deriv, int num, int tau) {
 
 
 		double[] A = a.getCoords();
@@ -2653,12 +2659,15 @@ public class ERI {
 								switch (d.getL()) {
 
 									case 0://(ss|ss)
-										return sssspgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
+										return sssspgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R,
+												num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
 
 									case 1:
 										if (d.getk() == 1) {//(ss|spz)
-											return ssspzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
-										} else {//(ss|sppi) = 0
+											return ssspzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2,
+													R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
+										}
+										else {//(ss|sppi) = 0
 											return 0;
 										}
 									default:
@@ -2672,22 +2681,29 @@ public class ERI {
 									switch (d.getL()) {
 
 										case 0://(ss|pzs)
-											return ssspzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
+											return ssspzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2,
+													R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
 
 										case 1:
 											if (d.getk() == 1) {//(ss|pzpz)
-												return sspzpzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
-											} else {//(ss|pzppi) = 0
+												return sspzpzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1,
+														c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
+											}
+											else {//(ss|pzppi) = 0
 												return 0;
 											}
 										default:
 											return 0;
 									}
-								} else {//(ss|ppi?)
+								}
+								else {//(ss|ppi?)
 
-									if (d.getL() == 1 && d.getk() == 0 && c.geti() == d.geti() && c.getj() == d.getj()) {//(ss|ppippi)
-										return ssppippipgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
-									} else {//all others are 0
+									if (d.getL() == 1 && d.getk() == 0 && c.geti() == d.geti() &&
+											c.getj() == d.getj()) {//(ss|ppippi)
+										return ssppippipgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2,
+												R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
+									}
+									else {//all others are 0
 										return 0;
 									}
 								}
@@ -2707,12 +2723,15 @@ public class ERI {
 									switch (d.getL()) {
 
 										case 0://(spz|ss)
-											return spzsspgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
+											return spzsspgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2,
+													R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
 
 										case 1:
 											if (d.getk() == 1) {//(spz|spz)
-												return spzspzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
-											} else {
+												return spzspzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1,
+														c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
+											}
+											else {
 												return 0;
 											}
 									}
@@ -2723,19 +2742,26 @@ public class ERI {
 										switch (d.getL()) {
 
 											case 0://(spz|pzs)
-												return spzspzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
+												return spzspzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1,
+														c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
 
 											case 1:
 												if (d.getk() == 1) {//(spz|pzpz)
-													return spzpzpzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
-												} else {//(spz|pzppi) = 0
+													return spzpzpzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+															c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A,
+															C, tau);
+												}
+												else {//(spz|pzppi) = 0
 													return 0;
 												}
 										}
-									} else {//(spz|ppi?)
+									}
+									else {//(spz|ppi?)
 										if (d.geti() == c.geti() && d.getj() == c.getj() && d.getk() == 0) {
-											return spzppippipgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
-										} else {
+											return spzppippipgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1,
+													c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
+										}
+										else {
 											return 0;
 										}
 									}
@@ -2743,37 +2769,51 @@ public class ERI {
 									System.err.println("oh no");
 									return 0;
 							}
-						} else {//(sppi|??)
+						}
+						else {//(sppi|??)
 
 							switch (c.getL()) {
 								case 0://(sppi|s?)
 									if (d.geti() == b.geti() && d.getj() == b.getj() && d.getk() == 0) {//(sppi|sppi)
-										return sppisppipgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
-									} else {
+										return sppisppipgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2,
+												R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
+									}
+									else {
 										return 0;
 									}
 								case 1:
 									if (c.getk() == 1) {
-										if (d.geti() == b.geti() && d.getj() == b.getj() && d.getk() == 0) {//(sppi|pzppi)
-											return sppippipzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
-										} else {
+										if (d.geti() == b.geti() && d.getj() == b.getj() &&
+												d.getk() == 0) {//(sppi|pzppi)
+											return sppippipzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1,
+													c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
+										}
+										else {
 											return 0;
 										}
-									} else {
-										if (c.geti() == b.geti() && c.getj() == b.getj() && c.getk() == 0) {//(sppi|ppi?)
+									}
+									else {
+										if (c.geti() == b.geti() && c.getj() == b.getj() &&
+												c.getk() == 0) {//(sppi|ppi?)
 											switch (d.getL()) {
 												case 0:
-													return sppisppipgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
+													return sppisppipgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+															c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A,
+															C, tau);
 												case 1:
 													if (d.getk() == 1) {
-														return sppippipzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
-													} else {
+														return sppippipzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+																c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv,
+																p2deriv, A, C, tau);
+													}
+													else {
 														return 0;
 													}
 												default:
 													return 0;
 											}
-										} else {
+										}
+										else {
 											return 0;
 										}
 									}
@@ -2798,12 +2838,15 @@ public class ERI {
 									switch (d.getL()) {
 
 										case 0://(pzs|ss)
-											return spzsspgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
+											return spzsspgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2,
+													R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
 
 										case 1:
 											if (d.getk() == 1) {//(pzs|spz)
-												return spzspzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
-											} else {
+												return spzspzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1,
+														c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
+											}
+											else {
 												return 0;
 											}
 									}
@@ -2814,19 +2857,26 @@ public class ERI {
 										switch (d.getL()) {
 
 											case 0://(pzs|pzs)
-												return spzspzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
+												return spzspzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1,
+														c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
 
 											case 1:
 												if (d.getk() == 1) {//(pzs|pzpz)
-													return spzpzpzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
-												} else {//(pzs|pzppi) = 0
+													return spzpzpzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+															c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A,
+															C, tau);
+												}
+												else {//(pzs|pzppi) = 0
 													return 0;
 												}
 										}
-									} else {//(pzs|ppi?)
+									}
+									else {//(pzs|ppi?)
 										if (d.geti() == c.geti() && d.getj() == c.getj() && d.getk() == 0) {
-											return spzppippipgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
-										} else {
+											return spzppippipgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1,
+													c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
+										}
+										else {
 											return 0;
 										}
 									}
@@ -2845,12 +2895,16 @@ public class ERI {
 										switch (d.getL()) {
 
 											case 0://(pzpz|ss)
-												return pzpzsspgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
+												return pzpzsspgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1,
+														c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
 
 											case 1:
 												if (d.getk() == 1) {//(pzpz|spz)
-													return pzpzspzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
-												} else {
+													return pzpzspzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+															c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A,
+															C, tau);
+												}
+												else {
 													return 0;
 												}
 										}
@@ -2861,19 +2915,28 @@ public class ERI {
 											switch (d.getL()) {
 
 												case 0://(pzpz|pzs)
-													return pzpzspzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
+													return pzpzspzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+															c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A,
+															C, tau);
 
 												case 1:
 													if (d.getk() == 1) {//(pzpz|pzpz)
-														return pzpzpzpzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
-													} else {//(pzpz|pzppi) = 0
+														return pzpzpzpzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+																c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv,
+																p2deriv, A, C, tau);
+													}
+													else {//(pzpz|pzppi) = 0
 														return 0;
 													}
 											}
-										} else {//(pzpz|ppi?)
+										}
+										else {//(pzpz|ppi?)
 											if (d.geti() == c.geti() && d.getj() == c.getj() && d.getk() == 0) {
-												return pzpzppippipgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
-											} else {
+												return pzpzppippipgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+														c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C,
+														tau);
+											}
+											else {
 												return 0;
 											}
 										}
@@ -2881,37 +2944,53 @@ public class ERI {
 										System.err.println("oh no");
 										return 0;
 								}
-							} else {//(pzppi|??)
+							}
+							else {//(pzppi|??)
 
 								switch (c.getL()) {
 									case 0://(pzppi|s?)
-										if (d.geti() == b.geti() && d.getj() == b.getj() && d.getk() == 0) {//(pzppi|sppi)
-											return ppipzsppipgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
-										} else {
+										if (d.geti() == b.geti() && d.getj() == b.getj() &&
+												d.getk() == 0) {//(pzppi|sppi)
+											return ppipzsppipgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1,
+													c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
+										}
+										else {
 											return 0;
 										}
 									case 1:
 										if (c.getk() == 1) {
-											if (d.geti() == b.geti() && d.getj() == b.getj() && d.getk() == 0) {//(pzppi|pzppi)
-												return ppipzppipzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
-											} else {
+											if (d.geti() == b.geti() && d.getj() == b.getj() &&
+													d.getk() == 0) {//(pzppi|pzppi)
+												return ppipzppipzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+														c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C,
+														tau);
+											}
+											else {
 												return 0;
 											}
-										} else {
-											if (c.geti() == b.geti() && c.getj() == b.getj() && c.getk() == 0) {//(pzppi|ppi?)
+										}
+										else {
+											if (c.geti() == b.geti() && c.getj() == b.getj() &&
+													c.getk() == 0) {//(pzppi|ppi?)
 												switch (d.getL()) {
 													case 0:
-														return ppipzsppipgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
+														return ppipzsppipgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+																c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv,
+																p2deriv, A, C, tau);
 													case 1:
 														if (d.getk() == 1) {
-															return ppipzppipzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
-														} else {
+															return ppipzppipzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0,
+																	c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv,
+																	p1deriv, p2deriv, A, C, tau);
+														}
+														else {
 															return 0;
 														}
 													default:
 														return 0;
 												}
-											} else {
+											}
+											else {
 												return 0;
 											}
 										}
@@ -2921,7 +3000,8 @@ public class ERI {
 								}
 							}
 					}
-				} else {//(ppi?|??);
+				}
+				else {//(ppi?|??);
 
 					switch (b.getL()) {
 						case 0://(ppis|??)
@@ -2929,32 +3009,45 @@ public class ERI {
 							switch (c.getL()) {
 								case 0://(ppis|s?)
 									if (d.geti() == a.geti() && d.getj() == a.getj() && d.getk() == 0) {//(ppis|sppi)
-										return sppisppipgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
-									} else {
+										return sppisppipgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2,
+												R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
+									}
+									else {
 										return 0;
 									}
 								case 1:
 									if (c.getk() == 1) {
-										if (d.geti() == a.geti() && d.getj() == a.getj() && d.getk() == 0) {//(ppis|pzppi)
-											return sppippipzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
-										} else {
+										if (d.geti() == a.geti() && d.getj() == a.getj() &&
+												d.getk() == 0) {//(ppis|pzppi)
+											return sppippipzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1,
+													c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
+										}
+										else {
 											return 0;
 										}
-									} else {
-										if (c.geti() == a.geti() && c.getj() == a.getj() && c.getk() == 0) {//(ppis|ppi?)
+									}
+									else {
+										if (c.geti() == a.geti() && c.getj() == a.getj() &&
+												c.getk() == 0) {//(ppis|ppi?)
 											switch (d.getL()) {
 												case 0:
-													return sppisppipgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
+													return sppisppipgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+															c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A,
+															C, tau);
 												case 1:
 													if (d.getk() == 1) {
-														return sppippipzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
-													} else {
+														return sppippipzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+																c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv,
+																p2deriv, A, C, tau);
+													}
+													else {
 														return 0;
 													}
 												default:
 													return 0;
 											}
-										} else {
+										}
+										else {
 											return 0;
 										}
 									}
@@ -2966,33 +3059,48 @@ public class ERI {
 							if (b.getk() == 1) {//(ppipz|??)
 								switch (c.getL()) {
 									case 0://(ppipz|s?)
-										if (d.geti() == a.geti() && d.getj() == a.getj() && d.getk() == 0) {//(ppipz|sppi)
-											return ppipzsppipgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
-										} else {
+										if (d.geti() == a.geti() && d.getj() == a.getj() &&
+												d.getk() == 0) {//(ppipz|sppi)
+											return ppipzsppipgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1,
+													c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
+										}
+										else {
 											return 0;
 										}
 									case 1:
 										if (c.getk() == 1) {
-											if (d.geti() == a.geti() && d.getj() == a.getj() && d.getk() == 0) {//(ppipz|pzppi)
-												return ppipzppipzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
-											} else {
+											if (d.geti() == a.geti() && d.getj() == a.getj() &&
+													d.getk() == 0) {//(ppipz|pzppi)
+												return ppipzppipzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+														c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C,
+														tau);
+											}
+											else {
 												return 0;
 											}
-										} else {
-											if (c.geti() == a.geti() && c.getj() == a.getj() && c.getk() == 0) {//(ppipz|ppi?)
+										}
+										else {
+											if (c.geti() == a.geti() && c.getj() == a.getj() &&
+													c.getk() == 0) {//(ppipz|ppi?)
 												switch (d.getL()) {
 													case 0:
-														return ppipzsppipgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
+														return ppipzsppipgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+																c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv,
+																p2deriv, A, C, tau);
 													case 1:
 														if (d.getk() == 1) {
-															return ppipzppipzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
-														} else {
+															return ppipzppipzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0,
+																	c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv,
+																	p1deriv, p2deriv, A, C, tau);
+														}
+														else {
 															return 0;
 														}
 													default:
 														return 0;
 												}
-											} else {
+											}
+											else {
 												return 0;
 											}
 										}
@@ -3001,21 +3109,28 @@ public class ERI {
 										return 0;
 								}
 
-							} else {
+							}
+							else {
 
 								switch (c.getL()) {
 									case 0://(ppippi|s?)
 										switch (d.getL()) {
 											case 0://(ppippi|ss)
 												if (a.geti() == b.geti() && a.getj() == b.getj()) {
-													return ppippisspgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
-												} else {
+													return ppippisspgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+															c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A,
+															C, tau);
+												}
+												else {
 													return 0;
 												}
 											case 1:
 												if (d.getk() == 1 && a.geti() == b.geti() && a.getj() == b.getj()) {
-													return ppippispzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
-												} else {
+													return ppippispzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+															c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A,
+															C, tau);
+												}
+												else {
 													return 0;
 												}
 										}
@@ -3025,34 +3140,1333 @@ public class ERI {
 											switch (d.getL()) {
 												case 0://(ppippi|pzs)
 													if (a.geti() == b.geti() && a.getj() == b.getj()) {
-														return ppippispzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
-													} else {
+														return ppippispzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+																c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv,
+																p2deriv, A, C, tau);
+													}
+													else {
 														return 0;
 													}
 
 												case 1:
-													if (d.getk() == 1 && a.geti() == b.geti() && a.getj() == b.getj()) {//(ppippi|pzpz)
-														return ppippipzpzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
-													} else {
+													if (d.getk() == 1 && a.geti() == b.geti() &&
+															a.getj() == b.getj()) {//(ppippi|pzpz)
+														return ppippipzpzpgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+																c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv,
+																p2deriv, A, C, tau);
+													}
+													else {
 														return 0;
 													}
 											}
-										} else {
+										}
+										else {
 											if (a.geti() == b.geti() && a.getj() == b.getj()) {//(pxpx|??) or (pypy|??)
 
-												if (c.getL() == d.getL() && c.geti() == d.geti() && c.getj() == d.getj() && c.getk() == 0) {
+												if (c.getL() == d.getL() && c.geti() == d.geti() &&
+														c.getj() == d.getj() && c.getk() == 0) {
 													if (a.geti() == c.geti()) {
-														return ppippippippipgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
-													} else {
-														return pxpxpypypgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
+														return ppippippippipgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0,
+																c.p1,
+																c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv,
+																p2deriv, A, C, tau);
 													}
-												} else {
+													else {
+														return pxpxpypypgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+																c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv,
+																p2deriv, A, C, tau);
+													}
+												}
+												else {
 													return 0;
 												}
 
-											} else {//(pxpy|??) or (pypx|??)
-												if (c.getL() == d.getL() && c.geti() != d.geti() && c.getj() != d.getj() && c.getk() == 0) {
-													return pxpypxpypgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A, C, tau);
+											}
+											else {//(pxpy|??) or (pypx|??)
+												if (c.getL() == d.getL() && c.geti() != d.geti() &&
+														c.getj() != d.getj() && c.getk() == 0) {
+													return pxpypxpypgd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+															c.D1, c.D2, R, num, D1deriv, D2deriv, p1deriv, p2deriv, A,
+															C, tau);
+												}
+											}
+										}
+
+								}
+
+							}
+					}
+
+				}
+		}
+
+		return 0;
+	}
+
+	public static double LocalTwoCenterERIcrossp2gd(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d, double D11deriv,
+													   double D21deriv, double p11deriv, double p21deriv,
+													   double D12deriv, double D22deriv, double p12deriv,
+													   double p22deriv, int tau) {
+
+
+		double[] A = a.getCoords();
+		double[] C = c.getCoords();
+
+		double R = GTO.R(A, C);
+		//(??|??)
+		switch (a.getL()) {
+
+			case 0://(s?|??)
+
+				switch (b.getL()) {
+
+					case 0: //(ss|??)
+
+						switch (c.getL()) {
+
+							case 0: //(ss|s?);
+
+								switch (d.getL()) {
+
+									case 0://(ss|ss)
+										return sssscrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1,
+												c.D2,
+												R, D11deriv, D21deriv, p11deriv, p21deriv, D12deriv, D22deriv,
+												p12deriv,
+												p22deriv, A, C, tau);
+
+									case 1:
+										if (d.getk() == 1) {//(ss|spz)
+											return ssspzcrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1,
+													c.D2, R, D11deriv, D21deriv, p11deriv, p21deriv, D12deriv,
+													D22deriv,
+													p12deriv, p22deriv, A, C, tau);
+										}
+										else {//(ss|sppi) = 0
+											return 0;
+										}
+									default:
+										System.err.println("oh no");
+										return 0;
+								}
+
+							case 1: //(ss|p?)
+								if (c.getk() == 1) {//(ss|pz?)
+
+									switch (d.getL()) {
+
+										case 0://(ss|pzs)
+											return ssspzcrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1,
+													c.D2, R, D11deriv, D21deriv, p11deriv, p21deriv, D12deriv,
+													D22deriv,
+													p12deriv, p22deriv, A, C, tau);
+
+										case 1:
+											if (d.getk() == 1) {//(ss|pzpz)
+												return sspzpzcrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+														c.D1, c.D2, R, D11deriv, D21deriv, p11deriv, p21deriv,
+														D12deriv,
+														D22deriv, p12deriv, p22deriv, A, C, tau);
+											}
+											else {//(ss|pzppi) = 0
+												return 0;
+											}
+										default:
+											return 0;
+									}
+								}
+								else {//(ss|ppi?)
+
+									if (d.getL() == 1 && d.getk() == 0 && c.geti() == d.geti() &&
+											c.getj() == d.getj()) {//(ss|ppippi)
+										return ssppippicrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1,
+												c.D2, R, D11deriv, D21deriv, p11deriv, p21deriv, D12deriv, D22deriv,
+												p12deriv, p22deriv, A, C, tau);
+									}
+									else {//all others are 0
+										return 0;
+									}
+								}
+							default:
+								System.err.println("oh no");
+								return 0;
+
+						}
+					case 1: //(sp|??)
+
+						if (b.getk() == 1) {//(spz|??)
+
+							switch (c.getL()) {
+
+								case 0://(spz|s?)
+
+									switch (d.getL()) {
+
+										case 0://(spz|ss)
+											return spzsscrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1,
+													c.D2, R, D11deriv, D21deriv, p11deriv, p21deriv, D12deriv,
+													D22deriv,
+													p12deriv, p22deriv, A, C, tau);
+
+										case 1:
+											if (d.getk() == 1) {//(spz|spz)
+												return spzspzcrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+														c.D1, c.D2, R, D11deriv, D21deriv, p11deriv, p21deriv,
+														D12deriv,
+														D22deriv, p12deriv, p22deriv, A, C, tau);
+											}
+											else {
+												return 0;
+											}
+									}
+
+								case 1:
+									if (c.getk() == 1) {//(spz|pz?)
+
+										switch (d.getL()) {
+
+											case 0://(spz|pzs)
+												return spzspzcrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+														c.D1, c.D2, R, D11deriv, D21deriv, p11deriv, p21deriv,
+														D12deriv,
+														D22deriv, p12deriv, p22deriv, A, C, tau);
+
+											case 1:
+												if (d.getk() == 1) {//(spz|pzpz)
+													return spzpzpzcrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+															c.p2, c.D1, c.D2, R, D11deriv, D21deriv, p11deriv,
+															p21deriv,
+															D12deriv, D22deriv, p12deriv, p22deriv, A, C, tau);
+												}
+												else {//(spz|pzppi) = 0
+													return 0;
+												}
+										}
+									}
+									else {//(spz|ppi?)
+										if (d.geti() == c.geti() && d.getj() == c.getj() && d.getk() == 0) {
+											return spzppippicrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+													c.D1, c.D2, R, D11deriv, D21deriv, p11deriv, p21deriv, D12deriv,
+													D22deriv, p12deriv, p22deriv, A, C, tau);
+										}
+										else {
+											return 0;
+										}
+									}
+								default:
+									System.err.println("oh no");
+									return 0;
+							}
+						}
+						else {//(sppi|??)
+
+							switch (c.getL()) {
+								case 0://(sppi|s?)
+									if (d.geti() == b.geti() && d.getj() == b.getj() && d.getk() == 0) {//(sppi|sppi)
+										return sppisppicrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1,
+												c.D2, R, D11deriv, D21deriv, p11deriv, p21deriv, D12deriv, D22deriv,
+												p12deriv, p22deriv, A, C, tau);
+									}
+									else {
+										return 0;
+									}
+								case 1:
+									if (c.getk() == 1) {
+										if (d.geti() == b.geti() && d.getj() == b.getj() &&
+												d.getk() == 0) {//(sppi|pzppi)
+											return sppippipzcrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+													c.D1, c.D2, R, D11deriv, D21deriv, p11deriv, p21deriv, D12deriv,
+													D22deriv, p12deriv, p22deriv, A, C, tau);
+										}
+										else {
+											return 0;
+										}
+									}
+									else {
+										if (c.geti() == b.geti() && c.getj() == b.getj() &&
+												c.getk() == 0) {//(sppi|ppi?)
+											switch (d.getL()) {
+												case 0:
+													return sppisppicrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+															c.p2, c.D1, c.D2, R, D11deriv, D21deriv, p11deriv,
+															p21deriv,
+															D12deriv, D22deriv, p12deriv, p22deriv, A, C, tau);
+												case 1:
+													if (d.getk() == 1) {
+														return sppippipzcrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0,
+																c.p1, c.p2, c.D1, c.D2, R, D11deriv, D21deriv,
+																p11deriv,
+																p21deriv, D12deriv, D22deriv, p12deriv, p22deriv, A, C,
+																tau);
+													}
+													else {
+														return 0;
+													}
+												default:
+													return 0;
+											}
+										}
+										else {
+											return 0;
+										}
+									}
+								default:
+									System.err.println("oh no");
+									return 0;
+							}
+						}
+					default:
+						System.err.println("oh no");
+						return 0;
+				}
+
+			case 1://(p?|??)
+				if (a.getk() == 1) {//(pz?|??)
+					switch (b.getL()) {
+						case 0:
+							switch (c.getL()) {
+
+								case 0://(pzs|s?)
+
+									switch (d.getL()) {
+
+										case 0://(pzs|ss)
+											return spzsscrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1,
+													c.D2, R, D11deriv, D21deriv, p11deriv, p21deriv, D12deriv,
+													D22deriv,
+													p12deriv, p22deriv, A, C, tau);
+
+										case 1:
+											if (d.getk() == 1) {//(pzs|spz)
+												return spzspzcrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+														c.D1, c.D2, R, D11deriv, D21deriv, p11deriv, p21deriv,
+														D12deriv,
+														D22deriv, p12deriv, p22deriv, A, C, tau);
+											}
+											else {
+												return 0;
+											}
+									}
+
+								case 1:
+									if (c.getk() == 1) {//(pzs|pz?)
+
+										switch (d.getL()) {
+
+											case 0://(pzs|pzs)
+												return spzspzcrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+														c.D1, c.D2, R, D11deriv, D21deriv, p11deriv, p21deriv,
+														D12deriv,
+														D22deriv, p12deriv, p22deriv, A, C, tau);
+
+											case 1:
+												if (d.getk() == 1) {//(pzs|pzpz)
+													return spzpzpzcrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+															c.p2, c.D1, c.D2, R, D11deriv, D21deriv, p11deriv,
+															p21deriv,
+															D12deriv, D22deriv, p12deriv, p22deriv, A, C, tau);
+												}
+												else {//(pzs|pzppi) = 0
+													return 0;
+												}
+										}
+									}
+									else {//(pzs|ppi?)
+										if (d.geti() == c.geti() && d.getj() == c.getj() && d.getk() == 0) {
+											return spzppippicrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+													c.D1, c.D2, R, D11deriv, D21deriv, p11deriv, p21deriv, D12deriv,
+													D22deriv, p12deriv, p22deriv, A, C, tau);
+										}
+										else {
+											return 0;
+										}
+									}
+								default:
+									System.err.println("oh no");
+									return 0;
+							}
+						case 1:
+
+							if (b.getk() == 1) {//(pzpz|??)
+
+								switch (c.getL()) {
+
+									case 0://(pzpz|s?)
+
+										switch (d.getL()) {
+
+											case 0://(pzpz|ss)
+												return pzpzsscrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+														c.D1, c.D2, R, D11deriv, D21deriv, p11deriv, p21deriv,
+														D12deriv,
+														D22deriv, p12deriv, p22deriv, A, C, tau);
+
+											case 1:
+												if (d.getk() == 1) {//(pzpz|spz)
+													return pzpzspzcrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+															c.p2, c.D1, c.D2, R, D11deriv, D21deriv, p11deriv,
+															p21deriv,
+															D12deriv, D22deriv, p12deriv, p22deriv, A, C, tau);
+												}
+												else {
+													return 0;
+												}
+										}
+
+									case 1:
+										if (c.getk() == 1) {//(pzpz|pz?)
+
+											switch (d.getL()) {
+
+												case 0://(pzpz|pzs)
+													return pzpzspzcrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+															c.p2, c.D1, c.D2, R, D11deriv, D21deriv, p11deriv,
+															p21deriv,
+															D12deriv, D22deriv, p12deriv, p22deriv, A, C, tau);
+
+												case 1:
+													if (d.getk() == 1) {//(pzpz|pzpz)
+														return pzpzpzpzcrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0,
+																c.p1, c.p2, c.D1, c.D2, R, D11deriv, D21deriv,
+																p11deriv,
+																p21deriv, D12deriv, D22deriv, p12deriv, p22deriv, A, C,
+																tau);
+													}
+													else {//(pzpz|pzppi) = 0
+														return 0;
+													}
+											}
+										}
+										else {//(pzpz|ppi?)
+											if (d.geti() == c.geti() && d.getj() == c.getj() && d.getk() == 0) {
+												return pzpzppippicrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+														c.p2, c.D1, c.D2, R, D11deriv, D21deriv, p11deriv, p21deriv,
+														D12deriv, D22deriv, p12deriv, p22deriv, A, C, tau);
+											}
+											else {
+												return 0;
+											}
+										}
+									default:
+										System.err.println("oh no");
+										return 0;
+								}
+							}
+							else {//(pzppi|??)
+
+								switch (c.getL()) {
+									case 0://(pzppi|s?)
+										if (d.geti() == b.geti() && d.getj() == b.getj() &&
+												d.getk() == 0) {//(pzppi|sppi)
+											return ppipzsppicrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+													c.D1, c.D2, R, D11deriv, D21deriv, p11deriv, p21deriv, D12deriv,
+													D22deriv, p12deriv, p22deriv, A, C, tau);
+										}
+										else {
+											return 0;
+										}
+									case 1:
+										if (c.getk() == 1) {
+											if (d.geti() == b.geti() && d.getj() == b.getj() &&
+													d.getk() == 0) {//(pzppi|pzppi)
+												return ppipzppipzcrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+														c.p2, c.D1, c.D2, R, D11deriv, D21deriv, p11deriv, p21deriv,
+														D12deriv, D22deriv, p12deriv, p22deriv, A, C, tau);
+											}
+											else {
+												return 0;
+											}
+										}
+										else {
+											if (c.geti() == b.geti() && c.getj() == b.getj() &&
+													c.getk() == 0) {//(pzppi|ppi?)
+												switch (d.getL()) {
+													case 0:
+														return ppipzsppicrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0,
+																c.p1, c.p2, c.D1, c.D2, R, D11deriv, D21deriv,
+																p11deriv,
+																p21deriv, D12deriv, D22deriv, p12deriv, p22deriv, A, C,
+																tau);
+													case 1:
+														if (d.getk() == 1) {
+															return ppipzppipzcrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2,
+																	c.p0, c.p1, c.p2, c.D1, c.D2, R, D11deriv,
+																	D21deriv,
+																	p11deriv, p21deriv, D12deriv, D22deriv, p12deriv,
+																	p22deriv, A, C, tau);
+														}
+														else {
+															return 0;
+														}
+													default:
+														return 0;
+												}
+											}
+											else {
+												return 0;
+											}
+										}
+									default:
+										System.err.println("oh no");
+										return 0;
+								}
+							}
+					}
+				}
+				else {//(ppi?|??);
+
+					switch (b.getL()) {
+						case 0://(ppis|??)
+
+							switch (c.getL()) {
+								case 0://(ppis|s?)
+									if (d.geti() == a.geti() && d.getj() == a.getj() && d.getk() == 0) {//(ppis|sppi)
+										return sppisppicrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1,
+												c.D2, R, D11deriv, D21deriv, p11deriv, p21deriv, D12deriv, D22deriv,
+												p12deriv, p22deriv, A, C, tau);
+									}
+									else {
+										return 0;
+									}
+								case 1:
+									if (c.getk() == 1) {
+										if (d.geti() == a.geti() && d.getj() == a.getj() &&
+												d.getk() == 0) {//(ppis|pzppi)
+											return sppippipzcrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+													c.D1, c.D2, R, D11deriv, D21deriv, p11deriv, p21deriv, D12deriv,
+													D22deriv, p12deriv, p22deriv, A, C, tau);
+										}
+										else {
+											return 0;
+										}
+									}
+									else {
+										if (c.geti() == a.geti() && c.getj() == a.getj() &&
+												c.getk() == 0) {//(ppis|ppi?)
+											switch (d.getL()) {
+												case 0:
+													return sppisppicrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+															c.p2, c.D1, c.D2, R, D11deriv, D21deriv, p11deriv,
+															p21deriv,
+															D12deriv, D22deriv, p12deriv, p22deriv, A, C, tau);
+												case 1:
+													if (d.getk() == 1) {
+														return sppippipzcrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0,
+																c.p1, c.p2, c.D1, c.D2, R, D11deriv, D21deriv,
+																p11deriv,
+																p21deriv, D12deriv, D22deriv, p12deriv, p22deriv, A, C,
+																tau);
+													}
+													else {
+														return 0;
+													}
+												default:
+													return 0;
+											}
+										}
+										else {
+											return 0;
+										}
+									}
+								default:
+									System.err.println("oh no");
+									return 0;
+							}
+						case 1:
+							if (b.getk() == 1) {//(ppipz|??)
+								switch (c.getL()) {
+									case 0://(ppipz|s?)
+										if (d.geti() == a.geti() && d.getj() == a.getj() &&
+												d.getk() == 0) {//(ppipz|sppi)
+											return ppipzsppicrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+													c.D1, c.D2, R, D11deriv, D21deriv, p11deriv, p21deriv, D12deriv,
+													D22deriv, p12deriv, p22deriv, A, C, tau);
+										}
+										else {
+											return 0;
+										}
+									case 1:
+										if (c.getk() == 1) {
+											if (d.geti() == a.geti() && d.getj() == a.getj() &&
+													d.getk() == 0) {//(ppipz|pzppi)
+												return ppipzppipzcrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+														c.p2, c.D1, c.D2, R, D11deriv, D21deriv, p11deriv, p21deriv,
+														D12deriv, D22deriv, p12deriv, p22deriv, A, C, tau);
+											}
+											else {
+												return 0;
+											}
+										}
+										else {
+											if (c.geti() == a.geti() && c.getj() == a.getj() &&
+													c.getk() == 0) {//(ppipz|ppi?)
+												switch (d.getL()) {
+													case 0:
+														return ppipzsppicrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0,
+																c.p1, c.p2, c.D1, c.D2, R, D11deriv, D21deriv,
+																p11deriv,
+																p21deriv, D12deriv, D22deriv, p12deriv, p22deriv, A, C,
+																tau);
+													case 1:
+														if (d.getk() == 1) {
+															return ppipzppipzcrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2,
+																	c.p0, c.p1, c.p2, c.D1, c.D2, R, D11deriv,
+																	D21deriv,
+																	p11deriv, p21deriv, D12deriv, D22deriv, p12deriv,
+																	p22deriv, A, C, tau);
+														}
+														else {
+															return 0;
+														}
+													default:
+														return 0;
+												}
+											}
+											else {
+												return 0;
+											}
+										}
+									default:
+										System.err.println("oh no");
+										return 0;
+								}
+
+							}
+							else {
+
+								switch (c.getL()) {
+									case 0://(ppippi|s?)
+										switch (d.getL()) {
+											case 0://(ppippi|ss)
+												if (a.geti() == b.geti() && a.getj() == b.getj()) {
+													return ppippisscrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+															c.p2, c.D1, c.D2, R, D11deriv, D21deriv, p11deriv,
+															p21deriv,
+															D12deriv, D22deriv, p12deriv, p22deriv, A, C, tau);
+												}
+												else {
+													return 0;
+												}
+											case 1:
+												if (d.getk() == 1 && a.geti() == b.geti() && a.getj() == b.getj()) {
+													return ppippispzcrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+															c.p2, c.D1, c.D2, R, D11deriv, D21deriv, p11deriv,
+															p21deriv,
+															D12deriv, D22deriv, p12deriv, p22deriv, A, C, tau);
+												}
+												else {
+													return 0;
+												}
+										}
+
+									case 1:
+										if (c.getk() == 1) {
+											switch (d.getL()) {
+												case 0://(ppippi|pzs)
+													if (a.geti() == b.geti() && a.getj() == b.getj()) {
+														return ppippispzcrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0,
+																c.p1, c.p2, c.D1, c.D2, R, D11deriv, D21deriv,
+																p11deriv,
+																p21deriv, D12deriv, D22deriv, p12deriv, p22deriv, A, C,
+																tau);
+													}
+													else {
+														return 0;
+													}
+
+												case 1:
+													if (d.getk() == 1 && a.geti() == b.geti() &&
+															a.getj() == b.getj()) {//(ppippi|pzpz)
+														return ppippipzpzcrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0,
+																c.p1, c.p2, c.D1, c.D2, R, D11deriv, D21deriv,
+																p11deriv,
+																p21deriv, D12deriv, D22deriv, p12deriv, p22deriv, A, C,
+																tau);
+													}
+													else {
+														return 0;
+													}
+											}
+										}
+										else {
+											if (a.geti() == b.geti() && a.getj() == b.getj()) {//(pxpx|??) or (pypy|??)
+
+												if (c.getL() == d.getL() && c.geti() == d.geti() &&
+														c.getj() == d.getj() && c.getk() == 0) {
+													if (a.geti() == c.geti()) {
+														return ppippippippicrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2,
+																c.p0,
+																c.p1, c.p2, c.D1, c.D2, R, D11deriv, D21deriv,
+																p11deriv,
+																p21deriv, D12deriv, D22deriv, p12deriv, p22deriv, A, C,
+																tau);
+													}
+													else {
+														return pxpxpypycrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0,
+																c.p1, c.p2, c.D1, c.D2, R, D11deriv, D21deriv,
+																p11deriv,
+																p21deriv, D12deriv, D22deriv, p12deriv, p22deriv, A, C,
+																tau);
+													}
+												}
+												else {
+													return 0;
+												}
+
+											}
+											else {//(pxpy|??) or (pypx|??)
+												if (c.getL() == d.getL() && c.geti() != d.geti() &&
+														c.getj() != d.getj() && c.getk() == 0) {
+													return pxpypxpycrossp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+															c.p2, c.D1, c.D2, R, D11deriv, D21deriv, p11deriv,
+															p21deriv,
+															D12deriv, D22deriv, p12deriv, p22deriv, A, C, tau);
+												}
+											}
+										}
+
+								}
+
+							}
+					}
+
+				}
+		}
+
+		return 0;
+	}
+
+	public static double LocalTwoCenterERIdiagp2gd(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d, double D1deriva,
+													  double D2deriva, double p1deriva, double p2deriva,
+													  double D1derivb, double D2derivb, double p1derivb,
+													  double p2derivb, double D1deriv2, double D2deriv2,
+													  double p1deriv2, double p2deriv2, int num, int tau) {
+
+
+		double[] A = a.getCoords();
+		double[] C = c.getCoords();
+
+		double R = GTO.R(A, C);
+		//(??|??)
+		switch (a.getL()) {
+
+			case 0://(s?|??)
+
+				switch (b.getL()) {
+
+					case 0: //(ss|??)
+
+						switch (c.getL()) {
+
+							case 0: //(ss|s?);
+
+								switch (d.getL()) {
+
+									case 0://(ss|ss)
+										return ssssdiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1, c.D2,
+												R, num, D1deriva, D2deriva, p1deriva, p2deriva, D1derivb, D2derivb,
+												p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, C, tau);
+
+									case 1:
+										if (d.getk() == 1) {//(ss|spz)
+											return ssspzdiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1,
+													c.D2, R, num, D1deriva, D2deriva, p1deriva, p2deriva, D1derivb,
+													D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2,
+													p2deriv2, A, C, tau);
+										}
+										else {//(ss|sppi) = 0
+											return 0;
+										}
+									default:
+										System.err.println("oh no");
+										return 0;
+								}
+
+							case 1: //(ss|p?)
+								if (c.getk() == 1) {//(ss|pz?)
+
+									switch (d.getL()) {
+
+										case 0://(ss|pzs)
+											return ssspzdiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1,
+													c.D2, R, num, D1deriva, D2deriva, p1deriva, p2deriva, D1derivb,
+													D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2,
+													p2deriv2, A, C, tau);
+
+										case 1:
+											if (d.getk() == 1) {//(ss|pzpz)
+												return sspzpzdiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+														c.D1, c.D2, R, num, D1deriva, D2deriva, p1deriva, p2deriva,
+														D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2,
+														p1deriv2, p2deriv2, A, C, tau);
+											}
+											else {//(ss|pzppi) = 0
+												return 0;
+											}
+										default:
+											return 0;
+									}
+								}
+								else {//(ss|ppi?)
+
+									if (d.getL() == 1 && d.getk() == 0 && c.geti() == d.geti() &&
+											c.getj() == d.getj()) {//(ss|ppippi)
+										return ssppippidiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1,
+												c.D2, R, num, D1deriva, D2deriva, p1deriva, p2deriva, D1derivb,
+												D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2
+												, A,
+												C, tau);
+									}
+									else {//all others are 0
+										return 0;
+									}
+								}
+							default:
+								System.err.println("oh no");
+								return 0;
+
+						}
+					case 1: //(sp|??)
+
+						if (b.getk() == 1) {//(spz|??)
+
+							switch (c.getL()) {
+
+								case 0://(spz|s?)
+
+									switch (d.getL()) {
+
+										case 0://(spz|ss)
+											return spzssdiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1,
+													c.D2, R, num, D1deriva, D2deriva, p1deriva, p2deriva, D1derivb,
+													D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2,
+													p2deriv2, A, C, tau);
+
+										case 1:
+											if (d.getk() == 1) {//(spz|spz)
+												return spzspzdiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+														c.D1, c.D2, R, num, D1deriva, D2deriva, p1deriva, p2deriva,
+														D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2,
+														p1deriv2, p2deriv2, A, C, tau);
+											}
+											else {
+												return 0;
+											}
+									}
+
+								case 1:
+									if (c.getk() == 1) {//(spz|pz?)
+
+										switch (d.getL()) {
+
+											case 0://(spz|pzs)
+												return spzspzdiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+														c.D1, c.D2, R, num, D1deriva, D2deriva, p1deriva, p2deriva,
+														D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2,
+														p1deriv2, p2deriv2, A, C, tau);
+
+											case 1:
+												if (d.getk() == 1) {//(spz|pzpz)
+													return spzpzpzdiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+															c.p2, c.D1, c.D2, R, num, D1deriva, D2deriva, p1deriva,
+															p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2,
+															D2deriv2, p1deriv2, p2deriv2, A, C, tau);
+												}
+												else {//(spz|pzppi) = 0
+													return 0;
+												}
+										}
+									}
+									else {//(spz|ppi?)
+										if (d.geti() == c.geti() && d.getj() == c.getj() && d.getk() == 0) {
+											return spzppippidiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+													c.D1, c.D2, R, num, D1deriva, D2deriva, p1deriva, p2deriva,
+													D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2,
+													p1deriv2, p2deriv2, A, C, tau);
+										}
+										else {
+											return 0;
+										}
+									}
+								default:
+									System.err.println("oh no");
+									return 0;
+							}
+						}
+						else {//(sppi|??)
+
+							switch (c.getL()) {
+								case 0://(sppi|s?)
+									if (d.geti() == b.geti() && d.getj() == b.getj() && d.getk() == 0) {//(sppi|sppi)
+										return sppisppidiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1,
+												c.D2, R, num, D1deriva, D2deriva, p1deriva, p2deriva, D1derivb,
+												D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2
+												, A,
+												C, tau);
+									}
+									else {
+										return 0;
+									}
+								case 1:
+									if (c.getk() == 1) {
+										if (d.geti() == b.geti() && d.getj() == b.getj() &&
+												d.getk() == 0) {//(sppi|pzppi)
+											return sppippipzdiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+													c.D1, c.D2, R, num, D1deriva, D2deriva, p1deriva, p2deriva,
+													D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2,
+													p1deriv2, p2deriv2, A, C, tau);
+										}
+										else {
+											return 0;
+										}
+									}
+									else {
+										if (c.geti() == b.geti() && c.getj() == b.getj() &&
+												c.getk() == 0) {//(sppi|ppi?)
+											switch (d.getL()) {
+												case 0:
+													return sppisppidiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+															c.p2, c.D1, c.D2, R, num, D1deriva, D2deriva, p1deriva,
+															p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2,
+															D2deriv2, p1deriv2, p2deriv2, A, C, tau);
+												case 1:
+													if (d.getk() == 1) {
+														return sppippipzdiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0,
+																c.p1, c.p2, c.D1, c.D2, R, num, D1deriva, D2deriva,
+																p1deriva, p2deriva, D1derivb, D2derivb, p1derivb,
+																p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, C,
+																tau);
+													}
+													else {
+														return 0;
+													}
+												default:
+													return 0;
+											}
+										}
+										else {
+											return 0;
+										}
+									}
+								default:
+									System.err.println("oh no");
+									return 0;
+							}
+						}
+					default:
+						System.err.println("oh no");
+						return 0;
+				}
+
+			case 1://(p?|??)
+				if (a.getk() == 1) {//(pz?|??)
+					switch (b.getL()) {
+						case 0:
+							switch (c.getL()) {
+
+								case 0://(pzs|s?)
+
+									switch (d.getL()) {
+
+										case 0://(pzs|ss)
+											return spzssdiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1,
+													c.D2, R, num, D1deriva, D2deriva, p1deriva, p2deriva, D1derivb,
+													D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2,
+													p2deriv2, A, C, tau);
+
+										case 1:
+											if (d.getk() == 1) {//(pzs|spz)
+												return spzspzdiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+														c.D1, c.D2, R, num, D1deriva, D2deriva, p1deriva, p2deriva,
+														D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2,
+														p1deriv2, p2deriv2, A, C, tau);
+											}
+											else {
+												return 0;
+											}
+									}
+
+								case 1:
+									if (c.getk() == 1) {//(pzs|pz?)
+
+										switch (d.getL()) {
+
+											case 0://(pzs|pzs)
+												return spzspzdiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+														c.D1, c.D2, R, num, D1deriva, D2deriva, p1deriva, p2deriva,
+														D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2,
+														p1deriv2, p2deriv2, A, C, tau);
+
+											case 1:
+												if (d.getk() == 1) {//(pzs|pzpz)
+													return spzpzpzdiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+															c.p2, c.D1, c.D2, R, num, D1deriva, D2deriva, p1deriva,
+															p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2,
+															D2deriv2, p1deriv2, p2deriv2, A, C, tau);
+												}
+												else {//(pzs|pzppi) = 0
+													return 0;
+												}
+										}
+									}
+									else {//(pzs|ppi?)
+										if (d.geti() == c.geti() && d.getj() == c.getj() && d.getk() == 0) {
+											return spzppippidiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+													c.D1, c.D2, R, num, D1deriva, D2deriva, p1deriva, p2deriva,
+													D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2,
+													p1deriv2, p2deriv2, A, C, tau);
+										}
+										else {
+											return 0;
+										}
+									}
+								default:
+									System.err.println("oh no");
+									return 0;
+							}
+						case 1:
+
+							if (b.getk() == 1) {//(pzpz|??)
+
+								switch (c.getL()) {
+
+									case 0://(pzpz|s?)
+
+										switch (d.getL()) {
+
+											case 0://(pzpz|ss)
+												return pzpzssdiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+														c.D1, c.D2, R, num, D1deriva, D2deriva, p1deriva, p2deriva,
+														D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2,
+														p1deriv2, p2deriv2, A, C, tau);
+
+											case 1:
+												if (d.getk() == 1) {//(pzpz|spz)
+													return pzpzspzdiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+															c.p2, c.D1, c.D2, R, num, D1deriva, D2deriva, p1deriva,
+															p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2,
+															D2deriv2, p1deriv2, p2deriv2, A, C, tau);
+												}
+												else {
+													return 0;
+												}
+										}
+
+									case 1:
+										if (c.getk() == 1) {//(pzpz|pz?)
+
+											switch (d.getL()) {
+
+												case 0://(pzpz|pzs)
+													return pzpzspzdiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+															c.p2, c.D1, c.D2, R, num, D1deriva, D2deriva, p1deriva,
+															p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2,
+															D2deriv2, p1deriv2, p2deriv2, A, C, tau);
+
+												case 1:
+													if (d.getk() == 1) {//(pzpz|pzpz)
+														return pzpzpzpzdiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0,
+																c.p1, c.p2, c.D1, c.D2, R, num, D1deriva, D2deriva,
+																p1deriva, p2deriva, D1derivb, D2derivb, p1derivb,
+																p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, C,
+																tau);
+													}
+													else {//(pzpz|pzppi) = 0
+														return 0;
+													}
+											}
+										}
+										else {//(pzpz|ppi?)
+											if (d.geti() == c.geti() && d.getj() == c.getj() && d.getk() == 0) {
+												return pzpzppippidiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+														c.p2, c.D1, c.D2, R, num, D1deriva, D2deriva, p1deriva,
+														p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2,
+														D2deriv2, p1deriv2, p2deriv2, A, C, tau);
+											}
+											else {
+												return 0;
+											}
+										}
+									default:
+										System.err.println("oh no");
+										return 0;
+								}
+							}
+							else {//(pzppi|??)
+
+								switch (c.getL()) {
+									case 0://(pzppi|s?)
+										if (d.geti() == b.geti() && d.getj() == b.getj() &&
+												d.getk() == 0) {//(pzppi|sppi)
+											return ppipzsppidiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+													c.D1, c.D2, R, num, D1deriva, D2deriva, p1deriva, p2deriva,
+													D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2,
+													p1deriv2, p2deriv2, A, C, tau);
+										}
+										else {
+											return 0;
+										}
+									case 1:
+										if (c.getk() == 1) {
+											if (d.geti() == b.geti() && d.getj() == b.getj() &&
+													d.getk() == 0) {//(pzppi|pzppi)
+												return ppipzppipzdiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+														c.p2, c.D1, c.D2, R, num, D1deriva, D2deriva, p1deriva,
+														p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2,
+														D2deriv2, p1deriv2, p2deriv2, A, C, tau);
+											}
+											else {
+												return 0;
+											}
+										}
+										else {
+											if (c.geti() == b.geti() && c.getj() == b.getj() &&
+													c.getk() == 0) {//(pzppi|ppi?)
+												switch (d.getL()) {
+													case 0:
+														return ppipzsppidiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0,
+																c.p1, c.p2, c.D1, c.D2, R, num, D1deriva, D2deriva,
+																p1deriva, p2deriva, D1derivb, D2derivb, p1derivb,
+																p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, C,
+																tau);
+													case 1:
+														if (d.getk() == 1) {
+															return ppipzppipzdiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2,
+																	c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriva,
+																	D2deriva, p1deriva, p2deriva, D1derivb, D2derivb,
+																	p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2,
+																	p2deriv2, A, C, tau);
+														}
+														else {
+															return 0;
+														}
+													default:
+														return 0;
+												}
+											}
+											else {
+												return 0;
+											}
+										}
+									default:
+										System.err.println("oh no");
+										return 0;
+								}
+							}
+					}
+				}
+				else {//(ppi?|??);
+
+					switch (b.getL()) {
+						case 0://(ppis|??)
+
+							switch (c.getL()) {
+								case 0://(ppis|s?)
+									if (d.geti() == a.geti() && d.getj() == a.getj() && d.getk() == 0) {//(ppis|sppi)
+										return sppisppidiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2, c.D1,
+												c.D2, R, num, D1deriva, D2deriva, p1deriva, p2deriva, D1derivb,
+												D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2
+												, A,
+												C, tau);
+									}
+									else {
+										return 0;
+									}
+								case 1:
+									if (c.getk() == 1) {
+										if (d.geti() == a.geti() && d.getj() == a.getj() &&
+												d.getk() == 0) {//(ppis|pzppi)
+											return sppippipzdiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+													c.D1, c.D2, R, num, D1deriva, D2deriva, p1deriva, p2deriva,
+													D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2,
+													p1deriv2, p2deriv2, A, C, tau);
+										}
+										else {
+											return 0;
+										}
+									}
+									else {
+										if (c.geti() == a.geti() && c.getj() == a.getj() &&
+												c.getk() == 0) {//(ppis|ppi?)
+											switch (d.getL()) {
+												case 0:
+													return sppisppidiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+															c.p2, c.D1, c.D2, R, num, D1deriva, D2deriva, p1deriva,
+															p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2,
+															D2deriv2, p1deriv2, p2deriv2, A, C, tau);
+												case 1:
+													if (d.getk() == 1) {
+														return sppippipzdiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0,
+																c.p1, c.p2, c.D1, c.D2, R, num, D1deriva, D2deriva,
+																p1deriva, p2deriva, D1derivb, D2derivb, p1derivb,
+																p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, C,
+																tau);
+													}
+													else {
+														return 0;
+													}
+												default:
+													return 0;
+											}
+										}
+										else {
+											return 0;
+										}
+									}
+								default:
+									System.err.println("oh no");
+									return 0;
+							}
+						case 1:
+							if (b.getk() == 1) {//(ppipz|??)
+								switch (c.getL()) {
+									case 0://(ppipz|s?)
+										if (d.geti() == a.geti() && d.getj() == a.getj() &&
+												d.getk() == 0) {//(ppipz|sppi)
+											return ppipzsppidiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1, c.p2,
+													c.D1, c.D2, R, num, D1deriva, D2deriva, p1deriva, p2deriva,
+													D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2,
+													p1deriv2, p2deriv2, A, C, tau);
+										}
+										else {
+											return 0;
+										}
+									case 1:
+										if (c.getk() == 1) {
+											if (d.geti() == a.geti() && d.getj() == a.getj() &&
+													d.getk() == 0) {//(ppipz|pzppi)
+												return ppipzppipzdiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+														c.p2, c.D1, c.D2, R, num, D1deriva, D2deriva, p1deriva,
+														p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2,
+														D2deriv2, p1deriv2, p2deriv2, A, C, tau);
+											}
+											else {
+												return 0;
+											}
+										}
+										else {
+											if (c.geti() == a.geti() && c.getj() == a.getj() &&
+													c.getk() == 0) {//(ppipz|ppi?)
+												switch (d.getL()) {
+													case 0:
+														return ppipzsppidiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0,
+																c.p1, c.p2, c.D1, c.D2, R, num, D1deriva, D2deriva,
+																p1deriva, p2deriva, D1derivb, D2derivb, p1derivb,
+																p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, C,
+																tau);
+													case 1:
+														if (d.getk() == 1) {
+															return ppipzppipzdiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2,
+																	c.p0, c.p1, c.p2, c.D1, c.D2, R, num, D1deriva,
+																	D2deriva, p1deriva, p2deriva, D1derivb, D2derivb,
+																	p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2,
+																	p2deriv2, A, C, tau);
+														}
+														else {
+															return 0;
+														}
+													default:
+														return 0;
+												}
+											}
+											else {
+												return 0;
+											}
+										}
+									default:
+										System.err.println("oh no");
+										return 0;
+								}
+
+							}
+							else {
+
+								switch (c.getL()) {
+									case 0://(ppippi|s?)
+										switch (d.getL()) {
+											case 0://(ppippi|ss)
+												if (a.geti() == b.geti() && a.getj() == b.getj()) {
+													return ppippissdiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+															c.p2, c.D1, c.D2, R, num, D1deriva, D2deriva, p1deriva,
+															p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2,
+															D2deriv2, p1deriv2, p2deriv2, A, C, tau);
+												}
+												else {
+													return 0;
+												}
+											case 1:
+												if (d.getk() == 1 && a.geti() == b.geti() && a.getj() == b.getj()) {
+													return ppippispzdiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+															c.p2, c.D1, c.D2, R, num, D1deriva, D2deriva, p1deriva,
+															p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2,
+															D2deriv2, p1deriv2, p2deriv2, A, C, tau);
+												}
+												else {
+													return 0;
+												}
+										}
+
+									case 1:
+										if (c.getk() == 1) {
+											switch (d.getL()) {
+												case 0://(ppippi|pzs)
+													if (a.geti() == b.geti() && a.getj() == b.getj()) {
+														return ppippispzdiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0,
+																c.p1, c.p2, c.D1, c.D2, R, num, D1deriva, D2deriva,
+																p1deriva, p2deriva, D1derivb, D2derivb, p1derivb,
+																p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, C,
+																tau);
+													}
+													else {
+														return 0;
+													}
+
+												case 1:
+													if (d.getk() == 1 && a.geti() == b.geti() &&
+															a.getj() == b.getj()) {//(ppippi|pzpz)
+														return ppippipzpzdiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0,
+																c.p1, c.p2, c.D1, c.D2, R, num, D1deriva, D2deriva,
+																p1deriva, p2deriva, D1derivb, D2derivb, p1derivb,
+																p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, C,
+																tau);
+													}
+													else {
+														return 0;
+													}
+											}
+										}
+										else {
+											if (a.geti() == b.geti() && a.getj() == b.getj()) {//(pxpx|??) or (pypy|??)
+
+												if (c.getL() == d.getL() && c.geti() == d.geti() &&
+														c.getj() == d.getj() && c.getk() == 0) {
+													if (a.geti() == c.geti()) {
+														return ppippippippidiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0,
+																c.p1, c.p2, c.D1, c.D2, R, num, D1deriva, D2deriva,
+																p1deriva, p2deriva, D1derivb, D2derivb, p1derivb,
+																p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, C,
+																tau);
+													}
+													else {
+														return pxpxpypydiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0,
+																c.p1, c.p2, c.D1, c.D2, R, num, D1deriva, D2deriva,
+																p1deriva, p2deriva, D1derivb, D2derivb, p1derivb,
+																p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, C,
+																tau);
+													}
+												}
+												else {
+													return 0;
+												}
+
+											}
+											else {//(pxpy|??) or (pypx|??)
+												if (c.getL() == d.getL() && c.geti() != d.geti() &&
+														c.getj() != d.getj() && c.getk() == 0) {
+													return pxpypxpydiagp2gd(a.p0, a.p1, a.p2, a.D1, a.D2, c.p0, c.p1,
+															c.p2, c.D1, c.D2, R, num, D1deriva, D2deriva, p1deriva,
+															p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2,
+															D2deriv2, p1deriv2, p2deriv2, A, C, tau);
 												}
 											}
 										}

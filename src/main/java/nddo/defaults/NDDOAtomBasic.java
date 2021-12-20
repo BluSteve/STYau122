@@ -139,6 +139,12 @@ public abstract class NDDOAtomBasic implements NDDOAtom<NDDOAtomBasic, NDDO6G> {
 
 	}
 
+	@Override
+	public double Vp2gd(NDDO6G a, NDDO6G b, int num1, int type1, int num2, int type2, int tau) {
+		return -this.atomProperties.getQ() * State.nom.Gp2gd(a, b, this.s(), this.s(), num1, type1, num2, type2, tau);
+
+	}
+
 	protected double findp0() {
 		return Constants.eV / (2 * np.getGss());
 	}

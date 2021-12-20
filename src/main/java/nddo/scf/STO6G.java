@@ -1,5 +1,6 @@
 package nddo.scf;
 
+import nddo.defaults.NDDO6G;
 import nddo.structs.OrbitalProperties;
 
 public class STO6G extends LCGTO {
@@ -153,8 +154,8 @@ public class STO6G extends LCGTO {
 		for (int i = 0; i < X1.getn(); i++) {
 			for (int j = 0; j < X2.getn(); j++) {
 				Sderiv += X1.gaussExponents[i] * X2.gaussExponents[j] * 4 / (X1.zeta * X2.zeta) *
-								X1.getCoeffArray()[i] * X2.getCoeffArray()[j] *
-								GTO.Salphacrossp2d(X1.getGaussArray()[i], X2.getGaussArray()[j]);
+						X1.getCoeffArray()[i] * X2.getCoeffArray()[j] *
+						GTO.Salphacrossp2d(X1.getGaussArray()[i], X2.getGaussArray()[j]);
 			}
 		}
 
@@ -225,5 +226,99 @@ public class STO6G extends LCGTO {
 		}
 
 		return Sderiv * a.getN() * b.getN();
+	}
+
+	private static double Scrossp2gd(STO6G X1, STO6G X2, int tau) {
+		double Sderiv = 0;
+
+		for (int i = 0; i < X1.getn(); i++) {
+			for (int j = 0; j < X2.getn(); j++) {
+				Sderiv +=
+						X1.gaussExponents[i] * X2.gaussExponents[j] * 4 / (X1.zeta * X2.zeta) *
+								X1.getCoeffArray()[i] * X2.getCoeffArray()[j] *
+								GTO.Salphacrossp2gd(X1.getGaussArray()[i], X2.getGaussArray()[j], tau);
+			}
+		}
+
+		return Sderiv * X1.getN() * X2.getN();
+	}
+
+	private static double Sdiagp2gd(STO6G X1, STO6G X2, int type, int tau) {
+		double Sderiv = 0;
+
+		for (int i = 0; i < X1.getn(); i++) {
+			for (int j = 0; j < X2.getn(); j++) {
+
+				switch (type) {
+					case 0:
+						Sderiv += X1.gaussExponents[i] * X1.gaussExponents[i] * 4 / (X1.zeta * X1.zeta) *
+								X1.getCoeffArray()[i] * X2.getCoeffArray()[j] *
+								GTO.Salphadiagp2gd(X1.getGaussArray()[i], X2.getGaussArray()[j], 0, tau);
+						Sderiv += 2 * X1.gaussExponents[i] / (X1.zeta * X1.zeta) * X1.getCoeffArray()[i] *
+								X2.getCoeffArray()[j] *
+								GTO.Salphapgd(X1.getGaussArray()[i], X2.getGaussArray()[j], 0, tau);
+
+						break;
+					case 1:
+						Sderiv += X2.gaussExponents[j] * X2.gaussExponents[j] * 4 / (X2.zeta * X2.zeta) *
+								X1.getCoeffArray()[i] * X2.getCoeffArray()[j] *
+								GTO.Salphadiagp2gd(X1.getGaussArray()[i], X2.getGaussArray()[j], 1, tau);
+						Sderiv += 2 * X2.gaussExponents[j] / (X2.zeta * X2.zeta) * X1.getCoeffArray()[i] *
+								X2.getCoeffArray()[j] *
+								GTO.Salphapgd(X1.getGaussArray()[i], X2.getGaussArray()[j], 1, tau);
+
+						break;
+					case 2:
+						Sderiv += X1.gaussExponents[i] * X1.gaussExponents[i] * 4 / (X1.zeta * X1.zeta) *
+								X1.getCoeffArray()[i] * X2.getCoeffArray()[j] *
+								GTO.Salphadiagp2gd(X1.getGaussArray()[i], X2.getGaussArray()[j], 0, tau);
+						Sderiv += 2 * X1.gaussExponents[i] / (X1.zeta * X1.zeta) * X1.getCoeffArray()[i] *
+								X2.getCoeffArray()[j] *
+								GTO.Salphapgd(X1.getGaussArray()[i], X2.getGaussArray()[j], 0, tau);
+						Sderiv += X2.gaussExponents[j] * X2.gaussExponents[j] * 4 / (X2.zeta * X2.zeta) *
+								X1.getCoeffArray()[i] * X2.getCoeffArray()[j] *
+								GTO.Salphadiagp2gd(X1.getGaussArray()[i], X2.getGaussArray()[j], 1, tau);
+						Sderiv += 2 * X2.gaussExponents[j] / (X2.zeta * X2.zeta) * X1.getCoeffArray()[i] *
+								X2.getCoeffArray()[j] *
+								GTO.Salphapgd(X1.getGaussArray()[i], X2.getGaussArray()[j], 1, tau);
+						Sderiv += 2 * X1.gaussExponents[i] * X2.gaussExponents[j] * 4 / (X1.zeta * X2.zeta) *
+								X1.getCoeffArray()[i] * X2.getCoeffArray()[j] *
+								GTO.Salphacrossp2gd(X1.getGaussArray()[i], X2.getGaussArray()[j], tau);
+
+
+				}
+			}
+
+		}
+
+		return Sderiv * X1.getN() * X2.getN();
+	}
+
+	public static double Sp2gd(NDDO6G a, NDDO6G b, int num1, int type1, int num2, int type2, int tau) {
+		double returnval = 0;
+
+		if (num1 != -1 && num2 != -1) {
+			int hasA1 = a.getL() == type1 && num1 != 1 ? 1 : 0;
+			int hasB1 = b.getL() == type1 && num1 != 0 ? 1 : 0;
+
+			int hasA2 = a.getL() == type2 && num2 != 1 ? 1 : 0;
+			int hasB2 = b.getL() == type2 && num2 != 0 ? 1 : 0;
+
+
+			if (num1 == num2 && type1 == type2 && hasA1 + hasB1 > 0) {
+				int alltogether = hasA1 + (hasB1 << 1) - 1;
+
+				returnval = STO6G.Sdiagp2gd(a, b, alltogether, tau);
+			}
+
+			else if (hasA1 + hasB1 > 0 && hasA2 + hasB2 > 0) {
+
+				if (((hasA1 ^ hasB1) & (hasA2 ^ hasB2)) == 1) {
+					returnval = STO6G.Scrossp2gd(a, b, tau);
+				}
+			}
+		}
+
+		return returnval;
 	}
 }

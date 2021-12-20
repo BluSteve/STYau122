@@ -8,8 +8,8 @@ import java.util.Arrays;
 this is the GTO class, and all the relevant GTO integral routines are implemented here. The GTO object represents a
 GTO of the form (x-coordinates[0])^i (y-coordinates[1])^j (z-coordinates[2])^k exp(-exponent * r^2)*/
 public class GTO extends Orbital {
-	private final double N;
-	private final double exponent; /*radial exponent*/
+	public final double N;
+	public final double exponent; /*radial exponent*/
 
 	public GTO(OrbitalProperties op, double[] coordinates, double exponent) {
 		super(op, coordinates);
@@ -482,6 +482,584 @@ public class GTO extends Orbital {
 		return 0;
 	}
 
+	public static double Salphacrossp2gd(GTO a, GTO b, int tau) {
+		switch (tau) {
+			case 0:
+				return a.Nalphapd() * b.Nalphapd()
+						* Igd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+						+ a.getN() * b.Nalphapd()
+						* Ialphapgd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+						+ a.getN() * b.Nalphapd()
+						* Igd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* Ialphapd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+						+ a.getN() * b.Nalphapd()
+						* Igd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* Ialphapd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+						- a.Nalphapd() * b.getN()
+						* Ialphapgd(b.i, a.i, b.exponent, a.exponent, a.coordinates[0] - b.coordinates[0])
+						* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+						+ a.Nalphapd() * b.getN()
+						* Igd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* Ialphapd(b.j, a.j, b.exponent, a.exponent, a.coordinates[1] - b.coordinates[1])
+						* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+						+ a.Nalphapd() * b.getN()
+						* Igd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* Ialphapd(b.k, a.k, b.exponent, a.exponent, a.coordinates[2] - b.coordinates[2])
+
+						+ a.getN() * b.getN()
+						* Ialphapgd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* Ialphapd(b.j, a.j, b.exponent, a.exponent, a.coordinates[1] - b.coordinates[1])
+						* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+						+ a.getN() * b.getN()
+						* Ialphapgd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* Ialphapd(b.k, a.k, b.exponent, a.exponent, a.coordinates[2] - b.coordinates[2])
+
+						- a.getN() * b.getN()
+						* Ialphapgd(b.i, a.i, b.exponent, a.exponent, a.coordinates[0] - b.coordinates[0])
+						* Ialphapd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+						+ a.getN() * b.getN()
+						* Igd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* Ialphapd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* Ialphapd(b.k, a.k, b.exponent, a.exponent, a.coordinates[2] - b.coordinates[2])
+
+						- a.getN() * b.getN()
+						* Ialphapgd(b.i, a.i, b.exponent, a.exponent, a.coordinates[0] - b.coordinates[0])
+						* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* Ialphapd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+						+ a.getN() * b.getN()
+						* Igd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* Ialphapd(b.j, a.j, b.exponent, a.exponent, a.coordinates[1] - b.coordinates[1])
+						* Ialphapd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+						+ a.getN() * b.getN()
+						* Ialphacrossp2gd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+						+ a.getN() * b.getN()
+						* Igd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* Ialphacrossp2d(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+						+ a.getN() * b.getN()
+						* Igd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* Ialphacrossp2d(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2]);
+
+			case 1:
+				return a.Nalphapd() * b.Nalphapd()
+						* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* Igd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+						+ a.getN() * b.Nalphapd()
+						* Ialphapd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* Igd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+						+ a.getN() * b.Nalphapd()
+						* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* Ialphapgd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+						+ a.getN() * b.Nalphapd()
+						* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* Igd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* Ialphapd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+						+ a.Nalphapd() * b.getN()
+						* Ialphapd(b.i, a.i, b.exponent, a.exponent, a.coordinates[0] - b.coordinates[0])
+						* Igd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+						- a.Nalphapd() * b.getN()
+						* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* Ialphapgd(b.j, a.j, b.exponent, a.exponent, a.coordinates[1] - b.coordinates[1])
+						* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+						+ a.Nalphapd() * b.getN()
+						* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* Igd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* Ialphapd(b.k, a.k, b.exponent, a.exponent, a.coordinates[2] - b.coordinates[2])
+
+						- a.getN() * b.getN()
+						* Ialphapd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* Ialphapgd(b.j, a.j, b.exponent, a.exponent, a.coordinates[1] - b.coordinates[1])
+						* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+						+ a.getN() * b.getN()
+						* Ialphapd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* Igd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* Ialphapd(b.k, a.k, b.exponent, a.exponent, a.coordinates[2] - b.coordinates[2])
+
+						+ a.getN() * b.getN()
+						* Ialphapd(b.i, a.i, b.exponent, a.exponent, a.coordinates[0] - b.coordinates[0])
+						* Ialphapgd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+						+ a.getN() * b.getN()
+						* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* Ialphapgd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* Ialphapd(b.k, a.k, b.exponent, a.exponent, a.coordinates[2] - b.coordinates[2])
+
+						+ a.getN() * b.getN()
+						* Ialphapd(b.i, a.i, b.exponent, a.exponent, a.coordinates[0] - b.coordinates[0])
+						* Igd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* Ialphapd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+						- a.getN() * b.getN()
+						* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* Ialphapgd(b.j, a.j, b.exponent, a.exponent, a.coordinates[1] - b.coordinates[1])
+						* Ialphapd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+						+ a.getN() * b.getN()
+						* Ialphacrossp2d(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* Igd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+						+ a.getN() * b.getN()
+						* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* Ialphacrossp2gd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+						+ a.getN() * b.getN()
+						* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* Igd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* Ialphacrossp2d(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2]);
+
+			case 2:
+				return a.Nalphapd() * b.Nalphapd()
+						* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* Igd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+						+ a.getN() * b.Nalphapd()
+						* Ialphapd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* Igd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+						+ a.getN() * b.Nalphapd()
+						* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* Ialphapd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* Igd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+						+ a.getN() * b.Nalphapd()
+						* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* Ialphapgd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+						+ a.Nalphapd() * b.getN()
+						* Ialphapd(b.i, a.i, b.exponent, a.exponent, a.coordinates[0] - b.coordinates[0])
+						* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* Igd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+						+ a.Nalphapd() * b.getN()
+						* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* Ialphapd(b.j, a.j, b.exponent, a.exponent, a.coordinates[1] - b.coordinates[1])
+						* Igd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+						- a.Nalphapd() * b.getN()
+						* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* Ialphapgd(b.k, a.k, b.exponent, a.exponent, a.coordinates[2] - b.coordinates[2])
+
+						+ a.getN() * b.getN()
+						* Ialphapd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* Ialphapd(b.j, a.j, b.exponent, a.exponent, a.coordinates[1] - b.coordinates[1])
+						* Igd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+						- a.getN() * b.getN()
+						* Ialphapd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* Ialphapgd(b.k, a.k, b.exponent, a.exponent, a.coordinates[2] - b.coordinates[2])
+
+						+ a.getN() * b.getN()
+						* Ialphapd(b.i, a.i, b.exponent, a.exponent, a.coordinates[0] - b.coordinates[0])
+						* Ialphapd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* Igd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+						- a.getN() * b.getN()
+						* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* Ialphapd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* Ialphapgd(b.k, a.k, b.exponent, a.exponent, a.coordinates[2] - b.coordinates[2])
+
+						+ a.getN() * b.getN()
+						* Ialphapd(b.i, a.i, b.exponent, a.exponent, a.coordinates[0] - b.coordinates[0])
+						* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* Ialphapgd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+						+ a.getN() * b.getN()
+						* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* Ialphapd(b.j, a.j, b.exponent, a.exponent, a.coordinates[1] - b.coordinates[1])
+						* Ialphapgd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+						+ a.getN() * b.getN()
+						* Ialphacrossp2d(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* Igd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+						+ a.getN() * b.getN()
+						* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* Ialphacrossp2d(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* Igd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+						+ a.getN() * b.getN()
+						* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+						* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+						* Ialphacrossp2gd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2]);
+		}
+
+		return 0;
+	}
+
+	public static double Salphadiagp2gd(GTO a, GTO b, int type, int tau) {
+		switch (tau) {
+			case 0:
+				switch (type) {
+					case 0:
+						return a.Nalphap2d() * b.getN()
+								* Igd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								+ 2 * a.Nalphapd() * b.getN()
+								* Ialphapgd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								+ 2 * a.Nalphapd() * b.getN()
+								* Igd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* Ialphapd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								+ 2 * a.Nalphapd() * b.getN()
+								* Igd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* Ialphapd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								+ 2 * a.getN() * b.getN()
+								* Ialphapgd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* Ialphapd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								+ 2 * a.getN() * b.getN()
+								* Ialphapgd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* Ialphapd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								+ 2 * a.getN() * b.getN()
+								* Igd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* Ialphapd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* Ialphapd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+
+								+ a.getN() * b.getN()
+								* Ialphadiagp2gd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								+ a.getN() * b.getN()
+								* Igd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* Ialphadiagp2d(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								+ a.getN() * b.getN()
+								* Igd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* Ialphadiagp2d(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2]);
+
+					case 1:
+						return a.getN() * b.Nalphap2d()
+								* Igd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								- 2 * a.getN() * b.Nalphapd()
+								* Ialphapgd(b.i, a.i, b.exponent, a.exponent, a.coordinates[0] - b.coordinates[0])
+								* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								+ 2 * a.getN() * b.Nalphapd()
+								* Igd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* Ialphapd(b.j, a.j, b.exponent, a.exponent, a.coordinates[1] - b.coordinates[1])
+								* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								+ 2 * a.getN() * b.Nalphapd()
+								* Igd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* Ialphapd(b.k, a.k, b.exponent, a.exponent, a.coordinates[2] - b.coordinates[2])
+
+								- 2 * a.getN() * b.getN()
+								* Ialphapgd(b.i, a.i, b.exponent, a.exponent, a.coordinates[0] - b.coordinates[0])
+								* Ialphapd(b.j, a.j, b.exponent, a.exponent, a.coordinates[1] - b.coordinates[1])
+								* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								- 2 * a.getN() * b.getN()
+								* Ialphapgd(b.i, a.i, b.exponent, a.exponent, a.coordinates[0] - b.coordinates[0])
+								* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* Ialphapd(b.k, a.k, b.exponent, a.exponent, a.coordinates[2] - b.coordinates[2])
+
+								+ 2 * a.getN() * b.getN()
+								* Igd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* Ialphapd(b.j, a.j, b.exponent, a.exponent, a.coordinates[1] - b.coordinates[1])
+								* Ialphapd(b.k, a.k, b.exponent, a.exponent, a.coordinates[2] - b.coordinates[2])
+
+
+								- a.getN() * b.getN()
+								* Ialphadiagp2gd(b.i, a.i, b.exponent, a.exponent, a.coordinates[0] - b.coordinates[0])
+								* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								+ a.getN() * b.getN()
+								* Igd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* Ialphadiagp2d(b.j, a.j, b.exponent, a.exponent, a.coordinates[1] - b.coordinates[1])
+								* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								+ a.getN() * b.getN()
+								* Igd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* Ialphadiagp2d(b.k, a.k, b.exponent, a.exponent, a.coordinates[2] - b.coordinates[2]);
+				}
+
+			case 1:
+				switch (type) {
+					case 0:
+						return a.Nalphap2d() * b.getN()
+								* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* Igd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								+ 2 * a.Nalphapd() * b.getN()
+								* Ialphapd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* Igd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								+ 2 * a.Nalphapd() * b.getN()
+								* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* Ialphapgd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								+ 2 * a.Nalphapd() * b.getN()
+								* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* Igd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* Ialphapd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								+ 2 * a.getN() * b.getN()
+								* Ialphapd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* Ialphapgd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								+ 2 * a.getN() * b.getN()
+								* Ialphapd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* Igd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* Ialphapd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								+ 2 * a.getN() * b.getN()
+								* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* Ialphapgd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* Ialphapd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+
+								+ a.getN() * b.getN()
+								* Ialphadiagp2d(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* Igd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								+ a.getN() * b.getN()
+								* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* Ialphadiagp2gd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								+ a.getN() * b.getN()
+								* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* Igd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* Ialphadiagp2d(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2]);
+
+					case 1:
+						return a.getN() * b.Nalphap2d()
+								* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* Igd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								+ 2 * a.getN() * b.Nalphapd()
+								* Ialphapd(b.i, a.i, b.exponent, a.exponent, a.coordinates[0] - b.coordinates[0])
+								* Igd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								- 2 * a.getN() * b.Nalphapd()
+								* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* Ialphapgd(b.j, a.j, b.exponent, a.exponent, a.coordinates[1] - b.coordinates[1])
+								* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								+ 2 * a.getN() * b.Nalphapd()
+								* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* Igd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* Ialphapd(b.k, a.k, b.exponent, a.exponent, a.coordinates[2] - b.coordinates[2])
+
+								- 2 * a.getN() * b.getN()
+								* Ialphapd(b.i, a.i, b.exponent, a.exponent, a.coordinates[0] - b.coordinates[0])
+								* Ialphapgd(b.j, a.j, b.exponent, a.exponent, a.coordinates[1] - b.coordinates[1])
+								* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								+ 2 * a.getN() * b.getN()
+								* Ialphapd(b.i, a.i, b.exponent, a.exponent, a.coordinates[0] - b.coordinates[0])
+								* Igd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* Ialphapd(b.k, a.k, b.exponent, a.exponent, a.coordinates[2] - b.coordinates[2])
+
+								- 2 * a.getN() * b.getN()
+								* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* Ialphapgd(b.j, a.j, b.exponent, a.exponent, a.coordinates[1] - b.coordinates[1])
+								* Ialphapd(b.k, a.k, b.exponent, a.exponent, a.coordinates[2] - b.coordinates[2])
+
+
+								+ a.getN() * b.getN()
+								* Ialphadiagp2d(b.i, a.i, b.exponent, a.exponent, a.coordinates[0] - b.coordinates[0])
+								* Igd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								- a.getN() * b.getN()
+								* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* Ialphadiagp2gd(b.j, a.j, b.exponent, a.exponent, a.coordinates[1] - b.coordinates[1])
+								* I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								+ a.getN() * b.getN()
+								* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* Igd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* Ialphadiagp2d(b.k, a.k, b.exponent, a.exponent, a.coordinates[2] - b.coordinates[2]);
+				}
+
+			case 2:
+				switch (type) {
+					case 0:
+						return a.Nalphap2d() * b.getN()
+								* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* Igd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								+ 2 * a.Nalphapd() * b.getN()
+								* Ialphapd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* Igd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								+ 2 * a.Nalphapd() * b.getN()
+								* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* Ialphapd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* Igd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								+ 2 * a.Nalphapd() * b.getN()
+								* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* Ialphapgd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								+ 2 * a.getN() * b.getN()
+								* Ialphapd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* Ialphapd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* Igd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								+ 2 * a.getN() * b.getN()
+								* Ialphapd(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* Ialphapgd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								+ 2 * a.getN() * b.getN()
+								* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* Ialphapd(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* Ialphapgd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+
+								+ a.getN() * b.getN()
+								* Ialphadiagp2d(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* Igd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								+ a.getN() * b.getN()
+								* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* Ialphadiagp2d(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* Igd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								+ a.getN() * b.getN()
+								* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* Ialphadiagp2gd(a.k, b.k, a.exponent, b.exponent,
+								b.coordinates[2] - a.coordinates[2]);
+
+					case 1:
+						return a.getN() * b.Nalphap2d()
+								* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* Igd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								+ 2 * a.getN() * b.Nalphapd()
+								* Ialphapd(b.i, a.i, b.exponent, a.exponent, a.coordinates[0] - b.coordinates[0])
+								* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* Igd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								+ 2 * a.getN() * b.Nalphapd()
+								* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* Ialphapd(b.j, a.j, b.exponent, a.exponent, a.coordinates[1] - b.coordinates[1])
+								* Igd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								- 2 * a.getN() * b.Nalphapd()
+								* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* Ialphapgd(b.k, a.k, b.exponent, a.exponent, a.coordinates[2] - b.coordinates[2])
+
+								+ 2 * a.getN() * b.getN()
+								* Ialphapd(b.i, a.i, b.exponent, a.exponent, a.coordinates[0] - b.coordinates[0])
+								* Ialphapd(b.j, a.j, b.exponent, a.exponent, a.coordinates[1] - b.coordinates[1])
+								* Igd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								- 2 * a.getN() * b.getN()
+								* Ialphapd(b.i, a.i, b.exponent, a.exponent, a.coordinates[0] - b.coordinates[0])
+								* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* Ialphapgd(b.k, a.k, b.exponent, a.exponent, a.coordinates[2] - b.coordinates[2])
+
+								- 2 * a.getN() * b.getN()
+								* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* Ialphapd(b.j, a.j, b.exponent, a.exponent, a.coordinates[1] - b.coordinates[1])
+								* Ialphapgd(b.k, a.k, b.exponent, a.exponent, a.coordinates[2] - b.coordinates[2])
+
+
+								+ a.getN() * b.getN()
+								* Ialphadiagp2d(b.i, a.i, b.exponent, a.exponent, a.coordinates[0] - b.coordinates[0])
+								* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* Igd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								+ a.getN() * b.getN()
+								* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* Ialphadiagp2d(b.j, a.j, b.exponent, a.exponent, a.coordinates[1] - b.coordinates[1])
+								* Igd(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2])
+
+								- a.getN() * b.getN()
+								* I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0])
+								* I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1])
+								* Ialphadiagp2gd(b.k, a.k, b.exponent, a.exponent,
+								a.coordinates[2] - b.coordinates[2]);
+				}
+		}
+
+		return 0;
+	}
+
 	private static double I(int l1, int l2, double a1, double a2, double R) {
 		double num = Math.sqrt(Math.PI / (a1 + a2)) * Math.exp(-a1 * a2 * R * R / (a1 + a2));
 		switch (l1) {
@@ -599,6 +1177,7 @@ public class GTO extends Orbital {
 
 		double derivnum2 = exp * Math.sqrt(Math.PI) * Math.pow(a1 + a2, -4.5) *
 				(Math.pow(R, 4) * Math.pow(a2, 4) + 3 * R * R * a2 * a2 * (a1 + a2) + 0.75 * (a1 + a2) * (a1 + a2));
+
 		switch (l1) {
 			case 0:
 				switch (l2) {
@@ -636,10 +1215,10 @@ public class GTO extends Orbital {
 		double num = sqrt * exp;
 
 		double derivnuma = -exp * R * R * (a2 / (a1 + a2) - a1 * a2 / ((a1 + a2) * (a1 + a2))) *
-						sqrt - exp * 0.5 * Math.sqrt(Math.PI) / Math.pow(a1 + a2, 1.5);
+				sqrt - exp * 0.5 * Math.sqrt(Math.PI) / Math.pow(a1 + a2, 1.5);
 
 		double derivnumb = -exp * R * R * (a1 / (a1 + a2) - a1 * a2 / ((a1 + a2) * (a1 + a2))) *
-						sqrt - exp * 0.5 * Math.sqrt(Math.PI) / Math.pow(a1 + a2, 1.5);
+				sqrt - exp * 0.5 * Math.sqrt(Math.PI) / Math.pow(a1 + a2, 1.5);
 
 		double derivnum2 =
 				exp * Math.sqrt(Math.PI) * Math.pow(a1 + a2, -4.5) * 0.25 *
@@ -682,14 +1261,17 @@ public class GTO extends Orbital {
 	}
 
 	private static double Ialphapgd(int l1, int l2, double a1, double a2, double R) {
-		double derivnumalpha = - Math.exp(-a1 * a2 * R * R / (a1 + a2)) * R * R * (a2 / (a1 + a2) - a1 * a2 /((a1 + a2) * (a1 + a2))) *Math.sqrt(Math.PI / (a1 + a2))
-				- Math.exp(-a1 * a2 * R * R / (a1 + a2)) * 0.5 * Math.sqrt(Math.PI) / Math.pow(a1 + a2, 1.5);
+		double derivnumalpha =
+				-Math.exp(-a1 * a2 * R * R / (a1 + a2)) * R * R * (a2 / (a1 + a2) - a1 * a2 / ((a1 + a2) * (a1 + a2))) *
+						Math.sqrt(Math.PI / (a1 + a2))
+						- Math.exp(-a1 * a2 * R * R / (a1 + a2)) * 0.5 * Math.sqrt(Math.PI) / Math.pow(a1 + a2, 1.5);
 
 		double num = Math.sqrt(Math.PI / (a1 + a2)) * Math.exp(-a1 * a2 * R * R / (a1 + a2));
 
 		double derivnum = num * 2 * a1 * a2 * R / (a1 + a2);
 
-		double derivnum2 = derivnumalpha * R * 2 * a1 * a2 / (a1 + a2) + 2 * (a2 / (a1 + a2) - a1 * a2 / ((a1 + a2) * (a1 + a2))) * R * num;
+		double derivnum2 = derivnumalpha * R * 2 * a1 * a2 / (a1 + a2) +
+				2 * (a2 / (a1 + a2) - a1 * a2 / ((a1 + a2) * (a1 + a2))) * R * num;
 
 		switch (l1) {
 			case 0:
@@ -697,17 +1279,159 @@ public class GTO extends Orbital {
 					case 0:
 						return derivnum2;
 					case 1:
-						return a1 / (a1 + a2) * (derivnumalpha - R * derivnum2) + a2 / ((a1 + a2) * (a1 + a2)) * (num - R * derivnum);
+						return a1 / (a1 + a2) * (derivnumalpha - R * derivnum2) +
+								a2 / ((a1 + a2) * (a1 + a2)) * (num - R * derivnum);
 				}
 			case 1:
 				switch (l2) {
 					case 0:
-						return a2 / (a1 + a2) * (R * derivnum2 - derivnumalpha) - a2 / ((a1 + a2) * (a1 + a2)) * (R * derivnum - num);
+						return a2 / (a1 + a2) * (R * derivnum2 - derivnumalpha) -
+								a2 / ((a1 + a2) * (a1 + a2)) * (R * derivnum - num);
 					case 1:
 						return (1 / (2 * (a1 + a2)) - a1 * a2 * R * R / ((a1 + a2) * (a1 + a2))) * derivnum2
 								+ derivnumalpha * 2 * a1 * a2 * R / ((a1 + a2) * (a1 + a2))
-								+ num * (2 * a2 * R / ((a1 + a2) * (a1 + a2)) - 4 * a1 * a2 * R / ((a1 + a2) * (a1 + a2) * (a1 + a2)))
-								+ derivnum * (2 * a1 * a2 * R * R / ((a1 + a2) * (a1 + a2) * (a1 +a2)) - a2 * R * R / ((a1 + a2) * (a1 + a2)) - 1 / (2 * (a1 + a2) * (a1 + a2)));
+								+ num * (2 * a2 * R / ((a1 + a2) * (a1 + a2)) -
+								4 * a1 * a2 * R / ((a1 + a2) * (a1 + a2) * (a1 + a2)))
+								+ derivnum * (2 * a1 * a2 * R * R / ((a1 + a2) * (a1 + a2) * (a1 + a2)) -
+								a2 * R * R / ((a1 + a2) * (a1 + a2)) - 1 / (2 * (a1 + a2) * (a1 + a2)));
+
+				}
+		}
+
+		return 0;
+	}
+
+	private static double Ialphacrossp2gd(int l1, int l2, double a1, double a2, double R) {
+		double derivnumalphaa =
+				-Math.exp(-a1 * a2 * R * R / (a1 + a2)) * R * R * (a2 / (a1 + a2) - a1 * a2 / ((a1 + a2) * (a1 + a2))) *
+						Math.sqrt(Math.PI / (a1 + a2))
+						- Math.exp(-a1 * a2 * R * R / (a1 + a2)) * 0.5 * Math.sqrt(Math.PI) / Math.pow(a1 + a2, 1.5);
+
+		double derivnumalphab =
+				-Math.exp(-a1 * a2 * R * R / (a1 + a2)) * R * R * (a1 / (a1 + a2) - a1 * a2 / ((a1 + a2) * (a1 + a2))) *
+						Math.sqrt(Math.PI / (a1 + a2))
+						- Math.exp(-a1 * a2 * R * R / (a1 + a2)) * 0.5 * Math.sqrt(Math.PI) / Math.pow(a1 + a2, 1.5);
+
+		double num = Math.sqrt(Math.PI / (a1 + a2)) * Math.exp(-a1 * a2 * R * R / (a1 + a2));
+
+		double derivnumgeom = num * 2 * a1 * a2 * R / (a1 + a2);
+
+		double derivnumalphageoma = derivnumalphaa * R * 2 * a1 * a2 / (a1 + a2) +
+				2 * (a2 / (a1 + a2) - a1 * a2 / ((a1 + a2) * (a1 + a2))) * R * num;
+
+		double derivnumalphageomb = derivnumalphab * R * 2 * a1 * a2 / (a1 + a2) +
+				2 * (a1 / (a1 + a2) - a1 * a2 / ((a1 + a2) * (a1 + a2))) * R * num;
+
+		double derivnumalpha2cross =
+				Math.exp(-a1 * a2 * R * R / (a1 + a2)) * Math.sqrt(Math.PI) * Math.pow(a1 + a2, -4.5) * 0.25 *
+						(4 * a1 * a1 * a2 * a2 * R * R * R * R +
+								2 * R * R * (a1 + a2) * (a1 * a1 + a2 * a2 - 4 * a1 * a2) + 3 * (a1 + a2) * (a1 + a2));
+
+		double derivnum3 = 0.25 * Math.pow(a1 + a2, -4) * derivnumgeom *
+				(4 * a1 * a1 * a2 * a2 * R * R * R * R + 2 * R * R * (a1 + a2) * (a1 * a1 + a2 * a2 - 4 * a1 * a2) +
+						3 * (a1 + a2) * (a1 + a2))
+				- num * 0.25 * Math.pow(a1 + a2, -4) *
+				(16 * a1 * a1 * a2 * a2 * R * R * R + 4 * R * (a1 + a2) * (a1 * a1 + a2 * a2 - 4 * a1 * a2));
+
+		switch (l1) {
+			case 0:
+				switch (l2) {
+					case 0:
+						return derivnum3;
+					case 1:
+						return (2 * a1 * Math.pow(a1 + a2, -3) - Math.pow(a1 + a2, -2)) * num +
+								(R * Math.pow(a1 + a2, -2) - 2 * a1 * R * Math.pow(a1 + a2, -3)) * derivnumgeom
+								+ (Math.pow(a1 + a2, -1) - a1 * Math.pow(a1 + a2, -2)) * derivnumalphab +
+								(a1 * R * Math.pow(a1 + a2, -2) - R * Math.pow(a1 + a2, -1)) * derivnumalphageomb
+								- a1 * Math.pow(a1 + a2, -2) * derivnumalphaa +
+								a1 * R * Math.pow(a1 + a2, -2) * derivnumalphageoma
+								+ a1 * Math.pow(a1 + a2, -1) * derivnumalpha2cross -
+								a1 * R * Math.pow(a1 + a2, -1) * derivnum3;
+				}
+			case 1:
+				switch (l2) {
+					case 0:
+						return (R / (a1 + a2) - a2 * R * Math.pow(a1 + a2, -2)) * derivnumalphageoma -
+								(1 / (a1 + a2) - a2 * Math.pow(a1 + a2, -2)) * derivnumalphaa
+								- a2 / (a1 + a2) * derivnumalpha2cross + a2 * R / (a1 + a2) * derivnum3
+								+ (2 * a2 * R * Math.pow(a1 + a2, -3) - R * Math.pow(a1 + a2, -2)) * derivnumgeom -
+								(2 * a2 * Math.pow(a1 + a2, -3) - Math.pow(a1 + a2, -2)) * num
+								+ a2 * Math.pow(a1 + a2, -2) * derivnumalphab -
+								a2 * R * Math.pow(a1 + a2, -2) * derivnumalphageomb;
+					case 1:
+						return (0.5 / (a1 + a2) - a1 * a2 * R * R * Math.pow(a1 + a2, -2)) * derivnum3 +
+								2 * a1 * a2 * R * Math.pow(a1 + a2, -2) * derivnumalpha2cross
+								+ derivnumalphaa *
+								(2 * a1 * R * Math.pow(a1 + a2, -2) - 4 * a1 * a2 * R * Math.pow(a1 + a2, -3)) +
+								derivnumalphageoma *
+										(2 * a1 * a2 * R * R * Math.pow(a1 + a2, -3) - 0.5 * Math.pow(a1 + a2, -2) -
+												a1 * R * R * Math.pow(a1 + a2, -2))
+								+ derivnumalphab *
+								(2 * a2 * R * Math.pow(a1 + a2, -2) - 4 * a1 * a2 * R * Math.pow(a1 + a2, -3)) +
+								derivnumalphageomb * (2 * a1 * a2 * R * R * Math.pow(a1 + a2, -3) -
+										a2 * R * R * Math.pow(a1 + a2, -2) - 0.5 * Math.pow(a1 + a2, -2))
+								+ derivnumgeom * ((a1 * a1 + a2 * a2 - 4 * a1 * a2) * R * R * Math.pow(a1 + a2, -4) +
+								Math.pow(a1 + a2, -3))
+								- 2 * (a1 * a1 + a2 * a2 - 4 * a1 * a2) * R * Math.pow(a1 + a2, -4) * num;
+
+				}
+		}
+
+		return 0;
+	}
+
+	private static double Ialphadiagp2gd(int l1, int l2, double a1, double a2, double R) {
+
+		double derivnumalpha =
+				-Math.exp(-a1 * a2 * R * R / (a1 + a2)) * R * R * (a2 / (a1 + a2) - a1 * a2 / ((a1 + a2) * (a1 + a2))) *
+						Math.sqrt(Math.PI / (a1 + a2))
+						- Math.exp(-a1 * a2 * R * R / (a1 + a2)) * 0.5 * Math.sqrt(Math.PI) / Math.pow(a1 + a2, 1.5);
+
+		double num = Math.sqrt(Math.PI / (a1 + a2)) * Math.exp(-a1 * a2 * R * R / (a1 + a2));
+
+		double derivnumgeom = num * 2 * a1 * a2 * R / (a1 + a2);
+
+		double derivnumalphageom = derivnumalpha * R * 2 * a1 * a2 / (a1 + a2) +
+				2 * (a2 / (a1 + a2) - a1 * a2 / ((a1 + a2) * (a1 + a2))) * R * num;
+
+		double derivnumalpha2diag =
+				Math.exp(-a1 * a2 * R * R / (a1 + a2)) * Math.sqrt(Math.PI) * Math.pow(a1 + a2, -4.5) *
+						(Math.pow(R, 4) * Math.pow(a2, 4) + 3 * R * R * a2 * a2 * (a1 + a2) +
+								0.75 * (a1 + a2) * (a1 + a2));
+
+		double derivnum3 = Math.pow(a1 + a2, -4) * derivnumgeom *
+				(a2 * a2 * a2 * a2 * R * R * R * R + 3 * R * R * a2 * a2 * (a1 + a2) + 0.75 * (a1 + a2) * (a1 + a2))
+				- num * Math.pow(a1 + a2, -4) * (4 * a2 * a2 * a2 * a2 * R * R * R + 6 * R * a2 * a2 * (a1 + a2));
+
+		switch (l1) {
+			case 0:
+				switch (l2) {
+					case 0:
+						return derivnum3;
+					case 1:
+						return 2 * a2 * R * Math.pow(a1 + a2, -3) * derivnumgeom - 2 * a2 * Math.pow(a1 + a2, -3) * num
+								+ 2 * a2 * Math.pow(a1 + a2, -2) * derivnumalpha -
+								2 * a2 * R * Math.pow(a1 + a2, -2) * derivnumalphageom
+								+ a1 / (a1 + a2) * derivnumalpha2diag - a1 * R / (a1 + a2) * derivnum3;
+				}
+			case 1:
+				switch (l2) {
+					case 0:
+						return 2 * a2 * R * Math.pow(a1 + a2, -3) * derivnumgeom - 2 * a2 * Math.pow(a1 + a2, -3) * num
+								+ 2 * a2 * Math.pow(a1 + a2, -2) * derivnumalpha -
+								2 * a2 * R * Math.pow(a1 + a2, -2) * derivnumalphageom
+								- a2 / (a1 + a2) * derivnumalpha2diag + a2 * R / (a1 + a2) * derivnum3;
+					case 1:
+						return (0.5 / (a1 + a2) - a1 * a2 * R * R * Math.pow(a1 + a2, -2)) * derivnum3 +
+								2 * a1 * a2 * R * Math.pow(a1 + a2, -2) * derivnumalpha2diag
+								+ 2 * derivnumalphageom *
+								(2 * a1 * a2 * R * R * Math.pow(a1 + a2, -3) - a2 * R * R * Math.pow(a1 + a2, -2) -
+										0.5 * Math.pow(a1 + a2, -2))
+								- 2 * derivnumalpha *
+								(4 * a1 * a2 * R * Math.pow(a1 + a2, -3) - 2 * a2 * R * Math.pow(a1 + a2, -2))
+								+ derivnumgeom *
+								((4 * a2 * a2 - 2 * a1 * a2) * R * R * Math.pow(a1 + a2, -4) + Math.pow(a1 + a2, -3))
+								- 2 * (4 * a2 * a2 - 2 * a1 * a2) * R * Math.pow(a1 + a2, -4) * num;
 
 				}
 		}
@@ -727,13 +1451,9 @@ public class GTO extends Orbital {
 				Math.sqrt(fact2(2 * i - 1) * fact2(2 * j - 1) * fact2(2 * k - 1));
 	}
 
-	public double getExponent() {
-		return exponent;
-	}
-
 	public double getN() {
 		return this.N;
-	}
+	} // todo remove getter
 
 	public boolean equals(Object b) {
 		if (b instanceof GTO) {

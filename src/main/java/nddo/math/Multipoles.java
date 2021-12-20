@@ -2730,4 +2730,1190 @@ public class Multipoles {
 						pxpxpypypgd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriv, D2deriv,
 								p1deriv, p2deriv, A, B, tau));
 	}
+
+	public static double qqcrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+									 double p12, double p22, double D12, double D22, double R, double D11deriv,
+									 double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+									 double D22deriv, double p12deriv, double p22deriv, double[] A, double[] B,
+									 int tau) {
+		return 0;
+	}
+
+	public static double quzcrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+									  double p12, double p22, double D12, double D22, double R, double D11deriv,
+									  double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+									  double D22deriv, double p12deriv, double p22deriv, double[] A, double[] B,
+									  int tau) {
+		return 0;
+	}
+
+	public static double qQpipicrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										 double p12, double p22, double D12, double D22, double R, double D11deriv,
+										 double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										 double D22deriv, double p12deriv, double p22deriv, double[] A, double[] B,
+										 int tau) {
+		return 0;
+	}
+
+	public static double qQzzcrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+									   double p12, double p22, double D12, double D22, double R, double D11deriv,
+									   double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+									   double D22deriv, double p12deriv, double p22deriv, double[] A, double[] B,
+									   int tau) {
+		return 0;
+	}
+
+	public static double f1crossp2gd(int a1, int a2, int b1, int b2, double Dn1, double Dm2, double pn1, double pm2,
+									 double R, double Dn1deriv, double Dm2deriv, double pn1deriv, double pm2deriv,
+									 double[] A, double[] B, int tau) {
+		double f1 = f1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R);
+		double k1 = R + a1 * Dn1 + a2 * Dm2;
+		double g11 = g1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dn1deriv, pn1deriv, 0);
+		double g12 = g1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dm2deriv, pm2deriv, 1);
+		return (B[tau] - A[tau]) / R *
+				(-3 * a1 * Dn1deriv * g12 * Math.pow(f1, 5) - 3 * a2 * Dm2deriv * g11 * Math.pow(f1, 5) -
+						3 * h1(a1, a2, b1, b2, Dn1deriv, Dm2deriv, pn1deriv, pm2deriv) * k1 * Math.pow(f1, 5) +
+						15 * g11 * g12 * k1 * Math.pow(f1, 7));
+	}
+
+	public static double upiupicrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										 double p12, double p22, double D12, double D22, double R, double D11deriv,
+										 double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										 double D22deriv, double p12deriv, double p22deriv, double[] A, double[] B,
+										 int tau) {
+		return 0.5 *
+				(+f1crossp2gd(0, 0, 1, -1, D11, D12, p11, p12, R, D11deriv, D12deriv, p11deriv, p12deriv, A, B, tau) -
+						f1crossp2gd(0, 0, 1, +1, D11, D12, p11, p12, R, D11deriv, D12deriv, p11deriv, p12deriv, A, B,
+								tau));
+	}
+
+	public static double uzuzcrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+									   double p12, double p22, double D12, double D22, double R, double D11deriv,
+									   double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+									   double D22deriv, double p12deriv, double p22deriv, double[] A, double[] B,
+									   int tau) {
+		return 0.25 *
+				(+f1crossp2gd(+1, -1, 0, 0, D11, D12, p11, p12, R, D11deriv, D12deriv, p11deriv, p12deriv, A, B, tau) +
+						f1crossp2gd(-1, +1, 0, 0, D11, D12, p11, p12, R, D11deriv, D12deriv, p11deriv, p12deriv, A, B,
+								tau) -
+						f1crossp2gd(-1, -1, 0, 0, D11, D12, p11, p12, R, D11deriv, D12deriv, p11deriv, p12deriv, A, B,
+								tau) -
+						f1crossp2gd(+1, +1, 0, 0, D11, D12, p11, p12, R, D11deriv, D12deriv, p11deriv, p12deriv, A, B,
+								tau));
+	}
+
+	public static double upiQpizcrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										  double p12, double p22, double D12, double D22, double R, double D11deriv,
+										  double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										  double D22deriv, double p12deriv, double p22deriv, double[] A, double[] B,
+										  int tau) {
+		return 0.25 *
+				(+f1crossp2gd(0, -1, +1, +1, D11, D22, p11, p22, R, D11deriv, D22deriv, p11deriv, p22deriv, A, B,
+						tau) -
+						f1crossp2gd(0, -1, +1, -1, D11, D22, p11, p22, R, D11deriv, D22deriv, p11deriv, p22deriv, A, B,
+								tau) +
+						f1crossp2gd(0, +1, +1, -1, D11, D22, p11, p22, R, D11deriv, D22deriv, p11deriv, p22deriv, A, B,
+								tau) -
+						f1crossp2gd(0, +1, +1, +1, D11, D22, p11, p22, R, D11deriv, D22deriv, p11deriv, p22deriv, A, B,
+								tau));
+	}
+
+	public static double uzQpipicrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										  double p12, double p22, double D12, double D22, double R, double D11deriv,
+										  double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										  double D22deriv, double p12deriv, double p22deriv, double[] A, double[] B,
+										  int tau) {
+		return 0.25 *
+				(-f1crossp2gd(+1, 0, 0, 2, D11, D22, p11, p22, R, D11deriv, D22deriv, p11deriv, p22deriv, A, B, tau) +
+						f1crossp2gd(-1, 0, 0, 2, D11, D22, p11, p22, R, D11deriv, D22deriv, p11deriv, p22deriv, A, B,
+								tau) +
+						f1crossp2gd(+1, 0, 0, 0, D11, D22, p11, p22, R, D11deriv, D22deriv, p11deriv, p22deriv, A, B,
+								tau) -
+						f1crossp2gd(-1, 0, 0, 0, D11, D22, p11, p22, R, D11deriv, D22deriv, p11deriv, p22deriv, A, B,
+								tau));
+	}
+
+	public static double uzQzzcrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										double p12, double p22, double D12, double D22, double R, double D11deriv,
+										double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										double D22deriv, double p12deriv, double p22deriv, double[] A, double[] B,
+										int tau) {
+		return 0.125 *
+				(-f1crossp2gd(+1, -2, 0, 0, D11, D22, p11, p22, R, D11deriv, D22deriv, p11deriv, p22deriv, A, B, tau) +
+						f1crossp2gd(-1, -2, 0, 0, D11, D22, p11, p22, R, D11deriv, D22deriv, p11deriv, p22deriv, A, B,
+								tau) -
+						f1crossp2gd(+1, +2, 0, 0, D11, D22, p11, p22, R, D11deriv, D22deriv, p11deriv, p22deriv, A, B,
+								tau) +
+						f1crossp2gd(-1, +2, 0, 0, D11, D22, p11, p22, R, D11deriv, D22deriv, p11deriv, p22deriv, A, B,
+								tau) + 2 *
+						f1crossp2gd(+1, 0, 0, 0, D11, D22, p11, p22, R, D11deriv, D22deriv, p11deriv, p22deriv, A, B,
+								tau) - 2 *
+						f1crossp2gd(-1, 0, 0, 0, D11, D22, p11, p22, R, D11deriv, D22deriv, p11deriv, p22deriv, A, B,
+								tau));
+	}
+
+	public static double QpipiQpipicrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+											 double p12, double p22, double D12, double D22, double R,
+											 double D11deriv,
+											 double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+											 double D22deriv, double p12deriv, double p22deriv, double[] A,
+											 double[] B,
+											 int tau) {
+		return 0.125 *
+				(+f1crossp2gd(0, 0, +2, -2, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv, A, B, tau) +
+						f1crossp2gd(0, 0, +2, +2, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv, A, B,
+								tau) - 2 *
+						f1crossp2gd(0, 0, +2, 0, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv, A, B,
+								tau) - 2 *
+						f1crossp2gd(0, 0, 0, +2, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv, A, B,
+								tau) + 2 *
+						f1crossp2gd(0, 0, 0, 0, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv, A, B,
+								tau));
+	}
+
+	public static double f2crossp2gd(int a1, int a2, int b1, int b2, double D21, double D22, double p21, double p22,
+									 double R, double D21deriv, double D22deriv, double p21deriv, double p22deriv,
+									 double[] A, double[] B, int tau) {
+		double f2 = f2(a1, a2, b1, b2, D21, D22, p21, p22, R);
+		double k2 = R + a1 * D21 + a2 * D22;
+		double g21 = g2(a1, a2, b1, b2, D21, D22, p21, p22, R, D21deriv, p21deriv, 0);
+		double g22 = g2(a1, a2, b1, b2, D21, D22, p21, p22, R, D22deriv, p22deriv, 1);
+		return (B[tau] - A[tau]) / R *
+				(-3 * a1 * D21deriv * g22 * Math.pow(f2, 5) - 3 * a2 * D22deriv * g21 * Math.pow(f2, 5) -
+						3 * h2(a1, a2, D21deriv, D22deriv, p21deriv, p22deriv) * k2 * Math.pow(f2, 5) +
+						15 * g21 * g22 * k2 * Math.pow(f2, 7));
+	}
+
+	public static double QxxQyycrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										 double p12, double p22, double D12, double D22, double R, double D11deriv,
+										 double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										 double D22deriv, double p12deriv, double p22deriv, double[] A, double[] B,
+										 int tau) {
+		return 0.25 *
+				(+f2crossp2gd(0, 0, 2, 2, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv, A, B, tau) -
+						f2crossp2gd(0, 0, 2, 0, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv, A, B,
+								tau) -
+						f2crossp2gd(0, 0, 0, 2, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv, A, B,
+								tau) +
+						f2crossp2gd(0, 0, 0, 0, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv, A, B,
+								tau));
+	}
+
+	public static double QpipiQzzcrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										   double p12, double p22, double D12, double D22, double R, double D11deriv,
+										   double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										   double D22deriv, double p12deriv, double p22deriv, double[] A, double[] B,
+										   int tau) {
+		return 0.125 *
+				(+f1crossp2gd(0, -2, +2, 0, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv, A, B, tau) +
+						f1crossp2gd(0, +2, +2, 0, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv, A, B,
+								tau) -
+						f1crossp2gd(0, -2, 0, 0, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv, A, B,
+								tau) -
+						f1crossp2gd(0, +2, 0, 0, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv, A, B,
+								tau) - 2 *
+						f1crossp2gd(0, 0, 2, 0, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv, A, B,
+								tau) + 2 *
+						f1crossp2gd(0, 0, 0, 0, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv, A, B,
+								tau));
+	}
+
+	public static double QzzQzzcrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										 double p12, double p22, double D12, double D22, double R, double D11deriv,
+										 double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										 double D22deriv, double p12deriv, double p22deriv, double[] A, double[] B,
+										 int tau) {
+		return 0.0625 *
+				(+f1crossp2gd(+2, -2, 0, 0, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv, A, B, tau) +
+						f1crossp2gd(+2, +2, 0, 0, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv, A, B,
+								tau) +
+						f1crossp2gd(-2, -2, 0, 0, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv, A, B,
+								tau) +
+						f1crossp2gd(-2, +2, 0, 0, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv, A, B,
+								tau) - 2 *
+						f1crossp2gd(+2, 0, 0, 0, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv, A, B,
+								tau) - 2 *
+						f1crossp2gd(-2, 0, 0, 0, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv, A, B,
+								tau) - 2 *
+						f1crossp2gd(0, +2, 0, 0, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv, A, B,
+								tau) - 2 *
+						f1crossp2gd(0, -2, 0, 0, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv, A, B,
+								tau) + 4 *
+						f1crossp2gd(0, 0, 0, 0, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv, A, B,
+								tau));
+	}
+
+	public static double QpizQpizcrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										   double p12, double p22, double D12, double D22, double R, double D11deriv,
+										   double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										   double D22deriv, double p12deriv, double p22deriv, double[] A, double[] B,
+										   int tau) {
+		return 0.125 * (+f1crossp2gd(+1, -1, +1, -1, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv, A,
+				B, tau) -
+				f1crossp2gd(+1, -1, +1, +1, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv, A, B, tau) -
+				f1crossp2gd(+1, +1, +1, -1, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv, A, B, tau) +
+				f1crossp2gd(+1, +1, +1, +1, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv, A, B, tau) -
+				f1crossp2gd(-1, -1, +1, -1, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv, A, B, tau) +
+				f1crossp2gd(-1, -1, +1, +1, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv, A, B, tau) +
+				f1crossp2gd(-1, +1, +1, -1, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv, A, B, tau) -
+				f1crossp2gd(-1, +1, +1, +1, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv, A, B, tau));
+	}
+
+	public static double sssscrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+									   double p12, double p22, double D12, double D22, double R, double D11deriv,
+									   double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+									   double D22deriv, double p12deriv, double p22deriv, double[] A, double[] B,
+									   int tau) {
+		return qqcrossp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv, p21deriv,
+				D12deriv, D22deriv, p12deriv, p22deriv, A, B, tau);
+	}
+
+	public static double ssppippicrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										   double p12, double p22, double D12, double D22, double R, double D11deriv,
+										   double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										   double D22deriv, double p12deriv, double p22deriv, double[] A, double[] B,
+										   int tau) {
+		return qqcrossp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv, p21deriv,
+				D12deriv, D22deriv, p12deriv, p22deriv, A, B, tau) +
+				qQpipicrossp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv,
+						p21deriv, D12deriv, D22deriv, p12deriv, p22deriv, A, B, tau);
+	}
+
+	public static double sspzpzcrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										 double p12, double p22, double D12, double D22, double R, double D11deriv,
+										 double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										 double D22deriv, double p12deriv, double p22deriv, double[] A, double[] B,
+										 int tau) {
+		return qqcrossp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv, p21deriv,
+				D12deriv, D22deriv, p12deriv, p22deriv, A, B, tau) +
+				qQzzcrossp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv,
+						p21deriv, D12deriv, D22deriv, p12deriv, p22deriv, A, B, tau);
+	}
+
+	public static double ppippisscrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										   double p12, double p22, double D12, double D22, double R, double D11deriv,
+										   double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										   double D22deriv, double p12deriv, double p22deriv, double[] A, double[] B,
+										   int tau) {
+		return qqcrossp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv, p21deriv,
+				D12deriv, D22deriv, p12deriv, p22deriv, A, B, tau) +
+				qQpipicrossp2gd(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, D12deriv, D22deriv, p12deriv,
+						p22deriv, D11deriv, D21deriv, p11deriv, p21deriv, A, B, tau);
+	}
+
+	public static double pzpzsscrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										 double p12, double p22, double D12, double D22, double R, double D11deriv,
+										 double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										 double D22deriv, double p12deriv, double p22deriv, double[] A, double[] B,
+										 int tau) {
+		return qqcrossp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv, p21deriv,
+				D12deriv, D22deriv, p12deriv, p22deriv, A, B, tau) +
+				qQzzcrossp2gd(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, D12deriv, D22deriv, p12deriv,
+						p22deriv, D11deriv, D21deriv, p11deriv, p21deriv, A, B, tau);
+	}
+
+	public static double ppippippippicrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+											   double p12, double p22, double D12, double D22, double R,
+											   double D11deriv, double D21deriv, double p11deriv, double p21deriv,
+											   double D12deriv, double D22deriv, double p12deriv, double p22deriv,
+											   double[] A, double[] B, int tau) {
+		return qqcrossp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv, p21deriv,
+				D12deriv, D22deriv, p12deriv, p22deriv, A, B, tau) +
+				qQpipicrossp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv,
+						p21deriv, D12deriv, D22deriv, p12deriv, p22deriv, A, B, tau) +
+				qQpipicrossp2gd(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, D12deriv, D22deriv, p12deriv,
+						p22deriv, D11deriv, D21deriv, p11deriv, p21deriv, A, B, tau) +
+				QpipiQpipicrossp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv,
+						p21deriv, D12deriv, D22deriv, p12deriv, p22deriv, A, B, tau);
+	}
+
+	public static double pxpxpypycrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										   double p12, double p22, double D12, double D22, double R, double D11deriv,
+										   double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										   double D22deriv, double p12deriv, double p22deriv, double[] A, double[] B,
+										   int tau) {
+		return qqcrossp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv, p21deriv,
+				D12deriv, D22deriv, p12deriv, p22deriv, A, B, tau) +
+				qQpipicrossp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv,
+						p21deriv, D12deriv, D22deriv, p12deriv, p22deriv, A, B, tau) +
+				qQpipicrossp2gd(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, D12deriv, D22deriv, p12deriv,
+						p22deriv, D11deriv, D21deriv, p11deriv, p21deriv, A, B, tau) +
+				QxxQyycrossp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv,
+						p21deriv, D12deriv, D22deriv, p12deriv, p22deriv, A, B, tau);
+	}
+
+	public static double ppippipzpzcrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+											 double p12, double p22, double D12, double D22, double R,
+											 double D11deriv,
+											 double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+											 double D22deriv, double p12deriv, double p22deriv, double[] A,
+											 double[] B,
+											 int tau) {
+		return qqcrossp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv, p21deriv,
+				D12deriv, D22deriv, p12deriv, p22deriv, A, B, tau) +
+				qQzzcrossp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv,
+						p21deriv, D12deriv, D22deriv, p12deriv, p22deriv, A, B, tau) +
+				qQpipicrossp2gd(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, D12deriv, D22deriv, p12deriv,
+						p22deriv, D11deriv, D21deriv, p11deriv, p21deriv, A, B, tau) +
+				QpipiQzzcrossp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv,
+						p21deriv, D12deriv, D22deriv, p12deriv, p22deriv, A, B, tau);
+	}
+
+	public static double pzpzppippicrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+											 double p12, double p22, double D12, double D22, double R,
+											 double D11deriv,
+											 double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+											 double D22deriv, double p12deriv, double p22deriv, double[] A,
+											 double[] B,
+											 int tau) {
+		return qqcrossp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv, p21deriv,
+				D12deriv, D22deriv, p12deriv, p22deriv, A, B, tau) +
+				qQpipicrossp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv,
+						p21deriv, D12deriv, D22deriv, p12deriv, p22deriv, A, B, tau) +
+				qQzzcrossp2gd(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, D12deriv, D22deriv, p12deriv,
+						p22deriv, D11deriv, D21deriv, p11deriv, p21deriv, A, B, tau) +
+				QpipiQzzcrossp2gd(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, D12deriv, D22deriv, p12deriv,
+						p22deriv, D11deriv, D21deriv, p11deriv, p21deriv, A, B, tau);
+	}
+
+	public static double pzpzpzpzcrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										   double p12, double p22, double D12, double D22, double R, double D11deriv,
+										   double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										   double D22deriv, double p12deriv, double p22deriv, double[] A, double[] B,
+										   int tau) {
+		return qqcrossp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv, p21deriv,
+				D12deriv, D22deriv, p12deriv, p22deriv, A, B, tau) +
+				qQzzcrossp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv,
+						p21deriv, D12deriv, D22deriv, p12deriv, p22deriv, A, B, tau) +
+				qQzzcrossp2gd(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, D12deriv, D22deriv, p12deriv,
+						p22deriv, D11deriv, D21deriv, p11deriv, p21deriv, A, B, tau) +
+				QzzQzzcrossp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv,
+						p21deriv, D12deriv, D22deriv, p12deriv, p22deriv, A, B, tau);
+	}
+
+	public static double spzsscrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										double p12, double p22, double D12, double D22, double R, double D11deriv,
+										double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										double D22deriv, double p12deriv, double p22deriv, double[] A, double[] B,
+										int tau) {
+		return -quzcrossp2gd(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, D12deriv, D22deriv, p12deriv,
+				p22deriv, D11deriv, D21deriv, p11deriv, p21deriv, A, B, tau);
+	}
+
+	public static double spzppippicrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+											double p12, double p22, double D12, double D22, double R, double D11deriv,
+											double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+											double D22deriv, double p12deriv, double p22deriv, double[] A, double[] B,
+											int tau) {
+		return -quzcrossp2gd(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, D12deriv, D22deriv, p12deriv,
+				p22deriv, D11deriv, D21deriv, p11deriv, p21deriv, A, B, tau) +
+				uzQpipicrossp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv,
+						p21deriv, D12deriv, D22deriv, p12deriv, p22deriv, A, B, tau);
+	}
+
+	public static double spzpzpzcrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										  double p12, double p22, double D12, double D22, double R, double D11deriv,
+										  double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										  double D22deriv, double p12deriv, double p22deriv, double[] A, double[] B,
+										  int tau) {
+		return -quzcrossp2gd(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, D12deriv, D22deriv, p12deriv,
+				p22deriv, D11deriv, D21deriv, p11deriv, p21deriv, A, B, tau) +
+				uzQzzcrossp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv,
+						p21deriv, D12deriv, D22deriv, p12deriv, p22deriv, A, B, tau);
+	}
+
+	public static double ssspzcrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										double p12, double p22, double D12, double D22, double R, double D11deriv,
+										double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										double D22deriv, double p12deriv, double p22deriv, double[] A, double[] B,
+										int tau) {
+		return quzcrossp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv,
+				p21deriv, D12deriv, D22deriv, p12deriv, p22deriv, A, B, tau);
+	}
+
+	public static double ppippispzcrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+											double p12, double p22, double D12, double D22, double R, double D11deriv,
+											double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+											double D22deriv, double p12deriv, double p22deriv, double[] A, double[] B,
+											int tau) {
+		return quzcrossp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv,
+				p21deriv, D12deriv, D22deriv, p12deriv, p22deriv, A, B, tau) -
+				uzQpipicrossp2gd(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, D12deriv, D22deriv, p12deriv,
+						p22deriv, D11deriv, D21deriv, p11deriv, p21deriv, A, B, tau);
+	}
+
+	public static double pzpzspzcrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										  double p12, double p22, double D12, double D22, double R, double D11deriv,
+										  double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										  double D22deriv, double p12deriv, double p22deriv, double[] A, double[] B,
+										  int tau) {
+		return quzcrossp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv,
+				p21deriv, D12deriv, D22deriv, p12deriv, p22deriv, A, B, tau) -
+				uzQzzcrossp2gd(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, D12deriv, D22deriv, p12deriv,
+						p22deriv, D11deriv, D21deriv, p11deriv, p21deriv, A, B, tau);
+	}
+
+	public static double sppisppicrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										   double p12, double p22, double D12, double D22, double R, double D11deriv,
+										   double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										   double D22deriv, double p12deriv, double p22deriv, double[] A, double[] B,
+										   int tau) {
+		return upiupicrossp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv,
+				p21deriv, D12deriv, D22deriv, p12deriv, p22deriv, A, B, tau);
+	}
+
+	public static double spzspzcrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										 double p12, double p22, double D12, double D22, double R, double D11deriv,
+										 double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										 double D22deriv, double p12deriv, double p22deriv, double[] A, double[] B,
+										 int tau) {
+		return uzuzcrossp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv,
+				p21deriv, D12deriv, D22deriv, p12deriv, p22deriv, A, B, tau);
+	}
+
+	public static double sppippipzcrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+											double p12, double p22, double D12, double D22, double R, double D11deriv,
+											double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+											double D22deriv, double p12deriv, double p22deriv, double[] A, double[] B,
+											int tau) {
+		return upiQpizcrossp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv,
+				p21deriv, D12deriv, D22deriv, p12deriv, p22deriv, A, B, tau);
+	}
+
+	public static double ppipzsppicrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+											double p12, double p22, double D12, double D22, double R, double D11deriv,
+											double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+											double D22deriv, double p12deriv, double p22deriv, double[] A, double[] B,
+											int tau) {
+		return -upiQpizcrossp2gd(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, D12deriv, D22deriv, p12deriv,
+				p22deriv, D11deriv, D21deriv, p11deriv, p21deriv, A, B, tau);
+	}
+
+	public static double ppipzppipzcrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+											 double p12, double p22, double D12, double D22, double R,
+											 double D11deriv,
+											 double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+											 double D22deriv, double p12deriv, double p22deriv, double[] A,
+											 double[] B,
+											 int tau) {
+		return QpizQpizcrossp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv,
+				p21deriv, D12deriv, D22deriv, p12deriv, p22deriv, A, B, tau);
+	}
+
+	public static double pxpypxpycrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										   double p12, double p22, double D12, double D22, double R, double D11deriv,
+										   double D21deriv, double p11deriv, double p21deriv, double D12deriv,
+										   double D22deriv, double p12deriv, double p22deriv, double[] A, double[] B,
+										   int tau) {
+		return 0.5 * (ppippippippicrossp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv,
+				p11deriv, p21deriv, D12deriv, D22deriv, p12deriv, p22deriv, A, B, tau) -
+				pxpxpypycrossp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, D11deriv, D21deriv, p11deriv,
+						p21deriv, D12deriv, D22deriv, p12deriv, p22deriv, A, B, tau));
+	}
+
+	public static double f0diagp2gdpartial(int a2, int b2, double Dn2, double p01, double pn2, double R,
+										   double Dn2deriva, double pn2deriva, double Dn2derivb, double pn2derivb,
+										   double Dn2deriv2, double pn2deriv2, double[] A, double[] B, int tau) {
+		double f0 = f0(a2, b2, Dn2, p01, pn2, R);
+		double h0 = h0(a2, b2, Dn2, p01, pn2, R, Dn2deriva, pn2deriva, Dn2derivb, pn2derivb, Dn2deriv2, pn2deriv2);
+		double g0a = g0(a2, b2, Dn2, p01, pn2, R, Dn2deriva, pn2deriva);
+		double g0b = g0(a2, b2, Dn2, p01, pn2, R, Dn2derivb, pn2derivb);
+		double k0 = R + a2 * Dn2;
+		return (B[tau] - A[tau]) / R * (a2 * Dn2deriv2 * Math.pow(f0, 3) - 3 * a2 * Dn2deriva * g0b * Math.pow(f0, 5) -
+				3 * a2 * Dn2derivb * g0a * Math.pow(f0, 5) - 3 * h0 * k0 * Math.pow(f0, 5) +
+				15 * g0a * g0b * k0 * Math.pow(f0, 7));
+	}
+
+	public static double f0diagp2gd(int a2, int b2, double Dn2, double p01, double pn2, double R, double Dn2deriva,
+									double pn2deriva, double Dn2derivb, double pn2derivb, double Dn2deriv2,
+									double pn2deriv2, int type, double[] A, double[] B, int tau) {
+		switch (type) {
+			case 0:
+				return 0;
+			case 1:
+			case 2:
+				return f0diagp2gdpartial(a2, b2, Dn2, p01, pn2, R, Dn2deriva, pn2deriva, Dn2derivb, pn2derivb,
+						Dn2deriv2, pn2deriv2, A, B, tau);
+		}
+		return 0;
+	}
+
+	public static double qqdiagp2gd(double p01, double p11, double p21, double D11, double D21, double p02, double p12,
+									double p22, double D12, double D22, double R, int num, double D1deriva,
+									double D2deriva, double p1deriva, double p2deriva, double D1derivb,
+									double D2derivb,
+									double p1derivb, double p2derivb, double D1deriv2, double D2deriv2,
+									double p1deriv2,
+									double p2deriv2, double[] A, double[] B, int tau) {
+		return 0;
+	}
+
+	public static double quzdiagp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+									 double p12,
+									 double p22, double D12, double D22, double R, int num, double D1deriva,
+									 double D2deriva, double p1deriva, double p2deriva, double D1derivb,
+									 double D2derivb, double p1derivb, double p2derivb, double D1deriv2,
+									 double D2deriv2, double p1deriv2, double p2deriv2, double[] A, double[] B,
+									 int tau) {
+		return 0.5 *
+				(+f0diagp2gd(+1, 0, D12, p01, p12, R, D1deriva, p1deriva, D1derivb, p1derivb, D1deriv2, p1deriv2, num,
+						A, B, tau) -
+						f0diagp2gd(-1, 0, D12, p01, p12, R, D1deriva, p1deriva, D1derivb, p1derivb, D1deriv2, p1deriv2,
+								num, A, B, tau));
+	}
+
+	public static double qQpipidiagp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										double p12, double p22, double D12, double D22, double R, int num,
+										double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2, double[] A,
+										double[] B, int tau) {
+		return 0.5 *
+				(+f0diagp2gd(0, 2, D22, p01, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num
+						, A, B, tau) -
+						f0diagp2gd(0, 0, D22, p01, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2,
+								num, A, B, tau));
+	}
+
+	public static double qQzzdiagp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+									  double p12, double p22, double D12, double D22, double R, int num,
+									  double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+									  double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+									  double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2, double[] A,
+									  double[] B, int tau) {
+		return 0.25 *
+				(+f0diagp2gd(+2, 0, D22, p01, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num,
+						A, B, tau) +
+						f0diagp2gd(-2, 0, D22, p01, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2,
+								num, A, B, tau) - 2 *
+						f0diagp2gd(0, 0, D22, p01, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2,
+								num, A, B, tau));
+	}
+
+	public static double f1diagp2gdpartial(int a1, int a2, int b1, int b2, double Dn1, double Dm2, double pn1,
+										   double pm2, double R, double Dxderiva, double pxderiva, double Dxderivb,
+										   double pxderivb, double Dxderiv2, double pxderiv2, int type, double[] A,
+										   double[] B, int tau) {
+		double f1 = f1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R);
+		double g1a = g1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiva, pxderiva, type);
+		double g1b = g1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderivb, pxderivb, type);
+		double h1 = h1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiva, pxderiva, Dxderivb, pxderivb, Dxderiv2,
+				pxderiv2, type);
+		double k1 = R + a1 * Dn1 + a2 * Dm2;
+		switch (type) {
+			case 0:
+				return (B[tau] - A[tau]) / R *
+						(a1 * Dxderiv2 * Math.pow(f1, 3) - 3 * a1 * Dxderiva * g1b * Math.pow(f1, 5) -
+								3 * a1 * Dxderivb * g1a * Math.pow(f1, 5) - 3 * h1 * k1 * Math.pow(f1, 5) +
+								15 * g1a * g1b * k1 * Math.pow(f1, 7));
+			case 1:
+				return (B[tau] - A[tau]) / R *
+						(a2 * Dxderiv2 * Math.pow(f1, 3) - 3 * a2 * Dxderiva * g1b * Math.pow(f1, 5) -
+								3 * a2 * Dxderivb * g1a * Math.pow(f1, 5) - 3 * h1 * k1 * Math.pow(f1, 5) +
+								15 * g1a * g1b * k1 * Math.pow(f1, 7));
+		}
+		return 0;
+	}
+
+	public static double f1diagp2gd(int a1, int a2, int b1, int b2, double Dn1, double Dm2, double pn1, double pm2,
+									double R, double Dxderiva, double pxderiva, double Dxderivb, double pxderivb,
+									double Dxderiv2, double pxderiv2, int type, double[] A, double[] B, int tau) {
+		switch (type) {
+			case 0:
+			case 1:
+				return f1diagp2gdpartial(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiva, pxderiva, Dxderivb, pxderivb,
+						Dxderiv2, pxderiv2, type, A, B, tau);
+			case 2:
+				return f1diagp2gdpartial(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiva, pxderiva, Dxderivb, pxderivb,
+						Dxderiv2, pxderiv2, 0, A, B, tau) +
+						f1diagp2gdpartial(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiva, pxderiva, Dxderivb,
+								pxderivb, Dxderiv2, pxderiv2, 1, A, B, tau) +
+						f1crossp2gd(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiva, Dxderivb, pxderiva, pxderivb, A
+								, B, tau) * 2;
+		}
+		return 0;
+	}
+
+	public static double upiupidiagp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										double p12, double p22, double D12, double D22, double R, int num,
+										double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2, double[] A,
+										double[] B, int tau) {
+		return 0.5 * (+f1diagp2gd(0, 0, 1, -1, D11, D12, p11, p12, R, D1deriva, p1deriva, D1derivb, p1derivb, D1deriv2,
+				p1deriv2, num, A, B, tau) -
+				f1diagp2gd(0, 0, 1, +1, D11, D12, p11, p12, R, D1deriva, p1deriva, D1derivb, p1derivb, D1deriv2,
+						p1deriv2, num, A, B, tau));
+	}
+
+	public static double uzuzdiagp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+									  double p12, double p22, double D12, double D22, double R, int num,
+									  double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+									  double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+									  double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2, double[] A,
+									  double[] B, int tau) {
+		return 0.25 *
+				(+f1diagp2gd(+1, -1, 0, 0, D11, D12, p11, p12, R, D1deriva, p1deriva, D1derivb, p1derivb, D1deriv2,
+						p1deriv2, num, A, B, tau) +
+						f1diagp2gd(-1, +1, 0, 0, D11, D12, p11, p12, R, D1deriva, p1deriva, D1derivb, p1derivb,
+								D1deriv2, p1deriv2, num, A, B, tau) -
+						f1diagp2gd(-1, -1, 0, 0, D11, D12, p11, p12, R, D1deriva, p1deriva, D1derivb, p1derivb,
+								D1deriv2, p1deriv2, num, A, B, tau) -
+						f1diagp2gd(+1, +1, 0, 0, D11, D12, p11, p12, R, D1deriva, p1deriva, D1derivb, p1derivb,
+								D1deriv2, p1deriv2, num, A, B, tau));
+	}
+
+	public static double varf1diagp2gd(int a1, int a2, int b1, int b2, double Dn1, double Dm2, double pn1, double pm2,
+									   double R, double Dn1deriva, double pn1deriva, double Dn1derivb,
+									   double pn1derivb,
+									   double Dn1deriv2, double pn1deriv2, double Dm2deriva, double pm2deriva,
+									   double Dm2derivb, double pm2derivb, double Dm2deriv2, double pm2deriv2,
+									   int type,
+									   double[] A, double[] B, int tau) {
+		switch (type) {
+			case 0:
+				return f1diagp2gdpartial(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dn1deriva, pn1deriva, Dn1derivb,
+						pn1derivb, Dn1deriv2, pn1deriv2, type, A, B, tau);
+			case 1:
+				return f1diagp2gdpartial(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dm2deriva, pm2deriva, Dm2derivb,
+						pm2derivb, Dm2deriv2, pm2deriv2, type, A, B, tau);
+			case 2:
+				return f1diagp2gdpartial(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dn1deriva, pn1deriva, Dn1derivb,
+						pn1derivb, Dn1deriv2, pn1deriv2, 0, A, B, tau) +
+						f1diagp2gdpartial(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dm2deriva, pm2deriva, Dm2derivb,
+								pm2derivb, Dm2deriv2, pm2deriv2, 1, A, B, tau) +
+						f1crossp2gd(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dn1deriva, Dm2derivb, pn1deriva, pm2derivb,
+								A, B, tau) +
+						f1crossp2gd(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dn1derivb, Dm2deriva, pn1derivb, pm2deriva,
+								A, B, tau);
+		}
+		return 0;
+	}
+
+	public static double upiQpizdiagp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										 double p12, double p22, double D12, double D22, double R, int num,
+										 double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										 double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										 double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2,
+										 double[] A,
+										 double[] B, int tau) {
+		return 0.25 *
+				(+varf1diagp2gd(0, -1, +1, +1, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb, D1deriv2,
+						p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num, A, B, tau) -
+						varf1diagp2gd(0, -1, +1, -1, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb,
+								D1deriv2, p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num, A,
+								B, tau) +
+						varf1diagp2gd(0, +1, +1, -1, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb,
+								D1deriv2, p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num, A,
+								B, tau) -
+						varf1diagp2gd(0, +1, +1, +1, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb,
+								D1deriv2, p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num, A,
+								B, tau));
+	}
+
+	public static double uzQpipidiagp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										 double p12, double p22, double D12, double D22, double R, int num,
+										 double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										 double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										 double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2,
+										 double[] A,
+										 double[] B, int tau) {
+		return 0.25 *
+				(-varf1diagp2gd(+1, 0, 0, 2, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb, D1deriv2,
+						p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num, A, B, tau) +
+						varf1diagp2gd(-1, 0, 0, 2, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb,
+								D1deriv2, p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num, A,
+								B, tau) +
+						varf1diagp2gd(+1, 0, 0, 0, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb,
+								D1deriv2, p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num, A,
+								B, tau) -
+						varf1diagp2gd(-1, 0, 0, 0, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb,
+								D1deriv2, p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num, A,
+								B, tau));
+	}
+
+	public static double uzQzzdiagp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+									   double p12, double p22, double D12, double D22, double R, int num,
+									   double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+									   double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+									   double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2, double[] A,
+									   double[] B, int tau) {
+		return 0.125 *
+				(-varf1diagp2gd(+1, -2, 0, 0, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb, D1deriv2,
+						p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num, A, B, tau) +
+						varf1diagp2gd(-1, -2, 0, 0, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb,
+								D1deriv2, p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num, A,
+								B, tau) -
+						varf1diagp2gd(+1, +2, 0, 0, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb,
+								D1deriv2, p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num, A,
+								B, tau) +
+						varf1diagp2gd(-1, +2, 0, 0, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb,
+								D1deriv2, p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num, A,
+								B, tau) + 2 *
+						varf1diagp2gd(+1, 0, 0, 0, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb,
+								D1deriv2, p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num, A,
+								B, tau) - 2 *
+						varf1diagp2gd(-1, 0, 0, 0, D11, D22, p11, p22, R, D1deriva, p1deriva, D1derivb, p1derivb,
+								D1deriv2, p1deriv2, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2, p2deriv2, num, A,
+								B, tau));
+	}
+
+	public static double QpipiQpipidiagp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+											double p12, double p22, double D12, double D22, double R, int num,
+											double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+											double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+											double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2,
+											double[] A, double[] B, int tau) {
+		return 0.125 *
+				(+f1diagp2gd(0, 0, +2, -2, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
+						p2deriv2, num, A, B, tau) +
+						f1diagp2gd(0, 0, +2, +2, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
+								D2deriv2, p2deriv2, num, A, B, tau) - 2 *
+						f1diagp2gd(0, 0, +2, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
+								D2deriv2, p2deriv2, num, A, B, tau) - 2 *
+						f1diagp2gd(0, 0, 0, +2, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
+								D2deriv2, p2deriv2, num, A, B, tau) + 2 *
+						f1diagp2gd(0, 0, 0, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
+								p2deriv2, num, A, B, tau));
+	}
+
+	public static double f2diagp2gdpartial(int a1, int a2, int b1, int b2, double Dn1, double Dm2, double pn1,
+										   double pm2, double R, double Dxderiva, double pxderiva, double Dxderivb,
+										   double pxderivb, double Dxderiv2, double pxderiv2, int type, double[] A,
+										   double[] B, int tau) {
+		double f2 = f2(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R);
+		double g2a = g2(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiva, pxderiva, type);
+		double g2b = g2(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderivb, pxderivb, type);
+		double h2 = h2(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiva, pxderiva, Dxderivb, pxderivb, Dxderiv2,
+				pxderiv2, type);
+		double k2 = R + a1 * Dn1 + a2 * Dm2;
+		switch (type) {
+			case 0:
+				return (B[tau] - A[tau]) / R *
+						(a1 * Dxderiv2 * Math.pow(f2, 3) - 3 * a1 * Dxderiva * g2b * Math.pow(f2, 5) -
+								3 * a1 * Dxderivb * g2a * Math.pow(f2, 5) - 3 * h2 * k2 * Math.pow(f2, 5) +
+								15 * g2a * g2b * k2 * Math.pow(f2, 7));
+			case 1:
+				return (B[tau] - A[tau]) / R *
+						(a2 * Dxderiv2 * Math.pow(f2, 3) - 3 * a2 * Dxderiva * g2b * Math.pow(f2, 5) -
+								3 * a2 * Dxderivb * g2a * Math.pow(f2, 5) - 3 * h2 * k2 * Math.pow(f2, 5) +
+								15 * g2a * g2b * k2 * Math.pow(f2, 7));
+		}
+		return 0;
+	}
+
+	public static double f2diagp2gd(int a1, int a2, int b1, int b2, double Dn1, double Dm2, double pn1, double pm2,
+									double R, double Dxderiva, double pxderiva, double Dxderivb, double pxderivb,
+									double Dxderiv2, double pxderiv2, int type, double[] A, double[] B, int tau) {
+		switch (type) {
+			case 0:
+			case 1:
+				return f2diagp2gdpartial(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiva, pxderiva, Dxderivb, pxderivb,
+						Dxderiv2, pxderiv2, type, A, B, tau);
+			case 2:
+				return f2diagp2gdpartial(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiva, pxderiva, Dxderivb, pxderivb,
+						Dxderiv2, pxderiv2, 0, A, B, tau) +
+						f2diagp2gdpartial(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiva, pxderiva, Dxderivb,
+								pxderivb, Dxderiv2, pxderiv2, 1, A, B, tau) +
+						f2crossp2gd(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiva, Dxderivb, pxderiva, pxderivb, A
+								, B, tau) * 2;
+		}
+		return 0;
+	}
+
+	public static double QxxQyydiagp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										double p12, double p22, double D12, double D22, double R, int num,
+										double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2, double[] A,
+										double[] B, int tau) {
+		return 0.25 * (+f2diagp2gd(0, 0, 2, 2, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
+				p2deriv2, num, A, B, tau) -
+				f2diagp2gd(0, 0, 2, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
+						p2deriv2, num, A, B, tau) -
+				f2diagp2gd(0, 0, 0, 2, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
+						p2deriv2, num, A, B, tau) +
+				f2diagp2gd(0, 0, 0, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
+						p2deriv2, num, A, B, tau));
+	}
+
+	public static double QpipiQzzdiagp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										  double p12, double p22, double D12, double D22, double R, int num,
+										  double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										  double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										  double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2,
+										  double[] A, double[] B, int tau) {
+		return 0.125 *
+				(+f1diagp2gd(0, -2, +2, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
+						p2deriv2, num, A, B, tau) +
+						f1diagp2gd(0, +2, +2, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
+								D2deriv2, p2deriv2, num, A, B, tau) -
+						f1diagp2gd(0, -2, 0, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
+								D2deriv2,
+								p2deriv2, num, A, B, tau) -
+						f1diagp2gd(0, +2, 0, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
+								D2deriv2,
+								p2deriv2, num, A, B, tau) - 2 *
+						f1diagp2gd(0, 0, 2, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
+								p2deriv2, num, A, B, tau) + 2 *
+						f1diagp2gd(0, 0, 0, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
+								p2deriv2, num, A, B, tau));
+	}
+
+	public static double QzzQzzdiagp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										double p12, double p22, double D12, double D22, double R, int num,
+										double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2, double[] A,
+										double[] B, int tau) {
+		return 0.0625 *
+				(+f1diagp2gd(+2, -2, 0, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
+						p2deriv2, num, A, B, tau) +
+						f1diagp2gd(+2, +2, 0, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
+								D2deriv2, p2deriv2, num, A, B, tau) +
+						f1diagp2gd(-2, -2, 0, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
+								D2deriv2, p2deriv2, num, A, B, tau) +
+						f1diagp2gd(-2, +2, 0, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
+								D2deriv2, p2deriv2, num, A, B, tau) - 2 *
+						f1diagp2gd(+2, 0, 0, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
+								D2deriv2,
+								p2deriv2, num, A, B, tau) - 2 *
+						f1diagp2gd(-2, 0, 0, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
+								D2deriv2,
+								p2deriv2, num, A, B, tau) - 2 *
+						f1diagp2gd(0, +2, 0, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
+								D2deriv2,
+								p2deriv2, num, A, B, tau) - 2 *
+						f1diagp2gd(0, -2, 0, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
+								D2deriv2,
+								p2deriv2, num, A, B, tau) + 4 *
+						f1diagp2gd(0, 0, 0, 0, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
+								p2deriv2, num, A, B, tau));
+	}
+
+	public static double QpizQpizdiagp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										  double p12, double p22, double D12, double D22, double R, int num,
+										  double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										  double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										  double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2,
+										  double[] A, double[] B, int tau) {
+		return 0.125 *
+				(+f1diagp2gd(+1, -1, +1, -1, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb, D2deriv2,
+						p2deriv2, num, A, B, tau) -
+						f1diagp2gd(+1, -1, +1, +1, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
+								D2deriv2, p2deriv2, num, A, B, tau) -
+						f1diagp2gd(+1, +1, +1, -1, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
+								D2deriv2, p2deriv2, num, A, B, tau) +
+						f1diagp2gd(+1, +1, +1, +1, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
+								D2deriv2, p2deriv2, num, A, B, tau) -
+						f1diagp2gd(-1, -1, +1, -1, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
+								D2deriv2, p2deriv2, num, A, B, tau) +
+						f1diagp2gd(-1, -1, +1, +1, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
+								D2deriv2, p2deriv2, num, A, B, tau) +
+						f1diagp2gd(-1, +1, +1, -1, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
+								D2deriv2, p2deriv2, num, A, B, tau) -
+						f1diagp2gd(-1, +1, +1, +1, D21, D22, p21, p22, R, D2deriva, p2deriva, D2derivb, p2derivb,
+								D2deriv2, p2deriv2, num, A, B, tau));
+	}
+
+	public static double ssssdiagp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+									  double p12, double p22, double D12, double D22, double R, int num,
+									  double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+									  double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+									  double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2, double[] A,
+									  double[] B, int tau) {
+		return qqdiagp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
+				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, B, tau);
+	}
+
+	public static double ssppippidiagp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										  double p12, double p22, double D12, double D22, double R, int num,
+										  double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										  double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										  double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2,
+										  double[] A, double[] B, int tau) {
+		return qqdiagp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
+				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, B, tau) +
+				qQpipidiagp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
+						p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, B,
+						tau);
+	}
+
+	public static double sspzpzdiagp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										double p12, double p22, double D12, double D22, double R, int num,
+										double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2, double[] A,
+										double[] B, int tau) {
+		return qqdiagp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
+				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, B, tau) +
+				qQzzdiagp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
+						p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, B,
+						tau);
+	}
+
+	public static double ppippissdiagp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										  double p12, double p22, double D12, double D22, double R, int num,
+										  double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										  double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										  double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2,
+										  double[] A, double[] B, int tau) {
+		return qqdiagp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
+				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, B, tau) +
+				qQpipidiagp2gd(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriva, D2deriva,
+						p1deriva, p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2,
+						p2deriv2, A, B, tau);
+	}
+
+	public static double pzpzssdiagp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										double p12, double p22, double D12, double D22, double R, int num,
+										double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2, double[] A,
+										double[] B, int tau) {
+		return qqdiagp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
+				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, B, tau) +
+				qQzzdiagp2gd(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriva, D2deriva, p1deriva,
+						p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, B,
+						tau);
+	}
+
+	public static double ppippippippidiagp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+											  double p12, double p22, double D12, double D22, double R, int num,
+											  double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+											  double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+											  double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2,
+											  double[] A, double[] B, int tau) {
+		return qqdiagp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
+				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, B, tau) +
+				qQpipidiagp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
+						p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, B,
+						tau) +
+				qQpipidiagp2gd(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriva, D2deriva,
+						p1deriva, p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2,
+						p2deriv2, A, B, tau) +
+				QpipiQpipidiagp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva,
+						p1deriva, p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2,
+						p2deriv2, A, B, tau);
+	}
+
+	public static double pxpxpypydiagp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										  double p12, double p22, double D12, double D22, double R, int num,
+										  double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										  double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										  double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2,
+										  double[] A, double[] B, int tau) {
+		return qqdiagp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
+				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, B, tau) +
+				qQpipidiagp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
+						p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, B,
+						tau) +
+				qQpipidiagp2gd(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriva, D2deriva,
+						p1deriva, p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2,
+						p2deriv2, A, B, tau) +
+				QxxQyydiagp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
+						p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, B,
+						tau);
+	}
+
+	public static double ppippipzpzdiagp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+											double p12, double p22, double D12, double D22, double R, int num,
+											double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+											double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+											double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2,
+											double[] A, double[] B, int tau) {
+		return qqdiagp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
+				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, B, tau) +
+				qQzzdiagp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
+						p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, B,
+						tau) +
+				qQpipidiagp2gd(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriva, D2deriva,
+						p1deriva, p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2,
+						p2deriv2, A, B, tau) +
+				QpipiQzzdiagp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva,
+						p1deriva, p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2,
+						p2deriv2,
+						A, B, tau);
+	}
+
+	public static double pzpzppippidiagp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+											double p12, double p22, double D12, double D22, double R, int num,
+											double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+											double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+											double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2,
+											double[] A, double[] B, int tau) {
+		return qqdiagp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
+				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, B, tau) +
+				qQpipidiagp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
+						p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, B,
+						tau) +
+				qQzzdiagp2gd(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriva, D2deriva, p1deriva,
+						p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, B,
+						tau) +
+				QpipiQzzdiagp2gd(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriva, D2deriva,
+						p1deriva, p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2,
+						p2deriv2, A, B, tau);
+	}
+
+	public static double pzpzpzpzdiagp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										  double p12, double p22, double D12, double D22, double R, int num,
+										  double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										  double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										  double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2,
+										  double[] A, double[] B, int tau) {
+		return qqdiagp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
+				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, B, tau) +
+				qQzzdiagp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
+						p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, B,
+						tau) +
+				qQzzdiagp2gd(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriva, D2deriva, p1deriva,
+						p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, B,
+						tau) +
+				QzzQzzdiagp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
+						p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, B,
+						tau);
+	}
+
+	public static double spzssdiagp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+									   double p12, double p22, double D12, double D22, double R, int num,
+									   double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+									   double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+									   double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2, double[] A,
+									   double[] B, int tau) {
+		return -quzdiagp2gd(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriva, D2deriva, p1deriva,
+				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, B, tau);
+	}
+
+	public static double spzppippidiagp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										   double p12, double p22, double D12, double D22, double R, int num,
+										   double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										   double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										   double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2,
+										   double[] A, double[] B, int tau) {
+		return -quzdiagp2gd(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriva, D2deriva, p1deriva,
+				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, B, tau) +
+				uzQpipidiagp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
+						p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, B,
+						tau);
+	}
+
+	public static double spzpzpzdiagp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										 double p12, double p22, double D12, double D22, double R, int num,
+										 double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										 double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										 double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2,
+										 double[] A,
+										 double[] B, int tau) {
+		return -quzdiagp2gd(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriva, D2deriva, p1deriva,
+				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, B, tau) +
+				uzQzzdiagp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
+						p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, B,
+						tau);
+	}
+
+	public static double ssspzdiagp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+									   double p12, double p22, double D12, double D22, double R, int num,
+									   double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+									   double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+									   double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2, double[] A,
+									   double[] B, int tau) {
+		return quzdiagp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
+				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, B, tau);
+	}
+
+	public static double ppippispzdiagp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										   double p12, double p22, double D12, double D22, double R, int num,
+										   double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										   double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										   double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2,
+										   double[] A, double[] B, int tau) {
+		return quzdiagp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
+				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, B, tau) -
+				uzQpipidiagp2gd(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriva, D2deriva,
+						p1deriva, p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2,
+						p2deriv2, A, B, tau);
+	}
+
+	public static double pzpzspzdiagp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										 double p12, double p22, double D12, double D22, double R, int num,
+										 double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										 double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										 double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2,
+										 double[] A,
+										 double[] B, int tau) {
+		return quzdiagp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
+				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, B, tau) -
+				uzQzzdiagp2gd(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriva, D2deriva,
+						p1deriva, p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2,
+						p2deriv2,
+						A, B, tau);
+	}
+
+	public static double sppisppidiagp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										  double p12, double p22, double D12, double D22, double R, int num,
+										  double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										  double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										  double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2,
+										  double[] A, double[] B, int tau) {
+		return upiupidiagp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
+				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, B, tau);
+	}
+
+	public static double spzspzdiagp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										double p12, double p22, double D12, double D22, double R, int num,
+										double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2, double[] A,
+										double[] B, int tau) {
+		return uzuzdiagp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
+				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, B, tau);
+	}
+
+	public static double sppippipzdiagp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										   double p12, double p22, double D12, double D22, double R, int num,
+										   double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										   double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										   double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2,
+										   double[] A, double[] B, int tau) {
+		return upiQpizdiagp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
+				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, B, tau);
+	}
+
+	public static double ppipzsppidiagp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										   double p12, double p22, double D12, double D22, double R, int num,
+										   double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										   double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										   double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2,
+										   double[] A, double[] B, int tau) {
+		return -upiQpizdiagp2gd(p02, p12, p22, D12, D22, p01, p11, p21, D11, D21, R, f(num), D1deriva, D2deriva,
+				p1deriva, p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A,
+				B, tau);
+	}
+
+	public static double ppipzppipzdiagp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+											double p12, double p22, double D12, double D22, double R, int num,
+											double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+											double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+											double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2,
+											double[] A, double[] B, int tau) {
+		return QpizQpizdiagp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva, p1deriva,
+				p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, B, tau);
+	}
+
+	public static double pxpypxpydiagp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
+										  double p12, double p22, double D12, double D22, double R, int num,
+										  double D1deriva, double D2deriva, double p1deriva, double p2deriva,
+										  double D1derivb, double D2derivb, double p1derivb, double p2derivb,
+										  double D1deriv2, double D2deriv2, double p1deriv2, double p2deriv2,
+										  double[] A, double[] B, int tau) {
+		return 0.5 * (ppippippippidiagp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva,
+				D2deriva,
+				p1deriva, p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A,
+				B, tau) -
+				pxpxpypydiagp2gd(p01, p11, p21, D11, D21, p02, p12, p22, D12, D22, R, num, D1deriva, D2deriva,
+						p1deriva,
+						p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, B,
+						tau));
+	}
+
 }

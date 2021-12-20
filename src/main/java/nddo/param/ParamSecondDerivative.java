@@ -1807,30 +1807,26 @@ public class ParamSecondDerivative {
 
 		System.err.println("----TESTING EXPGEOM DERIVATIVES----");
 
-//		double gradderiv = ParamGeometryDerivative.gradderiv(soln, 0, 0, Z2, param2, D2);
-//
-//		double gradderivprime = ParamGeometryDerivative.gradderiv(solnprime, 0, 0, Z2, param2, D2prime);
-//
-//		double gradderiv2 =
-//				ParamGeometrySecondDerivative.gradderiv2(soln, 0, 0, Z1, param1, Z2, param2, D1, D2, densityderiv2);
-//
-//		System.err.println(gradderiv2);
-//
-//		double gradderiv2test = 1 / Constants.LAMBDA * (gradderivprime - gradderiv);
-//
-//		System.err.println(gradderiv2test);
+		double gradderiv = ParamGeometryDerivative.gradderiv(soln, 0, 0, Z2, param2, D2);
 
-		//double gradderiv2trial = ParamGeometrySecondDerivative.gradderiv(soln, F1, R1, C1, F2, R2, C2, Fgeom,
-		// Rgeom, Cgeom, Fstatictotal, G12, G21, F2geom, G2geom, Ggeom2, F1geom, G1geom, Ggeom1, Hderiv3, Fderiv3);
+		double gradderivprime = ParamGeometryDerivative.gradderiv(solnprime, 0, 0, Z2, param2, D2prime);
 
-		//System.err.println (gradderiv2trial);
+		double gradderiv2 =
+				ParamGeometrySecondDerivative.gradderiv2(soln, 0, 0, Z1, param1, Z2, param2, D1, D2, densityderiv2);
+
+		System.err.println(gradderiv2);
+
+		double gradderiv2test = 1 / Constants.LAMBDA * (gradderivprime - gradderiv);
+
+		System.err.println(gradderiv2test);
+
 
 		System.err.println("----TESTING CONCLUDED----");
 
 
 		return Solution.isSimilar(densityderiv2, densityderiv2finite, 1E-5) && Math.abs(Hfderiv - Hfderivtest) < 1E-3 &&
-				Math.abs(IEderiv2 - IEtest) < 1E-3 && Math.abs(dipolederiv2 - dipolederivtest) < 1E-3;
-//				Math.abs(gradderiv2test - gradderiv2) < 1E-5;
+				Math.abs(IEderiv2 - IEtest) < 1E-3 && Math.abs(dipolederiv2 - dipolederivtest) < 1E-3 &&
+				Math.abs(gradderiv2test - gradderiv2) < 1E-5;
 	}
 
 	public static boolean verifyEquations(SolutionU soln, int Z1, int param1, int Z2, int param2) {
@@ -1968,11 +1964,7 @@ public class ParamSecondDerivative {
 //
 		System.err.println("----TESTING HF DERIVATIVES----");
 //
-//
-//
-//        //System.err.println (densityderiv2);
-//
-//        //System.err.println (densityderiv2finite);
+
 //
 		System.err.println(Hfderiv);
 		System.err.println(Hfderivtest);
@@ -1999,20 +1991,20 @@ public class ParamSecondDerivative {
 //
 		System.err.println("----TESTING EXPGEOM DERIVATIVES----");
 //
-//		double gradderiv = ParamGeometryDerivative.gradderiv(soln, 0, 0, Z2, param2, D2[0], D2[1]);
-////
-//		double gradderivprime =
-//				ParamGeometryDerivative.gradderiv(solnprime, 0, 0, Z2, param2, D2prime[0], D2prime[1]);
-////
-//		double gradderiv2 =
-//				ParamGeometrySecondDerivative.gradderiv2(soln, 0, 0, Z1, param1, Z2, param2, D1[0], D1[1], D2[0],
-//						D2[1], densityderiv2alpha, densityderiv2beta);
-////
-//		System.err.println(gradderiv2);
-////
-//		double gradderiv2test = 1 / Constants.LAMBDA * (gradderivprime - gradderiv);
-////
-//		System.err.println(gradderiv2test);
+		double gradderiv = ParamGeometryDerivative.gradderiv(soln, 0, 0, Z2, param2, D2[0], D2[1]);
+//
+		double gradderivprime =
+				ParamGeometryDerivative.gradderiv(solnprime, 0, 0, Z2, param2, D2prime[0], D2prime[1]);
+//
+		double gradderiv2 =
+				ParamGeometrySecondDerivative.gradderiv2(soln, 0, 0, Z1, param1, Z2, param2, D1[0], D1[1], D2[0],
+						D2[1], densityderiv2alpha, densityderiv2beta);
+//
+		System.err.println("analyt " + gradderiv2);
+//
+		double gradderiv2test = 1 / Constants.LAMBDA * (gradderivprime - gradderiv);
+//
+		System.err.println("finite " + gradderiv2test);
 //
 //
 		System.err.println("----TESTING CONCLUDED----");
@@ -2021,7 +2013,7 @@ public class ParamSecondDerivative {
 		return Solution.isSimilar(densityderiv2alpha, densityderiv2alphafinite, 1E-5) &&
 				Solution.isSimilar(densityderiv2beta, densityderiv2betafinite, 1E-5) &&
 				Math.abs(Hfderiv - Hfderivtest) < 1E-3 && Math.abs(IEderiv2 - IEtest) < 1E-3 &&
-				Math.abs(dipolederiv2 - dipolederivtest) < 1E-3 /*&&Math.abs(gradderiv2test - gradderiv2) < 1E-5*/;
+				Math.abs(dipolederiv2 - dipolederivtest) < 1E-3 &&Math.abs(gradderiv2test - gradderiv2) < 1E-5;
 	}
 
 	public static boolean verifyEquations(SolutionU soln, int Z1, int param1) {
