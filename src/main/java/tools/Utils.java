@@ -120,7 +120,7 @@ public class Utils {
 		List<String> res = new ArrayList<>();
 
 		String line;
-		while ((line=r.readLine()) != null) {
+		while ((line = r.readLine()) != null) {
 			res.add(line);
 		}
 
@@ -175,8 +175,10 @@ public class Utils {
 
 	public static double mag(SimpleMatrix vector) {
 		double sum = 0;
-		for (int i = 0; i < vector.numRows(); i++) {
-			sum += vector.get(i) * vector.get(i);
+		int i1 = vector.numRows();
+		for (int i = 0; i < i1; i++) {
+			double v = vector.get(i);
+			sum += v * v;
 		}
 
 		return Math.sqrt(sum);

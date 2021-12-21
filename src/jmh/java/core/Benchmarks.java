@@ -19,7 +19,7 @@ public class Benchmarks {
 	}
 
 	@Benchmark
-	@Fork(value = 2, warmups = 0)
+	@Fork(value = 1, warmups = 0)
 	@Warmup(iterations = 5, time = 5)
 	@Measurement(iterations = 5, time = 5)
 	@BenchmarkMode(Mode.SampleTime)
@@ -32,6 +32,7 @@ public class Benchmarks {
 	public static class State {
 		public SolutionR s;
 		public SimpleMatrix[] fockderivstatic;
+		public SimpleMatrix x;
 
 		@Setup(Level.Trial)
 		public void setup() throws IOException {
@@ -44,6 +45,7 @@ public class Benchmarks {
 
 			System.out.println(fockderivstatic.length);
 			SimpleMatrix[] xarray = GeometrySecondDerivative.getxarrayPople(s, fockderivstatic);
+			x = xarray[0];
 			System.out.println(xarray[0]);
 		}
 	}

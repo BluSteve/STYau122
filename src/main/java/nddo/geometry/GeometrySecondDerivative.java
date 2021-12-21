@@ -1929,15 +1929,14 @@ public class GeometrySecondDerivative {
 	}
 
 	public static SimpleMatrix computeResponseVectorsPople(SimpleMatrix x, SolutionR soln) {
-		int NOcc = soln.getRm().nOccAlpha;
-		int NVirt = soln.getRm().nVirtAlpha;
+		int NOcc = soln.rm.nOccAlpha;
+		int NVirt = soln.rm.nVirtAlpha;
 
 		SimpleMatrix xmat = x.copy();
 		xmat.reshape(NOcc, NVirt);
 
 		SimpleMatrix densityMatrixDeriv = soln.CtOcc.transpose().mult(xmat).mult(soln.CtVirt)
 				.plusi(soln.CtVirt.transpose().mult(xmat.transpose().mult(soln.CtOcc))).scalei(-2);
-
 
 		SimpleMatrix responsematrix = new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
 
@@ -1991,43 +1990,10 @@ public class GeometrySecondDerivative {
 		}
 
 		SimpleMatrix Roccvirt = soln.CtOcc.mult(responsematrix).mult(soln.CtVirt.transpose());
-//		System.out.println("Roccvirt = " + Roccvirt);
-//
-//		SimpleMatrix Rvec = new SimpleMatrix(NOcc * NVirt, 1);
-//
-//		int count1 = 0;
-//
-//		for (int i = 0; i < NOcc; i++) {
-//			for (int j = 0; j < NVirt; j++) {
-//
-//				double element2 = Roccvirt.get(i, j) / (soln.E.get(j + NOcc) - soln.E.get(i));
-//
-//				Rvec.set(count1, 0, element2);
-//
-//				count1++;
-//			}
-//		}
-
-//		SimpleMatrix R = soln.Ct.mult(responsematrix).mult(soln.Ct.transpose());
-//		System.out.println("R = " + R);
-
-//		SimpleMatrix Rvec = new SimpleMatrix(NOcc * NVirt, 1);
-//
-//		int count1 = 0;
-//
-//		for (int i = 0; i < NOcc; i++) {
-//			for (int j = 0; j < NVirt; j++) {
-//
-//				double element = R.get(i, j + NOcc) / (soln.E.get(j + NOcc) - soln.E.get(i));
-//
-//				Rvec.set(count1, 0, element);
-//
-//				count1++;
-//			}
-//		}
 
 		SimpleMatrix sm = soln.E.extractMatrix(NOcc, soln.nOrbitals, 0, 1);
 		sm.reshape(1, NVirt);
+
 		SimpleMatrix Emat = new SimpleMatrix(NOcc, NVirt);
 		for (int i = 0; i < NOcc; i++) {
 			Emat.insertIntoThis(i, 0, sm.minus(soln.E.get(i)));
@@ -2035,9 +2001,6 @@ public class GeometrySecondDerivative {
 
 		SimpleMatrix Rvec = Roccvirt.elementDivi(Emat);
 		Rvec.reshape(NOcc * NVirt, 1);
-
-//		System.out.println("Rvec = " + Rvec);
-//		System.out.println("rv = " + Rvec);
 
 		return Rvec;
 	}

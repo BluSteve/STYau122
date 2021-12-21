@@ -4,23 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="better pbar">
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="speeding up pople g2d&#10;&#10;Benchmark                       Mode  Cnt          Score        Error  &#10;Benchmarks.init               sample  290  173785200.993 ± 394333.780  &#10;Benchmarks.init:init·p0.00    sample       171704320.000               &#10;Benchmarks.init:init·p0.50    sample       173277184.000               &#10;Benchmarks.init:init·p0.90    sample       175348121.600               &#10;Benchmarks.init:init·p0.95    sample       177327308.800               &#10;Benchmarks.init:init·p0.99    sample       185073664.000               &#10;Benchmarks.init:init·p0.999   sample       188219392.000               &#10;Benchmarks.init:init·p0.9999  sample       188219392.000               &#10;Benchmarks.init:init·p1.00    sample       188219392.000">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/copy.bat" beforeDir="false" afterPath="$PROJECT_DIR$/copy.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/Multipoles.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/Multipoles.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Utils.java" afterDir="false" />
     </list>
-    <list id="13292be9-4080-4d01-a904-a63c5a188ec6" name="Changes by flyingfalcon" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" afterDir="false" />
-    </list>
+    <list id="13292be9-4080-4d01-a904-a63c5a188ec6" name="Changes by flyingfalcon" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -142,36 +132,6 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/mndo-install.sh" root0="FORCE_HIGHLIGHTING" />
-  </component>
-  <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java">
-      <ranges>
-        <range start1="1414" end1="1415" start2="1414" end2="1415" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="1567" end1="1571" start2="1567" end2="1571" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="1588" end1="1590" start2="1588" end2="1590" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="1629" end1="1629" start2="1629" end2="1632" changelist="13292be9-4080-4d01-a904-a63c5a188ec6" />
-        <range start1="1635" end1="1646" start2="1638" end2="1638" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="1647" end1="1647" start2="1639" end2="1640" changelist="13292be9-4080-4d01-a904-a63c5a188ec6" />
-        <range start1="1676" end1="1676" start2="1669" end2="1676" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="1681" end1="1688" start2="1681" end2="1681" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="1771" end1="1774" start2="1764" end2="1766" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="1775" end1="1789" start2="1767" end2="1769" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="1790" end1="1794" start2="1770" end2="1772" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="1818" end1="1819" start2="1796" end2="1797" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="1820" end1="1821" start2="1798" end2="1799" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="1922" end1="1923" start2="1900" end2="1901" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="1953" end1="1956" start2="1931" end2="1933" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="1957" end1="1958" start2="1934" end2="1936" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="1959" end1="1975" start2="1937" end2="1939" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2028" end1="2029" start2="1992" end2="2008" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2030" end1="2031" start2="2009" end2="2010" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2032" end1="2032" start2="2011" end2="2029" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2033" end1="2043" start2="2030" end2="2032" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2044" end1="2052" start2="2033" end2="2035" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2053" end1="2053" start2="2036" end2="2038" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
-        <range start1="2054" end1="2055" start2="2039" end2="2040" changelist="13292be9-4080-4d01-a904-a63c5a188ec6" />
-      </ranges>
-    </file>
   </component>
   <component name="ProblemsViewState">
     <option name="selectedIndex" value="2" />
@@ -450,14 +410,7 @@
       <workItem from="1640030832106" duration="621000" />
       <workItem from="1640031476531" duration="161000" />
       <workItem from="1640058297153" duration="4535000" />
-      <workItem from="1640063569694" duration="5319000" />
-    </task>
-    <task id="LOCAL-00080" summary="Old txt format to new txt format">
-      <created>1639495513011</created>
-      <option name="number" value="00080" />
-      <option name="presentableId" value="LOCAL-00080" />
-      <option name="project" value="LOCAL" />
-      <updated>1639495513012</updated>
+      <workItem from="1640063569694" duration="6306000" />
     </task>
     <task id="LOCAL-00081" summary="Work in progress on parsing new input file">
       <created>1639506284492</created>
@@ -795,7 +748,14 @@
       <option name="project" value="LOCAL" />
       <updated>1640025053919</updated>
     </task>
-    <option name="localTasksCounter" value="129" />
+    <task id="LOCAL-00129" summary="speeding up pople g2d&#10;&#10;Benchmark                       Mode  Cnt          Score        Error  &#10;Benchmarks.init               sample  290  173785200.993 ± 394333.780  &#10;Benchmarks.init:init·p0.00    sample       171704320.000               &#10;Benchmarks.init:init·p0.50    sample       173277184.000               &#10;Benchmarks.init:init·p0.90    sample       175348121.600               &#10;Benchmarks.init:init·p0.95    sample       177327308.800               &#10;Benchmarks.init:init·p0.99    sample       185073664.000               &#10;Benchmarks.init:init·p0.999   sample       188219392.000               &#10;Benchmarks.init:init·p0.9999  sample       188219392.000               &#10;Benchmarks.init:init·p1.00    sample       188219392.000">
+      <created>1640069377602</created>
+      <option name="number" value="00129" />
+      <option name="presentableId" value="LOCAL-00129" />
+      <option name="project" value="LOCAL" />
+      <updated>1640069377602</updated>
+    </task>
+    <option name="localTasksCounter" value="130" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -843,7 +803,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Proguard refactor" />
     <MESSAGE value="Proguard working" />
     <MESSAGE value="Scripts" />
     <MESSAGE value="Fix paramgradient combine bug" />
@@ -868,7 +827,8 @@
     <MESSAGE value="multithreaded presponsev + json debug" />
     <MESSAGE value="multithreading rvp is not faster + better pbar" />
     <MESSAGE value="better pbar" />
-    <option name="LAST_COMMIT_MESSAGE" value="better pbar" />
+    <MESSAGE value="speeding up pople g2d&#10;&#10;Benchmark                       Mode  Cnt          Score        Error  &#10;Benchmarks.init               sample  290  173785200.993 ± 394333.780  &#10;Benchmarks.init:init·p0.00    sample       171704320.000               &#10;Benchmarks.init:init·p0.50    sample       173277184.000               &#10;Benchmarks.init:init·p0.90    sample       175348121.600               &#10;Benchmarks.init:init·p0.95    sample       177327308.800               &#10;Benchmarks.init:init·p0.99    sample       185073664.000               &#10;Benchmarks.init:init·p0.999   sample       188219392.000               &#10;Benchmarks.init:init·p0.9999  sample       188219392.000               &#10;Benchmarks.init:init·p1.00    sample       188219392.000" />
+    <option name="LAST_COMMIT_MESSAGE" value="speeding up pople g2d&#10;&#10;Benchmark                       Mode  Cnt          Score        Error  &#10;Benchmarks.init               sample  290  173785200.993 ± 394333.780  &#10;Benchmarks.init:init·p0.00    sample       171704320.000               &#10;Benchmarks.init:init·p0.50    sample       173277184.000               &#10;Benchmarks.init:init·p0.90    sample       175348121.600               &#10;Benchmarks.init:init·p0.95    sample       177327308.800               &#10;Benchmarks.init:init·p0.99    sample       185073664.000               &#10;Benchmarks.init:init·p0.999   sample       188219392.000               &#10;Benchmarks.init:init·p0.9999  sample       188219392.000               &#10;Benchmarks.init:init·p1.00    sample       188219392.000" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

@@ -17,7 +17,7 @@ public abstract class Solution {
 	public final int[] atomicNumbers, atomOfOrb;
 	public final NDDOAtom[] atoms;
 	public final NDDOOrbital[] orbitals;
-	protected final MoleculeInfo rm;
+	public final MoleculeInfo rm;
 	protected final SimpleMatrix H;
 	public double energy, homo, lumo, hf, dipole;
 	public double[] chargedip, hybridip, dipoletot;
