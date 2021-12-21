@@ -4,6 +4,38 @@ import static java.lang.Math.abs;
 import static java.lang.Math.sqrt;
 
 public class Pow {
+	public static double exp(double x) {
+		double eapprox = 1 + x /65536 ;
+		eapprox *= eapprox;
+		eapprox *= eapprox;
+		eapprox *= eapprox;
+		eapprox *= eapprox;
+		eapprox *= eapprox;
+		eapprox *= eapprox;
+		eapprox *= eapprox;
+		eapprox *= eapprox;
+		eapprox *= eapprox;
+		eapprox *= eapprox;
+		eapprox *= eapprox;
+		eapprox *= eapprox;
+		eapprox *= eapprox;
+		eapprox *= eapprox;
+		eapprox *= eapprox;
+		eapprox *= eapprox;
+		return eapprox;
+	}
+
+	public static double exp2(double x) {
+				return (362880+x*(362880+x*(181440+x*(60480+x*(15120+x*(3024+x*(504+x*(72+x*(9+x)))))))))*2.75573192e-6;
+	}
+	public static double exp8(double x) {
+//		return 1;
+		return (3628800+x*(3628800+x*(1814400+x*(604800+x*(151200+x*(30240+x*(5040+x*(720+x*(90+x*(10+x))))))))))*2.75573192e-7;
+	}
+	public static double exp9(double x) {
+//		return 1;
+		return (39916800+x*(39916800+x*(19958400+x*(6652800+x*(1663200+x*(332640+x*(55440+x*(7920+x*(990+x*(110+x*(11+x)))))))))))*2.505210838544172E-8;
+	}
 	public static double pow(double d, double n) {
 		final double absn = abs(n);
 		if (absn > 16) {

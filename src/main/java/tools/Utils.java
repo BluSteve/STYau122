@@ -210,20 +210,12 @@ public class Utils {
 	}
 
 	public static void main(String[] args) {
-		double i = 1234;
-		double n = -4.5;
 
-		Random r = new Random(1);
-		for (int j = 0; j < 1000; j++) {
-			i = 123;
-			double pow = Pow.pow(i, n);
-			double x = Math.pow(i, n) - pow;
-			System.out.println("pow = " + pow);
-			if (x > 1E-15) System.out.println(x);
-		}
-
-//		System.out.println(Pow.hits);
-//		System.out.println(Pow.total);
+		double i = 3;
+		System.out.println("Math.exp(i) = " + Math.exp(i));
+		System.out.println("Pow.exp9(i) = " + (Pow.exp9(i) - Math.exp(i)));
+		System.out.println("Pow.exp2(i) = " + (Pow.exp8(i) - Math.exp(i)));
+		System.out.println("1/Math.f = " + 1.0/39916800);
 	}
 }
 

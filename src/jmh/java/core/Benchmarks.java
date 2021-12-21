@@ -27,11 +27,8 @@ public class Benchmarks {
 	@BenchmarkMode(Mode.SampleTime)
 	@OutputTimeUnit(TimeUnit.NANOSECONDS)
 	public static void init(State state) {
-		Random r = new Random(123);
-
-		for(int i=0; i<1000;i++) {
-			Pow.pow(r.nextDouble(), -4.5);
-		}
+			double x= state.r.nextDouble();
+			double y= Pow.exp9(x);
 	}
 
 	@org.openjdk.jmh.annotations.State(Scope.Benchmark)
@@ -39,6 +36,7 @@ public class Benchmarks {
 		public SolutionR s;
 		public SimpleMatrix[] fockderivstatic;
 		public SimpleMatrix x;
+		public Random r =  new Random(123);
 
 		@Setup(Level.Trial)
 		public void setup() throws IOException {
