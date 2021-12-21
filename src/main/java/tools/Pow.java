@@ -1,18 +1,35 @@
 package tools;
 
+import java.util.Random;
+
 import static java.lang.Math.abs;
 import static java.lang.Math.sqrt;
 
 public class Pow {
-	public static final int max = 20;
-	public static final double[] arr = generatearr();
+	private static final int max = 250; // anything outside is 0 or infinity
+	private static final int interp = 4;
+	private static final double interpinv = 1.0 / interp;
+	private static final int total = interp * max;
+	private static final double[] arr = generatearr();
+
+	public static void main(String[] args) {
+		double i = interpinv / 2;
+		System.out.println("worst case = " + Math.abs(Math.exp(i) - Pow.exp(i)));
+
+		Random r = new Random(123);
+		double error = 0;
+		for (int j = 0; j < 100000; j++) {
+			i = r.nextGaussian();
+			error += Math.abs(Math.exp(i) - Pow.exp(i));
+		}
+		System.out.println("  avg case = " + error / 100000);
+	}
 
 	private static double[] generatearr() {
-		double[] res = new double[4 * max + 1];
+		double[] res = new double[2 * interp * max + 1];
 		int count = 0;
-		for (int j = -2 * max; j <= 2 * max; j++, count++) {
-			System.out.println(Math.exp(j * 0.5));
-			res[count] = Math.exp(j * 0.5);
+		for (int j = -total; j <= total; j++, count++) {
+			res[count] = Math.exp(j * interpinv);
 		}
 		return res;
 	}
@@ -24,9 +41,11 @@ public class Pow {
 	}
 
 	public static double exp(double x) { // 0.25
-		int xi = (int) Math.round(x * 2); // 1
-		double xf = x - xi * 0.5; // 0.25
-		double exi = arr[xi + max * 2]; // 41
+		if (x < -max) return 0;
+		if (x > max) return Double.POSITIVE_INFINITY;
+		int xi = (int) Math.round(x * interp); // 1
+		double xf = x - xi * interpinv; // 0.25
+		double exi = arr[xi + total]; // 41
 		if (xf == 0) return exi;
 		return exi * exp8(xf);
 	}

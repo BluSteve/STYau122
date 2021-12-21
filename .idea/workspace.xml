@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="pow and fastexp clean up">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params.csv" beforeDir="false" afterPath="$PROJECT_DIR$/params.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" afterDir="false" />
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="fastexp tighter interp">
       <change beforePath="$PROJECT_DIR$/src/main/java/tools/Pow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Pow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Utils.java" afterDir="false" />
     </list>
     <list id="13292be9-4080-4d01-a904-a63c5a188ec6" name="Changes by flyingfalcon" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -200,7 +197,7 @@
       <recent name="tools" />
     </key>
   </component>
-  <component name="RunManager" selected="Shell Script.Copy">
+  <component name="RunManager" selected="Application.Utils">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="frontend.Main" />
       <module name="MNDOParam.main" />
@@ -445,13 +442,7 @@
       <workItem from="1640058297153" duration="4535000" />
       <workItem from="1640063569694" duration="15827000" />
       <workItem from="1640084865914" duration="23740000" />
-    </task>
-    <task id="LOCAL-00094" summary="Json done">
-      <created>1639767075821</created>
-      <option name="number" value="00094" />
-      <option name="presentableId" value="LOCAL-00094" />
-      <option name="project" value="LOCAL" />
-      <updated>1639767075821</updated>
+      <workItem from="1640116049288" duration="1220000" />
     </task>
     <task id="LOCAL-00095" summary="Cleanup">
       <created>1639767331385</created>
@@ -789,7 +780,14 @@
       <option name="project" value="LOCAL" />
       <updated>1640114184774</updated>
     </task>
-    <option name="localTasksCounter" value="143" />
+    <task id="LOCAL-00143" summary="fastexp tighter interp">
+      <created>1640116888708</created>
+      <option name="number" value="00143" />
+      <option name="presentableId" value="LOCAL-00143" />
+      <option name="project" value="LOCAL" />
+      <updated>1640116888708</updated>
+    </task>
+    <option name="localTasksCounter" value="144" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -837,7 +835,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Fix 6gmethods bug" />
     <MESSAGE value="Clean up" />
     <MESSAGE value="ParamGeometryDerivative not working" />
     <MESSAGE value="Fix PGD" />
@@ -862,7 +859,8 @@
     <MESSAGE value="fastexp" />
     <MESSAGE value="fastexp clean up" />
     <MESSAGE value="pow and fastexp clean up" />
-    <option name="LAST_COMMIT_MESSAGE" value="pow and fastexp clean up" />
+    <MESSAGE value="fastexp tighter interp" />
+    <option name="LAST_COMMIT_MESSAGE" value="fastexp tighter interp" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

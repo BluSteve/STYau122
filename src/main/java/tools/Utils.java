@@ -208,14 +208,6 @@ public class Utils {
 		for (int i = 0; i < bohr.length; i++) res[i] = bohr[i] / Constants.bohr;
 		return res;
 	}
-
-	public static void main(String[] args) {
-
-		double i = .5;
-		System.out.println("Math.exp(i) = " + Math.exp(i));
-		System.out.println("Pow.exp(i) = " + Pow.exp(i));
-		System.out.println(Math.abs(Math.exp(i) - Pow.exp(i)));
-	}
 }
 
 class Pair<F extends Comparable<F>, S> implements Comparable<Pair<F, S>> {
