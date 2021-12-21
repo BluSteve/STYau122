@@ -11,6 +11,7 @@ import runcycle.structs.RunInput;
 import runcycle.structs.RunnableMolecule;
 
 import java.io.IOException;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class Benchmarks {
@@ -25,7 +26,13 @@ public class Benchmarks {
 	@BenchmarkMode(Mode.SampleTime)
 	@OutputTimeUnit(TimeUnit.NANOSECONDS)
 	public static void init(State state) {
-		GeometrySecondDerivative.hessianRoutine(state.s, state.fockderivstatic);
+//		GeometrySecondDerivative.hessianRoutine(state.s, state.fockderivstatic);
+		Random r= new Random(123);
+
+		for(int i=0;i<1000;i++) {
+//			Math.pow(r.nextInt(), -0.5);
+			double p = 1 / Math.sqrt(r.nextInt());
+		}
 	}
 
 	@org.openjdk.jmh.annotations.State(Scope.Benchmark)

@@ -207,6 +207,12 @@ public class Utils {
 		for (int i = 0; i < bohr.length; i++) res[i] = bohr[i] / Constants.bohr;
 		return res;
 	}
+
+	public static void main(String[] args) {
+		int i = 1234;
+		System.out.println("Math.pow(i, -0.5) = " + Math.pow(i, -0.5));
+		System.out.println("1 / Math.sqrt(i) = " + 1 / Math.sqrt(i));
+	}
 }
 
 class Pair<F extends Comparable<F>, S> implements Comparable<Pair<F, S>> {
