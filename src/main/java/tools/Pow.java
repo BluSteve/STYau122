@@ -1,32 +1,12 @@
 package tools;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import static java.lang.Math.abs;
 import static java.lang.Math.sqrt;
 
 public class Pow {
-	private static final Map<Double, Double> cache = new ConcurrentHashMap<>(1048576);
-	public static long hits = 0;
-	public static long total = 0;
-
-	private static double szudzik(double a, double b) {
-		return a >= b ? a * a + a + b : a + b * b;
-	}
-
 	public static double pow(double d, double n) {
-		total++;
-		double szudzik = szudzik(d, n);
-		if (cache.containsKey(szudzik)) {
-			hits++;
-			return cache.get(szudzik);
-		}
-
 		final double absn = abs(n);
 		if (absn > 16) {
-			double r = Math.pow(d, n);
-			cache.put(szudzik, r);
 			return Math.pow(d, n);
 		}
 		else if (d == 0) return 0;
@@ -146,19 +126,14 @@ public class Pow {
 			// any higher than 4 Math.pow becomes faster.
 		}
 		else {
-			r = Math.pow(d, n);
-			cache.put(szudzik, r);
-			return r;
+			return Math.pow(d, n);
 		}
 
 		if (r != 0) {
 			if (n < 0) r = 1 / r;
-			cache.put(szudzik, r);
 			return r;
 		}
 
-		r = Math.pow(d, n);
-		cache.put(szudzik, r);
-		return r;
+		return Math.pow(d, n);
 	}
 }
