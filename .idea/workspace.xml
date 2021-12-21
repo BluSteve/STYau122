@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="fastexp tighter interp">
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="general interp">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/params.csv" beforeDir="false" afterPath="$PROJECT_DIR$/params.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tools/Pow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Pow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Utils.java" afterDir="false" />
     </list>
     <list id="13292be9-4080-4d01-a904-a63c5a188ec6" name="Changes by flyingfalcon" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -197,7 +199,7 @@
       <recent name="tools" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Utils">
+  <component name="RunManager" selected="Shell Script.Copy">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="frontend.Main" />
       <module name="MNDOParam.main" />
@@ -211,12 +213,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TxtIO" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="frontend.TxtIO" />
+    <configuration name="Pow" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="tools.Pow" />
       <module name="MNDOParam.main" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="frontend.*" />
+          <option name="PATTERN" value="tools.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -317,20 +319,20 @@
     </configuration>
     <list>
       <item itemvalue="Application.Main" />
-      <item itemvalue="Application.TxtIO" />
       <item itemvalue="Application.Utils" />
       <item itemvalue="Gradle.MNDOParam [jmh]" />
       <item itemvalue="Gradle.MNDOParam [jar]" />
       <item itemvalue="Gradle.MNDOParam [myProguardTask]" />
       <item itemvalue="Shell Script.Copy" />
+      <item itemvalue="Application.Pow" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Pow" />
         <item itemvalue="Gradle.MNDOParam [myProguardTask]" />
         <item itemvalue="Gradle.MNDOParam [jar]" />
         <item itemvalue="Application.Utils" />
         <item itemvalue="Application.Main" />
-        <item itemvalue="Application.TxtIO" />
       </list>
     </recent_temporary>
   </component>
@@ -442,14 +444,7 @@
       <workItem from="1640058297153" duration="4535000" />
       <workItem from="1640063569694" duration="15827000" />
       <workItem from="1640084865914" duration="23740000" />
-      <workItem from="1640116049288" duration="1220000" />
-    </task>
-    <task id="LOCAL-00095" summary="Cleanup">
-      <created>1639767331385</created>
-      <option name="number" value="00095" />
-      <option name="presentableId" value="LOCAL-00095" />
-      <option name="project" value="LOCAL" />
-      <updated>1639767331385</updated>
+      <workItem from="1640116049288" duration="3551000" />
     </task>
     <task id="LOCAL-00096" summary="More cleanup + fix warnings">
       <created>1639768617499</created>
@@ -787,7 +782,14 @@
       <option name="project" value="LOCAL" />
       <updated>1640116888708</updated>
     </task>
-    <option name="localTasksCounter" value="144" />
+    <task id="LOCAL-00144" summary="general interp">
+      <created>1640118184362</created>
+      <option name="number" value="00144" />
+      <option name="presentableId" value="LOCAL-00144" />
+      <option name="project" value="LOCAL" />
+      <updated>1640118184362</updated>
+    </task>
+    <option name="localTasksCounter" value="145" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -835,7 +837,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Clean up" />
     <MESSAGE value="ParamGeometryDerivative not working" />
     <MESSAGE value="Fix PGD" />
     <MESSAGE value="ParamGeometrySecondDerivative" />
@@ -860,7 +861,8 @@
     <MESSAGE value="fastexp clean up" />
     <MESSAGE value="pow and fastexp clean up" />
     <MESSAGE value="fastexp tighter interp" />
-    <option name="LAST_COMMIT_MESSAGE" value="fastexp tighter interp" />
+    <MESSAGE value="general interp" />
+    <option name="LAST_COMMIT_MESSAGE" value="general interp" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

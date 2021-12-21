@@ -6,7 +6,7 @@ import static java.lang.Math.abs;
 import static java.lang.Math.sqrt;
 
 public class Pow {
-	private static final int max = 250; // anything outside is 0 or infinity
+	private static final int max = 1000; // anything outside is 0 or infinity
 	private static final int interp = 4;
 	private static final double interpinv = 1.0 / interp;
 	private static final int total = interp * max;
@@ -34,20 +34,20 @@ public class Pow {
 		return res;
 	}
 
-	public static double exp8(double x) {
-		return (3628800 + x * (3628800 + x * (1814400 +
-				x * (604800 + x * (151200 + x * (30240 + x * (5040 + x * (720 + x * (90 + x * (10 + x)))))))))) *
-				2.755731922398589E-7;
+	private static double exp7(double x) {
+		return (362880 + x *
+				(362880 + x * (181440 + x * (60480 + x * (15120 + x * (3024 + x * (504 + x * (72 + x * (9 + x))))))))) *
+				2.755731922398589065256E-6;
 	}
 
-	public static double exp(double x) { // 0.25
+	public static double exp(double x) {
 		if (x < -max) return 0;
 		if (x > max) return Double.POSITIVE_INFINITY;
-		int xi = (int) Math.round(x * interp); // 1
-		double xf = x - xi * interpinv; // 0.25
-		double exi = arr[xi + total]; // 41
+		int xi = (int) Math.round(x * interp);
+		double xf = x - xi * interpinv;
+		double exi = arr[xi + total];
 		if (xf == 0) return exi;
-		return exi * exp8(xf);
+		return exi * exp7(xf);
 	}
 
 	/**

@@ -9,7 +9,6 @@ import org.ejml.simple.SimpleMatrix;
 import org.openjdk.jmh.annotations.*;
 import runcycle.structs.RunInput;
 import runcycle.structs.RunnableMolecule;
-import tools.Pow;
 
 import java.io.IOException;
 import java.util.Random;
@@ -24,11 +23,11 @@ public class Benchmarks {
 	@Fork(value = 1, warmups = 0)
 	@Warmup(iterations = 5, time = 5)
 	@Measurement(iterations = 5, time = 5)
-	@BenchmarkMode(Mode.SampleTime)
+	@BenchmarkMode(Mode.Throughput)
 	@OutputTimeUnit(TimeUnit.NANOSECONDS)
 	public static void init(State state) {
 		double x = 10000 * state.r.nextDouble();
-		Pow.exp(x);
+		Math.exp(x);
 	}
 
 	@org.openjdk.jmh.annotations.State(Scope.Benchmark)
