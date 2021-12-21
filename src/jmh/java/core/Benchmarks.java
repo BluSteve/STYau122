@@ -9,6 +9,7 @@ import org.ejml.simple.SimpleMatrix;
 import org.openjdk.jmh.annotations.*;
 import runcycle.structs.RunInput;
 import runcycle.structs.RunnableMolecule;
+import tools.Utils;
 
 import java.io.IOException;
 import java.util.Random;
@@ -26,12 +27,10 @@ public class Benchmarks {
 	@BenchmarkMode(Mode.SampleTime)
 	@OutputTimeUnit(TimeUnit.NANOSECONDS)
 	public static void init(State state) {
-//		GeometrySecondDerivative.hessianRoutine(state.s, state.fockderivstatic);
-		Random r= new Random(123);
+		Random r = new Random(123);
 
-		for(int i=0;i<1000;i++) {
-//			Math.pow(r.nextInt(), -0.5);
-			double p = 1 / Math.sqrt(r.nextInt());
+		for(int i=0; i<1000;i++) {
+			Utils.pow(r.nextDouble(), -4.5);
 		}
 	}
 

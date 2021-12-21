@@ -1,6 +1,7 @@
 package nddo.scf;
 
 import nddo.structs.OrbitalProperties;
+import tools.Utils;
 
 import java.util.Arrays;
 
@@ -15,8 +16,8 @@ public class GTO extends Orbital {
 		super(op, coordinates);
 		this.exponent = exponent;
 
-		this.N = Math.pow(2 / Math.PI, 0.75) * Math.pow(2, L) *
-				Math.pow(exponent, (2 * L + 3) / 4.0) /
+		this.N = Utils.pow(2 / Math.PI, 0.75) * Utils.pow(2, L) *
+				Utils.pow(exponent, (2 * L + 3) / 4.0) /
 				Math.sqrt(fact2(2 * i - 1) * fact2(2 * j - 1) * fact2(2 * k - 1));
 	}
 
@@ -1100,7 +1101,7 @@ public class GTO extends Orbital {
 					case 0:
 						return a2 / (a1 + a2) * num * (2 * a1 * a2 * R * R / (a1 + a2) - 1);
 					case 1:
-						return num * a1 * a2 * R / Math.pow(a1 + a2, 2) * (3 - 2 * R * R * a1 * a2 / (a1 + a2));
+						return num * a1 * a2 * R / Utils.pow(a1 + a2, 2) * (3 - 2 * R * R * a1 * a2 / (a1 + a2));
 				}
 				break;
 		}
@@ -1125,7 +1126,7 @@ public class GTO extends Orbital {
 						return 2 * a1 * a2 * a2 * R / ((a1 + a2) * (a1 + a2)) * num *
 								(2 * a1 * a2 / (a1 + a2) * R * R - 3);
 					case 1:
-						return a1 * a2 * Math.pow(a1 + a2, -2) * num *
+						return a1 * a2 * Utils.pow(a1 + a2, -2) * num *
 								(2 * R * a1 * a2 / (a1 + a2) * (3 * R - 2 * R * R * R * a1 * a2 / (a1 + a2)) +
 										6 * R * R * a1 * a2 / (a1 + a2) - 3);
 				}
@@ -1139,7 +1140,7 @@ public class GTO extends Orbital {
 		double sqrt = Math.sqrt(Math.PI / (a1 + a2));
 		double derivnum = -exp * R * R *
 				(a2 / (a1 + a2) - a1 * a2 / ((a1 + a2) * (a1 + a2))) * sqrt
-				- exp * 0.5 * Math.sqrt(Math.PI) / Math.pow(a1 + a2, 1.5);
+				- exp * 0.5 * Math.sqrt(Math.PI) / Utils.pow(a1 + a2, 1.5);
 
 		double num = sqrt * exp;
 
@@ -1173,10 +1174,10 @@ public class GTO extends Orbital {
 
 		double derivnum = -exp * R * R *
 				(a2 / (a1 + a2) - a1 * a2 / ((a1 + a2) * (a1 + a2))) * sqrt
-				- exp * 0.5 * Math.sqrt(Math.PI) / Math.pow(a1 + a2, 1.5);
+				- exp * 0.5 * Math.sqrt(Math.PI) / Utils.pow(a1 + a2, 1.5);
 
-		double derivnum2 = exp * Math.sqrt(Math.PI) * Math.pow(a1 + a2, -4.5) *
-				(Math.pow(R, 4) * Math.pow(a2, 4) + 3 * R * R * a2 * a2 * (a1 + a2) + 0.75 * (a1 + a2) * (a1 + a2));
+		double derivnum2 = exp * Math.sqrt(Math.PI) * Utils.pow(a1 + a2, -4.5) *
+				(Utils.pow(R, 4) * Utils.pow(a2, 4) + 3 * R * R * a2 * a2 * (a1 + a2) + 0.75 * (a1 + a2) * (a1 + a2));
 
 		switch (l1) {
 			case 0:
@@ -1200,7 +1201,7 @@ public class GTO extends Orbital {
 								+ 2 * derivnum * (2 * a1 * a2 * R * R / ((a1 + a2) * (a1 + a2) * (a1 + a2)) -
 								a2 * R * R / ((a1 + a2) * (a1 + a2)) - 1 / (2 * (a1 + a2) * (a1 + a2)))
 								+ num *
-								((4 * a2 * a2 - 2 * a1 * a2) * R * R / Math.pow(a1 + a2, 4) + Math.pow(a1 + a2, -3));
+								((4 * a2 * a2 - 2 * a1 * a2) * R * R / Utils.pow(a1 + a2, 4) + Utils.pow(a1 + a2, -3));
 
 
 				}
@@ -1215,13 +1216,13 @@ public class GTO extends Orbital {
 		double num = sqrt * exp;
 
 		double derivnuma = -exp * R * R * (a2 / (a1 + a2) - a1 * a2 / ((a1 + a2) * (a1 + a2))) *
-				sqrt - exp * 0.5 * Math.sqrt(Math.PI) / Math.pow(a1 + a2, 1.5);
+				sqrt - exp * 0.5 * Math.sqrt(Math.PI) / Utils.pow(a1 + a2, 1.5);
 
 		double derivnumb = -exp * R * R * (a1 / (a1 + a2) - a1 * a2 / ((a1 + a2) * (a1 + a2))) *
-				sqrt - exp * 0.5 * Math.sqrt(Math.PI) / Math.pow(a1 + a2, 1.5);
+				sqrt - exp * 0.5 * Math.sqrt(Math.PI) / Utils.pow(a1 + a2, 1.5);
 
 		double derivnum2 =
-				exp * Math.sqrt(Math.PI) * Math.pow(a1 + a2, -4.5) * 0.25 *
+				exp * Math.sqrt(Math.PI) * Utils.pow(a1 + a2, -4.5) * 0.25 *
 						(4 * a1 * a1 * a2 * a2 * R * R * R * R +
 								2 * R * R * (a1 + a2) * (a1 * a1 + a2 * a2 - 4 * a1 * a2) + 3 * (a1 + a2) * (a1 + a2));
 
@@ -1264,7 +1265,7 @@ public class GTO extends Orbital {
 		double derivnumalpha =
 				-Math.exp(-a1 * a2 * R * R / (a1 + a2)) * R * R * (a2 / (a1 + a2) - a1 * a2 / ((a1 + a2) * (a1 + a2))) *
 						Math.sqrt(Math.PI / (a1 + a2))
-						- Math.exp(-a1 * a2 * R * R / (a1 + a2)) * 0.5 * Math.sqrt(Math.PI) / Math.pow(a1 + a2, 1.5);
+						- Math.exp(-a1 * a2 * R * R / (a1 + a2)) * 0.5 * Math.sqrt(Math.PI) / Utils.pow(a1 + a2, 1.5);
 
 		double num = Math.sqrt(Math.PI / (a1 + a2)) * Math.exp(-a1 * a2 * R * R / (a1 + a2));
 
@@ -1305,12 +1306,12 @@ public class GTO extends Orbital {
 		double derivnumalphaa =
 				-Math.exp(-a1 * a2 * R * R / (a1 + a2)) * R * R * (a2 / (a1 + a2) - a1 * a2 / ((a1 + a2) * (a1 + a2))) *
 						Math.sqrt(Math.PI / (a1 + a2))
-						- Math.exp(-a1 * a2 * R * R / (a1 + a2)) * 0.5 * Math.sqrt(Math.PI) / Math.pow(a1 + a2, 1.5);
+						- Math.exp(-a1 * a2 * R * R / (a1 + a2)) * 0.5 * Math.sqrt(Math.PI) / Utils.pow(a1 + a2, 1.5);
 
 		double derivnumalphab =
 				-Math.exp(-a1 * a2 * R * R / (a1 + a2)) * R * R * (a1 / (a1 + a2) - a1 * a2 / ((a1 + a2) * (a1 + a2))) *
 						Math.sqrt(Math.PI / (a1 + a2))
-						- Math.exp(-a1 * a2 * R * R / (a1 + a2)) * 0.5 * Math.sqrt(Math.PI) / Math.pow(a1 + a2, 1.5);
+						- Math.exp(-a1 * a2 * R * R / (a1 + a2)) * 0.5 * Math.sqrt(Math.PI) / Utils.pow(a1 + a2, 1.5);
 
 		double num = Math.sqrt(Math.PI / (a1 + a2)) * Math.exp(-a1 * a2 * R * R / (a1 + a2));
 
@@ -1323,14 +1324,14 @@ public class GTO extends Orbital {
 				2 * (a1 / (a1 + a2) - a1 * a2 / ((a1 + a2) * (a1 + a2))) * R * num;
 
 		double derivnumalpha2cross =
-				Math.exp(-a1 * a2 * R * R / (a1 + a2)) * Math.sqrt(Math.PI) * Math.pow(a1 + a2, -4.5) * 0.25 *
+				Math.exp(-a1 * a2 * R * R / (a1 + a2)) * Math.sqrt(Math.PI) * Utils.pow(a1 + a2, -4.5) * 0.25 *
 						(4 * a1 * a1 * a2 * a2 * R * R * R * R +
 								2 * R * R * (a1 + a2) * (a1 * a1 + a2 * a2 - 4 * a1 * a2) + 3 * (a1 + a2) * (a1 + a2));
 
-		double derivnum3 = 0.25 * Math.pow(a1 + a2, -4) * derivnumgeom *
+		double derivnum3 = 0.25 * Utils.pow(a1 + a2, -4) * derivnumgeom *
 				(4 * a1 * a1 * a2 * a2 * R * R * R * R + 2 * R * R * (a1 + a2) * (a1 * a1 + a2 * a2 - 4 * a1 * a2) +
 						3 * (a1 + a2) * (a1 + a2))
-				- num * 0.25 * Math.pow(a1 + a2, -4) *
+				- num * 0.25 * Utils.pow(a1 + a2, -4) *
 				(16 * a1 * a1 * a2 * a2 * R * R * R + 4 * R * (a1 + a2) * (a1 * a1 + a2 * a2 - 4 * a1 * a2));
 
 		switch (l1) {
@@ -1339,40 +1340,40 @@ public class GTO extends Orbital {
 					case 0:
 						return derivnum3;
 					case 1:
-						return (2 * a1 * Math.pow(a1 + a2, -3) - Math.pow(a1 + a2, -2)) * num +
-								(R * Math.pow(a1 + a2, -2) - 2 * a1 * R * Math.pow(a1 + a2, -3)) * derivnumgeom
-								+ (Math.pow(a1 + a2, -1) - a1 * Math.pow(a1 + a2, -2)) * derivnumalphab +
-								(a1 * R * Math.pow(a1 + a2, -2) - R * Math.pow(a1 + a2, -1)) * derivnumalphageomb
-								- a1 * Math.pow(a1 + a2, -2) * derivnumalphaa +
-								a1 * R * Math.pow(a1 + a2, -2) * derivnumalphageoma
-								+ a1 * Math.pow(a1 + a2, -1) * derivnumalpha2cross -
-								a1 * R * Math.pow(a1 + a2, -1) * derivnum3;
+						return (2 * a1 * Utils.pow(a1 + a2, -3) - Utils.pow(a1 + a2, -2)) * num +
+								(R * Utils.pow(a1 + a2, -2) - 2 * a1 * R * Utils.pow(a1 + a2, -3)) * derivnumgeom
+								+ (Utils.pow(a1 + a2, -1) - a1 * Utils.pow(a1 + a2, -2)) * derivnumalphab +
+								(a1 * R * Utils.pow(a1 + a2, -2) - R * Utils.pow(a1 + a2, -1)) * derivnumalphageomb
+								- a1 * Utils.pow(a1 + a2, -2) * derivnumalphaa +
+								a1 * R * Utils.pow(a1 + a2, -2) * derivnumalphageoma
+								+ a1 * Utils.pow(a1 + a2, -1) * derivnumalpha2cross -
+								a1 * R * Utils.pow(a1 + a2, -1) * derivnum3;
 				}
 			case 1:
 				switch (l2) {
 					case 0:
-						return (R / (a1 + a2) - a2 * R * Math.pow(a1 + a2, -2)) * derivnumalphageoma -
-								(1 / (a1 + a2) - a2 * Math.pow(a1 + a2, -2)) * derivnumalphaa
+						return (R / (a1 + a2) - a2 * R * Utils.pow(a1 + a2, -2)) * derivnumalphageoma -
+								(1 / (a1 + a2) - a2 * Utils.pow(a1 + a2, -2)) * derivnumalphaa
 								- a2 / (a1 + a2) * derivnumalpha2cross + a2 * R / (a1 + a2) * derivnum3
-								+ (2 * a2 * R * Math.pow(a1 + a2, -3) - R * Math.pow(a1 + a2, -2)) * derivnumgeom -
-								(2 * a2 * Math.pow(a1 + a2, -3) - Math.pow(a1 + a2, -2)) * num
-								+ a2 * Math.pow(a1 + a2, -2) * derivnumalphab -
-								a2 * R * Math.pow(a1 + a2, -2) * derivnumalphageomb;
+								+ (2 * a2 * R * Utils.pow(a1 + a2, -3) - R * Utils.pow(a1 + a2, -2)) * derivnumgeom -
+								(2 * a2 * Utils.pow(a1 + a2, -3) - Utils.pow(a1 + a2, -2)) * num
+								+ a2 * Utils.pow(a1 + a2, -2) * derivnumalphab -
+								a2 * R * Utils.pow(a1 + a2, -2) * derivnumalphageomb;
 					case 1:
-						return (0.5 / (a1 + a2) - a1 * a2 * R * R * Math.pow(a1 + a2, -2)) * derivnum3 +
-								2 * a1 * a2 * R * Math.pow(a1 + a2, -2) * derivnumalpha2cross
+						return (0.5 / (a1 + a2) - a1 * a2 * R * R * Utils.pow(a1 + a2, -2)) * derivnum3 +
+								2 * a1 * a2 * R * Utils.pow(a1 + a2, -2) * derivnumalpha2cross
 								+ derivnumalphaa *
-								(2 * a1 * R * Math.pow(a1 + a2, -2) - 4 * a1 * a2 * R * Math.pow(a1 + a2, -3)) +
+								(2 * a1 * R * Utils.pow(a1 + a2, -2) - 4 * a1 * a2 * R * Utils.pow(a1 + a2, -3)) +
 								derivnumalphageoma *
-										(2 * a1 * a2 * R * R * Math.pow(a1 + a2, -3) - 0.5 * Math.pow(a1 + a2, -2) -
-												a1 * R * R * Math.pow(a1 + a2, -2))
+										(2 * a1 * a2 * R * R * Utils.pow(a1 + a2, -3) - 0.5 * Utils.pow(a1 + a2, -2) -
+												a1 * R * R * Utils.pow(a1 + a2, -2))
 								+ derivnumalphab *
-								(2 * a2 * R * Math.pow(a1 + a2, -2) - 4 * a1 * a2 * R * Math.pow(a1 + a2, -3)) +
-								derivnumalphageomb * (2 * a1 * a2 * R * R * Math.pow(a1 + a2, -3) -
-										a2 * R * R * Math.pow(a1 + a2, -2) - 0.5 * Math.pow(a1 + a2, -2))
-								+ derivnumgeom * ((a1 * a1 + a2 * a2 - 4 * a1 * a2) * R * R * Math.pow(a1 + a2, -4) +
-								Math.pow(a1 + a2, -3))
-								- 2 * (a1 * a1 + a2 * a2 - 4 * a1 * a2) * R * Math.pow(a1 + a2, -4) * num;
+								(2 * a2 * R * Utils.pow(a1 + a2, -2) - 4 * a1 * a2 * R * Utils.pow(a1 + a2, -3)) +
+								derivnumalphageomb * (2 * a1 * a2 * R * R * Utils.pow(a1 + a2, -3) -
+										a2 * R * R * Utils.pow(a1 + a2, -2) - 0.5 * Utils.pow(a1 + a2, -2))
+								+ derivnumgeom * ((a1 * a1 + a2 * a2 - 4 * a1 * a2) * R * R * Utils.pow(a1 + a2, -4) +
+								Utils.pow(a1 + a2, -3))
+								- 2 * (a1 * a1 + a2 * a2 - 4 * a1 * a2) * R * Utils.pow(a1 + a2, -4) * num;
 
 				}
 		}
@@ -1385,7 +1386,7 @@ public class GTO extends Orbital {
 		double derivnumalpha =
 				-Math.exp(-a1 * a2 * R * R / (a1 + a2)) * R * R * (a2 / (a1 + a2) - a1 * a2 / ((a1 + a2) * (a1 + a2))) *
 						Math.sqrt(Math.PI / (a1 + a2))
-						- Math.exp(-a1 * a2 * R * R / (a1 + a2)) * 0.5 * Math.sqrt(Math.PI) / Math.pow(a1 + a2, 1.5);
+						- Math.exp(-a1 * a2 * R * R / (a1 + a2)) * 0.5 * Math.sqrt(Math.PI) / Utils.pow(a1 + a2, 1.5);
 
 		double num = Math.sqrt(Math.PI / (a1 + a2)) * Math.exp(-a1 * a2 * R * R / (a1 + a2));
 
@@ -1395,13 +1396,13 @@ public class GTO extends Orbital {
 				2 * (a2 / (a1 + a2) - a1 * a2 / ((a1 + a2) * (a1 + a2))) * R * num;
 
 		double derivnumalpha2diag =
-				Math.exp(-a1 * a2 * R * R / (a1 + a2)) * Math.sqrt(Math.PI) * Math.pow(a1 + a2, -4.5) *
-						(Math.pow(R, 4) * Math.pow(a2, 4) + 3 * R * R * a2 * a2 * (a1 + a2) +
+				Math.exp(-a1 * a2 * R * R / (a1 + a2)) * Math.sqrt(Math.PI) * Utils.pow(a1 + a2, -4.5) *
+						(Utils.pow(R, 4) * Utils.pow(a2, 4) + 3 * R * R * a2 * a2 * (a1 + a2) +
 								0.75 * (a1 + a2) * (a1 + a2));
 
-		double derivnum3 = Math.pow(a1 + a2, -4) * derivnumgeom *
+		double derivnum3 = Utils.pow(a1 + a2, -4) * derivnumgeom *
 				(a2 * a2 * a2 * a2 * R * R * R * R + 3 * R * R * a2 * a2 * (a1 + a2) + 0.75 * (a1 + a2) * (a1 + a2))
-				- num * Math.pow(a1 + a2, -4) * (4 * a2 * a2 * a2 * a2 * R * R * R + 6 * R * a2 * a2 * (a1 + a2));
+				- num * Utils.pow(a1 + a2, -4) * (4 * a2 * a2 * a2 * a2 * R * R * R + 6 * R * a2 * a2 * (a1 + a2));
 
 		switch (l1) {
 			case 0:
@@ -1409,29 +1410,31 @@ public class GTO extends Orbital {
 					case 0:
 						return derivnum3;
 					case 1:
-						return 2 * a2 * R * Math.pow(a1 + a2, -3) * derivnumgeom - 2 * a2 * Math.pow(a1 + a2, -3) * num
-								+ 2 * a2 * Math.pow(a1 + a2, -2) * derivnumalpha -
-								2 * a2 * R * Math.pow(a1 + a2, -2) * derivnumalphageom
+						return 2 * a2 * R * Utils.pow(a1 + a2, -3) * derivnumgeom -
+								2 * a2 * Utils.pow(a1 + a2, -3) * num
+								+ 2 * a2 * Utils.pow(a1 + a2, -2) * derivnumalpha -
+								2 * a2 * R * Utils.pow(a1 + a2, -2) * derivnumalphageom
 								+ a1 / (a1 + a2) * derivnumalpha2diag - a1 * R / (a1 + a2) * derivnum3;
 				}
 			case 1:
 				switch (l2) {
 					case 0:
-						return 2 * a2 * R * Math.pow(a1 + a2, -3) * derivnumgeom - 2 * a2 * Math.pow(a1 + a2, -3) * num
-								+ 2 * a2 * Math.pow(a1 + a2, -2) * derivnumalpha -
-								2 * a2 * R * Math.pow(a1 + a2, -2) * derivnumalphageom
+						return 2 * a2 * R * Utils.pow(a1 + a2, -3) * derivnumgeom -
+								2 * a2 * Utils.pow(a1 + a2, -3) * num
+								+ 2 * a2 * Utils.pow(a1 + a2, -2) * derivnumalpha -
+								2 * a2 * R * Utils.pow(a1 + a2, -2) * derivnumalphageom
 								- a2 / (a1 + a2) * derivnumalpha2diag + a2 * R / (a1 + a2) * derivnum3;
 					case 1:
-						return (0.5 / (a1 + a2) - a1 * a2 * R * R * Math.pow(a1 + a2, -2)) * derivnum3 +
-								2 * a1 * a2 * R * Math.pow(a1 + a2, -2) * derivnumalpha2diag
+						return (0.5 / (a1 + a2) - a1 * a2 * R * R * Utils.pow(a1 + a2, -2)) * derivnum3 +
+								2 * a1 * a2 * R * Utils.pow(a1 + a2, -2) * derivnumalpha2diag
 								+ 2 * derivnumalphageom *
-								(2 * a1 * a2 * R * R * Math.pow(a1 + a2, -3) - a2 * R * R * Math.pow(a1 + a2, -2) -
-										0.5 * Math.pow(a1 + a2, -2))
+								(2 * a1 * a2 * R * R * Utils.pow(a1 + a2, -3) - a2 * R * R * Utils.pow(a1 + a2, -2) -
+										0.5 * Utils.pow(a1 + a2, -2))
 								- 2 * derivnumalpha *
-								(4 * a1 * a2 * R * Math.pow(a1 + a2, -3) - 2 * a2 * R * Math.pow(a1 + a2, -2))
+								(4 * a1 * a2 * R * Utils.pow(a1 + a2, -3) - 2 * a2 * R * Utils.pow(a1 + a2, -2))
 								+ derivnumgeom *
-								((4 * a2 * a2 - 2 * a1 * a2) * R * R * Math.pow(a1 + a2, -4) + Math.pow(a1 + a2, -3))
-								- 2 * (4 * a2 * a2 - 2 * a1 * a2) * R * Math.pow(a1 + a2, -4) * num;
+								((4 * a2 * a2 - 2 * a1 * a2) * R * R * Utils.pow(a1 + a2, -4) + Utils.pow(a1 + a2, -3))
+								- 2 * (4 * a2 * a2 - 2 * a1 * a2) * R * Utils.pow(a1 + a2, -4) * num;
 
 				}
 		}
@@ -1440,14 +1443,14 @@ public class GTO extends Orbital {
 	}
 
 	public double Nalphapd() {
-		return (2 * L + 3) / 4.0 * Math.pow(2 / Math.PI, 0.75) * Math.pow(2, L) *
-				Math.pow(exponent, (2 * L - 1) / 4.0) /
+		return (2 * L + 3) / 4.0 * Utils.pow(2 / Math.PI, 0.75) * Utils.pow(2, L) *
+				Utils.pow(exponent, (2 * L - 1) / 4.0) /
 				Math.sqrt(fact2(2 * i - 1) * fact2(2 * j - 1) * fact2(2 * k - 1));
 	}
 
 	public double Nalphap2d() {
-		return (2 * L + 3) * (2 * L - 1) / 16.0 * Math.pow(2 / Math.PI, 0.75) * Math.pow(2, L) *
-				Math.pow(exponent, (2 * L - 5) / 4.0) /
+		return (2 * L + 3) * (2 * L - 1) / 16.0 * Utils.pow(2 / Math.PI, 0.75) * Utils.pow(2, L) *
+				Utils.pow(exponent, (2 * L - 5) / 4.0) /
 				Math.sqrt(fact2(2 * i - 1) * fact2(2 * j - 1) * fact2(2 * k - 1));
 	}
 

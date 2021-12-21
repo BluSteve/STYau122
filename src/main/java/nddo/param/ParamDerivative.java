@@ -1072,8 +1072,8 @@ public class ParamDerivative {
 			for (int j = 0; j < NVirt; j++) {
 				double e = -soln.E.get(i) + soln.E.get(NOcc + j);
 
-				Darr[counter] = Math.pow(e, -0.5);
-				Dinvarr[counter] = Math.pow(e, 0.5);
+				Darr[counter] = Utils.pow(e, -0.5);
+				Dinvarr[counter] = Utils.pow(e, 0.5);
 
 				counter++;
 			}
@@ -1269,7 +1269,7 @@ public class ParamDerivative {
 			for (int j = 0; j < NVirt; j++) {
 				double e = -soln.E.get(i) - soln.E.get(NOcc + j);
 
-				arrpreconditioner[counter] = Math.pow(e, -0.5);
+				arrpreconditioner[counter] = Utils.pow(e, -0.5);
 
 				counter++;
 			}
@@ -1465,7 +1465,7 @@ public class ParamDerivative {
 		for (int i = 0; i < NOccAlpha; i++) {
 			for (int j = 0; j < NVirtAlpha; j++) {
 				double e = -soln.Ea.get(i) + soln.Ea.get(NOccAlpha + j);
-				preconditioner.set(counter, Math.pow(e, -0.5));
+				preconditioner.set(counter, Utils.pow(e, -0.5));
 				counter++;
 			}
 		}
@@ -1473,7 +1473,7 @@ public class ParamDerivative {
 		for (int i = 0; i < NOccBeta; i++) {
 			for (int j = 0; j < NVirtBeta; j++) {
 				double e = -soln.Eb.get(i) + soln.Eb.get(NOccBeta + j);
-				preconditioner.set(counter, Math.pow(e, -0.5));
+				preconditioner.set(counter, Utils.pow(e, -0.5));
 				counter++;
 			}
 		}

@@ -983,7 +983,7 @@ public class ParamSecondDerivative {
 				- (dipoletota[0] * soln.dipoletot[0] + dipoletota[1] * soln.dipoletot[1] +
 				dipoletota[2] * soln.dipoletot[2]) *
 				(dipoletotb[0] * soln.dipoletot[0] + dipoletotb[1] * soln.dipoletot[1] +
-						dipoletotb[2] * soln.dipoletot[2]) / Math.pow(soln.dipole, 3);
+						dipoletotb[2] * soln.dipoletot[2]) / Utils.pow(soln.dipole, 3);
 	}
 
 	public static SimpleMatrix staticMatrix(SolutionR soln, SimpleMatrix Fstatictotal, SimpleMatrix FstaticA,
@@ -1307,7 +1307,7 @@ public class ParamSecondDerivative {
 		for (int i = 0; i < NOccAlpha; i++) {
 			for (int j = 0; j < NVirtAlpha; j++) {
 				double e = -soln.Ea.get(i) + soln.Ea.get(NOccAlpha + j);
-				preconditioner.set(counter, Math.pow(e, -0.5));
+				preconditioner.set(counter, Utils.pow(e, -0.5));
 				counter++;
 			}
 		}
@@ -1315,7 +1315,7 @@ public class ParamSecondDerivative {
 		for (int i = 0; i < NOccBeta; i++) {
 			for (int j = 0; j < NVirtBeta; j++) {
 				double e = -soln.Eb.get(i) + soln.Eb.get(NOccBeta + j);
-				preconditioner.set(counter, Math.pow(e, -0.5));
+				preconditioner.set(counter, Utils.pow(e, -0.5));
 				counter++;
 			}
 		}

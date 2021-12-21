@@ -55,8 +55,8 @@ public class Testing {
 			for (int j = 0; j < NVirt; j++) {
 				double e = -soln.E.get(i) + soln.E.get(NOcc + j);
 
-				Darr[counter] = Math.pow(e, -0.5);
-				Dinvarr[counter] = Math.pow(e, 0.5);
+				Darr[counter] = Utils.pow(e, -0.5);
+				Dinvarr[counter] = Utils.pow(e, 0.5);
 
 				counter++;
 			}
