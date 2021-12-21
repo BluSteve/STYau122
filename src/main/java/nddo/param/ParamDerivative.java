@@ -11,6 +11,7 @@ import org.apache.commons.lang3.time.StopWatch;
 import org.ejml.data.SingularMatrixException;
 import org.ejml.dense.row.CommonOps_DDRM;
 import org.ejml.simple.SimpleMatrix;
+import tools.Pow;
 import tools.Utils;
 
 import java.util.ArrayList;
@@ -1072,8 +1073,8 @@ public class ParamDerivative {
 			for (int j = 0; j < NVirt; j++) {
 				double e = -soln.E.get(i) + soln.E.get(NOcc + j);
 
-				Darr[counter] = Utils.pow(e, -0.5);
-				Dinvarr[counter] = Utils.pow(e, 0.5);
+				Darr[counter] = Pow.pow(e, -0.5);
+				Dinvarr[counter] = Pow.pow(e, 0.5);
 
 				counter++;
 			}
@@ -1269,7 +1270,7 @@ public class ParamDerivative {
 			for (int j = 0; j < NVirt; j++) {
 				double e = -soln.E.get(i) - soln.E.get(NOcc + j);
 
-				arrpreconditioner[counter] = Utils.pow(e, -0.5);
+				arrpreconditioner[counter] = Pow.pow(e, -0.5);
 
 				counter++;
 			}
@@ -1465,7 +1466,7 @@ public class ParamDerivative {
 		for (int i = 0; i < NOccAlpha; i++) {
 			for (int j = 0; j < NVirtAlpha; j++) {
 				double e = -soln.Ea.get(i) + soln.Ea.get(NOccAlpha + j);
-				preconditioner.set(counter, Utils.pow(e, -0.5));
+				preconditioner.set(counter, Pow.pow(e, -0.5));
 				counter++;
 			}
 		}
@@ -1473,7 +1474,7 @@ public class ParamDerivative {
 		for (int i = 0; i < NOccBeta; i++) {
 			for (int j = 0; j < NVirtBeta; j++) {
 				double e = -soln.Eb.get(i) + soln.Eb.get(NOccBeta + j);
-				preconditioner.set(counter, Utils.pow(e, -0.5));
+				preconditioner.set(counter, Pow.pow(e, -0.5));
 				counter++;
 			}
 		}

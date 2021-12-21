@@ -3,6 +3,7 @@ package frontend;
 import runcycle.RunIterator;
 import runcycle.structs.RunInput;
 import runcycle.structs.RunOutput;
+import tools.Pow;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -23,6 +24,9 @@ public class Main {
 			JsonIO.write(ro, String.format("outputs/%04d-%s-%s", i, ro.getInput().hash, ro.hash));
 			i++;
 		}
+
+		System.out.println("Pow.hits = " + Pow.hits);
+		System.out.println("Pow.total = " + Pow.total);
 
 		System.exit(0);
 	}

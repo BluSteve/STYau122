@@ -9,7 +9,7 @@ import org.ejml.simple.SimpleMatrix;
 import org.openjdk.jmh.annotations.*;
 import runcycle.structs.RunInput;
 import runcycle.structs.RunnableMolecule;
-import tools.Utils;
+import tools.Pow;
 
 import java.io.IOException;
 import java.util.Random;
@@ -30,7 +30,7 @@ public class Benchmarks {
 		Random r = new Random(123);
 
 		for(int i=0; i<1000;i++) {
-			Utils.pow(r.nextDouble(), -4.5);
+			Pow.pow(r.nextDouble(), -4.5);
 		}
 	}
 

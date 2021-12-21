@@ -1,7 +1,7 @@
 package nddo.scf;
 
 import nddo.structs.OrbitalProperties;
-import tools.Utils;
+import tools.Pow;
 
 import java.util.Arrays;
 
@@ -35,13 +35,13 @@ public class LCGTO extends Orbital { // HAS AtomFixed, OrbitalProperties, c, e
 
 		for (int a = 0; a < n; a++) {
 			for (int b = 0; b < n; b++) {
-				sum += c[a] * c[b] * gaussArray[a].getN() * gaussArray[b].getN() / Utils.pow(e[a] + e[b], L + 1.5);
+				sum += c[a] * c[b] * gaussArray[a].getN() * gaussArray[b].getN() / Pow.pow(e[a] + e[b], L + 1.5);
 			}
 		}
 
-		sum *= Utils.pow(Math.PI, 1.5) * GTO.fact2(2 * i - 1) * GTO.fact2(2 * j - 1) * GTO.fact2(2 * k - 1)
-				/ Utils.pow(2, L);
-		sum = Utils.pow(sum, -0.5);
+		sum *= Pow.pow(Math.PI, 1.5) * GTO.fact2(2 * i - 1) * GTO.fact2(2 * j - 1) * GTO.fact2(2 * k - 1)
+				/ Pow.pow(2, L);
+		sum = Pow.pow(sum, -0.5);
 		N = sum;
 	}
 

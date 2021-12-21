@@ -1,15 +1,15 @@
 package nddo.math;
 
-import tools.Utils;
+import tools.Pow;
 
 public class Multipoles {
 	public static double qq(double p01, double p11, double p21, double D11, double D21, double p02, double p12,
 							double p22, double D12, double D22, double R) {
-		return Utils.pow(R * R + (p01 + p02) * (p01 + p02), -0.5);
+		return Pow.pow(R * R + (p01 + p02) * (p01 + p02), -0.5);
 	}
 
 	public static double f0(int a2, int b2, double Dn2, double p01, double pn2, double R) {
-		return Utils.pow((R + a2 * Dn2) * (R + a2 * Dn2) + b2 * b2 * Dn2 * Dn2 + (p01 + pn2) * (p01 + pn2), -0.5);
+		return Pow.pow((R + a2 * Dn2) * (R + a2 * Dn2) + b2 * b2 * Dn2 * Dn2 + (p01 + pn2) * (p01 + pn2), -0.5);
 	}
 
 	public static double quz(double p01, double p11, double p21, double D11, double D21, double p02, double p12,
@@ -28,13 +28,13 @@ public class Multipoles {
 	}
 
 	public static double f1(int a1, int a2, int b1, int b2, double Dn1, double Dm2, double pn1, double pm2, double R) {
-		return Utils.pow(
+		return Pow.pow(
 				(R + a1 * Dn1 + a2 * Dm2) * (R + a1 * Dn1 + a2 * Dm2) + (b1 * Dn1 + b2 * Dm2) * (b1 * Dn1 + b2 * Dm2) +
 						(pn1 + pm2) * (pn1 + pm2), -0.5);
 	}
 
 	public static double f2(int a1, int a2, int b1, int b2, double D21, double D22, double p21, double p22, double R) {
-		return Utils.pow((R + a1 * D21 + a2 * D22) * (R + a1 * D21 + a2 * D22) + (b1 * D21) * (b1 * D21) +
+		return Pow.pow((R + a1 * D21 + a2 * D22) * (R + a1 * D21 + a2 * D22) + (b1 * D21) * (b1 * D21) +
 				(b2 * D22) * (b2 * D22) + (p21 + p22) * (p21 + p22), -0.5);
 	}
 
@@ -241,12 +241,12 @@ public class Multipoles {
 
 	public static double qqgd(double p01, double p11, double p21, double D11, double D21, double p02, double p12,
 							  double p22, double D12, double D22, double R, double[] A, double[] B, int tau) {
-		return (B[tau] - A[tau]) * Utils.pow(R * R + (p01 + p02) * (p01 + p02), -1.5);
+		return (B[tau] - A[tau]) * Pow.pow(R * R + (p01 + p02) * (p01 + p02), -1.5);
 	}
 
 	public static double f0gd(int a2, int b2, double Dn2, double p01, double pn2, double R, double[] A, double[] B,
 							  int tau) {
-		return (B[tau] - A[tau]) / R * (R + a2 * Dn2) * Utils.pow(f0(a2, b2, Dn2, p01, pn2, R), 3);
+		return (B[tau] - A[tau]) / R * (R + a2 * Dn2) * Pow.pow(f0(a2, b2, Dn2, p01, pn2, R), 3);
 	}
 
 	public static double quzgd(double p01, double p11, double p21, double D11, double D21, double p02, double p12,
@@ -268,13 +268,13 @@ public class Multipoles {
 	public static double f1gd(int a1, int a2, int b1, int b2, double Dn1, double Dm2, double pn1, double pm2, double R,
 							  double[] A, double[] B, int tau) {
 		return (B[tau] - A[tau]) / R * (R + a1 * Dn1 + a2 * Dm2) *
-				Utils.pow(f1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R), 3);
+				Pow.pow(f1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R), 3);
 	}
 
 	public static double f2gd(int a1, int a2, int b1, int b2, double Dn1, double Dm2, double pn1, double pm2, double R,
 							  double[] A, double[] B, int tau) {
 		return (B[tau] - A[tau]) / R * (R + a1 * Dn1 + a2 * Dm2) *
-				Utils.pow(f2(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R), 3);
+				Pow.pow(f2(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R), 3);
 	}
 
 	public static double upiupigd(double p01, double p11, double p21, double D11, double D21, double p02, double p12,
@@ -516,16 +516,16 @@ public class Multipoles {
 							   double p22, double D12, double D22, double R, double[] A, double[] B, int tau1,
 							   int tau2) {
 		double sum = 0;
-		if (tau1 == tau2) sum = -Utils.pow(R * R + (p01 + p02) * (p01 + p02), -1.5);
-		return sum + 3 * (B[tau1] - A[tau1]) * (B[tau2] - A[tau2]) * Utils.pow(R * R + (p01 + p02) * (p01 + p02), -2.5);
+		if (tau1 == tau2) sum = -Pow.pow(R * R + (p01 + p02) * (p01 + p02), -1.5);
+		return sum + 3 * (B[tau1] - A[tau1]) * (B[tau2] - A[tau2]) * Pow.pow(R * R + (p01 + p02) * (p01 + p02), -2.5);
 	}
 
 	public static double f0g2d(int a2, int b2, double Dn2, double p01, double pn2, double R, double[] A, double[] B,
 							   int tau1, int tau2) {
 		double f0 = f0(a2, b2, Dn2, p01, pn2, R);
-		double num = (B[tau1] - A[tau1]) * (B[tau2] - A[tau2]) / (R * R) * Utils.pow(f0, 3) *
-				(3 * Utils.pow(R + a2 * Dn2, 2) * f0 * f0 + a2 * Dn2 / R);
-		if (tau1 == tau2) num += -(R + a2 * Dn2) * Utils.pow(f0, 3) / R;
+		double num = (B[tau1] - A[tau1]) * (B[tau2] - A[tau2]) / (R * R) * Pow.pow(f0, 3) *
+				(3 * Pow.pow(R + a2 * Dn2, 2) * f0 * f0 + a2 * Dn2 / R);
+		if (tau1 == tau2) num += -(R + a2 * Dn2) * Pow.pow(f0, 3) / R;
 		return num;
 	}
 
@@ -555,9 +555,9 @@ public class Multipoles {
 							   double R,
 							   double[] A, double[] B, int tau1, int tau2) {
 		double f1 = f1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R);
-		double num = (B[tau1] - A[tau1]) * (B[tau2] - A[tau2]) / (R * R) * Utils.pow(f1, 3) *
-				(3 * Utils.pow(R + a1 * Dn1 + a2 * Dm2, 2) * f1 * f1 + (a1 * Dn1 + a2 * Dm2) / R);
-		if (tau1 == tau2) num += -(R + a1 * Dn1 + a2 * Dm2) * Utils.pow(f1, 3) / R;
+		double num = (B[tau1] - A[tau1]) * (B[tau2] - A[tau2]) / (R * R) * Pow.pow(f1, 3) *
+				(3 * Pow.pow(R + a1 * Dn1 + a2 * Dm2, 2) * f1 * f1 + (a1 * Dn1 + a2 * Dm2) / R);
+		if (tau1 == tau2) num += -(R + a1 * Dn1 + a2 * Dm2) * Pow.pow(f1, 3) / R;
 		return num;
 	}
 
@@ -565,9 +565,9 @@ public class Multipoles {
 							   double R,
 							   double[] A, double[] B, int tau1, int tau2) {
 		double f2 = f2(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R);
-		double num = (B[tau1] - A[tau1]) * (B[tau2] - A[tau2]) / (R * R) * Utils.pow(f2, 3) *
-				(3 * Utils.pow(R + a1 * Dn1 + a2 * Dm2, 2) * f2 * f2 + (a1 * Dn1 + a2 * Dm2) / R);
-		if (tau1 == tau2) num += -(R + a1 * Dn1 + a2 * Dm2) * Utils.pow(f2, 3) / R;
+		double num = (B[tau1] - A[tau1]) * (B[tau2] - A[tau2]) / (R * R) * Pow.pow(f2, 3) *
+				(3 * Pow.pow(R + a1 * Dn1 + a2 * Dm2, 2) * f2 * f2 + (a1 * Dn1 + a2 * Dm2) / R);
+		if (tau1 == tau2) num += -(R + a1 * Dn1 + a2 * Dm2) * Pow.pow(f2, 3) / R;
 		return num;
 	}
 
@@ -854,7 +854,7 @@ public class Multipoles {
 	public static double f0pdpartial(int a2, int b2, double Dn2, double p01, double pn2, double R, double Dn2pd,
 									 double pn2pd) {
 		double f0 = f0(a2, b2, Dn2, p01, pn2, R);
-		return -g0(a2, b2, Dn2, p01, pn2, R, Dn2pd, pn2pd) * Utils.pow(f0, 3);
+		return -g0(a2, b2, Dn2, p01, pn2, R, Dn2pd, pn2pd) * Pow.pow(f0, 3);
 	}
 
 	public static double f0pd(int a2, int b2, double Dn2, double p01, double pn2, double R, int num, double Dn2pd,
@@ -907,11 +907,11 @@ public class Multipoles {
 			case 0:
 			case 1:
 				return -g1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxpd, pxpd, type) *
-						Utils.pow(f1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R), 3);
+						Pow.pow(f1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R), 3);
 			case 2:
 				double f1 = f1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R);
-				return -g1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxpd, pxpd, 0) * Utils.pow(f1, 3) -
-						g1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxpd, pxpd, 1) * Utils.pow(f1, 3);
+				return -g1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxpd, pxpd, 0) * Pow.pow(f1, 3) -
+						g1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxpd, pxpd, 1) * Pow.pow(f1, 3);
 		}
 		return 0;
 	}
@@ -933,11 +933,11 @@ public class Multipoles {
 			case 0:
 			case 1:
 				return -g2(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxpd, pxpd, type) *
-						Utils.pow(f2(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R), 3);
+						Pow.pow(f2(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R), 3);
 			case 2:
 				double f2 = f2(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R);
-				return -g2(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxpd, pxpd, 0) * Utils.pow(f2, 3) -
-						g2(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxpd, pxpd, 1) * Utils.pow(f2, 3);
+				return -g2(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxpd, pxpd, 0) * Pow.pow(f2, 3) -
+						g2(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxpd, pxpd, 1) * Pow.pow(f2, 3);
 		}
 		return 0;
 	}
@@ -963,14 +963,14 @@ public class Multipoles {
 		switch (type) {
 			case 0:
 				return -g1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dn1pd, pn1pd, type) *
-						Utils.pow(f1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R), 3);
+						Pow.pow(f1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R), 3);
 			case 1:
 				return -g1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dm2pd, pm2pd, type) *
-						Utils.pow(f1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R), 3);
+						Pow.pow(f1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R), 3);
 			case 2:
 				double f1 = f1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R);
-				return -g1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dn1pd, pn1pd, 0) * Utils.pow(f1, 3) -
-						g1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dm2pd, pm2pd, 1) * Utils.pow(f1, 3);
+				return -g1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dn1pd, pn1pd, 0) * Pow.pow(f1, 3) -
+						g1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dm2pd, pm2pd, 1) * Pow.pow(f1, 3);
 		}
 		return 0;
 	}
@@ -1292,9 +1292,9 @@ public class Multipoles {
 	public static double f1crossp2d(int a1, int a2, int b1, int b2, double Dn1, double Dm2, double pn1, double pm2,
 									double R, double Dn1deriv, double Dm2deriv, double pn1deriv, double pm2deriv) {
 		double f1 = f1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R);
-		return 3 * Utils.pow(f1, 5) * g1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dn1deriv, pn1deriv, 0) *
+		return 3 * Pow.pow(f1, 5) * g1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dn1deriv, pn1deriv, 0) *
 				g1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dm2deriv, pm2deriv, 1) -
-				h1(a1, a2, b1, b2, Dn1deriv, Dm2deriv, pn1deriv, pm2deriv) * Utils.pow(f1, 3);
+				h1(a1, a2, b1, b2, Dn1deriv, Dm2deriv, pn1deriv, pm2deriv) * Pow.pow(f1, 3);
 	}
 
 	public static double upiupicrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
@@ -1365,9 +1365,9 @@ public class Multipoles {
 	public static double f2crossp2d(int a1, int a2, int b1, int b2, double D21, double D22, double p21, double p22,
 									double R, double D21deriv, double D22deriv, double p21deriv, double p22deriv) {
 		double f2 = f2(a1, a2, b1, b2, D21, D22, p21, p22, R);
-		return 3 * Utils.pow(f2, 5) * g2(a1, a2, b1, b2, D21, D22, p21, p22, R, D21deriv, p21deriv, 0) *
+		return 3 * Pow.pow(f2, 5) * g2(a1, a2, b1, b2, D21, D22, p21, p22, R, D21deriv, p21deriv, 0) *
 				g2(a1, a2, b1, b2, D21, D22, p21, p22, R, D22deriv, p22deriv, 1) -
-				h2(a1, a2, D21deriv, D22deriv, p21deriv, p22deriv) * Utils.pow(f2, 3);
+				h2(a1, a2, D21deriv, D22deriv, p21deriv, p22deriv) * Pow.pow(f2, 3);
 	}
 
 	public static double QxxQyycrossp2d(double p01, double p11, double p21, double D11, double D21, double p02,
@@ -1662,10 +1662,10 @@ public class Multipoles {
 										  double Dn2deriva, double pn2deriva, double Dn2derivb, double pn2derivb,
 										  double Dn2deriv2, double pn2deriv2) {
 		double f0 = f0(a2, b2, Dn2, p01, pn2, R);
-		return 3 * Utils.pow(f0, 5) * g0(a2, b2, Dn2, p01, pn2, R, Dn2deriva, pn2deriva) *
+		return 3 * Pow.pow(f0, 5) * g0(a2, b2, Dn2, p01, pn2, R, Dn2deriva, pn2deriva) *
 				g0(a2, b2, Dn2, p01, pn2, R, Dn2derivb, pn2derivb) -
 				h0(a2, b2, Dn2, p01, pn2, R, Dn2deriva, pn2deriva, Dn2derivb, pn2derivb, Dn2deriv2, pn2deriv2) *
-						Utils.pow(f0, 3);
+						Pow.pow(f0, 3);
 	}
 
 	public static double f0diagp2d(int a2, int b2, double Dn2, double p01, double pn2, double R, double Dn2deriva,
@@ -1749,8 +1749,8 @@ public class Multipoles {
 										  double pm2, double R, double Dxderiva, double pxderiva, double Dxderivb,
 										  double pxderivb, double Dxderiv2, double pxderiv2, int type) {
 		double f1 = f1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R);
-		return 3 * Utils.pow(f1, 5) * g1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiva, pxderiva, type) *
-				g1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderivb, pxderivb, type) - Utils.pow(f1, 3) *
+		return 3 * Pow.pow(f1, 5) * g1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiva, pxderiva, type) *
+				g1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderivb, pxderivb, type) - Pow.pow(f1, 3) *
 				h1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiva, pxderiva, Dxderivb, pxderivb, Dxderiv2, pxderiv2,
 						type);
 	}
@@ -1915,8 +1915,8 @@ public class Multipoles {
 										  double pm2, double R, double Dxderiva, double pxderiva, double Dxderivb,
 										  double pxderivb, double Dxderiv2, double pxderiv2, int type) {
 		double f2 = f2(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R);
-		return 3 * Utils.pow(f2, 5) * g2(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiva, pxderiva, type) *
-				g2(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderivb, pxderivb, type) - Utils.pow(f2, 3) *
+		return 3 * Pow.pow(f2, 5) * g2(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiva, pxderiva, type) *
+				g2(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderivb, pxderivb, type) - Pow.pow(f2, 3) *
 				h2(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiva, pxderiva, Dxderivb, pxderivb, Dxderiv2, pxderiv2,
 						type);
 	}
@@ -2291,7 +2291,7 @@ public class Multipoles {
 	public static double f0derivpartial(int a2, int b2, double Dn2, double p01, double pn2, double R, double Dn2deriv,
 										double pn2deriv, double[] A, double[] B, int tau) {
 		double f0 = f0(a2, b2, Dn2, p01, pn2, R);
-		return (B[tau] - A[tau]) / R * Utils.pow(f0, 3) *
+		return (B[tau] - A[tau]) / R * Pow.pow(f0, 3) *
 				(a2 * Dn2deriv - 3 * g0(a2, b2, Dn2, p01, pn2, R, Dn2deriv, pn2deriv) * (R + a2 * Dn2) * f0 * f0);
 	}
 
@@ -2336,11 +2336,11 @@ public class Multipoles {
 		double f1 = f1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R);
 		switch (type) {
 			case 0:
-				return Utils.pow(f1, 3) * (B[tau] - A[tau]) / R * (a1 * Dxderiv -
+				return Pow.pow(f1, 3) * (B[tau] - A[tau]) / R * (a1 * Dxderiv -
 						3 * g1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiv, pxderiv, type) *
 								(R + a1 * Dn1 + a2 * Dm2) * f1 * f1);
 			case 1:
-				return Utils.pow(f1, 3) * (B[tau] - A[tau]) / R * (a2 * Dxderiv -
+				return Pow.pow(f1, 3) * (B[tau] - A[tau]) / R * (a2 * Dxderiv -
 						3 * g1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiv, pxderiv, type) *
 								(R + a1 * Dn1 + a2 * Dm2) * f1 * f1);
 		}
@@ -2366,11 +2366,11 @@ public class Multipoles {
 		double f2 = f2(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R);
 		switch (type) {
 			case 0:
-				return Utils.pow(f2, 3) * (B[tau] - A[tau]) / R * (a1 * Dxderiv -
+				return Pow.pow(f2, 3) * (B[tau] - A[tau]) / R * (a1 * Dxderiv -
 						3 * g2(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiv, pxderiv, type) *
 								(R + a1 * Dn1 + a2 * Dm2) * f2 * f2);
 			case 1:
-				return Utils.pow(f2, 3) * (B[tau] - A[tau]) / R * (a2 * Dxderiv -
+				return Pow.pow(f2, 3) * (B[tau] - A[tau]) / R * (a2 * Dxderiv -
 						3 * g2(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiv, pxderiv, type) *
 								(R + a1 * Dn1 + a2 * Dm2) * f2 * f2);
 		}
@@ -2773,9 +2773,9 @@ public class Multipoles {
 		double g11 = g1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dn1deriv, pn1deriv, 0);
 		double g12 = g1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dm2deriv, pm2deriv, 1);
 		return (B[tau] - A[tau]) / R *
-				(-3 * a1 * Dn1deriv * g12 * Utils.pow(f1, 5) - 3 * a2 * Dm2deriv * g11 * Utils.pow(f1, 5) -
-						3 * h1(a1, a2, b1, b2, Dn1deriv, Dm2deriv, pn1deriv, pm2deriv) * k1 * Utils.pow(f1, 5) +
-						15 * g11 * g12 * k1 * Utils.pow(f1, 7));
+				(-3 * a1 * Dn1deriv * g12 * Pow.pow(f1, 5) - 3 * a2 * Dm2deriv * g11 * Pow.pow(f1, 5) -
+						3 * h1(a1, a2, b1, b2, Dn1deriv, Dm2deriv, pn1deriv, pm2deriv) * k1 * Pow.pow(f1, 5) +
+						15 * g11 * g12 * k1 * Pow.pow(f1, 7));
 	}
 
 	public static double upiupicrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
@@ -2879,9 +2879,9 @@ public class Multipoles {
 		double g21 = g2(a1, a2, b1, b2, D21, D22, p21, p22, R, D21deriv, p21deriv, 0);
 		double g22 = g2(a1, a2, b1, b2, D21, D22, p21, p22, R, D22deriv, p22deriv, 1);
 		return (B[tau] - A[tau]) / R *
-				(-3 * a1 * D21deriv * g22 * Utils.pow(f2, 5) - 3 * a2 * D22deriv * g21 * Utils.pow(f2, 5) -
-						3 * h2(a1, a2, D21deriv, D22deriv, p21deriv, p22deriv) * k2 * Utils.pow(f2, 5) +
-						15 * g21 * g22 * k2 * Utils.pow(f2, 7));
+				(-3 * a1 * D21deriv * g22 * Pow.pow(f2, 5) - 3 * a2 * D22deriv * g21 * Pow.pow(f2, 5) -
+						3 * h2(a1, a2, D21deriv, D22deriv, p21deriv, p22deriv) * k2 * Pow.pow(f2, 5) +
+						15 * g21 * g22 * k2 * Pow.pow(f2, 7));
 	}
 
 	public static double QxxQyycrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
@@ -3219,9 +3219,9 @@ public class Multipoles {
 		double g0a = g0(a2, b2, Dn2, p01, pn2, R, Dn2deriva, pn2deriva);
 		double g0b = g0(a2, b2, Dn2, p01, pn2, R, Dn2derivb, pn2derivb);
 		double k0 = R + a2 * Dn2;
-		return (B[tau] - A[tau]) / R * (a2 * Dn2deriv2 * Utils.pow(f0, 3) - 3 * a2 * Dn2deriva * g0b * Utils.pow(f0, 5) -
-				3 * a2 * Dn2derivb * g0a * Utils.pow(f0, 5) - 3 * h0 * k0 * Utils.pow(f0, 5) +
-				15 * g0a * g0b * k0 * Utils.pow(f0, 7));
+		return (B[tau] - A[tau]) / R * (a2 * Dn2deriv2 * Pow.pow(f0, 3) - 3 * a2 * Dn2deriva * g0b * Pow.pow(f0, 5) -
+				3 * a2 * Dn2derivb * g0a * Pow.pow(f0, 5) - 3 * h0 * k0 * Pow.pow(f0, 5) +
+				15 * g0a * g0b * k0 * Pow.pow(f0, 7));
 	}
 
 	public static double f0diagp2gd(int a2, int b2, double Dn2, double p01, double pn2, double R, double Dn2deriva,
@@ -3303,14 +3303,14 @@ public class Multipoles {
 		switch (type) {
 			case 0:
 				return (B[tau] - A[tau]) / R *
-						(a1 * Dxderiv2 * Utils.pow(f1, 3) - 3 * a1 * Dxderiva * g1b * Utils.pow(f1, 5) -
-								3 * a1 * Dxderivb * g1a * Utils.pow(f1, 5) - 3 * h1 * k1 * Utils.pow(f1, 5) +
-								15 * g1a * g1b * k1 * Utils.pow(f1, 7));
+						(a1 * Dxderiv2 * Pow.pow(f1, 3) - 3 * a1 * Dxderiva * g1b * Pow.pow(f1, 5) -
+								3 * a1 * Dxderivb * g1a * Pow.pow(f1, 5) - 3 * h1 * k1 * Pow.pow(f1, 5) +
+								15 * g1a * g1b * k1 * Pow.pow(f1, 7));
 			case 1:
 				return (B[tau] - A[tau]) / R *
-						(a2 * Dxderiv2 * Utils.pow(f1, 3) - 3 * a2 * Dxderiva * g1b * Utils.pow(f1, 5) -
-								3 * a2 * Dxderivb * g1a * Utils.pow(f1, 5) - 3 * h1 * k1 * Utils.pow(f1, 5) +
-								15 * g1a * g1b * k1 * Utils.pow(f1, 7));
+						(a2 * Dxderiv2 * Pow.pow(f1, 3) - 3 * a2 * Dxderiva * g1b * Pow.pow(f1, 5) -
+								3 * a2 * Dxderivb * g1a * Pow.pow(f1, 5) - 3 * h1 * k1 * Pow.pow(f1, 5) +
+								15 * g1a * g1b * k1 * Pow.pow(f1, 7));
 		}
 		return 0;
 	}
@@ -3490,14 +3490,14 @@ public class Multipoles {
 		switch (type) {
 			case 0:
 				return (B[tau] - A[tau]) / R *
-						(a1 * Dxderiv2 * Utils.pow(f2, 3) - 3 * a1 * Dxderiva * g2b * Utils.pow(f2, 5) -
-								3 * a1 * Dxderivb * g2a * Utils.pow(f2, 5) - 3 * h2 * k2 * Utils.pow(f2, 5) +
-								15 * g2a * g2b * k2 * Utils.pow(f2, 7));
+						(a1 * Dxderiv2 * Pow.pow(f2, 3) - 3 * a1 * Dxderiva * g2b * Pow.pow(f2, 5) -
+								3 * a1 * Dxderivb * g2a * Pow.pow(f2, 5) - 3 * h2 * k2 * Pow.pow(f2, 5) +
+								15 * g2a * g2b * k2 * Pow.pow(f2, 7));
 			case 1:
 				return (B[tau] - A[tau]) / R *
-						(a2 * Dxderiv2 * Utils.pow(f2, 3) - 3 * a2 * Dxderiva * g2b * Utils.pow(f2, 5) -
-								3 * a2 * Dxderivb * g2a * Utils.pow(f2, 5) - 3 * h2 * k2 * Utils.pow(f2, 5) +
-								15 * g2a * g2b * k2 * Utils.pow(f2, 7));
+						(a2 * Dxderiv2 * Pow.pow(f2, 3) - 3 * a2 * Dxderiva * g2b * Pow.pow(f2, 5) -
+								3 * a2 * Dxderivb * g2a * Pow.pow(f2, 5) - 3 * h2 * k2 * Pow.pow(f2, 5) +
+								15 * g2a * g2b * k2 * Pow.pow(f2, 7));
 		}
 		return 0;
 	}

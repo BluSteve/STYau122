@@ -5,7 +5,7 @@ import nddo.NDDOAtom;
 import nddo.NDDOParams;
 import nddo.State;
 import nddo.structs.AtomProperties;
-import tools.Utils;
+import tools.Pow;
 
 // some methods that might come in handy if you're doing your own NDDO impl.
 public abstract class NDDOAtomBasic implements NDDOAtom<NDDOAtomBasic, NDDO6G> {
@@ -152,11 +152,11 @@ public abstract class NDDOAtomBasic implements NDDOAtom<NDDOAtomBasic, NDDO6G> {
 
 	protected double findp1() {
 		double guess = 0;
-		double newguess = 0.5 * Utils.pow(D1 * D1 * Constants.eV / np.getHsp(), 1.0 / 3);
+		double newguess = 0.5 * Pow.pow(D1 * D1 * Constants.eV / np.getHsp(), 1.0 / 3);
 		while (Math.abs(guess - newguess) > 1E-12) {
 			guess = newguess;
 			double f = 1 / guess - 1 / Math.sqrt(guess * guess + D1 * D1) - 4 * np.getHsp() / Constants.eV;
-			double fprime = -1 / (guess * guess) + guess / Utils.pow(guess * guess + D1 * D1, 1.5);
+			double fprime = -1 / (guess * guess) + guess / Pow.pow(guess * guess + D1 * D1, 1.5);
 			newguess = guess - f / fprime;
 		}
 		return newguess;
@@ -171,7 +171,7 @@ public abstract class NDDOAtomBasic implements NDDOAtom<NDDOAtomBasic, NDDO6G> {
 		}
 
 		return -p1 * p1 * D1 / (p1 * p1 * p1 -
-				Utils.pow(D1 * D1 + p1 * p1, 1.5)) * D1deriv;
+				Pow.pow(D1 * D1 + p1 * p1, 1.5)) * D1deriv;
 	}
 
 	@Override
@@ -188,7 +188,7 @@ public abstract class NDDOAtomBasic implements NDDOAtom<NDDOAtomBasic, NDDO6G> {
 		double D1ppderiv2 = D1p2d(2);
 
 		double num0 = Math.sqrt(D1 * D1 + p1 * p1);
-		double num1 = Utils.pow(p1 * p1 + D1 * D1, 1.5);
+		double num1 = Pow.pow(p1 * p1 + D1 * D1, 1.5);
 		switch (type) {
 			case 0:
 				return -(3 * (p1 * p1 - p1 * num0) * p1sderiv * p1sderiv +
@@ -216,8 +216,8 @@ public abstract class NDDOAtomBasic implements NDDOAtom<NDDOAtomBasic, NDDO6G> {
 			double a = guess * guess + 2 * D2 * D2;
 			double f = 1 / guess + 1 / Math.sqrt(a) - 2 / Math.sqrt(guess * guess + D2 * D2) -
 					4 * (np.getGpp() - np.getGp2()) / Constants.eV;
-			double fprime = -1 / (guess * guess) - guess / Utils.pow(a, 1.5) +
-					2 * guess / Utils.pow(guess * guess + D2 * D2, 1.5);
+			double fprime = -1 / (guess * guess) - guess / Pow.pow(a, 1.5) +
+					2 * guess / Pow.pow(guess * guess + D2 * D2, 1.5);
 			newguess = guess - f / fprime;
 		}
 		return newguess;
@@ -231,8 +231,8 @@ public abstract class NDDOAtomBasic implements NDDOAtom<NDDOAtomBasic, NDDO6G> {
 
 		double D2deriv = D2pd(type);
 
-		double pow = Utils.pow(D2 * D2 + p2 * p2, -1.5);
-		double pow1 = Utils.pow(2 * D2 * D2 + p2 * p2, -1.5);
+		double pow = Pow.pow(D2 * D2 + p2 * p2, -1.5);
+		double pow1 = Pow.pow(2 * D2 * D2 + p2 * p2, -1.5);
 
 		double F1 = 2 * D2 * (pow - pow1);
 		double F2 = p2 * (2 * pow - pow1) - 1 / (p2 * p2);
@@ -253,10 +253,10 @@ public abstract class NDDOAtomBasic implements NDDOAtom<NDDOAtomBasic, NDDO6G> {
 		double D2ppderiv2 = D2p2d(2);
 
 		double num0 = D2 * D2 * 2 + p2 * p2;
-		double num1 = Utils.pow(D2 * D2 + p2 * p2, -1.5);
-		double num2 = Utils.pow(num0, -1.5);
-		double num3 = Utils.pow(D2 * D2 + p2 * p2, -2.5);
-		double num4 = (2 * D2 * D2pderiv + p2 * p2pderiv) * Utils.pow(num0, -2.5);
+		double num1 = Pow.pow(D2 * D2 + p2 * p2, -1.5);
+		double num2 = Pow.pow(num0, -1.5);
+		double num3 = Pow.pow(D2 * D2 + p2 * p2, -2.5);
+		double num4 = (2 * D2 * D2pderiv + p2 * p2pderiv) * Pow.pow(num0, -2.5);
 
 		double F1 = 2 * D2 * (num1 - num2);
 		double F2 = p2 * (2 * num1 - num2) - 1 / (p2 * p2);
@@ -270,8 +270,8 @@ public abstract class NDDOAtomBasic implements NDDOAtom<NDDOAtomBasic, NDDO6G> {
 
 	protected double findD1() {
 		return (2 * atomProperties.getPeriod() + 1) / Math.sqrt(3) *
-				Utils.pow(4 * np.getZetas() * np.getZetap(), atomProperties.getPeriod() + 0.5) /
-				Utils.pow(np.getZetas() + np.getZetap(), 2 * atomProperties.getPeriod() + 2);
+				Pow.pow(4 * np.getZetas() * np.getZetap(), atomProperties.getPeriod() + 0.5) /
+				Pow.pow(np.getZetas() + np.getZetap(), 2 * atomProperties.getPeriod() + 2);
 	}
 
 	@Override
@@ -296,11 +296,11 @@ public abstract class NDDOAtomBasic implements NDDOAtom<NDDOAtomBasic, NDDO6G> {
 
 		return (2 * getAtomProperties().getPeriod() + 1) / Math.sqrt(3) *
 				(4 * zeta * (0.5 + getAtomProperties().getPeriod()) *
-						Utils.pow(4 * zetas * zetap, -0.5 + getAtomProperties().getPeriod()) /
-						Utils.pow(zetas + zetap, 2 + 2 * getAtomProperties().getPeriod())
+						Pow.pow(4 * zetas * zetap, -0.5 + getAtomProperties().getPeriod()) /
+						Pow.pow(zetas + zetap, 2 + 2 * getAtomProperties().getPeriod())
 						- (2 + 2 * getAtomProperties().getPeriod()) *
-						Utils.pow(4 * zetas * zetap, 0.5 + getAtomProperties().getPeriod()) /
-						Utils.pow(zetas + zetap, 3 + 2 * getAtomProperties().getPeriod()));
+						Pow.pow(4 * zetas * zetap, 0.5 + getAtomProperties().getPeriod()) /
+						Pow.pow(zetas + zetap, 3 + 2 * getAtomProperties().getPeriod()));
 
 
 	}
@@ -311,12 +311,12 @@ public abstract class NDDOAtomBasic implements NDDOAtom<NDDOAtomBasic, NDDO6G> {
 		double zetap = getParams().getZetap();
 		int n = getAtomProperties().getPeriod();
 
-		double num0 = Utils.pow(4 * zetas * zetap, -1.5 + n);
-		double num1 = Utils.pow(zetas + zetap, 2 * n + 2);
-		double num2 = Utils.pow(4 * zetas * zetap, -0.5 + n);
-		double num3 = Utils.pow(zetas + zetap, 2 * n + 3);
-		double num4 = (2 * n + 2) * (2 * n + 3) * Utils.pow(4 * zetas * zetap, 0.5 + n)
-				/ Utils.pow(zetas + zetap, 4 + 2 * n);
+		double num0 = Pow.pow(4 * zetas * zetap, -1.5 + n);
+		double num1 = Pow.pow(zetas + zetap, 2 * n + 2);
+		double num2 = Pow.pow(4 * zetas * zetap, -0.5 + n);
+		double num3 = Pow.pow(zetas + zetap, 2 * n + 3);
+		double num4 = (2 * n + 2) * (2 * n + 3) * Pow.pow(4 * zetas * zetap, 0.5 + n)
+				/ Pow.pow(zetas + zetap, 4 + 2 * n);
 
 		switch (type) {
 			case 0:
@@ -325,7 +325,7 @@ public abstract class NDDOAtomBasic implements NDDOAtom<NDDOAtomBasic, NDDO6G> {
 								8 * zetap * (n + 0.5) * (2 * n + 2) * num2 / num3 + num4);
 			case 1:
 				return (2 * getAtomProperties().getPeriod() + 1) / Math.sqrt(3) *
-						(4 * (n + 0.5) * Utils.pow(4 * zetas * zetap, n - 0.5) / num1 +
+						(4 * (n + 0.5) * Pow.pow(4 * zetas * zetap, n - 0.5) / num1 +
 								16 * zetas * zetap * (n + 0.5) * (n - 0.5) * num0 / num1 -
 								4 * (zetas + zetap) * (n + 0.5) * (2 * n + 2) * num2 / num3 + num4);
 			case 2:

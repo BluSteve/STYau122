@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="not working math pow">
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Better pow">
+      <change afterPath="$PROJECT_DIR$/src/main/java/tools/Pow.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/defaults/NDDOAtomBasic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/defaults/NDDOAtomBasic.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/Multipoles.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/Multipoles.java" afterDir="false" />
@@ -191,11 +193,11 @@
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\src\main\java" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="tools.Pow" />
       <recent name="tools.Utils" />
       <recent name="frontend.txt.Main" />
       <recent name="runcycle.Hasher" />
       <recent name="nddo.scf.Orbital" />
-      <recent name="nddo.math.ERI" />
     </key>
     <key name="ExtractSuperBase.RECENT_KEYS">
       <recent name="nddo" />
@@ -206,7 +208,7 @@
       <recent name="tools" />
     </key>
   </component>
-  <component name="RunManager" selected="Shell Script.Copy">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="frontend.Main" />
       <module name="MNDOParam.main" />
@@ -335,10 +337,10 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.MNDOParam [jar]" />
         <item itemvalue="Application.Utils" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Gradle.MNDOParam [myProguardTask]" />
-        <item itemvalue="Gradle.MNDOParam [jar]" />
         <item itemvalue="Application.TxtIO" />
       </list>
     </recent_temporary>
@@ -446,14 +448,7 @@
       <workItem from="1640031476531" duration="161000" />
       <workItem from="1640058297153" duration="4535000" />
       <workItem from="1640063569694" duration="15827000" />
-      <workItem from="1640084865914" duration="6228000" />
-    </task>
-    <task id="LOCAL-00085" summary="16dp geom precision">
-      <created>1639651045661</created>
-      <option name="number" value="00085" />
-      <option name="presentableId" value="LOCAL-00085" />
-      <option name="project" value="LOCAL" />
-      <updated>1639651045662</updated>
+      <workItem from="1640084865914" duration="8868000" />
     </task>
     <task id="LOCAL-00086" summary="debug session with adrian">
       <created>1639671088435</created>
@@ -791,7 +786,14 @@
       <option name="project" value="LOCAL" />
       <updated>1640078952858</updated>
     </task>
-    <option name="localTasksCounter" value="134" />
+    <task id="LOCAL-00134" summary="Better pow">
+      <created>1640097686004</created>
+      <option name="number" value="00134" />
+      <option name="presentableId" value="LOCAL-00134" />
+      <option name="project" value="LOCAL" />
+      <updated>1640097686004</updated>
+    </task>
+    <option name="localTasksCounter" value="135" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -839,7 +841,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Rename" />
     <MESSAGE value="ParamSecondDerivatives merge + renaming" />
     <MESSAGE value="ParamSecondDerivative incomplete refactor" />
     <MESSAGE value="Convert NDDOAtom to interface" />
@@ -864,7 +865,8 @@
     <MESSAGE value="multithreaded deriv2" />
     <MESSAGE value="working multithreaded ederiv2" />
     <MESSAGE value="SimpleSolution" />
-    <option name="LAST_COMMIT_MESSAGE" value="SimpleSolution" />
+    <MESSAGE value="Better pow" />
+    <option name="LAST_COMMIT_MESSAGE" value="Better pow" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
