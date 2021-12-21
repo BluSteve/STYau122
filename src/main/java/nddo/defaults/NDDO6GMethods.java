@@ -540,6 +540,7 @@ public class NDDO6GMethods implements NDDOOrbitalMethods<NDDO6G> {
 			for (int j = 0; j < coeffB.length; j++) {
 				for (int k = 0; k < coeffC.length; k++) {
 					for (int l = 0; l < coeffD.length; l++) {
+
 						double eri = LocalTwoCenterERI(A[i], B[j], C[k], D[l]);
 						double erideriva = LocalTwoCenterERIgd(A[i], B[j], C[k], D[l], tau1);
 						double eriderivb = LocalTwoCenterERIgd(A[i], B[j], C[k], D[l], tau2);

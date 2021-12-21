@@ -84,7 +84,7 @@ public class SolutionR extends Solution {
 							new int[]{0, 1, 2, 3, 4, 5, 6}}};
 
 	public double[] integralArray;
-	public SimpleMatrix Ct, CtOcc, CtVirt, F, E;
+	public SimpleMatrix Ct, CtOcc, CtVirt, F, E, Emat;
 
 	public SolutionR(MoleculeInfo mi, NDDOAtom[] atoms) {
 		super(mi, atoms);
@@ -522,8 +522,17 @@ public class SolutionR extends Solution {
 			getRm().getLogger().trace("SolutionR iteration: {}, DIISError: {}", numIt, DIISError);
 		}
 
+		// todo make these precomputations optional
 		CtOcc = Ct.extractMatrix(0, rm.nOccAlpha, 0, Ct.numCols());
 		CtVirt = Ct.extractMatrix(rm.nOccAlpha, Ct.numCols(), 0, Ct.numCols());
+
+		SimpleMatrix sm = E.extractMatrix(rm.nOccAlpha, nOrbitals, 0, 1);
+		sm.reshape(1, rm.nVirtAlpha);
+
+		Emat = new SimpleMatrix(rm.nOccAlpha, rm.nVirtAlpha);
+		for (int i = 0; i < rm.nOccAlpha; i++) {
+			Emat.insertIntoThis(i, 0, sm.minus(E.get(i)));
+		}
 
 		findEnergyAndHf();
 		if (nElectrons > 0) homo = E.get(nElectrons / 2 - 1, 0);

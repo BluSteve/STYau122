@@ -25,7 +25,7 @@ public class Benchmarks {
 	@BenchmarkMode(Mode.SampleTime)
 	@OutputTimeUnit(TimeUnit.NANOSECONDS)
 	public static void init(State state) {
-		GeometrySecondDerivative.getxarrayPople(state.s, state.fockderivstatic);
+		GeometrySecondDerivative.hessianRoutine(state.s, state.fockderivstatic);
 	}
 
 	@org.openjdk.jmh.annotations.State(Scope.Benchmark)

@@ -41,6 +41,7 @@ public final class Batcher {
 
 	public static <T> void consume(T[] inputArr, Consumer<T[]> consumer) {
 		final int length = inputArr.length;
+		System.out.println("length = " + length);
 
 		if (length <= minBatchSize) consumer.accept(inputArr);
 		else {
