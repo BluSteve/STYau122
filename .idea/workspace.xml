@@ -4,20 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="Better pow">
-      <change afterPath="$PROJECT_DIR$/src/main/java/tools/Pow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/defaults/NDDOAtomBasic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/defaults/NDDOAtomBasic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" afterDir="false" />
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="pow without cache">
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/Multipoles.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/Multipoles.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/scf/GTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/scf/GTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/scf/LCGTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/scf/LCGTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Utils.java" afterDir="false" />
     </list>
     <list id="13292be9-4080-4d01-a904-a63c5a188ec6" name="Changes by flyingfalcon" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -448,21 +436,7 @@
       <workItem from="1640031476531" duration="161000" />
       <workItem from="1640058297153" duration="4535000" />
       <workItem from="1640063569694" duration="15827000" />
-      <workItem from="1640084865914" duration="8868000" />
-    </task>
-    <task id="LOCAL-00086" summary="debug session with adrian">
-      <created>1639671088435</created>
-      <option name="number" value="00086" />
-      <option name="presentableId" value="LOCAL-00086" />
-      <option name="project" value="LOCAL" />
-      <updated>1639671088435</updated>
-    </task>
-    <task id="LOCAL-00087" summary="temp">
-      <created>1639730856728</created>
-      <option name="number" value="00087" />
-      <option name="presentableId" value="LOCAL-00087" />
-      <option name="project" value="LOCAL" />
-      <updated>1639730856729</updated>
+      <workItem from="1640084865914" duration="9316000" />
     </task>
     <task id="LOCAL-00088" summary="temp2">
       <created>1639734117831</created>
@@ -793,7 +767,21 @@
       <option name="project" value="LOCAL" />
       <updated>1640097686004</updated>
     </task>
-    <option name="localTasksCounter" value="135" />
+    <task id="LOCAL-00135" summary="pow with cache">
+      <created>1640100220793</created>
+      <option name="number" value="00135" />
+      <option name="presentableId" value="LOCAL-00135" />
+      <option name="project" value="LOCAL" />
+      <updated>1640100220793</updated>
+    </task>
+    <task id="LOCAL-00136" summary="pow without cache">
+      <created>1640100413137</created>
+      <option name="number" value="00136" />
+      <option name="presentableId" value="LOCAL-00136" />
+      <option name="project" value="LOCAL" />
+      <updated>1640100413137</updated>
+    </task>
+    <option name="localTasksCounter" value="137" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -841,8 +829,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="ParamSecondDerivatives merge + renaming" />
-    <MESSAGE value="ParamSecondDerivative incomplete refactor" />
     <MESSAGE value="Convert NDDOAtom to interface" />
     <MESSAGE value="AM1 compatibility" />
     <MESSAGE value="Input verification" />
@@ -866,7 +852,9 @@
     <MESSAGE value="working multithreaded ederiv2" />
     <MESSAGE value="SimpleSolution" />
     <MESSAGE value="Better pow" />
-    <option name="LAST_COMMIT_MESSAGE" value="Better pow" />
+    <MESSAGE value="pow with cache" />
+    <MESSAGE value="pow without cache" />
+    <option name="LAST_COMMIT_MESSAGE" value="pow without cache" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

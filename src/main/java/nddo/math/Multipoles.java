@@ -2,6 +2,7 @@ package nddo.math;
 
 import tools.Pow;
 
+@SuppressWarnings({"unused", "UnaryPlus"})
 public class Multipoles {
 	public static double qq(double p01, double p11, double p21, double D11, double D21, double p02, double p12,
 							double p22, double D12, double D22, double R) {
@@ -28,14 +29,13 @@ public class Multipoles {
 	}
 
 	public static double f1(int a1, int a2, int b1, int b2, double Dn1, double Dm2, double pn1, double pm2, double R) {
-		return Pow.pow(
-				(R + a1 * Dn1 + a2 * Dm2) * (R + a1 * Dn1 + a2 * Dm2) + (b1 * Dn1 + b2 * Dm2) * (b1 * Dn1 + b2 * Dm2) +
-						(pn1 + pm2) * (pn1 + pm2), -0.5);
+		double v = R + a1 * Dn1 + a2 * Dm2;
+		return Pow.pow(v * v + (b1 * Dn1 + b2 * Dm2) * (b1 * Dn1 + b2 * Dm2) + (pn1 + pm2) * (pn1 + pm2), -0.5);
 	}
 
 	public static double f2(int a1, int a2, int b1, int b2, double D21, double D22, double p21, double p22, double R) {
-		return Pow.pow((R + a1 * D21 + a2 * D22) * (R + a1 * D21 + a2 * D22) + (b1 * D21) * (b1 * D21) +
-				(b2 * D22) * (b2 * D22) + (p21 + p22) * (p21 + p22), -0.5);
+		double v = R + a1 * D21 + a2 * D22;
+		return Pow.pow(v * v + b1 * D21 * (b1 * D21) + b2 * D22 * (b2 * D22) + (p21 + p22) * (p21 + p22), -0.5);
 	}
 
 	public static double upiupi(double p01, double p11, double p21, double D11, double D21, double p02, double p12,
@@ -516,8 +516,9 @@ public class Multipoles {
 							   double p22, double D12, double D22, double R, double[] A, double[] B, int tau1,
 							   int tau2) {
 		double sum = 0;
-		if (tau1 == tau2) sum = -Pow.pow(R * R + (p01 + p02) * (p01 + p02), -1.5);
-		return sum + 3 * (B[tau1] - A[tau1]) * (B[tau2] - A[tau2]) * Pow.pow(R * R + (p01 + p02) * (p01 + p02), -2.5);
+		double d = R * R + (p01 + p02) * (p01 + p02);
+		if (tau1 == tau2) sum = -Pow.pow(d, -1.5);
+		return sum + 3 * (B[tau1] - A[tau1]) * (B[tau2] - A[tau2]) * Pow.pow(d, -2.5);
 	}
 
 	public static double f0g2d(int a2, int b2, double Dn2, double p01, double pn2, double R, double[] A, double[] B,
@@ -555,9 +556,10 @@ public class Multipoles {
 							   double R,
 							   double[] A, double[] B, int tau1, int tau2) {
 		double f1 = f1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R);
+		double d = R + a1 * Dn1 + a2 * Dm2;
 		double num = (B[tau1] - A[tau1]) * (B[tau2] - A[tau2]) / (R * R) * Pow.pow(f1, 3) *
-				(3 * Pow.pow(R + a1 * Dn1 + a2 * Dm2, 2) * f1 * f1 + (a1 * Dn1 + a2 * Dm2) / R);
-		if (tau1 == tau2) num += -(R + a1 * Dn1 + a2 * Dm2) * Pow.pow(f1, 3) / R;
+				(3 * Pow.pow(d, 2) * f1 * f1 + (a1 * Dn1 + a2 * Dm2) / R);
+		if (tau1 == tau2) num += -d * Pow.pow(f1, 3) / R;
 		return num;
 	}
 
@@ -565,9 +567,10 @@ public class Multipoles {
 							   double R,
 							   double[] A, double[] B, int tau1, int tau2) {
 		double f2 = f2(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R);
+		double d = R + a1 * Dn1 + a2 * Dm2;
 		double num = (B[tau1] - A[tau1]) * (B[tau2] - A[tau2]) / (R * R) * Pow.pow(f2, 3) *
-				(3 * Pow.pow(R + a1 * Dn1 + a2 * Dm2, 2) * f2 * f2 + (a1 * Dn1 + a2 * Dm2) / R);
-		if (tau1 == tau2) num += -(R + a1 * Dn1 + a2 * Dm2) * Pow.pow(f2, 3) / R;
+				(3 * Pow.pow(d, 2) * f2 * f2 + (a1 * Dn1 + a2 * Dm2) / R);
+		if (tau1 == tau2) num += -d * Pow.pow(f2, 3) / R;
 		return num;
 	}
 
@@ -892,11 +895,12 @@ public class Multipoles {
 
 	public static double g1(int a1, int a2, int b1, int b2, double Dn1, double Dm2, double pn1, double pm2, double R,
 							double Dxpd, double pxpd, int type) {
+		double v = R + a1 * Dn1 + a2 * Dm2;
 		switch (type) {
 			case 0:
-				return Dxpd * (a1 * (R + a1 * Dn1 + a2 * Dm2) + b1 * (b1 * Dn1 + b2 * Dm2)) + (pn1 + pm2) * pxpd;
+				return Dxpd * (a1 * v + b1 * (b1 * Dn1 + b2 * Dm2)) + (pn1 + pm2) * pxpd;
 			case 1:
-				return Dxpd * (a2 * (R + a1 * Dn1 + a2 * Dm2) + b2 * (b1 * Dn1 + b2 * Dm2)) + (pn1 + pm2) * pxpd;
+				return Dxpd * (a2 * v + b2 * (b1 * Dn1 + b2 * Dm2)) + (pn1 + pm2) * pxpd;
 		}
 		return 0;
 	}
@@ -918,11 +922,12 @@ public class Multipoles {
 
 	public static double g2(int a1, int a2, int b1, int b2, double D21, double D22, double p21, double p22, double R,
 							double D2pd, double p2pd, int type) {
+		double v = R + a1 * D21 + a2 * D22;
 		switch (type) {
 			case 0:
-				return D2pd * (a1 * (R + a1 * D21 + a2 * D22) + b1 * b1 * D21) + (p21 + p22) * p2pd;
+				return D2pd * (a1 * v + b1 * b1 * D21) + (p21 + p22) * p2pd;
 			case 1:
-				return D2pd * (a2 * (R + a1 * D21 + a2 * D22) + b2 * b2 * D22) + (p21 + p22) * p2pd;
+				return D2pd * (a2 * v + b2 * b2 * D22) + (p21 + p22) * p2pd;
 		}
 		return 0;
 	}
@@ -1732,13 +1737,14 @@ public class Multipoles {
 	public static double h1(int a1, int a2, int b1, int b2, double Dn1, double Dm2, double pn1, double pm2, double R,
 							double Dxderiva, double pxderiva, double Dxderivb, double pxderivb, double Dxderiv2,
 							double pxderiv2, int type) {
+		double v = R + a1 * Dn1 + a2 * Dm2;
 		switch (type) {
 			case 0:
-				return a1 * a1 * Dxderiva * Dxderivb + a1 * Dxderiv2 * (R + a1 * Dn1 + a2 * Dm2) +
+				return a1 * a1 * Dxderiva * Dxderivb + a1 * Dxderiv2 * v +
 						b1 * b1 * Dxderiva * Dxderivb + b1 * Dxderiv2 * (b1 * Dn1 + b2 * Dm2) + pxderiva * pxderivb +
 						(pn1 + pm2) * pxderiv2;
 			case 1:
-				return a2 * a2 * Dxderiva * Dxderivb + a2 * Dxderiv2 * (R + a1 * Dn1 + a2 * Dm2) +
+				return a2 * a2 * Dxderiva * Dxderivb + a2 * Dxderiv2 * v +
 						b2 * b2 * Dxderiva * Dxderivb + b2 * Dxderiv2 * (b1 * Dn1 + b2 * Dm2) + pxderiva * pxderivb +
 						(pn1 + pm2) * pxderiv2;
 		}
@@ -1898,13 +1904,14 @@ public class Multipoles {
 	public static double h2(int a1, int a2, int b1, int b2, double Dn1, double Dm2, double pn1, double pm2, double R,
 							double Dxderiva, double pxderiva, double Dxderivb, double pxderivb, double Dxderiv2,
 							double pxderiv2, int type) {
+		double v = R + a1 * Dn1 + a2 * Dm2;
 		switch (type) {
 			case 0:
-				return a1 * a1 * Dxderiva * Dxderivb + a1 * Dxderiv2 * (R + a1 * Dn1 + a2 * Dm2) +
+				return a1 * a1 * Dxderiva * Dxderivb + a1 * Dxderiv2 * v +
 						b1 * b1 * Dxderiva * Dxderivb + b1 * Dxderiv2 * b1 * Dn1 + pxderiva * pxderivb +
 						(pn1 + pm2) * pxderiv2;
 			case 1:
-				return a2 * a2 * Dxderiva * Dxderivb + a2 * Dxderiv2 * (R + a1 * Dn1 + a2 * Dm2) +
+				return a2 * a2 * Dxderiva * Dxderivb + a2 * Dxderiv2 * v +
 						b2 * b2 * Dxderiva * Dxderivb + b2 * Dxderiv2 * b2 * Dm2 + pxderiva * pxderivb +
 						(pn1 + pm2) * pxderiv2;
 		}
@@ -2334,15 +2341,14 @@ public class Multipoles {
 										double R, int type, double Dxderiv, double pxderiv, double[] A, double[] B,
 										int tau) {
 		double f1 = f1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R);
+		double v = R + a1 * Dn1 + a2 * Dm2;
 		switch (type) {
 			case 0:
 				return Pow.pow(f1, 3) * (B[tau] - A[tau]) / R * (a1 * Dxderiv -
-						3 * g1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiv, pxderiv, type) *
-								(R + a1 * Dn1 + a2 * Dm2) * f1 * f1);
+						3 * g1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiv, pxderiv, type) * v * f1 * f1);
 			case 1:
 				return Pow.pow(f1, 3) * (B[tau] - A[tau]) / R * (a2 * Dxderiv -
-						3 * g1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiv, pxderiv, type) *
-								(R + a1 * Dn1 + a2 * Dm2) * f1 * f1);
+						3 * g1(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiv, pxderiv, type) * v * f1 * f1);
 		}
 		return 0;
 	}
@@ -2364,15 +2370,14 @@ public class Multipoles {
 										double R, int type, double Dxderiv, double pxderiv, double[] A, double[] B,
 										int tau) {
 		double f2 = f2(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R);
+		double v = R + a1 * Dn1 + a2 * Dm2;
 		switch (type) {
 			case 0:
 				return Pow.pow(f2, 3) * (B[tau] - A[tau]) / R * (a1 * Dxderiv -
-						3 * g2(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiv, pxderiv, type) *
-								(R + a1 * Dn1 + a2 * Dm2) * f2 * f2);
+						3 * g2(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiv, pxderiv, type) * v * f2 * f2);
 			case 1:
 				return Pow.pow(f2, 3) * (B[tau] - A[tau]) / R * (a2 * Dxderiv -
-						3 * g2(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiv, pxderiv, type) *
-								(R + a1 * Dn1 + a2 * Dm2) * f2 * f2);
+						3 * g2(a1, a2, b1, b2, Dn1, Dm2, pn1, pm2, R, Dxderiv, pxderiv, type) * v * f2 * f2);
 		}
 		return 0;
 	}
@@ -3915,5 +3920,4 @@ public class Multipoles {
 						p2deriva, D1derivb, D2derivb, p1derivb, p2derivb, D1deriv2, D2deriv2, p1deriv2, p2deriv2, A, B,
 						tau));
 	}
-
 }
