@@ -4,9 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="multithreading rvp is not faster + better pbar">
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="better pbar">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/copy.bat" beforeDir="false" afterPath="$PROJECT_DIR$/copy.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/Multipoles.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/Multipoles.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
+    </list>
+    <list id="13292be9-4080-4d01-a904-a63c5a188ec6" name="Changes by flyingfalcon" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,6 +143,36 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/mndo-install.sh" root0="FORCE_HIGHLIGHTING" />
   </component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java">
+      <ranges>
+        <range start1="1414" end1="1415" start2="1414" end2="1415" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
+        <range start1="1567" end1="1571" start2="1567" end2="1571" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
+        <range start1="1588" end1="1590" start2="1588" end2="1590" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
+        <range start1="1629" end1="1629" start2="1629" end2="1632" changelist="13292be9-4080-4d01-a904-a63c5a188ec6" />
+        <range start1="1635" end1="1646" start2="1638" end2="1638" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
+        <range start1="1647" end1="1647" start2="1639" end2="1640" changelist="13292be9-4080-4d01-a904-a63c5a188ec6" />
+        <range start1="1676" end1="1676" start2="1669" end2="1676" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
+        <range start1="1681" end1="1688" start2="1681" end2="1681" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
+        <range start1="1771" end1="1774" start2="1764" end2="1766" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
+        <range start1="1775" end1="1789" start2="1767" end2="1769" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
+        <range start1="1790" end1="1794" start2="1770" end2="1772" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
+        <range start1="1818" end1="1819" start2="1796" end2="1797" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
+        <range start1="1820" end1="1821" start2="1798" end2="1799" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
+        <range start1="1922" end1="1923" start2="1900" end2="1901" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
+        <range start1="1953" end1="1956" start2="1931" end2="1933" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
+        <range start1="1957" end1="1958" start2="1934" end2="1936" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
+        <range start1="1959" end1="1975" start2="1937" end2="1939" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
+        <range start1="2028" end1="2029" start2="1992" end2="2008" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
+        <range start1="2030" end1="2031" start2="2009" end2="2010" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
+        <range start1="2032" end1="2032" start2="2011" end2="2029" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
+        <range start1="2033" end1="2043" start2="2030" end2="2032" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
+        <range start1="2044" end1="2052" start2="2033" end2="2035" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
+        <range start1="2053" end1="2053" start2="2036" end2="2038" changelist="f93a9ac4-9790-484d-8df1-0e5dd4731149" />
+        <range start1="2054" end1="2055" start2="2039" end2="2040" changelist="13292be9-4080-4d01-a904-a63c5a188ec6" />
+      </ranges>
+    </file>
+  </component>
   <component name="ProblemsViewState">
     <option name="selectedIndex" value="2" />
   </component>
@@ -149,8 +192,8 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="TODO_SCOPE" value="All Places" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="codeWithMe.voiceChat.enabledByDefault" value="false" />
     <property name="extract.method.default.visibility" value="public" />
     <property name="last.edited.regexp" value="asdf,       asdf" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -159,7 +202,7 @@
     <property name="project.structure.proportion" value="0.26182964" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="ReaderModeSettings">
     <option name="enabled" value="false" />
@@ -195,7 +238,7 @@
       <recent name="tools" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Gradle.MNDOParam [jmh]">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="frontend.Main" />
       <module name="MNDOParam.main" />
@@ -235,6 +278,25 @@
           <list>
             <option value="jar" />
           </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="MNDOParam [jmh]" type="GradleRunConfiguration" factoryName="Gradle">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="jmh" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list />
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
@@ -284,16 +346,17 @@
     <list>
       <item itemvalue="Application.Main" />
       <item itemvalue="Application.TxtIO" />
-      <item itemvalue="Gradle.MNDOParam [myProguardTask]" />
+      <item itemvalue="Gradle.MNDOParam [jmh]" />
       <item itemvalue="Gradle.MNDOParam [jar]" />
+      <item itemvalue="Gradle.MNDOParam [myProguardTask]" />
       <item itemvalue="Shell Script.Copy" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
+        <item itemvalue="Gradle.MNDOParam [myProguardTask]" />
         <item itemvalue="Gradle.MNDOParam [jar]" />
         <item itemvalue="Application.TxtIO" />
-        <item itemvalue="Gradle.MNDOParam [myProguardTask]" />
       </list>
     </recent_temporary>
   </component>
@@ -377,14 +440,17 @@
       <workItem from="1639917043412" duration="6364000" />
       <workItem from="1639974855155" duration="12427000" />
       <workItem from="1640002347385" duration="10567000" />
-      <workItem from="1640013842516" duration="10013000" />
-    </task>
-    <task id="LOCAL-00079" summary="RunIterator and lots of changes in runcycle">
-      <created>1639468638029</created>
-      <option name="number" value="00079" />
-      <option name="presentableId" value="LOCAL-00079" />
-      <option name="project" value="LOCAL" />
-      <updated>1639468638029</updated>
+      <workItem from="1640013842516" duration="10577000" />
+      <workItem from="1640027236156" duration="1556000" />
+      <workItem from="1640028819821" duration="517000" />
+      <workItem from="1640029360920" duration="300000" />
+      <workItem from="1640029686578" duration="154000" />
+      <workItem from="1640029858853" duration="189000" />
+      <workItem from="1640030071806" duration="687000" />
+      <workItem from="1640030832106" duration="621000" />
+      <workItem from="1640031476531" duration="161000" />
+      <workItem from="1640058297153" duration="4535000" />
+      <workItem from="1640063569694" duration="5319000" />
     </task>
     <task id="LOCAL-00080" summary="Old txt format to new txt format">
       <created>1639495513011</created>
@@ -722,7 +788,14 @@
       <option name="project" value="LOCAL" />
       <updated>1640021828969</updated>
     </task>
-    <option name="localTasksCounter" value="128" />
+    <task id="LOCAL-00128" summary="better pbar">
+      <created>1640025053919</created>
+      <option name="number" value="00128" />
+      <option name="presentableId" value="LOCAL-00128" />
+      <option name="project" value="LOCAL" />
+      <updated>1640025053919</updated>
+    </task>
+    <option name="localTasksCounter" value="129" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -770,7 +843,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Constant changes re bounds" />
     <MESSAGE value="Proguard refactor" />
     <MESSAGE value="Proguard working" />
     <MESSAGE value="Scripts" />
@@ -795,18 +867,10 @@
     <MESSAGE value="minor refactorings" />
     <MESSAGE value="multithreaded presponsev + json debug" />
     <MESSAGE value="multithreading rvp is not faster + better pbar" />
-    <option name="LAST_COMMIT_MESSAGE" value="multithreading rvp is not faster + better pbar" />
+    <MESSAGE value="better pbar" />
+    <option name="LAST_COMMIT_MESSAGE" value="better pbar" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/runcycle/structs/Serializer.java</url>
-          <line>87</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="nddoparam.param.ParamHessianRestricted" memberName="gPrime" />

@@ -907,9 +907,9 @@ public class ParamDerivative {
 				int count = 0;
 				for (int i = 0; i < NOcc; i++) {
 					for (int j = 0; j < NVirt; j++) {
-						sum -= 2 * (soln.C.get(i, u) * soln.C.get(j + NOcc,
+						sum -= 2 * (soln.Ct.get(i, u) * soln.Ct.get(j + NOcc,
 								v) +
-								soln.C.get(j + NOcc, u) * soln.C.get(i, v)) *
+								soln.Ct.get(j + NOcc, u) * soln.Ct.get(i, v)) *
 								x.get(count, 0);
 						count++;
 					}
@@ -1009,7 +1009,7 @@ public class ParamDerivative {
 
 				for (int u = 0; u < soln.orbitals.length; u++) {
 					for (int v = 0; v < soln.orbitals.length; v++) {
-						element += soln.C.get(i, u) * soln.C.get(j + NOcc, v) *
+						element += soln.Ct.get(i, u) * soln.Ct.get(j + NOcc, v) *
 								responsematrix.get(u, v);
 					}
 				}
@@ -1092,8 +1092,8 @@ public class ParamDerivative {
 
 					for (int u = 0; u < soln.orbitals.length; u++) {
 						for (int v = 0; v < soln.orbitals.length; v++) {
-							element += soln.C.get(i, u) *
-									soln.C.get(j + NOcc, v) *
+							element += soln.Ct.get(i, u) *
+									soln.Ct.get(j + NOcc, v) *
 									fockderivstatic[a].get(u, v);
 						}
 					}
@@ -1289,7 +1289,7 @@ public class ParamDerivative {
 
 					for (int u = 0; u < soln.orbitals.length; u++) {
 						for (int v = 0; v < soln.orbitals.length; v++) {
-							element += soln.C.get(i, u) * soln.C.get(j + NOcc,
+							element += soln.Ct.get(i, u) * soln.Ct.get(j + NOcc,
 									v) * fockDerivStatic[a].get(u, v);
 						}
 					}
@@ -1718,7 +1718,7 @@ public class ParamDerivative {
 
 			for (int u = 0; u < soln.orbitals.length; u++) {
 				for (int v = 0; v < soln.orbitals.length; v++) {
-					element += soln.C.get(NOcc - 1, u) * soln.C.get(j, v) *
+					element += soln.Ct.get(NOcc - 1, u) * soln.Ct.get(j, v) *
 							fockderiv.get(u, v);
 				}
 			}
@@ -1747,10 +1747,10 @@ public class ParamDerivative {
 				int count = 0;
 				for (int i = 0; i < NOcc; i++) {
 					for (int j = 0; j < NVirt; j++) {
-						sum -= 2 * (soln.C.get(i, u) * soln.C.get(j + NOcc,
+						sum -= 2 * (soln.Ct.get(i, u) * soln.Ct.get(j + NOcc,
 								v) +
-								soln.C.get(j + NOcc, u) *
-										soln.C.get(i, v)) *
+								soln.Ct.get(j + NOcc, u) *
+										soln.Ct.get(i, v)) *
 								x.get(count, 0);
 						count++;
 					}
@@ -1805,11 +1805,11 @@ public class ParamDerivative {
 			for (int k = 0; k < soln.orbitals.length; k++) {
 
 				if (k < NOcc - 1) {
-					sum -= soln.C.get(k, u) * x.get(k, 0);
+					sum -= soln.Ct.get(k, u) * x.get(k, 0);
 				}
 				else if (k >= NOcc) {
 					if (k > 0) {
-						sum -= soln.C.get(k, u) * x.get(k - 1, 0);
+						sum -= soln.Ct.get(k, u) * x.get(k - 1, 0);
 					}
 				}
 			}
@@ -1830,7 +1830,7 @@ public class ParamDerivative {
 			return 0;
 		}
 
-		SimpleMatrix coeff = soln.C.extractVector(true, index);
+		SimpleMatrix coeff = soln.Ct.extractVector(true, index);
 
 		double sum = 0;
 
@@ -1849,9 +1849,9 @@ public class ParamDerivative {
 
 	public static double MNDOHomoDerivNew(SolutionR soln, SimpleMatrix x, SimpleMatrix Fderiv) {
 
-		SimpleMatrix Caderiv = soln.C.transpose().mult(x);
-		SimpleMatrix Eaderiv = Caderiv.transpose().mult(soln.F).mult(soln.C.transpose())
-				.plus(soln.C.mult(Fderiv).mult(soln.C.transpose())).plus(soln.C.mult(soln.F).mult(Caderiv));
+		SimpleMatrix Caderiv = soln.Ct.transpose().mult(x);
+		SimpleMatrix Eaderiv = Caderiv.transpose().mult(soln.F).mult(soln.Ct.transpose())
+				.plus(soln.Ct.mult(Fderiv).mult(soln.Ct.transpose())).plus(soln.Ct.mult(soln.F).mult(Caderiv));
 
 		return Eaderiv.diag().get(soln.getRm().nOccAlpha - 1);
 	}

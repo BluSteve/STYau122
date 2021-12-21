@@ -75,8 +75,8 @@ public class Testing {
 
 					for (int u = 0; u < soln.orbitals.length; u++) {
 						for (int v = 0; v < soln.orbitals.length; v++) {
-							element += soln.C.get(i, u) *
-									soln.C.get(j + NOcc, v) *
+							element += soln.Ct.get(i, u) *
+									soln.Ct.get(j + NOcc, v) *
 									fockderivstatic[a].get(u, v);
 						}
 					}

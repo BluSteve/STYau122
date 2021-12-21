@@ -84,7 +84,7 @@ public class SolutionR extends Solution {
 							new int[]{0, 1, 2, 3, 4, 5, 6}}};
 
 	public double[] integralArray;
-	public SimpleMatrix C, F, E;
+	public SimpleMatrix Ct, CtOcc, CtVirt, F, E;
 
 	public SolutionR(MoleculeInfo mi, NDDOAtom[] atoms) {
 		super(mi, atoms);
@@ -223,11 +223,11 @@ public class SolutionR extends Solution {
 
 		SimpleMatrix[] matrices = Utils.symEigen(H);
 		E = matrices[1].diag();
-		C = matrices[0].transpose();
-		SimpleMatrix G = new SimpleMatrix(C.numRows(), C.numCols());
+		Ct = matrices[0].transpose();
+		SimpleMatrix G = new SimpleMatrix(Ct.numRows(), Ct.numCols());
 		F = H.copy();
 
-		densityMatrix = calculateDensityMatrix(C);
+		densityMatrix = calculateDensityMatrix(Ct);
 		SimpleMatrix olddensity;
 
 		SimpleMatrix[] Farray = new SimpleMatrix[8];
@@ -454,15 +454,15 @@ public class SolutionR extends Solution {
 
 				matrices = Utils.symEigen(F);
 				E = matrices[1].diag();
-				C = matrices[0].transpose();
+				Ct = matrices[0].transpose();
 
-				if (C.get(0, 0) != C.get(0, 0)) {
+				if (Ct.get(0, 0) != Ct.get(0, 0)) {
 					matrices = Utils.symEigen(this.F);
 					E = matrices[1].diag();
-					C = matrices[0].transpose();
+					Ct = matrices[0].transpose();
 				}
 
-				densityMatrix = calculateDensityMatrix(C);
+				densityMatrix = calculateDensityMatrix(Ct);
 			}
 			else {
 				itSinceLastDIIS = 0;
@@ -499,28 +499,31 @@ public class SolutionR extends Solution {
 
 					matrices = Utils.symEigen(F);
 					E = matrices[1].diag();
-					C = matrices[0].transpose();
+					Ct = matrices[0].transpose();
 
-					if (C.get(0, 0) != C.get(0, 0)) {
+					if (Ct.get(0, 0) != Ct.get(0, 0)) {
 						matrices = Utils.symEigen(this.F);
 						E = matrices[1].diag();
-						C = matrices[0].transpose();
+						Ct = matrices[0].transpose();
 					}
 
-					densityMatrix = calculateDensityMatrix(C);
+					densityMatrix = calculateDensityMatrix(Ct);
 				} catch (SingularMatrixException e) { // todo fix adrian
 					matrices = Utils.symEigen(F);
 					E = matrices[1].diag();
-					C = matrices[0].transpose();
+					Ct = matrices[0].transpose();
 
 					double damp = 0.8;
-					densityMatrix = calculateDensityMatrix(C).scale(1 - damp).plus(olddensity.scale(damp));
+					densityMatrix = calculateDensityMatrix(Ct).scale(1 - damp).plus(olddensity.scale(damp));
 				}
 			}
 
 			numIt++;
 			getRm().getLogger().trace("SolutionR iteration: {}, DIISError: {}", numIt, DIISError);
 		}
+
+		CtOcc = Ct.extractMatrix(0, rm.nOccAlpha, 0, Ct.numCols());
+		CtVirt = Ct.extractMatrix(rm.nOccAlpha, Ct.numCols(), 0, Ct.numCols());
 
 		findEnergyAndHf();
 		if (nElectrons > 0) homo = E.get(nElectrons / 2 - 1, 0);

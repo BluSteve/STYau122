@@ -12,7 +12,7 @@
             <CsvLogEventLayout/>
         </File>
         <Async name="AsyncFile">
-            <AppenderRef ref="MainFile"/>52670.691011158975
+            <AppenderRef ref="MainFile"/>
             <AppenderRef ref="csvFile"/>
         </Async>
     </Appenders>

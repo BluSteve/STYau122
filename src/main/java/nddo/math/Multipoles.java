@@ -2854,11 +2854,9 @@ public class Multipoles {
 
 	public static double QpipiQpipicrossp2gd(double p01, double p11, double p21, double D11, double D21, double p02,
 											 double p12, double p22, double D12, double D22, double R,
-											 double D11deriv,
-											 double D21deriv, double p11deriv, double p21deriv, double D12deriv,
-											 double D22deriv, double p12deriv, double p22deriv, double[] A,
-											 double[] B,
-											 int tau) {
+											 double D11deriv, double D21deriv, double p11deriv, double p21deriv,
+											 double D12deriv, double D22deriv, double p12deriv,
+											 double p22deriv, double[] A, double[] B, int tau) {
 		return 0.125 *
 				(+f1crossp2gd(0, 0, +2, -2, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv, A, B, tau) +
 						f1crossp2gd(0, 0, +2, +2, D21, D22, p21, p22, R, D21deriv, D22deriv, p21deriv, p22deriv, A, B,

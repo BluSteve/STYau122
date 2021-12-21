@@ -1412,7 +1412,7 @@ public class GeometrySecondDerivative {
 
 					for (int u = 0; u < soln.orbitals.length; u++) {
 						for (int v = 0; v < soln.orbitals.length; v++) {
-							element += soln.C.get(i, u) * soln.C.get(j + NOcc,
+							element += soln.Ct.get(i, u) * soln.Ct.get(j + NOcc,
 									v) * fockderivstatic[a].get(u, v);
 						}
 					}
@@ -1565,10 +1565,10 @@ public class GeometrySecondDerivative {
 					int count = 0;
 					for (int i = 0; i < NOcc; i++) {
 						for (int j = 0; j < NVirt; j++) {
-							sum -= 2 * (soln.C.get(i, u) *
-									soln.C.get(j + NOcc, v) +
-									soln.C.get(j + NOcc, u) *
-											soln.C.get(i, v)) *
+							sum -= 2 * (soln.Ct.get(i, u) *
+									soln.Ct.get(j + NOcc, v) +
+									soln.Ct.get(j + NOcc, u) *
+											soln.Ct.get(i, v)) *
 									xarray[a].get(count, 0);
 							count++;
 						}
@@ -1586,8 +1586,8 @@ public class GeometrySecondDerivative {
 	}
 
 	public static SimpleMatrix[] getxarrayPople(SolutionR soln, SimpleMatrix[] fockderivstatic) {
-		int NOcc = (int) (soln.nElectrons / 2.0);
-		int NVirt = soln.orbitals.length - NOcc;
+		int NOcc = soln.getRm().nOccAlpha;
+		int NVirt = soln.getRm().nVirtAlpha;
 		int length = fockderivstatic.length;
 		int nonv = NOcc * NVirt;
 
@@ -1627,24 +1627,17 @@ public class GeometrySecondDerivative {
 		// convert AO to MO basis
 		SimpleMatrix F = new SimpleMatrix(nonv, length);
 		for (int a = 0; a < length; a++) {
+
+			SimpleMatrix Ftransformed = soln.Ct.mult(fockderivstatic[a]).mult(soln.Ct.transpose());
+
 			SimpleMatrix f = new SimpleMatrix(nonv, 1);
 
 			int count = 0;
 
 			for (int i = 0; i < NOcc; i++) { // kappa
 				for (int j = 0; j < NVirt; j++) { // i
-					double element = 0;
 
-					for (int u = 0; u < soln.orbitals.length; u++) {
-						for (int v = 0; v < soln.orbitals.length; v++) {
-							element += soln.C.get(i, u) *
-									soln.C.get(j + NOcc, v) *
-									fockderivstatic[a].get(u, v);
-						}
-					}
-
-					element /= soln.E.get(j + NOcc) - soln.E.get(i);
-
+					double element = Ftransformed.get(i, j + NOcc) / (soln.E.get(j + NOcc) - soln.E.get(i));
 					f.set(count, 0, element);
 
 					count++;
@@ -1674,18 +1667,18 @@ public class GeometrySecondDerivative {
 			}
 
 			for (int i = 0; i < length; i++) {
-				SimpleMatrix[] prev = new SimpleMatrix[5];
-				prev[0] = barray[i]; // original barray object here
-				prev[1] = barray[i].transpose();
-				prev[2] = barray[i].negative();
-				dots.add(barray[i].dot(barray[i]));
-
 				// parray[i] stays the same object throughout
 				SimpleMatrix bc = barray[i].copy();
 				CommonOps_DDRM.multRows(Dinvarr, bc.getDDRM());
 				SimpleMatrix rvp = computeResponseVectorsPople(bc, soln);
 				CommonOps_DDRM.multRows(Darr, rvp.getDDRM());
 				parray[i] = rvp;
+
+				SimpleMatrix[] prev = new SimpleMatrix[5];
+				prev[0] = barray[i]; // original barray object here
+				prev[1] = barray[i].transpose();
+				prev[2] = barray[i].negative();
+				dots.add(barray[i].dot(barray[i]));
 
 				prev[3] = parray[i];
 				prev[4] = barray[i].minus(parray[i]);
@@ -1769,29 +1762,14 @@ public class GeometrySecondDerivative {
 				new SimpleMatrix[fockderivstatic.length];
 
 		for (int a = 0; a < fockderivstatic.length; a++) {
-			SimpleMatrix densityMatrixDeriv =
-					new SimpleMatrix(soln.orbitals.length,
-							soln.orbitals.length);
+			SimpleMatrix occ = soln.Ct.extractMatrix(0, NOcc, 0, soln.Ct.numCols());
+			SimpleMatrix virt = soln.Ct.extractMatrix(NOcc, soln.Ct.numCols(), 0, soln.Ct.numCols());
 
-			for (int u = 0; u < densityMatrixDeriv.numRows(); u++) {
-				for (int v = u; v < densityMatrixDeriv.numCols(); v++) {
-					double sum = 0;
-					int count = 0;
-					for (int i = 0; i < NOcc; i++) {
-						for (int j = 0; j < NVirt; j++) {
-							sum -= 2 * (soln.C.get(i, u) *
-									soln.C.get(j + NOcc, v) +
-									soln.C.get(j + NOcc, u) *
-											soln.C.get(i, v)) *
-									xarray[a].get(count, 0);
-							count++;
-						}
-					}
+			SimpleMatrix xmat = xarray[a].copy();
+			xmat.reshape(NOcc, NVirt);
 
-					densityMatrixDeriv.set(u, v, sum);
-					densityMatrixDeriv.set(v, u, sum);
-				}
-			}
+			SimpleMatrix densityMatrixDeriv = occ.transpose().mult(xmat).mult(virt)
+					.plusi(virt.transpose().mult(xmat.transpose().mult(occ))).scalei(-2);
 
 			densityMatrixDerivs[a] = densityMatrixDeriv;
 		}
@@ -1816,9 +1794,9 @@ public class GeometrySecondDerivative {
 				int count = 0;
 				for (int i = 0; i < NOcc; i++) {
 					for (int j = 0; j < NVirt; j++) {
-						sum -= 2 * (soln.C.get(i, u) * soln.C.get(j + NOcc,
+						sum -= 2 * (soln.Ct.get(i, u) * soln.Ct.get(j + NOcc,
 								v) +
-								soln.C.get(j + NOcc, u) * soln.C.get(i, v)) *
+								soln.Ct.get(j + NOcc, u) * soln.Ct.get(i, v)) *
 								x.get(count, 0);
 						count++;
 					}
@@ -1920,7 +1898,7 @@ public class GeometrySecondDerivative {
 
 				for (int u = 0; u < soln.orbitals.length; u++) {
 					for (int v = 0; v < soln.orbitals.length; v++) {
-						element += soln.C.get(i, u) * soln.C.get(j + NOcc, v) *
+						element += soln.Ct.get(i, u) * soln.Ct.get(j + NOcc, v) *
 								responsematrix.get(u, v);
 					}
 				}
@@ -1951,28 +1929,14 @@ public class GeometrySecondDerivative {
 	}
 
 	public static SimpleMatrix computeResponseVectorsPople(SimpleMatrix x, SolutionR soln) {
-		int NOcc = (int) (soln.nElectrons / 2.0);
+		int NOcc = soln.getRm().nOccAlpha;
+		int NVirt = soln.getRm().nVirtAlpha;
 
-		int NVirt = soln.orbitals.length - NOcc;
+		SimpleMatrix xmat = x.copy();
+		xmat.reshape(NOcc, NVirt);
 
-		SimpleMatrix densityMatrixDeriv = new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
-
-		for (int u = 0; u < densityMatrixDeriv.numRows(); u++) {
-			for (int v = u; v < densityMatrixDeriv.numCols(); v++) {
-				double sum = 0;
-				int count = 0;
-				for (int i = 0; i < NOcc; i++) {
-					for (int j = 0; j < NVirt; j++) {
-						sum -= 2 * (soln.C.get(i, u) * soln.C.get(j + NOcc, v) +
-								soln.C.get(j + NOcc, u) * soln.C.get(i, v)) * x.get(count, 0);
-						count++;
-					}
-				}
-
-				densityMatrixDeriv.set(u, v, sum);
-				densityMatrixDeriv.set(v, u, sum);
-			}
-		}
+		SimpleMatrix densityMatrixDeriv = soln.CtOcc.transpose().mult(xmat).mult(soln.CtVirt)
+				.plusi(soln.CtVirt.transpose().mult(xmat.transpose().mult(soln.CtOcc))).scalei(-2);
 
 
 		SimpleMatrix responsematrix = new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
@@ -2026,32 +1990,55 @@ public class GeometrySecondDerivative {
 			}
 		}
 
-		SimpleMatrix R = new SimpleMatrix(NOcc * NVirt, 1);
+		SimpleMatrix Roccvirt = soln.CtOcc.mult(responsematrix).mult(soln.CtVirt.transpose());
+//		System.out.println("Roccvirt = " + Roccvirt);
+//
+//		SimpleMatrix Rvec = new SimpleMatrix(NOcc * NVirt, 1);
+//
+//		int count1 = 0;
+//
+//		for (int i = 0; i < NOcc; i++) {
+//			for (int j = 0; j < NVirt; j++) {
+//
+//				double element2 = Roccvirt.get(i, j) / (soln.E.get(j + NOcc) - soln.E.get(i));
+//
+//				Rvec.set(count1, 0, element2);
+//
+//				count1++;
+//			}
+//		}
 
-		int count1 = 0;
+//		SimpleMatrix R = soln.Ct.mult(responsematrix).mult(soln.Ct.transpose());
+//		System.out.println("R = " + R);
 
+//		SimpleMatrix Rvec = new SimpleMatrix(NOcc * NVirt, 1);
+//
+//		int count1 = 0;
+//
+//		for (int i = 0; i < NOcc; i++) {
+//			for (int j = 0; j < NVirt; j++) {
+//
+//				double element = R.get(i, j + NOcc) / (soln.E.get(j + NOcc) - soln.E.get(i));
+//
+//				Rvec.set(count1, 0, element);
+//
+//				count1++;
+//			}
+//		}
+
+		SimpleMatrix sm = soln.E.extractMatrix(NOcc, soln.nOrbitals, 0, 1);
+		sm.reshape(1, NVirt);
+		SimpleMatrix Emat = new SimpleMatrix(NOcc, NVirt);
 		for (int i = 0; i < NOcc; i++) {
-			for (int j = 0; j < NVirt; j++) {
-
-				double element = 0;
-
-				for (int u = 0; u < soln.orbitals.length; u++) {
-					for (int v = 0; v < soln.orbitals.length; v++) {
-						element += soln.C.get(i, u) * soln.C.get(j + NOcc, v) *
-								responsematrix.get(u, v);
-					}
-				}
-
-				element /= soln.E.get(j + NOcc) - soln.E.get(i);
-
-
-				R.set(count1, 0, element);
-
-				count1++;
-			}
+			Emat.insertIntoThis(i, 0, sm.minus(soln.E.get(i)));
 		}
 
+		SimpleMatrix Rvec = Roccvirt.elementDivi(Emat);
+		Rvec.reshape(NOcc * NVirt, 1);
 
-		return R;
+//		System.out.println("Rvec = " + Rvec);
+//		System.out.println("rv = " + Rvec);
+
+		return Rvec;
 	}
 }
