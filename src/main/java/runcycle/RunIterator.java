@@ -344,6 +344,7 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 			catch (Exception e) {
 				e.printStackTrace();
 				rm.getLogger().error(e);
+				System.exit(1);
 			}
 
 //			for (int i = 1; i < 7; i++) {

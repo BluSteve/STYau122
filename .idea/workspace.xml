@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="fastexp clean up">
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="pow and fastexp clean up">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/defaults/NDDOAtomBasic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/defaults/NDDOAtomBasic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/scf/GTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/scf/GTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/params.csv" beforeDir="false" afterPath="$PROJECT_DIR$/params.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tools/Pow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Pow.java" afterDir="false" />
     </list>
     <list id="13292be9-4080-4d01-a904-a63c5a188ec6" name="Changes by flyingfalcon" comment="" />
@@ -443,14 +444,7 @@
       <workItem from="1640031476531" duration="161000" />
       <workItem from="1640058297153" duration="4535000" />
       <workItem from="1640063569694" duration="15827000" />
-      <workItem from="1640084865914" duration="22555000" />
-    </task>
-    <task id="LOCAL-00093" summary="10 bit hash">
-      <created>1639762686406</created>
-      <option name="number" value="00093" />
-      <option name="presentableId" value="LOCAL-00093" />
-      <option name="project" value="LOCAL" />
-      <updated>1639762686406</updated>
+      <workItem from="1640084865914" duration="23740000" />
     </task>
     <task id="LOCAL-00094" summary="Json done">
       <created>1639767075821</created>
@@ -788,7 +782,14 @@
       <option name="project" value="LOCAL" />
       <updated>1640111749897</updated>
     </task>
-    <option name="localTasksCounter" value="142" />
+    <task id="LOCAL-00142" summary="pow and fastexp clean up">
+      <created>1640114184774</created>
+      <option name="number" value="00142" />
+      <option name="presentableId" value="LOCAL-00142" />
+      <option name="project" value="LOCAL" />
+      <updated>1640114184774</updated>
+    </task>
+    <option name="localTasksCounter" value="143" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -836,7 +837,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="broken but it runs (p2d)" />
     <MESSAGE value="Fix 6gmethods bug" />
     <MESSAGE value="Clean up" />
     <MESSAGE value="ParamGeometryDerivative not working" />
@@ -861,7 +861,8 @@
     <MESSAGE value="gto fix warnings" />
     <MESSAGE value="fastexp" />
     <MESSAGE value="fastexp clean up" />
-    <option name="LAST_COMMIT_MESSAGE" value="fastexp clean up" />
+    <MESSAGE value="pow and fastexp clean up" />
+    <option name="LAST_COMMIT_MESSAGE" value="pow and fastexp clean up" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

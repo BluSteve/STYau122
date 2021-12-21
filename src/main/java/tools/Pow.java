@@ -4,36 +4,38 @@ import static java.lang.Math.abs;
 import static java.lang.Math.sqrt;
 
 public class Pow {
-	public static final int max = 1_000_000;
+	public static final int max = 20;
 	public static final double[] arr = generatearr();
 
 	private static double[] generatearr() {
-		double[] res = new double[2 * max + 1];
+		double[] res = new double[4 * max + 1];
 		int count = 0;
-		for (int j = -max; j <= max; j++, count++) {
-			res[count] = Math.exp(j);
+		for (int j = -2 * max; j <= 2 * max; j++, count++) {
+			System.out.println(Math.exp(j * 0.5));
+			res[count] = Math.exp(j * 0.5);
 		}
 		return res;
 	}
 
-	public static double exp9(double x) {
-		return (39916800 + x * (39916800 + x * (19958400 + x * (6652800 +
-				x * (1663200 + x * (332640 + x * (55440 + x * (7920 + x * (990 + x * (110 + x * (11 + x))))))))))) *
-				2.505210838544172E-8;
+	public static double exp8(double x) {
+		return (3628800 + x * (3628800 + x * (1814400 +
+				x * (604800 + x * (151200 + x * (30240 + x * (5040 + x * (720 + x * (90 + x * (10 + x)))))))))) *
+				2.755731922398589E-7;
 	}
 
-	public static double exp(double x) {
-		int xi = (int) Math.round(x);
-		double xf = x - xi;
-		double exi = arr[xi + max];
+	public static double exp(double x) { // 0.25
+		int xi = (int) Math.round(x * 2); // 1
+		double xf = x - xi * 0.5; // 0.25
+		double exi = arr[xi + max * 2]; // 41
 		if (xf == 0) return exi;
-		return exi * exp9(xf);
+		return exi * exp8(xf);
 	}
 
 	/**
 	 * Only use this instead of Math.pow() if:<br>
-	 *   a. n is an integer with abs(n) <= 16<br>
-	 *   b. n ends with 0.25 or 0.5 or 0.75 and abs(n) <= 4.5
+	 * a. n is an integer with abs(n) <= 16<br>
+	 * b. n ends with 0.25 or 0.5 or 0.75 and abs(n) <= 4.5
+	 *
 	 * @param d base
 	 * @param n exponent
 	 * @return d^n
