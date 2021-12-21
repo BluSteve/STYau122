@@ -152,7 +152,7 @@ public abstract class NDDOAtomBasic implements NDDOAtom<NDDOAtomBasic, NDDO6G> {
 
 	protected double findp1() {
 		double guess = 0;
-		double newguess = 0.5 * Pow.pow(D1 * D1 * Constants.eV / np.getHsp(), 1.0 / 3);
+		double newguess = 0.5 * Math.pow(D1 * D1 * Constants.eV / np.getHsp(), 1.0 / 3);
 		while (Math.abs(guess - newguess) > 1E-12) {
 			guess = newguess;
 			double f = 1 / guess - 1 / Math.sqrt(guess * guess + D1 * D1) - 4 * np.getHsp() / Constants.eV;

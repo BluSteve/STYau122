@@ -30,6 +30,14 @@ public class Pow {
 		return exi * exp9(xf);
 	}
 
+	/**
+	 * Only use this instead of Math.pow() if:<br>
+	 *   a. n is an integer with abs(n) <= 16<br>
+	 *   b. n ends with 0.25 or 0.5 or 0.75 and abs(n) <= 4.5
+	 * @param d base
+	 * @param n exponent
+	 * @return d^n
+	 */
 	public static double pow(double d, double n) {
 		final double absn = abs(n);
 		if (absn > 16) {
@@ -112,25 +120,17 @@ public class Pow {
 			if (absn == 0.5) r = sqrt(d); // hardcoded to prevent function call overhead
 			else if (absn == 1.5) r = d * sqrt(d);
 			else if (absn == 2.5) r = d * d * sqrt(d);
-			else if (absn == 3.5) r = d * d * d * sqrt(d);
 			else if (absn == 4.5) {
 				double d2 = d * d;
 				r = d2 * d2 * sqrt(d);
 			}
-
-			else if (absn == 0.25) r = sqrt(sqrt(d));
-			else if (absn == 1.25) r = d * sqrt(sqrt(d));
-			else if (absn == 2.25) r = d * d * sqrt(sqrt(d));
-			else if (absn == 3.25) r = d * d * d * sqrt(sqrt(d));
-			else if (absn == 4.25) {
-				double d2 = d * d;
-				r = d2 * d2 * sqrt(sqrt(d));
-			}
-
 			else if (absn == 0.75) {
 				double root = sqrt(d);
 				r = root * sqrt(root);
 			}
+
+			// for now unused
+			else if (absn == 3.5) r = d * d * d * sqrt(d);
 			else if (absn == 1.75) {
 				double root = sqrt(d);
 				r = d * root * sqrt(root);
@@ -138,6 +138,14 @@ public class Pow {
 			else if (absn == 2.75) {
 				double root = sqrt(d);
 				r = d * d * root * sqrt(root);
+			}
+			else if (absn == 0.25) r = sqrt(sqrt(d));
+			else if (absn == 1.25) r = d * sqrt(sqrt(d));
+			else if (absn == 2.25) r = d * d * sqrt(sqrt(d));
+			else if (absn == 3.25) r = d * d * d * sqrt(sqrt(d));
+			else if (absn == 4.25) {
+				double d2 = d * d;
+				r = d2 * d2 * sqrt(sqrt(d));
 			}
 			else if (absn == 3.75) {
 				double root = sqrt(d);

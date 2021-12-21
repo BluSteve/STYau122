@@ -1251,9 +1251,7 @@ public class GTO extends Orbital {
 								+ derivnuma * (v1 -
 								a1 * R * R / ((a1 + a2) * (a1 + a2)) - v2)
 								+ num * ((a1 * a1 - 4 * a1 * a2 + a2 * a2) * R * R /
-								((a1 + a2) * (a1 + a2) * (a1 + a2) * (a1 + a2)) +
-								1 / v3);
-
+								Pow.pow(a1 + a2, 4) + 1 / v3);
 				}
 		}
 
