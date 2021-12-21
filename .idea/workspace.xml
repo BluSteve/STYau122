@@ -4,12 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="clean up">
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="multithreaded deriv2">
+      <change afterPath="$PROJECT_DIR$/flamegraph.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Batcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Batcher.java" afterDir="false" />
     </list>
-    <list id="13292be9-4080-4d01-a904-a63c5a188ec6" name="Changes by flyingfalcon" comment="" />
+    <list id="13292be9-4080-4d01-a904-a63c5a188ec6" name="Changes by flyingfalcon" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/defaults/NDDO6GMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/defaults/NDDO6GMethods.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -197,7 +202,7 @@
       <recent name="tools" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Shell Script.Copy">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="frontend.Main" />
       <module name="MNDOParam.main" />
@@ -409,14 +414,7 @@
       <workItem from="1640030832106" duration="621000" />
       <workItem from="1640031476531" duration="161000" />
       <workItem from="1640058297153" duration="4535000" />
-      <workItem from="1640063569694" duration="9684000" />
-    </task>
-    <task id="LOCAL-00082" summary="npMap dilemma fixed">
-      <created>1639507203362</created>
-      <option name="number" value="00082" />
-      <option name="presentableId" value="LOCAL-00082" />
-      <option name="project" value="LOCAL" />
-      <updated>1639507203362</updated>
+      <workItem from="1640063569694" duration="14204000" />
     </task>
     <task id="LOCAL-00083" summary="Txt input working">
       <created>1639561173242</created>
@@ -754,7 +752,14 @@
       <option name="project" value="LOCAL" />
       <updated>1640071070038</updated>
     </task>
-    <option name="localTasksCounter" value="131" />
+    <task id="LOCAL-00131" summary="multithreaded deriv2">
+      <created>1640075194631</created>
+      <option name="number" value="00131" />
+      <option name="presentableId" value="LOCAL-00131" />
+      <option name="project" value="LOCAL" />
+      <updated>1640075194631</updated>
+    </task>
+    <option name="localTasksCounter" value="132" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -802,7 +807,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Scripts" />
     <MESSAGE value="Fix paramgradient combine bug" />
     <MESSAGE value="NDDO6GMethods minor refactor" />
     <MESSAGE value="Rename" />
@@ -827,7 +831,8 @@
     <MESSAGE value="better pbar" />
     <MESSAGE value="speeding up pople g2d&#10;&#10;Benchmark                       Mode  Cnt          Score        Error  &#10;Benchmarks.init               sample  290  173785200.993 ± 394333.780  &#10;Benchmarks.init:init·p0.00    sample       171704320.000               &#10;Benchmarks.init:init·p0.50    sample       173277184.000               &#10;Benchmarks.init:init·p0.90    sample       175348121.600               &#10;Benchmarks.init:init·p0.95    sample       177327308.800               &#10;Benchmarks.init:init·p0.99    sample       185073664.000               &#10;Benchmarks.init:init·p0.999   sample       188219392.000               &#10;Benchmarks.init:init·p0.9999  sample       188219392.000               &#10;Benchmarks.init:init·p1.00    sample       188219392.000" />
     <MESSAGE value="clean up" />
-    <option name="LAST_COMMIT_MESSAGE" value="clean up" />
+    <MESSAGE value="multithreaded deriv2" />
+    <option name="LAST_COMMIT_MESSAGE" value="multithreaded deriv2" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

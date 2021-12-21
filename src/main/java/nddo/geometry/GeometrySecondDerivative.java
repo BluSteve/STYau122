@@ -1234,8 +1234,7 @@ public class GeometrySecondDerivative {
 
 	}
 
-	public static SimpleMatrix hessianRoutine(SolutionR soln,
-											  SimpleMatrix[] fockDerivStatic) {
+	public static SimpleMatrix hessianRoutine(SolutionR soln, SimpleMatrix[] fockDerivStatic) {
 		SimpleMatrix[] densityDerivs = Batcher.apply(fockDerivStatic, subset -> {
 			SimpleMatrix[] output;
 
@@ -1255,6 +1254,7 @@ public class GeometrySecondDerivative {
 		for (int i = 0; i < hessian.numRows(); i++) {
 			for (int j = i; j < hessian.numCols(); j++) {
 				indices[count] = new int[]{i, j};
+				count++;
 			}
 		}
 

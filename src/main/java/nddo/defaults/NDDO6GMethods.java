@@ -485,25 +485,25 @@ public class NDDO6GMethods implements NDDOOrbitalMethods<NDDO6G> {
 
 	@Override
 	public double Gg2d(NDDO6G a, NDDO6G b, NDDO6G c, NDDO6G d, int tau1, int tau2) {
-		double[] coeffA = a.decomposition(a.getCoords(), c.getCoords());
-		double[] coeffB = b.decomposition(a.getCoords(), c.getCoords());
-		double[] coeffC = c.decomposition(a.getCoords(), c.getCoords());
-		double[] coeffD = d.decomposition(a.getCoords(), c.getCoords());
+		double[] coeffA;
+		double[] coeffB;
+		double[] coeffC;
+		double[] coeffD;
 
-		double[] coeffAderiva = a.derivativeDecomposition(a.getCoords(), c.getCoords(), tau1);
-		double[] coeffBderiva = b.derivativeDecomposition(a.getCoords(), c.getCoords(), tau1);
-		double[] coeffCderiva = c.derivativeDecomposition(a.getCoords(), c.getCoords(), tau1);
-		double[] coeffDderiva = d.derivativeDecomposition(a.getCoords(), c.getCoords(), tau1);
+		double[] coeffAderiva;
+		double[] coeffBderiva;
+		double[] coeffCderiva;
+		double[] coeffDderiva;
 
-		double[] coeffAderivb = a.derivativeDecomposition(a.getCoords(), c.getCoords(), tau2);
-		double[] coeffBderivb = b.derivativeDecomposition(a.getCoords(), c.getCoords(), tau2);
-		double[] coeffCderivb = c.derivativeDecomposition(a.getCoords(), c.getCoords(), tau2);
-		double[] coeffDderivb = d.derivativeDecomposition(a.getCoords(), c.getCoords(), tau2);
+		double[] coeffAderivb;
+		double[] coeffBderivb;
+		double[] coeffCderivb;
+		double[] coeffDderivb;
 
-		double[] coeffAderiv2 = a.secondDerivativeDecomposition(a.getCoords(), c.getCoords(), tau1, tau2);
-		double[] coeffBderiv2 = b.secondDerivativeDecomposition(a.getCoords(), c.getCoords(), tau1, tau2);
-		double[] coeffCderiv2 = c.secondDerivativeDecomposition(a.getCoords(), c.getCoords(), tau1, tau2);
-		double[] coeffDderiv2 = d.secondDerivativeDecomposition(a.getCoords(), c.getCoords(), tau1, tau2);
+		double[] coeffAderiv2;
+		double[] coeffBderiv2;
+		double[] coeffCderiv2;
+		double[] coeffDderiv2;
 
 		if (Math.abs(a.getCoords()[0] - c.getCoords()[0]) < 1E-3 &&
 				Math.abs(a.getCoords()[1] - c.getCoords()[1]) < 1E-3) {
@@ -527,6 +527,28 @@ public class NDDO6GMethods implements NDDOOrbitalMethods<NDDO6G> {
 			coeffB = b.decompositionvar(a.getCoords(), c.getCoords());
 			coeffC = c.decompositionvar(a.getCoords(), c.getCoords());
 			coeffD = d.decompositionvar(a.getCoords(), c.getCoords());
+		}
+
+		else {
+			coeffA = a.decomposition(a.getCoords(), c.getCoords());
+			coeffB = b.decomposition(a.getCoords(), c.getCoords());
+			coeffC = c.decomposition(a.getCoords(), c.getCoords());
+			coeffD = d.decomposition(a.getCoords(), c.getCoords());
+
+			coeffAderiva = a.derivativeDecomposition(a.getCoords(), c.getCoords(), tau1);
+			coeffBderiva = b.derivativeDecomposition(a.getCoords(), c.getCoords(), tau1);
+			coeffCderiva = c.derivativeDecomposition(a.getCoords(), c.getCoords(), tau1);
+			coeffDderiva = d.derivativeDecomposition(a.getCoords(), c.getCoords(), tau1);
+
+			coeffAderivb = a.derivativeDecomposition(a.getCoords(), c.getCoords(), tau2);
+			coeffBderivb = b.derivativeDecomposition(a.getCoords(), c.getCoords(), tau2);
+			coeffCderivb = c.derivativeDecomposition(a.getCoords(), c.getCoords(), tau2);
+			coeffDderivb = d.derivativeDecomposition(a.getCoords(), c.getCoords(), tau2);
+
+			coeffAderiv2 = a.secondDerivativeDecomposition(a.getCoords(), c.getCoords(), tau1, tau2);
+			coeffBderiv2 = b.secondDerivativeDecomposition(a.getCoords(), c.getCoords(), tau1, tau2);
+			coeffCderiv2 = c.secondDerivativeDecomposition(a.getCoords(), c.getCoords(), tau1, tau2);
+			coeffDderiv2 = d.secondDerivativeDecomposition(a.getCoords(), c.getCoords(), tau1, tau2);
 		}
 
 		NDDO6G[] A = a.orbitalArray();

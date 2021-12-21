@@ -299,46 +299,52 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 	}
 
 	private static final class MoleculeRun implements IMoleculeResult {
-		private final boolean withHessian, isExpAvail;
-		private final RunnableMolecule rm;
-		private final Solution s;
-		private final ParamGradient g;
-		private final ParamHessian h;
-		private final Atom[] newAtoms;
-		private final long time;
+		private boolean withHessian, isExpAvail;
+		private RunnableMolecule rm;
+		private Solution s;
+		private ParamGradient g;
+		private ParamHessian h;
+		private Atom[] newAtoms;
+		private long time;
 
 		public MoleculeRun(RunnableMolecule rm, NDDOAtom[] nddoAtoms, NDDOAtom[] expGeom, double[] datum,
 						   boolean withHessian) {
-			this.rm = rm;
-			this.withHessian = withHessian;
-			this.isExpAvail = expGeom != null;
+			try {
+				this.rm = rm;
+				this.withHessian = withHessian;
+				this.isExpAvail = expGeom != null;
 
-			rm.getLogger().info("Started");
-			StopWatch sw = new StopWatch();
-			sw.start();
+				rm.getLogger().info("Started");
+				StopWatch sw = new StopWatch();
+				sw.start();
 
-			Solution initialS = Solution.of(rm, nddoAtoms);
-			rm.getLogger().debug("Finished initial solution computation");
+				Solution initialS = Solution.of(rm, nddoAtoms);
+				rm.getLogger().debug("Finished initial solution computation");
 
-			s = GeometryOptimization.of(initialS).compute().getS();
-			rm.getLogger().debug("Finished geometry optimization");
+				s = GeometryOptimization.of(initialS).compute().getS();
+				rm.getLogger().debug("Finished geometry optimization");
 
-			g = ParamGradient.of(s, datum, isExpAvail ? Solution.of(rm, expGeom) : null).compute();
-			rm.getLogger().debug("Finished param gradient");
+				g = ParamGradient.of(s, datum, isExpAvail ? Solution.of(rm, expGeom) : null).compute();
+				rm.getLogger().debug("Finished param gradient");
 
-			h = withHessian ? ParamHessian.from(g).compute() : null;
-			rm.getLogger().debug("Finished param hessian");
+				h = withHessian ? ParamHessian.from(g).compute() : null;
+				rm.getLogger().debug("Finished param hessian");
 
-			// stores new optimized geometry
-			newAtoms = new Atom[s.atoms.length];
-			for (int i = 0; i < newAtoms.length; i++) {
-				newAtoms[i] = new Atom(s.atoms[i].getAtomProperties().getZ(), s.atoms[i].getCoordinates());
+				// stores new optimized geometry
+				newAtoms = new Atom[s.atoms.length];
+				for (int i = 0; i < newAtoms.length; i++) {
+					newAtoms[i] = new Atom(s.atoms[i].getAtomProperties().getZ(), s.atoms[i].getCoordinates());
+				}
+
+				sw.stop();
+				time = sw.getTime();
+
+				rm.getLogger().info("Finished in {}", time);
 			}
-
-			sw.stop();
-			time = sw.getTime();
-
-			rm.getLogger().info("Finished in {}", time);
+			catch (Exception e) {
+				e.printStackTrace();
+				rm.getLogger().error(e);
+			}
 
 //			for (int i = 1; i < 7; i++) {
 //				for (int j = 1; j < 7; j++) {

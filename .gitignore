@@ -7,3 +7,4 @@ dynamic-output.json
 input.json
 *.json
 logs
+flamegraph.png
