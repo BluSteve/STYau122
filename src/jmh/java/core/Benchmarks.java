@@ -27,11 +27,8 @@ public class Benchmarks {
 	@BenchmarkMode(Mode.SampleTime)
 	@OutputTimeUnit(TimeUnit.NANOSECONDS)
 	public static void init(State state) {
-		for (int i = 0; i < 100000; i++) {
-			double x = 20000 * state.r.nextDouble();
-			Pow.approxexp(x);
-//			Math.exp(x);
-		}
+		double x = 10000 * state.r.nextDouble();
+		Pow.exp(x);
 	}
 
 	@org.openjdk.jmh.annotations.State(Scope.Benchmark)

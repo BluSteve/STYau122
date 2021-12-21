@@ -213,8 +213,7 @@ public class Utils {
 
 		double i = 0.5;
 		System.out.println("Math.exp(i) = " + Math.exp(i));
-		System.out.println("Pow.approxexp(i) = " + Pow.approxexp(i));
-		System.out.println(Math.abs(Math.exp(i) - Pow.approxexp(i)));
+		System.out.println(Math.abs(Math.exp(i) - Pow.exp9(i)));
 	}
 }
 
