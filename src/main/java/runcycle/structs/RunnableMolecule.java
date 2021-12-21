@@ -41,7 +41,7 @@ public final class RunnableMolecule extends MoleculeInfo { // mid-level runnable
 		 *                     atomTypes
 		 * @return A complete, valid RawMolecule object.
 		 */
-		public RunnableMolecule build(int[] atomTypes, int[][] neededParams) {
+		public RunnableMolecule build(int[] atomTypes, int[][] neededParams) { // can use neededParams map instead
 			Arrays.sort(atoms, Comparator.comparingInt(o -> -o.Z));
 			if (expGeom != null) Arrays.sort(expGeom, Comparator.comparingInt(o -> -o.Z));
 
