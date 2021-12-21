@@ -211,11 +211,10 @@ public class Utils {
 
 	public static void main(String[] args) {
 
-		double i = 3;
+		double i = 0.5;
 		System.out.println("Math.exp(i) = " + Math.exp(i));
-		System.out.println("Pow.exp9(i) = " + (Pow.exp9(i) - Math.exp(i)));
-		System.out.println("Pow.exp2(i) = " + (Pow.exp8(i) - Math.exp(i)));
-		System.out.println("1/Math.f = " + 1.0/39916800);
+		System.out.println("Pow.approxexp(i) = " + Pow.approxexp(i));
+		System.out.println(Math.abs(Math.exp(i) - Pow.approxexp(i)));
 	}
 }
 

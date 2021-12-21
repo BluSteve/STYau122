@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="fix multipoles warnings">
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="gto fix warnings">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/examples/am1/AM1Atom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/examples/am1/AM1Atom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/defaults/MNDOAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/defaults/MNDOAtom.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tools/Pow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Pow.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tools/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Utils.java" afterDir="false" />
     </list>
@@ -328,10 +330,10 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.MNDOParam [myProguardTask]" />
         <item itemvalue="Gradle.MNDOParam [jar]" />
         <item itemvalue="Application.Utils" />
         <item itemvalue="Application.Main" />
-        <item itemvalue="Gradle.MNDOParam [myProguardTask]" />
         <item itemvalue="Application.TxtIO" />
       </list>
     </recent_temporary>
@@ -439,21 +441,7 @@
       <workItem from="1640031476531" duration="161000" />
       <workItem from="1640058297153" duration="4535000" />
       <workItem from="1640063569694" duration="15827000" />
-      <workItem from="1640084865914" duration="13281000" />
-    </task>
-    <task id="LOCAL-00089" summary="Huge refactor seems to be working">
-      <created>1639735907378</created>
-      <option name="number" value="00089" />
-      <option name="presentableId" value="LOCAL-00089" />
-      <option name="project" value="LOCAL" />
-      <updated>1639735907378</updated>
-    </task>
-    <task id="LOCAL-00090" summary="Fix stupid Utils perturbCoords bug">
-      <created>1639740713844</created>
-      <option name="number" value="00090" />
-      <option name="presentableId" value="LOCAL-00090" />
-      <option name="project" value="LOCAL" />
-      <updated>1639740713844</updated>
+      <workItem from="1640084865914" duration="17729000" />
     </task>
     <task id="LOCAL-00091" summary="Json serializers and deserializers">
       <created>1639759381742</created>
@@ -784,7 +772,21 @@
       <option name="project" value="LOCAL" />
       <updated>1640100758722</updated>
     </task>
-    <option name="localTasksCounter" value="138" />
+    <task id="LOCAL-00138" summary="exp">
+      <created>1640104917518</created>
+      <option name="number" value="00138" />
+      <option name="presentableId" value="LOCAL-00138" />
+      <option name="project" value="LOCAL" />
+      <updated>1640104917518</updated>
+    </task>
+    <task id="LOCAL-00139" summary="gto fix warnings">
+      <created>1640106273271</created>
+      <option name="number" value="00139" />
+      <option name="presentableId" value="LOCAL-00139" />
+      <option name="project" value="LOCAL" />
+      <updated>1640106273271</updated>
+    </task>
+    <option name="localTasksCounter" value="140" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -832,8 +834,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="AM1 compatibility" />
-    <MESSAGE value="Input verification" />
     <MESSAGE value="minor changes" />
     <MESSAGE value="fix thiel bug in paramderivative uhf" />
     <MESSAGE value="broken but it runs (p2d)" />
@@ -857,20 +857,17 @@
     <MESSAGE value="pow with cache" />
     <MESSAGE value="pow without cache" />
     <MESSAGE value="fix multipoles warnings" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix multipoles warnings" />
+    <MESSAGE value="exp" />
+    <MESSAGE value="gto fix warnings" />
+    <option name="LAST_COMMIT_MESSAGE" value="gto fix warnings" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/nddo/defaults/MNDOAtom.java</url>
-          <line>30</line>
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/nddo/scf/GTO.java</url>
-          <line>1089</line>
-          <option name="timeStamp" value="20" />
+          <url>file://$PROJECT_DIR$/src/main/java/tools/Pow.java</url>
+          <line>49</line>
+          <option name="timeStamp" value="33" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
