@@ -1,14 +1,9 @@
 package core;
 
-import frontend.TxtIO;
-import nddo.geometry.GeometryDerivative;
-import nddo.geometry.GeometrySecondDerivative;
-import nddo.solution.Solution;
 import nddo.solution.SolutionR;
 import org.ejml.simple.SimpleMatrix;
 import org.openjdk.jmh.annotations.*;
-import runcycle.structs.RunInput;
-import runcycle.structs.RunnableMolecule;
+import tools.Pow;
 
 import java.io.IOException;
 import java.util.Random;
@@ -27,7 +22,7 @@ public class Benchmarks {
 	@OutputTimeUnit(TimeUnit.NANOSECONDS)
 	public static void init(State state) {
 		double x = 10000 * state.r.nextDouble();
-		Math.exp(x);
+		Pow.exp(x);
 	}
 
 	@org.openjdk.jmh.annotations.State(Scope.Benchmark)
@@ -39,17 +34,17 @@ public class Benchmarks {
 
 		@Setup(Level.Trial)
 		public void setup() throws IOException {
-			RunInput input = TxtIO.readInput();
-			RunnableMolecule rm = input.molecules[0];
-
-			s = (SolutionR) Solution.of(rm, runcycle.State.getConverter().convert(rm.atoms, input.info.npMap));
-			SimpleMatrix[][] matrices = GeometryDerivative.gradientRoutine(s);
-			fockderivstatic = matrices[1];
-
-			System.out.println(fockderivstatic.length);
-			SimpleMatrix[] xarray = GeometrySecondDerivative.getxarrayPople(s, fockderivstatic);
-			x = xarray[0];
-			System.out.println(xarray[0]);
+//			RunInput input = TxtIO.readInput();
+//			RunnableMolecule rm = input.molecules[0];
+//
+//			s = (SolutionR) Solution.of(rm, runcycle.State.getConverter().convert(rm.atoms, input.info.npMap));
+//			SimpleMatrix[][] matrices = GeometryDerivative.gradientRoutine(s);
+//			fockderivstatic = matrices[1];
+//
+//			System.out.println(fockderivstatic.length);
+//			SimpleMatrix[] xarray = GeometrySecondDerivative.getxarrayPople(s, fockderivstatic);
+//			x = xarray[0];
+//			System.out.println(xarray[0]);
 		}
 	}
 }

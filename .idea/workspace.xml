@@ -4,11 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="io changes + legit runs">
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="solutionu fix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunOutput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunOutput.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/params.csv" beforeDir="false" afterPath="$PROJECT_DIR$/params.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Pow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Pow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
     </list>
     <list id="13292be9-4080-4d01-a904-a63c5a188ec6" name="Changes by flyingfalcon" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -204,7 +207,7 @@
       <recent name="tools" />
     </key>
   </component>
-  <component name="RunManager" selected="Shell Script.Copy">
+  <component name="RunManager" selected="Application.Pow">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="frontend.Main" />
       <module name="MNDOParam.main" />
@@ -231,12 +234,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Utils" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="tools.Utils" />
+    <configuration name="TxtIO" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="frontend.TxtIO" />
       <module name="MNDOParam.main" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="tools.*" />
+          <option name="PATTERN" value="frontend.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -324,20 +327,20 @@
     </configuration>
     <list>
       <item itemvalue="Application.Main" />
-      <item itemvalue="Application.Utils" />
+      <item itemvalue="Application.Pow" />
+      <item itemvalue="Application.TxtIO" />
       <item itemvalue="Gradle.MNDOParam [jmh]" />
       <item itemvalue="Gradle.MNDOParam [jar]" />
       <item itemvalue="Gradle.MNDOParam [myProguardTask]" />
       <item itemvalue="Shell Script.Copy" />
-      <item itemvalue="Application.Pow" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.TxtIO" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.Pow" />
         <item itemvalue="Gradle.MNDOParam [myProguardTask]" />
         <item itemvalue="Gradle.MNDOParam [jar]" />
-        <item itemvalue="Application.Utils" />
       </list>
     </recent_temporary>
   </component>
@@ -449,14 +452,8 @@
       <workItem from="1640058297153" duration="4535000" />
       <workItem from="1640063569694" duration="15827000" />
       <workItem from="1640084865914" duration="23740000" />
-      <workItem from="1640116049288" duration="14815000" />
-    </task>
-    <task id="LOCAL-00098" summary="Make RunIterator implement Iterable">
-      <created>1639769854487</created>
-      <option name="number" value="00098" />
-      <option name="presentableId" value="LOCAL-00098" />
-      <option name="project" value="LOCAL" />
-      <updated>1639769854487</updated>
+      <workItem from="1640116049288" duration="16637000" />
+      <workItem from="1640172099056" duration="1448000" />
     </task>
     <task id="LOCAL-00099" summary="Minor refactoring">
       <created>1639803519415</created>
@@ -794,7 +791,14 @@
       <option name="project" value="LOCAL" />
       <updated>1640164472805</updated>
     </task>
-    <option name="localTasksCounter" value="147" />
+    <task id="LOCAL-00147" summary="solutionu fix">
+      <created>1640169050541</created>
+      <option name="number" value="00147" />
+      <option name="presentableId" value="LOCAL-00147" />
+      <option name="project" value="LOCAL" />
+      <updated>1640169050541</updated>
+    </task>
+    <option name="localTasksCounter" value="148" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -842,7 +846,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="ParamGeometrySecondDerivative" />
     <MESSAGE value="Homo derivs" />
     <MESSAGE value="Batcher" />
     <MESSAGE value="minor refactorings" />
@@ -867,7 +870,8 @@
     <MESSAGE value="general interp" />
     <MESSAGE value="exp7 instead" />
     <MESSAGE value="io changes + legit runs" />
-    <option name="LAST_COMMIT_MESSAGE" value="io changes + legit runs" />
+    <MESSAGE value="solutionu fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="solutionu fix" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

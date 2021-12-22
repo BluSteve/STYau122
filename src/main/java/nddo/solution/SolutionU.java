@@ -178,7 +178,7 @@ public class SolutionU extends Solution {
 
 		double DIISError = 10;
 
-		while (DIISError > 1E-12) {
+		while (!(DIISError < 1E-12 || numIt > 20000 && DIISError < 5e-12)) {
 
 			oldalphadensity = alphaDensity.copy();
 			oldbetadensity = betaDensity.copy();

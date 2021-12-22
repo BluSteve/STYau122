@@ -6,22 +6,23 @@ import static java.lang.Math.abs;
 import static java.lang.Math.sqrt;
 
 public class Pow {
-	private static final int max = 1000; // anything outside is 0 or infinity
+	private static final int max = 100000; // anything outside is 0 or infinity
 	private static final int interp = 4;
 	private static final double interpinv = 1.0 / interp;
 	private static final int total = interp * max;
 	private static final double[] arr = generatearr();
 
 	public static void main(String[] args) {
-		double i = interpinv / 2;
-		System.out.println("worst case = " + Math.abs(Math.exp(i) - Pow.exp(i)));
-
 		Random r = new Random(123);
 		double error = 0;
+		double maxerror = 0;
 		for (int j = 0; j < 100000; j++) {
-			i = r.nextGaussian();
-			error += Math.abs(Math.exp(i) - Pow.exp(i));
+			double i = r.nextGaussian();
+			double e = abs(Math.exp(i) - Pow.exp(i));
+			error += e;
+			if (e > maxerror) maxerror = e;
 		}
+		System.out.println("worst case = " + maxerror);
 		System.out.println("  avg case = " + error / 100000);
 	}
 
@@ -34,20 +35,13 @@ public class Pow {
 		return res;
 	}
 
-	private static double exp7(double x) {
-		return (362880 + x *
-				(362880 + x * (181440 + x * (60480 + x * (15120 + x * (3024 + x * (504 + x * (72 + x * (9 + x))))))))) *
-				2.755731922398589065256E-6;
-	}
-
 	public static double exp(double x) {
-		if (x < -max) return 0;
-		if (x > max) return Double.POSITIVE_INFINITY;
 		int xi = (int) Math.round(x * interp);
 		double xf = x - xi * interpinv;
 		double exi = arr[xi + total];
-		if (xf == 0) return exi;
-		return exi * exp7(xf);
+		return exi * (362880 + xf * (362880 + xf * (181440 +
+				xf * (60480 + xf * (15120 + xf * (3024 + xf * (504 + xf * (72 + xf * (9 + xf))))))))) *
+				2.755731922398589065256E-6;
 	}
 
 	/**
