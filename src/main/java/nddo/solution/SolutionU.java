@@ -469,6 +469,25 @@ public class SolutionU extends Solution {
 						.plus(oldbetadensity.scale(damp));
 			}
 
+			if (numIt < 100 && DIISError > 0.1) {
+				SimpleMatrix[] matrices1 = Utils.symEigen(Fa);
+
+				SimpleMatrix[] matrices2 = Utils.symEigen(Fb);
+
+				Ea = matrices1[1].diag();
+
+				Eb = matrices2[1].diag();
+
+				ca = matrices1[0].transpose();
+				cb = matrices2[0].transpose();
+
+				alphaDensity = calculateDensityMatrix(ca, nalpha).scale(1 - damp)
+						.plus(oldalphadensity.scale(damp));
+
+				betaDensity = calculateDensityMatrix(cb, nbeta).scale(1 - damp)
+						.plus(oldbetadensity.scale(damp));
+			}
+
 			if (numIt > 100000) {
 				getRm().getLogger().error("unstable");
 				System.exit(0);

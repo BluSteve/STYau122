@@ -297,7 +297,7 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 
 			logger.info("Total error: {}", ttError);
 
-			return new RunOutput(ri, nextRunInfo, results.toArray(new IMoleculeResult[0]), lsw.getTime());
+			return new RunOutput(ri, nextRunInfo, results.toArray(new IMoleculeResult[0]), lsw.getTime(), ttError);
 		}
 	}
 

@@ -4,15 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="exp7 instead">
-      <change afterPath="$PROJECT_DIR$/after1strun/molecules.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/after1strun/params.csv" afterDir="false" />
+    <list default="true" id="f93a9ac4-9790-484d-8df1-0e5dd4731149" name="Changes" comment="io changes + legit runs">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/copy.bat" beforeDir="false" afterPath="$PROJECT_DIR$/copy.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/TxtIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/TxtIO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunOutput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunOutput.java" afterDir="false" />
     </list>
     <list id="13292be9-4080-4d01-a904-a63c5a188ec6" name="Changes by flyingfalcon" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -453,14 +449,7 @@
       <workItem from="1640058297153" duration="4535000" />
       <workItem from="1640063569694" duration="15827000" />
       <workItem from="1640084865914" duration="23740000" />
-      <workItem from="1640116049288" duration="10246000" />
-    </task>
-    <task id="LOCAL-00097" summary="ranMolecules in RunIterator">
-      <created>1639768988509</created>
-      <option name="number" value="00097" />
-      <option name="presentableId" value="LOCAL-00097" />
-      <option name="project" value="LOCAL" />
-      <updated>1639768988509</updated>
+      <workItem from="1640116049288" duration="14815000" />
     </task>
     <task id="LOCAL-00098" summary="Make RunIterator implement Iterable">
       <created>1639769854487</created>
@@ -798,7 +787,14 @@
       <option name="project" value="LOCAL" />
       <updated>1640119819581</updated>
     </task>
-    <option name="localTasksCounter" value="146" />
+    <task id="LOCAL-00146" summary="io changes + legit runs">
+      <created>1640164472805</created>
+      <option name="number" value="00146" />
+      <option name="presentableId" value="LOCAL-00146" />
+      <option name="project" value="LOCAL" />
+      <updated>1640164472805</updated>
+    </task>
+    <option name="localTasksCounter" value="147" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -846,7 +842,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Fix PGD" />
     <MESSAGE value="ParamGeometrySecondDerivative" />
     <MESSAGE value="Homo derivs" />
     <MESSAGE value="Batcher" />
@@ -871,7 +866,8 @@
     <MESSAGE value="fastexp tighter interp" />
     <MESSAGE value="general interp" />
     <MESSAGE value="exp7 instead" />
-    <option name="LAST_COMMIT_MESSAGE" value="exp7 instead" />
+    <MESSAGE value="io changes + legit runs" />
+    <option name="LAST_COMMIT_MESSAGE" value="io changes + legit runs" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

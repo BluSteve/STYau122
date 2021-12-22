@@ -7,14 +7,16 @@ public final class RunOutput { // non-transient fields must be for reference pur
 	public final InputInfo nextRunInfo;
 	public final IMoleculeResult[] results;
 	public final long timeTaken;
+	public final double ttError;
 	private final transient RunInput input; // what made it
 	private transient RunInput nextInput; // what it made
 
-	public RunOutput(RunInput input, InputInfo nextRunInfo, IMoleculeResult[] results, long timeTaken) {
+	public RunOutput(RunInput input, InputInfo nextRunInfo, IMoleculeResult[] results, long timeTaken, double ttError) {
 		this.input = input;
 		this.nextRunInfo = nextRunInfo;
 		this.results = results;
 		this.timeTaken = timeTaken;
+		this.ttError = ttError;
 
 		hash = Serializer.getHash(this);
 	}
