@@ -6,4 +6,4 @@ copy mndo-j.sh \\192.168.31.153\sambashare\home\steve\Downloads\mndo-server
 copy mndo-update.sh \\192.168.31.153\sambashare\home\steve\Downloads\mndo-server
 copy build\libs\MNDOParam.jar \\192.168.31.153\sambashare\home\steve\Downloads\mndo-server\MNDOParam.jar
 
-ssh steve@35.224.43.48 -i C:\Users\billi\Documents\stevecyr "sudo ./mndo-update.sh"
+ssh steve@34.67.32.112 -i C:\Users\billi\Documents\stevecyr "sudo ./mndo-update.sh"

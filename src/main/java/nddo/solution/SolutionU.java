@@ -178,7 +178,7 @@ public class SolutionU extends Solution {
 
 		double DIISError = 10;
 
-		while (DIISError > 2 * 1E-13) {
+		while (DIISError > 1E-12) {
 
 			oldalphadensity = alphaDensity.copy();
 			oldbetadensity = betaDensity.copy();
@@ -469,14 +469,13 @@ public class SolutionU extends Solution {
 						.plus(oldbetadensity.scale(damp));
 			}
 
-			if (numIt > 10000) {
+			if (numIt > 100000) {
 				getRm().getLogger().error("unstable");
 				System.exit(0);
 			}
+			getRm().getLogger().trace("SolutionU iteration: {}, DIISError: {}", numIt, DIISError);
 
 			numIt++;
-
-
 		}
 
 		double e = 0;

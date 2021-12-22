@@ -1,8 +1,10 @@
 package frontend;
 
 import nddo.structs.AtomProperties;
-import runcycle.IMoleculeResult;
-import runcycle.structs.*;
+import runcycle.structs.Atom;
+import runcycle.structs.InputInfo;
+import runcycle.structs.RunInput;
+import runcycle.structs.RunnableMolecule;
 import tools.Utils;
 
 import java.io.FileNotFoundException;
@@ -232,12 +234,10 @@ public class TxtIO {
 		return new RunInput(info, moleculesL.toArray(RunnableMolecule[]::new));
 	}
 
-	private static void updateMolecules(IMoleculeResult[] results) throws FileNotFoundException {
+	private static void updateMolecules(RunnableMolecule[] results) throws FileNotFoundException {
 		PrintWriter pw = new PrintWriter("molecules.txt");
 
-		for (IMoleculeResult r : results) {
-			RunnableMolecule rm = r.getUpdatedRm();
-
+		for (RunnableMolecule rm : results) {
 			pw.println(String.format("%s, %s, CHARGE=%d, MULT=%d", rm.name, rm.restricted ? "RHF" : "UHF",
 					rm.charge, rm.mult));
 
@@ -257,7 +257,7 @@ public class TxtIO {
 						AtomProperties.getAtoms()[atom.Z].getName(), coords[0], coords[1], coords[2]));
 			}
 
-			if (r.isExpAvail()) {
+			if (rm.expGeom != null) {
 				pw.println("EXPGEOM");
 
 				for (int i = 0; i < rm.expGeom.length; i++) {
@@ -291,9 +291,9 @@ public class TxtIO {
 		pw.close();
 	}
 
-	public static void updateOutput(RunOutput ro) throws FileNotFoundException {
-		updateMolecules(ro.results);
-		updateParams(ro.nextRunInfo);
+	public static void updateInput(RunInput ri) throws FileNotFoundException {
+		updateMolecules(ri.molecules);
+		updateParams(ri.info);
 	}
 
 	private static Atom toAtom(String line) {

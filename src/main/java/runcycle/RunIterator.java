@@ -75,7 +75,7 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 	public RunOutput next() {
 		logger.info("Run number: {}, input hash: {}", runNumber, currentRunInput.hash);
 
-		PRun pRun = new PRun(currentRunInput);
+		PRun pRun = new PRun(currentRunInput, runNumber);
 
 		if (ranMolecules != null) {
 			pRun.ranMolecules = ranMolecules;
@@ -105,11 +105,13 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 	private static final class PRun { // stands for ParameterizationRun
 		private static final Logger logger = LogManager.getLogger("PRun");
 		private final RunInput ri;
+		private final int runNumber;
 		private final ScheduledExecutorService progressBar = Executors.newScheduledThreadPool(1);
 		private IMoleculeResult[] ranMolecules;
 
-		PRun(RunInput runInput) {
+		PRun(RunInput runInput, int runNumber) {
 			this.ri = runInput;
+			this.runNumber = runNumber;
 		}
 
 		private static int getMaxMoleculeIndex(RunnableMolecule[] rms) {
@@ -145,7 +147,8 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 
 					String percent = String.format("%.2f", 100.0 * doneCount / (doneCount + left.size()));
 
-					logger.info("Time: {} s, {}/{} left ({}% done): {}", lsw.getTime(TimeUnit.SECONDS), left.size(),
+					logger.info("Run {}, time: {} s, {}/{} left ({}% done): {}", runNumber,
+							lsw.getTime(TimeUnit.SECONDS), left.size(),
 							doneCount + left.size(), percent, left);
 				};
 
@@ -340,8 +343,7 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 				time = sw.getTime();
 
 				rm.getLogger().info("Finished in {}", time);
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 				rm.getLogger().error(e);
 				System.exit(1);
