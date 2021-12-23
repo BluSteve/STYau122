@@ -19,7 +19,7 @@ public class Main {
 		RunIterator iterator = new RunIterator(input, 1);
 		int i = 0;
 		for (RunOutput ro : iterator) {
-//			TxtIO.updateInput(ro.getNextInput());
+			TxtIO.updateInput(ro.getNextInput());
 			JsonIO.write(ro.getInput(), String.format("pastinputs/%04d-%s", i, ro.getInput().hash));
 			JsonIO.write(ro, String.format("outputs/%04d-%s-%s", i, ro.getInput().hash, ro.hash));
 			i++;
