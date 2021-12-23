@@ -20,17 +20,20 @@ public final class Batcher {
 		if (length <= minBatchSize) consumer.accept(inputArr);
 		else {
 			final int batchSize = Math.max((int) Math.ceil(length * coresinv), minBatchSize);
+			final int batchSize2 = batchSize << 1;
 
 			final List<RecursiveAction> subtasks = new ArrayList<>(length);
 
-			for (int es = 0; es < length; es += batchSize) {
+			int endSize = 0;
+			for (int es = 0; endSize < length; es += batchSize) {
 				int elapsedSize = es;
+				endSize = length - elapsedSize < batchSize2 ? length : elapsedSize + batchSize;
 
+				int finalEndSize = endSize;
 				subtasks.add(new RecursiveAction() {
 					@Override
 					protected void compute() {
-						consumer.accept(Arrays.copyOfRange(inputArr, elapsedSize,
-								Math.min(length, elapsedSize + batchSize)));
+						consumer.accept(Arrays.copyOfRange(inputArr, elapsedSize, finalEndSize));
 					}
 				});
 			}
@@ -45,17 +48,20 @@ public final class Batcher {
 		if (length <= minBatchSize) consumer.accept(inputArr);
 		else {
 			final int batchSize = Math.max((int) Math.ceil(length * coresinv), minBatchSize);
+			final int batchSize2 = batchSize << 1;
 
 			final List<RecursiveAction> subtasks = new ArrayList<>(length);
 
-			for (int es = 0; es < length; es += batchSize) {
+			int endSize = 0;
+			for (int es = 0; endSize < length; es += batchSize) {
 				int elapsedSize = es;
+				endSize = length - elapsedSize < batchSize2 ? length : elapsedSize + batchSize;
 
+				int finalEndSize = endSize;
 				subtasks.add(new RecursiveAction() {
 					@Override
 					protected void compute() {
-						consumer.accept(Arrays.copyOfRange(inputArr, elapsedSize,
-								Math.min(length, elapsedSize + batchSize)));
+						consumer.accept(Arrays.copyOfRange(inputArr, elapsedSize, finalEndSize));
 					}
 				});
 			}
@@ -69,20 +75,22 @@ public final class Batcher {
 		if (length <= minBatchSize) return function.apply(inputArr);
 		else {
 			final int batchSize = Math.max((int) Math.ceil(length * coresinv), minBatchSize);
+			final int batchSize2 = batchSize << 1;
 
 			final var results = (R[]) Array.newInstance(inputArr[0].getClass(), length);
 			final List<RecursiveAction> subtasks = new ArrayList<>(length);
 
-			for (int es = 0; es < length; es += batchSize) {
+			int endSize = 0;
+			for (int es = 0; endSize < length; es += batchSize) {
 				int elapsedSize = es;
+				endSize = length - elapsedSize < batchSize2 ? length : elapsedSize + batchSize;
 
+				int finalEndSize = endSize;
 				subtasks.add(new RecursiveAction() {
 					@Override
 					protected void compute() {
-						int endSize = Math.min(length, elapsedSize + batchSize);
-
-						System.arraycopy(function.apply(Arrays.copyOfRange(inputArr, elapsedSize, endSize)),
-								0, results, elapsedSize, endSize - elapsedSize);
+						System.arraycopy(function.apply(Arrays.copyOfRange(inputArr, elapsedSize, finalEndSize)),
+								0, results, elapsedSize, finalEndSize - elapsedSize);
 					}
 				});
 			}
@@ -98,20 +106,22 @@ public final class Batcher {
 		if (length <= minBatchSize) return function.apply(inputArr);
 		else {
 			final int batchSize = Math.max((int) Math.ceil(length * coresinv), minBatchSize);
+			final int batchSize2 = batchSize << 1;
 
 			final var results = new double[length];
 			final List<RecursiveAction> subtasks = new ArrayList<>(length);
 
-			for (int es = 0; es < length; es += batchSize) {
+			int endSize = 0;
+			for (int es = 0; endSize < length; es += batchSize) {
 				int elapsedSize = es;
+				endSize = length - elapsedSize < batchSize2 ? length : elapsedSize + batchSize;
 
+				int finalEndSize = endSize;
 				subtasks.add(new RecursiveAction() {
 					@Override
 					protected void compute() {
-						int endSize = Math.min(length, elapsedSize + batchSize);
-
-						System.arraycopy(function.apply(Arrays.copyOfRange(inputArr, elapsedSize, endSize)),
-								0, results, elapsedSize, endSize - elapsedSize);
+						System.arraycopy(function.apply(Arrays.copyOfRange(inputArr, elapsedSize, finalEndSize)),
+								0, results, elapsedSize, finalEndSize - elapsedSize);
 					}
 				});
 			}
