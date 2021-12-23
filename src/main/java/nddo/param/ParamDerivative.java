@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static nddo.State.nom;
-import static nddo.geometry.GeometrySecondDerivative.computeResponseVectorsPople;
+import static nddo.math.PopleThiel.computeResponseVectorsPople;
 import static tools.Utils.mag;
 
 public class ParamDerivative {
@@ -1143,7 +1143,7 @@ public class ParamDerivative {
 				// parray[i] stays the same object throughout
 				SimpleMatrix bc = barray[i].copy();
 				CommonOps_DDRM.multRows(Dinvarr, bc.getDDRM());
-				SimpleMatrix crv = computeResponseVectorsPople(bc, soln);
+				SimpleMatrix crv = computeResponseVectorsPople(soln, bc);
 				CommonOps_DDRM.multRows(Darr, crv.getDDRM());
 				parray[i] = crv;
 

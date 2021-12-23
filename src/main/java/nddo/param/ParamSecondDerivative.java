@@ -6,6 +6,7 @@ import nddo.NDDOOrbital;
 import nddo.State;
 import nddo.geometry.GeometryDerivative;
 import nddo.geometry.GeometrySecondDerivative;
+import nddo.math.PopleThiel;
 import nddo.solution.Solution;
 import nddo.solution.SolutionR;
 import nddo.solution.SolutionU;
@@ -1575,7 +1576,7 @@ public class ParamSecondDerivative {
 			for (int i = 0; i < barray.length; i++) {
 				b.add(barray[i].copy());
 				parray[i] = D.mult(
-						GeometrySecondDerivative.computeResponseVectorsPople(Dinv.mult(barray[i].copy()), soln));
+						PopleThiel.computeResponseVectorsPople(soln, Dinv.mult(barray[i].copy())));
 				p.add(parray[i].copy());
 			}
 

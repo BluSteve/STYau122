@@ -16,7 +16,8 @@ import tools.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import static nddo.geometry.GeometrySecondDerivative.computeResponseVectorsPople;
+import static nddo.math.PopleThiel.computeResponseVectorsPople;
+
 
 public class Testing {
 	public static void main(String[] args) throws Exception {
@@ -129,7 +130,7 @@ public class Testing {
 				// parray[i] stays the same object throughout
 				SimpleMatrix bc = barray[i].copy();
 				CommonOps_DDRM.multRows(Dinvarr, bc.getDDRM());
-				SimpleMatrix crv = computeResponseVectorsPople(bc, soln);
+				SimpleMatrix crv = computeResponseVectorsPople(soln, bc);
 				CommonOps_DDRM.multRows(Darr, crv.getDDRM());
 				parray[i] = crv;
 

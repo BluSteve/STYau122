@@ -171,7 +171,7 @@ public class PopleThiel {
 		return xarray;
 	}
 
-	private static SimpleMatrix computeResponseVectorsPople(SolutionR soln, SimpleMatrix x) {
+	public static SimpleMatrix computeResponseVectorsPople(SolutionR soln, SimpleMatrix x) {
 		int NOcc = soln.rm.nOccAlpha;
 		int NVirt = soln.rm.nVirtAlpha;
 
