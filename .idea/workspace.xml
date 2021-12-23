@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="Solution C and Ct">
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="NDDOAtomBasic minor inheritance change">
+      <change afterPath="$PROJECT_DIR$/src/main/java/tools/Pair.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Utils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,12 +115,12 @@
   <component name="GitRewordedCommitMessages">
     <option name="commitMessagesMapping">
       <RewordedCommitMessageMapping>
-        <option name="originalMessage" value="temp1" />
-        <option name="rewordedMessage" value="340000ms actually works pretty well&#10;&#10;&#10;temp2&#10;&#10;&#10;temp1" />
+        <option name="originalMessage" value="NDDOAtomBasic minor inheritance change" />
+        <option name="rewordedMessage" value="NDDOAtomBasic minor inheritance change" />
       </RewordedCommitMessageMapping>
     </option>
     <option name="currentCommit" value="1" />
-    <option name="onto" value="407950c0f161a093fabd70750580110a3c89f42d" />
+    <option name="onto" value="07b422c7ec050a36bce2b6fe5428a5fec97e9289" />
   </component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
@@ -460,20 +463,6 @@
       <workItem from="1640172099056" duration="1448000" />
       <workItem from="1640177470501" duration="3879000" />
     </task>
-    <task id="LOCAL-00101" summary="Proguard refactor">
-      <created>1639823251903</created>
-      <option name="number" value="00101" />
-      <option name="presentableId" value="LOCAL-00101" />
-      <option name="project" value="LOCAL" />
-      <updated>1639823251904</updated>
-    </task>
-    <task id="LOCAL-00102" summary="Proguard working">
-      <created>1639826473864</created>
-      <option name="number" value="00102" />
-      <option name="presentableId" value="LOCAL-00102" />
-      <option name="project" value="LOCAL" />
-      <updated>1639826473864</updated>
-    </task>
     <task id="LOCAL-00103" summary="Scripts">
       <created>1639826784118</created>
       <option name="number" value="00103" />
@@ -803,7 +792,21 @@
       <option name="project" value="LOCAL" />
       <updated>1640255071867</updated>
     </task>
-    <option name="localTasksCounter" value="150" />
+    <task id="LOCAL-00150" summary="NDDOAtomBasic minor inheritance change">
+      <created>1640260126908</created>
+      <option name="number" value="00150" />
+      <option name="presentableId" value="LOCAL-00150" />
+      <option name="project" value="LOCAL" />
+      <updated>1640260126908</updated>
+    </task>
+    <task id="LOCAL-00151" summary="NDDOAtomBasic minor inheritance change">
+      <created>1640260276684</created>
+      <option name="number" value="00151" />
+      <option name="presentableId" value="LOCAL-00151" />
+      <option name="project" value="LOCAL" />
+      <updated>1640260276684</updated>
+    </task>
+    <option name="localTasksCounter" value="152" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -851,7 +854,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="minor refactorings" />
     <MESSAGE value="multithreaded presponsev + json debug" />
     <MESSAGE value="multithreading rvp is not faster + better pbar" />
     <MESSAGE value="better pbar" />
@@ -876,7 +878,8 @@
     <MESSAGE value="solutionu fix" />
     <MESSAGE value="exp and more solutionu fixes" />
     <MESSAGE value="ready for pople testing" />
-    <option name="LAST_COMMIT_MESSAGE" value="ready for pople testing" />
+    <MESSAGE value="NDDOAtomBasic minor inheritance change" />
+    <option name="LAST_COMMIT_MESSAGE" value="NDDOAtomBasic minor inheritance change" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

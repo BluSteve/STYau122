@@ -3,14 +3,13 @@ package nddo.math;
 import nddo.solution.SolutionR;
 import org.ejml.data.SingularMatrixException;
 import org.ejml.dense.row.CommonOps_DDRM;
+import org.ejml.dense.row.SpecializedOps_DDRM;
 import org.ejml.simple.SimpleMatrix;
-import tools.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static nddo.geometry.GeometrySecondDerivative.computeResponseVectorsPople;
-import static tools.Utils.mag;
 
 public class PopleThiel {
 	public static SimpleMatrix[] pople(SolutionR soln, SimpleMatrix[] fockderivstatic) {
@@ -66,13 +65,15 @@ public class PopleThiel {
 		}
 
 		// main loop
-		int[] iterable = new int[length];
+		boolean[] iterable = new boolean[length];
 
 		// 0: B, 1: Bt, 2: Bn, 3: P, 4: BmP
 		List<SimpleMatrix[]> prevs = new ArrayList<>();
 		List<Double> dots = new ArrayList<>();
 
-		while (Utils.numIterable(iterable) > 0) {
+		SimpleMatrix alpha = null;
+
+		while (numIterable(iterable) > 0) {
 			// orthogonalize barray
 			for (int i = 0; i < barray.length; i++) {
 				for (int j = 0; j < i; j++) {
@@ -127,41 +128,62 @@ public class PopleThiel {
 			SimpleMatrix rhs = Bt.mult(F);
 			SimpleMatrix lhs = Bt.mult(P);
 			// alpha dimensions are prevBs x length
-			SimpleMatrix alpha = lhs.solve(rhs);
+			alpha = lhs.solve(rhs);
 
 			// reset r and x array
 			for (int a = 0; a < length; a++) {
 				rarray[a] = new SimpleMatrix(nonv, 1);
-				xarray[a] = new SimpleMatrix(nonv, 1);
 			}
 
 			for (int i = 0; i < alpha.numRows(); i++) {
 				for (int j = 0; j < alpha.numCols(); j++) {
 					// B with tilde
 					rarray[j].plusi(alpha.get(i, j), prevs.get(i)[4]);
-					xarray[j].plusi(alpha.get(i, j), prevs.get(i)[0]);
 				}
 			}
 
 			for (int j = 0; j < alpha.numCols(); j++) {
 				// B0 is Farray, no tilde
-				rarray[j].minusi(Farray[j]);
-				CommonOps_DDRM.multRows(Dinvarr, xarray[j].getDDRM());
 
-				double rMag = mag(rarray[j]);
+				double rMag = SpecializedOps_DDRM.diffNormF_fast(rarray[j].getDDRM(), Farray[j].getDDRM());
 				if (rMag < 1E-7) {
-					iterable[j] = 1;
+					iterable[j] = true;
 				}
 				else if (Double.isNaN(rMag)) {
 					soln.getRm().getLogger().warn("Pople algorithm fails; reverting to Thiel algorithm...");
 					throw new SingularMatrixException();
 				}
 				else {
-					iterable[j] = 0;
+					iterable[j] = false;
 				}
 			}
 		}
 
+		for (int a = 0; a < length; a++) {
+			xarray[a] = new SimpleMatrix(nonv, 1);
+		}
+
+		for (int i = 0; i < alpha.numRows(); i++) {
+			for (int j = 0; j < alpha.numCols(); j++) {
+				xarray[j].plusi(alpha.get(i, j), prevs.get(i)[0]);
+			}
+		}
+
+		for (int j = 0; j < alpha.numCols(); j++) {
+			CommonOps_DDRM.multRows(Dinvarr, xarray[j].getDDRM());
+		}
+
 		return xarray;
 	}
+
+	public static int numIterable(boolean[] iterable) {
+		int count = 0;
+
+		for (boolean value : iterable) {
+			if (!value) count++;
+		}
+
+		return count;
+	}
+
 }
