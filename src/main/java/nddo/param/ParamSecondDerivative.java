@@ -92,7 +92,7 @@ public class ParamSecondDerivative {
 
 		int NOcc = (int) (s.nElectrons / 2.0);
 
-		SimpleMatrix C = s.Ct.transpose();
+		SimpleMatrix C = s.C;
 
 		SimpleMatrix Dstatic = new SimpleMatrix(s.nOrbitals, s.nOrbitals);
 
@@ -732,7 +732,7 @@ public class ParamSecondDerivative {
 
 		SimpleMatrix F = soln.F;
 
-		SimpleMatrix C = soln.Ct.transpose();
+		SimpleMatrix C = soln.C;
 
 		SimpleMatrix Cderiva = C.mult(xA);
 
@@ -1000,9 +1000,9 @@ public class ParamSecondDerivative {
 		SimpleMatrix FockA = FstaticA.plus(ParamDerivative.responseMatrix(soln, densityA));
 		SimpleMatrix FockB = FstaticB.plus(ParamDerivative.responseMatrix(soln, densityB));
 
-		SimpleMatrix FA = soln.Ct.mult(FockA.mult(soln.Ct.transpose()));
+		SimpleMatrix FA = soln.Ct.mult(FockA.mult(soln.C));
 		SimpleMatrix diagFA = SimpleMatrix.diag(FA.diag().getDDRM().data);
-		SimpleMatrix FB = soln.Ct.mult(FockB.mult(soln.Ct.transpose()));
+		SimpleMatrix FB = soln.Ct.mult(FockB.mult(soln.C));
 		SimpleMatrix diagFB = SimpleMatrix.diag(FB.diag().getDDRM().data);
 
 
@@ -1014,7 +1014,7 @@ public class ParamSecondDerivative {
 
 		SimpleMatrix Phi = Fstatictotal.plus(GaB).plus(GbA).plus(omega);
 
-		SimpleMatrix matrix = soln.Ct.mult(Phi).mult(soln.Ct.transpose());
+		SimpleMatrix matrix = soln.Ct.mult(Phi).mult(soln.C);
 
 		matrix = matrix.plus(xB.transpose().mult(diagFA)).plus(diagFA.mult(xB)).plus(xA.transpose().mult(diagFB))
 				.plus(diagFB.mult(xA));
@@ -1138,8 +1138,8 @@ public class ParamSecondDerivative {
 		SimpleMatrix FockA = FstaticA.plus(ParamDerivative.responseMatrix(soln, densityA));
 		SimpleMatrix FockB = FstaticB.plus(ParamDerivative.responseMatrix(soln, densityB));
 
-		SimpleMatrix FA = soln.Ct.mult(FockA.mult(soln.Ct.transpose()));
-		SimpleMatrix FB = soln.Ct.mult(FockB.mult(soln.Ct.transpose()));
+		SimpleMatrix FA = soln.Ct.mult(FockA.mult(soln.C));
+		SimpleMatrix FB = soln.Ct.mult(FockB.mult(soln.C));
 
 
 		SimpleMatrix xA = xmatrix(FA, soln);
@@ -1230,8 +1230,8 @@ public class ParamSecondDerivative {
 		SimpleMatrix FockA = FstaticA.plus(ParamDerivative.responseMatrix(soln, densityA));
 		SimpleMatrix FockB = FstaticB.plus(ParamDerivative.responseMatrix(soln, densityB));
 
-		SimpleMatrix FA = soln.Ct.mult(FockA.mult(soln.Ct.transpose()));
-		SimpleMatrix FB = soln.Ct.mult(FockB.mult(soln.Ct.transpose()));
+		SimpleMatrix FA = soln.Ct.mult(FockA.mult(soln.C));
+		SimpleMatrix FB = soln.Ct.mult(FockB.mult(soln.C));
 
 		SimpleMatrix xA = xmatrix(FA, soln);
 		SimpleMatrix xB = xmatrix(FB, soln);
@@ -1703,7 +1703,7 @@ public class ParamSecondDerivative {
 
 		SimpleMatrix R1 = ParamDerivative.responseMatrix(soln, D1);
 
-		SimpleMatrix C1 = soln.Ct.transpose().mult(xmatrix(soln.Ct.mult(F1.plus(R1)).mult(soln.Ct.transpose()), soln));
+		SimpleMatrix C1 = soln.C.mult(xmatrix(soln.Ct.mult(F1.plus(R1)).mult(soln.C), soln));
 
 
 		SimpleMatrix D2prime = ParamDerivative.densityDerivativeLimited(solnprime, x2prime);
@@ -1713,7 +1713,7 @@ public class ParamSecondDerivative {
 
 		SimpleMatrix R2 = ParamDerivative.responseMatrix(soln, D2);
 
-		SimpleMatrix C2 = soln.Ct.transpose().mult(xmatrix(soln.Ct.mult(F2.plus(R2)).mult(soln.Ct.transpose()), soln));
+		SimpleMatrix C2 = soln.C.mult(xmatrix(soln.Ct.mult(F2.plus(R2)).mult(soln.C), soln));
 
 		SimpleMatrix densityderiv2finite = D2prime.minus(D2).scale(1 / Constants.LAMBDA);
 
@@ -1743,16 +1743,16 @@ public class ParamSecondDerivative {
 		double Hfderivtest2 = ParamSecondDerivative.MNDOHFDeriv(soln, Z1, param1, Z2, param2, H2, F2, D1, 1);
 
 		SimpleMatrix x1mat =
-				xmatrix(soln.Ct.mult(F1.plus(ParamDerivative.responseMatrix(soln, D1))).mult(soln.Ct.transpose()), soln);
+				xmatrix(soln.Ct.mult(F1.plus(ParamDerivative.responseMatrix(soln, D1))).mult(soln.C), soln);
 
 		SimpleMatrix x2mat =
-				xmatrix(soln.Ct.mult(F2.plus(ParamDerivative.responseMatrix(soln, D2))).mult(soln.Ct.transpose()), soln);
+				xmatrix(soln.Ct.mult(F2.plus(ParamDerivative.responseMatrix(soln, D2))).mult(soln.C), soln);
 
 		SimpleMatrix x2matprime =
-				xmatrix(solnprime.Ct.mult(F2prime.plus(ParamDerivative.responseMatrix(solnprime, D2prime))).mult(solnprime.Ct.transpose()), solnprime);
+				xmatrix(solnprime.Ct.mult(F2prime.plus(ParamDerivative.responseMatrix(solnprime, D2prime))).mult(solnprime.C), solnprime);
 
 		SimpleMatrix totalderiv = rhsmat.plus(
-				soln.Ct.mult(ParamDerivative.responseMatrix(soln, densityderiv2response)).mult(soln.Ct.transpose()));
+				soln.Ct.mult(ParamDerivative.responseMatrix(soln, densityderiv2response)).mult(soln.C));
 
 		SimpleMatrix Fderiv2 = staticFockDeriv(soln, Fstatictotal, F1, F2, x1, x2, Z1, param1, Z2, param2).plus(
 				ParamDerivative.responseMatrix(soln, densityderiv2response));

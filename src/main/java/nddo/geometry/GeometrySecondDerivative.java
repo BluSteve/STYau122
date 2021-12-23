@@ -3,6 +3,7 @@ package nddo.geometry;
 
 import nddo.NDDOAtom;
 import nddo.NDDOOrbital;
+import nddo.math.PopleThiel;
 import nddo.solution.SolutionR;
 import nddo.solution.SolutionU;
 import org.apache.commons.lang3.time.StopWatch;
@@ -1618,7 +1619,7 @@ public class GeometrySecondDerivative {
 		// convert AO to MO basis
 		SimpleMatrix F = new SimpleMatrix(nonv, length);
 		for (int a = 0; a < length; a++) {
-			SimpleMatrix Foccvirt = soln.CtOcc.mult(fockderivstatic[a]).mult(soln.CtVirt.transpose());
+			SimpleMatrix Foccvirt = soln.CtOcc.mult(fockderivstatic[a]).mult(soln.CVirt);
 			SimpleMatrix f = Foccvirt.elementDivi(soln.Emat);
 			f.reshape(NOcc * NVirt, 1);
 
@@ -1734,7 +1735,7 @@ public class GeometrySecondDerivative {
 		int NOcc = soln.rm.nOccAlpha;
 		int NVirt = soln.rm.nVirtAlpha;
 
-		SimpleMatrix[] xarray = getxarrayPople(soln, fockderivstatic);
+		SimpleMatrix[] xarray = PopleThiel.pople(soln, fockderivstatic);
 
 		SimpleMatrix[] densityMatrixDerivs = new SimpleMatrix[fockderivstatic.length];
 
@@ -1742,8 +1743,8 @@ public class GeometrySecondDerivative {
 			SimpleMatrix xmat = xarray[a].copy();
 			xmat.reshape(NOcc, NVirt);
 
-			SimpleMatrix densityMatrixDeriv = soln.CtOcc.transpose().mult(xmat).mult(soln.CtVirt)
-					.plusi(soln.CtVirt.transpose().mult(xmat.transpose().mult(soln.CtOcc))).scalei(-2);
+			SimpleMatrix densityMatrixDeriv = soln.COcc.mult(xmat).mult(soln.CtVirt)
+					.plusi(soln.CVirt.mult(xmat.transpose().mult(soln.CtOcc))).scalei(-2);
 
 			densityMatrixDerivs[a] = densityMatrixDeriv;
 		}
@@ -1909,8 +1910,8 @@ public class GeometrySecondDerivative {
 		SimpleMatrix xmat = x.copy();
 		xmat.reshape(NOcc, NVirt);
 
-		SimpleMatrix densityMatrixDeriv = soln.CtOcc.transpose().mult(xmat).mult(soln.CtVirt)
-				.plusi(soln.CtVirt.transpose().mult(xmat.transpose().mult(soln.CtOcc))).scalei(-2);
+		SimpleMatrix densityMatrixDeriv = soln.COcc.mult(xmat).mult(soln.CtVirt)
+				.plusi(soln.CVirt.mult(xmat.transpose().mult(soln.CtOcc))).scalei(-2);
 
 		SimpleMatrix responsematrix = new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
 
@@ -1963,7 +1964,7 @@ public class GeometrySecondDerivative {
 			}
 		}
 
-		SimpleMatrix Roccvirt = soln.CtOcc.mult(responsematrix).mult(soln.CtVirt.transpose());
+		SimpleMatrix Roccvirt = soln.CtOcc.mult(responsematrix).mult(soln.CVirt);
 
 		SimpleMatrix Rvec = Roccvirt.elementDivi(soln.Emat);
 		Rvec.reshape(NOcc * NVirt, 1);

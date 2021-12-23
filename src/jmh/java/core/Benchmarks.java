@@ -3,7 +3,6 @@ package core;
 import frontend.TxtIO;
 import nddo.geometry.GeometryDerivative;
 import nddo.geometry.GeometrySecondDerivative;
-import nddo.math.PopleThiel;
 import nddo.solution.Solution;
 import nddo.solution.SolutionR;
 import org.ejml.simple.SimpleMatrix;
@@ -25,9 +24,9 @@ public class Benchmarks {
 	@Warmup(iterations = 5, time = 5)
 	@Measurement(iterations = 5, time = 5)
 	@BenchmarkMode(Mode.SampleTime)
-	@OutputTimeUnit(TimeUnit.NANOSECONDS)
+	@OutputTimeUnit(TimeUnit.MILLISECONDS)
 	public static void init(State state) {
-		PopleThiel.pople(state.s, state.fockderivstatic);
+		GeometrySecondDerivative.hessianRoutine(state.s, state.fockderivstatic);
 	}
 
 	@org.openjdk.jmh.annotations.State(Scope.Benchmark)

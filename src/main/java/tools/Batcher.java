@@ -10,7 +10,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public final class Batcher {
-	private static final double cores = Runtime.getRuntime().availableProcessors();
+	private static final double coresinv = 1.0 / Runtime.getRuntime().availableProcessors();
 	private static final int minBatchSize = 1;
 
 	public static void forloop(int length, Consumer<int[]> consumer) {
@@ -19,7 +19,7 @@ public final class Batcher {
 
 		if (length <= minBatchSize) consumer.accept(inputArr);
 		else {
-			final int batchSize = Math.max((int) Math.ceil(length / cores), minBatchSize);
+			final int batchSize = Math.max((int) Math.ceil(length * coresinv), minBatchSize);
 
 			final List<RecursiveAction> subtasks = new ArrayList<>(length);
 
@@ -44,7 +44,7 @@ public final class Batcher {
 
 		if (length <= minBatchSize) consumer.accept(inputArr);
 		else {
-			final int batchSize = Math.max((int) Math.ceil(length / cores), minBatchSize);
+			final int batchSize = Math.max((int) Math.ceil(length * coresinv), minBatchSize);
 
 			final List<RecursiveAction> subtasks = new ArrayList<>(length);
 
@@ -68,7 +68,7 @@ public final class Batcher {
 		final int length = inputArr.length;
 		if (length <= minBatchSize) return function.apply(inputArr);
 		else {
-			final int batchSize = Math.max((int) Math.ceil(length / cores), minBatchSize);
+			final int batchSize = Math.max((int) Math.ceil(length * coresinv), minBatchSize);
 
 			final var results = (R[]) Array.newInstance(inputArr[0].getClass(), length);
 			final List<RecursiveAction> subtasks = new ArrayList<>(length);
@@ -97,7 +97,7 @@ public final class Batcher {
 		final int length = inputArr.length;
 		if (length <= minBatchSize) return function.apply(inputArr);
 		else {
-			final int batchSize = Math.max((int) Math.ceil(length / cores), minBatchSize);
+			final int batchSize = Math.max((int) Math.ceil(length * coresinv), minBatchSize);
 
 			final var results = new double[length];
 			final List<RecursiveAction> subtasks = new ArrayList<>(length);

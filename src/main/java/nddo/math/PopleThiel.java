@@ -46,7 +46,7 @@ public class PopleThiel {
 				double e = -soln.E.get(i) + soln.E.get(NOcc + j);
 
 				Dinvarr[counter] = Math.sqrt(e);
-				Darr[counter] = 1/ Dinvarr[counter];
+				Darr[counter] = 1 / Dinvarr[counter];
 
 				counter++;
 			}
@@ -55,7 +55,7 @@ public class PopleThiel {
 		// convert AO to MO basis
 		SimpleMatrix F = new SimpleMatrix(nonv, length);
 		for (int a = 0; a < length; a++) {
-			SimpleMatrix Foccvirt = soln.CtOcc.mult(fockderivstatic[a]).mult(soln.CtVirt.transpose());
+			SimpleMatrix Foccvirt = soln.CtOcc.mult(fockderivstatic[a]).mult(soln.CVirt);
 			SimpleMatrix f = Foccvirt.elementDivi(soln.Emat);
 			f.reshape(NOcc * NVirt, 1);
 
@@ -153,8 +153,7 @@ public class PopleThiel {
 					iterable[j] = 1;
 				}
 				else if (Double.isNaN(rMag)) {
-					soln.getRm().getLogger()
-							.warn("Pople algorithm fails; reverting to Thiel algorithm (don't panic)...");
+					soln.getRm().getLogger().warn("Pople algorithm fails; reverting to Thiel algorithm...");
 					throw new SingularMatrixException();
 				}
 				else {

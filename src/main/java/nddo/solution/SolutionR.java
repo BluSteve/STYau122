@@ -84,7 +84,7 @@ public class SolutionR extends Solution {
 							new int[]{0, 1, 2, 3, 4, 5, 6}}};
 
 	public double[] integralArray;
-	public SimpleMatrix Ct, CtOcc, CtVirt, F, E, Emat;
+	public SimpleMatrix C, COcc, CVirt, Ct, CtOcc, CtVirt, F, E, Emat;
 
 	public SolutionR(MoleculeInfo mi, NDDOAtom[] atoms) {
 		super(mi, atoms);
@@ -525,6 +525,9 @@ public class SolutionR extends Solution {
 		// todo make these precomputations optional
 		CtOcc = Ct.extractMatrix(0, rm.nOccAlpha, 0, Ct.numCols());
 		CtVirt = Ct.extractMatrix(rm.nOccAlpha, Ct.numCols(), 0, Ct.numCols());
+		C = Ct.transpose();
+		COcc = CtOcc.transpose();
+		CVirt = CtVirt.transpose();
 
 		SimpleMatrix sm = E.extractMatrix(rm.nOccAlpha, nOrbitals, 0, 1);
 		sm.reshape(1, rm.nVirtAlpha);
