@@ -1,9 +1,15 @@
 package testing;
 
+import frontend.TxtIO;
+import nddo.geometry.GeometryDerivative;
+import nddo.math.PopleThiel;
+import nddo.solution.Solution;
 import nddo.solution.SolutionR;
 import org.ejml.data.SingularMatrixException;
 import org.ejml.dense.row.CommonOps_DDRM;
 import org.ejml.simple.SimpleMatrix;
+import runcycle.structs.RunInput;
+import runcycle.structs.RunnableMolecule;
 import tools.Pow;
 import tools.Utils;
 
@@ -14,13 +20,14 @@ import static nddo.geometry.GeometrySecondDerivative.computeResponseVectorsPople
 
 public class Testing {
 	public static void main(String[] args) throws Exception {
-//		RawInput ri = InputHandler.processInput("subset");
-//		RunnableMolecule rm = ri.molecules[0];
-//
-//		NDDOParams[] npMap = Utils.getNpMap(ri);
-//		Solution s = Solution.of(rm, State.getConverter().convert(rm.atoms));
-//
-//		System.out.println("s = " + s);
+		RunInput input = TxtIO.readInput();
+		RunnableMolecule rm = input.molecules[0];
+
+		SolutionR s = (SolutionR) Solution.of(rm, runcycle.State.getConverter().convert(rm.atoms, input.info.npMap));
+		SimpleMatrix[][] matrices = GeometryDerivative.gradientRoutine(s);
+		SimpleMatrix[] fockderivstatic = matrices[1];
+
+		SimpleMatrix[] xarray = PopleThiel.pople(s, fockderivstatic);
 	}
 
 	public static SimpleMatrix[] getxarrayPople(SolutionR soln,

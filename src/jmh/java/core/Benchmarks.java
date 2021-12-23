@@ -2,7 +2,6 @@ package core;
 
 import frontend.TxtIO;
 import nddo.geometry.GeometryDerivative;
-import nddo.geometry.GeometrySecondDerivative;
 import nddo.math.PopleThiel;
 import nddo.solution.Solution;
 import nddo.solution.SolutionR;
@@ -68,7 +67,7 @@ public class Benchmarks {
 			fockderivstatic = matrices[1];
 
 			System.out.println(fockderivstatic.length);
-			SimpleMatrix[] xarray = GeometrySecondDerivative.getxarrayPople(s, fockderivstatic);
+			SimpleMatrix[] xarray = PopleThiel.pople(s, fockderivstatic);
 			x = xarray[0];
 			System.out.println(xarray[0]);
 		}

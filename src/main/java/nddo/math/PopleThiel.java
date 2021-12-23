@@ -9,12 +9,10 @@ import org.ejml.simple.SimpleMatrix;
 import java.util.ArrayList;
 import java.util.List;
 
-import static nddo.geometry.GeometrySecondDerivative.computeResponseVectorsPople;
-
 public class PopleThiel {
 	public static SimpleMatrix[] pople(SolutionR soln, SimpleMatrix[] fockderivstatic) {
-		int NOcc = soln.getRm().nOccAlpha;
-		int NVirt = soln.getRm().nVirtAlpha;
+		int NOcc = soln.rm.nOccAlpha;
+		int NVirt = soln.rm.nVirtAlpha;
 		int length = fockderivstatic.length;
 		int nonv = NOcc * NVirt;
 
@@ -56,7 +54,7 @@ public class PopleThiel {
 		for (int a = 0; a < length; a++) {
 			SimpleMatrix Foccvirt = soln.CtOcc.mult(fockderivstatic[a]).mult(soln.CVirt);
 			SimpleMatrix f = Foccvirt.elementDivi(soln.Emat);
-			f.reshape(NOcc * NVirt, 1);
+			f.reshape(nonv, 1);
 
 			CommonOps_DDRM.multRows(Darr, f.getDDRM());
 			barray[a] = f;
@@ -75,10 +73,9 @@ public class PopleThiel {
 
 		while (numIterable(iterable) > 0) {
 			// orthogonalize barray
-			for (int i = 0; i < barray.length; i++) {
+			for (int i = 1; i < barray.length; i++) {
 				for (int j = 0; j < i; j++) {
-					barray[i].plusi(barray[i].dot(barray[j]) /
-							barray[j].dot(barray[j]), barray[j].negativei());
+					barray[i].plusi(barray[i].dot(barray[j]) / barray[j].dot(barray[j]),  barray[j].negative());
 				}
 			}
 
@@ -86,7 +83,7 @@ public class PopleThiel {
 				// parray[i] stays the same object throughout
 				SimpleMatrix bc = barray[i].copy();
 				CommonOps_DDRM.multRows(Dinvarr, bc.getDDRM());
-				SimpleMatrix rvp = computeResponseVectorsPople(bc, soln);
+				SimpleMatrix rvp = computeResponseVectorsPople(soln, bc);
 				CommonOps_DDRM.multRows(Darr, rvp.getDDRM());
 				parray[i] = rvp;
 
@@ -143,8 +140,6 @@ public class PopleThiel {
 			}
 
 			for (int j = 0; j < alpha.numCols(); j++) {
-				// B0 is Farray, no tilde
-
 				double rMag = SpecializedOps_DDRM.diffNormF_fast(rarray[j].getDDRM(), Farray[j].getDDRM());
 				if (rMag < 1E-7) {
 					iterable[j] = true;
@@ -176,7 +171,76 @@ public class PopleThiel {
 		return xarray;
 	}
 
-	public static int numIterable(boolean[] iterable) {
+	private static SimpleMatrix computeResponseVectorsPople(SolutionR soln, SimpleMatrix x) {
+		int NOcc = soln.rm.nOccAlpha;
+		int NVirt = soln.rm.nVirtAlpha;
+
+		SimpleMatrix xmat = x.copy();
+		xmat.reshape(NOcc, NVirt);
+
+		SimpleMatrix densityMatrixDeriv = soln.COcc.mult(xmat).mult(soln.CtVirt)
+				.plusi(soln.CVirt.mult(xmat.transpose().mult(soln.CtOcc))).scalei(-2);
+
+		SimpleMatrix responsematrix = new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
+
+		double[] integralArray = soln.integralArray;
+
+		int integralcount = 0;
+
+		for (int j = 0; j < soln.orbitals.length; j++) {
+			for (int k = j; k < soln.orbitals.length; k++) {
+				double val = 0;
+				if (j == k) {
+					for (int l : soln.orbsOfAtom[soln.atomOfOrb[j]]) {
+						val += densityMatrixDeriv.get(l, l) * integralArray[integralcount];
+						integralcount++;
+					}
+
+					for (int l : soln.missingOfAtom[soln.atomOfOrb[j]]) {
+						for (int m : soln.missingOfAtom[soln.atomOfOrb[j]]) {
+							if (soln.atomOfOrb[l] == soln.atomOfOrb[m]) {
+								val += densityMatrixDeriv.get(l, m) * integralArray[integralcount];
+								integralcount++;
+							}
+						}
+					}
+				}
+				else if (soln.atomOfOrb[j] == soln.atomOfOrb[k]) {
+					val += densityMatrixDeriv.get(j, k) * integralArray[integralcount];
+					integralcount++;
+
+					for (int l : soln.missingOfAtom[soln.atomOfOrb[j]]) {
+						for (int m : soln.missingOfAtom[soln.atomOfOrb[j]]) {
+							if (soln.atomOfOrb[l] == soln.atomOfOrb[m]) {
+								val += densityMatrixDeriv.get(l, m) * integralArray[integralcount];
+								integralcount++;
+							}
+						}
+					}
+				}
+				else {
+					for (int l : soln.orbsOfAtom[soln.atomOfOrb[j]]) {
+						for (int m : soln.orbsOfAtom[soln.atomOfOrb[k]]) {
+							val += densityMatrixDeriv.get(l, m) * integralArray[integralcount];
+							integralcount++;
+						}
+					}
+				}
+
+				responsematrix.set(j, k, val);
+				responsematrix.set(k, j, val);
+			}
+		}
+
+		SimpleMatrix Roccvirt = soln.CtOcc.mult(responsematrix).mult(soln.CVirt);
+
+		SimpleMatrix Rvec = Roccvirt.elementDivi(soln.Emat);
+		Rvec.reshape(NOcc * NVirt, 1);
+
+		return Rvec;
+	}
+
+	private static int numIterable(boolean[] iterable) {
 		int count = 0;
 
 		for (boolean value : iterable) {
@@ -185,5 +249,4 @@ public class PopleThiel {
 
 		return count;
 	}
-
 }
