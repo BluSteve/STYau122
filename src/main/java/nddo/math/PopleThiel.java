@@ -7,6 +7,7 @@ import org.ejml.dense.row.SpecializedOps_DDRM;
 import org.ejml.simple.SimpleMatrix;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class PopleThiel {
@@ -32,6 +33,9 @@ public class PopleThiel {
 		SimpleMatrix[] parray = new SimpleMatrix[length];
 		SimpleMatrix[] Farray = new SimpleMatrix[length];
 		SimpleMatrix[] rarray = new SimpleMatrix[length];
+		double[] oldrMags = new double[rarray.length];
+		Arrays.fill(oldrMags, 1);
+
 
 		// configure preconditioners
 		double[] Darr = new double[nonv];
@@ -64,6 +68,7 @@ public class PopleThiel {
 
 		// main loop
 		boolean[] iterable = new boolean[length];
+		boolean[] looselyIterable = new boolean[length];
 
 		// 0: B, 1: Bt, 2: Bn, 3: P, 4: BmP
 		List<SimpleMatrix[]> prevs = new ArrayList<>();
@@ -71,11 +76,12 @@ public class PopleThiel {
 
 		SimpleMatrix alpha = null;
 
+		bigLoop:
 		while (numIterable(iterable) > 0) {
 			// orthogonalize barray
 			for (int i = 1; i < barray.length; i++) {
 				for (int j = 0; j < i; j++) {
-					barray[i].plusi(barray[i].dot(barray[j]) / barray[j].dot(barray[j]),  barray[j].negative());
+					barray[i].plusi(barray[i].dot(barray[j]) / barray[j].dot(barray[j]), barray[j].negative());
 				}
 			}
 
@@ -140,13 +146,22 @@ public class PopleThiel {
 			}
 
 			for (int j = 0; j < alpha.numCols(); j++) {
-				double rMag = SpecializedOps_DDRM.diffNormF_fast(rarray[j].getDDRM(), Farray[j].getDDRM());
-				if (rMag < 1E-7) {
-					iterable[j] = true;
-				}
-				else if (Double.isNaN(rMag)) {
+				double mag = SpecializedOps_DDRM.diffNormF_fast(rarray[j].getDDRM(), Farray[j].getDDRM());
+
+				if (mag > oldrMags[j] || mag != mag) { // unstable
+					if (numIterable(looselyIterable) == 0) {
+						soln.getRm().getLogger().warn("Slight numerical instability detected; " +
+								"returning lower precision values. rarray mag = {}", mag);
+						break bigLoop; // i.e. mag is tolerable
+					}
+
 					soln.getRm().getLogger().warn("Pople algorithm fails; reverting to Thiel algorithm...");
 					throw new SingularMatrixException();
+				}
+
+				if (mag < 1E-7) {
+					if (mag < 1E-10) looselyIterable[j] = true;
+					iterable[j] = true;
 				}
 				else {
 					iterable[j] = false;
