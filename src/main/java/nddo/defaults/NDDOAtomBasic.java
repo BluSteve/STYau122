@@ -8,7 +8,7 @@ import nddo.structs.AtomProperties;
 import tools.Pow;
 
 // some methods that might come in handy if you're doing your own NDDO impl.
-public abstract class NDDOAtomBasic implements NDDOAtom<NDDOAtomBasic, NDDO6G> {
+public abstract class NDDOAtomBasic<T extends NDDOAtom> implements NDDOAtom<T, NDDO6G> {
 	protected final double p0, p1, p2, D1, D2;
 	protected final double[] coordinates;
 	protected final AtomProperties atomProperties;
@@ -83,7 +83,7 @@ public abstract class NDDOAtomBasic implements NDDOAtom<NDDOAtomBasic, NDDO6G> {
 	 * @return New NDDOAtom.
 	 */
 	@Override
-	public abstract NDDOAtomBasic withNewParams(NDDOParams np);
+	public abstract T withNewParams(NDDOParams np);
 
 	/**
 	 * Returns a brand new NDDOAtom object. Not copied!
@@ -92,7 +92,7 @@ public abstract class NDDOAtomBasic implements NDDOAtom<NDDOAtomBasic, NDDO6G> {
 	 * @return New NDDOAtom.
 	 */
 	@Override
-	public abstract NDDOAtomBasic withNewCoords(double[] coordinates);
+	public abstract T withNewCoords(double[] coordinates);
 
 	@Override
 	public NDDO6G[] getOrbitals() {
@@ -166,7 +166,7 @@ public abstract class NDDOAtomBasic implements NDDOAtom<NDDOAtomBasic, NDDO6G> {
 	public double p1pd(int type) {
 		double D1deriv = D1pd(type);
 
-		if (getAtomProperties().getZ() == 1) {
+		if (atomProperties.getZ() == 1) {
 			return 0;
 		}
 
@@ -276,9 +276,9 @@ public abstract class NDDOAtomBasic implements NDDOAtom<NDDOAtomBasic, NDDO6G> {
 
 	@Override
 	public double D1pd(int type) {
-		double zetas = getParams().getZetas();
+		double zetas = np.getZetas();
 
-		double zetap = getParams().getZetap();
+		double zetap = np.getZetap();
 
 		double zeta;
 
@@ -294,22 +294,22 @@ public abstract class NDDOAtomBasic implements NDDOAtom<NDDOAtomBasic, NDDO6G> {
 				zeta = 0;
 		}
 
-		return (2 * getAtomProperties().getPeriod() + 1) / Math.sqrt(3) *
-				(4 * zeta * (0.5 + getAtomProperties().getPeriod()) *
-						Pow.pow(4 * zetas * zetap, -0.5 + getAtomProperties().getPeriod()) /
-						Pow.pow(zetas + zetap, 2 + 2 * getAtomProperties().getPeriod())
-						- (2 + 2 * getAtomProperties().getPeriod()) *
-						Pow.pow(4 * zetas * zetap, 0.5 + getAtomProperties().getPeriod()) /
-						Pow.pow(zetas + zetap, 3 + 2 * getAtomProperties().getPeriod()));
+		return (2 * atomProperties.getPeriod() + 1) / Math.sqrt(3) *
+				(4 * zeta * (0.5 + atomProperties.getPeriod()) *
+						Pow.pow(4 * zetas * zetap, -0.5 + atomProperties.getPeriod()) /
+						Pow.pow(zetas + zetap, 2 + 2 * atomProperties.getPeriod())
+						- (2 + 2 * atomProperties.getPeriod()) *
+						Pow.pow(4 * zetas * zetap, 0.5 + atomProperties.getPeriod()) /
+						Pow.pow(zetas + zetap, 3 + 2 * atomProperties.getPeriod()));
 
 
 	}
 
 	@Override
 	public double D1p2d(int type) {
-		double zetas = getParams().getZetas();
-		double zetap = getParams().getZetap();
-		int n = getAtomProperties().getPeriod();
+		double zetas = np.getZetas();
+		double zetap = np.getZetap();
+		int n = atomProperties.getPeriod();
 
 		double num0 = Pow.pow(4 * zetas * zetap, -1.5 + n);
 		double num1 = Pow.pow(zetas + zetap, 2 * n + 2);
@@ -320,16 +320,16 @@ public abstract class NDDOAtomBasic implements NDDOAtom<NDDOAtomBasic, NDDO6G> {
 
 		switch (type) {
 			case 0:
-				return (2 * getAtomProperties().getPeriod() + 1) / Math.sqrt(3) *
+				return (2 * atomProperties.getPeriod() + 1) / Math.sqrt(3) *
 						(16 * zetap * zetap * (n + 0.5) * (n - 0.5) * num0 / num1 -
 								8 * zetap * (n + 0.5) * (2 * n + 2) * num2 / num3 + num4);
 			case 1:
-				return (2 * getAtomProperties().getPeriod() + 1) / Math.sqrt(3) *
+				return (2 * atomProperties.getPeriod() + 1) / Math.sqrt(3) *
 						(4 * (n + 0.5) * Pow.pow(4 * zetas * zetap, n - 0.5) / num1 +
 								16 * zetas * zetap * (n + 0.5) * (n - 0.5) * num0 / num1 -
 								4 * (zetas + zetap) * (n + 0.5) * (2 * n + 2) * num2 / num3 + num4);
 			case 2:
-				return (2 * getAtomProperties().getPeriod() + 1) / Math.sqrt(3) *
+				return (2 * atomProperties.getPeriod() + 1) / Math.sqrt(3) *
 						(16 * zetas * zetas * (n + 0.5) * (n - 0.5) * num0 / num1 -
 								8 * zetas * (n + 0.5) * (2 * n + 2) * num2 / num3 + num4);
 		}
@@ -348,13 +348,13 @@ public abstract class NDDOAtomBasic implements NDDOAtom<NDDOAtomBasic, NDDO6G> {
 			return 0;
 		}
 
-		return -1 / getParams().getZetap() * D2;
+		return -1 / np.getZetap() * D2;
 	}
 
 	@Override
 	public double D2p2d(int type) {
 		if (type == 2) {
-			return 2 * this.D2 / (getParams().getZetap() * getParams().getZetap());
+			return 2 * this.D2 / (np.getZetap() * np.getZetap());
 		}
 
 		return 0;

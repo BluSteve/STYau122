@@ -9,7 +9,7 @@ import tools.Pow;
 import static nddo.Constants.bohr;
 import static nddo.State.nom;
 
-public class MNDOAtom extends NDDOAtomBasic {
+public class MNDOAtom extends NDDOAtomBasic<MNDOAtom> {
 	public MNDOAtom(AtomProperties atomProperties, double[] coordinates, NDDOParams np) {
 		super(atomProperties, coordinates, np);
 
@@ -28,18 +28,18 @@ public class MNDOAtom extends NDDOAtomBasic {
 		}
 	}
 
-	private static double getf(NDDOAtomBasic a, NDDOAtomBasic b, double R) {
-		return 1 + R / bohr * Pow.exp(-a.getParams().getAlpha() * R / bohr) +
-				Pow.exp(-b.getParams().getAlpha() * R / bohr);
+	private static double getf(MNDOAtom a, MNDOAtom b, double R) {
+		return 1 + R / bohr * Pow.exp(-a.np.getAlpha() * R / bohr) +
+				Pow.exp(-b.np.getAlpha() * R / bohr);
 	}
 
-	private static double getfPrime(NDDOAtomBasic a, NDDOAtomBasic b, double R, int tau) {
+	private static double getfPrime(MNDOAtom a, MNDOAtom b, double R, int tau) {
 		return (a.getCoordinates()[tau] - b.getCoordinates()[tau]) / (R * bohr) *
-				Pow.exp(-a.getParams().getAlpha() * R / bohr) -
-				a.getParams().getAlpha() * (a.getCoordinates()[tau] - b.getCoordinates()[tau]) / (bohr * bohr) *
-						Pow.exp(-a.getParams().getAlpha() * R / bohr) -
-				b.getParams().getAlpha() / bohr * (a.getCoordinates()[tau] - b.getCoordinates()[tau]) / R *
-						Pow.exp(-b.getParams().getAlpha() * R / bohr);
+				Pow.exp(-a.np.getAlpha() * R / bohr) -
+				a.np.getAlpha() * (a.getCoordinates()[tau] - b.getCoordinates()[tau]) / (bohr * bohr) *
+						Pow.exp(-a.np.getAlpha() * R / bohr) -
+				b.np.getAlpha() / bohr * (a.getCoordinates()[tau] - b.getCoordinates()[tau]) / R *
+						Pow.exp(-b.np.getAlpha() * R / bohr);
 	}
 
 	@Override
@@ -58,53 +58,50 @@ public class MNDOAtom extends NDDOAtomBasic {
 	}
 
 	@Override
-	public double crf(NDDOAtomBasic b) {
+	public double crf(MNDOAtom b) {
 		double f;
 		double R = GTO.R(coordinates, b.getCoordinates());
 
-		if ((atomProperties.getZ() == 7 || atomProperties.getZ() == 8) && b.getAtomProperties().getZ() == 1)
+		if ((atomProperties.getZ() == 7 || atomProperties.getZ() == 8) && b.atomProperties.getZ() == 1)
 			f = getf(this, b, R);
-		else if ((b.getAtomProperties().getZ() == 7 || b.getAtomProperties().getZ() == 8) && atomProperties.getZ() == 1)
+		else if ((b.atomProperties.getZ() == 7 || b.atomProperties.getZ() == 8) && atomProperties.getZ() == 1)
 			f = getf(b, this, R);
-		else f = 1 + Pow.exp(-b.getParams().getAlpha() * R / bohr) + Pow.exp(-this.np.getAlpha() * R / bohr);
+		else f = 1 + Pow.exp(-b.np.getAlpha() * R / bohr) + Pow.exp(-this.np.getAlpha() * R / bohr);
 
-		return f * atomProperties.getQ() * b.getAtomProperties().getQ() * nom.G(this.s(), this.s(), b.s(),
+		return f * atomProperties.getQ() * b.atomProperties.getQ() * nom.G(this.s(), this.s(), b.s(),
 				b.s());
 	}
 
 	@Override
-	public double crfgd(NDDOAtomBasic b, int tau) {
+	public double crfgd(MNDOAtom b, int tau) {
 		double f;
 		double fprime;
 		double R = GTO.R(coordinates, b.getCoordinates());
 		double r = R / bohr;
 
-		if ((atomProperties.getZ() == 7 || atomProperties.getZ() == 8) && b.getAtomProperties().getZ() == 1) {
+		if ((atomProperties.getZ() == 7 || atomProperties.getZ() == 8) && b.atomProperties.getZ() == 1) {
 			f = getf(this, b, R);
 			fprime = getfPrime(this, b, R, tau);
 		}
-		else if ((b.getAtomProperties().getZ() == 7 || b.getAtomProperties().getZ() == 8) &&
-				atomProperties.getZ() == 1) {
+		else if ((b.atomProperties.getZ() == 7 || b.atomProperties.getZ() == 8) && atomProperties.getZ() == 1) {
 			f = getf(b, this, R);
 			fprime = -getfPrime(b, this, R, tau);
 		}
 		else {
-			f = 1 + Pow.exp(-b.getParams().getAlpha() * r) + Pow.exp(-this.np.getAlpha() * r);
-			fprime = -b.getParams().getAlpha() / bohr * (coordinates[tau] - b.getCoordinates()[tau]) / R *
-					Pow.exp(-b.getParams().getAlpha() * r) -
+			f = 1 + Pow.exp(-b.np.getAlpha() * r) + Pow.exp(-this.np.getAlpha() * r);
+			fprime = -b.np.getAlpha() / bohr * (coordinates[tau] - b.getCoordinates()[tau]) / R *
+					Pow.exp(-b.np.getAlpha() * r) -
 					this.np.getAlpha() / bohr * (coordinates[tau] - b.getCoordinates()[tau]) / R *
 							Pow.exp(-this.np.getAlpha() * r);
 		}
 
-		return fprime * atomProperties.getQ() * b.getAtomProperties().getQ() *
-				nom.G(this.s(), this.s(), b.s(), b.s()) +
-				f * atomProperties.getQ() * b.getAtomProperties().getQ() *
-						nom.Ggd(this.s(), this.s(), b.s(), b.s(), tau);
+		return fprime * atomProperties.getQ() * b.atomProperties.getQ() * nom.G(this.s(), this.s(), b.s(), b.s()) +
+				f * atomProperties.getQ() * b.atomProperties.getQ() * nom.Ggd(this.s(), this.s(), b.s(), b.s(), tau);
 	}
 
 	@Override
-	public double crfg2d(NDDOAtomBasic c, int tau1, int tau2) {/*TODO*/
-		double orig = this.crfgd(c, tau1); // todo maybe cast instead of using nddoatombasic directly
+	public double crfg2d(MNDOAtom c, int tau1, int tau2) {
+		double orig = this.crfgd(c, tau1);
 		double[] coords = coordinates.clone();
 
 		coords[tau2] = coords[tau2] + 1E-7;
@@ -116,15 +113,14 @@ public class MNDOAtom extends NDDOAtomBasic {
 	}
 
 	@Override
-	public double crfalphapd(NDDOAtomBasic c, int num) {
+	public double crfalphapd(MNDOAtom c, int num) {
 		double R = GTO.R(coordinates, c.getCoordinates());
-		double val = atomProperties.getQ() * c.getAtomProperties().getQ() *
-				nom.G(this.s(), this.s(), c.s(), c.s());
+		double val = atomProperties.getQ() * c.atomProperties.getQ() * nom.G(this.s(), this.s(), c.s(), c.s());
 
 		double returnval = 0;
 
 		if (num == 0 || num == 2) returnval += val * -R / bohr * Pow.exp(-this.np.getAlpha() * R / bohr);
-		if (num == 1 || num == 2) returnval += val * -R / bohr * Pow.exp(-c.getParams().getAlpha() * R / bohr);
+		if (num == 1 || num == 2) returnval += val * -R / bohr * Pow.exp(-c.np.getAlpha() * R / bohr);
 
 		return returnval;
 	}

@@ -11,7 +11,7 @@ import tools.Pow;
 
 import static nddo.Constants.bohr;
 
-public class AM1Atom extends NDDOAtomBasic {
+public class AM1Atom extends NDDOAtomBasic<AM1Atom> {
 	public AM1Atom(AtomProperties atomProperties, double[] coordinates, NDDOParams np) {
 		super(atomProperties, coordinates, np);
 
@@ -53,12 +53,12 @@ public class AM1Atom extends NDDOAtomBasic {
 	}
 
 	@Override
-	public NDDOAtomBasic withNewParams(NDDOParams np) {
+	public AM1Atom withNewParams(NDDOParams np) {
 		return new AM1Atom(atomProperties, coordinates, np); // todo bandaid cos of coming refactor
 	}
 
 	@Override
-	public NDDOAtomBasic withNewCoords(double[] coordinates) {
+	public AM1Atom withNewCoords(double[] coordinates) {
 		return new AM1Atom(atomProperties, coordinates, np);
 	}
 
@@ -77,8 +77,7 @@ public class AM1Atom extends NDDOAtomBasic {
 	}
 
 	@Override
-	public double crf(NDDOAtomBasic c) {
-		AM1Atom b = (AM1Atom) c;
+	public double crf(AM1Atom b) {
 		double f;
 		double R = GTO.R(this.getCoordinates(), b.getCoordinates());
 
@@ -94,8 +93,7 @@ public class AM1Atom extends NDDOAtomBasic {
 	}
 
 	@Override
-	public double crfgd(NDDOAtomBasic c, int tau) {
-		AM1Atom b = (AM1Atom) c;
+	public double crfgd(AM1Atom b, int tau) {
 		double R = GTO.R(this.getCoordinates(), b.getCoordinates());
 		double r = R / bohr;
 		double f;
@@ -131,17 +129,17 @@ public class AM1Atom extends NDDOAtomBasic {
 	}
 
 	@Override
-	public double crfg2d(NDDOAtomBasic c, int tau1, int tau2) {
+	public double crfg2d(AM1Atom c, int tau1, int tau2) {
 		return 0;
 	}
 
 	@Override
-	public double crfalphapd(NDDOAtomBasic b, int num) {//todo ree
+	public double crfalphapd(AM1Atom b, int num) {//todo ree
 		return 0;
 	}
 
 	@Override
-	public NDDOAtomBasic copy() {
+	public AM1Atom copy() {
 		return new AM1Atom(atomProperties, coordinates, np);
 	}
 }
