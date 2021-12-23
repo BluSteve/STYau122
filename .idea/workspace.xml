@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="" />
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="ready for pople testing">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/ejml-v0.42-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/libs/ejml-v0.42-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -156,7 +163,7 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
     <property name="extract.method.default.visibility" value="public" />
     <property name="last.edited.regexp" value="asdf,       asdf" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/libs" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.26182964" />
@@ -169,11 +176,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\billi\IdeaProjects\MNDOParam\libs" />
+      <recent name="C:\Users\billi\IdeaProjects\MNDOParam\src\main\java" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\after1strun" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam" />
-      <recent name="C:\Users\billi\IdeaProjects\MNDOParam\libs" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam-gradle" />
-      <recent name="C:\Users\billi\IdeaProjects\MNDOParam-gradle\src\main\resources" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\src\main\java\examples\am1" />
@@ -457,13 +464,6 @@
       <workItem from="1640116049288" duration="16637000" />
       <workItem from="1640172099056" duration="1448000" />
       <workItem from="1640177470501" duration="3879000" />
-    </task>
-    <task id="LOCAL-00100" summary="Constant changes re bounds">
-      <created>1639811983481</created>
-      <option name="number" value="00100" />
-      <option name="presentableId" value="LOCAL-00100" />
-      <option name="project" value="LOCAL" />
-      <updated>1639811983481</updated>
     </task>
     <task id="LOCAL-00101" summary="Proguard refactor">
       <created>1639823251903</created>
@@ -801,7 +801,14 @@
       <option name="project" value="LOCAL" />
       <updated>1640178908400</updated>
     </task>
-    <option name="localTasksCounter" value="149" />
+    <task id="LOCAL-00149" summary="ready for pople testing">
+      <created>1640255071867</created>
+      <option name="number" value="00149" />
+      <option name="presentableId" value="LOCAL-00149" />
+      <option name="project" value="LOCAL" />
+      <updated>1640255071867</updated>
+    </task>
+    <option name="localTasksCounter" value="150" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -849,7 +856,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Batcher" />
     <MESSAGE value="minor refactorings" />
     <MESSAGE value="multithreaded presponsev + json debug" />
     <MESSAGE value="multithreading rvp is not faster + better pbar" />
@@ -874,7 +880,8 @@
     <MESSAGE value="io changes + legit runs" />
     <MESSAGE value="solutionu fix" />
     <MESSAGE value="exp and more solutionu fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="exp and more solutionu fixes" />
+    <MESSAGE value="ready for pople testing" />
+    <option name="LAST_COMMIT_MESSAGE" value="ready for pople testing" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

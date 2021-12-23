@@ -4,7 +4,6 @@ import nddo.solution.SolutionR;
 import org.ejml.data.SingularMatrixException;
 import org.ejml.dense.row.CommonOps_DDRM;
 import org.ejml.simple.SimpleMatrix;
-import tools.Pow;
 import tools.Utils;
 
 import java.util.ArrayList;
@@ -46,8 +45,8 @@ public class PopleThiel {
 			for (int j = 0; j < NVirt; j++) {
 				double e = -soln.E.get(i) + soln.E.get(NOcc + j);
 
-				Darr[counter] = Pow.pow(e, -0.5);
-				Dinvarr[counter] = Pow.pow(e, 0.5);
+				Dinvarr[counter] = Math.sqrt(e);
+				Darr[counter] = 1/ Dinvarr[counter];
 
 				counter++;
 			}

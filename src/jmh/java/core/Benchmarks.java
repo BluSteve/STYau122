@@ -1,9 +1,15 @@
 package core;
 
+import frontend.TxtIO;
+import nddo.geometry.GeometryDerivative;
+import nddo.geometry.GeometrySecondDerivative;
+import nddo.math.PopleThiel;
+import nddo.solution.Solution;
 import nddo.solution.SolutionR;
 import org.ejml.simple.SimpleMatrix;
 import org.openjdk.jmh.annotations.*;
-import tools.Pow;
+import runcycle.structs.RunInput;
+import runcycle.structs.RunnableMolecule;
 
 import java.io.IOException;
 import java.util.Random;
@@ -18,11 +24,10 @@ public class Benchmarks {
 	@Fork(value = 1, warmups = 0)
 	@Warmup(iterations = 5, time = 5)
 	@Measurement(iterations = 5, time = 5)
-	@BenchmarkMode(Mode.Throughput)
+	@BenchmarkMode(Mode.SampleTime)
 	@OutputTimeUnit(TimeUnit.NANOSECONDS)
 	public static void init(State state) {
-		double x = 10000 * state.r.nextDouble();
-		Pow.exp(x);
+		PopleThiel.pople(state.s, state.fockderivstatic);
 	}
 
 	@org.openjdk.jmh.annotations.State(Scope.Benchmark)
@@ -34,17 +39,17 @@ public class Benchmarks {
 
 		@Setup(Level.Trial)
 		public void setup() throws IOException {
-//			RunInput input = TxtIO.readInput();
-//			RunnableMolecule rm = input.molecules[0];
-//
-//			s = (SolutionR) Solution.of(rm, runcycle.State.getConverter().convert(rm.atoms, input.info.npMap));
-//			SimpleMatrix[][] matrices = GeometryDerivative.gradientRoutine(s);
-//			fockderivstatic = matrices[1];
-//
-//			System.out.println(fockderivstatic.length);
-//			SimpleMatrix[] xarray = GeometrySecondDerivative.getxarrayPople(s, fockderivstatic);
-//			x = xarray[0];
-//			System.out.println(xarray[0]);
+			RunInput input = TxtIO.readInput();
+			RunnableMolecule rm = input.molecules[0];
+
+			s = (SolutionR) Solution.of(rm, runcycle.State.getConverter().convert(rm.atoms, input.info.npMap));
+			SimpleMatrix[][] matrices = GeometryDerivative.gradientRoutine(s);
+			fockderivstatic = matrices[1];
+
+			System.out.println(fockderivstatic.length);
+			SimpleMatrix[] xarray = GeometrySecondDerivative.getxarrayPople(s, fockderivstatic);
+			x = xarray[0];
+			System.out.println(xarray[0]);
 		}
 	}
 }
