@@ -1696,9 +1696,9 @@ public class ParamSecondDerivative {
 		SimpleMatrix F2prime = ParamDerivative.MNDOStaticMatrixDeriv(solnprime, Z2, 0)[1][param2];
 		SimpleMatrix F1 = ParamDerivative.MNDOStaticMatrixDeriv(soln, Z1, 0)[1][param1];
 
-		SimpleMatrix x2 = ParamDerivative.xArrayPople(soln, new SimpleMatrix[]{F2})[0];
-		SimpleMatrix x2prime = ParamDerivative.xArrayPople(solnprime, new SimpleMatrix[]{F2prime})[0];
-		SimpleMatrix x1 = ParamDerivative.xArrayPople(soln, new SimpleMatrix[]{F1})[0];
+		SimpleMatrix x2 = PopleThiel.pople(soln, new SimpleMatrix[]{F2})[0];
+		SimpleMatrix x2prime = PopleThiel.pople(solnprime, new SimpleMatrix[]{F2prime})[0];
+		SimpleMatrix x1 = PopleThiel.pople(soln, new SimpleMatrix[]{F1})[0];
 
 		SimpleMatrix D1 = ParamDerivative.densityDerivativeLimited(soln, x1);
 

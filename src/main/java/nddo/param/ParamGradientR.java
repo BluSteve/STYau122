@@ -2,6 +2,7 @@ package nddo.param;
 
 import nddo.Constants;
 import nddo.geometry.GeometryDerivative;
+import nddo.math.PopleThiel;
 import nddo.solution.Solution;
 import nddo.solution.SolutionR;
 import org.ejml.simple.SimpleMatrix;
@@ -61,7 +62,7 @@ class ParamGradientR extends ParamGradient {
 		}
 		if (aggregateArrayUnpadded.length > 0) {
 			SimpleMatrix[] xLimitedAggregate = Batcher.apply(aggregateArrayUnpadded,
-					subset -> ParamDerivative.xArrayPople((SolutionR) s, subset));
+					subset -> PopleThiel.pople((SolutionR) s, subset));
 
 			SimpleMatrix[] xLimitedPadded = new SimpleMatrix[aggregateArray.length];
 

@@ -29,6 +29,7 @@ public class Testing {
 		SimpleMatrix[] fockderivstatic = matrices[1];
 
 		SimpleMatrix[] xarray = PopleThiel.pople(s, fockderivstatic);
+		System.out.println(xarray[0]);
 	}
 
 	public static SimpleMatrix[] getxarrayPople(SolutionR soln,

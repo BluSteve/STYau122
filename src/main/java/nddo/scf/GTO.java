@@ -36,7 +36,7 @@ public class GTO extends Orbital {
 		return Math.sqrt(val);
 	}
 
-	public static double getS(GTO a, GTO b) {
+	public static double S(GTO a, GTO b) {
 		return a.getN() * b.getN() * I(a.i, b.i, a.exponent, b.exponent, b.coordinates[0] - a.coordinates[0]) *
 				I(a.j, b.j, a.exponent, b.exponent, b.coordinates[1] - a.coordinates[1]) *
 				I(a.k, b.k, a.exponent, b.exponent, b.coordinates[2] - a.coordinates[2]);

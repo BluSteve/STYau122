@@ -1597,8 +1597,7 @@ public class GeometrySecondDerivative {
 	}
 
 
-	private static SimpleMatrix computeResponseVectorsThiel(SimpleMatrix x,
-															SolutionR soln) {
+	public static SimpleMatrix computeResponseVectorsThiel(SimpleMatrix x, SolutionR soln) {
 
 		int NOcc = (int) (soln.nElectrons / 2.0);
 

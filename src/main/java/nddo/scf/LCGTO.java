@@ -51,7 +51,7 @@ public class LCGTO extends Orbital { // HAS AtomFixed, OrbitalProperties, c, e
 		for (int i = 0; i < X1.getn(); i++) {
 			for (int j = 0; j < X2.getn(); j++) {
 				S += X1.getCoeffArray()[i] * X2.getCoeffArray()[j] *
-						GTO.getS(X1.getGaussArray()[i], X2.getGaussArray()[j]);
+						GTO.S(X1.getGaussArray()[i], X2.getGaussArray()[j]);
 			}
 
 		}
