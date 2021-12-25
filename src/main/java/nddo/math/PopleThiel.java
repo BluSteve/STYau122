@@ -320,10 +320,10 @@ public class PopleThiel {
 
 			for (int a = 0; a < rhsvec.numCols(); a++) {
 				if (rarray[a] != null) {
-					dirs[a] = rarray[a];
+					dirs[a] = rarray[a].copy();
 
 					for (int i = 0; i < beta.numRows(); i++) {
-						dirs[a] = dirs[a].plus(d.get(i).scale(beta.get(i, a)));
+						dirs[a].plusi(beta.get(i, a), d.get(i));
 					}
 				}
 			}
