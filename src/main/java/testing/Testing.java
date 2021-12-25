@@ -28,7 +28,7 @@ public class Testing {
 		SimpleMatrix[][] matrices = GeometryDerivative.gradientRoutine(s);
 		SimpleMatrix[] fockderivstatic = matrices[1];
 
-		SimpleMatrix[] xarray = PopleThiel.thiel(s, fockderivstatic);
+		SimpleMatrix[] xarray = PopleThiel.pople(s, fockderivstatic);
 		System.out.println(xarray[0]);
 	}
 

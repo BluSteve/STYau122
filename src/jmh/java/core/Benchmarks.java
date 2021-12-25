@@ -26,7 +26,7 @@ public class Benchmarks {
 	@BenchmarkMode(Mode.SampleTime)
 	@OutputTimeUnit(TimeUnit.MILLISECONDS)
 	public static void init(State state) {
-		PopleThiel.thiel(state.s, state.fockderivstatic);
+		PopleThiel.pople(state.s, state.fockderivstatic);
 	}
 
 	@org.openjdk.jmh.annotations.State(Scope.Benchmark)
@@ -46,7 +46,7 @@ public class Benchmarks {
 			fockderivstatic = matrices[1];
 
 			System.out.println(fockderivstatic.length);
-			SimpleMatrix[] xarray = PopleThiel.thiel(s, fockderivstatic);
+			SimpleMatrix[] xarray = PopleThiel.pople(s, fockderivstatic);
 			x = xarray[0];
 			System.out.println(xarray[0]);
 		}

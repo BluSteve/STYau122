@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="extract out cocc mult xmat mult ctvirt">
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="minor changes">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -129,7 +132,13 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/molecules.txt" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/mndo-install.sh" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/scratches/buffer1.txt" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/testing/Testing.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -451,14 +460,9 @@
       <workItem from="1640272061938" duration="12472000" />
       <workItem from="1640417466153" duration="731000" />
       <workItem from="1640424913164" duration="3190000" />
-      <workItem from="1640445959162" duration="8310000" />
-    </task>
-    <task id="LOCAL-00123" summary="Batcher">
-      <created>1640008827507</created>
-      <option name="number" value="00123" />
-      <option name="presentableId" value="LOCAL-00123" />
-      <option name="project" value="LOCAL" />
-      <updated>1640008827508</updated>
+      <workItem from="1640445959162" duration="8801000" />
+      <workItem from="1640457065883" duration="370000" />
+      <workItem from="1640457648828" duration="804000" />
     </task>
     <task id="LOCAL-00124" summary="minor refactorings">
       <created>1640012763981</created>
@@ -796,7 +800,14 @@
       <option name="project" value="LOCAL" />
       <updated>1640455537455</updated>
     </task>
-    <option name="localTasksCounter" value="172" />
+    <task id="LOCAL-00172" summary="minor changes">
+      <created>1640456235058</created>
+      <option name="number" value="00172" />
+      <option name="presentableId" value="LOCAL-00172" />
+      <option name="project" value="LOCAL" />
+      <updated>1640456235058</updated>
+    </task>
+    <option name="localTasksCounter" value="173" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -825,6 +836,13 @@
                     <value>
                       <list>
                         <option value="stratified2" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="text">
+                    <value>
+                      <list>
+                        <option value="cache" />
                       </list>
                     </value>
                   </entry>
@@ -864,11 +882,11 @@
     <MESSAGE value="more thiel memory improvements" />
     <MESSAGE value="dot instead of transpose mult" />
     <MESSAGE value="minor variable caching" />
-    <MESSAGE value="minor changes" />
     <MESSAGE value="improve upon thiel crv" />
     <MESSAGE value="improve upon thiel crv more" />
     <MESSAGE value="extract out cocc mult xmat mult ctvirt" />
-    <option name="LAST_COMMIT_MESSAGE" value="extract out cocc mult xmat mult ctvirt" />
+    <MESSAGE value="minor changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="minor changes" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
