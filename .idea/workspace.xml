@@ -4,7 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="move trivial case for thiel">
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="minor changes">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -167,7 +168,7 @@
     <property name="project.structure.proportion" value="0.26182964" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="profiler.jvm" />
   </component>
   <component name="ReaderModeSettings">
     <option name="enabled" value="false" />
@@ -203,7 +204,7 @@
       <recent name="tools" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.MNDOParam [jmh]">
+  <component name="RunManager" selected="Application.Testing">
     <configuration name="Main" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="frontend.Main" />
       <module name="MNDOParam.main" />
@@ -450,56 +451,7 @@
       <workItem from="1640272061938" duration="12472000" />
       <workItem from="1640417466153" duration="731000" />
       <workItem from="1640424913164" duration="3190000" />
-      <workItem from="1640445959162" duration="1852000" />
-    </task>
-    <task id="LOCAL-00113" summary="Input verification">
-      <created>1639858346857</created>
-      <option name="number" value="00113" />
-      <option name="presentableId" value="LOCAL-00113" />
-      <option name="project" value="LOCAL" />
-      <updated>1639858346857</updated>
-    </task>
-    <task id="LOCAL-00114" summary="minor changes">
-      <created>1639885838563</created>
-      <option name="number" value="00114" />
-      <option name="presentableId" value="LOCAL-00114" />
-      <option name="project" value="LOCAL" />
-      <updated>1639885838563</updated>
-    </task>
-    <task id="LOCAL-00115" summary="fix thiel bug in paramderivative uhf">
-      <created>1639890124475</created>
-      <option name="number" value="00115" />
-      <option name="presentableId" value="LOCAL-00115" />
-      <option name="project" value="LOCAL" />
-      <updated>1639890124475</updated>
-    </task>
-    <task id="LOCAL-00116" summary="broken but it runs (p2d)">
-      <created>1639920106225</created>
-      <option name="number" value="00116" />
-      <option name="presentableId" value="LOCAL-00116" />
-      <option name="project" value="LOCAL" />
-      <updated>1639920106226</updated>
-    </task>
-    <task id="LOCAL-00117" summary="Fix 6gmethods bug">
-      <created>1639931867625</created>
-      <option name="number" value="00117" />
-      <option name="presentableId" value="LOCAL-00117" />
-      <option name="project" value="LOCAL" />
-      <updated>1639931867625</updated>
-    </task>
-    <task id="LOCAL-00118" summary="Clean up">
-      <created>1639932198865</created>
-      <option name="number" value="00118" />
-      <option name="presentableId" value="LOCAL-00118" />
-      <option name="project" value="LOCAL" />
-      <updated>1639932198865</updated>
-    </task>
-    <task id="LOCAL-00119" summary="ParamGeometryDerivative not working">
-      <created>1639979101880</created>
-      <option name="number" value="00119" />
-      <option name="presentableId" value="LOCAL-00119" />
-      <option name="project" value="LOCAL" />
-      <updated>1639979101881</updated>
+      <workItem from="1640445959162" duration="5704000" />
     </task>
     <task id="LOCAL-00120" summary="Fix PGD">
       <created>1639986909443</created>
@@ -795,7 +747,56 @@
       <option name="project" value="LOCAL" />
       <updated>1640447475119</updated>
     </task>
-    <option name="localTasksCounter" value="162" />
+    <task id="LOCAL-00162" summary="minor pople orthog. improvment + thiel memory">
+      <created>1640447909233</created>
+      <option name="number" value="00162" />
+      <option name="presentableId" value="LOCAL-00162" />
+      <option name="project" value="LOCAL" />
+      <updated>1640447909233</updated>
+    </task>
+    <task id="LOCAL-00163" summary="more thiel memory improvements">
+      <created>1640447995806</created>
+      <option name="number" value="00163" />
+      <option name="presentableId" value="LOCAL-00163" />
+      <option name="project" value="LOCAL" />
+      <updated>1640447995806</updated>
+    </task>
+    <task id="LOCAL-00164" summary="more thiel memory improvements">
+      <created>1640448175777</created>
+      <option name="number" value="00164" />
+      <option name="presentableId" value="LOCAL-00164" />
+      <option name="project" value="LOCAL" />
+      <updated>1640448175777</updated>
+    </task>
+    <task id="LOCAL-00165" summary="dot instead of transpose mult">
+      <created>1640448374759</created>
+      <option name="number" value="00165" />
+      <option name="presentableId" value="LOCAL-00165" />
+      <option name="project" value="LOCAL" />
+      <updated>1640448374759</updated>
+    </task>
+    <task id="LOCAL-00166" summary="minor variable caching">
+      <created>1640448822144</created>
+      <option name="number" value="00166" />
+      <option name="presentableId" value="LOCAL-00166" />
+      <option name="project" value="LOCAL" />
+      <updated>1640448822144</updated>
+    </task>
+    <task id="LOCAL-00167" summary="minor changes">
+      <created>1640449417042</created>
+      <option name="number" value="00167" />
+      <option name="presentableId" value="LOCAL-00167" />
+      <option name="project" value="LOCAL" />
+      <updated>1640449417042</updated>
+    </task>
+    <task id="LOCAL-00168" summary="minor changes">
+      <created>1640449547178</created>
+      <option name="number" value="00168" />
+      <option name="presentableId" value="LOCAL-00168" />
+      <option name="project" value="LOCAL" />
+      <updated>1640449547178</updated>
+    </task>
+    <option name="localTasksCounter" value="169" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -842,10 +843,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="pow without cache" />
-    <MESSAGE value="fix multipoles warnings" />
-    <MESSAGE value="exp" />
-    <MESSAGE value="gto fix warnings" />
     <MESSAGE value="fastexp" />
     <MESSAGE value="fastexp clean up" />
     <MESSAGE value="pow and fastexp clean up" />
@@ -862,12 +859,16 @@
     <MESSAGE value="minor pople changes" />
     <MESSAGE value="refactor to use new pople solutionr alg" />
     <MESSAGE value="put thiel in poplethiel" />
-    <MESSAGE value="minor changes" />
     <MESSAGE value="prep for thiel" />
     <MESSAGE value="thiel not working" />
     <MESSAGE value="thiel working - f mult and darr" />
     <MESSAGE value="move trivial case for thiel" />
-    <option name="LAST_COMMIT_MESSAGE" value="move trivial case for thiel" />
+    <MESSAGE value="minor pople orthog. improvment + thiel memory" />
+    <MESSAGE value="more thiel memory improvements" />
+    <MESSAGE value="dot instead of transpose mult" />
+    <MESSAGE value="minor variable caching" />
+    <MESSAGE value="minor changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="minor changes" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
@@ -882,5 +883,8 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/MNDOParam$MNDOParam__jmh_.ic" NAME="MNDOParam [jmh] Coverage Results" MODIFIED="1640281438343" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/MNDOParam$Testing.ic" NAME="Testing Coverage Results" MODIFIED="1640452423182" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>testing.*</FILTER>
+    </SUITE>
   </component>
 </project>

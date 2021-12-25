@@ -191,6 +191,77 @@ public class PopleThiel {
 		return xarray;
 	}
 
+	public static SimpleMatrix computeResponseVectorsPople(SolutionR soln, SimpleMatrix x) {
+		// x is B tilde, i.e. a guess
+		// p = d * b. this evaluates d * b without finding out what d is, as the latter is slow.
+		int NOcc = soln.rm.nOccAlpha;
+		int NVirt = soln.rm.nVirtAlpha;
+
+		SimpleMatrix xmat = x.copy();
+		xmat.reshape(NOcc, NVirt);
+
+		SimpleMatrix densityMatrixDeriv = soln.COcc.mult(xmat).mult(soln.CtVirt)
+				.plusi(soln.CVirt.mult(xmat.transpose().mult(soln.CtOcc))).scalei(-2);
+
+		SimpleMatrix responsematrix = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
+
+		double[] integralArray = soln.integralArray;
+
+		int integralcount = 0;
+
+		for (int j = 0; j < soln.nOrbitals; j++) {
+			for (int k = j; k < soln.nOrbitals; k++) {
+				double val = 0;
+				if (j == k) {
+					for (int l : soln.orbsOfAtom[soln.atomOfOrb[j]]) {
+						val += densityMatrixDeriv.get(l, l) * integralArray[integralcount];
+						integralcount++;
+					}
+
+					for (int l : soln.missingOfAtom[soln.atomOfOrb[j]]) {
+						for (int m : soln.missingOfAtom[soln.atomOfOrb[j]]) {
+							if (soln.atomOfOrb[l] == soln.atomOfOrb[m]) {
+								val += densityMatrixDeriv.get(l, m) * integralArray[integralcount];
+								integralcount++;
+							}
+						}
+					}
+				}
+				else if (soln.atomOfOrb[j] == soln.atomOfOrb[k]) {
+					val += densityMatrixDeriv.get(j, k) * integralArray[integralcount];
+					integralcount++;
+
+					for (int l : soln.missingOfAtom[soln.atomOfOrb[j]]) {
+						for (int m : soln.missingOfAtom[soln.atomOfOrb[j]]) {
+							if (soln.atomOfOrb[l] == soln.atomOfOrb[m]) {
+								val += densityMatrixDeriv.get(l, m) * integralArray[integralcount];
+								integralcount++;
+							}
+						}
+					}
+				}
+				else {
+					for (int l : soln.orbsOfAtom[soln.atomOfOrb[j]]) {
+						for (int m : soln.orbsOfAtom[soln.atomOfOrb[k]]) {
+							val += densityMatrixDeriv.get(l, m) * integralArray[integralcount];
+							integralcount++;
+						}
+					}
+				}
+
+				responsematrix.set(j, k, val);
+				responsematrix.set(k, j, val);
+			}
+		}
+
+		SimpleMatrix Roccvirt = soln.CtOcc.mult(responsematrix).mult(soln.CVirt);
+
+		SimpleMatrix Rvec = Roccvirt.elementDivi(soln.Emat);
+		Rvec.reshape(NOcc * NVirt, 1);
+
+		return Rvec;
+	}
+
 	public static SimpleMatrix[] thiel(SolutionR soln, SimpleMatrix[] fockderivstatic) {
 		int NOcc = soln.rm.nOccAlpha;
 		int NVirt = soln.rm.nVirtAlpha;
@@ -337,9 +408,7 @@ public class PopleThiel {
 		return xarray;
 	}
 
-	public static SimpleMatrix computeResponseVectorsPople(SolutionR soln, SimpleMatrix x) {
-		// x is B tilde, i.e. a guess
-		// p = d * b. this evaluates d * b without finding out what d is, as the latter is slow.
+	public static SimpleMatrix computeResponseVectorsThiel(SolutionR soln, SimpleMatrix x) {
 		int NOcc = soln.rm.nOccAlpha;
 		int NVirt = soln.rm.nVirtAlpha;
 
@@ -349,14 +418,14 @@ public class PopleThiel {
 		SimpleMatrix densityMatrixDeriv = soln.COcc.mult(xmat).mult(soln.CtVirt)
 				.plusi(soln.CVirt.mult(xmat.transpose().mult(soln.CtOcc))).scalei(-2);
 
-		SimpleMatrix responsematrix = new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
+		SimpleMatrix responsematrix = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 
 		double[] integralArray = soln.integralArray;
 
 		int integralcount = 0;
 
-		for (int j = 0; j < soln.orbitals.length; j++) {
-			for (int k = j; k < soln.orbitals.length; k++) {
+		for (int j = 0; j < soln.nOrbitals; j++) {
+			for (int k = j; k < soln.nOrbitals; k++) {
 				double val = 0;
 				if (j == k) {
 					for (int l : soln.orbsOfAtom[soln.atomOfOrb[j]]) {
@@ -400,147 +469,35 @@ public class PopleThiel {
 			}
 		}
 
-		SimpleMatrix Roccvirt = soln.CtOcc.mult(responsematrix).mult(soln.CVirt);
+//		SimpleMatrix R = new SimpleMatrix(NOcc * NVirt, 1);
+//
+//		int count1 = 0;
+//
+//		for (int i = 0; i < NOcc; i++) {
+//			for (int j = 0; j < NVirt; j++) {
+//
+//				double element = 0;
+//
+//				for (int u = 0; u < soln.nOrbitals; u++) {
+//					for (int v = 0; v < soln.nOrbitals; v++) {
+//						element += soln.Ct.get(i, u) * soln.Ct.get(j + NOcc, v) *
+//								responsematrix.get(u, v);
+//					}
+//				}
+//
+//
+//				R.set(count1, 0, element);
+//
+//				count1++;
+//			}
+//		}
+//
+//		System.out.println(R);
+		SimpleMatrix R = soln.CtOcc.mult(responsematrix).mult(soln.CVirt);
+		int nonv = NOcc * NVirt;
+		R.reshape(nonv, 1);
 
-		SimpleMatrix Rvec = Roccvirt.elementDivi(soln.Emat);
-		Rvec.reshape(NOcc * NVirt, 1);
-
-		return Rvec;
-	}
-
-	public static SimpleMatrix computeResponseVectorsThiel(SolutionR soln, SimpleMatrix x) {
-
-		int NOcc = (int) (soln.nElectrons / 2.0);
-
-		int NVirt = soln.orbitals.length - NOcc;
-
-		SimpleMatrix densityMatrixDeriv =
-				new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
-
-		for (int u = 0; u < densityMatrixDeriv.numRows(); u++) {
-			for (int v = u; v < densityMatrixDeriv.numCols(); v++) {
-				double sum = 0;
-				int count = 0;
-				for (int i = 0; i < NOcc; i++) {
-					for (int j = 0; j < NVirt; j++) {
-						sum -= 2 * (soln.Ct.get(i, u) * soln.Ct.get(j + NOcc,
-								v) +
-								soln.Ct.get(j + NOcc, u) * soln.Ct.get(i, v)) *
-								x.get(count, 0);
-						count++;
-					}
-				}
-
-				densityMatrixDeriv.set(u, v, sum);
-				densityMatrixDeriv.set(v, u, sum);
-			}
-		}
-
-
-		SimpleMatrix responsematrix =
-				new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
-
-		double[] integralArray = soln.integralArray;
-
-		int integralcount = 0;
-
-		for (int j = 0; j < soln.orbitals.length; j++) {
-			for (int k = j; k < soln.orbitals.length; k++) {
-				double val = 0;
-				if (j == k) {
-
-					for (int l : soln.orbsOfAtom[soln.atomOfOrb[j]]) {
-						if (l > -1) {
-							val += densityMatrixDeriv.get(l, l) *
-									integralArray[integralcount];
-							integralcount++;
-						}
-					}
-
-					for (int l : soln.missingOfAtom[soln.atomOfOrb[j]]) {
-						if (l > -1) {
-							for (int m :
-									soln.missingOfAtom[soln.atomOfOrb[j]]) {
-								if (m > -1) {
-									if (soln.atomOfOrb[l] ==
-											soln.atomOfOrb[m]) {
-										val += densityMatrixDeriv.get(l, m) *
-												integralArray[integralcount];
-										integralcount++;
-									}
-								}
-
-							}
-						}
-					}
-				}
-				else if (soln.atomOfOrb[j] == soln.atomOfOrb[k]) {
-					val += densityMatrixDeriv.get(j, k) *
-							integralArray[integralcount];
-					integralcount++;
-
-					for (int l : soln.missingOfAtom[soln.atomOfOrb[j]]) {
-						if (l > -1) {
-							for (int m :
-									soln.missingOfAtom[soln.atomOfOrb[j]]) {
-								if (m > -1) {
-									if (soln.atomOfOrb[l] ==
-											soln.atomOfOrb[m]) {
-										val += densityMatrixDeriv.get(l, m) *
-												integralArray[integralcount];
-										integralcount++;
-									}
-								}
-
-							}
-						}
-					}
-				}
-				else {
-					for (int l : soln.orbsOfAtom[soln.atomOfOrb[j]]) {
-						if (l > -1) {
-							for (int m :
-									soln.orbsOfAtom[soln.atomOfOrb[k]]) {
-								if (m > -1) {
-									val += densityMatrixDeriv.get(l, m) *
-											integralArray[integralcount];
-									integralcount++;
-								}
-							}
-						}
-					}
-				}
-
-				responsematrix.set(j, k, val);
-				responsematrix.set(k, j, val);
-			}
-		}
-
-		SimpleMatrix R = new SimpleMatrix(NOcc * NVirt, 1);
-
-		int count1 = 0;
-
-		for (int i = 0; i < NOcc; i++) {
-			for (int j = 0; j < NVirt; j++) {
-
-				double element = 0;
-
-				for (int u = 0; u < soln.orbitals.length; u++) {
-					for (int v = 0; v < soln.orbitals.length; v++) {
-						element += soln.Ct.get(i, u) * soln.Ct.get(j + NOcc, v) *
-								responsematrix.get(u, v);
-					}
-				}
-
-
-				R.set(count1, 0, element);
-
-				count1++;
-			}
-		}
-
-
-		SimpleMatrix p = new SimpleMatrix(NOcc * NVirt, 1);
+		SimpleMatrix p = new SimpleMatrix(nonv, 1);
 
 		int counter = 0;
 
