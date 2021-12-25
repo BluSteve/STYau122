@@ -212,18 +212,15 @@ public class PopleThiel {
 			}
 		}
 
-		for (int a = 0; a < length; a++) {
-			SimpleMatrix Foccvirt = soln.CtOcc.mult(fockderivstatic[a]).mult(soln.CVirt); // convert AO to MO basis
-			SimpleMatrix f = Foccvirt.elementDivi(soln.Emat); // divided by (ej - ei)
+		for (int a = 0; a < xarray.length; a++) {
+			SimpleMatrix f = soln.CtOcc.mult(fockderivstatic[a]).mult(soln.CVirt); // convert AO to MO basis
 			f.reshape(nonv, 1);
-
 			multRows(Darr, f.getDDRM());
 
-			xarray[a] = new SimpleMatrix(nonv, 1);
+			xarray[a] = new SimpleMatrix(NOcc * NVirt, 1);
 			rarray[a] = f;
 			dirs[a] = f;
 		}
-
 
 		if (dirs[0].numRows() == 0) {
 			SimpleMatrix[] densityderivs = new SimpleMatrix[length];
