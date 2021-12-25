@@ -24,7 +24,7 @@ public class PopleThiel {
 		if (nonv == 0) {
 			SimpleMatrix[] xarray = new SimpleMatrix[length];
 
-			for (int i = 0; i < xarray.length; i++) {
+			for (int i = 0; i < length; i++) {
 				xarray[i] = new SimpleMatrix(0, 0);
 			}
 
@@ -37,7 +37,7 @@ public class PopleThiel {
 		SimpleMatrix[] parray = new SimpleMatrix[length]; // trial R / (ej - ei) as well as D * B tilde
 		SimpleMatrix[] Farray = new SimpleMatrix[length]; // F in MO basis divided by (ej - ei)
 		SimpleMatrix[] rarray = new SimpleMatrix[length]; // x - F
-		double[] oldrMags = new double[rarray.length];
+		double[] oldrMags = new double[length];
 		Arrays.fill(oldrMags, 1);
 
 		// configure preconditioners
@@ -222,7 +222,7 @@ public class PopleThiel {
 			}
 		}
 
-		for (int a = 0; a < xarray.length; a++) {
+		for (int a = 0; a < length; a++) {
 			SimpleMatrix f = soln.CtOcc.mult(fockderivstatic[a]).mult(soln.CVirt); // convert AO to MO basis
 			f.reshape(nonv, 1);
 			multRows(Darr, f.getDDRM());
@@ -236,9 +236,9 @@ public class PopleThiel {
 			ArrayList<SimpleMatrix> d = new ArrayList<>();
 			ArrayList<SimpleMatrix> p = new ArrayList<>();
 
-			for (int i = 0; i < rarray.length; i++) {
+			for (int i = 0; i < length; i++) {
 				if (rarray[i] != null) {
-					d.add(new SimpleMatrix(dirs[i]));
+					d.add(dirs[i]);
 
 					SimpleMatrix sm = computeResponseVectorsThiel(soln, dirs[i]);
 					multRows(Darr, sm.getDDRM());
@@ -247,7 +247,7 @@ public class PopleThiel {
 			}
 
 			SimpleMatrix solver = new SimpleMatrix(p.size(), p.size());
-			SimpleMatrix rhsvec = new SimpleMatrix(p.size(), rarray.length);
+			SimpleMatrix rhsvec = new SimpleMatrix(p.size(), length);
 
 			for (int a = 0; a < rhsvec.numCols(); a++) {
 				if (rarray[a] != null) {
