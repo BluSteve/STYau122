@@ -230,14 +230,17 @@ public class PopleThiel {
 			f.reshape(nonv, 1);
 			multRows(Darr, f.getDDRM());
 
-			xarray[a] = new SimpleMatrix(NOcc * NVirt, 1);
+			xarray[a] = new SimpleMatrix(nonv, 1);
 			rarray[a] = f;
 			dirs[a] = f;
 		}
 
+		ArrayList<SimpleMatrix> d = new ArrayList<>();
+		ArrayList<SimpleMatrix> p = new ArrayList<>();
+
 		while (Utils.numNotNull(rarray) > 0) {
-			ArrayList<SimpleMatrix> d = new ArrayList<>();
-			ArrayList<SimpleMatrix> p = new ArrayList<>();
+			d.clear();
+			p.clear();
 
 			for (int i = 0; i < length; i++) {
 				if (rarray[i] != null) {
@@ -249,15 +252,16 @@ public class PopleThiel {
 				}
 			}
 
-			int prevSize = p.size();
-			SimpleMatrix solver = new SimpleMatrix(prevSize, prevSize);
-			SimpleMatrix rhsvec = new SimpleMatrix(prevSize, length);
+			int size = p.size(); // actually iterable size
+
+			SimpleMatrix solver = new SimpleMatrix(size, size);
+			SimpleMatrix rhsvec = new SimpleMatrix(size, length);
 
 			for (int a = 0; a < length; a++) {
 				if (rarray[a] != null) {
-					double[] arrrhs = new double[prevSize];
+					double[] arrrhs = new double[size];
 
-					for (int i = 0; i < prevSize; i++) {
+					for (int i = 0; i < size; i++) {
 						arrrhs[i] = 2 * rarray[a].dot(d.get(i));
 
 					}
@@ -266,8 +270,8 @@ public class PopleThiel {
 				}
 			}
 
-			for (int i = 0; i < prevSize; i++) {
-				for (int j = i; j < prevSize; j++) {
+			for (int i = 0; i < size; i++) {
+				for (int j = i; j < size; j++) {
 					double val2 = p.get(j).dot(d.get(i)) + p.get(i).dot(d.get(j));
 
 					solver.set(i, j, val2);
@@ -279,12 +283,12 @@ public class PopleThiel {
 			try {
 				alpha = solver.solve(rhsvec);
 			} catch (SingularMatrixException e) {
-				alpha = SimpleMatrix.ones(prevSize, length);
+				alpha = SimpleMatrix.ones(size, length);
 			}
 
 			for (int a = 0; a < length; a++) {
 				if (rarray[a] != null) {
-					for (int i = 0; i < prevSize; i++) {
+					for (int i = 0; i < size; i++) {
 						xarray[a].plusi(alpha.get(i, a), d.get(i));
 						rarray[a].plusi(-alpha.get(i, a), p.get(i));
 					}
@@ -295,22 +299,22 @@ public class PopleThiel {
 				}
 			}
 
-			solver = new SimpleMatrix(prevSize, prevSize);
+			solver = new SimpleMatrix(size, size);
 
 			for (int a = 0; a < length; a++) {
 				if (rarray[a] != null) {
-					double[] arrrhs = new double[prevSize];
+					double[] arrrhs = new double[size];
 
-					for (int i = 0; i < prevSize; i++) {
+					for (int i = 0; i < size; i++) {
 						arrrhs[i] = -rarray[a].dot(p.get(i));
-
 					}
+
 					rhsvec.setColumn(a, 0, arrrhs);
 				}
 			}
 
-			for (int i = 0; i < prevSize; i++) {
-				for (int j = 0; j < prevSize; j++) {
+			for (int i = 0; i < size; i++) {
+				for (int j = 0; j < size; j++) {
 					solver.set(i, j, d.get(j).dot(p.get(i)));
 				}
 			}
@@ -319,14 +323,14 @@ public class PopleThiel {
 			try {
 				beta = solver.solve(rhsvec);
 			} catch (SingularMatrixException e) {
-				beta = SimpleMatrix.ones(prevSize, length);
+				beta = SimpleMatrix.ones(size, length);
 			}
 
 			for (int a = 0; a < length; a++) {
 				if (rarray[a] != null) {
 					dirs[a] = rarray[a].copy();
 
-					for (int i = 0; i < prevSize; i++) {
+					for (int i = 0; i < size; i++) {
 						dirs[a].plusi(beta.get(i, a), d.get(i));
 					}
 				}
