@@ -200,8 +200,8 @@ public class PopleThiel {
 		SimpleMatrix xmat = x.copy();
 		xmat.reshape(NOcc, NVirt);
 
-		SimpleMatrix densityMatrixDeriv = soln.COcc.mult(xmat).mult(soln.CtVirt)
-				.plusi(soln.CVirt.mult(xmat.transpose().mult(soln.CtOcc))).scalei(-2);
+		SimpleMatrix mult = soln.COcc.mult(xmat).mult(soln.CtVirt);
+		SimpleMatrix densityMatrixDeriv = mult.plusi(mult.transpose()).scalei(-2);
 
 		SimpleMatrix responsematrix = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 
@@ -415,8 +415,8 @@ public class PopleThiel {
 		SimpleMatrix xmat = x.copy();
 		xmat.reshape(NOcc, NVirt);
 
-		SimpleMatrix densityMatrixDeriv = soln.COcc.mult(xmat).mult(soln.CtVirt)
-				.plusi(soln.CVirt.mult(xmat.transpose().mult(soln.CtOcc))).scalei(-2);
+		SimpleMatrix mult = soln.COcc.mult(xmat).mult(soln.CtVirt);
+		SimpleMatrix densityMatrixDeriv = mult.plusi(mult.transpose()).scalei(-2);
 
 		SimpleMatrix responsematrix = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 

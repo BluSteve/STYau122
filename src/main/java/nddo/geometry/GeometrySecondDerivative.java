@@ -1584,11 +1584,11 @@ public class GeometrySecondDerivative {
 		SimpleMatrix[] densityMatrixDerivs = new SimpleMatrix[fockderivstatic.length];
 
 		for (int a = 0; a < fockderivstatic.length; a++) {
-			SimpleMatrix xmat = xarray[a].copy();
+			SimpleMatrix xmat = xarray[a];
 			xmat.reshape(NOcc, NVirt);
 
-			SimpleMatrix densityMatrixDeriv = soln.COcc.mult(xmat).mult(soln.CtVirt)
-					.plusi(soln.CVirt.mult(xmat.transpose().mult(soln.CtOcc))).scalei(-2);
+			SimpleMatrix mult = soln.COcc.mult(xmat).mult(soln.CtVirt);
+			SimpleMatrix densityMatrixDeriv = mult.plusi(mult.transpose()).scalei(-2);
 
 			densityMatrixDerivs[a] = densityMatrixDeriv;
 		}
