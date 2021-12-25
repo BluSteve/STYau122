@@ -2,7 +2,6 @@ package nddo.math;
 
 import nddo.solution.SolutionR;
 import org.ejml.data.SingularMatrixException;
-import org.ejml.dense.row.CommonOps_DDRM;
 import org.ejml.dense.row.SpecializedOps_DDRM;
 import org.ejml.simple.SimpleMatrix;
 import tools.Pow;
@@ -12,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.ejml.dense.row.CommonOps_DDRM.multRows;
 import static tools.Utils.mag;
 
 public class PopleThiel {
@@ -41,7 +41,6 @@ public class PopleThiel {
 		double[] oldrMags = new double[rarray.length];
 		Arrays.fill(oldrMags, 1);
 
-
 		// configure preconditioners
 		double[] Darr = new double[nonv];
 		double[] Dinvarr = new double[nonv];
@@ -64,7 +63,7 @@ public class PopleThiel {
 			SimpleMatrix f = Foccvirt.elementDivi(soln.Emat); // divided by (ej - ei)
 			f.reshape(nonv, 1);
 
-			CommonOps_DDRM.multRows(Darr, f.getDDRM());
+			multRows(Darr, f.getDDRM());
 			barray[a] = f;
 			Farray[a] = barray[a].copy();
 			F.setColumn(a, 0, barray[a].getDDRM().data);
@@ -92,9 +91,9 @@ public class PopleThiel {
 			for (int i = 0; i < length; i++) {
 				// parray[i] stays the same object throughout
 				SimpleMatrix b = barray[i].copy();
-				CommonOps_DDRM.multRows(Dinvarr, b.getDDRM());
+				multRows(Dinvarr, b.getDDRM());
 				SimpleMatrix p = computeResponseVectorsPople(soln, b); // P = D * B
-				CommonOps_DDRM.multRows(Darr, p.getDDRM());
+				multRows(Darr, p.getDDRM());
 				parray[i] = p;
 
 				SimpleMatrix[] prev = new SimpleMatrix[5];
@@ -184,7 +183,7 @@ public class PopleThiel {
 		}
 
 		for (int j = 0; j < alpha.numCols(); j++) {
-			CommonOps_DDRM.multRows(Dinvarr, xarray[j].getDDRM());
+			multRows(Dinvarr, xarray[j].getDDRM());
 		}
 
 		return xarray;

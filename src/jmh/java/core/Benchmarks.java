@@ -20,11 +20,11 @@ public class Benchmarks {
 	}
 
 	@Benchmark
-	@Fork(value = 2, warmups = 0)
+	@Fork(value = 1, warmups = 0)
 	@Warmup(iterations = 5, time = 5)
 	@Measurement(iterations = 5, time = 5)
 	@BenchmarkMode(Mode.SampleTime)
-	@OutputTimeUnit(TimeUnit.NANOSECONDS)
+	@OutputTimeUnit(TimeUnit.MILLISECONDS)
 	public static void init(State state) {
 //		Utils.symEigen(state.s.C);
 //		SimpleMatrix sm = state.s.C;
