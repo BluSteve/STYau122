@@ -190,9 +190,8 @@ public class PopleThiel {
 	}
 
 	public static SimpleMatrix[] thiel(SolutionR soln, SimpleMatrix[] fockderivstatic) {
-		int NOcc = (int) (soln.nElectrons / 2.0);
-
-		int NVirt = soln.orbitals.length - NOcc;
+		int NOcc = soln.rm.nOccAlpha;
+		int NVirt = soln.rm.nVirtAlpha;
 
 		SimpleMatrix[] xarray = new SimpleMatrix[fockderivstatic.length];
 		SimpleMatrix[] rarray = new SimpleMatrix[fockderivstatic.length];
@@ -221,13 +220,11 @@ public class PopleThiel {
 
 			for (int i = 0; i < NOcc; i++) {
 				for (int j = 0; j < NVirt; j++) {
-
 					double element = 0;
 
 					for (int u = 0; u < soln.orbitals.length; u++) {
 						for (int v = 0; v < soln.orbitals.length; v++) {
-							element += soln.Ct.get(i, u) * soln.Ct.get(j + NOcc,
-									v) * fockderivstatic[a].get(u, v);
+							element += soln.Ct.get(i, u) * soln.Ct.get(j + NOcc, v) * fockderivstatic[a].get(u, v);
 						}
 					}
 					F.set(count1, 0, element);
@@ -258,30 +255,24 @@ public class PopleThiel {
 
 		while (Utils.numNotNull(rarray) > 0) {
 			ArrayList<SimpleMatrix> d = new ArrayList<>();
-
 			ArrayList<SimpleMatrix> p = new ArrayList<>();
 
 			for (int i = 0; i < rarray.length; i++) {
 				if (rarray[i] != null) {
 					d.add(new SimpleMatrix(dirs[i]));
-					p.add(D.mult(
-							computeResponseVectorsThiel(soln, dirs[i])));
+					p.add(D.mult(computeResponseVectorsThiel(soln, dirs[i])));
 				}
 			}
 
-			SimpleMatrix solver =
-					new SimpleMatrix(p.size(), p.size());
-			SimpleMatrix rhsvec =
-					new SimpleMatrix(p.size(), rarray.length);
+			SimpleMatrix solver = new SimpleMatrix(p.size(), p.size());
+			SimpleMatrix rhsvec = new SimpleMatrix(p.size(), rarray.length);
 
 			for (int a = 0; a < rhsvec.numCols(); a++) {
 				if (rarray[a] != null) {
 					double[] arrrhs = new double[p.size()];
 
 					for (int i = 0; i < arrrhs.length; i++) {
-						arrrhs[i] = 2 *
-								rarray[a].transpose().mult(d.get(i))
-										.get(0, 0);
+						arrrhs[i] = 2 * rarray[a].transpose().mult(d.get(i)).get(0, 0);
 
 					}
 					rhsvec.setColumn(a, 0, arrrhs);
@@ -290,10 +281,8 @@ public class PopleThiel {
 
 			for (int i = 0; i < solver.numRows(); i++) {
 				for (int j = i; j < solver.numRows(); j++) {
-					double val2 =
-							p.get(j).transpose().mult(d.get(i))
-									.get(0, 0) + p.get(i).transpose()
-									.mult(d.get(j)).get(0, 0);
+					double val2 = p.get(j).transpose().mult(d.get(i)).get(0, 0) +
+							p.get(i).transpose().mult(d.get(j)).get(0, 0);
 
 					solver.set(i, j, val2);
 					solver.set(j, i, val2);
@@ -310,34 +299,26 @@ public class PopleThiel {
 			for (int a = 0; a < rhsvec.numCols(); a++) {
 				if (rarray[a] != null) {
 					for (int i = 0; i < alpha.numRows(); i++) {
-						xarray[a] = xarray[a].plus(
-								d.get(i).scale(alpha.get(i, a)));
-
-						rarray[a] = rarray[a].minus(
-								p.get(i).scale(alpha.get(i, a)));
-
+						xarray[a] = xarray[a].plus(d.get(i).scale(alpha.get(i, a)));
+						rarray[a] = rarray[a].minus(p.get(i).scale(alpha.get(i, a)));
 					}
 
 					if (mag(rarray[a]) < 1E-6) {//todo change this if you want
 						rarray[a] = null;
 					}
 					else {
-						System.out.println("convergence test: " + mag
-								(rarray[a]));
 					}
 				}
 			}
 
-			solver = new SimpleMatrix(solver.numRows(),
-					solver.numRows());
+			solver = new SimpleMatrix(solver.numRows(), solver.numRows());
 
 			for (int a = 0; a < rhsvec.numCols(); a++) {
 				if (rarray[a] != null) {
 					double[] arrrhs = new double[solver.numRows()];
 
 					for (int i = 0; i < arrrhs.length; i++) {
-						arrrhs[i] = -rarray[a].transpose()
-								.mult(p.get(i)).get(0, 0);
+						arrrhs[i] = -rarray[a].transpose().mult(p.get(i)).get(0, 0);
 
 					}
 					rhsvec.setColumn(a, 0, arrrhs);
@@ -346,9 +327,7 @@ public class PopleThiel {
 
 			for (int i = 0; i < solver.numRows(); i++) {
 				for (int j = 0; j < solver.numRows(); j++) {
-					solver.set(i, j,
-							d.get(j).transpose().mult(p.get(i))
-									.get(0, 0));
+					solver.set(i, j, d.get(j).transpose().mult(p.get(i)).get(0, 0));
 				}
 			}
 
@@ -364,8 +343,7 @@ public class PopleThiel {
 					dirs[a] = rarray[a];
 
 					for (int i = 0; i < beta.numRows(); i++) {
-						dirs[a] = dirs[a].plus(
-								d.get(i).scale(beta.get(i, a)));
+						dirs[a] = dirs[a].plus(d.get(i).scale(beta.get(i, a)));
 					}
 				}
 			}

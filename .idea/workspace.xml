@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="put thiel in poplethiel">
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="minor changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params.csv" beforeDir="false" afterPath="$PROJECT_DIR$/params.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" afterDir="false" />
     </list>
@@ -453,13 +452,7 @@
       <workItem from="1640272061938" duration="12472000" />
       <workItem from="1640417466153" duration="731000" />
       <workItem from="1640424913164" duration="3190000" />
-    </task>
-    <task id="LOCAL-00108" summary="Rename">
-      <created>1639838679626</created>
-      <option name="number" value="00108" />
-      <option name="presentableId" value="LOCAL-00108" />
-      <option name="project" value="LOCAL" />
-      <updated>1639838679626</updated>
+      <workItem from="1640445959162" duration="436000" />
     </task>
     <task id="LOCAL-00109" summary="ParamSecondDerivatives merge + renaming">
       <created>1639841212001</created>
@@ -797,7 +790,14 @@
       <option name="project" value="LOCAL" />
       <updated>1640281901303</updated>
     </task>
-    <option name="localTasksCounter" value="157" />
+    <task id="LOCAL-00157" summary="minor changes">
+      <created>1640446084428</created>
+      <option name="number" value="00157" />
+      <option name="presentableId" value="LOCAL-00157" />
+      <option name="project" value="LOCAL" />
+      <updated>1640446084428</updated>
+    </task>
+    <option name="localTasksCounter" value="158" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -844,7 +844,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="multithreaded deriv2" />
     <MESSAGE value="working multithreaded ederiv2" />
     <MESSAGE value="SimpleSolution" />
     <MESSAGE value="Better pow" />
@@ -869,18 +868,10 @@
     <MESSAGE value="minor pople changes" />
     <MESSAGE value="refactor to use new pople solutionr alg" />
     <MESSAGE value="put thiel in poplethiel" />
-    <option name="LAST_COMMIT_MESSAGE" value="put thiel in poplethiel" />
+    <MESSAGE value="minor changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="minor changes" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java</url>
-          <line>106</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="nddoparam.param.ParamHessianRestricted" memberName="gPrime" />

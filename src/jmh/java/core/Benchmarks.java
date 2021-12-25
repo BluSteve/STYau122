@@ -47,7 +47,7 @@ public class Benchmarks {
 //			evalues.set(i, i, epairs[i].first);
 //			evectors.setColumn(i, 0, epairs[i].second.data);
 //		}
-		PopleThiel.pople(state.s, state.fockderivstatic);
+		PopleThiel.thiel(state.s, state.fockderivstatic);
 	}
 
 	@org.openjdk.jmh.annotations.State(Scope.Benchmark)
@@ -67,7 +67,7 @@ public class Benchmarks {
 			fockderivstatic = matrices[1];
 
 			System.out.println(fockderivstatic.length);
-			SimpleMatrix[] xarray = PopleThiel.pople(s, fockderivstatic);
+			SimpleMatrix[] xarray = PopleThiel.thiel(s, fockderivstatic);
 			x = xarray[0];
 			System.out.println(xarray[0]);
 		}
