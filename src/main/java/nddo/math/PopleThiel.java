@@ -256,14 +256,12 @@ public class PopleThiel {
 
 			SimpleMatrix solver = new SimpleMatrix(size, size);
 			SimpleMatrix rhsvec = new SimpleMatrix(size, length);
+			double[] arrrhs = new double[size];
 
 			for (int a = 0; a < length; a++) {
 				if (rarray[a] != null) {
-					double[] arrrhs = new double[size];
-
 					for (int i = 0; i < size; i++) {
 						arrrhs[i] = 2 * rarray[a].dot(d.get(i));
-
 					}
 
 					rhsvec.setColumn(a, 0, arrrhs);
@@ -289,8 +287,9 @@ public class PopleThiel {
 			for (int a = 0; a < length; a++) {
 				if (rarray[a] != null) {
 					for (int i = 0; i < size; i++) {
-						xarray[a].plusi(alpha.get(i, a), d.get(i));
-						rarray[a].plusi(-alpha.get(i, a), p.get(i));
+						double v = alpha.get(i, a);
+						xarray[a].plusi(v, d.get(i));
+						rarray[a].plusi(-v, p.get(i));
 					}
 
 					if (mag(rarray[a]) < 1E-6) { // todo change this if you want
@@ -303,8 +302,6 @@ public class PopleThiel {
 
 			for (int a = 0; a < length; a++) {
 				if (rarray[a] != null) {
-					double[] arrrhs = new double[size];
-
 					for (int i = 0; i < size; i++) {
 						arrrhs[i] = -rarray[a].dot(p.get(i));
 					}
