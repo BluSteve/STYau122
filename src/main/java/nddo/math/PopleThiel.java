@@ -194,6 +194,16 @@ public class PopleThiel {
 		int length = fockderivstatic.length;
 		int nonv = NOcc * NVirt;
 
+		if (nonv == 0) {
+			SimpleMatrix[] densityderivs = new SimpleMatrix[length];
+
+			for (int i = 0; i < densityderivs.length; i++) {
+				densityderivs[i] = new SimpleMatrix(0, 0);
+			}
+
+			return densityderivs;
+		}
+
 		SimpleMatrix[] xarray = new SimpleMatrix[length];
 		SimpleMatrix[] rarray = new SimpleMatrix[length];
 		SimpleMatrix[] dirs = new SimpleMatrix[length];
@@ -221,17 +231,6 @@ public class PopleThiel {
 			rarray[a] = f;
 			dirs[a] = f;
 		}
-
-		if (dirs[0].numRows() == 0) {
-			SimpleMatrix[] densityderivs = new SimpleMatrix[length];
-
-			for (int i = 0; i < densityderivs.length; i++) {
-				densityderivs[i] = new SimpleMatrix(0, 0);
-			}
-
-			return densityderivs;
-		}
-
 
 		while (Utils.numNotNull(rarray) > 0) {
 			ArrayList<SimpleMatrix> d = new ArrayList<>();

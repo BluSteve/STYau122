@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="minor changes">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" afterDir="false" />
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="thiel working - f mult and darr">
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -452,28 +450,7 @@
       <workItem from="1640272061938" duration="12472000" />
       <workItem from="1640417466153" duration="731000" />
       <workItem from="1640424913164" duration="3190000" />
-      <workItem from="1640445959162" duration="436000" />
-    </task>
-    <task id="LOCAL-00109" summary="ParamSecondDerivatives merge + renaming">
-      <created>1639841212001</created>
-      <option name="number" value="00109" />
-      <option name="presentableId" value="LOCAL-00109" />
-      <option name="project" value="LOCAL" />
-      <updated>1639841212002</updated>
-    </task>
-    <task id="LOCAL-00110" summary="ParamSecondDerivative incomplete refactor">
-      <created>1639843934070</created>
-      <option name="number" value="00110" />
-      <option name="presentableId" value="LOCAL-00110" />
-      <option name="project" value="LOCAL" />
-      <updated>1639843934070</updated>
-    </task>
-    <task id="LOCAL-00111" summary="Convert NDDOAtom to interface">
-      <created>1639853443192</created>
-      <option name="number" value="00111" />
-      <option name="presentableId" value="LOCAL-00111" />
-      <option name="project" value="LOCAL" />
-      <updated>1639853443192</updated>
+      <workItem from="1640445959162" duration="1497000" />
     </task>
     <task id="LOCAL-00112" summary="AM1 compatibility">
       <created>1639857871530</created>
@@ -797,7 +774,28 @@
       <option name="project" value="LOCAL" />
       <updated>1640446084428</updated>
     </task>
-    <option name="localTasksCounter" value="158" />
+    <task id="LOCAL-00158" summary="prep for thiel">
+      <created>1640446604667</created>
+      <option name="number" value="00158" />
+      <option name="presentableId" value="LOCAL-00158" />
+      <option name="project" value="LOCAL" />
+      <updated>1640446604667</updated>
+    </task>
+    <task id="LOCAL-00159" summary="thiel not working">
+      <created>1640446957374</created>
+      <option name="number" value="00159" />
+      <option name="presentableId" value="LOCAL-00159" />
+      <option name="project" value="LOCAL" />
+      <updated>1640446957374</updated>
+    </task>
+    <task id="LOCAL-00160" summary="thiel working - f mult and darr">
+      <created>1640447402160</created>
+      <option name="number" value="00160" />
+      <option name="presentableId" value="LOCAL-00160" />
+      <option name="project" value="LOCAL" />
+      <updated>1640447402160</updated>
+    </task>
+    <option name="localTasksCounter" value="161" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -844,9 +842,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="working multithreaded ederiv2" />
-    <MESSAGE value="SimpleSolution" />
-    <MESSAGE value="Better pow" />
     <MESSAGE value="pow with cache" />
     <MESSAGE value="pow without cache" />
     <MESSAGE value="fix multipoles warnings" />
@@ -869,7 +864,10 @@
     <MESSAGE value="refactor to use new pople solutionr alg" />
     <MESSAGE value="put thiel in poplethiel" />
     <MESSAGE value="minor changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="minor changes" />
+    <MESSAGE value="prep for thiel" />
+    <MESSAGE value="thiel not working" />
+    <MESSAGE value="thiel working - f mult and darr" />
+    <option name="LAST_COMMIT_MESSAGE" value="thiel working - f mult and darr" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
