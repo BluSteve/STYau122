@@ -26,27 +26,6 @@ public class Benchmarks {
 	@BenchmarkMode(Mode.SampleTime)
 	@OutputTimeUnit(TimeUnit.MILLISECONDS)
 	public static void init(State state) {
-//		Utils.symEigen(state.s.C);
-//		SimpleMatrix sm = state.s.C;
-//
-//		EigenDecomposition_F64<DMatrixRMaj> evd = new SymmetricQRAlgorithmDecomposition_DDRM(true);
-//		evd.decompose(sm.copy().getDDRM());
-//		int noe = evd.getNumberOfEigenvalues();
-//
-//		SimpleMatrix evalues = new SimpleMatrix(noe, noe);
-//		SimpleMatrix evectors = new SimpleMatrix(noe, noe);
-//
-//		Pair<Double, DMatrixRMaj>[] epairs = new Pair[noe];
-//
-//		for (int i = 0; i < noe; i++) {
-//			epairs[i] = new Pair<>(evd.getEigenvalue(i).real, evd.getEigenVector(i));
-//		}
-//
-//		Arrays.sort(epairs);
-//		for (int i = 0; i < noe; i++) {
-//			evalues.set(i, i, epairs[i].first);
-//			evectors.setColumn(i, 0, epairs[i].second.data);
-//		}
 		PopleThiel.thiel(state.s, state.fockderivstatic);
 	}
 
