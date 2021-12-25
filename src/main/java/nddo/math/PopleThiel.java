@@ -4,7 +4,6 @@ import nddo.solution.SolutionR;
 import org.ejml.data.SingularMatrixException;
 import org.ejml.dense.row.SpecializedOps_DDRM;
 import org.ejml.simple.SimpleMatrix;
-import tools.Pow;
 import tools.Utils;
 
 import java.util.ArrayList;
@@ -192,12 +191,14 @@ public class PopleThiel {
 	public static SimpleMatrix[] thiel(SolutionR soln, SimpleMatrix[] fockderivstatic) {
 		int NOcc = soln.rm.nOccAlpha;
 		int NVirt = soln.rm.nVirtAlpha;
+		int length = fockderivstatic.length;
+		int nonv = NOcc * NVirt;
 
-		SimpleMatrix[] xarray = new SimpleMatrix[fockderivstatic.length];
-		SimpleMatrix[] rarray = new SimpleMatrix[fockderivstatic.length];
-		SimpleMatrix[] dirs = new SimpleMatrix[fockderivstatic.length];
+		SimpleMatrix[] xarray = new SimpleMatrix[length];
+		SimpleMatrix[] rarray = new SimpleMatrix[length];
+		SimpleMatrix[] dirs = new SimpleMatrix[length];
 
-		double[] arrpreconditioner = new double[NOcc * NVirt];
+		double[] Darr = new double[nonv];
 
 		int counter = 0;
 
@@ -205,45 +206,27 @@ public class PopleThiel {
 			for (int j = 0; j < NVirt; j++) {
 				double e = -soln.E.get(i) - soln.E.get(NOcc + j);
 
-				arrpreconditioner[counter] = Pow.pow(e, -0.5);
+				Darr[counter] = 1 / Math.sqrt(e);
 
 				counter++;
 			}
 		}
 
-		SimpleMatrix D = SimpleMatrix.diag(arrpreconditioner);
+		for (int a = 0; a < length; a++) {
+			SimpleMatrix Foccvirt = soln.CtOcc.mult(fockderivstatic[a]).mult(soln.CVirt); // convert AO to MO basis
+			SimpleMatrix f = Foccvirt.elementDivi(soln.Emat); // divided by (ej - ei)
+			f.reshape(nonv, 1);
 
-		for (int a = 0; a < xarray.length; a++) {
-			SimpleMatrix F = new SimpleMatrix(NOcc * NVirt, 1);
+			multRows(Darr, f.getDDRM());
 
-			int count1 = 0;
-
-			for (int i = 0; i < NOcc; i++) {
-				for (int j = 0; j < NVirt; j++) {
-					double element = 0;
-
-					for (int u = 0; u < soln.orbitals.length; u++) {
-						for (int v = 0; v < soln.orbitals.length; v++) {
-							element += soln.Ct.get(i, u) * soln.Ct.get(j + NOcc, v) * fockderivstatic[a].get(u, v);
-						}
-					}
-					F.set(count1, 0, element);
-
-					count1++;
-				}
-			}
-
-			F = D.mult(F);
-
-			xarray[a] = new SimpleMatrix(NOcc * NVirt, 1);
-			rarray[a] = F;
-			dirs[a] = F;
+			xarray[a] = new SimpleMatrix(nonv, 1);
+			rarray[a] = f;
+			dirs[a] = f;
 		}
 
 
 		if (dirs[0].numRows() == 0) {
-			SimpleMatrix[] densityderivs =
-					new SimpleMatrix[fockderivstatic.length];
+			SimpleMatrix[] densityderivs = new SimpleMatrix[length];
 
 			for (int i = 0; i < densityderivs.length; i++) {
 				densityderivs[i] = new SimpleMatrix(0, 0);
@@ -260,7 +243,10 @@ public class PopleThiel {
 			for (int i = 0; i < rarray.length; i++) {
 				if (rarray[i] != null) {
 					d.add(new SimpleMatrix(dirs[i]));
-					p.add(D.mult(computeResponseVectorsThiel(soln, dirs[i])));
+
+					SimpleMatrix sm = computeResponseVectorsThiel(soln, dirs[i]);
+					multRows(Darr, sm.getDDRM());
+					p.add(sm);
 				}
 			}
 
@@ -303,10 +289,8 @@ public class PopleThiel {
 						rarray[a] = rarray[a].minus(p.get(i).scale(alpha.get(i, a)));
 					}
 
-					if (mag(rarray[a]) < 1E-6) {//todo change this if you want
+					if (mag(rarray[a]) < 1E-6) { // todo change this if you want
 						rarray[a] = null;
-					}
-					else {
 					}
 				}
 			}
