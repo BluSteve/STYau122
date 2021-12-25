@@ -83,7 +83,7 @@ public class PopleThiel {
 			// orthogonalize barray
 			for (int i = 1; i < barray.length; i++) {
 				for (int j = 0; j < i; j++) {
-					barray[i].plusi(barray[i].dot(barray[j]) / barray[j].dot(barray[j]), barray[j].negative());
+					barray[i].plusi(-barray[i].dot(barray[j]) / barray[j].dot(barray[j]), barray[j]);
 				}
 			}
 
@@ -281,8 +281,8 @@ public class PopleThiel {
 			for (int a = 0; a < rhsvec.numCols(); a++) {
 				if (rarray[a] != null) {
 					for (int i = 0; i < alpha.numRows(); i++) {
-						xarray[a] = xarray[a].plus(d.get(i).scale(alpha.get(i, a)));
-						rarray[a] = rarray[a].minus(p.get(i).scale(alpha.get(i, a)));
+						xarray[a].plusi(alpha.get(i, a), d.get(i));
+						rarray[a].plusi(-alpha.get(i, a), p.get(i));
 					}
 
 					if (mag(rarray[a]) < 1E-6) { // todo change this if you want
@@ -291,7 +291,7 @@ public class PopleThiel {
 				}
 			}
 
-			solver = new SimpleMatrix(solver.numRows(), solver.numRows());
+			solver = new SimpleMatrix(solver.numRows(), solver.numCols());
 
 			for (int a = 0; a < rhsvec.numCols(); a++) {
 				if (rarray[a] != null) {

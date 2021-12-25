@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="thiel working - f mult and darr">
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="move trivial case for thiel">
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -450,14 +450,7 @@
       <workItem from="1640272061938" duration="12472000" />
       <workItem from="1640417466153" duration="731000" />
       <workItem from="1640424913164" duration="3190000" />
-      <workItem from="1640445959162" duration="1497000" />
-    </task>
-    <task id="LOCAL-00112" summary="AM1 compatibility">
-      <created>1639857871530</created>
-      <option name="number" value="00112" />
-      <option name="presentableId" value="LOCAL-00112" />
-      <option name="project" value="LOCAL" />
-      <updated>1639857871530</updated>
+      <workItem from="1640445959162" duration="1852000" />
     </task>
     <task id="LOCAL-00113" summary="Input verification">
       <created>1639858346857</created>
@@ -795,7 +788,14 @@
       <option name="project" value="LOCAL" />
       <updated>1640447402160</updated>
     </task>
-    <option name="localTasksCounter" value="161" />
+    <task id="LOCAL-00161" summary="move trivial case for thiel">
+      <created>1640447475119</created>
+      <option name="number" value="00161" />
+      <option name="presentableId" value="LOCAL-00161" />
+      <option name="project" value="LOCAL" />
+      <updated>1640447475119</updated>
+    </task>
+    <option name="localTasksCounter" value="162" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -842,7 +842,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="pow with cache" />
     <MESSAGE value="pow without cache" />
     <MESSAGE value="fix multipoles warnings" />
     <MESSAGE value="exp" />
@@ -867,7 +866,8 @@
     <MESSAGE value="prep for thiel" />
     <MESSAGE value="thiel not working" />
     <MESSAGE value="thiel working - f mult and darr" />
-    <option name="LAST_COMMIT_MESSAGE" value="thiel working - f mult and darr" />
+    <MESSAGE value="move trivial case for thiel" />
+    <option name="LAST_COMMIT_MESSAGE" value="move trivial case for thiel" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
