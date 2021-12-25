@@ -78,11 +78,6 @@ public class PopleThiel {
 
 		SimpleMatrix alpha = null;
 		int prevSize = 0;
-		SimpleMatrix rhs = null;
-		SimpleMatrix lhs = null;
-		SimpleMatrix Bt2 = new SimpleMatrix(length, nonv); // last 15
-		SimpleMatrix P2 = new SimpleMatrix(nonv, length);
-		int n = 1;
 
 		bigLoop:
 		while (numIterable(iterable) > 0) {
@@ -130,40 +125,17 @@ public class PopleThiel {
 				barray[i] = newb; // new barray object created
 			}
 
-			// convert prevBs and prevPs into matrix form, transposed
-			int prevL = (n - 1) * length;
+			SimpleMatrix Bt = new SimpleMatrix(prevSize, nonv);
+			SimpleMatrix BminusP = new SimpleMatrix(nonv, prevSize);
 
-			// everything but last 15
-			SimpleMatrix Bt1 = new SimpleMatrix(prevL, nonv);
-			SimpleMatrix P = new SimpleMatrix(nonv, prevs.size());
-
-			for (int i = 0; i < prevs.size(); i++) {
-				if (i >= prevL) {
-					Bt2.setRow(i - prevL, 0, prevs.get(i)[0].getDDRM().data);
-					P2.setColumn(i - prevL, 0, prevs.get(i)[4].getDDRM().data);
-				}
-				else {
-					Bt1.setRow(i, 0, prevs.get(i)[0].getDDRM().data);
-				}
-				P.setColumn(i, 0, prevs.get(i)[4].getDDRM().data);
+			for (int i = 0; i < prevSize; i++) {
+				Bt.setRow(i, 0, prevs.get(i)[0].getDDRM().data);
+				BminusP.setColumn(i, 0, prevs.get(i)[4].getDDRM().data);
 			}
 
-			if (rhs == null) rhs = Bt2.mult(F);
-			else rhs = rhs.combine(prevL, 0, Bt2.mult(F));
-
-			if (lhs == null) lhs = Bt2.mult(P);
-			else {
-				SimpleMatrix topright = Bt1.mult(P2);
-				SimpleMatrix bottom = Bt2.mult(P);
-
-				int nl = n * length;
-				SimpleMatrix newlhs = new SimpleMatrix(nl, nl);
-				newlhs.insertIntoThis(0, 0, lhs);
-				newlhs.insertIntoThis(0, prevL, topright);
-				newlhs.insertIntoThis(prevL, 0, bottom);
-				lhs = newlhs;
-			}
-
+			SimpleMatrix rhs = Bt.mult(F);
+			SimpleMatrix lhs = Bt.mult(BminusP);
+			// alpha dimensions are prevBs x length
 			alpha = lhs.solve(rhs);
 
 			// reset r array
@@ -200,7 +172,6 @@ public class PopleThiel {
 					iterable[j] = false;
 				}
 			}
-			n++;
 		}
 
 		for (int i = 0; i < length; i++) {
