@@ -40,6 +40,10 @@ jar {
     }
 }
 
+jmh {
+    resultFormat = 'CSV'
+}
+
 task myProguardTask(type: ProGuardTask) {
     dependsOn 'jar'
 

@@ -4,12 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="minor changes">
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="without caching - should be faster when mt'ed">
+      <change afterPath="$PROJECT_DIR$/src/jmh/java/core/Testing.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Batcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Batcher.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,13 +132,12 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/molecules.txt" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/molecules.txt" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/mndo-install.sh" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/scratches/buffer1.txt" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/testing/Testing.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -169,6 +168,7 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
+    <property name="com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File" value="TEXT" />
     <property name="extract.method.default.visibility" value="public" />
     <property name="last.edited.regexp" value="asdf,       asdf" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/libs" />
@@ -177,7 +177,7 @@
     <property name="project.structure.proportion" value="0.26182964" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="profiler.jvm" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="ReaderModeSettings">
     <option name="enabled" value="false" />
@@ -227,25 +227,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Pow" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="tools.Pow" />
-      <module name="MNDOParam.main" />
+    <configuration name="Testing" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="core.Testing" />
+      <module name="MNDOParam.jmh" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="tools.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Testing" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="testing.Testing" />
-      <module name="MNDOParam.main" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="testing.*" />
+          <option name="PATTERN" value="core.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -287,27 +274,6 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="MNDOParam [myProguardTask]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="myProguardTask" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
     <configuration name="Copy" type="ShConfigurationType">
       <option name="SCRIPT_TEXT" value="" />
       <option name="INDEPENDENT_SCRIPT_PATH" value="false" />
@@ -327,20 +293,17 @@
     </configuration>
     <list>
       <item itemvalue="Application.Main" />
-      <item itemvalue="Application.Pow" />
       <item itemvalue="Application.TxtIO" />
       <item itemvalue="Application.Testing" />
       <item itemvalue="Gradle.MNDOParam [jmh]" />
-      <item itemvalue="Gradle.MNDOParam [myProguardTask]" />
       <item itemvalue="Shell Script.Copy" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Testing" />
+        <item itemvalue="Application.Testing" />
         <item itemvalue="Application.TxtIO" />
         <item itemvalue="Application.Main" />
-        <item itemvalue="Application.Pow" />
-        <item itemvalue="Gradle.MNDOParam [myProguardTask]" />
       </list>
     </recent_temporary>
   </component>
@@ -462,21 +425,14 @@
       <workItem from="1640424913164" duration="3190000" />
       <workItem from="1640445959162" duration="8801000" />
       <workItem from="1640457065883" duration="370000" />
-      <workItem from="1640457648828" duration="804000" />
-    </task>
-    <task id="LOCAL-00124" summary="minor refactorings">
-      <created>1640012763981</created>
-      <option name="number" value="00124" />
-      <option name="presentableId" value="LOCAL-00124" />
-      <option name="project" value="LOCAL" />
-      <updated>1640012763981</updated>
-    </task>
-    <task id="LOCAL-00125" summary="minor refactorings">
-      <created>1640013003591</created>
-      <option name="number" value="00125" />
-      <option name="presentableId" value="LOCAL-00125" />
-      <option name="project" value="LOCAL" />
-      <updated>1640013003591</updated>
+      <workItem from="1640457648828" duration="1571000" />
+      <workItem from="1640459469854" duration="664000" />
+      <workItem from="1640460160078" duration="249000" />
+      <workItem from="1640460425282" duration="4745000" />
+      <workItem from="1640465274821" duration="1640000" />
+      <workItem from="1640466996274" duration="103000" />
+      <workItem from="1640467243542" duration="295000" />
+      <workItem from="1640468348822" duration="1126000" />
     </task>
     <task id="LOCAL-00126" summary="multithreaded presponsev + json debug">
       <created>1640019982373</created>
@@ -807,7 +763,21 @@
       <option name="project" value="LOCAL" />
       <updated>1640456235058</updated>
     </task>
-    <option name="localTasksCounter" value="173" />
+    <task id="LOCAL-00173" summary="with lhs rhs pople caching">
+      <created>1640459190459</created>
+      <option name="number" value="00173" />
+      <option name="presentableId" value="LOCAL-00173" />
+      <option name="project" value="LOCAL" />
+      <updated>1640459190459</updated>
+    </task>
+    <task id="LOCAL-00174" summary="without caching - should be faster when mt'ed">
+      <created>1640459229525</created>
+      <option name="number" value="00174" />
+      <option name="presentableId" value="LOCAL-00174" />
+      <option name="project" value="LOCAL" />
+      <updated>1640459229525</updated>
+    </task>
+    <option name="localTasksCounter" value="175" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -861,8 +831,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="fastexp tighter interp" />
-    <MESSAGE value="general interp" />
     <MESSAGE value="exp7 instead" />
     <MESSAGE value="io changes + legit runs" />
     <MESSAGE value="solutionu fix" />
@@ -886,7 +854,9 @@
     <MESSAGE value="improve upon thiel crv more" />
     <MESSAGE value="extract out cocc mult xmat mult ctvirt" />
     <MESSAGE value="minor changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="minor changes" />
+    <MESSAGE value="with lhs rhs pople caching" />
+    <MESSAGE value="without caching - should be faster when mt'ed" />
+    <option name="LAST_COMMIT_MESSAGE" value="without caching - should be faster when mt'ed" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
