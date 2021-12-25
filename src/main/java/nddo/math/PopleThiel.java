@@ -254,7 +254,7 @@ public class PopleThiel {
 					double[] arrrhs = new double[p.size()];
 
 					for (int i = 0; i < arrrhs.length; i++) {
-						arrrhs[i] = 2 * rarray[a].transpose().mult(d.get(i)).get(0, 0);
+						arrrhs[i] = 2 * rarray[a].dot(d.get(i));
 
 					}
 					rhsvec.setColumn(a, 0, arrrhs);
@@ -263,8 +263,7 @@ public class PopleThiel {
 
 			for (int i = 0; i < solver.numRows(); i++) {
 				for (int j = i; j < solver.numRows(); j++) {
-					double val2 = p.get(j).transpose().mult(d.get(i)).get(0, 0) +
-							p.get(i).transpose().mult(d.get(j)).get(0, 0);
+					double val2 = p.get(j).dot(d.get(i)) + p.get(i).dot(d.get(j));
 
 					solver.set(i, j, val2);
 					solver.set(j, i, val2);
@@ -298,7 +297,7 @@ public class PopleThiel {
 					double[] arrrhs = new double[solver.numRows()];
 
 					for (int i = 0; i < arrrhs.length; i++) {
-						arrrhs[i] = -rarray[a].transpose().mult(p.get(i)).get(0, 0);
+						arrrhs[i] = -rarray[a].dot(p.get(i));
 
 					}
 					rhsvec.setColumn(a, 0, arrrhs);
@@ -307,7 +306,7 @@ public class PopleThiel {
 
 			for (int i = 0; i < solver.numRows(); i++) {
 				for (int j = 0; j < solver.numRows(); j++) {
-					solver.set(i, j, d.get(j).transpose().mult(p.get(i)).get(0, 0));
+					solver.set(i, j, d.get(j).dot(p.get(i)));
 				}
 			}
 
