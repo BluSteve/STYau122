@@ -469,45 +469,8 @@ public class PopleThiel {
 			}
 		}
 
-//		SimpleMatrix R = new SimpleMatrix(NOcc * NVirt, 1);
-//
-//		int count1 = 0;
-//
-//		for (int i = 0; i < NOcc; i++) {
-//			for (int j = 0; j < NVirt; j++) {
-//
-//				double element = 0;
-//
-//				for (int u = 0; u < soln.nOrbitals; u++) {
-//					for (int v = 0; v < soln.nOrbitals; v++) {
-//						element += soln.Ct.get(i, u) * soln.Ct.get(j + NOcc, v) *
-//								responsematrix.get(u, v);
-//					}
-//				}
-//
-//
-//				R.set(count1, 0, element);
-//
-//				count1++;
-//			}
-//		}
-//
-//		System.out.println(R);
-		SimpleMatrix R = soln.CtOcc.mult(responsematrix).mult(soln.CVirt);
-		int nonv = NOcc * NVirt;
-		R.reshape(nonv, 1);
-
-		SimpleMatrix p = new SimpleMatrix(nonv, 1);
-
-		int counter = 0;
-
-		for (int i = 0; i < NOcc; i++) {
-			for (int j = 0; j < NVirt; j++) {
-				p.set(counter, 0, -R.get(counter, 0) + (soln.E.get(j + NOcc) - soln.E.get(i)) * x.get(counter));
-				counter++;
-			}
-		}
-
+		SimpleMatrix p = soln.Emat.elementMult(xmat).minusi(soln.CtOcc.mult(responsematrix).mult(soln.CVirt));
+		p.reshape(NOcc * NVirt, 1);
 
 		return p;
 	}
