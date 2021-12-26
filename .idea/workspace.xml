@@ -6,10 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="without caching - should be faster when mt'ed">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Testing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,11 +132,11 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/molecules.txt" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/mndo-install.sh" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/testing/Testing.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/molecules.txt" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/mndo-install.sh" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -213,7 +212,7 @@
       <recent name="tools" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Testing">
+  <component name="RunManager" selected="Gradle.MNDOParam [jmh]">
     <configuration name="Main" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="frontend.Main" />
       <module name="MNDOParam.main" />
@@ -437,6 +436,9 @@
       <workItem from="1640505891253" duration="706000" />
       <workItem from="1640510406168" duration="285000" />
       <workItem from="1640511115140" duration="341000" />
+      <workItem from="1640512122904" duration="123000" />
+      <workItem from="1640512263163" duration="9000" />
+      <workItem from="1640514401916" duration="120000" />
     </task>
     <task id="LOCAL-00126" summary="multithreaded presponsev + json debug">
       <created>1640019982373</created>
