@@ -11,7 +11,6 @@ import runcycle.structs.RunInput;
 import runcycle.structs.RunnableMolecule;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -27,7 +26,7 @@ public class Benchmarks {
 	@BenchmarkMode(Mode.SampleTime)
 	@OutputTimeUnit(TimeUnit.MILLISECONDS)
 	public static void thiel(State state) {
-		PopleThiel.thiel(state.s, Arrays.copyOfRange(state.fockderivstatic, 0, state.endi));
+		PopleThiel.thiel(state.s, state.fockderivstatic);
 	}
 
 	@Benchmark
@@ -37,14 +36,11 @@ public class Benchmarks {
 	@BenchmarkMode(Mode.SampleTime)
 	@OutputTimeUnit(TimeUnit.MILLISECONDS)
 	public static void pople(State state) {
-		PopleThiel.pople(state.s, Arrays.copyOfRange(state.fockderivstatic, 0, state.endi));
+		PopleThiel.pople(state.s, state.fockderivstatic);
 	}
 
 	@org.openjdk.jmh.annotations.State(Scope.Benchmark)
 	public static class State {
-		@Param ({"5", "15", "25", "35", "40", "45", "55", "65", "75", "85", "95"})
-		public int endi;
-
 		public SolutionR s;
 		public SimpleMatrix[] fockderivstatic;
 		public SimpleMatrix x;

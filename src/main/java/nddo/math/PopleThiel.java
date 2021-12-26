@@ -76,6 +76,7 @@ public class PopleThiel {
 		List<SimpleMatrix[]> prevs = new ArrayList<>();
 		List<Double> dots = new ArrayList<>();
 
+		SimpleMatrix responseMatrix = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 		SimpleMatrix alpha = null;
 		int prevSize = 0;
 
@@ -92,7 +93,7 @@ public class PopleThiel {
 				// parray[i] stays the same object throughout
 				SimpleMatrix b = barray[i].copy();
 				multRows(Dinvarr, b.getDDRM());
-				SimpleMatrix p = computeResponseVectorsPople(soln, b); // P = D * B
+				SimpleMatrix p = computeResponseVectorsPople(soln, b, responseMatrix); // P = D * B
 				multRows(Darr, p.getDDRM());
 				parray[i] = p;
 
@@ -191,7 +192,7 @@ public class PopleThiel {
 		return xarray;
 	}
 
-	public static SimpleMatrix computeResponseVectorsPople(SolutionR soln, SimpleMatrix x) {
+	public static SimpleMatrix computeResponseVectorsPople(SolutionR soln, SimpleMatrix x, SimpleMatrix responseMatrix) {
 		// x is B tilde, i.e. a guess
 		// p = d * b. this evaluates d * b without finding out what d is, as the latter is slow.
 		int NOcc = soln.rm.nOccAlpha;
@@ -202,8 +203,6 @@ public class PopleThiel {
 
 		SimpleMatrix mult = soln.COcc.mult(xmat).mult(soln.CtVirt);
 		SimpleMatrix densityMatrixDeriv = mult.plusi(mult.transpose()).scalei(-2);
-
-		SimpleMatrix responsematrix = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 
 		double[] integralArray = soln.integralArray;
 
@@ -249,12 +248,12 @@ public class PopleThiel {
 					}
 				}
 
-				responsematrix.set(j, k, val);
-				responsematrix.set(k, j, val);
+				responseMatrix.set(j, k, val);
+				responseMatrix.set(k, j, val);
 			}
 		}
 
-		SimpleMatrix Roccvirt = soln.CtOcc.mult(responsematrix).mult(soln.CVirt);
+		SimpleMatrix Roccvirt = soln.CtOcc.mult(responseMatrix).mult(soln.CVirt);
 
 		SimpleMatrix Rvec = Roccvirt.elementDivi(soln.Emat);
 		Rvec.reshape(NOcc * NVirt, 1);
@@ -306,6 +305,7 @@ public class PopleThiel {
 			dirs[a] = f;
 		}
 
+		SimpleMatrix responseMatrix = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 		ArrayList<SimpleMatrix> d = new ArrayList<>();
 		ArrayList<SimpleMatrix> p = new ArrayList<>();
 
@@ -317,7 +317,7 @@ public class PopleThiel {
 				if (rarray[i] != null) {
 					d.add(dirs[i]);
 
-					SimpleMatrix sm = computeResponseVectorsThiel(soln, dirs[i]);
+					SimpleMatrix sm = computeResponseVectorsThiel(soln, dirs[i], responseMatrix);
 					multRows(Darr, sm.getDDRM());
 					p.add(sm);
 				}
@@ -408,7 +408,7 @@ public class PopleThiel {
 		return xarray;
 	}
 
-	public static SimpleMatrix computeResponseVectorsThiel(SolutionR soln, SimpleMatrix x) {
+	public static SimpleMatrix computeResponseVectorsThiel(SolutionR soln, SimpleMatrix x, SimpleMatrix responseMatrix) {
 		int NOcc = soln.rm.nOccAlpha;
 		int NVirt = soln.rm.nVirtAlpha;
 
@@ -417,8 +417,6 @@ public class PopleThiel {
 
 		SimpleMatrix mult = soln.COcc.mult(xmat).mult(soln.CtVirt);
 		SimpleMatrix densityMatrixDeriv = mult.plusi(mult.transpose()).scalei(-2);
-
-		SimpleMatrix responsematrix = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 
 		double[] integralArray = soln.integralArray;
 
@@ -464,12 +462,12 @@ public class PopleThiel {
 					}
 				}
 
-				responsematrix.set(j, k, val);
-				responsematrix.set(k, j, val);
+				responseMatrix.set(j, k, val);
+				responseMatrix.set(k, j, val);
 			}
 		}
 
-		SimpleMatrix p = soln.Emat.elementMult(xmat).minusi(soln.CtOcc.mult(responsematrix).mult(soln.CVirt));
+		SimpleMatrix p = soln.Emat.elementMult(xmat).minusi(soln.CtOcc.mult(responseMatrix).mult(soln.CVirt));
 		p.reshape(NOcc * NVirt, 1);
 
 		return p;

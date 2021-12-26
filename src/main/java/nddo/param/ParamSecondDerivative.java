@@ -1561,6 +1561,7 @@ public class ParamSecondDerivative {
 
 		double[] oldrMags = new double[rArray.length];
 		Arrays.fill(oldrMags, 10);
+		SimpleMatrix responseMatrix = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 
 		bigLoop:
 		while (Utils.numIterable(iterable) > 0) {
@@ -1576,7 +1577,7 @@ public class ParamSecondDerivative {
 			for (int i = 0; i < barray.length; i++) {
 				b.add(barray[i].copy());
 				parray[i] = D.mult(
-						PopleThiel.computeResponseVectorsPople(soln, Dinv.mult(barray[i].copy())));
+						PopleThiel.computeResponseVectorsPople(soln, Dinv.mult(barray[i].copy()), responseMatrix));
 				p.add(parray[i].copy());
 			}
 

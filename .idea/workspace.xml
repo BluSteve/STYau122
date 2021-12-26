@@ -5,11 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="without caching - should be faster when mt'ed">
-      <change afterPath="$PROJECT_DIR$/src/jmh/java/core/Testing.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Batcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Batcher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Testing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -177,7 +177,7 @@
     <property name="project.structure.proportion" value="0.26182964" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="profiler.jvm" />
   </component>
   <component name="ReaderModeSettings">
     <option name="enabled" value="false" />
@@ -213,7 +213,7 @@
       <recent name="tools" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.MNDOParam [jmh]">
+  <component name="RunManager" selected="Application.Testing">
     <configuration name="Main" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="frontend.Main" />
       <module name="MNDOParam.main" />
@@ -433,6 +433,10 @@
       <workItem from="1640466996274" duration="103000" />
       <workItem from="1640467243542" duration="295000" />
       <workItem from="1640468348822" duration="1126000" />
+      <workItem from="1640469983157" duration="25000" />
+      <workItem from="1640505891253" duration="706000" />
+      <workItem from="1640510406168" duration="285000" />
+      <workItem from="1640511115140" duration="341000" />
     </task>
     <task id="LOCAL-00126" summary="multithreaded presponsev + json debug">
       <created>1640019982373</created>

@@ -7,6 +7,6 @@ public class Testing {
 		Benchmarks.State state = new Benchmarks.State();
 		state.setup();
 
-//		Benchmarks.pople(state);
+		Benchmarks.pople(state);
 	}
 }
