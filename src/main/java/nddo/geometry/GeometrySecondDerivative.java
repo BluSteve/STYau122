@@ -1,4 +1,3 @@
-
 package nddo.geometry;
 
 import nddo.NDDOAtom;
@@ -7,7 +6,6 @@ import nddo.math.PopleThiel;
 import nddo.solution.SolutionR;
 import nddo.solution.SolutionU;
 import org.apache.commons.lang3.time.StopWatch;
-import org.ejml.data.SingularMatrixException;
 import org.ejml.simple.SimpleMatrix;
 import tools.Batcher;
 import tools.Pow;
@@ -1070,37 +1068,25 @@ public class GeometrySecondDerivative {
 		return R;
 	}
 
-	private static double Ederiv2(int atomnum1, int atomnum2, int[][] index,
-								  SimpleMatrix densityMatrix, NDDOAtom[] atoms,
-								  NDDOOrbital[] orbitals, int tau1, int tau2) {
-
+	private static double Ederiv2(int atomnum1, int atomnum2, int[][] index, SimpleMatrix densityMatrix,
+								  NDDOAtom[] atoms, NDDOOrbital[] orbitals, int tau1, int tau2) {
 		double e = 0;
 
 		for (int i : index[atomnum1]) {
 			for (int j : index[atomnum1]) {
-				if (i != -1 && j != -1) {
-					e += densityMatrix.get(i, j) * atoms[atomnum2]
-							.Vg2d(orbitals[i], orbitals[j], tau1, tau2);
-				}
+				e += densityMatrix.get(i, j) * atoms[atomnum2].Vg2d(orbitals[i], orbitals[j], tau1, tau2);
 			}
 		}
 
 		for (int k : index[atomnum2]) {
 			for (int l : index[atomnum2]) {
-				if (k != -1 && l != -1) {
-					e += densityMatrix.get(k, l) * atoms[atomnum1]
-							.Vg2d(orbitals[k], orbitals[l], tau1, tau2);
-				}
+				e += densityMatrix.get(k, l) * atoms[atomnum1].Vg2d(orbitals[k], orbitals[l], tau1, tau2);
 			}
 		}
 
 		for (int i : index[atomnum1]) {
 			for (int k : index[atomnum2]) {
-				if (i != -1 && k != -1) {
-					e += 2 * densityMatrix.get(i, k) *
-							nom.Hg2d(orbitals[i], orbitals[k], tau1,
-									tau2);
-				}
+				e += 2 * densityMatrix.get(i, k) * nom.Hg2d(orbitals[i], orbitals[k], tau1, tau2);
 			}
 		}
 
@@ -1108,62 +1094,40 @@ public class GeometrySecondDerivative {
 			for (int j : index[atomnum1]) {
 				for (int k : index[atomnum2]) {
 					for (int l : index[atomnum2]) {
-						if (i != -1 && j != -1 && k != -1 && l != -1) {
-							e += (densityMatrix.get(i, j) *
-									densityMatrix.get(k, l) -
-									densityMatrix.get(i, k) * 0.5 *
-											densityMatrix.get(j, l))
-									* nom
-									.Gg2d(orbitals[i], orbitals[j],
-											orbitals[k], orbitals[l], tau1,
-											tau2);
-						}
+						e += (densityMatrix.get(i, j) * densityMatrix.get(k, l) -
+								densityMatrix.get(i, k) * 0.5 * densityMatrix.get(j, l)) *
+								nom.Gg2d(orbitals[i], orbitals[j], orbitals[k], orbitals[l], tau1, tau2);
 					}
 				}
 			}
 		}
 
 		return e;
-
-
 	}
 
-	private static double Ederiv2(int atomnum1, int atomnum2, int[][] index,
-								  SimpleMatrix alphaDensity,
-								  SimpleMatrix betaDensity, NDDOAtom[] atoms,
-								  NDDOOrbital[] orbitals, int tau1, int tau2) {
-
+	private static double Ederiv2(int atomnum1, int atomnum2, int[][] index, SimpleMatrix alphaDensity,
+								  SimpleMatrix betaDensity, NDDOAtom[] atoms, NDDOOrbital[] orbitals, int tau1,
+								  int tau2) {
 		double e = 0;
 
 		for (int i : index[atomnum1]) {
 			for (int j : index[atomnum1]) {
-				if (i != -1 && j != -1) {
-					e += (alphaDensity.get(i, j) + betaDensity.get(i, j)) *
-							atoms[atomnum2]
-									.Vg2d(orbitals[i], orbitals[j], tau1,
-											tau2);
-				}
+				e += (alphaDensity.get(i, j) + betaDensity.get(i, j)) *
+						atoms[atomnum2].Vg2d(orbitals[i], orbitals[j], tau1, tau2);
 			}
 		}
 
 		for (int k : index[atomnum2]) {
 			for (int l : index[atomnum2]) {
-				if (k != -1 && l != -1) {
-					e += (alphaDensity.get(k, l) + betaDensity.get(k, l)) *
-							atoms[atomnum1]
-									.Vg2d(orbitals[k], orbitals[l], tau1,
-											tau2);
-				}
+				e += (alphaDensity.get(k, l) + betaDensity.get(k, l)) *
+						atoms[atomnum1].Vg2d(orbitals[k], orbitals[l], tau1, tau2);
 			}
 		}
 
 		for (int i : index[atomnum1]) {
 			for (int k : index[atomnum2]) {
-				if (i != -1 && k != -1) {
-					e += 2 * (alphaDensity.get(i, k) + betaDensity.get(i, k)) *
-							nom.Hg2d(orbitals[i], orbitals[k], tau1,
-									tau2);
-				}
+				e += 2 * (alphaDensity.get(i, k) + betaDensity.get(i, k)) *
+						nom.Hg2d(orbitals[i], orbitals[k], tau1, tau2);
 			}
 		}
 
@@ -1171,82 +1135,21 @@ public class GeometrySecondDerivative {
 			for (int j : index[atomnum1]) {
 				for (int k : index[atomnum2]) {
 					for (int l : index[atomnum2]) {
-						if (i != -1 && j != -1 && k != -1 && l != -1) {
-							e += ((alphaDensity.get(i, j) +
-									betaDensity.get(i, j)) *
-									(alphaDensity.get(k, l) +
-											betaDensity.get(k, l)) -
-									alphaDensity.get(i, k) *
-											alphaDensity.get(j, l) -
-									betaDensity.get(i, k) *
-											betaDensity.get(j, l))
-									* nom
-									.Gg2d(orbitals[i], orbitals[j],
-											orbitals[k], orbitals[l], tau1,
-											tau2);
-						}
+						e += ((alphaDensity.get(i, j) + betaDensity.get(i, j)) *
+								(alphaDensity.get(k, l) + betaDensity.get(k, l)) -
+								alphaDensity.get(i, k) * alphaDensity.get(j, l) -
+								betaDensity.get(i, k) * betaDensity.get(j, l)) *
+								nom.Gg2d(orbitals[i], orbitals[j], orbitals[k], orbitals[l], tau1, tau2);
 					}
 				}
 			}
 		}
 
 		return e;
-
-
-	}
-
-	@Deprecated
-	public static double hessianfinite(NDDOAtom[] atoms, SolutionR soln,
-									   int atomnum1, int tau1, int atomnum2,
-									   int tau2) {
-
-		double initval =
-				GeometryDerivative.gradient(atoms, soln, atomnum1, tau1);
-
-		NDDOAtom[] newatoms = Utils.perturbAtomCoords(atoms, atomnum2, tau2);
-
-		SolutionR newsoln = (SolutionR) soln.withNewAtoms(newatoms);
-
-		double finalval =
-				GeometryDerivative.gradient(newatoms, newsoln, atomnum1, tau1);
-
-		return 1E7 * (finalval - initval);
-
-
-	}
-
-	@Deprecated
-	public static double hessianfinite(NDDOAtom[] atoms, SolutionU soln,
-									   int atomnum1, int tau1, int atomnum2,
-									   int tau2) {
-
-		double initval = GeometryDerivative
-				.gradientUnrestricted(atoms, soln, atomnum1, tau1);
-
-		NDDOAtom[] newatoms = Utils.perturbAtomCoords(atoms, atomnum2, tau2);
-
-		SolutionU newsoln = (SolutionU) soln.withNewAtoms(newatoms);
-
-		double finalval = GeometryDerivative
-				.gradientUnrestricted(newatoms, newsoln, atomnum1, tau1);
-
-		return 1E7 * (finalval - initval);
-
-
 	}
 
 	public static SimpleMatrix hessianRoutine(SolutionR soln, SimpleMatrix[] fockDerivStatic) {
-		SimpleMatrix[] densityDerivs = Batcher.apply(fockDerivStatic, subset -> {
-			SimpleMatrix[] output;
-
-			try {
-				output = densityDerivPople(soln, subset);
-			} catch (SingularMatrixException e) {
-				output = densityDerivThiel(soln, subset);
-			}
-
-			return output;
-		});
+		SimpleMatrix[] densityDerivs = Batcher.apply(fockDerivStatic, subset -> densityDeriv(soln, subset));
 
 		SimpleMatrix hessian = new SimpleMatrix(densityDerivs.length, densityDerivs.length);
 
@@ -1364,218 +1267,7 @@ public class GeometrySecondDerivative {
 		return hessian;
 	}
 
-	public static SimpleMatrix[] densityDerivThiel(SolutionR soln,
-												   SimpleMatrix[] fockderivstatic) {
-		int NOcc = (int) (soln.nElectrons / 2.0);
-
-		int NVirt = soln.orbitals.length - NOcc;
-
-		SimpleMatrix[] xarray = new SimpleMatrix[fockderivstatic.length];
-		SimpleMatrix[] rarray = new SimpleMatrix[fockderivstatic.length];
-		SimpleMatrix[] dirs = new SimpleMatrix[fockderivstatic.length];
-
-		double[] arrpreconditioner = new double[NOcc * NVirt];
-
-		int counter = 0;
-
-		for (int i = 0; i < NOcc; i++) {
-			for (int j = 0; j < NVirt; j++) {
-				double e = -soln.E.get(i) - soln.E.get(NOcc + j);
-
-				arrpreconditioner[counter] = Pow.pow(e, -0.5);
-
-				counter++;
-			}
-		}
-
-		SimpleMatrix D = SimpleMatrix.diag(arrpreconditioner);
-
-		for (int a = 0; a < xarray.length; a++) {
-			SimpleMatrix F = new SimpleMatrix(NOcc * NVirt, 1);
-
-			int count1 = 0;
-
-			for (int i = 0; i < NOcc; i++) {
-				for (int j = 0; j < NVirt; j++) {
-
-					double element = 0;
-
-					for (int u = 0; u < soln.orbitals.length; u++) {
-						for (int v = 0; v < soln.orbitals.length; v++) {
-							element += soln.Ct.get(i, u) * soln.Ct.get(j + NOcc,
-									v) * fockderivstatic[a].get(u, v);
-						}
-					}
-					F.set(count1, 0, element);
-
-					count1++;
-				}
-			}
-
-			F = D.mult(F);
-
-			xarray[a] = new SimpleMatrix(NOcc * NVirt, 1);
-			rarray[a] = F;
-			dirs[a] = F;
-		}
-
-
-		if (dirs[0].numRows() == 0) {
-			SimpleMatrix[] densityderivs =
-					new SimpleMatrix[fockderivstatic.length];
-
-			for (int i = 0; i < densityderivs.length; i++) {
-				densityderivs[i] = new SimpleMatrix(0, 0);
-			}
-
-			return densityderivs;
-		}
-
-
-		while (Utils.numNotNull(rarray) > 0) {
-			ArrayList<SimpleMatrix> d = new ArrayList<>();
-
-			ArrayList<SimpleMatrix> p = new ArrayList<>();
-
-			for (int i = 0; i < rarray.length; i++) {
-				if (rarray[i] != null) {
-					d.add(new SimpleMatrix(dirs[i]));
-					p.add(D.mult(
-							computeResponseVectorsThiel(dirs[i], soln)));
-				}
-			}
-
-			SimpleMatrix solver =
-					new SimpleMatrix(p.size(), p.size());
-			SimpleMatrix rhsvec =
-					new SimpleMatrix(p.size(), rarray.length);
-
-			for (int a = 0; a < rhsvec.numCols(); a++) {
-				if (rarray[a] != null) {
-					double[] arrrhs = new double[p.size()];
-
-					for (int i = 0; i < arrrhs.length; i++) {
-						arrrhs[i] = 2 *
-								rarray[a].transpose().mult(d.get(i))
-										.get(0, 0);
-
-					}
-					rhsvec.setColumn(a, 0, arrrhs);
-				}
-			}
-
-			for (int i = 0; i < solver.numRows(); i++) {
-				for (int j = i; j < solver.numRows(); j++) {
-					double val2 =
-							p.get(j).transpose().mult(d.get(i))
-									.get(0, 0) + p.get(i).transpose()
-									.mult(d.get(j)).get(0, 0);
-
-					solver.set(i, j, val2);
-					solver.set(j, i, val2);
-				}
-			}
-
-			SimpleMatrix alpha;
-			try {
-				alpha = solver.solve(rhsvec);
-			} catch (SingularMatrixException e) {
-				alpha = SimpleMatrix.ones(solver.numCols(), rhsvec.numCols());
-			}
-
-			for (int a = 0; a < rhsvec.numCols(); a++) {
-				if (rarray[a] != null) {
-					for (int i = 0; i < alpha.numRows(); i++) {
-						xarray[a] = xarray[a].plus(
-								d.get(i).scale(alpha.get(i, a)));
-
-						rarray[a] = rarray[a].minus(
-								p.get(i).scale(alpha.get(i, a)));
-
-					}
-
-					if (mag(rarray[a]) < 1E-6) {//todo change this if you want
-						rarray[a] = null;
-					}
-					else {
-//						System.out.println("convergence test: " + mag
-//								(rarray[a]));
-					}
-				}
-			}
-
-			solver = new SimpleMatrix(solver.numRows(),
-					solver.numRows());
-
-			for (int a = 0; a < rhsvec.numCols(); a++) {
-				if (rarray[a] != null) {
-					double[] arrrhs = new double[solver.numRows()];
-
-					for (int i = 0; i < arrrhs.length; i++) {
-						arrrhs[i] = -rarray[a].transpose()
-								.mult(p.get(i)).get(0, 0);
-
-					}
-					rhsvec.setColumn(a, 0, arrrhs);
-				}
-			}
-
-			for (int i = 0; i < solver.numRows(); i++) {
-				for (int j = 0; j < solver.numRows(); j++) {
-					solver.set(i, j,
-							d.get(j).transpose().mult(p.get(i))
-									.get(0, 0));
-				}
-			}
-
-			SimpleMatrix beta = solver.solve(rhsvec);
-
-			for (int a = 0; a < rhsvec.numCols(); a++) {
-				if (rarray[a] != null) {
-					dirs[a] = rarray[a];
-
-					for (int i = 0; i < beta.numRows(); i++) {
-						dirs[a] = dirs[a].plus(
-								d.get(i).scale(beta.get(i, a)));
-					}
-				}
-			}
-		}
-
-		SimpleMatrix[] densityMatrixDerivs =
-				new SimpleMatrix[fockderivstatic.length];
-
-		for (int a = 0; a < fockderivstatic.length; a++) {
-			SimpleMatrix densityMatrixDeriv = new SimpleMatrix
-					(soln.orbitals.length, soln.orbitals.length);
-
-			for (int u = 0; u < densityMatrixDeriv.numRows(); u++) {
-				for (int v = u; v < densityMatrixDeriv.numCols(); v++) {
-					double sum = 0;
-					int count = 0;
-					for (int i = 0; i < NOcc; i++) {
-						for (int j = 0; j < NVirt; j++) {
-							sum -= 2 * (soln.Ct.get(i, u) *
-									soln.Ct.get(j + NOcc, v) +
-									soln.Ct.get(j + NOcc, u) *
-											soln.Ct.get(i, v)) *
-									xarray[a].get(count, 0);
-							count++;
-						}
-					}
-
-					densityMatrixDeriv.set(u, v, sum);
-					densityMatrixDeriv.set(v, u, sum);
-				}
-			}
-
-			densityMatrixDerivs[a] = densityMatrixDeriv;
-		}
-
-		return densityMatrixDerivs;
-	}
-
-	public static SimpleMatrix[] densityDerivPople(SolutionR soln, SimpleMatrix[] fockderivstatic) {
+	public static SimpleMatrix[] densityDeriv(SolutionR soln, SimpleMatrix[] fockderivstatic) {
 		int NOcc = soln.rm.nOccAlpha;
 		int NVirt = soln.rm.nVirtAlpha;
 
@@ -1594,155 +1286,5 @@ public class GeometrySecondDerivative {
 		}
 
 		return densityMatrixDerivs;
-	}
-
-
-	public static SimpleMatrix computeResponseVectorsThiel(SimpleMatrix x, SolutionR soln) {
-
-		int NOcc = (int) (soln.nElectrons / 2.0);
-
-		int NVirt = soln.orbitals.length - NOcc;
-
-		SimpleMatrix densityMatrixDeriv =
-				new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
-
-		for (int u = 0; u < densityMatrixDeriv.numRows(); u++) {
-			for (int v = u; v < densityMatrixDeriv.numCols(); v++) {
-				double sum = 0;
-				int count = 0;
-				for (int i = 0; i < NOcc; i++) {
-					for (int j = 0; j < NVirt; j++) {
-						sum -= 2 * (soln.Ct.get(i, u) * soln.Ct.get(j + NOcc,
-								v) +
-								soln.Ct.get(j + NOcc, u) * soln.Ct.get(i, v)) *
-								x.get(count, 0);
-						count++;
-					}
-				}
-
-				densityMatrixDeriv.set(u, v, sum);
-				densityMatrixDeriv.set(v, u, sum);
-			}
-		}
-
-
-		SimpleMatrix responsematrix =
-				new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
-
-		double[] integralArray = soln.integralArray;
-
-		int integralcount = 0;
-
-		for (int j = 0; j < soln.orbitals.length; j++) {
-			for (int k = j; k < soln.orbitals.length; k++) {
-				double val = 0;
-				if (j == k) {
-
-					for (int l : soln.orbsOfAtom[soln.atomOfOrb[j]]) {
-						if (l > -1) {
-							val += densityMatrixDeriv.get(l, l) *
-									integralArray[integralcount];
-							integralcount++;
-						}
-					}
-
-					for (int l : soln.missingOfAtom[soln.atomOfOrb[j]]) {
-						if (l > -1) {
-							for (int m :
-									soln.missingOfAtom[soln.atomOfOrb[j]]) {
-								if (m > -1) {
-									if (soln.atomOfOrb[l] ==
-											soln.atomOfOrb[m]) {
-										val += densityMatrixDeriv.get(l, m) *
-												integralArray[integralcount];
-										integralcount++;
-									}
-								}
-
-							}
-						}
-					}
-				}
-				else if (soln.atomOfOrb[j] == soln.atomOfOrb[k]) {
-					val += densityMatrixDeriv.get(j, k) *
-							integralArray[integralcount];
-					integralcount++;
-
-					for (int l : soln.missingOfAtom[soln.atomOfOrb[j]]) {
-						if (l > -1) {
-							for (int m :
-									soln.missingOfAtom[soln.atomOfOrb[j]]) {
-								if (m > -1) {
-									if (soln.atomOfOrb[l] ==
-											soln.atomOfOrb[m]) {
-										val += densityMatrixDeriv.get(l, m) *
-												integralArray[integralcount];
-										integralcount++;
-									}
-								}
-
-							}
-						}
-					}
-				}
-				else {
-					for (int l : soln.orbsOfAtom[soln.atomOfOrb[j]]) {
-						if (l > -1) {
-							for (int m :
-									soln.orbsOfAtom[soln.atomOfOrb[k]]) {
-								if (m > -1) {
-									val += densityMatrixDeriv.get(l, m) *
-											integralArray[integralcount];
-									integralcount++;
-								}
-							}
-						}
-					}
-				}
-
-				responsematrix.set(j, k, val);
-				responsematrix.set(k, j, val);
-			}
-		}
-
-		SimpleMatrix R = new SimpleMatrix(NOcc * NVirt, 1);
-
-		int count1 = 0;
-
-		for (int i = 0; i < NOcc; i++) {
-			for (int j = 0; j < NVirt; j++) {
-
-				double element = 0;
-
-				for (int u = 0; u < soln.orbitals.length; u++) {
-					for (int v = 0; v < soln.orbitals.length; v++) {
-						element += soln.Ct.get(i, u) * soln.Ct.get(j + NOcc, v) *
-								responsematrix.get(u, v);
-					}
-				}
-
-
-				R.set(count1, 0, element);
-
-				count1++;
-			}
-		}
-
-
-		SimpleMatrix p = new SimpleMatrix(NOcc * NVirt, 1);
-
-		int counter = 0;
-
-		for (int i = 0; i < NOcc; i++) {
-			for (int j = 0; j < NVirt; j++) {
-				p.set(counter, 0, -R.get(counter, 0) +
-						(soln.E.get(j + NOcc) - soln.E.get(i)) *
-								x.get(counter));
-				counter++;
-			}
-		}
-
-
-		return p;
 	}
 }

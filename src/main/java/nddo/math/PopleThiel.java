@@ -13,7 +13,7 @@ import java.util.List;
 import static org.ejml.dense.row.CommonOps_DDRM.multRows;
 import static tools.Utils.mag;
 
-public class PopleThiel {
+public class PopleThiel { // stop trying to make this faster!!!!!
 	public static SimpleMatrix[] pople(SolutionR soln, SimpleMatrix[] fockderivstatic) {
 		// Pople alg will solve any equation of the form (1-D)x=B
 		int NOcc = soln.rm.nOccAlpha;
@@ -76,6 +76,7 @@ public class PopleThiel {
 		List<SimpleMatrix[]> prevs = new ArrayList<>();
 		List<Double> dots = new ArrayList<>();
 
+		// responseMatrix remains the same size so pre-initialized
 		SimpleMatrix responseMatrix = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 		SimpleMatrix alpha = null;
 		int prevSize = 0;
@@ -161,7 +162,7 @@ public class PopleThiel {
 					}
 
 					soln.getRm().getLogger().warn("Pople algorithm fails; reverting to Thiel algorithm...");
-					throw new SingularMatrixException();
+					return thiel(soln, fockderivstatic);
 				}
 
 				if (mag < 1E-7) {
@@ -351,7 +352,7 @@ public class PopleThiel {
 			SimpleMatrix alpha;
 			try {
 				alpha = solver.solve(rhsvec);
-			} catch (SingularMatrixException e) {
+			} catch (SingularMatrixException ignored) {
 				alpha = SimpleMatrix.ones(size, length);
 			}
 
@@ -363,7 +364,7 @@ public class PopleThiel {
 						rarray[a].plusi(-v, p.get(i));
 					}
 
-					if (mag(rarray[a]) < 1E-6) { // todo change this if you want
+					if (mag(rarray[a]) < 1E-10) {
 						rarray[a] = null;
 					}
 				}
@@ -390,7 +391,7 @@ public class PopleThiel {
 			SimpleMatrix beta;
 			try {
 				beta = solver.solve(rhsvec);
-			} catch (SingularMatrixException e) {
+			} catch (SingularMatrixException ignored) {
 				beta = SimpleMatrix.ones(size, length);
 			}
 
@@ -408,7 +409,7 @@ public class PopleThiel {
 		return xarray;
 	}
 
-	public static SimpleMatrix computeResponseVectorsThiel(SolutionR soln, SimpleMatrix x, SimpleMatrix responseMatrix) {
+	private static SimpleMatrix computeResponseVectorsThiel(SolutionR soln, SimpleMatrix x, SimpleMatrix responseMatrix) {
 		int NOcc = soln.rm.nOccAlpha;
 		int NVirt = soln.rm.nVirtAlpha;
 

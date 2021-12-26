@@ -58,7 +58,7 @@ public class Benchmarks {
 			System.out.println(fockderivstatic.length);
 			SimpleMatrix[] xarray = PopleThiel.pople(s, fockderivstatic);
 			x = xarray[0];
-//			System.out.println(xarray[0]);
+			System.out.println(xarray[0]);
 		}
 	}
 }
