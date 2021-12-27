@@ -20,7 +20,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		int NOcc = soln.rm.nOccAlpha;
 		int NVirt = soln.rm.nVirtAlpha;
 		int length = fockderivstatic.length;
-		int nonv = NOcc * NVirt;
+		int nonv = soln.rm.nonvAlpha;
 
 		if (nonv == 0) {
 			SimpleMatrix[] xarray = new SimpleMatrix[length];
@@ -268,7 +268,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		int NOcc = soln.rm.nOccAlpha;
 		int NVirt = soln.rm.nVirtAlpha;
 		int length = fockderivstatic.length;
-		int nonv = NOcc * NVirt;
+		int nonv = soln.rm.nonvAlpha;
 
 		if (nonv == 0) {
 			SimpleMatrix[] densityderivs = new SimpleMatrix[length];
@@ -484,8 +484,8 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		int NVirtAlpha = soln.rm.nVirtAlpha;
 		int NVirtBeta = soln.rm.nVirtBeta;
 		int length = fockderivstaticalpha.length;
-		int nonvAlpha = NOccAlpha * NVirtAlpha;
-		int nonvBeta = NOccBeta * NVirtBeta;
+		int nonvAlpha = soln.rm.nonvAlpha;
+		int nonvBeta = soln.rm.nonvBeta;
 		int nonv = nonvAlpha + nonvBeta;
 
 		SimpleMatrix[] xarray = new SimpleMatrix[length];
@@ -526,7 +526,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 			SimpleMatrix f = fa.concatRows(fb);
 			multRows(Darr, f.getDDRM());
 
-			xarray[a] = new SimpleMatrix(NOccAlpha * NVirtAlpha + NOccBeta * NVirtBeta, 1);
+			xarray[a] = new SimpleMatrix(nonv, 1);
 			rarray[a] = f;
 			dirs[a] = f;
 		}
@@ -534,6 +534,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		SimpleMatrix Jderiv = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 		SimpleMatrix Kaderiv = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 		SimpleMatrix Kbderiv = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
+
 		ArrayList<SimpleMatrix> d = new ArrayList<>();
 		ArrayList<SimpleMatrix> p = new ArrayList<>();
 
@@ -635,17 +636,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		return xarray;
 	}
 
-	private static int numIterable(boolean[] iterable) {
-		int count = 0;
-
-		for (boolean value : iterable) {
-			if (!value) count++;
-		}
-
-		return count;
-	}
-
-	public static SimpleMatrix computeResponseVectorsThiel(SolutionU soln, SimpleMatrix x,
+	private static SimpleMatrix computeResponseVectorsThiel(SolutionU soln, SimpleMatrix x,
 														   SimpleMatrix Jderiv, SimpleMatrix Kaderiv,
 														   SimpleMatrix Kbderiv) {
 		int NOccAlpha = soln.rm.nOccAlpha;
@@ -752,5 +743,15 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		pb.reshape(soln.rm.nonvBeta, 1);
 
 		return pa.concatRows(pb);
+	}
+
+	private static int numIterable(boolean[] iterable) {
+		int count = 0;
+
+		for (boolean value : iterable) {
+			if (!value) count++;
+		}
+
+		return count;
 	}
 }
