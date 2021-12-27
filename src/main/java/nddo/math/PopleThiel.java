@@ -478,7 +478,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 	}
 
 	public static SimpleMatrix[] thiel(SolutionU soln, SimpleMatrix[] fockderivstaticalpha,
-										 SimpleMatrix[] fockderivstaticbeta) {
+									   SimpleMatrix[] fockderivstaticbeta) {
 		int NOccAlpha = soln.rm.nOccAlpha;
 		int NOccBeta = soln.rm.nOccBeta;
 		int NVirtAlpha = soln.rm.nVirtAlpha;
@@ -656,7 +656,6 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		SimpleMatrix mult = soln.CaOcc.mult(xmat).mult(soln.CtaVirt);
 		SimpleMatrix densityderivalpha = mult.plusi(mult.transpose()).negativei();
 
-
 		xmat = x.extractMatrix(soln.rm.nonvAlpha, x.numRows(), 0, 1);
 		xmat.reshape(NOccBeta, NVirtBeta);
 
@@ -664,114 +663,79 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		SimpleMatrix densityderivbeta = mult.plusi(mult.transpose()).negativei();
 
 
-		SimpleMatrix Jderiv = new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
-
-		SimpleMatrix Kaderiv = new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
-
-		SimpleMatrix Kbderiv = new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
-
+		SimpleMatrix Jderiv = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
+		SimpleMatrix Kaderiv = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
+		SimpleMatrix Kbderiv = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 
 		int Jcount = 0;
 		int Kcount = 0;
 
 		//construct J matrix
 
-		for (int j = 0; j < soln.orbitals.length; j++) {
-			for (int k = j; k < soln.orbitals.length; k++) {
+		for (int j = 0; j < soln.nOrbitals; j++) {
+			for (int k = j; k < soln.nOrbitals; k++) {
 				double val = 0;
 				if (j == k) {
-
 					for (int l : soln.orbsOfAtom[soln.atomOfOrb[j]]) {
-						if (l > -1) {
-							val += (densityderivalpha.get(l, l) +
-									densityderivbeta.get(l, l)) *
-									soln.integralArrayCoulomb[Jcount];
-							Jcount++;
-						}
+						val += (densityderivalpha.get(l, l) + densityderivbeta.get(l, l)) *
+								soln.integralArrayCoulomb[Jcount];
+						Jcount++;
 					}
 
 					for (int l : soln.missingOfAtom[soln.atomOfOrb[j]]) {
-						if (l > -1) {
-							for (int m : soln.missingOfAtom[soln.atomOfOrb[j]]) {
-								if (m > -1) {
-									if (soln.atomOfOrb[l] == soln.atomOfOrb[m]) {
-										val += (densityderivalpha.get(l, m) +
-												densityderivbeta.get(l, m)) *
-												soln.integralArrayCoulomb[Jcount];
-										Jcount++;
-									}
-								}
-
+						for (int m : soln.missingOfAtom[soln.atomOfOrb[j]]) {
+							if (soln.atomOfOrb[l] == soln.atomOfOrb[m]) {
+								val += (densityderivalpha.get(l, m) + densityderivbeta.get(l, m)) *
+										soln.integralArrayCoulomb[Jcount];
+								Jcount++;
 							}
 						}
 					}
 				}
 				else if (soln.atomOfOrb[j] == soln.atomOfOrb[k]) {
-					val += (densityderivalpha.get(j, k) +
-							densityderivbeta.get(j, k)) *
+					val += (densityderivalpha.get(j, k) + densityderivbeta.get(j, k)) *
 							soln.integralArrayCoulomb[Jcount];
 					Jcount++;
 
 					for (int l : soln.missingOfAtom[soln.atomOfOrb[j]]) {
-						if (l > -1) {
-							for (int m : soln.missingOfAtom[soln.atomOfOrb[j]]) {
-								if (m > -1) {
-									if (soln.atomOfOrb[l] == soln.atomOfOrb[m]) {
-										val += (densityderivalpha.get(l, m) +
-												densityderivbeta.get(l, m)) *
-												soln.integralArrayCoulomb[Jcount];
-										Jcount++;
-									}
-								}
-
+						for (int m : soln.missingOfAtom[soln.atomOfOrb[j]]) {
+							if (soln.atomOfOrb[l] == soln.atomOfOrb[m]) {
+								val += (densityderivalpha.get(l, m) + densityderivbeta.get(l, m)) *
+										soln.integralArrayCoulomb[Jcount];
+								Jcount++;
 							}
 						}
 					}
 				}
-
 
 				Jderiv.set(j, k, val);
 				Jderiv.set(k, j, val);
 			}
 		}
 
-		for (int j = 0; j < soln.orbitals.length; j++) {
-			for (int k = j; k < soln.orbitals.length; k++) {
+		for (int j = 0; j < soln.nOrbitals; j++) {
+			for (int k = j; k < soln.nOrbitals; k++) {
 				double vala = 0;
 				double valb = 0;
 				if (j == k) {
-
 					for (int l : soln.orbsOfAtom[soln.atomOfOrb[j]]) {
-						if (l > -1) {
-							vala += densityderivalpha.get(l, l) *
-									soln.integralArrayExchange[Kcount];
-							valb += densityderivbeta.get(l, l) *
-									soln.integralArrayExchange[Kcount];
-							Kcount++;
-						}
+						vala += densityderivalpha.get(l, l) * soln.integralArrayExchange[Kcount];
+						valb += densityderivbeta.get(l, l) * soln.integralArrayExchange[Kcount];
+						Kcount++;
 					}
-
 				}
 				else if (soln.atomOfOrb[j] == soln.atomOfOrb[k]) {
-					vala += densityderivalpha.get(j, k) *
-							soln.integralArrayExchange[Kcount];
-					valb += densityderivbeta.get(j, k) *
-							soln.integralArrayExchange[Kcount];
+					vala += densityderivalpha.get(j, k) * soln.integralArrayExchange[Kcount];
+					valb += densityderivbeta.get(j, k) * soln.integralArrayExchange[Kcount];
 					Kcount++;
 
 				}
 				else {
 					for (int l : soln.orbsOfAtom[soln.atomOfOrb[j]]) {
-						if (l > -1) {
-							for (int m : soln.orbsOfAtom[soln.atomOfOrb[k]]) {
-								if (m > -1) {
-									vala += densityderivalpha.get(l, m) *
-											soln.integralArrayExchange[Kcount];
-									valb += densityderivbeta.get(l, m) *
-											soln.integralArrayExchange[Kcount];
-									Kcount++;
-								}
-							}
+						for (int m : soln.orbsOfAtom[soln.atomOfOrb[k]]) {
+							vala += densityderivalpha.get(l, m) * soln.integralArrayExchange[Kcount];
+							valb += densityderivbeta.get(l, m) * soln.integralArrayExchange[Kcount];
+							Kcount++;
 						}
 					}
 				}
@@ -784,9 +748,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		}
 
 		SimpleMatrix responsealpha = Jderiv.plus(Kaderiv);
-
 		SimpleMatrix responsebeta = Jderiv.plus(Kbderiv);
-
 
 		SimpleMatrix R = new SimpleMatrix(NOccAlpha * NVirtAlpha + NOccBeta * NVirtBeta, 1);
 
@@ -797,8 +759,8 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 
 				double element = 0;
 
-				for (int u = 0; u < soln.orbitals.length; u++) {
-					for (int v = 0; v < soln.orbitals.length; v++) {
+				for (int u = 0; u < soln.nOrbitals; u++) {
+					for (int v = 0; v < soln.nOrbitals; v++) {
 						element += soln.Cta.get(i, u) * soln.Cta.get(j + NOccAlpha, v) *
 								responsealpha.get(u, v);
 					}
@@ -815,8 +777,8 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 
 				double element = 0;
 
-				for (int u = 0; u < soln.orbitals.length; u++) {
-					for (int v = 0; v < soln.orbitals.length; v++) {
+				for (int u = 0; u < soln.nOrbitals; u++) {
+					for (int v = 0; v < soln.nOrbitals; v++) {
 						element += soln.Ctb.get(i, u) * soln.Ctb.get(j + NOccBeta, v) *
 								responsebeta.get(u, v);
 					}
