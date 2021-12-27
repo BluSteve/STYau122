@@ -20,292 +20,33 @@ public class GeometrySecondDerivative {
 
 	public static SimpleMatrix[][] densityDerivThiel(SolutionU soln, SimpleMatrix[] fockderivstaticalpha,
 													 SimpleMatrix[] fockderivstaticbeta) {
+		int NOccAlpha = soln.rm.nOccAlpha;
+		int NOccBeta = soln.rm.nOccBeta;
+		int NVirtAlpha = soln.rm.nVirtAlpha;
+		int NVirtBeta = soln.rm.nVirtBeta;
 
-		StopWatch sw = new StopWatch();
-		sw.start();
+		SimpleMatrix[] xarray = PopleThiel.thiel(soln, fockderivstaticalpha, fockderivstaticbeta);
 
-		int NOccAlpha = soln.getRm().nOccAlpha;
-		int NOccBeta = soln.getRm().nOccBeta;
+		SimpleMatrix[] densityderivsalpha = new SimpleMatrix[fockderivstaticalpha.length];
+		SimpleMatrix[] densityderivsbeta = new SimpleMatrix[fockderivstaticbeta.length];
 
-		int NVirtAlpha = soln.getRm().nVirtAlpha;
-		int NVirtBeta = soln.getRm().nVirtBeta;
+		for (int i = 0; i < fockderivstaticalpha.length; i++) {
+			SimpleMatrix x = xarray[i];
 
-		SimpleMatrix[] xarray = new SimpleMatrix[fockderivstaticalpha.length];
+			SimpleMatrix xmata = x.extractMatrix(0, soln.rm.nonvAlpha, 0, 1);
+			xmata.reshape(NOccAlpha, NVirtAlpha);
 
-		SimpleMatrix[] rarray = new SimpleMatrix[fockderivstaticalpha.length];
+			SimpleMatrix mult = soln.CaOcc.mult(xmata).mult(soln.CtaVirt);
+			densityderivsalpha[i] = mult.plusi(mult.transpose()).negativei();
 
-		SimpleMatrix[] dirs = new SimpleMatrix[fockderivstaticalpha.length];
+			SimpleMatrix xmatb = x.extractMatrix(soln.rm.nonvAlpha, x.numRows(), 0, 1);
+			xmatb.reshape(NOccBeta, NVirtBeta);
 
-		SimpleMatrix preconditioner = new SimpleMatrix(NOccAlpha * NVirtAlpha + NOccBeta * NVirtBeta, 1);
-
-		int counter = 0;
-
-		for (int i = 0; i < NOccAlpha; i++) {
-			for (int j = 0; j < NVirtAlpha; j++) {
-				double e = -soln.Ea.get(i) + soln.Ea.get(NOccAlpha + j);
-				preconditioner.set(counter, Pow.pow(e, -0.5));
-				counter++;
-			}
+			mult = soln.CbOcc.mult(xmatb).mult(soln.CtbVirt);
+			densityderivsbeta[i] = mult.plusi(mult.transpose()).negativei();
 		}
-
-		for (int i = 0; i < NOccBeta; i++) {
-			for (int j = 0; j < NVirtBeta; j++) {
-				double e = -soln.Eb.get(i) + soln.Eb.get(NOccBeta + j);
-				preconditioner.set(counter, Pow.pow(e, -0.5));
-				counter++;
-			}
-		}
-
-		SimpleMatrix D = SimpleMatrix.diag(preconditioner.getDDRM().data);
-
-		//SimpleMatrix D = SimpleMatrix.eye(NOcc * NVirt);
-
-		for (int a = 0; a < xarray.length; a++) {
-			SimpleMatrix F = new SimpleMatrix(NOccAlpha * NVirtAlpha + NOccBeta * NVirtBeta, 1);
-
-			int count1 = 0;
-
-			for (int i = 0; i < NOccAlpha; i++) { // kappa
-				for (int j = 0; j < NVirtAlpha; j++) { // i
-
-					double element = 0;
-
-					for (int u = 0; u < soln.orbitals.length; u++) {
-						for (int v = 0; v < soln.orbitals.length; v++) {
-							element += soln.Cta.get(i, u) * soln.Cta.get(j + NOccAlpha, v) *
-									fockderivstaticalpha[a].get(u, v);
-						}
-					}
-
-
-					F.set(count1, 0, element);
-
-					count1++;
-				}
-			}
-
-			for (int i = 0; i < NOccBeta; i++) { // kappa
-				for (int j = 0; j < NVirtBeta; j++) { // i
-
-					double element = 0;
-
-					for (int u = 0; u < soln.orbitals.length; u++) {
-						for (int v = 0; v < soln.orbitals.length; v++) {
-							element +=
-									soln.Ctb.get(i, u) * soln.Ctb.get(j + NOccBeta, v) * fockderivstaticbeta[a].get(u,
-											v);
-						}
-					}
-
-					F.set(count1, 0, element);
-
-					count1++;
-				}
-			}
-
-			F = D.mult(F);
-
-			xarray[a] = new SimpleMatrix(NOccAlpha * NVirtAlpha + NOccBeta * NVirtBeta, 1);
-
-			rarray[a] = F.copy();
-
-			dirs[a] = F.copy();
-		}
-
-
-		if (dirs[0].numRows() == 0) {
-			SimpleMatrix[] densityderivs =
-					new SimpleMatrix[fockderivstaticalpha.length];
-
-			for (int i = 0; i < densityderivs.length; i++) {
-				densityderivs[i] = new SimpleMatrix(0, 0);
-			}
-
-			return new SimpleMatrix[][]{densityderivs, densityderivs};
-		}
-
-		int numit = 0;
-
-
-		while (Utils.numNotNull(rarray) > 0) {
-
-			numit++;
-
-			ArrayList<SimpleMatrix> d = new ArrayList<>();
-
-			ArrayList<SimpleMatrix> p = new ArrayList<>();
-
-			//System.err.println("It's still running, don't worry: " + Utils.numNotNull(rarray));
-
-			for (int i = 0; i < rarray.length; i++) {
-
-				if (rarray[i] != null) {
-
-					d.add(dirs[i].copy());
-					p.add(D.mult(computeResponseVectorsThiel(dirs[i], soln)));
-				}
-
-
-			}
-
-
-			SimpleMatrix solver = new SimpleMatrix(p.size(), p.size());
-
-
-			SimpleMatrix rhsvec = new SimpleMatrix(p.size(), rarray.length);
-
-			for (int a = 0; a < rhsvec.numCols(); a++) {
-				if (rarray[a] != null) {
-					SimpleMatrix rhs = new SimpleMatrix(p.size(), 1);
-
-					for (int i = 0; i < rhs.numRows(); i++) {
-						rhs.set(i, 0, 2 * rarray[a].transpose().mult(d.get(i)).get(0, 0));
-
-					}
-
-					rhsvec.setColumn(a, 0, rhs.getDDRM().data);
-				}
-			}
-
-			for (int i = 0; i < solver.numRows(); i++) {
-				for (int j = i; j < solver.numRows(); j++) {
-
-					double val = p.get(j).transpose().mult(d.get(i)).get(0,
-							0) + p.get(i).transpose().mult(d.get(j)).get(0, 0);
-					solver.set(i, j, val);
-					solver.set(j, i, val);
-				}
-			}
-
-			SimpleMatrix alpha = solver.solve(rhsvec);
-
-			for (int a = 0; a < rhsvec.numCols(); a++) {
-				if (rarray[a] != null) {
-
-
-					for (int i = 0; i < alpha.numRows(); i++) {
-						xarray[a] =
-								xarray[a].plus(d.get(i).scale(alpha.get(i, a)));
-						rarray[a] =
-								rarray[a].minus(p.get(i).scale(alpha.get(i, a)));
-
-					}
-
-					if (mag(rarray[a]) < 1E-10) {//todo change this
-						rarray[a] = null;
-					}
-					else {
-
-					}
-
-				}
-			}
-
-
-			solver = new SimpleMatrix(solver.numRows(), solver.numRows());
-
-			for (int a = 0; a < rhsvec.numCols(); a++) {
-				if (rarray[a] != null) {
-					SimpleMatrix rhs = new SimpleMatrix(solver.numRows(), 1);
-
-					for (int i = 0; i < rhs.numRows(); i++) {
-						rhs.set(i, 0, -rarray[a].transpose().mult(p.get(i))
-								.get(0, 0));
-
-					}
-
-					rhsvec.setColumn(a, 0, rhs.getDDRM().data);
-				}
-			}
-
-
-			for (int i = 0; i < solver.numRows(); i++) {
-				for (int j = 0; j < solver.numRows(); j++) {
-					solver.set(i, j, d.get(j).transpose().mult(p.get(i)).get(0, 0));
-				}
-			}
-
-			SimpleMatrix beta = solver.solve(rhsvec);
-			for (int a = 0; a < rhsvec.numCols(); a++) {
-
-				if (rarray[a] != null) {
-
-
-					dirs[a] = rarray[a].copy();
-
-					for (int i = 0; i < beta.numRows(); i++) {
-						dirs[a] = dirs[a].plus(d.get(i).scale(beta.get(i, a)));
-					}
-				}
-			}
-
-
-		}
-		System.out.println("xarray = " + xarray[0]);
-
-		SimpleMatrix[] densityderivsalpha =
-				new SimpleMatrix[fockderivstaticalpha.length];
-
-		SimpleMatrix[] densityderivsbeta =
-				new SimpleMatrix[fockderivstaticbeta.length];
-
-
-		for (int a = 0; a < fockderivstaticalpha.length; a++) {
-
-			SimpleMatrix densityderivalpha = new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
-
-			SimpleMatrix densityderivbeta = new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
-
-
-			for (int u = 0; u < densityderivalpha.numRows(); u++) {
-				for (int v = u; v < densityderivalpha.numCols(); v++) {
-					double sum = 0;
-					int count = 0;
-					for (int i = 0; i < NOccAlpha; i++) {
-						for (int j = 0; j < NVirtAlpha; j++) {
-							sum -= (soln.Cta.get(i, u) * soln.Cta.get(j + NOccAlpha, v) +
-									soln.Cta.get(j + NOccAlpha, u) * soln.Cta.get(i, v)) *
-									xarray[a].get(count, 0);
-							count++;
-						}
-					}
-
-					densityderivalpha.set(u, v, sum);
-					densityderivalpha.set(v, u, sum);
-				}
-			}
-
-			for (int u = 0; u < densityderivalpha.numRows(); u++) {
-				for (int v = u; v < densityderivalpha.numCols(); v++) {
-					double sum = 0;
-					int count = NOccAlpha * NVirtAlpha;
-					for (int i = 0; i < NOccBeta; i++) {
-						for (int j = 0; j < NVirtBeta; j++) {
-							sum -= (soln.Ctb.get(i, u) * soln.Ctb.get(j + NOccBeta, v) +
-									soln.Ctb.get(j + NOccBeta, u) * soln.Ctb.get(i, v)) *
-									xarray[a].get(count, 0);
-							count++;
-						}
-					}
-
-					densityderivbeta.set(u, v, sum);
-					densityderivbeta.set(v, u, sum);
-				}
-			}
-
-			densityderivsalpha[a] = densityderivalpha;
-			densityderivsbeta[a] = densityderivbeta;
-
-		}
-
-		System.out.println("numit (Thiel): " + numit);
-
-//		System.err.println("Time: " + sw.getTime());
-
 
 		return new SimpleMatrix[][]{densityderivsalpha, densityderivsbeta};
-
-
 	}
 
 	public static SimpleMatrix[][] densityDerivPople(SolutionU soln, SimpleMatrix[] fockderivstaticalpha,

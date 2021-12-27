@@ -2,7 +2,7 @@ package core;
 
 import frontend.TxtIO;
 import nddo.geometry.GeometryDerivative;
-import nddo.math.PopleThiel;
+import nddo.geometry.GeometrySecondDerivative;
 import nddo.solution.Solution;
 import nddo.solution.SolutionU;
 import org.ejml.simple.SimpleMatrix;
@@ -48,9 +48,9 @@ public class Benchmarks {
 
 			System.out.println(fderivalpha.length);
 			System.out.println(fderivbeta.length);
-			SimpleMatrix[] xarray = PopleThiel.thiel(s, fderivalpha, fderivbeta);
-			x = xarray[0];
-			System.out.println(xarray[0]);
+			GeometrySecondDerivative.hessianRoutine(s, fderivalpha, fderivbeta);
+//			x = xarray[0];
+//			System.out.println(xarray[0]);
 		}
 	}
 }
