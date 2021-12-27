@@ -2,15 +2,16 @@ package core;
 
 import frontend.TxtIO;
 import nddo.geometry.GeometryDerivative;
-import nddo.geometry.GeometrySecondDerivative;
+import nddo.math.PopleThiel;
 import nddo.solution.Solution;
-import nddo.solution.SolutionU;
+import nddo.solution.SolutionR;
 import org.ejml.simple.SimpleMatrix;
 import org.openjdk.jmh.annotations.*;
 import runcycle.structs.RunInput;
 import runcycle.structs.RunnableMolecule;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -26,13 +27,13 @@ public class Benchmarks {
 	@BenchmarkMode(Mode.SampleTime)
 	@OutputTimeUnit(TimeUnit.MILLISECONDS)
 	public static void thiel(State state) {
-//		PopleThiel.thiel(state.s, state.fockderivstatic);
+		PopleThiel.thiel(state.s, state.fockderivstatic);
 	}
 
 	@org.openjdk.jmh.annotations.State(Scope.Benchmark)
 	public static class State {
-		public SolutionU s;
-		public SimpleMatrix[] fockderivstatic, fderivalpha, fderivbeta;
+		public SolutionR s;
+		public SimpleMatrix[] fockderivstatic;
 		public SimpleMatrix x;
 		public Random r = new Random(123);
 
@@ -41,16 +42,13 @@ public class Benchmarks {
 			RunInput input = TxtIO.readInput();
 			RunnableMolecule rm = input.molecules[0];
 
-			s = (SolutionU) Solution.of(rm, runcycle.State.getConverter().convert(rm.atoms, input.info.npMap));
+			s = (SolutionR) Solution.of(rm, runcycle.State.getConverter().convert(rm.atoms, input.info.npMap));
 			SimpleMatrix[][] matrices = GeometryDerivative.gradientRoutine(s);
-			fderivalpha = matrices[1];
-			fderivbeta = matrices[2];
+			fockderivstatic = matrices[1];
 
-			System.out.println(fderivalpha.length);
-			System.out.println(fderivbeta.length);
-			System.out.println(GeometrySecondDerivative.hessianRoutine(s, fderivalpha, fderivbeta));
-//			x = xarray[0];
-//			System.out.println(xarray[0]);
+			System.out.println(fockderivstatic.length);
+			SimpleMatrix[] xarray = PopleThiel.pople(s, fockderivstatic);
+			System.out.println(Arrays.toString(xarray));
 		}
 	}
 }
