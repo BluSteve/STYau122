@@ -735,7 +735,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		}
 
 		SimpleMatrix responsealpha = Kaderiv.plusi(Jderiv);
-		SimpleMatrix responsebeta = Kbderiv.plus(Jderiv);
+		SimpleMatrix responsebeta = Kbderiv.plusi(Jderiv);
 
 		SimpleMatrix pa = soln.Eamat.elementMult(xmata).minusi(soln.CtaOcc.mult(responsealpha).mult(soln.CaVirt));
 		pa.reshape(soln.rm.nonvAlpha, 1);
