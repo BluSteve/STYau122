@@ -22,16 +22,6 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		int length = fockderivstatic.length;
 		int nonv = soln.rm.nonvAlpha;
 
-		if (nonv == 0) {
-			SimpleMatrix[] xarray = new SimpleMatrix[length];
-
-			for (int i = 0; i < length; i++) {
-				xarray[i] = new SimpleMatrix(0, 0);
-			}
-
-			return xarray;
-		}
-
 		// array initialization
 		SimpleMatrix[] xarray = new SimpleMatrix[length];
 		SimpleMatrix[] barray = new SimpleMatrix[length]; // B tilde
@@ -269,16 +259,6 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		int NVirt = soln.rm.nVirtAlpha;
 		int length = fockderivstatic.length;
 		int nonv = soln.rm.nonvAlpha;
-
-		if (nonv == 0) {
-			SimpleMatrix[] densityderivs = new SimpleMatrix[length];
-
-			for (int i = 0; i < densityderivs.length; i++) {
-				densityderivs[i] = new SimpleMatrix(0, 0);
-			}
-
-			return densityderivs;
-		}
 
 		SimpleMatrix[] xarray = new SimpleMatrix[length];
 		SimpleMatrix[] rarray = new SimpleMatrix[length];
