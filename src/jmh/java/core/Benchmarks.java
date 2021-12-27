@@ -48,7 +48,7 @@ public class Benchmarks {
 
 			System.out.println(fderivalpha.length);
 			System.out.println(fderivbeta.length);
-			GeometrySecondDerivative.hessianRoutine(s, fderivalpha, fderivbeta);
+			System.out.println(GeometrySecondDerivative.hessianRoutine(s, fderivalpha, fderivbeta));
 //			x = xarray[0];
 //			System.out.println(xarray[0]);
 		}

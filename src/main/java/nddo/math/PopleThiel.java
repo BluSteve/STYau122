@@ -65,7 +65,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 
 			multRows(Darr, f.getDDRM());
 			barray[a] = f;
-			Farray[a] = barray[a].copy();
+			Farray[a] = f.copy();
 			F.setColumn(a, 0, barray[a].getDDRM().data);
 		}
 
@@ -305,7 +305,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 
 			xarray[a] = new SimpleMatrix(nonv, 1);
 			rarray[a] = f;
-			dirs[a] = f;
+			dirs[a] = f.copy();
 		}
 
 		SimpleMatrix responseMatrix = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
@@ -528,7 +528,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 
 			xarray[a] = new SimpleMatrix(nonv, 1);
 			rarray[a] = f;
-			dirs[a] = f;
+			dirs[a] = f.copy();
 		}
 
 		SimpleMatrix Jderiv = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);

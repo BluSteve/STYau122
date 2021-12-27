@@ -17,9 +17,8 @@ import static nddo.State.nom;
 import static tools.Utils.mag;
 
 public class GeometrySecondDerivative {
-
-	public static SimpleMatrix[][] densityDerivThiel(SolutionU soln, SimpleMatrix[] fockderivstaticalpha,
-													 SimpleMatrix[] fockderivstaticbeta) {
+	public static SimpleMatrix[][] densityDeriv(SolutionU soln, SimpleMatrix[] fockderivstaticalpha,
+												SimpleMatrix[] fockderivstaticbeta) {
 		int NOccAlpha = soln.rm.nOccAlpha;
 		int NOccBeta = soln.rm.nOccBeta;
 		int NVirtAlpha = soln.rm.nVirtAlpha;
@@ -266,7 +265,7 @@ public class GeometrySecondDerivative {
 					System.err.println(
 							"Pople algorithm fails; reverting to Thiel " +
 									"algorithm (don't panic)...");
-					return densityDerivThiel(soln, fockderivstaticalpha, fockderivstaticbeta);
+					return densityDeriv(soln, fockderivstaticalpha, fockderivstaticbeta);
 				}
 				else {
 					iterable[j] = 0;
@@ -889,8 +888,8 @@ public class GeometrySecondDerivative {
 		return e;
 	}
 
-	public static SimpleMatrix hessianRoutine(SolutionR soln, SimpleMatrix[] fockDerivStatic) {
-		SimpleMatrix[] densityDerivs = Batcher.apply(fockDerivStatic, subset -> densityDeriv(soln, subset));
+	public static SimpleMatrix hessianRoutine(SolutionR soln, SimpleMatrix[] fockderivstatic) {
+		SimpleMatrix[] densityDerivs = Batcher.apply(fockderivstatic, subset -> densityDeriv(soln, subset));
 
 		SimpleMatrix hessian = new SimpleMatrix(densityDerivs.length, densityDerivs.length);
 
@@ -927,7 +926,7 @@ public class GeometrySecondDerivative {
 
 				for (int I = 0; I < soln.orbitals.length; I++) {
 					for (int J = 0; J < soln.orbitals.length; J++) {
-						E += fockDerivStatic[i].get(I, J) * densityDerivs[j].get(I, J);
+						E += fockderivstatic[i].get(I, J) * densityDerivs[j].get(I, J);
 					}
 				}
 
@@ -942,37 +941,25 @@ public class GeometrySecondDerivative {
 	public static SimpleMatrix hessianRoutine(SolutionU soln,
 											  SimpleMatrix[] fockderivstaticalpha,
 											  SimpleMatrix[] fockderivstaticbeta) {
-// todo analyticify
+		SimpleMatrix[][] sms = densityDeriv(soln, fockderivstaticalpha, fockderivstaticbeta);
+		SimpleMatrix[] densityderivsalpha = sms[0];
+		SimpleMatrix[] densityderivsbeta = sms[1];
 
-		SimpleMatrix[] densityderivsalpha =
-				new SimpleMatrix[fockderivstaticalpha.length];
-		SimpleMatrix[] densityderivsbeta =
-				new SimpleMatrix[fockderivstaticbeta.length];
+		SimpleMatrix hessian = new SimpleMatrix(densityderivsalpha.length, densityderivsalpha.length);
 
+		int[][] indices = new int[hessian.numRows() * (hessian.numRows() + 1) / 2][];
 		int count = 0;
-
-		for (int a = 0; a < soln.atoms.length; a++) {
-			for (int tau = 0; tau < 3; tau++) {
-
-				SimpleMatrix[] matrices = GeometryDerivative
-						.densitymatrixderivfinite(soln.atoms, soln, a, tau);
-				densityderivsalpha[count] = matrices[0];
-				densityderivsbeta[count] = matrices[1];
+		for (int i = 0; i < hessian.numRows(); i++) {
+			for (int j = i; j < hessian.numCols(); j++) {
+				indices[count] = new int[]{i, j};
 				count++;
 			}
 		}
-		SimpleMatrix[][] sms = densityDerivThiel(soln, fockderivstaticalpha, fockderivstaticbeta);
-		SimpleMatrix[] densityderivsalpha2 = sms[0];
-		SimpleMatrix[] densityderivsbeta2 = sms[1];
-		System.out.println(densityderivsalpha2[0]);
 
-		System.out.println(densityderivsalpha[0].minus(densityderivsalpha2[0]).elementMax());
-
-		SimpleMatrix hessian = new SimpleMatrix(densityderivsalpha.length,
-				densityderivsalpha.length);
-
-		for (int i = 0; i < hessian.numRows(); i++) {
-			for (int j = i; j < hessian.numRows(); j++) {
+		Batcher.consume(indices, subset -> {
+			for (int[] ints : subset) {
+				int i = ints[0];
+				int j = ints[1];
 				double E = 0;
 				int atomnum1 = i / 3;
 				int atomnum2 = j / 3;
@@ -982,11 +969,7 @@ public class GeometrySecondDerivative {
 				if (atomnum1 == atomnum2) {
 					for (int a = 0; a < soln.atoms.length; a++) {
 						if (a != atomnum1) {
-							E += Ederiv2(atomnum1, a, soln.orbsOfAtom,
-									soln.alphaDensity(), soln.betaDensity(),
-									soln.atoms, soln.orbitals, tau1, tau2);
-							E += soln.atoms[atomnum1]
-									.crfg2d(soln.atoms[a], tau1, tau2);
+							E += Ederiv2(atomnum1, a, soln.orbsOfAtom, soln.alphaDensity(), soln.betaDensity(), soln.atoms, soln.orbitals, tau1, tau2);E += soln.atoms[atomnum1].crfg2d(soln.atoms[a], tau1, tau2);
 						}
 					}
 				}
@@ -998,17 +981,15 @@ public class GeometrySecondDerivative {
 
 				for (int I = 0; I < soln.orbitals.length; I++) {
 					for (int J = 0; J < soln.orbitals.length; J++) {
-						E += fockderivstaticalpha[i].get(I, J) *
-								densityderivsalpha[j].get(I, J);
-						E += fockderivstaticbeta[i].get(I, J) *
-								densityderivsbeta[j].get(I, J);
+						E += fockderivstaticalpha[i].get(I, J) * densityderivsalpha[j].get(I, J);
+						E += fockderivstaticbeta[i].get(I, J) * densityderivsbeta[j].get(I, J);
 					}
 				}
 
 				hessian.set(i, j, E);
 				hessian.set(j, i, E);
 			}
-		}
+		});
 
 		return hessian;
 	}
