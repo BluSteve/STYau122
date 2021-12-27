@@ -193,7 +193,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		return xarray;
 	}
 
-	public static SimpleMatrix computeResponseVectorsPople(SolutionR soln, SimpleMatrix x,
+	private static SimpleMatrix computeResponseVectorsPople(SolutionR soln, SimpleMatrix x,
 														   SimpleMatrix responseMatrix) {
 		// x is B tilde, i.e. a guess
 		// p = d * b. this evaluates d * b without finding out what d is, as the latter is slow.

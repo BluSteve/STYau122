@@ -18,7 +18,15 @@ import static tools.Utils.mag;
 
 public class GeometrySecondDerivative {
 	public static SimpleMatrix hessianRoutine(SolutionR soln, SimpleMatrix[] fockderivstatic) {
-		SimpleMatrix[] densityDerivs = Batcher.apply(fockderivstatic, subset -> densityDeriv(soln, subset));
+		SimpleMatrix[] densityDerivs;
+		if (soln.rm.nonvAlpha == 0) {
+			SimpleMatrix sm = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
+			densityDerivs = new SimpleMatrix[fockderivstatic.length];
+			for (int i = 0; i < fockderivstatic.length; i++) {
+				densityDerivs[i] = sm;
+			}
+		}
+		else densityDerivs = Batcher.apply(fockderivstatic, subset -> densityDeriv(soln, subset));
 
 		SimpleMatrix hessian = new SimpleMatrix(densityDerivs.length, densityDerivs.length);
 
@@ -69,7 +77,16 @@ public class GeometrySecondDerivative {
 
 	public static SimpleMatrix hessianRoutine(SolutionU soln, SimpleMatrix[] fockderivstaticalpha,
 											  SimpleMatrix[] fockderivstaticbeta) {
-		SimpleMatrix[][] sms = Batcher.apply(new SimpleMatrix[][]{fockderivstaticalpha, fockderivstaticbeta},
+		SimpleMatrix[][] sms;
+		if (soln.rm.nonvAlpha + soln.rm.nonvBeta == 0) {
+			SimpleMatrix sm = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
+			sms = new SimpleMatrix[2][fockderivstaticalpha.length];
+			for (int i = 0; i < fockderivstaticalpha.length; i++) {
+				sms[0][i] = sm;
+				sms[1][i] = sm;
+			}
+		}
+		else sms = Batcher.apply(new SimpleMatrix[][]{fockderivstaticalpha, fockderivstaticbeta},
 				subset -> densityDeriv(soln, subset));
 
 		SimpleMatrix[] densityderivsalpha = sms[0];
