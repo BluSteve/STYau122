@@ -472,7 +472,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		}
 
 		SimpleMatrix p = soln.Emat.elementMult(xmat).minusi(soln.CtOcc.mult(responseMatrix).mult(soln.CVirt));
-		p.reshape(NOcc * NVirt, 1);
+		p.reshape(soln.rm.nonvAlpha, 1);
 
 		return p;
 	}
@@ -531,7 +531,9 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 			dirs[a] = f;
 		}
 
-		SimpleMatrix responseMatrix = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
+		SimpleMatrix Jderiv = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
+		SimpleMatrix Kaderiv = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
+		SimpleMatrix Kbderiv = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 		ArrayList<SimpleMatrix> d = new ArrayList<>();
 		ArrayList<SimpleMatrix> p = new ArrayList<>();
 
@@ -543,7 +545,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 				if (rarray[i] != null) {
 					d.add(dirs[i]);
 
-					SimpleMatrix sm = computeResponseVectorsThiel(soln, dirs[i], responseMatrix);
+					SimpleMatrix sm = computeResponseVectorsThiel(soln, dirs[i], Jderiv, Kaderiv, Kbderiv);
 					multRows(Darr, sm.getDDRM());
 					p.add(sm);
 				}
@@ -644,33 +646,27 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 	}
 
 	public static SimpleMatrix computeResponseVectorsThiel(SolutionU soln, SimpleMatrix x,
-														   SimpleMatrix responseMatrix) {
+														   SimpleMatrix Jderiv, SimpleMatrix Kaderiv,
+														   SimpleMatrix Kbderiv) {
 		int NOccAlpha = soln.rm.nOccAlpha;
 		int NOccBeta = soln.rm.nOccBeta;
 		int NVirtAlpha = soln.rm.nVirtAlpha;
 		int NVirtBeta = soln.rm.nVirtBeta;
 
-		SimpleMatrix xmat = x.extractMatrix(0, soln.rm.nonvAlpha, 0, 1);
-		xmat.reshape(NOccAlpha, NVirtAlpha);
+		SimpleMatrix xmata = x.extractMatrix(0, soln.rm.nonvAlpha, 0, 1);
+		xmata.reshape(NOccAlpha, NVirtAlpha);
 
-		SimpleMatrix mult = soln.CaOcc.mult(xmat).mult(soln.CtaVirt);
+		SimpleMatrix mult = soln.CaOcc.mult(xmata).mult(soln.CtaVirt);
 		SimpleMatrix densityderivalpha = mult.plusi(mult.transpose()).negativei();
 
-		xmat = x.extractMatrix(soln.rm.nonvAlpha, x.numRows(), 0, 1);
-		xmat.reshape(NOccBeta, NVirtBeta);
+		SimpleMatrix xmatb = x.extractMatrix(soln.rm.nonvAlpha, x.numRows(), 0, 1);
+		xmatb.reshape(NOccBeta, NVirtBeta);
 
-		mult = soln.CbOcc.mult(xmat).mult(soln.CtbVirt);
+		mult = soln.CbOcc.mult(xmatb).mult(soln.CtbVirt);
 		SimpleMatrix densityderivbeta = mult.plusi(mult.transpose()).negativei();
-
-
-		SimpleMatrix Jderiv = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
-		SimpleMatrix Kaderiv = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
-		SimpleMatrix Kbderiv = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 
 		int Jcount = 0;
 		int Kcount = 0;
-
-		//construct J matrix
 
 		for (int j = 0; j < soln.nOrbitals; j++) {
 			for (int k = j; k < soln.nOrbitals; k++) {
@@ -747,72 +743,14 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 			}
 		}
 
-		SimpleMatrix responsealpha = Jderiv.plus(Kaderiv);
-		SimpleMatrix responsebeta = Jderiv.plus(Kbderiv);
+		SimpleMatrix responsealpha = Kaderiv.plusi(Jderiv);
+		SimpleMatrix responsebeta = Kbderiv.plus(Jderiv);
 
-		SimpleMatrix R = new SimpleMatrix(NOccAlpha * NVirtAlpha + NOccBeta * NVirtBeta, 1);
+		SimpleMatrix pa = soln.Eamat.elementMult(xmata).minusi(soln.CtaOcc.mult(responsealpha).mult(soln.CaVirt));
+		pa.reshape(soln.rm.nonvAlpha, 1);
+		SimpleMatrix pb = soln.Ebmat.elementMult(xmatb).minusi(soln.CtbOcc.mult(responsebeta).mult(soln.CbVirt));
+		pb.reshape(soln.rm.nonvBeta, 1);
 
-		int count1 = 0;
-
-		for (int i = 0; i < NOccAlpha; i++) {
-			for (int j = 0; j < NVirtAlpha; j++) {
-
-				double element = 0;
-
-				for (int u = 0; u < soln.nOrbitals; u++) {
-					for (int v = 0; v < soln.nOrbitals; v++) {
-						element += soln.Cta.get(i, u) * soln.Cta.get(j + NOccAlpha, v) *
-								responsealpha.get(u, v);
-					}
-				}
-
-				R.set(count1, 0, element);
-
-				count1++;
-			}
-		}
-
-		for (int i = 0; i < NOccBeta; i++) {
-			for (int j = 0; j < NVirtBeta; j++) {
-
-				double element = 0;
-
-				for (int u = 0; u < soln.nOrbitals; u++) {
-					for (int v = 0; v < soln.nOrbitals; v++) {
-						element += soln.Ctb.get(i, u) * soln.Ctb.get(j + NOccBeta, v) *
-								responsebeta.get(u, v);
-					}
-				}
-
-				R.set(count1, 0, element);
-
-				count1++;
-			}
-		}
-
-
-		SimpleMatrix p = new SimpleMatrix(NOccAlpha * NVirtAlpha + NOccBeta * NVirtBeta, 1);
-
-		int counter = 0;
-
-		for (int i = 0; i < NOccAlpha; i++) {
-			for (int j = 0; j < NVirtAlpha; j++) {
-
-				p.set(counter, 0,
-						-R.get(counter, 0) + (soln.Ea.get(j + NOccAlpha) - soln.Ea.get(i)) * x.get(counter));
-				counter++;
-			}
-		}
-
-		for (int i = 0; i < NOccBeta; i++) {
-			for (int j = 0; j < NVirtBeta; j++) {
-
-				p.set(counter, 0,
-						-R.get(counter, 0) + (soln.Eb.get(j + NOccBeta) - soln.Eb.get(i)) * x.get(counter));
-				counter++;
-			}
-		}
-
-		return p;
+		return pa.concatRows(pb);
 	}
 }
