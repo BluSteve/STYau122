@@ -9,7 +9,7 @@ public class MoleculeInfo { // low level molecule info representation
 	public final boolean restricted;
 	public final int charge, mult;
 	public final int[] atomicNumbers;
-	public final int nElectrons, nOccAlpha, nOccBeta, nVirtAlpha, nVirtBeta, nOrbitals,
+	public final int nElectrons, nOccAlpha, nOccBeta, nVirtAlpha, nVirtBeta, nonvAlpha, nonvBeta, nOrbitals,
 			nIntegrals, nCoulombInts, nExchangeInts;
 	public final int[][] orbsOfAtom, missingOfAtom;
 	public final int[] atomOfOrb;
@@ -20,8 +20,8 @@ public class MoleculeInfo { // low level molecule info representation
 	private transient Logger logger;
 
 	public MoleculeInfo(int index, String name, boolean restricted, int charge, int mult, int[] atomicNumbers,
-						int nElectrons, int nOccAlpha, int nOccBeta, int nVirtAlpha, int nVirtBeta,
-						int nOrbitals, int nIntegrals, int nCoulombInts, int nExchangeInts,
+						int nElectrons, int nOccAlpha, int nOccBeta, int nVirtAlpha, int nVirtBeta, int nonvAlpha,
+						int nonvBeta, int nOrbitals, int nIntegrals, int nCoulombInts, int nExchangeInts,
 						int[][] orbsOfAtom, int[][] missingOfAtom, int[] atomOfOrb, int[] mats, int[][] mnps) {
 		this.index = index;
 		this.name = name;
@@ -34,6 +34,8 @@ public class MoleculeInfo { // low level molecule info representation
 		this.nOccBeta = nOccBeta;
 		this.nVirtAlpha = nVirtAlpha;
 		this.nVirtBeta = nVirtBeta;
+		this.nonvAlpha = nonvAlpha;
+		this.nonvBeta = nonvBeta;
 		this.nOrbitals = nOrbitals;
 		this.nIntegrals = nIntegrals;
 		this.nCoulombInts = nCoulombInts;
@@ -57,6 +59,8 @@ public class MoleculeInfo { // low level molecule info representation
 		this.nOccBeta = mi.nOccBeta;
 		this.nVirtAlpha = mi.nVirtAlpha;
 		this.nVirtBeta = mi.nVirtBeta;
+		this.nonvAlpha = mi.nonvAlpha;
+		this.nonvBeta = mi.nonvBeta;
 		this.nOrbitals = mi.nOrbitals;
 		this.nIntegrals = mi.nIntegrals;
 		this.nCoulombInts = mi.nCoulombInts;
@@ -246,11 +250,12 @@ public class MoleculeInfo { // low level molecule info representation
 				int nOccBeta = nElectrons - nOccAlpha;
 				int nVirtAlpha = nOrbitals - nOccAlpha;
 				int nVirtBeta = nOrbitals - nOccBeta;
+				int nonvAlpha = nOccAlpha * nVirtAlpha;
+				int nonvBeta = nOccBeta * nVirtBeta;
 
-				return new MoleculeInfo(index, name, restricted, charge, mult, atomicNumbers,
-						nElectrons, nOccAlpha, nOccBeta, nVirtAlpha, nVirtBeta, nOrbitals, nIntegrals, nCoulombInts,
-						nExchangeInts, orbsOfAtom, missingOfAtom,
-						atomOfOrb, mats, mnps);
+				return new MoleculeInfo(index, name, restricted, charge, mult, atomicNumbers, nElectrons, nOccAlpha,
+						nOccBeta, nVirtAlpha, nVirtBeta, nonvAlpha, nonvBeta, nOrbitals, nIntegrals, nCoulombInts,
+						nExchangeInts, orbsOfAtom, missingOfAtom, atomOfOrb, mats, mnps);
 			}
 
 			throw new IllegalStateException("Invalid MIBuilder parameters for building!");
