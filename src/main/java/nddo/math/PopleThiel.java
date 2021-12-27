@@ -531,32 +531,25 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 			dirs[a] = f;
 		}
 
-
-		int numit = 0;
+		SimpleMatrix responseMatrix = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
+		ArrayList<SimpleMatrix> d = new ArrayList<>();
+		ArrayList<SimpleMatrix> p = new ArrayList<>();
 
 
 		while (Utils.numNotNull(rarray) > 0) {
+			d.clear();
+			p.clear();
 
-			numit++;
-
-			ArrayList<SimpleMatrix> d = new ArrayList<>();
-
-			ArrayList<SimpleMatrix> p = new ArrayList<>();
-
-			//System.err.println("It's still running, don't worry: " + Utils.numNotNull(rarray));
-
-			for (int i = 0; i < rarray.length; i++) {
-
+			for (int i = 0; i < length; i++) {
 				if (rarray[i] != null) {
+					d.add(dirs[i]);
 
-					d.add(dirs[i].copy());
-					SimpleMatrix sm = computeResponseVectorsThiel(dirs[i], soln);
+					SimpleMatrix sm = computeResponseVectorsThiel(soln, dirs[i], responseMatrix);
 					multRows(Darr, sm.getDDRM());
 					p.add(sm);
 				}
-
-
 			}
+			int size = p.size(); // actually iterable size
 
 
 			SimpleMatrix solver = new SimpleMatrix(p.size(), p.size());
@@ -673,7 +666,8 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		return count;
 	}
 
-	public static SimpleMatrix computeResponseVectorsThiel(SimpleMatrix xarray, SolutionU soln) {
+	public static SimpleMatrix computeResponseVectorsThiel(SolutionU soln, SimpleMatrix xarray,
+														   SimpleMatrix responseMatrix) {
 
 		int NOccAlpha = soln.getRm().nOccAlpha;
 		int NOccBeta = soln.getRm().nOccBeta;
