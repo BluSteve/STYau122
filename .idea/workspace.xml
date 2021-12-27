@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="deprecate densityderivpople uhf">
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="rhf still works">
+      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -210,7 +212,7 @@
       <recent name="tools" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Testing">
+  <component name="RunManager" selected="Gradle.MNDOParam [jmh]">
     <configuration name="Main" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="frontend.Main" />
       <module name="MNDOParam.main" />
@@ -437,13 +439,6 @@
       <workItem from="1640512122904" duration="123000" />
       <workItem from="1640512263163" duration="9000" />
       <workItem from="1640514401916" duration="120000" />
-    </task>
-    <task id="LOCAL-00142" summary="pow and fastexp clean up">
-      <created>1640114184774</created>
-      <option name="number" value="00142" />
-      <option name="presentableId" value="LOCAL-00142" />
-      <option name="project" value="LOCAL" />
-      <updated>1640114184774</updated>
     </task>
     <task id="LOCAL-00143" summary="fastexp tighter interp">
       <created>1640116888708</created>
@@ -781,7 +776,14 @@
       <option name="project" value="LOCAL" />
       <updated>1640601508750</updated>
     </task>
-    <option name="localTasksCounter" value="191" />
+    <task id="LOCAL-00191" summary="rhf still works">
+      <created>1640602272280</created>
+      <option name="number" value="00191" />
+      <option name="presentableId" value="LOCAL-00191" />
+      <option name="project" value="LOCAL" />
+      <updated>1640602272280</updated>
+    </task>
+    <option name="localTasksCounter" value="192" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -828,7 +830,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="better batching" />
     <MESSAGE value="minor pople changes" />
     <MESSAGE value="refactor to use new pople solutionr alg" />
     <MESSAGE value="put thiel in poplethiel" />
@@ -853,7 +854,8 @@
     <MESSAGE value="densityderivthiel uhf working" />
     <MESSAGE value="fix fatal copy bug in thiel rhf and uhf" />
     <MESSAGE value="deprecate densityderivpople uhf" />
-    <option name="LAST_COMMIT_MESSAGE" value="deprecate densityderivpople uhf" />
+    <MESSAGE value="rhf still works" />
+    <option name="LAST_COMMIT_MESSAGE" value="rhf still works" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

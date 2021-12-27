@@ -69,7 +69,9 @@ public class GeometrySecondDerivative {
 
 	public static SimpleMatrix hessianRoutine(SolutionU soln, SimpleMatrix[] fockderivstaticalpha,
 											  SimpleMatrix[] fockderivstaticbeta) {
-		SimpleMatrix[][] sms = densityDeriv(soln, fockderivstaticalpha, fockderivstaticbeta);
+		SimpleMatrix[][] sms =  Batcher.apply(new SimpleMatrix[][]{fockderivstaticalpha, fockderivstaticbeta},
+				subset -> densityDeriv(soln, subset));
+
 		SimpleMatrix[] densityderivsalpha = sms[0];
 		SimpleMatrix[] densityderivsbeta = sms[1];
 
@@ -97,7 +99,9 @@ public class GeometrySecondDerivative {
 				if (atomnum1 == atomnum2) {
 					for (int a = 0; a < soln.atoms.length; a++) {
 						if (a != atomnum1) {
-							E += Ederiv2(atomnum1, a, soln.orbsOfAtom, soln.alphaDensity(), soln.betaDensity(), soln.atoms, soln.orbitals, tau1, tau2);E += soln.atoms[atomnum1].crfg2d(soln.atoms[a], tau1, tau2);
+							E += Ederiv2(atomnum1, a, soln.orbsOfAtom, soln.alphaDensity(), soln.betaDensity(),
+									soln.atoms, soln.orbitals, tau1, tau2);
+							E += soln.atoms[atomnum1].crfg2d(soln.atoms[a], tau1, tau2);
 						}
 					}
 				}
@@ -223,12 +227,14 @@ public class GeometrySecondDerivative {
 		return densityMatrixDerivs;
 	}
 
-	public static SimpleMatrix[][] densityDeriv(SolutionU soln, SimpleMatrix[] fockderivstaticalpha,
-												SimpleMatrix[] fockderivstaticbeta) {
+	public static SimpleMatrix[][] densityDeriv(SolutionU soln, SimpleMatrix[][] fockderivstatics) {
 		int NOccAlpha = soln.rm.nOccAlpha;
 		int NOccBeta = soln.rm.nOccBeta;
 		int NVirtAlpha = soln.rm.nVirtAlpha;
 		int NVirtBeta = soln.rm.nVirtBeta;
+
+		SimpleMatrix[] fockderivstaticalpha = fockderivstatics[0];
+		SimpleMatrix[] fockderivstaticbeta = fockderivstatics[1];
 
 		SimpleMatrix[] xarray = PopleThiel.thiel(soln, fockderivstaticalpha, fockderivstaticbeta);
 
@@ -472,7 +478,7 @@ public class GeometrySecondDerivative {
 					System.err.println(
 							"Pople algorithm fails; reverting to Thiel " +
 									"algorithm (don't panic)...");
-					return densityDeriv(soln, fockderivstaticalpha, fockderivstaticbeta);
+					return densityDeriv(soln, new SimpleMatrix[][]{fockderivstaticalpha, fockderivstaticbeta});
 				}
 				else {
 					iterable[j] = 0;
