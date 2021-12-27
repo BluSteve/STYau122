@@ -15,6 +15,16 @@ import static org.ejml.dense.row.CommonOps_DDRM.multRows;
 import static tools.Utils.mag;
 
 public class PopleThiel { // stop trying to make this faster!!!!!
+	public static SimpleMatrix[] aoToMo(SimpleMatrix CtOcc, SimpleMatrix CVirt, SimpleMatrix[] fockderivstatic) {
+		SimpleMatrix[] res = new SimpleMatrix[fockderivstatic.length];
+
+		for (int i = 0; i < res.length; i++) {
+			res[i] = CtOcc.mult(fockderivstatic[i]).mult(CVirt);
+		}
+
+		return res;
+	}
+
 	public static SimpleMatrix[] pople(SolutionR soln, SimpleMatrix[] fockderivstatic) {
 		// Pople alg will solve any equation of the form (1-D)x=B
 		int NOcc = soln.rm.nOccAlpha;
@@ -49,8 +59,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 
 		SimpleMatrix F = new SimpleMatrix(nonv, length); // scaled fockderivstatic vectors in matrix form, cf. Farray
 		for (int a = 0; a < length; a++) {
-			SimpleMatrix Foccvirt = soln.CtOcc.mult(fockderivstatic[a]).mult(soln.CVirt); // convert AO to MO basis
-			SimpleMatrix f = Foccvirt.elementDivi(soln.Emat); // divided by (ej - ei)
+			SimpleMatrix f = fockderivstatic[a].elementDiv(soln.Emat); // divided by (ej - ei)
 			f.reshape(nonv, 1);
 
 			multRows(Darr, f.getDDRM());
@@ -279,7 +288,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		}
 
 		for (int a = 0; a < length; a++) {
-			SimpleMatrix f = soln.CtOcc.mult(fockderivstatic[a]).mult(soln.CVirt); // convert AO to MO basis
+			SimpleMatrix f = fockderivstatic[a].copy(); // convert AO to MO basis
 			f.reshape(nonv, 1);
 			multRows(Darr, f.getDDRM());
 
@@ -497,10 +506,10 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		}
 
 		for (int a = 0; a < xarray.length; a++) {
-			SimpleMatrix fa = soln.CtaOcc.mult(fockderivstaticalpha[a]).mult(soln.CaVirt);
+			SimpleMatrix fa = fockderivstaticalpha[a].copy();
 			fa.reshape(nonvAlpha, 1);
 
-			SimpleMatrix fb = soln.CtbOcc.mult(fockderivstaticbeta[a]).mult(soln.CbVirt);
+			SimpleMatrix fb = fockderivstaticbeta[a].copy();
 			fb.reshape(nonvBeta, 1);
 
 			SimpleMatrix f = fa.concatRows(fb);
@@ -617,8 +626,8 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 	}
 
 	private static SimpleMatrix computeResponseVectorsThiel(SolutionU soln, SimpleMatrix x,
-														   SimpleMatrix Jderiv, SimpleMatrix Kaderiv,
-														   SimpleMatrix Kbderiv) {
+															SimpleMatrix Jderiv, SimpleMatrix Kaderiv,
+															SimpleMatrix Kbderiv) {
 		int NOccAlpha = soln.rm.nOccAlpha;
 		int NOccBeta = soln.rm.nOccBeta;
 		int NVirtAlpha = soln.rm.nVirtAlpha;
