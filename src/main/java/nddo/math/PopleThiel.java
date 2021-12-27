@@ -515,58 +515,20 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 				counter++;
 			}
 		}
-		//SimpleMatrix D = SimpleMatrix.eye(NOcc * NVirt);
 
 		for (int a = 0; a < xarray.length; a++) {
-			SimpleMatrix F = new SimpleMatrix(NOccAlpha * NVirtAlpha + NOccBeta * NVirtBeta, 1);
+			SimpleMatrix fa = soln.CtaOcc.mult(fockderivstaticalpha[a]).mult(soln.CaVirt);
+			fa.reshape(nonvAlpha, 1);
 
-			int count1 = 0;
+			SimpleMatrix fb = soln.CtbOcc.mult(fockderivstaticbeta[a]).mult(soln.CbVirt);
+			fb.reshape(nonvBeta, 1);
 
-			for (int i = 0; i < NOccAlpha; i++) { // kappa
-				for (int j = 0; j < NVirtAlpha; j++) { // i
-
-					double element = 0;
-
-					for (int u = 0; u < soln.orbitals.length; u++) {
-						for (int v = 0; v < soln.orbitals.length; v++) {
-							element += soln.Cta.get(i, u) * soln.Cta.get(j + NOccAlpha, v) *
-									fockderivstaticalpha[a].get(u, v);
-						}
-					}
-
-
-					F.set(count1, 0, element);
-
-					count1++;
-				}
-			}
-
-			for (int i = 0; i < NOccBeta; i++) { // kappa
-				for (int j = 0; j < NVirtBeta; j++) { // i
-
-					double element = 0;
-
-					for (int u = 0; u < soln.orbitals.length; u++) {
-						for (int v = 0; v < soln.orbitals.length; v++) {
-							element +=
-									soln.Ctb.get(i, u) * soln.Ctb.get(j + NOccBeta, v) * fockderivstaticbeta[a].get(u,
-											v);
-						}
-					}
-
-					F.set(count1, 0, element);
-
-					count1++;
-				}
-			}
-
-			multRows(Darr, F.getDDRM());
+			SimpleMatrix f = fa.concatRows(fb);
+			multRows(Darr, f.getDDRM());
 
 			xarray[a] = new SimpleMatrix(NOccAlpha * NVirtAlpha + NOccBeta * NVirtBeta, 1);
-
-			rarray[a] = F.copy();
-
-			dirs[a] = F.copy();
+			rarray[a] = f;
+			dirs[a] = f;
 		}
 
 
@@ -625,7 +587,12 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 				}
 			}
 
-			SimpleMatrix alpha = solver.solve(rhsvec);
+			SimpleMatrix alpha;
+			try {
+				alpha = solver.solve(rhsvec);
+			} catch (Exception e) {
+				alpha = SimpleMatrix.ones(p.size(), length);
+			}
 
 			for (int a = 0; a < rhsvec.numCols(); a++) {
 				if (rarray[a] != null) {
@@ -672,7 +639,12 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 				}
 			}
 
-			SimpleMatrix beta = solver.solve(rhsvec);
+			SimpleMatrix beta;
+			try {
+				beta = solver.solve(rhsvec);
+			} catch (Exception e) {
+				beta = SimpleMatrix.ones(p.size(), length);
+			}
 			for (int a = 0; a < rhsvec.numCols(); a++) {
 
 				if (rarray[a] != null) {
