@@ -940,7 +940,7 @@ public class ParamDerivative {
 
 					for (int u = 0; u < soln.orbitals.length; u++) {
 						for (int v = 0; v < soln.orbitals.length; v++) {
-							element += soln.ca.get(i, u) * soln.ca.get(j + NOccAlpha, v) * fockderivstaticalpha[a].get(u, v);
+							element += soln.Cta.get(i, u) * soln.Cta.get(j + NOccAlpha, v) * fockderivstaticalpha[a].get(u, v);
 						}
 					}
 
@@ -958,7 +958,7 @@ public class ParamDerivative {
 
 					for (int u = 0; u < soln.orbitals.length; u++) {
 						for (int v = 0; v < soln.orbitals.length; v++) {
-							element += soln.cb.get(i, u) * soln.cb.get(j + NOccBeta, v) * fockderivstaticbeta[a].get(u, v);
+							element += soln.Ctb.get(i, u) * soln.Ctb.get(j + NOccBeta, v) * fockderivstaticbeta[a].get(u, v);
 						}
 					}
 
@@ -1117,8 +1117,8 @@ public class ParamDerivative {
 				int count = 0;
 				for (int i = 0; i < NOccAlpha; i++) {
 					for (int j = 0; j < NVirtAlpha; j++) {
-						sum -= (soln.ca.get(i, u) * soln.ca.get(j + NOccAlpha, v) +
-								soln.ca.get(j + NOccAlpha, u) * soln.ca.get(i, v)) *
+						sum -= (soln.Cta.get(i, u) * soln.Cta.get(j + NOccAlpha, v) +
+								soln.Cta.get(j + NOccAlpha, u) * soln.Cta.get(i, v)) *
 								xvector.get(count, 0);
 						count++;
 					}
@@ -1135,8 +1135,8 @@ public class ParamDerivative {
 				int count = NOccAlpha * NVirtAlpha;
 				for (int i = 0; i < NOccBeta; i++) {
 					for (int j = 0; j < NVirtBeta; j++) {
-						sum -= (soln.cb.get(i, u) * soln.cb.get(j + NOccBeta, v) +
-								soln.cb.get(j + NOccBeta, u) * soln.cb.get(i, v)) *
+						sum -= (soln.Ctb.get(i, u) * soln.Ctb.get(j + NOccBeta, v) +
+								soln.Ctb.get(j + NOccBeta, u) * soln.Ctb.get(i, v)) *
 								xvector.get(count, 0);
 						count++;
 					}
@@ -1304,9 +1304,9 @@ public class ParamDerivative {
 
 	public static double MNDOHomoDerivNew(SolutionU soln, SimpleMatrix xa, SimpleMatrix Faderiv) {
 
-		SimpleMatrix Caderiv = soln.ca.transpose().mult(xa);
-		SimpleMatrix Eaderiv = Caderiv.transpose().mult(soln.Fa).mult(soln.ca.transpose())
-				.plus(soln.ca.mult(Faderiv).mult(soln.ca.transpose())).plus(soln.ca.mult(soln.Fa).mult(Caderiv));
+		SimpleMatrix Caderiv = soln.Cta.transpose().mult(xa);
+		SimpleMatrix Eaderiv = Caderiv.transpose().mult(soln.Fa).mult(soln.Cta.transpose())
+				.plus(soln.Cta.mult(Faderiv).mult(soln.Cta.transpose())).plus(soln.Cta.mult(soln.Fa).mult(Caderiv));
 
 		return Eaderiv.diag().get(soln.getRm().nOccAlpha - 1);
 	}

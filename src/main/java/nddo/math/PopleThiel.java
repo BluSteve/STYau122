@@ -5,7 +5,6 @@ import nddo.solution.SolutionU;
 import org.ejml.data.SingularMatrixException;
 import org.ejml.dense.row.SpecializedOps_DDRM;
 import org.ejml.simple.SimpleMatrix;
-import tools.Pow;
 import tools.Utils;
 
 import java.util.ArrayList;
@@ -480,26 +479,29 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 
 	public static SimpleMatrix[] thiel(SolutionU soln, SimpleMatrix[] fockderivstaticalpha,
 										 SimpleMatrix[] fockderivstaticbeta) {
-		int NOccAlpha = soln.getRm().nOccAlpha;
-		int NOccBeta = soln.getRm().nOccBeta;
+		int NOccAlpha = soln.rm.nOccAlpha;
+		int NOccBeta = soln.rm.nOccBeta;
+		int NVirtAlpha = soln.rm.nVirtAlpha;
+		int NVirtBeta = soln.rm.nVirtBeta;
+		int length = fockderivstaticalpha.length;
+		int nonvAlpha = NOccAlpha * NVirtAlpha;
+		int nonvBeta = NOccBeta * NVirtBeta;
+		int nonv = nonvAlpha + nonvBeta;
 
-		int NVirtAlpha = soln.getRm().nVirtAlpha;
-		int NVirtBeta = soln.getRm().nVirtBeta;
+		SimpleMatrix[] xarray = new SimpleMatrix[length];
+		SimpleMatrix[] rarray = new SimpleMatrix[length];
+		SimpleMatrix[] dirs = new SimpleMatrix[length];
 
-		SimpleMatrix[] xarray = new SimpleMatrix[fockderivstaticalpha.length];
-
-		SimpleMatrix[] rarray = new SimpleMatrix[fockderivstaticalpha.length];
-
-		SimpleMatrix[] dirs = new SimpleMatrix[fockderivstaticalpha.length];
-
-		SimpleMatrix preconditioner = new SimpleMatrix(NOccAlpha * NVirtAlpha + NOccBeta * NVirtBeta, 1);
+		double[] Darr = new double[nonv];
 
 		int counter = 0;
 
 		for (int i = 0; i < NOccAlpha; i++) {
 			for (int j = 0; j < NVirtAlpha; j++) {
 				double e = -soln.Ea.get(i) + soln.Ea.get(NOccAlpha + j);
-				preconditioner.set(counter, Pow.pow(e, -0.5));
+
+				Darr[counter] = 1 / Math.sqrt(e);
+
 				counter++;
 			}
 		}
@@ -507,13 +509,12 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		for (int i = 0; i < NOccBeta; i++) {
 			for (int j = 0; j < NVirtBeta; j++) {
 				double e = -soln.Eb.get(i) + soln.Eb.get(NOccBeta + j);
-				preconditioner.set(counter, Pow.pow(e, -0.5));
+
+				Darr[counter] = 1 / Math.sqrt(e);
+
 				counter++;
 			}
 		}
-
-		SimpleMatrix D = SimpleMatrix.diag(preconditioner.getDDRM().data);
-
 		//SimpleMatrix D = SimpleMatrix.eye(NOcc * NVirt);
 
 		for (int a = 0; a < xarray.length; a++) {
@@ -528,7 +529,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 
 					for (int u = 0; u < soln.orbitals.length; u++) {
 						for (int v = 0; v < soln.orbitals.length; v++) {
-							element += soln.ca.get(i, u) * soln.ca.get(j + NOccAlpha, v) *
+							element += soln.Cta.get(i, u) * soln.Cta.get(j + NOccAlpha, v) *
 									fockderivstaticalpha[a].get(u, v);
 						}
 					}
@@ -548,7 +549,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 					for (int u = 0; u < soln.orbitals.length; u++) {
 						for (int v = 0; v < soln.orbitals.length; v++) {
 							element +=
-									soln.cb.get(i, u) * soln.cb.get(j + NOccBeta, v) * fockderivstaticbeta[a].get(u,
+									soln.Ctb.get(i, u) * soln.Ctb.get(j + NOccBeta, v) * fockderivstaticbeta[a].get(u,
 											v);
 						}
 					}
@@ -559,7 +560,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 				}
 			}
 
-			F = D.mult(F);
+			multRows(Darr, F.getDDRM());
 
 			xarray[a] = new SimpleMatrix(NOccAlpha * NVirtAlpha + NOccBeta * NVirtBeta, 1);
 
@@ -587,7 +588,9 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 				if (rarray[i] != null) {
 
 					d.add(dirs[i].copy());
-					p.add(D.mult(computeResponseVectorsThiel(dirs[i], soln)));
+					SimpleMatrix sm = computeResponseVectorsThiel(dirs[i], soln);
+					multRows(Darr, sm.getDDRM());
+					p.add(sm);
 				}
 
 
@@ -640,8 +643,6 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 						rarray[a] = null;
 					}
 					else {
-						System.out.println("convergence test: " + mag(rarray[a]));
-
 					}
 
 				}
@@ -719,8 +720,8 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 				int count = 0;
 				for (int i = 0; i < NOccAlpha; i++) {
 					for (int j = 0; j < NVirtAlpha; j++) {
-						sum -= (soln.ca.get(i, u) * soln.ca.get(j + NOccAlpha, v) +
-								soln.ca.get(j + NOccAlpha, u) * soln.ca.get(i, v)) *
+						sum -= (soln.Cta.get(i, u) * soln.Cta.get(j + NOccAlpha, v) +
+								soln.Cta.get(j + NOccAlpha, u) * soln.Cta.get(i, v)) *
 								xarray.get(count, 0);
 						count++;
 					}
@@ -737,8 +738,8 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 				int count = NOccAlpha * NVirtAlpha;
 				for (int i = 0; i < NOccBeta; i++) {
 					for (int j = 0; j < NVirtBeta; j++) {
-						sum -= (soln.cb.get(i, u) * soln.cb.get(j + NOccBeta, v) +
-								soln.cb.get(j + NOccBeta, u) * soln.cb.get(i, v)) *
+						sum -= (soln.Ctb.get(i, u) * soln.Ctb.get(j + NOccBeta, v) +
+								soln.Ctb.get(j + NOccBeta, u) * soln.Ctb.get(i, v)) *
 								xarray.get(count, 0);
 						count++;
 					}
@@ -884,7 +885,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 
 				for (int u = 0; u < soln.orbitals.length; u++) {
 					for (int v = 0; v < soln.orbitals.length; v++) {
-						element += soln.ca.get(i, u) * soln.ca.get(j + NOccAlpha, v) *
+						element += soln.Cta.get(i, u) * soln.Cta.get(j + NOccAlpha, v) *
 								responsealpha.get(u, v);
 					}
 				}
@@ -902,7 +903,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 
 				for (int u = 0; u < soln.orbitals.length; u++) {
 					for (int v = 0; v < soln.orbitals.length; v++) {
-						element += soln.cb.get(i, u) * soln.cb.get(j + NOccBeta, v) *
+						element += soln.Ctb.get(i, u) * soln.Ctb.get(j + NOccBeta, v) *
 								responsebeta.get(u, v);
 					}
 				}

@@ -11,7 +11,8 @@ import static nddo.State.nom;
 
 
 public class SolutionU extends Solution {
-	public SimpleMatrix Ea, Eb, ca, cb, Fa;
+	public SimpleMatrix Ea, Eb, Eamat, Ebmat,
+			Ca, CaOcc, CaVirt, Cta, CtaOcc, CtaVirt, Cb, CbOcc, CbVirt, Ctb, CtbOcc, CtbVirt, Fa;
 	public double[] integralArrayCoulomb, integralArrayExchange;
 	private SimpleMatrix Fb;
 	private SimpleMatrix alphaDensity, betaDensity;
@@ -140,23 +141,23 @@ public class SolutionU extends Solution {
 
 		Eb = matrices[1].diag();
 
-		ca = matrices[0].transpose();
+		Cta = matrices[0].transpose();
 
-		cb = matrices[0].transpose();
+		Ctb = matrices[0].transpose();
 
-		SimpleMatrix j1 = new SimpleMatrix(ca.numRows(), ca.numCols());
+		SimpleMatrix j1 = new SimpleMatrix(Cta.numRows(), Cta.numCols());
 
-		SimpleMatrix ka = new SimpleMatrix(ca.numRows(), ca.numCols());
+		SimpleMatrix ka = new SimpleMatrix(Cta.numRows(), Cta.numCols());
 
-		SimpleMatrix kb = new SimpleMatrix(ca.numRows(), ca.numCols());
+		SimpleMatrix kb = new SimpleMatrix(Cta.numRows(), Cta.numCols());
 
-		alphaDensity = calculateDensityMatrix(ca, nalpha);
+		alphaDensity = calculateDensityMatrix(Cta, nalpha);
 
-		betaDensity = calculateDensityMatrix(cb, nbeta);
+		betaDensity = calculateDensityMatrix(Ctb, nbeta);
 
-		SimpleMatrix oldalphadensity = new SimpleMatrix(ca.numRows(), ca.numCols());
+		SimpleMatrix oldalphadensity = new SimpleMatrix(Cta.numRows(), Cta.numCols());
 
-		SimpleMatrix oldbetadensity = new SimpleMatrix(ca.numRows(), ca.numCols());
+		SimpleMatrix oldbetadensity = new SimpleMatrix(Cta.numRows(), Cta.numCols());
 
 		int Jcount, Kcount;
 
@@ -315,9 +316,9 @@ public class SolutionU extends Solution {
 				for (int i = 0; i <= numIt; i++) {
 
 					double product = commutatorarrayalpha[numIt].mult(commutatorarrayalpha[i].transpose()).diag()
-									.elementSum() +
-									commutatorarraybeta[numIt].mult(commutatorarraybeta[i].transpose()).diag()
-											.elementSum();
+							.elementSum() +
+							commutatorarraybeta[numIt].mult(commutatorarraybeta[i].transpose()).diag()
+									.elementSum();
 					B.set(i, numIt, product);
 					B.set(numIt, i, product);
 
@@ -425,11 +426,11 @@ public class SolutionU extends Solution {
 
 				Eb = matrices2[1].diag();
 
-				ca = matrices1[0].transpose();
-				cb = matrices2[0].transpose();
+				Cta = matrices1[0].transpose();
+				Ctb = matrices2[0].transpose();
 
 
-				if (ca.get(0, 0) != ca.get(0, 0)) {
+				if (Cta.get(0, 0) != Cta.get(0, 0)) {
 
 					matrices1 = Utils.symEigen(this.Fa);
 
@@ -439,15 +440,15 @@ public class SolutionU extends Solution {
 
 					Eb = matrices2[1].diag();
 
-					ca = matrices1[0].transpose();
-					cb = matrices2[0].transpose();
+					Cta = matrices1[0].transpose();
+					Ctb = matrices2[0].transpose();
 
 
 				}
 
-				alphaDensity = calculateDensityMatrix(ca, nalpha);
+				alphaDensity = calculateDensityMatrix(Cta, nalpha);
 
-				betaDensity = calculateDensityMatrix(cb, nbeta);
+				betaDensity = calculateDensityMatrix(Ctb, nbeta);
 
 
 			} catch (Exception e) {
@@ -459,13 +460,13 @@ public class SolutionU extends Solution {
 
 				Eb = matrices2[1].diag();
 
-				ca = matrices1[0].transpose();
-				cb = matrices2[0].transpose();
+				Cta = matrices1[0].transpose();
+				Ctb = matrices2[0].transpose();
 
-				alphaDensity = calculateDensityMatrix(ca, nalpha).scale(1 - damp)
+				alphaDensity = calculateDensityMatrix(Cta, nalpha).scale(1 - damp)
 						.plus(oldalphadensity.scale(damp));
 
-				betaDensity = calculateDensityMatrix(cb, nbeta).scale(1 - damp)
+				betaDensity = calculateDensityMatrix(Ctb, nbeta).scale(1 - damp)
 						.plus(oldbetadensity.scale(damp));
 			}
 
@@ -478,13 +479,13 @@ public class SolutionU extends Solution {
 
 				Eb = matrices2[1].diag();
 
-				ca = matrices1[0].transpose();
-				cb = matrices2[0].transpose();
+				Cta = matrices1[0].transpose();
+				Ctb = matrices2[0].transpose();
 
-				alphaDensity = calculateDensityMatrix(ca, nalpha).scale(1 - damp)
+				alphaDensity = calculateDensityMatrix(Cta, nalpha).scale(1 - damp)
 						.plus(oldalphadensity.scale(damp));
 
-				betaDensity = calculateDensityMatrix(cb, nbeta).scale(1 - damp)
+				betaDensity = calculateDensityMatrix(Ctb, nbeta).scale(1 - damp)
 						.plus(oldbetadensity.scale(damp));
 			}
 
@@ -495,6 +496,36 @@ public class SolutionU extends Solution {
 			getRm().getLogger().trace("SolutionU iteration: {}, DIISError: {}", numIt, DIISError);
 
 			numIt++;
+		}
+		
+		
+		// todo make these precomputations optional
+		CtaOcc = Cta.extractMatrix(0, rm.nOccAlpha, 0, Cta.numCols());
+		CtaVirt = Cta.extractMatrix(rm.nOccAlpha, Cta.numCols(), 0, Cta.numCols());
+		Ca = Cta.transpose();
+		CaOcc = CtaOcc.transpose();
+		CaVirt = CtaVirt.transpose();
+
+		SimpleMatrix sm = Ea.extractMatrix(rm.nOccAlpha, nOrbitals, 0, 1);
+		sm.reshape(1, rm.nVirtAlpha);
+
+		Eamat = new SimpleMatrix(rm.nOccAlpha, rm.nVirtAlpha);
+		for (int i = 0; i < rm.nOccAlpha; i++) {
+			Eamat.insertIntoThis(i, 0, sm.minus(Ea.get(i)));
+		}
+
+		CtbOcc = Ctb.extractMatrix(0, rm.nOccBeta, 0, Ctb.numCols());
+		CtbVirt = Ctb.extractMatrix(rm.nOccBeta, Ctb.numCols(), 0, Ctb.numCols());
+		Cb = Ctb.transpose();
+		CbOcc = CtbOcc.transpose();
+		CbVirt = CtbVirt.transpose();
+
+		sm = Eb.extractMatrix(rm.nOccBeta, nOrbitals, 0, 1);
+		sm.reshape(1, rm.nVirtBeta);
+
+		Ebmat = new SimpleMatrix(rm.nOccBeta, rm.nVirtBeta);
+		for (int i = 0; i < rm.nOccBeta; i++) {
+			Ebmat.insertIntoThis(i, 0, sm.minus(Eb.get(i)));
 		}
 
 		double e = 0;
@@ -507,25 +538,6 @@ public class SolutionU extends Solution {
 						k));
 			}
 		}
-		double checksum = 0;
-
-		for (int a = 0; a < atoms.length; a++) {
-			checksum += E(a, orbsOfAtom);
-		}
-
-		for (int a = 0; a < atoms.length; a++) {
-			for (int b = a + 1; b < atoms.length; b++) {
-				checksum += E(a, b, orbsOfAtom);
-			}
-		}
-
-		if (Math.abs(checksum - e) > 1E-5 || checksum != checksum) {
-			System.err.println("I knew it!");
-			System.err.println(checksum);
-			System.err.println(e);
-//			System.exit(0);
-		}
-
 
 		double heat = 0;
 		for (int j = 0; j < atoms.length; j++) {

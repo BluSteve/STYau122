@@ -138,7 +138,7 @@ public class ParamSecondDerivative {
 		int NOccAlpha = soln.getRm().nOccAlpha;
 		int NOccBeta = soln.getRm().nOccBeta;
 
-		SimpleMatrix Ca = soln.ca.transpose();
+		SimpleMatrix Ca = soln.Cta.transpose();
 
 		SimpleMatrix Dstaticalpha = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 
@@ -172,7 +172,7 @@ public class ParamSecondDerivative {
 			}
 		}
 
-		SimpleMatrix Cb = soln.cb.transpose();
+		SimpleMatrix Cb = soln.Ctb.transpose();
 
 		SimpleMatrix Dstaticbeta = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 
@@ -767,7 +767,7 @@ public class ParamSecondDerivative {
 
 		SimpleMatrix Fa = soln.Fa;
 
-		SimpleMatrix Ca = soln.ca.transpose();
+		SimpleMatrix Ca = soln.Cta.transpose();
 
 		SimpleMatrix Caderiva = Ca.mult(xAalpha);
 
@@ -1067,11 +1067,11 @@ public class ParamSecondDerivative {
 		SimpleMatrix FockBalpha = FstaticBalpha.plus(Rb[0]);
 		SimpleMatrix FockBbeta = FstaticBbeta.plus(Rb[1]);
 
-		SimpleMatrix FAalpha = soln.ca.mult(FockAalpha).mult(soln.ca.transpose());
-		SimpleMatrix FAbeta = soln.cb.mult(FockAbeta).mult(soln.cb.transpose());
+		SimpleMatrix FAalpha = soln.Cta.mult(FockAalpha).mult(soln.Cta.transpose());
+		SimpleMatrix FAbeta = soln.Ctb.mult(FockAbeta).mult(soln.Ctb.transpose());
 
-		SimpleMatrix FBalpha = soln.ca.mult(FockBalpha).mult(soln.ca.transpose());
-		SimpleMatrix FBbeta = soln.cb.mult(FockBbeta).mult(soln.cb.transpose());
+		SimpleMatrix FBalpha = soln.Cta.mult(FockBalpha).mult(soln.Cta.transpose());
+		SimpleMatrix FBbeta = soln.Ctb.mult(FockBbeta).mult(soln.Ctb.transpose());
 
 		SimpleMatrix diagFAalpha = SimpleMatrix.diag(FAalpha.diag().getDDRM().data);
 		SimpleMatrix diagFBalpha = SimpleMatrix.diag(FBalpha.diag().getDDRM().data);
@@ -1099,8 +1099,8 @@ public class ParamSecondDerivative {
 		SimpleMatrix Phialpha = Fstatictotalalpha.plus(GaBalpha).plus(GbAalpha).plus(omegaalpha);
 		SimpleMatrix Phibeta = Fstatictotalbeta.plus(GaBbeta).plus(GbAbeta).plus(omegabeta);
 
-		SimpleMatrix matrixalpha = soln.ca.mult(Phialpha).mult(soln.ca.transpose());
-		SimpleMatrix matrixbeta = soln.cb.mult(Phibeta).mult(soln.cb.transpose());
+		SimpleMatrix matrixalpha = soln.Cta.mult(Phialpha).mult(soln.Cta.transpose());
+		SimpleMatrix matrixbeta = soln.Ctb.mult(Phibeta).mult(soln.Ctb.transpose());
 
 		matrixalpha = matrixalpha.plus(xBalpha.transpose().mult(diagFAalpha)).plus(diagFAalpha.mult(xBalpha))
 				.plus(xAalpha.transpose().mult(diagFBalpha)).plus(diagFBalpha.mult(xAalpha));
@@ -1193,11 +1193,11 @@ public class ParamSecondDerivative {
 		SimpleMatrix FockBalpha = FstaticBalpha.plus(Rb[0]);
 		SimpleMatrix FockBbeta = FstaticBbeta.plus(Rb[1]);
 
-		SimpleMatrix FAalpha = soln.ca.mult(FockAalpha).mult(soln.ca.transpose());
-		SimpleMatrix FAbeta = soln.cb.mult(FockAbeta).mult(soln.cb.transpose());
+		SimpleMatrix FAalpha = soln.Cta.mult(FockAalpha).mult(soln.Cta.transpose());
+		SimpleMatrix FAbeta = soln.Ctb.mult(FockAbeta).mult(soln.Ctb.transpose());
 
-		SimpleMatrix FBalpha = soln.ca.mult(FockBalpha).mult(soln.ca.transpose());
-		SimpleMatrix FBbeta = soln.cb.mult(FockBbeta).mult(soln.cb.transpose());
+		SimpleMatrix FBalpha = soln.Cta.mult(FockBalpha).mult(soln.Cta.transpose());
+		SimpleMatrix FBbeta = soln.Ctb.mult(FockBbeta).mult(soln.Ctb.transpose());
 
 		SimpleMatrix[] xA = xmatrices(FAalpha, FAbeta, soln);
 
@@ -1262,11 +1262,11 @@ public class ParamSecondDerivative {
 		SimpleMatrix FockBalpha = FstaticBalpha.plus(Rb[0]);
 		SimpleMatrix FockBbeta = FstaticBbeta.plus(Rb[1]);
 
-		SimpleMatrix FAalpha = soln.ca.mult(FockAalpha).mult(soln.ca.transpose());
-		SimpleMatrix FAbeta = soln.cb.mult(FockAbeta).mult(soln.cb.transpose());
+		SimpleMatrix FAalpha = soln.Cta.mult(FockAalpha).mult(soln.Cta.transpose());
+		SimpleMatrix FAbeta = soln.Ctb.mult(FockAbeta).mult(soln.Ctb.transpose());
 
-		SimpleMatrix FBalpha = soln.ca.mult(FockBalpha).mult(soln.ca.transpose());
-		SimpleMatrix FBbeta = soln.cb.mult(FockBbeta).mult(soln.cb.transpose());
+		SimpleMatrix FBalpha = soln.Cta.mult(FockBalpha).mult(soln.Cta.transpose());
+		SimpleMatrix FBbeta = soln.Ctb.mult(FockBbeta).mult(soln.Ctb.transpose());
 
 
 		SimpleMatrix[] xA = xmatrices(FAalpha, FAbeta, soln);
@@ -1861,11 +1861,11 @@ public class ParamSecondDerivative {
 
 		SimpleMatrix[] R1 = ParamDerivative.responseMatrices(soln, D1);
 
-		SimpleMatrix[] x1matrix = xmatrices(soln.ca.mult(F1alpha.plus(R1[0])).mult(soln.ca.transpose()),
-				soln.cb.mult(F1beta.plus(R1[1])).mult(soln.cb.transpose()), soln);
+		SimpleMatrix[] x1matrix = xmatrices(soln.Cta.mult(F1alpha.plus(R1[0])).mult(soln.Cta.transpose()),
+				soln.Ctb.mult(F1beta.plus(R1[1])).mult(soln.Ctb.transpose()), soln);
 
-		SimpleMatrix C1alpha = soln.ca.transpose().mult(x1matrix[0]);
-		SimpleMatrix C1beta = soln.cb.transpose().mult(x1matrix[1]);
+		SimpleMatrix C1alpha = soln.Cta.transpose().mult(x1matrix[0]);
+		SimpleMatrix C1beta = soln.Ctb.transpose().mult(x1matrix[1]);
 
 		SimpleMatrix[] D2prime = ParamDerivative.densityDerivatives(solnprime, x2prime);
 
@@ -1876,16 +1876,16 @@ public class ParamSecondDerivative {
 		SimpleMatrix[] R2prime = ParamDerivative.responseMatrices(solnprime, D2prime);
 
 
-		SimpleMatrix[] x2matrix = xmatrices(soln.ca.mult(F2alpha.plus(R2[0])).mult(soln.ca.transpose()),
-				soln.cb.mult(F2beta.plus(R2[1])).mult(soln.cb.transpose()), soln);
+		SimpleMatrix[] x2matrix = xmatrices(soln.Cta.mult(F2alpha.plus(R2[0])).mult(soln.Cta.transpose()),
+				soln.Ctb.mult(F2beta.plus(R2[1])).mult(soln.Ctb.transpose()), soln);
 
 		SimpleMatrix[] x2primematrix =
-				xmatrices(solnprime.ca.mult(F2alphaprime.plus(R2prime[0])).mult(solnprime.ca.transpose()),
-						solnprime.cb.mult(F2betaprime.plus(R2prime[1])).mult(solnprime.cb.transpose()), solnprime);
+				xmatrices(solnprime.Cta.mult(F2alphaprime.plus(R2prime[0])).mult(solnprime.Cta.transpose()),
+						solnprime.Ctb.mult(F2betaprime.plus(R2prime[1])).mult(solnprime.Ctb.transpose()), solnprime);
 
 
-		SimpleMatrix C2alpha = soln.ca.transpose().mult(x2matrix[0]);
-		SimpleMatrix C2beta = soln.cb.transpose().mult(x2matrix[1]);
+		SimpleMatrix C2alpha = soln.Cta.transpose().mult(x2matrix[0]);
+		SimpleMatrix C2beta = soln.Ctb.transpose().mult(x2matrix[1]);
 
 		SimpleMatrix densityderiv2alphafinite = D2prime[0].minus(D2[0]).scale(1 / Constants.LAMBDA);
 		SimpleMatrix densityderiv2betafinite = D2prime[1].minus(D2[1]).scale(1 / Constants.LAMBDA);
@@ -1935,8 +1935,8 @@ public class ParamSecondDerivative {
 				ParamSecondDerivative.MNDOHFDeriv(soln, Z1, param1, Z2, param2, H2, F2alpha, F2beta, D1[0], D1[1], 1);
 
 		SimpleMatrix totalderiv = rhsmat[0].plus(
-				soln.ca.mult(ParamDerivative.responseMatrices(soln, densityderiv2response)[0])
-						.mult(soln.ca.transpose()));
+				soln.Cta.mult(ParamDerivative.responseMatrices(soln, densityderiv2response)[0])
+						.mult(soln.Cta.transpose()));
 
 		SimpleMatrix Fderiv2 =
 				staticFockDeriv(soln, Fstatictotalalpha, Fstatictotalbeta, F1alpha, F1beta, F2alpha, F2beta, x1, x2,
@@ -2059,13 +2059,13 @@ public class ParamSecondDerivative {
 
 		SimpleMatrix[] responsematrices = ParamDerivative.responseMatrices(soln, densityderivs);
 
-		SimpleMatrix Fafull = soln.ca.mult(Fa.plus(responsematrices[0])).mult(soln.ca.transpose());
+		SimpleMatrix Fafull = soln.Cta.mult(Fa.plus(responsematrices[0])).mult(soln.Cta.transpose());
 
-		SimpleMatrix Fbfull = soln.cb.mult(Fb.plus(responsematrices[1])).mult(soln.cb.transpose());
+		SimpleMatrix Fbfull = soln.Ctb.mult(Fb.plus(responsematrices[1])).mult(soln.Ctb.transpose());
 
 		SimpleMatrix[] x = xmatrices(Fafull, Fbfull, soln);
 
-		SimpleMatrix Ca = soln.ca.transpose().mult(x[0]);
+		SimpleMatrix Ca = soln.Cta.transpose().mult(x[0]);
 
 		double homoderiv = (solnprime.homo - soln.homo) / Constants.LAMBDA;
 

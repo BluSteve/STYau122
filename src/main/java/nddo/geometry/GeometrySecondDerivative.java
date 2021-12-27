@@ -72,7 +72,7 @@ public class GeometrySecondDerivative {
 
 					for (int u = 0; u < soln.orbitals.length; u++) {
 						for (int v = 0; v < soln.orbitals.length; v++) {
-							element += soln.ca.get(i, u) * soln.ca.get(j + NOccAlpha, v) *
+							element += soln.Cta.get(i, u) * soln.Cta.get(j + NOccAlpha, v) *
 									fockderivstaticalpha[a].get(u, v);
 						}
 					}
@@ -92,7 +92,7 @@ public class GeometrySecondDerivative {
 					for (int u = 0; u < soln.orbitals.length; u++) {
 						for (int v = 0; v < soln.orbitals.length; v++) {
 							element +=
-									soln.cb.get(i, u) * soln.cb.get(j + NOccBeta, v) * fockderivstaticbeta[a].get(u,
+									soln.Ctb.get(i, u) * soln.Ctb.get(j + NOccBeta, v) * fockderivstaticbeta[a].get(u,
 											v);
 						}
 					}
@@ -195,7 +195,6 @@ public class GeometrySecondDerivative {
 						rarray[a] = null;
 					}
 					else {
-						System.out.println("convergence test: " + mag(rarray[a]));
 
 					}
 
@@ -242,6 +241,7 @@ public class GeometrySecondDerivative {
 
 
 		}
+		System.out.println("xarray = " + xarray[0]);
 
 		SimpleMatrix[] densityderivsalpha =
 				new SimpleMatrix[fockderivstaticalpha.length];
@@ -263,8 +263,8 @@ public class GeometrySecondDerivative {
 					int count = 0;
 					for (int i = 0; i < NOccAlpha; i++) {
 						for (int j = 0; j < NVirtAlpha; j++) {
-							sum -= (soln.ca.get(i, u) * soln.ca.get(j + NOccAlpha, v) +
-									soln.ca.get(j + NOccAlpha, u) * soln.ca.get(i, v)) *
+							sum -= (soln.Cta.get(i, u) * soln.Cta.get(j + NOccAlpha, v) +
+									soln.Cta.get(j + NOccAlpha, u) * soln.Cta.get(i, v)) *
 									xarray[a].get(count, 0);
 							count++;
 						}
@@ -281,8 +281,8 @@ public class GeometrySecondDerivative {
 					int count = NOccAlpha * NVirtAlpha;
 					for (int i = 0; i < NOccBeta; i++) {
 						for (int j = 0; j < NVirtBeta; j++) {
-							sum -= (soln.cb.get(i, u) * soln.cb.get(j + NOccBeta, v) +
-									soln.cb.get(j + NOccBeta, u) * soln.cb.get(i, v)) *
+							sum -= (soln.Ctb.get(i, u) * soln.Ctb.get(j + NOccBeta, v) +
+									soln.Ctb.get(j + NOccBeta, u) * soln.Ctb.get(i, v)) *
 									xarray[a].get(count, 0);
 							count++;
 						}
@@ -368,7 +368,7 @@ public class GeometrySecondDerivative {
 
 					for (int u = 0; u < soln.orbitals.length; u++) {
 						for (int v = 0; v < soln.orbitals.length; v++) {
-							element += soln.ca.get(i, u) * soln.ca.get(j + NOccAlpha, v) *
+							element += soln.Cta.get(i, u) * soln.Cta.get(j + NOccAlpha, v) *
 									fockderivstaticalpha[a].get(u, v);
 						}
 					}
@@ -390,7 +390,7 @@ public class GeometrySecondDerivative {
 					for (int u = 0; u < soln.orbitals.length; u++) {
 						for (int v = 0; v < soln.orbitals.length; v++) {
 							element +=
-									soln.cb.get(i, u) * soln.cb.get(j + NOccBeta, v) * fockderivstaticbeta[a].get(u,
+									soln.Ctb.get(i, u) * soln.Ctb.get(j + NOccBeta, v) * fockderivstaticbeta[a].get(u,
 											v);
 						}
 					}
@@ -559,8 +559,8 @@ public class GeometrySecondDerivative {
 					int count = 0;
 					for (int i = 0; i < NOccAlpha; i++) {
 						for (int j = 0; j < NVirtAlpha; j++) {
-							sum -= (soln.ca.get(i, u) * soln.ca.get(j + NOccAlpha, v) +
-									soln.ca.get(j + NOccAlpha, u) * soln.ca.get(i, v)) *
+							sum -= (soln.Cta.get(i, u) * soln.Cta.get(j + NOccAlpha, v) +
+									soln.Cta.get(j + NOccAlpha, u) * soln.Cta.get(i, v)) *
 									xarray[a].get(count, 0);
 							count++;
 						}
@@ -577,8 +577,8 @@ public class GeometrySecondDerivative {
 					int count = NOccAlpha * NVirtAlpha;
 					for (int i = 0; i < NOccBeta; i++) {
 						for (int j = 0; j < NVirtBeta; j++) {
-							sum -= (soln.cb.get(i, u) * soln.cb.get(j + NOccBeta, v) +
-									soln.cb.get(j + NOccBeta, u) * soln.cb.get(i, v)) *
+							sum -= (soln.Ctb.get(i, u) * soln.Ctb.get(j + NOccBeta, v) +
+									soln.Ctb.get(j + NOccBeta, u) * soln.Ctb.get(i, v)) *
 									xarray[a].get(count, 0);
 							count++;
 						}
@@ -625,8 +625,8 @@ public class GeometrySecondDerivative {
 				int count = 0;
 				for (int i = 0; i < NOccAlpha; i++) {
 					for (int j = 0; j < NVirtAlpha; j++) {
-						sum -= (soln.ca.get(i, u) * soln.ca.get(j + NOccAlpha, v) +
-								soln.ca.get(j + NOccAlpha, u) * soln.ca.get(i, v)) *
+						sum -= (soln.Cta.get(i, u) * soln.Cta.get(j + NOccAlpha, v) +
+								soln.Cta.get(j + NOccAlpha, u) * soln.Cta.get(i, v)) *
 								xarray.get(count, 0);
 						count++;
 					}
@@ -643,8 +643,8 @@ public class GeometrySecondDerivative {
 				int count = NOccAlpha * NVirtAlpha;
 				for (int i = 0; i < NOccBeta; i++) {
 					for (int j = 0; j < NVirtBeta; j++) {
-						sum -= (soln.cb.get(i, u) * soln.cb.get(j + NOccBeta, v) +
-								soln.cb.get(j + NOccBeta, u) * soln.cb.get(i, v)) *
+						sum -= (soln.Ctb.get(i, u) * soln.Ctb.get(j + NOccBeta, v) +
+								soln.Ctb.get(j + NOccBeta, u) * soln.Ctb.get(i, v)) *
 								xarray.get(count, 0);
 						count++;
 					}
@@ -790,7 +790,7 @@ public class GeometrySecondDerivative {
 
 				for (int u = 0; u < soln.orbitals.length; u++) {
 					for (int v = 0; v < soln.orbitals.length; v++) {
-						element += soln.ca.get(i, u) * soln.ca.get(j + NOccAlpha, v) *
+						element += soln.Cta.get(i, u) * soln.Cta.get(j + NOccAlpha, v) *
 								responsealpha.get(u, v);
 					}
 				}
@@ -808,7 +808,7 @@ public class GeometrySecondDerivative {
 
 				for (int u = 0; u < soln.orbitals.length; u++) {
 					for (int v = 0; v < soln.orbitals.length; v++) {
-						element += soln.cb.get(i, u) * soln.cb.get(j + NOccBeta, v) *
+						element += soln.Ctb.get(i, u) * soln.Ctb.get(j + NOccBeta, v) *
 								responsebeta.get(u, v);
 					}
 				}
@@ -864,8 +864,8 @@ public class GeometrySecondDerivative {
 				int count = 0;
 				for (int i = 0; i < NOccAlpha; i++) {
 					for (int j = 0; j < NVirtAlpha; j++) {
-						sum -= (soln.ca.get(i, u) * soln.ca.get(j + NOccAlpha, v) +
-								soln.ca.get(j + NOccAlpha, u) * soln.ca.get(i, v)) *
+						sum -= (soln.Cta.get(i, u) * soln.Cta.get(j + NOccAlpha, v) +
+								soln.Cta.get(j + NOccAlpha, u) * soln.Cta.get(i, v)) *
 								xarray.get(count, 0);
 						count++;
 					}
@@ -882,8 +882,8 @@ public class GeometrySecondDerivative {
 				int count = NOccAlpha * NVirtAlpha;
 				for (int i = 0; i < NOccBeta; i++) {
 					for (int j = 0; j < NVirtBeta; j++) {
-						sum -= (soln.cb.get(i, u) * soln.cb.get(j + NOccBeta, v) +
-								soln.cb.get(j + NOccBeta, u) * soln.cb.get(i, v)) *
+						sum -= (soln.Ctb.get(i, u) * soln.Ctb.get(j + NOccBeta, v) +
+								soln.Ctb.get(j + NOccBeta, u) * soln.Ctb.get(i, v)) *
 								xarray.get(count, 0);
 						count++;
 					}
@@ -1029,7 +1029,7 @@ public class GeometrySecondDerivative {
 
 				for (int u = 0; u < soln.orbitals.length; u++) {
 					for (int v = 0; v < soln.orbitals.length; v++) {
-						element += soln.ca.get(i, u) * soln.ca.get(j + NOccAlpha, v) *
+						element += soln.Cta.get(i, u) * soln.Cta.get(j + NOccAlpha, v) *
 								responsealpha.get(u, v);
 					}
 				}
@@ -1050,7 +1050,7 @@ public class GeometrySecondDerivative {
 
 				for (int u = 0; u < soln.orbitals.length; u++) {
 					for (int v = 0; v < soln.orbitals.length; v++) {
-						element += soln.cb.get(i, u) * soln.cb.get(j + NOccBeta, v) *
+						element += soln.Ctb.get(i, u) * soln.Ctb.get(j + NOccBeta, v) *
 								responsebeta.get(u, v);
 					}
 				}
