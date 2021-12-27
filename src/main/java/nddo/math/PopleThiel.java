@@ -535,7 +535,6 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		ArrayList<SimpleMatrix> d = new ArrayList<>();
 		ArrayList<SimpleMatrix> p = new ArrayList<>();
 
-
 		while (Utils.numNotNull(rarray) > 0) {
 			d.clear();
 			p.clear();
@@ -551,108 +550,86 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 			}
 			int size = p.size(); // actually iterable size
 
+			SimpleMatrix solver = new SimpleMatrix(size, size);
+			SimpleMatrix rhsvec = new SimpleMatrix(size, length);
+			double[] arrrhs = new double[size];
 
-			SimpleMatrix solver = new SimpleMatrix(p.size(), p.size());
-
-
-			SimpleMatrix rhsvec = new SimpleMatrix(p.size(), rarray.length);
-
-			for (int a = 0; a < rhsvec.numCols(); a++) {
+			for (int a = 0; a < length; a++) {
 				if (rarray[a] != null) {
-					SimpleMatrix rhs = new SimpleMatrix(p.size(), 1);
-
-					for (int i = 0; i < rhs.numRows(); i++) {
-						rhs.set(i, 0, 2 * rarray[a].transpose().mult(d.get(i)).get(0, 0));
-
+					for (int i = 0; i < size; i++) {
+						arrrhs[i] = 2 * rarray[a].dot(d.get(i));
 					}
 
-					rhsvec.setColumn(a, 0, rhs.getDDRM().data);
+					rhsvec.setColumn(a, 0, arrrhs);
 				}
 			}
 
-			for (int i = 0; i < solver.numRows(); i++) {
-				for (int j = i; j < solver.numRows(); j++) {
+			for (int i = 0; i < size; i++) {
+				for (int j = i; j < size; j++) {
+					double val2 = p.get(j).dot(d.get(i)) + p.get(i).dot(d.get(j));
 
-					double val = p.get(j).transpose().mult(d.get(i)).get(0,
-							0) + p.get(i).transpose().mult(d.get(j)).get(0, 0);
-					solver.set(i, j, val);
-					solver.set(j, i, val);
+					solver.set(i, j, val2);
+					solver.set(j, i, val2);
 				}
 			}
 
 			SimpleMatrix alpha;
 			try {
 				alpha = solver.solve(rhsvec);
-			} catch (Exception e) {
-				alpha = SimpleMatrix.ones(p.size(), length);
+			} catch (SingularMatrixException ignored) {
+				alpha = SimpleMatrix.ones(size, length);
 			}
 
-			for (int a = 0; a < rhsvec.numCols(); a++) {
+			for (int a = 0; a < length; a++) {
 				if (rarray[a] != null) {
-
-
-					for (int i = 0; i < alpha.numRows(); i++) {
-						xarray[a] =
-								xarray[a].plus(d.get(i).scale(alpha.get(i, a)));
-						rarray[a] =
-								rarray[a].minus(p.get(i).scale(alpha.get(i, a)));
-
+					for (int i = 0; i < size; i++) {
+						double v = alpha.get(i, a);
+						xarray[a].plusi(v, d.get(i));
+						rarray[a].plusi(-v, p.get(i));
 					}
 
-					if (mag(rarray[a]) < 1E-10) {//todo change this
+					if (mag(rarray[a]) < 1E-10) {
 						rarray[a] = null;
 					}
-					else {
-					}
-
 				}
 			}
 
+			solver = new SimpleMatrix(size, size);
 
-			solver = new SimpleMatrix(solver.numRows(), solver.numRows());
-
-			for (int a = 0; a < rhsvec.numCols(); a++) {
+			for (int a = 0; a < length; a++) {
 				if (rarray[a] != null) {
-					SimpleMatrix rhs = new SimpleMatrix(solver.numRows(), 1);
-
-					for (int i = 0; i < rhs.numRows(); i++) {
-						rhs.set(i, 0, -rarray[a].transpose().mult(p.get(i))
-								.get(0, 0));
-
+					for (int i = 0; i < size; i++) {
+						arrrhs[i] = -rarray[a].dot(p.get(i));
 					}
 
-					rhsvec.setColumn(a, 0, rhs.getDDRM().data);
+					rhsvec.setColumn(a, 0, arrrhs);
 				}
 			}
 
-
-			for (int i = 0; i < solver.numRows(); i++) {
-				for (int j = 0; j < solver.numRows(); j++) {
-					solver.set(i, j, d.get(j).transpose().mult(p.get(i)).get(0, 0));
+			for (int i = 0; i < size; i++) {
+				for (int j = 0; j < size; j++) {
+					solver.set(i, j, d.get(j).dot(p.get(i)));
 				}
 			}
 
 			SimpleMatrix beta;
 			try {
 				beta = solver.solve(rhsvec);
-			} catch (Exception e) {
-				beta = SimpleMatrix.ones(p.size(), length);
+			} catch (SingularMatrixException ignored) {
+				beta = SimpleMatrix.ones(size, length);
 			}
-			for (int a = 0; a < rhsvec.numCols(); a++) {
 
+			for (int a = 0; a < length; a++) {
 				if (rarray[a] != null) {
-
-
 					dirs[a] = rarray[a].copy();
 
-					for (int i = 0; i < beta.numRows(); i++) {
-						dirs[a] = dirs[a].plus(d.get(i).scale(beta.get(i, a)));
+					for (int i = 0; i < size; i++) {
+						dirs[a].plusi(beta.get(i, a), d.get(i));
 					}
 				}
 			}
-
-
 		}
+
 		return xarray;
 	}
 
