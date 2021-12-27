@@ -4,11 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="move Darr and Dinvarr to solutionr">
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="moleculeinfo nonv caching">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Testing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryDerivative.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" afterDir="false" />
     </list>
+    <list id="40f1b2ac-b6f1-4aea-90ba-7461c5331778" name="Changes by flyingfalcon" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -166,6 +171,7 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
+    <property name="codeWithMe.voiceChat.enabledByDefault" value="false" />
     <property name="com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File" value="TEXT" />
     <property name="extract.method.default.visibility" value="public" />
     <property name="last.edited.regexp" value="asdf,       asdf" />
@@ -438,20 +444,6 @@
       <workItem from="1640512122904" duration="123000" />
       <workItem from="1640512263163" duration="9000" />
       <workItem from="1640514401916" duration="120000" />
-    </task>
-    <task id="LOCAL-00126" summary="multithreaded presponsev + json debug">
-      <created>1640019982373</created>
-      <option name="number" value="00126" />
-      <option name="presentableId" value="LOCAL-00126" />
-      <option name="project" value="LOCAL" />
-      <updated>1640019982374</updated>
-    </task>
-    <task id="LOCAL-00127" summary="multithreading rvp is not faster + better pbar">
-      <created>1640021828969</created>
-      <option name="number" value="00127" />
-      <option name="presentableId" value="LOCAL-00127" />
-      <option name="project" value="LOCAL" />
-      <updated>1640021828969</updated>
     </task>
     <task id="LOCAL-00128" summary="better pbar">
       <created>1640025053919</created>
@@ -782,7 +774,21 @@
       <option name="project" value="LOCAL" />
       <updated>1640459229525</updated>
     </task>
-    <option name="localTasksCounter" value="175" />
+    <task id="LOCAL-00175" summary="minor cleanup in prep for uhf poplethiel">
+      <created>1640521447616</created>
+      <option name="number" value="00175" />
+      <option name="presentableId" value="LOCAL-00175" />
+      <option name="project" value="LOCAL" />
+      <updated>1640521447616</updated>
+    </task>
+    <task id="LOCAL-00176" summary="moleculeinfo nonv caching">
+      <created>1640593302467</created>
+      <option name="number" value="00176" />
+      <option name="presentableId" value="LOCAL-00176" />
+      <option name="project" value="LOCAL" />
+      <updated>1640593302467</updated>
+    </task>
+    <option name="localTasksCounter" value="177" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -829,8 +835,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="exp7 instead" />
-    <MESSAGE value="io changes + legit runs" />
     <MESSAGE value="solutionu fix" />
     <MESSAGE value="exp and more solutionu fixes" />
     <MESSAGE value="ready for pople testing" />
@@ -854,7 +858,9 @@
     <MESSAGE value="minor changes" />
     <MESSAGE value="with lhs rhs pople caching" />
     <MESSAGE value="without caching - should be faster when mt'ed" />
-    <option name="LAST_COMMIT_MESSAGE" value="without caching - should be faster when mt'ed" />
+    <MESSAGE value="minor cleanup in prep for uhf poplethiel" />
+    <MESSAGE value="moleculeinfo nonv caching" />
+    <option name="LAST_COMMIT_MESSAGE" value="moleculeinfo nonv caching" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

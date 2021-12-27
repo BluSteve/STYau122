@@ -1208,7 +1208,6 @@ public class GeometrySecondDerivative {
 		SimpleMatrix[] densityderivsbeta =
 				new SimpleMatrix[fockderivstaticbeta.length];
 
-
 		int count = 0;
 
 		for (int a = 0; a < soln.atoms.length; a++) {
@@ -1221,6 +1220,12 @@ public class GeometrySecondDerivative {
 				count++;
 			}
 		}
+		SimpleMatrix[][] sms = densityDerivThiel(soln, fockderivstaticalpha, fockderivstaticbeta);
+		SimpleMatrix[] densityderivsalpha2 = sms[0];
+		SimpleMatrix[] densityderivsbeta2 = sms[1];
+		System.out.println(densityderivsalpha2[0]);
+
+		System.out.println(densityderivsalpha[0].minus(densityderivsalpha2[0]).elementMax());
 
 		SimpleMatrix hessian = new SimpleMatrix(densityderivsalpha.length,
 				densityderivsalpha.length);
