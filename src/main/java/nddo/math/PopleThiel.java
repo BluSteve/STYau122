@@ -417,7 +417,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		int NVirt = soln.rm.nVirtAlpha;
 
 		SimpleMatrix xmat = x.copy();
-		xmat.reshape(NOcc, NVirt);
+		xmat.reshape(NOcc, NVirt); // todo reshape this back instead of copy
 
 		SimpleMatrix mult = soln.COcc.mult(xmat).mult(soln.CtVirt);
 		SimpleMatrix densityMatrixDeriv = mult.plusi(mult.transpose()).scalei(-2);
@@ -643,55 +643,26 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		return count;
 	}
 
-	public static SimpleMatrix computeResponseVectorsThiel(SolutionU soln, SimpleMatrix xarray,
+	public static SimpleMatrix computeResponseVectorsThiel(SolutionU soln, SimpleMatrix x,
 														   SimpleMatrix responseMatrix) {
+		int NOccAlpha = soln.rm.nOccAlpha;
+		int NOccBeta = soln.rm.nOccBeta;
+		int NVirtAlpha = soln.rm.nVirtAlpha;
+		int NVirtBeta = soln.rm.nVirtBeta;
 
-		int NOccAlpha = soln.getRm().nOccAlpha;
-		int NOccBeta = soln.getRm().nOccBeta;
+		SimpleMatrix xmat = x.extractMatrix(0, soln.rm.nonvAlpha, 0, 1);
+		xmat.reshape(NOccAlpha, NVirtAlpha);
 
-		int NVirtAlpha = soln.getRm().nVirtAlpha;
-		int NVirtBeta = soln.getRm().nVirtBeta;
-
-		SimpleMatrix densityderivalpha = new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
-
-		SimpleMatrix densityderivbeta = new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
+		SimpleMatrix mult = soln.CaOcc.mult(xmat).mult(soln.CtaVirt);
+		SimpleMatrix densityderivalpha = mult.plusi(mult.transpose()).negativei();
 
 
-		for (int u = 0; u < densityderivalpha.numRows(); u++) {
-			for (int v = u; v < densityderivalpha.numCols(); v++) {
-				double sum = 0;
-				int count = 0;
-				for (int i = 0; i < NOccAlpha; i++) {
-					for (int j = 0; j < NVirtAlpha; j++) {
-						sum -= (soln.Cta.get(i, u) * soln.Cta.get(j + NOccAlpha, v) +
-								soln.Cta.get(j + NOccAlpha, u) * soln.Cta.get(i, v)) *
-								xarray.get(count, 0);
-						count++;
-					}
-				}
+		xmat = x.extractMatrix(soln.rm.nonvAlpha, x.numRows(), 0, 1);
+		xmat.reshape(NOccBeta, NVirtBeta);
 
-				densityderivalpha.set(u, v, sum);
-				densityderivalpha.set(v, u, sum);
-			}
-		}
+		mult = soln.CbOcc.mult(xmat).mult(soln.CtbVirt);
+		SimpleMatrix densityderivbeta = mult.plusi(mult.transpose()).negativei();
 
-		for (int u = 0; u < densityderivalpha.numRows(); u++) {
-			for (int v = u; v < densityderivalpha.numCols(); v++) {
-				double sum = 0;
-				int count = NOccAlpha * NVirtAlpha;
-				for (int i = 0; i < NOccBeta; i++) {
-					for (int j = 0; j < NVirtBeta; j++) {
-						sum -= (soln.Ctb.get(i, u) * soln.Ctb.get(j + NOccBeta, v) +
-								soln.Ctb.get(j + NOccBeta, u) * soln.Ctb.get(i, v)) *
-								xarray.get(count, 0);
-						count++;
-					}
-				}
-
-				densityderivbeta.set(u, v, sum);
-				densityderivbeta.set(v, u, sum);
-			}
-		}
 
 		SimpleMatrix Jderiv = new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
 
@@ -866,7 +837,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 			for (int j = 0; j < NVirtAlpha; j++) {
 
 				p.set(counter, 0,
-						-R.get(counter, 0) + (soln.Ea.get(j + NOccAlpha) - soln.Ea.get(i)) * xarray.get(counter));
+						-R.get(counter, 0) + (soln.Ea.get(j + NOccAlpha) - soln.Ea.get(i)) * x.get(counter));
 				counter++;
 			}
 		}
@@ -875,7 +846,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 			for (int j = 0; j < NVirtBeta; j++) {
 
 				p.set(counter, 0,
-						-R.get(counter, 0) + (soln.Eb.get(j + NOccBeta) - soln.Eb.get(i)) * xarray.get(counter));
+						-R.get(counter, 0) + (soln.Eb.get(j + NOccBeta) - soln.Eb.get(i)) * x.get(counter));
 				counter++;
 			}
 		}
