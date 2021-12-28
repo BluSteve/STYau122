@@ -24,7 +24,6 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 
 		return res;
 	}
-
 	public static SimpleMatrix[] pople(SolutionR soln, SimpleMatrix[] fockderivstatic) {
 		// Pople alg will solve any equation of the form (1-D)x=B
 		int NOcc = soln.rm.nOccAlpha;
@@ -193,7 +192,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		return xarray;
 	}
 
-	private static SimpleMatrix computeResponseVectorsPople(SolutionR soln, SimpleMatrix x,
+	public static SimpleMatrix computeResponseVectorsPople(SolutionR soln, SimpleMatrix x,
 														   SimpleMatrix responseMatrix) {
 		// x is B tilde, i.e. a guess
 		// p = d * b. this evaluates d * b without finding out what d is, as the latter is slow.

@@ -1696,9 +1696,14 @@ public class ParamSecondDerivative {
 		SimpleMatrix F2prime = ParamDerivative.MNDOStaticMatrixDeriv(solnprime, Z2, 0)[1][param2];
 		SimpleMatrix F1 = ParamDerivative.MNDOStaticMatrixDeriv(soln, Z1, 0)[1][param1];
 
-		SimpleMatrix x2 = PopleThiel.pople(soln, new SimpleMatrix[]{F2})[0];
-		SimpleMatrix x2prime = PopleThiel.pople(solnprime, new SimpleMatrix[]{F2prime})[0];
-		SimpleMatrix x1 = PopleThiel.pople(soln, new SimpleMatrix[]{F1})[0];
+		SimpleMatrix x2 = PopleThiel.pople(soln, PopleThiel.aoToMo(soln.CtOcc, soln.CVirt, new SimpleMatrix[]{F2}))[0];
+		SimpleMatrix x2prime = PopleThiel.pople(solnprime,
+				PopleThiel.aoToMo(solnprime.CtOcc, solnprime.CVirt, new SimpleMatrix[]{F2prime}))[0];
+		SimpleMatrix x1 = PopleThiel.pople(soln, PopleThiel.aoToMo(soln.CtOcc, soln.CVirt, new SimpleMatrix[]{F1}))[0];
+
+		System.out.println(x2);
+		System.out.println(x2prime);
+		System.out.println(x1);
 
 		SimpleMatrix D1 = ParamDerivative.densityDerivativeLimited(soln, x1);
 
@@ -1732,9 +1737,20 @@ public class ParamSecondDerivative {
 
 		SimpleMatrix gammavec = GammaArrayLimitedPople(soln, new SimpleMatrix[]{rhsmat})[0];
 
+		System.out.println("gammavec = " + gammavec);
+//		System.out.println("rhsmat = " + rhsmat);
+		SimpleMatrix rhsmat2 = rhsmat.extractMatrix(0, soln.rm.nOccAlpha, soln.rm.nOccAlpha, soln.rm.nOrbitals);
+//		System.out.println("rhsmat2 = " + rhsmat2);
+
+		SimpleMatrix newgammavec = PopleThiel.pople(soln, new SimpleMatrix[]{rhsmat2})[0];
+		System.out.println("newgammavec = " + newgammavec);
+
 		SimpleMatrix densityderiv2response = ParamDerivative.densityDerivativeLimited(soln, gammavec);
 
 		SimpleMatrix densityderiv2 = densityderiv2response.plus(densityderiv2static);
+
+		System.out.println("densityderiv2finite = " + densityderiv2finite);
+		System.out.println("densityderiv2 = " + densityderiv2);
 
 		double Hfderiv = 1 / Constants.LAMBDA *
 				(ParamDerivative.HFDeriv(solnprime, Z2, param2) - ParamDerivative.HFDeriv(soln, Z2, param2));
@@ -1750,7 +1766,8 @@ public class ParamSecondDerivative {
 				xmatrix(soln.Ct.mult(F2.plus(ParamDerivative.responseMatrix(soln, D2))).mult(soln.C), soln);
 
 		SimpleMatrix x2matprime =
-				xmatrix(solnprime.Ct.mult(F2prime.plus(ParamDerivative.responseMatrix(solnprime, D2prime))).mult(solnprime.C), solnprime);
+				xmatrix(solnprime.Ct.mult(F2prime.plus(ParamDerivative.responseMatrix(solnprime, D2prime)))
+						.mult(solnprime.C), solnprime);
 
 		SimpleMatrix totalderiv = rhsmat.plus(
 				soln.Ct.mult(ParamDerivative.responseMatrix(soln, densityderiv2response)).mult(soln.C));
@@ -1811,18 +1828,17 @@ public class ParamSecondDerivative {
 
 		double gradderivprime = ParamGeometryDerivative.gradderiv(solnprime, 0, 0, Z2, param2, D2prime);
 
-		double gradderiv2 =
+		double gradderiv2test =
 				ParamGeometrySecondDerivative.gradderiv2(soln, 0, 0, Z1, param1, Z2, param2, D1, D2, densityderiv2);
+		double gradderiv2 = 1 / Constants.LAMBDA * (gradderivprime - gradderiv);
 
 		System.err.println(gradderiv2);
 
-		double gradderiv2test = 1 / Constants.LAMBDA * (gradderivprime - gradderiv);
 
 		System.err.println(gradderiv2test);
 
 
 		System.err.println("----TESTING CONCLUDED----");
-
 
 		return Solution.isSimilar(densityderiv2, densityderiv2finite, 1E-5) && Math.abs(Hfderiv - Hfderivtest) < 1E-3 &&
 				Math.abs(IEderiv2 - IEtest) < 1E-3 && Math.abs(dipolederiv2 - dipolederivtest) < 1E-3 &&
@@ -1951,7 +1967,6 @@ public class ParamSecondDerivative {
 		double IEtest = MNDOIEDeriv2(soln, x1matrix[0], x2matrix[0], totalderiv, Fderiva, Fderivb, Fderiv2);
 
 
-
 		double IEderiv = ParamDerivative.MNDOHomoDerivNew(soln, x2matrix[0], Fderivb);
 		double IEderivprime =
 				ParamDerivative.MNDOHomoDerivNew(solnprime, x2primematrix[0], Fderivbprime);
@@ -2014,7 +2029,7 @@ public class ParamSecondDerivative {
 		return Solution.isSimilar(densityderiv2alpha, densityderiv2alphafinite, 1E-5) &&
 				Solution.isSimilar(densityderiv2beta, densityderiv2betafinite, 1E-5) &&
 				Math.abs(Hfderiv - Hfderivtest) < 1E-3 && Math.abs(IEderiv2 - IEtest) < 1E-3 &&
-				Math.abs(dipolederiv2 - dipolederivtest) < 1E-3 &&Math.abs(gradderiv2test - gradderiv2) < 1E-5;
+				Math.abs(dipolederiv2 - dipolederivtest) < 1E-3 && Math.abs(gradderiv2test - gradderiv2) < 1E-5;
 	}
 
 	public static boolean verifyEquations(SolutionU soln, int Z1, int param1) {
@@ -2026,12 +2041,12 @@ public class ParamSecondDerivative {
 		double Hfderiv = (solnprime.hf - soln.hf) / Constants.LAMBDA;
 
 		double hfderivcheck = ParamDerivative.HFDeriv(soln, Z1, param1);
-		System.err.println ("---------");
+		System.err.println("---------");
 
 		System.err.println(Hfderiv);
 
 		System.err.println(hfderivcheck);
-		System.err.println ("---------");
+		System.err.println("---------");
 
 		SimpleMatrix[][] matrices = ParamDerivative.MNDOStaticMatrixDeriv(soln, Z1, 0);
 
@@ -2049,12 +2064,12 @@ public class ParamSecondDerivative {
 
 		double dipolederivcheck =
 				ParamDerivative.MNDODipoleDeriv(soln, densityderivs[0].plus(densityderivs[1]), Z1, param1);
-		System.err.println ("---------");
+		System.err.println("---------");
 
 		System.err.println(dipolederiv);
 
 		System.err.println(dipolederivcheck);
-		System.err.println ("---------");
+		System.err.println("---------");
 
 		SimpleMatrix[] responsematrices = ParamDerivative.responseMatrices(soln, densityderivs);
 
@@ -2069,24 +2084,24 @@ public class ParamSecondDerivative {
 		double homoderiv = (solnprime.homo - soln.homo) / Constants.LAMBDA;
 
 		double homoderivcheck = ParamDerivative.MNDOHomoDerivNew(soln, x[0], Fa.plus(responsematrices[0]));
-		System.err.println ("---------");
+		System.err.println("---------");
 
 		System.err.println(homoderiv);
 
 		System.err.println(homoderivcheck);
-		System.err.println ("----expgeom start-----");
+		System.err.println("----expgeom start-----");
 
 
 		double geomderiv = (GeometryDerivative.grad(solnprime, 0, 2) - GeometryDerivative.grad(soln, 0, 2)) /
-		Constants.LAMBDA;
+				Constants.LAMBDA;
 
 		double geomderivcheck = ParamGeometryDerivative.gradderiv(soln, 0, 2, Z1, param1, densityderivs[0],
 				densityderivs[1]);
 
-		System.err.println (geomderiv);
+		System.err.println(geomderiv);
 
-		System.err.println (geomderivcheck);
-		System.err.println ("-----expgeom end----");
+		System.err.println(geomderivcheck);
+		System.err.println("-----expgeom end----");
 
 
 		return Math.abs(Hfderiv - hfderivcheck) < 1E-2;

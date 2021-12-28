@@ -138,25 +138,18 @@ class ParamGradientR extends ParamGradient {
 	@Override
 	protected void computeIEDeriv(int ZI, int paramNum, Solution sPrime) {
 		if (analytical) {
-			if (staticDerivs[ZI][0][paramNum] != null ||
-					staticDerivs[ZI][1][paramNum] != null) {
-				responseDerivs[ZI][paramNum] = ParamDerivative
-						.responseMatrix((SolutionR) s,
-								densityDerivs[ZI][paramNum]);
-				fockDerivs[ZI][paramNum] = staticDerivs[ZI][1][paramNum]
-						.plus(responseDerivs[ZI][paramNum]);
-				xComplementary[ZI][paramNum] = ParamDerivative
-						.xArrayComplementary((SolutionR) s,
-								fockDerivs[ZI][paramNum]);
+			if (staticDerivs[ZI][0][paramNum] != null || staticDerivs[ZI][1][paramNum] != null) {
+				responseDerivs[ZI][paramNum] =
+						ParamDerivative.responseMatrix((SolutionR) s, densityDerivs[ZI][paramNum]);
+				fockDerivs[ZI][paramNum] = staticDerivs[ZI][1][paramNum].plus(responseDerivs[ZI][paramNum]);
+				xComplementary[ZI][paramNum] =
+						ParamDerivative.xArrayComplementary((SolutionR) s, fockDerivs[ZI][paramNum]);
 				xForIE[ZI][paramNum] = ParamDerivative
-						.xarrayForIE((SolutionR) s, xLimited[ZI][paramNum],
-								xComplementary[ZI][paramNum]);
-				coeffDerivs[ZI][paramNum] = ParamDerivative
-						.HOMOCoefficientDerivativeComplementary(
-								xForIE[ZI][paramNum], (SolutionR) s);
+						.xarrayForIE((SolutionR) s, xLimited[ZI][paramNum], xComplementary[ZI][paramNum]);
+				coeffDerivs[ZI][paramNum] =
+						ParamDerivative.HOMOCoefficientDerivativeComplementary(xForIE[ZI][paramNum], (SolutionR) s);
 				IEDerivs[ZI][paramNum] = -ParamDerivative
-						.MNDOHomoDerivtemp((SolutionR) s, coeffDerivs[ZI][paramNum],
-								fockDerivs[ZI][paramNum]);
+						.MNDOHomoDerivtemp((SolutionR) s, coeffDerivs[ZI][paramNum], fockDerivs[ZI][paramNum]);
 			}
 		}
 		else {

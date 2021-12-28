@@ -40,8 +40,7 @@ public class ParamDerivative {
 
 	}
 
-	public static SimpleMatrix[][] MNDOStaticMatrixDeriv(SolutionR soln, int Z,
-														 int firstParamIndex) {
+	public static SimpleMatrix[][] MNDOStaticMatrixDeriv(SolutionR soln, int Z, int firstParamIndex) {
 		NDDOAtom[] atoms = soln.atoms;
 		SimpleMatrix[] HDerivs = new SimpleMatrix[8];
 		SimpleMatrix[] FDerivs = new SimpleMatrix[8];
@@ -50,26 +49,18 @@ public class ParamDerivative {
 		if (firstParamIndex <= 1) FDerivs[1] = HDerivs[1].copy();
 		if (firstParamIndex <= 3) HDerivs[3] = uxxfockderivstatic(soln, Z, 0);
 		if (firstParamIndex <= 3) FDerivs[3] = HDerivs[3].copy();
-		if (firstParamIndex <= 5)
-			HDerivs[5] = zetaHderivstatic(atoms, soln, Z, 0);
-		if (firstParamIndex <= 5)
-			FDerivs[5] =
-					HDerivs[5].copy().plus(zetaGderivstatic(atoms, soln, Z,
-							0));
+		if (firstParamIndex <= 5) HDerivs[5] = zetaHderivstatic(atoms, soln, Z, 0);
+		if (firstParamIndex <= 5) FDerivs[5] = HDerivs[5].copy().plus(zetaGderivstatic(atoms, soln, Z, 0));
 
 		if (Z != 1) {
-			if (firstParamIndex <= 2)
-				HDerivs[2] = betafockderivstatic(soln, Z, 1);
+			if (firstParamIndex <= 2) HDerivs[2] = betafockderivstatic(soln, Z, 1);
 			if (firstParamIndex <= 2) FDerivs[2] = HDerivs[2].copy();
-			if (firstParamIndex <= 4)
-				HDerivs[4] = uxxfockderivstatic(soln, Z, 1);
+			if (firstParamIndex <= 4) HDerivs[4] = uxxfockderivstatic(soln, Z, 1);
 			if (firstParamIndex <= 4) FDerivs[4] = HDerivs[4].copy();
-			if (firstParamIndex <= 6)
-				HDerivs[6] = zetaHderivstatic(atoms, soln, Z, 1);
-			if (firstParamIndex <= 6)
-				FDerivs[6] = HDerivs[6].copy()
-						.plus(zetaGderivstatic(atoms, soln, Z, 1));
+			if (firstParamIndex <= 6) HDerivs[6] = zetaHderivstatic(atoms, soln, Z, 1);
+			if (firstParamIndex <= 6) FDerivs[6] = HDerivs[6].copy().plus(zetaGderivstatic(atoms, soln, Z, 1));
 		}
+
 		return new SimpleMatrix[][]{HDerivs, FDerivs};
 	}
 
