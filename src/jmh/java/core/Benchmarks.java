@@ -3,6 +3,7 @@ package core;
 import frontend.TxtIO;
 import nddo.geometry.GeometryDerivative;
 import nddo.geometry.GeometrySecondDerivative;
+import nddo.param.ParamDerivative;
 import nddo.solution.Solution;
 import nddo.solution.SolutionR;
 import org.ejml.simple.SimpleMatrix;
@@ -21,12 +22,13 @@ public class Benchmarks {
 
 	@Benchmark
 	@Fork(value = 1, warmups = 0)
-	@Warmup(iterations = 2, time = 5)
-	@Measurement(iterations = 3, time = 5)
+	@Warmup(iterations = 5, time = 5)
+	@Measurement(iterations = 5, time = 5)
 	@BenchmarkMode(Mode.SampleTime)
 	@OutputTimeUnit(TimeUnit.MILLISECONDS)
 	public static void thiel(State state) {
-//		GeometrySecondDerivative.hessianRoutine(state.s, state.fderivalpha, state.fderivbeta);
+		ParamDerivative.zetaHfderiv(state.s, 6, 0);
+		ParamDerivative.zetaHfderiv(state.s, 6, 1);
 	}
 
 	@org.openjdk.jmh.annotations.State(Scope.Benchmark)

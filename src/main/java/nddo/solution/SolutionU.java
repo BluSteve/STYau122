@@ -1,5 +1,6 @@
 package nddo.solution;
 
+import nddo.Constants;
 import nddo.NDDOAtom;
 import nddo.structs.MoleculeInfo;
 import org.ejml.simple.SimpleMatrix;
@@ -550,7 +551,7 @@ public class SolutionU extends Solution {
 
 		heat += e;
 
-		this.hf = heat / 4.3363E-2;
+		this.hf = heat / Constants.HEATCONV;
 
 		this.homo = Ea.get(nalpha - 1, 0);
 		this.lumo = 0.001 * Math.round(Eb.get(nbeta, 0) * 1000);

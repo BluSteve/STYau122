@@ -9,7 +9,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class AtomProperties { // Only 119 of these, immutable
-	private static final double HEATCONV = 4.3363E-2;
 	private int Z, Q;
 	private String name;
 	private double mass, heat;	private static AtomProperties[] atoms = getAtoms();
@@ -69,7 +68,7 @@ public class AtomProperties { // Only 119 of these, immutable
 	}
 
 	public double getHeat() {
-		return heat * HEATCONV;
+		return heat * Constants.HEATCONV;
 	}
 
 	public double getMass() {

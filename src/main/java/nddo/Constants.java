@@ -6,4 +6,5 @@ public class Constants {
 	public static final int MAX_ATOM_NUM = 10;
 	public static final double eV = 27.2114;
 	public static final int RANDOM_SEED = 123;
+	public static final double HEATCONV = 4.3363E-2;
 }

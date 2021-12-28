@@ -1,5 +1,6 @@
 package nddo.param;
 
+import nddo.Constants;
 import nddo.NDDOAtom;
 import nddo.NDDOOrbital;
 import nddo.State;
@@ -12,7 +13,6 @@ import static nddo.State.nom;
 
 public class ParamDerivative {
 	public static double HFDeriv(Solution soln, int Z, int paramnum) {
-
 		if (paramnum == 0) {
 			return alphaHfderiv(soln, Z);
 		}
@@ -22,7 +22,6 @@ public class ParamDerivative {
 		if (paramnum <= 4) {
 			return uxxHfderiv(soln, Z, paramnum - 3);
 		}
-
 		if (paramnum <= 6) {
 			if (soln instanceof SolutionR) {
 				return zetaHfderiv((SolutionR) soln, Z, paramnum - 5);
@@ -35,9 +34,240 @@ public class ParamDerivative {
 			return eisolHfderiv(soln.atoms, Z);
 		}
 
-		System.err.println("oh no! This isn't MNDO!");
-		return 0;
+		throw new IllegalArgumentException("Model is not MNDO!");
+	}
 
+	private static double alphaHfderiv(Solution soln, int Z) {
+		double sum = 0;
+
+		for (int i = 0; i < soln.atoms.length; i++) {
+			for (int j = i + 1; j < soln.atoms.length; j++) {
+				sum += soln.atoms[i].crfalphapd(soln.atoms[j],
+						getNum(soln.atomicNumbers[i], soln.atomicNumbers[j], Z));
+			}
+		}
+
+		return sum / Constants.HEATCONV;
+	}
+
+	private static double betaHfderiv(Solution soln, int Z, int type) {
+		SimpleMatrix densitymatrix = soln.densityMatrix();
+
+		NDDOOrbital[] orbitals = soln.orbitals;
+		int[] atomOfOrb = soln.atomOfOrb;
+		int[] atomicNumbers = soln.atomicNumbers;
+
+		double e = 0;
+
+		for (int j = 0; j < orbitals.length; j++) {
+			for (int k = j; k < orbitals.length; k++) {
+				if (atomOfOrb[j] != atomOfOrb[k]) {
+					double H = nom.Hbetapd(orbitals[j], orbitals[k],
+							getNumBeta(atomicNumbers[atomOfOrb[j]], atomicNumbers[atomOfOrb[k]],
+									Z, orbitals[j].getL(), orbitals[k].getL(), type));
+					e += 2 * densitymatrix.get(j, k) * H;
+				}
+			}
+		}
+
+		return e / Constants.HEATCONV;
+	}
+
+	private static double uxxHfderiv(Solution soln, int Z, int type) {
+		SimpleMatrix densitymatrix = soln.densityMatrix();
+
+		NDDOOrbital[] orbitals = soln.orbitals;
+		int[] atomOfOrb = soln.atomOfOrb;
+		int[] atomicNumbers = soln.atomicNumbers;
+
+		double e = 0;
+		for (int j = 0; j < orbitals.length; j++) {
+			if (atomicNumbers[atomOfOrb[j]] == Z && orbitals[j].getL() == type) {
+				e += densitymatrix.get(j, j);
+			}
+		}
+
+		return e / Constants.HEATCONV;
+	}
+
+	public static double zetaHfderiv(SolutionR soln, int Z, int type) {
+		SimpleMatrix densitymatrix = soln.densityMatrix();
+		NDDOOrbital[] orbitals = soln.orbitals;
+
+		int[][] orbsOfAtom = soln.orbsOfAtom;
+		int[][] missingIndex = soln.missingOfAtom;
+		int[] atomOfOrb = soln.atomOfOrb;
+		int[] atomicNumbers = soln.atomicNumbers;
+
+		SimpleMatrix H = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
+
+		for (int j = 0; j < soln.nOrbitals; j++) {
+			for (int k = j; k < soln.nOrbitals; k++) {
+				if (atomOfOrb[j] == atomOfOrb[k]) {
+					double Huv = 0;
+					for (int an = 0; an < soln.atoms.length; an++)
+						if (atomOfOrb[j] != an) Huv += soln.atoms[an].Vpd(orbitals[j], orbitals[k],
+								getNum(atomicNumbers[an], atomicNumbers[atomOfOrb[j]], Z), type);
+					H.set(j, k, Huv);
+					H.set(k, j, Huv);
+				}
+				else { /* case 3*/
+					double Huk = nom.Hzetapd(orbitals[j], orbitals[k],
+							getNum(atomicNumbers[atomOfOrb[j]], atomicNumbers[atomOfOrb[k]], Z), type);
+					H.set(j, k, Huk);
+					H.set(k, j, Huk);
+				}
+			}
+		}
+
+		SimpleMatrix G = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
+
+		for (int j = 0; j < soln.nOrbitals; j++) {
+			for (int k = j; k < soln.nOrbitals; k++) {
+				double sum = 0;
+
+				if (atomOfOrb[j] == atomOfOrb[k]) {
+					for (int l : missingIndex[atomOfOrb[j]]) {
+						for (int m : missingIndex[atomOfOrb[j]]) {
+							if (atomOfOrb[l] == atomOfOrb[m]) {
+								sum += soln.densityMatrix().get(l, m) *
+										nom.Gpd(orbitals[j], orbitals[k], orbitals[l], orbitals[m],
+												getNum(atomicNumbers[atomOfOrb[j]], atomicNumbers[atomOfOrb[l]], Z),
+												type);
+							}
+						}
+					}
+				}
+				else for (int l : orbsOfAtom[atomOfOrb[j]]) {
+					for (int m : orbsOfAtom[atomOfOrb[k]]) {
+						sum += soln.densityMatrix().get(l, m) * (-0.5 *
+								nom.Gpd(orbitals[j], orbitals[l], orbitals[k], orbitals[m],
+										getNum(atomicNumbers[atomOfOrb[j]], atomicNumbers[atomOfOrb[k]], Z), type));
+					}
+				}
+
+				G.set(j, k, sum);
+				G.set(k, j, sum);
+			}
+		}
+
+		return densitymatrix.elementMult(G.plusi(2, H)).elementSum() * 0.5 / Constants.HEATCONV;
+	}
+
+	private static double zetaHfderiv(SolutionU soln, int Z, int type) {
+		NDDOOrbital[] orbitals = soln.orbitals;
+		int[][] orbsOfAtom = soln.orbsOfAtom;
+		int[][] missingOfAtom = soln.missingOfAtom;
+		int[] atomOfOrb = soln.atomOfOrb;
+		int[] atomicNumbers = soln.atomicNumbers;
+
+		SimpleMatrix H = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
+
+		for (int j = 0; j < soln.nOrbitals; j++) {
+			for (int k = j; k < soln.nOrbitals; k++) {
+				if (atomOfOrb[j] == atomOfOrb[k]) {
+					double Huv = 0;
+
+					for (int an = 0; an < soln.atoms.length; an++) {
+						if (atomOfOrb[j] != an) {
+							Huv += soln.atoms[an].Vpd(orbitals[j], orbitals[k],
+									getNum(atomicNumbers[an], atomicNumbers[atomOfOrb[j]], Z), type);
+						}
+					}
+					H.set(j, k, Huv);
+					H.set(k, j, Huv);
+				}
+				else { // case 3
+					double Huk = nom.Hzetapd(orbitals[j], orbitals[k],
+							getNum(atomicNumbers[atomOfOrb[j]], atomicNumbers[atomOfOrb[k]], Z), type);
+					H.set(j, k, Huk);
+					H.set(k, j, Huk);
+				}
+			}
+		}
+
+		SimpleMatrix Ga = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
+		SimpleMatrix Gb = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
+
+		for (int j = 0; j < soln.nOrbitals; j++) {
+			for (int k = j; k < soln.nOrbitals; k++) {
+				double suma = 0;
+				double sumb = 0;
+
+				if (atomOfOrb[j] == atomOfOrb[k]) {
+					for (int l : missingOfAtom[atomOfOrb[j]]) {
+						for (int m : missingOfAtom[atomOfOrb[j]]) {
+							if (atomOfOrb[l] == atomOfOrb[m]) {
+								suma += soln.densityMatrix().get(l, m) *
+										nom.Gpd(orbitals[j], orbitals[k], orbitals[l],
+												orbitals[m], getNum(atomicNumbers[atomOfOrb[j]],
+														atomicNumbers[atomOfOrb[l]], Z), type);
+								sumb += soln.densityMatrix().get(l, m) *
+										nom.Gpd(orbitals[j], orbitals[k], orbitals[l],
+												orbitals[m], getNum(atomicNumbers[atomOfOrb[j]],
+														atomicNumbers[atomOfOrb[l]], Z), type);
+
+							}
+						}
+					}
+				}
+				else {
+					for (int l : orbsOfAtom[atomOfOrb[j]]) {
+						for (int m : orbsOfAtom[atomOfOrb[k]]) {
+							suma -= soln.alphaDensity().get(l, m) *
+									nom.Gpd(orbitals[j], orbitals[l], orbitals[k], orbitals[m],
+											getNum(atomicNumbers[atomOfOrb[j]], atomicNumbers[atomOfOrb[k]], Z),
+											type);
+
+							sumb -= soln.betaDensity().get(l, m) *
+									nom.Gpd(orbitals[j], orbitals[l], orbitals[k], orbitals[m],
+											getNum(atomicNumbers[atomOfOrb[j]], atomicNumbers[atomOfOrb[k]], Z),
+											type);
+
+						}
+					}
+				}
+
+				Ga.set(j, k, suma);
+				Ga.set(k, j, suma);
+
+				Gb.set(j, k, sumb);
+				Gb.set(k, j, sumb);
+			}
+		}
+
+		SimpleMatrix Fa = H.copy().plus(Ga);
+		SimpleMatrix Fb = H.copy().plus(Gb);
+
+
+		double e = 0;
+
+		for (int j = 0; j < soln.nOrbitals; j++) {
+			for (int k = 0; k < soln.nOrbitals; k++) {
+				e += 0.5 * soln.alphaDensity().get(j, k) * (H.get(j, k) + Fa.get(j, k));
+				e += 0.5 * soln.betaDensity().get(j, k) * (H.get(j, k) + Fb.get(j, k));
+
+			}
+		}
+
+		double e2 = soln.alphaDensity().elementMult(Ga.plusi(H)).elementSum() +
+				soln.betaDensity().elementMult(Gb.plusi(H)).elementSum() * 0.5 / Constants.HEATCONV;
+		System.out.println("e2 = " + e2);
+
+		return e / Constants.HEATCONV;
+
+	}
+
+	private static double eisolHfderiv(NDDOAtom[] atoms, int Z) {
+		int counter = 0;
+
+		for (NDDOAtom a : atoms) {
+			if (a.getAtomProperties().getZ() == Z) {
+				counter++;
+			}
+		}
+
+		return -counter / Constants.HEATCONV;
 	}
 
 	public static SimpleMatrix[][] MNDOStaticMatrixDeriv(SolutionR soln, int Z, int firstParamIndex) {
@@ -123,188 +353,7 @@ public class ParamDerivative {
 			}
 		}
 
-		return e / 4.3363E-2;
-	}
-
-	private static double zetaHfderiv(SolutionR soln, int Z, int type) {
-		SimpleMatrix densitymatrix = soln.densityMatrix();
-		NDDOOrbital[] orbitals = soln.orbitals;
-
-		int[][] index = soln.orbsOfAtom;
-		int[][] missingIndex = soln.missingOfAtom;
-		int[] atomNumber = soln.atomOfOrb;
-		int[] atomicnumbers = soln.atomicNumbers;
-
-		SimpleMatrix H = new SimpleMatrix(orbitals.length, orbitals.length);
-
-		for (int j = 0; j < orbitals.length; j++) {
-			for (int k = j; k < orbitals.length; k++) {
-				if (atomNumber[j] == atomNumber[k]) {
-					double Huv = 0;
-					for (int an = 0; an < soln.atoms.length; an++)
-						if (atomNumber[j] != an) Huv += soln.atoms[an].Vpd(orbitals[j], orbitals[k],
-								getNum(atomicnumbers[an], atomicnumbers[atomNumber[j]], Z), type);
-					H.set(j, k, Huv);
-					H.set(k, j, Huv);
-				}
-				else { /* case 3*/
-					double Huk = nom.Hzetapd(orbitals[j], orbitals[k],
-							getNum(atomicnumbers[atomNumber[j]], atomicnumbers[atomNumber[k]], Z), type);
-					H.set(j, k, Huk);
-					H.set(k, j, Huk);
-				}
-			}
-		}
-		SimpleMatrix G = new SimpleMatrix(orbitals.length, orbitals.length);
-
-		for (int j = 0; j < orbitals.length; j++) {
-			for (int k = j; k < orbitals.length; k++) {
-				double sum = 0;
-				if (atomNumber[j] == atomNumber[k]) {
-					for (int l : missingIndex[atomNumber[j]])
-						if (l > -1) for (int m : missingIndex[atomNumber[j]])
-							if (m > -1 && atomNumber[l] == atomNumber[m]) sum += soln.densityMatrix().get(l, m) *
-									nom.Gpd(orbitals[j], orbitals[k], orbitals[l], orbitals[m],
-											getNum(atomicnumbers[atomNumber[j]], atomicnumbers[atomNumber[l]], Z),
-											type);
-				}
-				else for (int l : index[atomNumber[j]])
-					if (l > -1) for (int m : index[atomNumber[k]])
-						if (m > -1) sum += soln.densityMatrix().get(l, m) * (-0.5 *
-								nom.Gpd(orbitals[j], orbitals[l], orbitals[k], orbitals[m],
-										getNum(atomicnumbers[atomNumber[j]], atomicnumbers[atomNumber[k]], Z), type));
-				G.set(j, k, sum);
-				G.set(k, j, sum);
-			}
-		}
-
-		SimpleMatrix F = H.copy().plus(G);
-		double e = 0;
-
-		for (int j = 0; j < orbitals.length; j++) {
-			for (int k = 0; k < orbitals.length; k++) e += 0.5 * densitymatrix.get(j, k) * (H.get(j, k) + F.get(j, k));
-		}
-		return e / 4.3363E-2;
-	}
-
-	private static double zetaHfderiv(SolutionU soln, int Z, int type) {
-
-		NDDOOrbital[] orbitals = soln.orbitals;
-
-		int[][] index = soln.orbsOfAtom;
-
-		int[][] missingIndex = soln.missingOfAtom;
-
-		int[] atomNumber = soln.atomOfOrb;
-
-		int[] atomicnumbers = soln.atomicNumbers;
-
-		SimpleMatrix H = new SimpleMatrix(orbitals.length, orbitals.length);
-
-		for (int j = 0; j < orbitals.length; j++) {
-			for (int k = j; k < orbitals.length; k++) {
-				if (atomNumber[j] == atomNumber[k]) {
-					double Huv = 0;
-
-					for (int an = 0; an < soln.atoms.length; an++) {
-						if (atomNumber[j] != an) {
-							Huv += soln.atoms[an]
-									.Vpd(orbitals[j], orbitals[k],
-											getNum(atomicnumbers[an],
-													atomicnumbers[atomNumber[j]],
-													Z), type);
-						}
-					}
-					H.set(j, k, Huv);
-					H.set(k, j, Huv);
-				}
-				else { // case 3
-					double Huk = nom.Hzetapd(orbitals[j], orbitals[k],
-							getNum(atomicnumbers[atomNumber[j]], atomicnumbers[atomNumber[k]], Z), type);
-					H.set(j, k, Huk);
-					H.set(k, j, Huk);
-				}
-			}
-		}
-
-		SimpleMatrix Ga = new SimpleMatrix(orbitals.length, orbitals.length);
-
-		SimpleMatrix Gb = new SimpleMatrix(orbitals.length, orbitals.length);
-
-
-		for (int j = 0; j < orbitals.length; j++) {
-			for (int k = j; k < orbitals.length; k++) {
-				double suma = 0;
-				double sumb = 0;
-
-				if (atomNumber[j] == atomNumber[k]) {
-					for (int l : missingIndex[atomNumber[j]]) {
-						if (l > -1) {
-							for (int m : missingIndex[atomNumber[j]]) {
-								if (m > -1) {
-									if (atomNumber[l] == atomNumber[m]) {
-										suma += soln.densityMatrix().get(l, m) *
-												nom.Gpd(orbitals[j], orbitals[k], orbitals[l],
-														orbitals[m], getNum(atomicnumbers[atomNumber[j]],
-																atomicnumbers[atomNumber[l]], Z), type);
-										sumb += soln.densityMatrix().get(l, m) *
-												nom.Gpd(orbitals[j], orbitals[k], orbitals[l],
-														orbitals[m], getNum(atomicnumbers[atomNumber[j]],
-																atomicnumbers[atomNumber[l]], Z), type);
-
-									}
-								}
-							}
-						}
-					}
-				}
-				else {
-					for (int l : index[atomNumber[j]]) {
-						if (l > -1) {
-							for (int m : index[atomNumber[k]]) {
-								if (m > -1) {
-									suma -= soln.alphaDensity().get(l, m) *
-											nom.Gpd(orbitals[j], orbitals[l], orbitals[k],
-													orbitals[m],
-													getNum(atomicnumbers[atomNumber[j]], atomicnumbers[atomNumber[k]],
-															Z), type);
-
-									sumb -= soln.betaDensity().get(l, m) *
-											nom.Gpd(orbitals[j], orbitals[l], orbitals[k],
-													orbitals[m],
-													getNum(atomicnumbers[atomNumber[j]], atomicnumbers[atomNumber[k]],
-															Z), type);
-
-								}
-							}
-						}
-					}
-				}
-
-				Ga.set(j, k, suma);
-				Ga.set(k, j, suma);
-
-				Gb.set(j, k, sumb);
-				Gb.set(k, j, sumb);
-			}
-		}
-
-		SimpleMatrix Fa = H.copy().plus(Ga);
-		SimpleMatrix Fb = H.copy().plus(Gb);
-
-
-		double e = 0;
-
-		for (int j = 0; j < orbitals.length; j++) {
-			for (int k = 0; k < orbitals.length; k++) {
-				e += 0.5 * soln.alphaDensity().get(j, k) * (H.get(j, k) + Fa.get(j, k));
-				e += 0.5 * soln.betaDensity().get(j, k) * (H.get(j, k) + Fb.get(j, k));
-
-			}
-		}
-
-		return e / 4.3363E-2;
-
+		return e / Constants.HEATCONV;
 	}
 
 	private static SimpleMatrix zetaHderivstatic(NDDOAtom[] atoms,
@@ -501,30 +550,6 @@ public class ParamDerivative {
 	}
 
 
-	private static double uxxHfderiv(Solution soln, int Z, int type) {
-
-		SimpleMatrix densitymatrix = soln.densityMatrix();
-
-
-		NDDOOrbital[] orbitals = soln.orbitals;
-
-		int[] atomNumber = soln.atomOfOrb;
-
-		int[] atomicnumbers = soln.atomicNumbers;
-
-		double e = 0;
-
-		for (int j = 0; j < orbitals.length; j++) {
-
-			if (atomicnumbers[atomNumber[j]] == Z && orbitals[j].getL() == type) {
-				e += densitymatrix.get(j, j);
-			}
-		}
-
-		return e / 4.3363E-2;
-
-	}
-
 	private static SimpleMatrix uxxfockderivstatic(Solution soln, int Z,
 												   int type) {
 
@@ -540,34 +565,6 @@ public class ParamDerivative {
 
 		return F;
 
-	}
-
-	private static double betaHfderiv(Solution soln, int Z, int type) {
-
-		SimpleMatrix densitymatrix = soln.densityMatrix();
-
-
-		NDDOOrbital[] orbitals = soln.orbitals;
-
-		int[] atomNumber = soln.atomOfOrb;
-
-		int[] atomicnumbers = soln.atomicNumbers;
-
-
-		double e = 0;
-
-		for (int j = 0; j < orbitals.length; j++) {
-			for (int k = j; k < orbitals.length; k++) {
-				if (atomNumber[j] != atomNumber[k]) {
-					double H = nom.Hbetapd(orbitals[j], orbitals[k],
-							getNumBeta(atomicnumbers[atomNumber[j]], atomicnumbers[atomNumber[k]],
-									Z, orbitals[j].getL(), orbitals[k].getL(), type));
-					e += 2 * densitymatrix.get(j, k) * H;
-				}
-			}
-		}
-
-		return e / 4.3363E-2;
 	}
 
 	private static SimpleMatrix betafockderivstatic(Solution soln, int Z,
@@ -598,35 +595,6 @@ public class ParamDerivative {
 
 	}
 
-
-	private static double eisolHfderiv(NDDOAtom[] atoms, int Z) {
-
-		int counter = 0;
-
-		for (NDDOAtom a : atoms) {
-			if (a.getAtomProperties().getZ() == Z) {
-				counter++;
-			}
-		}
-
-		return -counter / 4.3363E-2;
-
-	}
-
-	private static double alphaHfderiv(Solution soln, int Z) {
-
-		double sum = 0;
-
-		for (int i = 0; i < soln.atoms.length; i++) {
-			for (int j = i + 1; j < soln.atoms.length; j++) {
-				sum += soln.atoms[i].crfalphapd(soln.atoms[j],
-						getNum(soln.atomicNumbers[i], soln.atomicNumbers[j],
-								Z));
-			}
-		}
-
-		return sum / 4.3363E-2;
-	}
 
 	static int getNum(int Z1, int Z2, int Z) {
 		int num = 0;

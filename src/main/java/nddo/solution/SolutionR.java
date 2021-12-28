@@ -1,5 +1,6 @@
 package nddo.solution;
 
+import nddo.Constants;
 import nddo.NDDOAtom;
 import nddo.structs.MoleculeInfo;
 import org.ejml.data.SingularMatrixException;
@@ -562,7 +563,7 @@ public class SolutionR extends Solution {
 		}
 
 		heat += energy;
-		hf = heat / 4.3363E-2;
+		hf = heat / Constants.HEATCONV;
 	}
 
 	private SimpleMatrix calculateDensityMatrix(SimpleMatrix c) {
