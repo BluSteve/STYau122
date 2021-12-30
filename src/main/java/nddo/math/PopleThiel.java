@@ -71,7 +71,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		boolean[] iterable = new boolean[length];
 		boolean[] looselyIterable = new boolean[length];
 
-		// 0: B, 1: Bt, 2: -B, 3: P, 4: B-P
+		// 0: B, 1: Bt, 2: B-P
 		List<SimpleMatrix[]> prevs = new ArrayList<>();
 		List<Double> dots = new ArrayList<>();
 
@@ -100,11 +100,9 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 				SimpleMatrix[] prev = new SimpleMatrix[5];
 				prev[0] = barray[i]; // original barray object here
 				prev[1] = barray[i].transpose();
-				prev[2] = barray[i].negative();
 				dots.add(barray[i].dot(barray[i]));
 
-				prev[3] = parray[i];
-				prev[4] = barray[i].minus(parray[i]);
+				prev[2] = barray[i].minus(parray[i]);
 
 				prevs.add(prev);
 			}
@@ -113,14 +111,12 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 
 			for (int i = 0; i < length; i++) {
 				SimpleMatrix newb = parray[i].copy();
-
 				// orthogonalize against all previous Bs
 				for (int j = 0; j < prevSize; j++) {
 					SimpleMatrix[] prev = prevs.get(j);
-					SimpleMatrix transpose = prev[1];
-					double num = transpose.mult(parray[i]).get(0) / dots.get(j);
+					double num = prev[0].dot(parray[i]) / dots.get(j);
 
-					newb.plusi(num, prev[2]);
+					newb.plusi(-num, prev[0]);
 				}
 
 				barray[i] = newb; // new barray object created
@@ -131,7 +127,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 
 			for (int i = 0; i < prevSize; i++) {
 				Bt.setRow(i, 0, prevs.get(i)[0].getDDRM().data);
-				BminusP.setColumn(i, 0, prevs.get(i)[4].getDDRM().data);
+				BminusP.setColumn(i, 0, prevs.get(i)[2].getDDRM().data);
 			}
 
 			SimpleMatrix rhs = Bt.mult(F);
@@ -146,7 +142,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 
 			for (int i = 0; i < prevSize; i++) {
 				for (int j = 0; j < length; j++) {
-					rarray[j].plusi(alpha.get(i, j), prevs.get(i)[4]);
+					rarray[j].plusi(alpha.get(i, j), prevs.get(i)[2]);
 				}
 			}
 
