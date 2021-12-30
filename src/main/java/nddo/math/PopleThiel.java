@@ -71,7 +71,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		boolean[] iterable = new boolean[length];
 		boolean[] looselyIterable = new boolean[length];
 
-		// 0: B, 1: Bt, 2: B-P
+		// 0: B, 2: B-P
 		List<SimpleMatrix[]> prevs = new ArrayList<>();
 		List<Double> dots = new ArrayList<>();
 
@@ -90,19 +90,17 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 			}
 
 			for (int i = 0; i < length; i++) {
-				// parray[i] stays the same object throughout
 				SimpleMatrix b = barray[i].copy();
 				multRows(Dinvarr, b.getDDRM());
 				SimpleMatrix p = computeResponseVectorsPople(soln, b, responseMatrix); // P = D * B
 				multRows(Darr, p.getDDRM());
 				parray[i] = p;
 
-				SimpleMatrix[] prev = new SimpleMatrix[5];
+				SimpleMatrix[] prev = new SimpleMatrix[2];
 				prev[0] = barray[i]; // original barray object here
-				prev[1] = barray[i].transpose();
 				dots.add(barray[i].dot(barray[i]));
 
-				prev[2] = barray[i].minus(parray[i]);
+				prev[1] = barray[i].minus(parray[i]);
 
 				prevs.add(prev);
 			}
@@ -127,7 +125,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 
 			for (int i = 0; i < prevSize; i++) {
 				Bt.setRow(i, 0, prevs.get(i)[0].getDDRM().data);
-				BminusP.setColumn(i, 0, prevs.get(i)[2].getDDRM().data);
+				BminusP.setColumn(i, 0, prevs.get(i)[1].getDDRM().data);
 			}
 
 			SimpleMatrix rhs = Bt.mult(F);
@@ -142,7 +140,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 
 			for (int i = 0; i < prevSize; i++) {
 				for (int j = 0; j < length; j++) {
-					rarray[j].plusi(alpha.get(i, j), prevs.get(i)[2]);
+					rarray[j].plusi(alpha.get(i, j), prevs.get(i)[1]);
 				}
 			}
 
