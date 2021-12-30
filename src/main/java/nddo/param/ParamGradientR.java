@@ -113,8 +113,8 @@ class ParamGradientR extends ParamGradient {
 						ParamDerivative.MNDOHFDeriv((SolutionR) s,
 								staticDerivs[ZI][0][paramNum],
 								staticDerivs[ZI][1][paramNum]);
-				densityDerivs[ZI][paramNum] = ParamDerivative
-						.densityDerivativeLimited((SolutionR) s,
+				densityDerivs[ZI][paramNum] = PopleThiel
+						.densityDeriv((SolutionR) s,
 								xLimited[ZI][paramNum]);
 				if (full) dipoleDerivs[ZI][paramNum] =
 						ParamDerivative.MNDODipoleDeriv(s,
@@ -140,7 +140,7 @@ class ParamGradientR extends ParamGradient {
 		if (analytical) {
 			if (staticDerivs[ZI][0][paramNum] != null || staticDerivs[ZI][1][paramNum] != null) {
 				responseDerivs[ZI][paramNum] =
-						ParamDerivative.responseMatrix((SolutionR) s, densityDerivs[ZI][paramNum]);
+						PopleThiel.responseMatrix((SolutionR) s, densityDerivs[ZI][paramNum]);
 				fockDerivs[ZI][paramNum] = staticDerivs[ZI][1][paramNum].plus(responseDerivs[ZI][paramNum]);
 				xComplementary[ZI][paramNum] =
 						ParamDerivative.xArrayComplementary((SolutionR) s, fockDerivs[ZI][paramNum]);

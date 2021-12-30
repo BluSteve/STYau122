@@ -4,11 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="pople better caching">
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="reshape back instead of copy for poplethiel">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientR.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
     </list>
@@ -493,21 +494,7 @@
       <workItem from="1640658175453" duration="55000" />
       <workItem from="1640658400109" duration="8067000" />
       <workItem from="1640853915772" duration="2443000" />
-      <workItem from="1640863422015" duration="2182000" />
-    </task>
-    <task id="LOCAL-00146" summary="io changes + legit runs">
-      <created>1640164472805</created>
-      <option name="number" value="00146" />
-      <option name="presentableId" value="LOCAL-00146" />
-      <option name="project" value="LOCAL" />
-      <updated>1640164472805</updated>
-    </task>
-    <task id="LOCAL-00147" summary="solutionu fix">
-      <created>1640169050541</created>
-      <option name="number" value="00147" />
-      <option name="presentableId" value="LOCAL-00147" />
-      <option name="project" value="LOCAL" />
-      <updated>1640169050541</updated>
+      <workItem from="1640863422015" duration="6343000" />
     </task>
     <task id="LOCAL-00148" summary="exp and more solutionu fixes">
       <created>1640178908400</created>
@@ -838,7 +825,21 @@
       <option name="project" value="LOCAL" />
       <updated>1640863465627</updated>
     </task>
-    <option name="localTasksCounter" value="195" />
+    <task id="LOCAL-00195" summary="ParamDerivative staticmatrixderiv done for r/uhf">
+      <created>1640868537732</created>
+      <option name="number" value="00195" />
+      <option name="presentableId" value="LOCAL-00195" />
+      <option name="project" value="LOCAL" />
+      <updated>1640868537732</updated>
+    </task>
+    <task id="LOCAL-00196" summary="reshape back instead of copy for poplethiel">
+      <created>1640873652030</created>
+      <option name="number" value="00196" />
+      <option name="presentableId" value="LOCAL-00196" />
+      <option name="project" value="LOCAL" />
+      <updated>1640873652030</updated>
+    </task>
+    <option name="localTasksCounter" value="197" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -885,8 +886,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="prep for thiel" />
-    <MESSAGE value="thiel not working" />
     <MESSAGE value="thiel working - f mult and darr" />
     <MESSAGE value="move trivial case for thiel" />
     <MESSAGE value="minor pople orthog. improvment + thiel memory" />
@@ -910,7 +909,9 @@
     <MESSAGE value="passed verify equations rhf" />
     <MESSAGE value="pople better orthog" />
     <MESSAGE value="pople better caching" />
-    <option name="LAST_COMMIT_MESSAGE" value="pople better caching" />
+    <MESSAGE value="ParamDerivative staticmatrixderiv done for r/uhf" />
+    <MESSAGE value="reshape back instead of copy for poplethiel" />
+    <option name="LAST_COMMIT_MESSAGE" value="reshape back instead of copy for poplethiel" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

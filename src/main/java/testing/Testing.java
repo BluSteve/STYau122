@@ -18,7 +18,7 @@ public class Testing {
 		SolutionR s = (SolutionR) Solution.of(rm, runcycle.State.getConverter().convert(rm.atoms, input.info.npMap));
 		SolutionU s2 = (SolutionU) Solution.of(rm2, runcycle.State.getConverter().convert(rm2.atoms, input.info.npMap));
 
-		System.out.close();
+//		System.out.close();
 		for (int i = 1; i < 7; i++) {
 			for (int j = i; j < 7; j++) {
 				boolean b = ParamSecondDerivative.verifyEquations(s, 6, i, 6, j);
