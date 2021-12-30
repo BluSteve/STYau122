@@ -657,7 +657,6 @@ public class ParamDerivative {
 		SimpleMatrix xa = new SimpleMatrix(numRows, numRows);
 		SimpleMatrix xb = new SimpleMatrix(numRows, numRows);
 
-
 		for (int i = 0; i < numRows; i++) {
 			for (int j = i + 1; j < numRows; j++) {
 				double va = Fa.get(i, j) / (soln.Ea.get(j) - soln.Ea.get(i));
@@ -672,7 +671,6 @@ public class ParamDerivative {
 		}
 
 		return new SimpleMatrix[]{xa, xb};
-
 	}
 
 	@Deprecated

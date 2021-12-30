@@ -43,8 +43,8 @@ public class ParamGradientNew implements IParamGradient {
 		HFDerivs = new double[atomLength][paramLength];
 
 		if (hasDip || hasIE) {
-			staticDerivs = new SimpleMatrix[atomLength][2][paramLength];
-			xVectors = new SimpleMatrix[atomLength][paramLength];
+			staticDerivs = new SimpleMatrix[atomLength][][];
+			xVectors = new SimpleMatrix[atomLength][];
 			densityDerivs = new SimpleMatrix[atomLength][paramLength][];
 
 			if (hasDip) {
