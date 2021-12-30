@@ -4,14 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="reshape back instead of copy for poplethiel">
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="Move densityderiv and responsematrix to poplethiel">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -175,7 +170,7 @@
     <property name="project.structure.proportion" value="0.26182964" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="ReaderModeSettings">
     <option name="enabled" value="false" />
@@ -196,11 +191,11 @@
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\src\main\java" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="nddo.math.PopleThiel" />
       <recent name="nddo.param.ParamSecondDerivative" />
       <recent name="tools.Pow" />
       <recent name="tools.Utils" />
       <recent name="frontend.txt.Main" />
-      <recent name="runcycle.Hasher" />
     </key>
     <key name="ExtractSuperBase.RECENT_KEYS">
       <recent name="nddo" />
@@ -494,14 +489,7 @@
       <workItem from="1640658175453" duration="55000" />
       <workItem from="1640658400109" duration="8067000" />
       <workItem from="1640853915772" duration="2443000" />
-      <workItem from="1640863422015" duration="6343000" />
-    </task>
-    <task id="LOCAL-00148" summary="exp and more solutionu fixes">
-      <created>1640178908400</created>
-      <option name="number" value="00148" />
-      <option name="presentableId" value="LOCAL-00148" />
-      <option name="project" value="LOCAL" />
-      <updated>1640178908400</updated>
+      <workItem from="1640863422015" duration="7655000" />
     </task>
     <task id="LOCAL-00149" summary="ready for pople testing">
       <created>1640255071867</created>
@@ -839,7 +827,14 @@
       <option name="project" value="LOCAL" />
       <updated>1640873652030</updated>
     </task>
-    <option name="localTasksCounter" value="197" />
+    <task id="LOCAL-00197" summary="Move densityderiv and responsematrix to poplethiel">
+      <created>1640876774407</created>
+      <option name="number" value="00197" />
+      <option name="presentableId" value="LOCAL-00197" />
+      <option name="project" value="LOCAL" />
+      <updated>1640876774407</updated>
+    </task>
+    <option name="localTasksCounter" value="198" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -886,7 +881,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="thiel working - f mult and darr" />
     <MESSAGE value="move trivial case for thiel" />
     <MESSAGE value="minor pople orthog. improvment + thiel memory" />
     <MESSAGE value="more thiel memory improvements" />
@@ -911,7 +905,8 @@
     <MESSAGE value="pople better caching" />
     <MESSAGE value="ParamDerivative staticmatrixderiv done for r/uhf" />
     <MESSAGE value="reshape back instead of copy for poplethiel" />
-    <option name="LAST_COMMIT_MESSAGE" value="reshape back instead of copy for poplethiel" />
+    <MESSAGE value="Move densityderiv and responsematrix to poplethiel" />
+    <option name="LAST_COMMIT_MESSAGE" value="Move densityderiv and responsematrix to poplethiel" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

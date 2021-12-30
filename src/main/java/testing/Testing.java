@@ -1,10 +1,13 @@
 package testing;
 
 import frontend.TxtIO;
+import nddo.geometry.GeometryDerivative;
+import nddo.geometry.GeometrySecondDerivative;
 import nddo.param.ParamSecondDerivative;
 import nddo.solution.Solution;
 import nddo.solution.SolutionR;
 import nddo.solution.SolutionU;
+import org.ejml.simple.SimpleMatrix;
 import runcycle.structs.RunInput;
 import runcycle.structs.RunnableMolecule;
 
@@ -17,6 +20,15 @@ public class Testing {
 
 		SolutionR s = (SolutionR) Solution.of(rm, runcycle.State.getConverter().convert(rm.atoms, input.info.npMap));
 		SolutionU s2 = (SolutionU) Solution.of(rm2, runcycle.State.getConverter().convert(rm2.atoms, input.info.npMap));
+
+		SimpleMatrix[][] matrices = GeometryDerivative.gradientRoutine(s);
+		SimpleMatrix[] fockderivstatic = matrices[1];
+		System.out.println(GeometrySecondDerivative.hessianRoutine(s, fockderivstatic));
+
+		matrices = GeometryDerivative.gradientRoutine(s2);
+		fockderivstatic = matrices[1];
+		SimpleMatrix[] fockderivstatic2 = matrices[2];
+		System.out.println(GeometrySecondDerivative.hessianRoutine(s2, fockderivstatic, fockderivstatic2));
 
 //		System.out.close();
 		for (int i = 1; i < 7; i++) {
