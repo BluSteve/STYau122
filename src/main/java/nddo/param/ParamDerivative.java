@@ -91,7 +91,7 @@ public class ParamDerivative {
 		return e / Constants.HEATCONV;
 	}
 
-	public static double zetaHfderiv(SolutionR soln, int Z, int type) {
+	private static double zetaHfderiv(SolutionR soln, int Z, int type) {
 		SimpleMatrix densityMatrix = soln.densityMatrix();
 		NDDOOrbital[] orbitals = soln.orbitals;
 
@@ -639,8 +639,7 @@ public class ParamDerivative {
 
 
 	@Deprecated
-	public static double MNDOHomoDerivtemp(SolutionR soln, SimpleMatrix coeffDeriv,
-										   SimpleMatrix Fderiv) {
+	public static double MNDOHomoDerivtemp(SolutionR soln, SimpleMatrix coeffDeriv, SimpleMatrix Fderiv) {
 
 		int index = (int) (soln.nElectrons / 2.0) - 1;
 
@@ -666,8 +665,7 @@ public class ParamDerivative {
 	}
 
 	@Deprecated
-	public static SimpleMatrix xArrayComplementary(SolutionR soln,
-												   SimpleMatrix fockderiv) {
+	public static SimpleMatrix xArrayComplementary(SolutionR soln, SimpleMatrix fockderiv) {
 		int NOcc = (int) (soln.nElectrons / 2.0);
 		if (NOcc == 0) {
 			return new SimpleMatrix(0, 0);
