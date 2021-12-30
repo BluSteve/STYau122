@@ -491,10 +491,10 @@ public class SolutionU extends Solution {
 			}
 
 			if (numIt > 100000) {
-				getRm().getLogger().error("unstable");
+				rm.getLogger().error("unstable");
 				System.exit(0);
 			}
-			getRm().getLogger().trace("SolutionU iteration: {}, DIISError: {}", numIt, DIISError);
+			rm.getLogger().trace("SolutionU iteration: {}, DIISError: {}", numIt, DIISError);
 
 			numIt++;
 		}

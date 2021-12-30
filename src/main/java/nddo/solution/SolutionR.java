@@ -156,7 +156,7 @@ public class SolutionR extends Solution {
 
 	@Override
 	public SolutionR compute() {
-		integralArray = new double[getRm().nIntegrals];
+		integralArray = new double[rm.nIntegrals];
 
 		int integralcount = 0;
 		for (int j = 0; j < orbitals.length; j++) {
@@ -520,7 +520,7 @@ public class SolutionR extends Solution {
 			}
 
 			numIt++;
-			getRm().getLogger().trace("SolutionR iteration: {}, DIISError: {}", numIt, DIISError);
+			rm.getLogger().trace("SolutionR iteration: {}, DIISError: {}", numIt, DIISError);
 		}
 
 		// todo make these precomputations optional

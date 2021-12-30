@@ -32,12 +32,12 @@ class ParamGradientR extends ParamGradient {
 	protected void computeBatchedDerivs(int firstZIndex, int firstParamNum) {
 		// aggregate everything together for batched computation
 		ArrayList<SimpleMatrix> aggregate =
-				new ArrayList<>(s.getRm().mats.length * Solution.maxParamNum);
-		for (int ZI = 0; ZI < s.getRm().mats.length; ZI++) {
+				new ArrayList<>(s.rm.mats.length * Solution.maxParamNum);
+		for (int ZI = 0; ZI < s.rm.mats.length; ZI++) {
 			if (ZI == firstZIndex)
 				// only compute from firstParamNum onwards
 				staticDerivs[ZI] = ParamDerivative.MNDOStaticMatrixDeriv(
-						(SolutionR) s, s.getRm().mats[ZI], firstParamNum);
+						(SolutionR) s, s.rm.mats[ZI], firstParamNum);
 			else if (ZI < firstZIndex) {
 				// don't compute at all
 				staticDerivs[ZI] = new SimpleMatrix[][]{
@@ -46,7 +46,7 @@ class ParamGradientR extends ParamGradient {
 			}
 			// compute all
 			else staticDerivs[ZI] = ParamDerivative.MNDOStaticMatrixDeriv(
-						(SolutionR) s, s.getRm().mats[ZI], 0);
+						(SolutionR) s, s.rm.mats[ZI], 0);
 			Collections.addAll(aggregate, staticDerivs[ZI][1]);
 		}
 
@@ -75,7 +75,7 @@ class ParamGradientR extends ParamGradient {
 				}
 			}
 			int i = 0;
-			for (int Z = 0; Z < this.s.getRm().mats.length; Z++) {
+			for (int Z = 0; Z < this.s.rm.mats.length; Z++) {
 				xLimited[Z] = Arrays.copyOfRange(xLimitedPadded,
 						i * Solution.maxParamNum,
 						i * Solution.maxParamNum + Solution.maxParamNum);
@@ -88,7 +88,7 @@ class ParamGradientR extends ParamGradient {
 	protected void computeHFDeriv(int ZI, int paramNum, Solution sPrime) {
 		if (analytical)
 			HFDerivs[ZI][paramNum] = ParamDerivative
-					.HFDeriv(s, s.getRm().mats[ZI], paramNum);
+					.HFDeriv(s, s.rm.mats[ZI], paramNum);
 		else {
 			assert sPrime != null;
 			HFDerivs[ZI][paramNum] = (sPrime.hf - s.hf) / Constants.LAMBDA;
@@ -105,7 +105,7 @@ class ParamGradientR extends ParamGradient {
 			// HFDerivs. I.e not as a part of dipole.
 			if (paramNum == 0 || paramNum == 7) {
 				HFDerivs[ZI][paramNum] = ParamDerivative
-						.HFDeriv(s, s.getRm().mats[ZI],
+						.HFDeriv(s, s.rm.mats[ZI],
 								paramNum);
 			}
 			else if (staticDerivs[ZI][0][paramNum] != null ||
@@ -120,7 +120,7 @@ class ParamGradientR extends ParamGradient {
 				if (full) dipoleDerivs[ZI][paramNum] =
 						ParamDerivative.MNDODipoleDeriv(s,
 								densityDerivs[ZI][paramNum],
-								s.getRm().mats[ZI],
+								s.rm.mats[ZI],
 								paramNum);
 			}
 		}
@@ -164,14 +164,14 @@ class ParamGradientR extends ParamGradient {
 
 	@Override
 	protected Solution constructSPrime(int ZI, int paramNum) {
-		return s.withNewAtoms(perturbAtomParams(s.atoms, s.getRm().mats[ZI],
+		return s.withNewAtoms(perturbAtomParams(s.atoms, s.rm.mats[ZI],
 				paramNum));
 	}
 
 	@Override
 	protected Solution constructSExpPrime(int ZI, int paramNum) {
 		return sExp.withNewAtoms(
-				perturbAtomParams(sExp.atoms, sExp.getRm().mats[ZI],
+				perturbAtomParams(sExp.atoms, sExp.rm.mats[ZI],
 						paramNum));
 	}
 

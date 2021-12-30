@@ -179,12 +179,12 @@ public class ParamHessian {
 	 * @return this
 	 */
 	public ParamHessian compute() {
-		hessian = new double[s.getRm().mnps.length * Solution.maxParamNum]
-				[s.getRm().mnps.length * Solution.maxParamNum];
+		hessian = new double[s.rm.mnps.length * Solution.maxParamNum]
+				[s.rm.mnps.length * Solution.maxParamNum];
 		List<RecursiveAction> subtasks = new ArrayList<>();
 
-		for (int ZIndex2 = 0; ZIndex2 < s.getRm().mats.length; ZIndex2++) {
-			for (int paramNum2 : s.getRm().mnps[ZIndex2]) {
+		for (int ZIndex2 = 0; ZIndex2 < s.rm.mats.length; ZIndex2++) {
+			for (int paramNum2 : s.rm.mnps[ZIndex2]) {
 				int finalZIndex2 = ZIndex2;
 				subtasks.add(new RecursiveAction() {
 					@Override
@@ -216,11 +216,11 @@ public class ParamHessian {
 		if (analytical && (datum[1] != 0 || datum[2] != 0))
 			gPrime.computeBatchedDerivs(ZIndex2, paramNum2);
 
-		List<RecursiveAction> subtasks = new ArrayList<>(s.getRm().mats.length * Solution.maxParamNum);
-		for (int ZIndex1 = ZIndex2; ZIndex1 < s.getRm().mats.length; ZIndex1++) {
+		List<RecursiveAction> subtasks = new ArrayList<>(s.rm.mats.length * Solution.maxParamNum);
+		for (int ZIndex1 = ZIndex2; ZIndex1 < s.rm.mats.length; ZIndex1++) {
 			for (int paramNum1 = paramNum2; paramNum1 < Solution.maxParamNum; paramNum1++) {
 				boolean needed = false;
-				for (int p : s.getRm().mnps[ZIndex1]) {
+				for (int p : s.rm.mnps[ZIndex1]) {
 					if (paramNum1 == p) {
 						needed = true;
 						break;
@@ -249,7 +249,7 @@ public class ParamHessian {
 
 	private ParamGradient constructGPrime(int ZIndex, int paramNum) {
 		return ParamGradient.of(s.withNewAtoms(Utils.perturbAtomParams(s.atoms,
-				s.getRm().mats[ZIndex], paramNum)), datum, sExp);
+				s.rm.mats[ZIndex], paramNum)), datum, sExp);
 	}
 
 	/**
@@ -290,12 +290,12 @@ public class ParamHessian {
 
 	@Deprecated
 	public void computeSequentially() {
-		hessian = new double[s.getRm().mats.length * Solution.maxParamNum]
-				[s.getRm().mats.length * Solution.maxParamNum];
+		hessian = new double[s.rm.mats.length * Solution.maxParamNum]
+				[s.rm.mats.length * Solution.maxParamNum];
 
 		// ZIndex2 and paramNum2 together denote the row number
-		for (int ZIndex2 = 0; ZIndex2 < s.getRm().mats.length; ZIndex2++) {
-			for (int paramNum2 : s.getRm().mnps[ZIndex2]) {
+		for (int ZIndex2 = 0; ZIndex2 < s.rm.mats.length; ZIndex2++) {
+			for (int paramNum2 : s.rm.mnps[ZIndex2]) {
 				computeRow(ZIndex2, paramNum2);
 			}
 		}

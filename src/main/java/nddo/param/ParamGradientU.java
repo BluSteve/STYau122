@@ -18,13 +18,13 @@ class ParamGradientU extends ParamGradient {
 
 	@Override
 	protected void computeBatchedDerivs(int firstZIndex, int firstParamNum) {
-		s.getRm().getLogger().error(errorMessage);
+		s.rm.getLogger().error(errorMessage);
 	}
 
 	@Override
 	protected void computeHFDeriv(int ZI, int paramNum, Solution sPrime) {
 		if (analytical) {
-			s.getRm().getLogger().error(errorMessage);
+			s.rm.getLogger().error(errorMessage);
 		}
 		else {
 			HFDerivs[ZI][paramNum] = (sPrime.hf - s.hf) / Constants.LAMBDA;
@@ -38,7 +38,7 @@ class ParamGradientU extends ParamGradient {
 	protected void computeDipoleDeriv(int ZI, int paramNum, boolean full,
 									  Solution sPrime) {
 		if (analytical) {
-			s.getRm().getLogger().error(errorMessage);
+			s.rm.getLogger().error(errorMessage);
 		}
 		else {
 			HFDerivs[ZI][paramNum] = (sPrime.hf - s.hf) / Constants.LAMBDA;
@@ -54,7 +54,7 @@ class ParamGradientU extends ParamGradient {
 	@Override
 	protected void computeIEDeriv(int ZI, int paramNum, Solution sPrime) {
 		if (analytical) {
-			s.getRm().getLogger().error(errorMessage);
+			s.rm.getLogger().error(errorMessage);
 		}
 		else {
 			IEDerivs[ZI][paramNum] = -(sPrime.homo - s.homo) / Constants.LAMBDA;
@@ -66,14 +66,14 @@ class ParamGradientU extends ParamGradient {
 	@Override
 	protected Solution constructSPrime(int ZI, int paramNum) {
 		return s.withNewAtoms(
-				Utils.perturbAtomParams(s.atoms, s.getRm().mats[ZI],
+				Utils.perturbAtomParams(s.atoms, s.rm.mats[ZI],
 						paramNum));
 	}
 
 	@Override
 	protected Solution constructSExpPrime(int ZI, int paramNum) {
 		return sExp.withNewAtoms(
-				Utils.perturbAtomParams(sExp.atoms, sExp.getRm().mats[ZI],
+				Utils.perturbAtomParams(sExp.atoms, sExp.rm.mats[ZI],
 						paramNum));
 	}
 

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.RecursiveAction;
 
-public abstract class ParamGradient {
+public abstract class ParamGradient implements IParamGradient {
 	protected final Solution s, sExp;
 	protected final ParamErrorFunction e;
 	protected final boolean isExpAvail;
@@ -53,7 +53,7 @@ public abstract class ParamGradient {
 			return new ParamGradientU((SolutionU) s, datum, (SolutionU) sExp, false);
 		else throw new IllegalArgumentException(
 					"Solution is neither restricted nor unrestricted! Molecule: "
-							+ s.getRm().index + " " + s.getRm().name);
+							+ s.rm.index + " " + s.rm.name);
 	}
 
 	/**
@@ -143,15 +143,15 @@ public abstract class ParamGradient {
 	 */
 	public ParamGradient compute() {
 		totalGradients =
-				new double[s.getRm().mats.length][Solution.maxParamNum];
+				new double[s.rm.mats.length][Solution.maxParamNum];
 		if (analytical && (datum[1] != 0 || datum[2] != 0))
 			computeBatchedDerivs(0, 0);
 
 		if (!analytical || isExpAvail) {
 			List<RecursiveAction> subtasks = new ArrayList<>();
 
-			for (int Z = 0; Z < s.getRm().mats.length; Z++) {
-				for (int paramNum : s.getRm().mnps[Z]) {
+			for (int Z = 0; Z < s.rm.mats.length; Z++) {
+				for (int paramNum : s.rm.mnps[Z]) {
 					int finalZ = Z;
 					subtasks.add(new RecursiveAction() {
 						@Override
@@ -165,8 +165,8 @@ public abstract class ParamGradient {
 			ForkJoinTask.invokeAll(subtasks);
 		}
 		else {
-			for (int Z = 0; Z < s.getRm().mats.length; Z++) {
-				for (int paramNum : s.getRm().mnps[Z]) {
+			for (int Z = 0; Z < s.rm.mats.length; Z++) {
+				for (int paramNum : s.rm.mnps[Z]) {
 					computeGradient(Z, paramNum);
 				}
 			}
@@ -235,7 +235,7 @@ public abstract class ParamGradient {
 		if (datum[2] != 0) e.addIEError(datum[2]);
 
 		if (isExpAvail) {
-			geomDerivs = new double[s.getRm().mats.length]
+			geomDerivs = new double[s.rm.mats.length]
 					[Solution.maxParamNum];
 			e.createExpGeom(this.sExp);
 			e.addGeomError();
@@ -247,7 +247,7 @@ public abstract class ParamGradient {
 	 * initialization time.
 	 */
 	protected void initializeArrays() {
-		int atomLength = s.getRm().mats.length;
+		int atomLength = s.rm.mats.length;
 		int paramLength = Solution.maxParamNum;
 		totalGradients = new double[atomLength][paramLength];
 		HFDerivs = new double[atomLength][paramLength];
@@ -342,30 +342,37 @@ public abstract class ParamGradient {
 	 */
 	protected abstract double findGrad(Solution sExpPrime, int i, int xyz);
 
+	@Override
 	public ParamErrorFunction getE() {
 		return this.e;
 	}
 
+	@Override
 	public Solution getS() {
 		return s;
 	}
 
+	@Override
 	public double[][] getHFDerivs() {
 		return HFDerivs;
 	}
 
+	@Override
 	public double[][] getDipoleDerivs() {
 		return dipoleDerivs;
 	}
 
+	@Override
 	public double[][] getIEDerivs() {
 		return IEDerivs;
 	}
 
+	@Override
 	public double[][] getGeomDerivs() {
 		return geomDerivs;
 	}
 
+	@Override
 	public double[][] getTotalGradients() {
 		return totalGradients;
 	}

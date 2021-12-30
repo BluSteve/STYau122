@@ -3,6 +3,9 @@ package testing;
 import frontend.TxtIO;
 import nddo.geometry.GeometryDerivative;
 import nddo.geometry.GeometrySecondDerivative;
+import nddo.param.IParamGradient;
+import nddo.param.ParamGradient;
+import nddo.param.ParamGradientNew;
 import nddo.param.ParamSecondDerivative;
 import nddo.solution.Solution;
 import nddo.solution.SolutionR;
@@ -10,6 +13,8 @@ import nddo.solution.SolutionU;
 import org.ejml.simple.SimpleMatrix;
 import runcycle.structs.RunInput;
 import runcycle.structs.RunnableMolecule;
+
+import java.util.Arrays;
 
 
 public class Testing {
@@ -20,6 +25,12 @@ public class Testing {
 
 		SolutionR s = (SolutionR) Solution.of(rm, runcycle.State.getConverter().convert(rm.atoms, input.info.npMap));
 		SolutionU s2 = (SolutionU) Solution.of(rm2, runcycle.State.getConverter().convert(rm2.atoms, input.info.npMap));
+
+		IParamGradient pg = new ParamGradientNew(s, rm.datum, null);
+		IParamGradient pg2 = ParamGradient.of(s, rm.datum, null).compute();
+
+		System.out.println("pg " + Arrays.deepToString(pg.getDipoleDerivs()));
+		System.out.println("pg2 " + Arrays.deepToString(pg2.getDipoleDerivs()));
 
 		SimpleMatrix[][] matrices = GeometryDerivative.gradientRoutine(s);
 		SimpleMatrix[] fockderivstatic = matrices[1];

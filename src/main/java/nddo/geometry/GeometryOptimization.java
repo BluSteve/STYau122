@@ -16,7 +16,7 @@ public abstract class GeometryOptimization {
 
 	protected GeometryOptimization(Solution s) {
 		this.s = s;
-		logger = s.getRm().getLogger();
+		logger = s.rm.getLogger();
 	}
 
 	public static GeometryOptimization of(Solution s) {
@@ -163,7 +163,7 @@ public abstract class GeometryOptimization {
 				try {
 					B = findNewB(B, y, searchDir);
 				} catch (SingularMatrixException e) {
-					s.getRm().getLogger().error("Hessian approximation error!");
+					s.rm.getLogger().error("Hessian approximation error!");
 					B = SimpleMatrix.identity(s.atoms.length * 3);
 				}
 			}

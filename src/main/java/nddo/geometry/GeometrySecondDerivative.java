@@ -263,11 +263,11 @@ public class GeometrySecondDerivative {
 
 		StopWatch sw = new StopWatch();
 		sw.start();
-		int NOccAlpha = soln.getRm().nOccAlpha;
-		int NOccBeta = soln.getRm().nOccBeta;
+		int NOccAlpha = soln.rm.nOccAlpha;
+		int NOccBeta = soln.rm.nOccBeta;
 
-		int NVirtAlpha = soln.getRm().nVirtAlpha;
-		int NVirtBeta = soln.getRm().nVirtBeta;
+		int NVirtAlpha = soln.rm.nVirtAlpha;
+		int NVirtBeta = soln.rm.nVirtBeta;
 
 		SimpleMatrix[] xarray = new SimpleMatrix[fockderivstaticalpha.length];
 		SimpleMatrix[] barray = new SimpleMatrix[fockderivstaticalpha.length];
@@ -559,11 +559,11 @@ public class GeometrySecondDerivative {
 	@Deprecated
 	private static SimpleMatrix computeResponseVectorsPople(SimpleMatrix xarray, SolutionU soln) {
 
-		int NOccAlpha = soln.getRm().nOccAlpha;
-		int NOccBeta = soln.getRm().nOccBeta;
+		int NOccAlpha = soln.rm.nOccAlpha;
+		int NOccBeta = soln.rm.nOccBeta;
 
-		int NVirtAlpha = soln.getRm().nVirtAlpha;
-		int NVirtBeta = soln.getRm().nVirtBeta;
+		int NVirtAlpha = soln.rm.nVirtAlpha;
+		int NVirtBeta = soln.rm.nVirtBeta;
 
 		SimpleMatrix densityderivalpha = new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
 

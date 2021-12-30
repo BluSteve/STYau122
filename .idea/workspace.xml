@@ -4,19 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="Make GSD use PopleThiel response &amp; density methods">
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="minor changes">
+      <change afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientNew.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientNewR.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/Constants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryOptimization.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/NewParam.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Utils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamErrorFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamErrorFunction.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -221,7 +215,7 @@
       <command value="gradlew clean" />
     </option>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Application.Testing (1)">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -365,16 +359,20 @@
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="StructuralSearchPlugin">
-    <replaceConfiguration name="Unnamed" created="1640113002406" text="$expr$ * $expr$ * $expr$ * $expr$" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default" scope_type="PROJECT" scope_descriptor="" reformatAccordingToStyle="true" shortenFQN="false" replacement="0" history="1">
+    <replaceConfiguration name="Unnamed" created="1640883927030" text="$expr$.plusi($expr$.transpose())" recursive="true" caseInsensitive="false" type="JAVA" pattern_context="default" scope_type="PROJECT" scope_descriptor="" reformatAccordingToStyle="true" shortenFQN="false" replacement="0" history="1">
       <constraint name="__context__" within="" contains="" />
       <constraint name="expr" within="" contains="" />
     </replaceConfiguration>
-    <replaceConfiguration name="Unnamed" created="1640112986755" text="pow($expr$, $number$)" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default" scope_type="PROJECT" scope_descriptor="" reformatAccordingToStyle="true" shortenFQN="false" replacement="0" history="1">
+    <replaceConfiguration name="Unnamed" created="1640883900382" text="$expr$ * $expr$ * $expr$ * $expr$" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default" scope_type="PROJECT" scope_descriptor="" reformatAccordingToStyle="true" shortenFQN="false" replacement="0" history="1">
+      <constraint name="__context__" within="" contains="" />
+      <constraint name="expr" within="" contains="" />
+    </replaceConfiguration>
+    <replaceConfiguration name="Unnamed" created="1640883900382" text="pow($expr$, $number$)" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default" scope_type="PROJECT" scope_descriptor="" reformatAccordingToStyle="true" shortenFQN="false" replacement="0" history="1">
       <constraint name="__context__" within="" contains="" />
       <constraint name="expr" within="" contains="" />
       <constraint name="number" within="" contains="" />
     </replaceConfiguration>
-    <replaceConfiguration name="Unnamed" created="1640112986755" text="Math.pow($expr$, $number$)" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default" scope_type="PROJECT" scope_descriptor="" reformatAccordingToStyle="true" shortenFQN="false" replacement="Utils.pow($expr$, $number$)" history="1">
+    <replaceConfiguration name="Unnamed" created="1640883900382" text="Math.pow($expr$, $number$)" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default" scope_type="PROJECT" scope_descriptor="" reformatAccordingToStyle="true" shortenFQN="false" replacement="Utils.pow($expr$, $number$)" history="1">
       <constraint name="__context__" within="" contains="" />
       <constraint name="expr" within="" contains="" />
       <constraint name="number" within="" contains="" />
@@ -499,28 +497,7 @@
       <workItem from="1640658175453" duration="55000" />
       <workItem from="1640658400109" duration="8067000" />
       <workItem from="1640853915772" duration="2443000" />
-      <workItem from="1640863422015" duration="13703000" />
-    </task>
-    <task id="LOCAL-00150" summary="NDDOAtomBasic minor inheritance change">
-      <created>1640260126908</created>
-      <option name="number" value="00150" />
-      <option name="presentableId" value="LOCAL-00150" />
-      <option name="project" value="LOCAL" />
-      <updated>1640260126908</updated>
-    </task>
-    <task id="LOCAL-00151" summary="NDDOAtomBasic minor inheritance change">
-      <created>1640260276684</created>
-      <option name="number" value="00151" />
-      <option name="presentableId" value="LOCAL-00151" />
-      <option name="project" value="LOCAL" />
-      <updated>1640260276684</updated>
-    </task>
-    <task id="LOCAL-00152" summary="xarray outside">
-      <created>1640267551210</created>
-      <option name="number" value="00152" />
-      <option name="presentableId" value="LOCAL-00152" />
-      <option name="project" value="LOCAL" />
-      <updated>1640267551210</updated>
+      <workItem from="1640863422015" duration="18384000" />
     </task>
     <task id="LOCAL-00153" summary="better batching">
       <created>1640269044877</created>
@@ -844,7 +821,28 @@
       <option name="project" value="LOCAL" />
       <updated>1640877360321</updated>
     </task>
-    <option name="localTasksCounter" value="199" />
+    <task id="LOCAL-00199" summary="Almost finished refactoring ParamDerivative">
+      <created>1640884003739</created>
+      <option name="number" value="00199" />
+      <option name="presentableId" value="LOCAL-00199" />
+      <option name="project" value="LOCAL" />
+      <updated>1640884003739</updated>
+    </task>
+    <task id="LOCAL-00200" summary="UHF MNDOHFDeriv">
+      <created>1640884962244</created>
+      <option name="number" value="00200" />
+      <option name="presentableId" value="LOCAL-00200" />
+      <option name="project" value="LOCAL" />
+      <updated>1640884962244</updated>
+    </task>
+    <task id="LOCAL-00201" summary="minor changes">
+      <created>1640885277409</created>
+      <option name="number" value="00201" />
+      <option name="presentableId" value="LOCAL-00201" />
+      <option name="project" value="LOCAL" />
+      <updated>1640885277409</updated>
+    </task>
+    <option name="localTasksCounter" value="202" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -891,14 +889,11 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="minor pople orthog. improvment + thiel memory" />
-    <MESSAGE value="more thiel memory improvements" />
     <MESSAGE value="dot instead of transpose mult" />
     <MESSAGE value="minor variable caching" />
     <MESSAGE value="improve upon thiel crv" />
     <MESSAGE value="improve upon thiel crv more" />
     <MESSAGE value="extract out cocc mult xmat mult ctvirt" />
-    <MESSAGE value="minor changes" />
     <MESSAGE value="with lhs rhs pople caching" />
     <MESSAGE value="without caching - should be faster when mt'ed" />
     <MESSAGE value="minor cleanup in prep for uhf poplethiel" />
@@ -916,23 +911,12 @@
     <MESSAGE value="reshape back instead of copy for poplethiel" />
     <MESSAGE value="Move densityderiv and responsematrix to poplethiel" />
     <MESSAGE value="Make GSD use PopleThiel response &amp; density methods" />
-    <option name="LAST_COMMIT_MESSAGE" value="Make GSD use PopleThiel response &amp; density methods" />
+    <MESSAGE value="Almost finished refactoring ParamDerivative" />
+    <MESSAGE value="UHF MNDOHFDeriv" />
+    <MESSAGE value="minor changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="minor changes" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java</url>
-          <line>78</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientR.java</url>
-          <line>33</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="nddoparam.param.ParamHessianRestricted" memberName="gPrime" />

@@ -150,12 +150,12 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 
 				if (mag > oldrMags[j] || mag != mag) { // unstable
 					if (numIterable(looselyIterable) == 0) {
-						soln.getRm().getLogger().warn("Slight numerical instability detected; " +
+						soln.rm.getLogger().warn("Slight numerical instability detected; " +
 								"returning lower precision values. rarray mag = {}", mag);
 						break bigLoop; // i.e. mag is tolerable
 					}
 
-					soln.getRm().getLogger().warn("Pople algorithm fails; reverting to Thiel algorithm...");
+					soln.rm.getLogger().warn("Pople algorithm fails; reverting to Thiel algorithm...");
 					return thiel(soln, fockderivstatic);
 				}
 
