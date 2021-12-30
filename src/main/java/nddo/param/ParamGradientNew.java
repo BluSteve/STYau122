@@ -45,9 +45,9 @@ public class ParamGradientNew implements IParamGradient {
 		if (hasDip || hasIE) {
 			staticDerivs = new SimpleMatrix[atomLength][2][paramLength];
 			xVectors = new SimpleMatrix[atomLength][paramLength];
+			densityDerivs = new SimpleMatrix[atomLength][paramLength][];
 
 			if (hasDip) {
-				densityDerivs = new SimpleMatrix[atomLength][paramLength][];
 				dipoleDerivs = new double[atomLength][paramLength];
 				e.addDipoleError(datum[1]);
 			}
