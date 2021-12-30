@@ -591,13 +591,13 @@ public class SolutionU extends Solution {
 
 		for (int j = 0; j < atoms.length; j++) {
 			chargedip[0] +=
-					2.5416 * populations[j] *
+					Constants.DIPOLECONV * populations[j] *
 							(atoms[j].getCoordinates()[0] - com[0]);
 			chargedip[1] +=
-					2.5416 * populations[j] *
+					Constants.DIPOLECONV * populations[j] *
 							(atoms[j].getCoordinates()[1] - com[1]);
 			chargedip[2] +=
-					2.5416 * populations[j] *
+					Constants.DIPOLECONV * populations[j] *
 							(atoms[j].getCoordinates()[2] - com[2]);
 		}
 
@@ -607,15 +607,15 @@ public class SolutionU extends Solution {
 		for (int j = 0; j < atoms.length; j++) {
 
 			if (orbsOfAtom[j].length > 1) {//exclude hydrogen
-				hybridip[0] = hybridip[0] - 2.5416 * 2 * atoms[j].D1() *
+				hybridip[0] = hybridip[0] - Constants.DIPOLECONV * 2 * atoms[j].D1() *
 						(alphaDensity.get(orbsOfAtom[j][0], orbsOfAtom[j][1]) +
 								betaDensity.get(orbsOfAtom[j][0],
 										orbsOfAtom[j][1]));
-				hybridip[1] = hybridip[1] - 2.5416 * 2 * atoms[j].D1() *
+				hybridip[1] = hybridip[1] - Constants.DIPOLECONV * 2 * atoms[j].D1() *
 						(alphaDensity.get(orbsOfAtom[j][0], orbsOfAtom[j][2]) +
 								betaDensity.get(orbsOfAtom[j][0],
 										orbsOfAtom[j][2]));
-				hybridip[2] = hybridip[2] - 2.5416 * 2 * atoms[j].D1() *
+				hybridip[2] = hybridip[2] - Constants.DIPOLECONV * 2 * atoms[j].D1() *
 						(alphaDensity.get(orbsOfAtom[j][0], orbsOfAtom[j][3]) +
 								betaDensity.get(orbsOfAtom[j][0],
 										orbsOfAtom[j][3]));

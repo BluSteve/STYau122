@@ -61,8 +61,9 @@ class ParamGradientR extends ParamGradient {
 			}
 		}
 		if (aggregateArrayUnpadded.length > 0) {
+			SolutionR s = (SolutionR) this.s;
 			SimpleMatrix[] xLimitedAggregate = Batcher.apply(aggregateArrayUnpadded,
-					subset -> PopleThiel.pople((SolutionR) s, subset));
+					subset -> PopleThiel.pople(s, PopleThiel.aoToMo(s.CtOcc, s.CVirt, subset)));
 
 			SimpleMatrix[] xLimitedPadded = new SimpleMatrix[aggregateArray.length];
 
@@ -74,7 +75,7 @@ class ParamGradientR extends ParamGradient {
 				}
 			}
 			int i = 0;
-			for (int Z = 0; Z < s.getRm().mats.length; Z++) {
+			for (int Z = 0; Z < this.s.getRm().mats.length; Z++) {
 				xLimited[Z] = Arrays.copyOfRange(xLimitedPadded,
 						i * Solution.maxParamNum,
 						i * Solution.maxParamNum + Solution.maxParamNum);

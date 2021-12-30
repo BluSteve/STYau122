@@ -48,7 +48,7 @@ public abstract class ParamGradient {
 	 */
 	public static ParamGradient of(Solution s, double[] datum, Solution sExp) {
 		if (s instanceof SolutionR)
-			return new ParamGradientR((SolutionR) s, datum, (SolutionR) sExp, false);
+			return new ParamGradientR((SolutionR) s, datum, (SolutionR) sExp, true);
 		else if (s instanceof SolutionU)
 			return new ParamGradientU((SolutionU) s, datum, (SolutionU) sExp, false);
 		else throw new IllegalArgumentException(

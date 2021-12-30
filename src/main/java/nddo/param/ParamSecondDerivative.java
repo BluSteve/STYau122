@@ -876,17 +876,17 @@ public class ParamSecondDerivative {
 
 
 		for (int j = 0; j < atoms.length; j++) {
-			chargedipa[0] += 2.5416 * populationsderiva[j] * (atoms[j].getCoordinates()[0] - com[0]);
-			chargedipa[1] += 2.5416 * populationsderiva[j] * (atoms[j].getCoordinates()[1] - com[1]);
-			chargedipa[2] += 2.5416 * populationsderiva[j] * (atoms[j].getCoordinates()[2] - com[2]);
+			chargedipa[0] += Constants.DIPOLECONV * populationsderiva[j] * (atoms[j].getCoordinates()[0] - com[0]);
+			chargedipa[1] += Constants.DIPOLECONV * populationsderiva[j] * (atoms[j].getCoordinates()[1] - com[1]);
+			chargedipa[2] += Constants.DIPOLECONV * populationsderiva[j] * (atoms[j].getCoordinates()[2] - com[2]);
 
-			chargedipb[0] += 2.5416 * populationsderivb[j] * (atoms[j].getCoordinates()[0] - com[0]);
-			chargedipb[1] += 2.5416 * populationsderivb[j] * (atoms[j].getCoordinates()[1] - com[1]);
-			chargedipb[2] += 2.5416 * populationsderivb[j] * (atoms[j].getCoordinates()[2] - com[2]);
+			chargedipb[0] += Constants.DIPOLECONV * populationsderivb[j] * (atoms[j].getCoordinates()[0] - com[0]);
+			chargedipb[1] += Constants.DIPOLECONV * populationsderivb[j] * (atoms[j].getCoordinates()[1] - com[1]);
+			chargedipb[2] += Constants.DIPOLECONV * populationsderivb[j] * (atoms[j].getCoordinates()[2] - com[2]);
 
-			chargedip2[0] += 2.5416 * populationsderiv2[j] * (atoms[j].getCoordinates()[0] - com[0]);
-			chargedip2[1] += 2.5416 * populationsderiv2[j] * (atoms[j].getCoordinates()[1] - com[1]);
-			chargedip2[2] += 2.5416 * populationsderiv2[j] * (atoms[j].getCoordinates()[2] - com[2]);
+			chargedip2[0] += Constants.DIPOLECONV * populationsderiv2[j] * (atoms[j].getCoordinates()[0] - com[0]);
+			chargedip2[1] += Constants.DIPOLECONV * populationsderiv2[j] * (atoms[j].getCoordinates()[1] - com[1]);
+			chargedip2[2] += Constants.DIPOLECONV * populationsderiv2[j] * (atoms[j].getCoordinates()[2] - com[2]);
 		}
 
 
@@ -899,68 +899,68 @@ public class ParamSecondDerivative {
 
 			if (index[j].length > 1) {//exclude hydrogen
 				hybriddipa[0] =
-						hybriddipa[0] - 2.5416 * 2 * atoms[j].D1() * densityderiva.get(index[j][0], index[j][1]);
+						hybriddipa[0] - Constants.DIPOLECONV * 2 * atoms[j].D1() * densityderiva.get(index[j][0], index[j][1]);
 				hybriddipa[1] =
-						hybriddipa[1] - 2.5416 * 2 * atoms[j].D1() * densityderiva.get(index[j][0], index[j][2]);
+						hybriddipa[1] - Constants.DIPOLECONV * 2 * atoms[j].D1() * densityderiva.get(index[j][0], index[j][2]);
 				hybriddipa[2] =
-						hybriddipa[2] - 2.5416 * 2 * atoms[j].D1() * densityderiva.get(index[j][0], index[j][3]);
+						hybriddipa[2] - Constants.DIPOLECONV * 2 * atoms[j].D1() * densityderiva.get(index[j][0], index[j][3]);
 
 				if (atoms[j].getAtomProperties().getZ() == Z1) {
-					hybriddipa[0] = hybriddipa[0] - 2.5416 * 2 * D1deriva * densityMatrix.get(index[j][0],
+					hybriddipa[0] = hybriddipa[0] - Constants.DIPOLECONV * 2 * D1deriva * densityMatrix.get(index[j][0],
 							index[j][1]);
-					hybriddipa[1] = hybriddipa[1] - 2.5416 * 2 * D1deriva * densityMatrix.get(index[j][0],
+					hybriddipa[1] = hybriddipa[1] - Constants.DIPOLECONV * 2 * D1deriva * densityMatrix.get(index[j][0],
 							index[j][2]);
-					hybriddipa[2] = hybriddipa[2] - 2.5416 * 2 * D1deriva * densityMatrix.get(index[j][0],
+					hybriddipa[2] = hybriddipa[2] - Constants.DIPOLECONV * 2 * D1deriva * densityMatrix.get(index[j][0],
 							index[j][3]);
 				}
 
 				hybriddipb[0] =
-						hybriddipb[0] - 2.5416 * 2 * atoms[j].D1() * densityderivb.get(index[j][0], index[j][1]);
+						hybriddipb[0] - Constants.DIPOLECONV * 2 * atoms[j].D1() * densityderivb.get(index[j][0], index[j][1]);
 				hybriddipb[1] =
-						hybriddipb[1] - 2.5416 * 2 * atoms[j].D1() * densityderivb.get(index[j][0], index[j][2]);
+						hybriddipb[1] - Constants.DIPOLECONV * 2 * atoms[j].D1() * densityderivb.get(index[j][0], index[j][2]);
 				hybriddipb[2] =
-						hybriddipb[2] - 2.5416 * 2 * atoms[j].D1() * densityderivb.get(index[j][0], index[j][3]);
+						hybriddipb[2] - Constants.DIPOLECONV * 2 * atoms[j].D1() * densityderivb.get(index[j][0], index[j][3]);
 
 				if (atoms[j].getAtomProperties().getZ() == Z2) {
-					hybriddipb[0] = hybriddipb[0] - 2.5416 * 2 * D1derivb * densityMatrix.get(index[j][0],
+					hybriddipb[0] = hybriddipb[0] - Constants.DIPOLECONV * 2 * D1derivb * densityMatrix.get(index[j][0],
 							index[j][1]);
-					hybriddipb[1] = hybriddipb[1] - 2.5416 * 2 * D1derivb * densityMatrix.get(index[j][0],
+					hybriddipb[1] = hybriddipb[1] - Constants.DIPOLECONV * 2 * D1derivb * densityMatrix.get(index[j][0],
 							index[j][2]);
-					hybriddipb[2] = hybriddipb[2] - 2.5416 * 2 * D1derivb * densityMatrix.get(index[j][0],
+					hybriddipb[2] = hybriddipb[2] - Constants.DIPOLECONV * 2 * D1derivb * densityMatrix.get(index[j][0],
 							index[j][3]);
 				}
 
 				hybriddip2[0] =
-						hybriddip2[0] - 2.5416 * 2 * atoms[j].D1() * densityderiv2.get(index[j][0], index[j][1]);
+						hybriddip2[0] - Constants.DIPOLECONV * 2 * atoms[j].D1() * densityderiv2.get(index[j][0], index[j][1]);
 				hybriddip2[1] =
-						hybriddip2[1] - 2.5416 * 2 * atoms[j].D1() * densityderiv2.get(index[j][0], index[j][2]);
+						hybriddip2[1] - Constants.DIPOLECONV * 2 * atoms[j].D1() * densityderiv2.get(index[j][0], index[j][2]);
 				hybriddip2[2] =
-						hybriddip2[2] - 2.5416 * 2 * atoms[j].D1() * densityderiv2.get(index[j][0], index[j][3]);
+						hybriddip2[2] - Constants.DIPOLECONV * 2 * atoms[j].D1() * densityderiv2.get(index[j][0], index[j][3]);
 
 				if (atoms[j].getAtomProperties().getZ() == Z1) {
-					hybriddip2[0] = hybriddip2[0] - 2.5416 * 2 * D1deriva * densityderivb.get(index[j][0],
+					hybriddip2[0] = hybriddip2[0] - Constants.DIPOLECONV * 2 * D1deriva * densityderivb.get(index[j][0],
 							index[j][1]);
-					hybriddip2[1] = hybriddip2[1] - 2.5416 * 2 * D1deriva * densityderivb.get(index[j][0],
+					hybriddip2[1] = hybriddip2[1] - Constants.DIPOLECONV * 2 * D1deriva * densityderivb.get(index[j][0],
 							index[j][2]);
-					hybriddip2[2] = hybriddip2[2] - 2.5416 * 2 * D1deriva * densityderivb.get(index[j][0],
+					hybriddip2[2] = hybriddip2[2] - Constants.DIPOLECONV * 2 * D1deriva * densityderivb.get(index[j][0],
 							index[j][3]);
 				}
 
 				if (atoms[j].getAtomProperties().getZ() == Z2) {
-					hybriddip2[0] = hybriddip2[0] - 2.5416 * 2 * D1derivb * densityderiva.get(index[j][0],
+					hybriddip2[0] = hybriddip2[0] - Constants.DIPOLECONV * 2 * D1derivb * densityderiva.get(index[j][0],
 							index[j][1]);
-					hybriddip2[1] = hybriddip2[1] - 2.5416 * 2 * D1derivb * densityderiva.get(index[j][0],
+					hybriddip2[1] = hybriddip2[1] - Constants.DIPOLECONV * 2 * D1derivb * densityderiva.get(index[j][0],
 							index[j][2]);
-					hybriddip2[2] = hybriddip2[2] - 2.5416 * 2 * D1derivb * densityderiva.get(index[j][0],
+					hybriddip2[2] = hybriddip2[2] - Constants.DIPOLECONV * 2 * D1derivb * densityderiva.get(index[j][0],
 							index[j][3]);
 				}
 
 				if (atoms[j].getAtomProperties().getZ() == Z1 && D1deriv2 != 0) {
-					hybriddip2[0] = hybriddip2[0] - 2.5416 * 2 * D1deriv2 * densityMatrix.get(index[j][0],
+					hybriddip2[0] = hybriddip2[0] - Constants.DIPOLECONV * 2 * D1deriv2 * densityMatrix.get(index[j][0],
 							index[j][1]);
-					hybriddip2[1] = hybriddip2[1] - 2.5416 * 2 * D1deriv2 * densityMatrix.get(index[j][0],
+					hybriddip2[1] = hybriddip2[1] - Constants.DIPOLECONV * 2 * D1deriv2 * densityMatrix.get(index[j][0],
 							index[j][2]);
-					hybriddip2[2] = hybriddip2[2] - 2.5416 * 2 * D1deriv2 * densityMatrix.get(index[j][0],
+					hybriddip2[2] = hybriddip2[2] - Constants.DIPOLECONV * 2 * D1deriv2 * densityMatrix.get(index[j][0],
 							index[j][3]);
 				}
 			}

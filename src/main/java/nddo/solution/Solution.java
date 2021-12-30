@@ -1,8 +1,9 @@
 package nddo.solution;
 
-import nddo.defaults.NDDO6G;
+import nddo.Constants;
 import nddo.NDDOAtom;
 import nddo.NDDOOrbital;
+import nddo.defaults.NDDO6G;
 import nddo.structs.MoleculeInfo;
 import org.ejml.simple.SimpleMatrix;
 
@@ -140,9 +141,8 @@ public abstract class Solution {
 
 		chargedip = new double[]{0, 0, 0};
 
-		double v = 2.5416;
 		for (int j = 0; j < atoms.length; j++) {
-			double v1 = v * populations[j];
+			double v1 = Constants.DIPOLECONV * populations[j];
 			chargedip[0] += v1 * (atoms[j].getCoordinates()[0] - com[0]);
 			chargedip[1] += v1 * (atoms[j].getCoordinates()[1] - com[1]);
 			chargedip[2] += v1 * (atoms[j].getCoordinates()[2] - com[2]);
@@ -152,7 +152,7 @@ public abstract class Solution {
 
 		for (int j = 0; j < atoms.length; j++) {
 			if (orbsOfAtom[j].length > 1) { // exclude hydrogen
-				double v1 = v * 2 * atoms[j].D1();
+				double v1 = Constants.DIPOLECONV * 2 * atoms[j].D1();
 				hybridip[0] -= v1 * densityMatrix().get(orbsOfAtom[j][0], orbsOfAtom[j][1]);
 				hybridip[1] -= v1 * densityMatrix().get(orbsOfAtom[j][0], orbsOfAtom[j][2]);
 				hybridip[2] -= v1 * densityMatrix().get(orbsOfAtom[j][0], orbsOfAtom[j][3]);

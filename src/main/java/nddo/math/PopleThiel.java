@@ -490,7 +490,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 
 		x.reshape(soln.rm.nonvAlpha, 1);
 
-		return mult.plusi(mult.transpose()).scalei(-2); // todo make method for something + its transpose
+		return Utils.plusTrans(mult).scalei(-2);
 	}
 
 	public static SimpleMatrix[] densityDeriv(SolutionU soln, SimpleMatrix x) {
@@ -498,13 +498,13 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		xmata.reshape(soln.rm.nOccAlpha, soln.rm.nVirtAlpha);
 
 		SimpleMatrix mult = soln.CaOcc.mult(xmata).mult(soln.CtaVirt);
-		SimpleMatrix densityDerivAlpha = mult.plusi(mult.transpose()).negativei();
+		SimpleMatrix densityDerivAlpha = Utils.plusTrans(mult).negativei();
 
 		SimpleMatrix xmatb = x.extractMatrix(soln.rm.nonvAlpha, x.numRows(), 0, 1);
 		xmatb.reshape(soln.rm.nOccBeta, soln.rm.nVirtBeta);
 
 		mult = soln.CbOcc.mult(xmatb).mult(soln.CtbVirt);
-		SimpleMatrix densityDerivBeta = mult.plusi(mult.transpose()).negativei();
+		SimpleMatrix densityDerivBeta = Utils.plusTrans(mult).negativei();
 
 		return new SimpleMatrix[]{densityDerivAlpha, densityDerivBeta};
 	}
@@ -594,7 +594,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		x.reshape(soln.rm.nOccAlpha, soln.rm.nVirtAlpha);
 
 		SimpleMatrix mult = soln.COcc.mult(x).mult(soln.CtVirt);
-		SimpleMatrix densityDeriv = mult.plusi(mult.transpose()).scalei(-2);
+		SimpleMatrix densityDeriv = Utils.plusTrans(mult).scalei(-2);
 
 		responseMatrix(soln, densityDeriv, responseMatrix);
 
@@ -613,13 +613,13 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		xmata.reshape(soln.rm.nOccAlpha, soln.rm.nVirtAlpha);
 
 		SimpleMatrix mult = soln.CaOcc.mult(xmata).mult(soln.CtaVirt);
-		SimpleMatrix densityDerivAlpha = mult.plusi(mult.transpose()).negativei();
+		SimpleMatrix densityDerivAlpha = Utils.plusTrans(mult).negativei();
 
 		SimpleMatrix xmatb = x.extractMatrix(soln.rm.nonvAlpha, x.numRows(), 0, 1);
 		xmatb.reshape(soln.rm.nOccBeta, soln.rm.nVirtBeta);
 
 		mult = soln.CbOcc.mult(xmatb).mult(soln.CtbVirt);
-		SimpleMatrix densityDerivBeta = mult.plusi(mult.transpose()).negativei();
+		SimpleMatrix densityDerivBeta = Utils.plusTrans(mult).negativei();
 
 		SimpleMatrix[] sms = responseMatrices(soln, densityDerivAlpha, densityDerivBeta, Jderiv, Kaderiv, Kbderiv);
 

@@ -8,6 +8,7 @@ import nddo.solution.Solution;
 import nddo.solution.SolutionR;
 import nddo.solution.SolutionU;
 import org.ejml.simple.SimpleMatrix;
+import tools.Utils;
 
 import static nddo.State.nom;
 
@@ -31,7 +32,7 @@ public class ParamDerivative {
 			}
 		}
 		if (paramnum == 7) {
-			return eisolHfderiv(soln.atoms, Z);
+			return eisolHfderiv(soln, Z);
 		}
 
 		throw new IllegalArgumentException("Model is not MNDO!");
@@ -242,35 +243,16 @@ public class ParamDerivative {
 				soln.betaDensity().elementMult(Gb.plusi(2, H)).elementSum()) * 0.5 / Constants.HEATCONV;
 	}
 
-	private static double eisolHfderiv(NDDOAtom[] atoms, int Z) {
+	private static double eisolHfderiv(Solution soln, int Z) {
 		int counter = 0;
 
-		for (NDDOAtom a : atoms) {
+		for (NDDOAtom a : soln.atoms) {
 			if (a.getAtomProperties().getZ() == Z) {
 				counter++;
 			}
 		}
 
 		return -counter / Constants.HEATCONV;
-	}
-
-	/**
-	 * Computes HF faster if Hderiv and Fderiv are already available.
-	 */
-	public static double MNDOHFDeriv(SolutionR soln, SimpleMatrix Hderiv, SimpleMatrix Fderiv) {
-
-		double e = 0;
-
-		SimpleMatrix densitymatrix = soln.densityMatrix();
-
-		for (int j = 0; j < soln.nOrbitals; j++) {
-			for (int k = 0; k < soln.nOrbitals; k++) {
-				e += 0.5 * densitymatrix.get(j, k) *
-						(Hderiv.get(j, k) + Fderiv.get(j, k));
-			}
-		}
-
-		return e / Constants.HEATCONV;
 	}
 
 
@@ -515,6 +497,141 @@ public class ParamDerivative {
 	}
 
 
+	/**
+	 * Computes HF faster if Hderiv and Fderiv are already available.
+	 */
+	public static double MNDOHFDeriv(SolutionR soln, SimpleMatrix Hderiv, SimpleMatrix Fderiv) {
+		return Hderiv.plusi(Fderiv).elementMulti(soln.densityMatrix()).elementSum() * 0.5 / Constants.HEATCONV;
+	}
+
+	public static double MNDODipoleDeriv(Solution soln, SimpleMatrix densityderiv, int Z, int paramnum) {
+		if (soln.dipole <= 1E-6) {
+			return 0;
+		}
+
+		NDDOAtom[] atoms = soln.atoms;
+		int[][] orbsOfAtom = soln.orbsOfAtom;
+		SimpleMatrix densityMatrix = soln.densityMatrix();
+		double D1deriv = 0;
+
+		if (paramnum == 5 || paramnum == 6) {
+			for (NDDOAtom atom : atoms) {
+				if (atom.getAtomProperties().getZ() == Z) {
+					D1deriv = atom.D1pd(paramnum - 5);
+					break;
+				}
+			}
+		}
+
+		double[] populationsderiv = new double[atoms.length];
+		for (int j = 0; j < atoms.length; j++) {
+			double sum = 0;
+
+			for (int k : orbsOfAtom[j]) {
+				sum += densityderiv.get(k, k);
+			}
+
+			populationsderiv[j] = -sum;
+		}
+
+
+		double[] com = new double[]{0, 0, 0};
+		double mass = 0;
+		for (NDDOAtom atom : atoms) {
+			com[0] += atom.getAtomProperties().getMass() * atom.getCoordinates()[0];
+			com[1] += atom.getAtomProperties().getMass() * atom.getCoordinates()[1];
+			com[2] += atom.getAtomProperties().getMass() * atom.getCoordinates()[2];
+
+			mass += atom.getAtomProperties().getMass();
+		}
+		com[0] /= mass;
+		com[1] /= mass;
+		com[2] /= mass;
+
+		double[] chargedip = new double[]{0, 0, 0};
+		for (int j = 0; j < atoms.length; j++) {
+			chargedip[0] += Constants.DIPOLECONV * populationsderiv[j] * (atoms[j].getCoordinates()[0] - com[0]);
+			chargedip[1] += Constants.DIPOLECONV * populationsderiv[j] * (atoms[j].getCoordinates()[1] - com[1]);
+			chargedip[2] += Constants.DIPOLECONV * populationsderiv[j] * (atoms[j].getCoordinates()[2] - com[2]);
+		}
+
+		double[] hybridip = new double[]{0, 0, 0};
+		for (int j = 0; j < atoms.length; j++) {
+			if (orbsOfAtom[j].length > 1) { // exclude hydrogen
+				hybridip[0] -=
+						Constants.DIPOLECONV * 2 * atoms[j].D1() * densityderiv.get(orbsOfAtom[j][0],
+								orbsOfAtom[j][1]);
+				hybridip[1] -=
+						Constants.DIPOLECONV * 2 * atoms[j].D1() * densityderiv.get(orbsOfAtom[j][0],
+								orbsOfAtom[j][2]);
+				hybridip[2] -=
+						Constants.DIPOLECONV * 2 * atoms[j].D1() * densityderiv.get(orbsOfAtom[j][0],
+								orbsOfAtom[j][3]);
+
+				if (atoms[j].getAtomProperties().getZ() == Z) {
+					hybridip[0] -=
+							Constants.DIPOLECONV * 2 * D1deriv * densityMatrix.get(orbsOfAtom[j][0], orbsOfAtom[j][1]);
+					hybridip[1] -=
+							Constants.DIPOLECONV * 2 * D1deriv * densityMatrix.get(orbsOfAtom[j][0], orbsOfAtom[j][2]);
+					hybridip[2] -=
+							Constants.DIPOLECONV * 2 * D1deriv * densityMatrix.get(orbsOfAtom[j][0], orbsOfAtom[j][3]);
+				}
+			}
+		}
+
+		double[] dipoletot =
+				new double[]{chargedip[0] + hybridip[0], chargedip[1] + hybridip[1], chargedip[2] + hybridip[2]};
+
+		return (dipoletot[0] * soln.dipoletot[0] +
+				dipoletot[1] * soln.dipoletot[1] +
+				dipoletot[2] * soln.dipoletot[2]) / soln.dipole;
+	}
+
+	public static double MNDOHomoDerivNew(SolutionR soln, SimpleMatrix x, SimpleMatrix Fderiv) {
+		SimpleMatrix Cderiv = soln.C.mult(x); // todo are you sure this is faster?
+		SimpleMatrix Ederiv =
+				soln.Ct.mult(Fderiv).mult(soln.C).plus(Utils.plusTrans(soln.Ct.mult(soln.F).mult(Cderiv)));
+
+		return Ederiv.get(soln.rm.nOccAlpha - 1, soln.rm.nOccAlpha - 1);
+	}
+
+	public static double MNDOHomoDerivNew(SolutionU soln, SimpleMatrix xa, SimpleMatrix Faderiv) {
+		SimpleMatrix Cderiv = soln.Ca.mult(xa);
+		SimpleMatrix Ederiv =
+				soln.Cta.mult(Faderiv).mult(soln.Ca).plus(Utils.plusTrans(soln.Cta.mult(soln.Fa).mult(Cderiv)));
+
+		return Ederiv.get(soln.rm.nOccAlpha - 1, soln.rm.nOccAlpha - 1);
+	}
+
+
+	@Deprecated
+	public static double MNDOHomoDerivtemp(SolutionR soln, SimpleMatrix coeffDeriv,
+										   SimpleMatrix Fderiv) {
+
+		int index = (int) (soln.nElectrons / 2.0) - 1;
+
+		if (index < 0) {
+			return 0;
+		}
+
+		SimpleMatrix coeff = soln.Ct.extractVector(true, index);
+
+		double sum = 0;
+
+		for (int i = 0; i < soln.nOrbitals; i++) {
+			for (int j = 0; j < soln.nOrbitals; j++) {
+				sum += soln.F.get(i, j) * (coeff.get(i) * coeffDeriv.get(j) +
+						coeff.get(j) * coeffDeriv.get(i));
+				sum += Fderiv.get(i, j) * coeff.get(i) * coeff.get(j);
+			}
+		}
+
+		return sum;
+
+
+	}
+
+	@Deprecated
 	public static SimpleMatrix xArrayComplementary(SolutionR soln,
 												   SimpleMatrix fockderiv) {
 		int NOcc = (int) (soln.nElectrons / 2.0);
@@ -542,10 +659,8 @@ public class ParamDerivative {
 		return x;
 	}
 
-
-	public static SimpleMatrix xarrayForIE(SolutionR soln,
-										   SimpleMatrix xlimited,
-										   SimpleMatrix xcomplementary) {
+	@Deprecated
+	public static SimpleMatrix xarrayForIE(SolutionR soln, SimpleMatrix xlimited, SimpleMatrix xcomplementary) {
 
 		int NOcc = (int) (soln.nElectrons / 2.0);
 
@@ -571,9 +686,8 @@ public class ParamDerivative {
 		return x;
 	}
 
-
-	public static SimpleMatrix HOMOCoefficientDerivativeComplementary(
-			SimpleMatrix x, SolutionR soln) {
+	@Deprecated
+	public static SimpleMatrix HOMOCoefficientDerivativeComplementary(SimpleMatrix x, SolutionR soln) {
 
 
 		SimpleMatrix CDeriv = new SimpleMatrix(1, soln.nOrbitals);
@@ -599,155 +713,6 @@ public class ParamDerivative {
 		}
 
 		return CDeriv;
-	}
-
-	// todo rewrite
-	public static double MNDOHomoDerivtemp(SolutionR soln, SimpleMatrix coeffDeriv,
-										   SimpleMatrix Fderiv) {
-
-		int index = (int) (soln.nElectrons / 2.0) - 1;
-
-		if (index < 0) {
-			return 0;
-		}
-
-		SimpleMatrix coeff = soln.Ct.extractVector(true, index);
-
-		double sum = 0;
-
-		for (int i = 0; i < soln.nOrbitals; i++) {
-			for (int j = 0; j < soln.nOrbitals; j++) {
-				sum += soln.F.get(i, j) * (coeff.get(i) * coeffDeriv.get(j) +
-						coeff.get(j) * coeffDeriv.get(i));
-				sum += Fderiv.get(i, j) * coeff.get(i) * coeff.get(j);
-			}
-		}
-
-		return sum;
-
-
-	}
-
-	public static double MNDOHomoDerivNew(SolutionR soln, SimpleMatrix x, SimpleMatrix Fderiv) {
-
-		SimpleMatrix Caderiv = soln.C.mult(x);
-		SimpleMatrix Eaderiv = Caderiv.transpose().mult(soln.F).mult(soln.C)
-				.plus(soln.Ct.mult(Fderiv).mult(soln.C)).plus(soln.Ct.mult(soln.F).mult(Caderiv));
-
-		return Eaderiv.diag().get(soln.rm.nOccAlpha - 1);
-	}
-
-	public static double MNDOHomoDerivNew(SolutionU soln, SimpleMatrix xa, SimpleMatrix Faderiv) {
-
-		SimpleMatrix Caderiv = soln.Cta.transpose().mult(xa);
-		SimpleMatrix Eaderiv = Caderiv.transpose().mult(soln.Fa).mult(soln.Cta.transpose())
-				.plus(soln.Cta.mult(Faderiv).mult(soln.Cta.transpose())).plus(soln.Cta.mult(soln.Fa).mult(Caderiv));
-
-		return Eaderiv.diag().get(soln.rm.nOccAlpha - 1);
-	}
-
-	public static double MNDODipoleDeriv(Solution soln,
-										 SimpleMatrix densityderiv, int Z,
-										 int paramnum) {
-
-		if (soln.dipole <= 1E-6) {
-			return 0;
-		}
-
-		NDDOAtom[] atoms = soln.atoms;
-
-		double D1deriv = 0;
-
-		if (paramnum == 5 || paramnum == 6) {
-			for (int i = 0; i < atoms.length; i++) {
-				if (atoms[i].getAtomProperties().getZ() == Z) {
-					D1deriv = atoms[i].D1pd(paramnum - 5);
-					break;
-				}
-			}
-		}
-
-		int[][] index = soln.orbsOfAtom;
-
-		SimpleMatrix densityMatrix = soln.densityMatrix();
-
-		double[] populationsderiv = new double[atoms.length];
-
-		for (int j = 0; j < atoms.length; j++) {
-			double sum = 0;
-			for (int k : index[j]) {
-				if (k > -1) {
-					sum += densityderiv.get(k, k);
-				}
-			}
-
-			populationsderiv[j] = -sum;
-		}
-
-
-		double[] com = new double[]{0, 0, 0};
-
-		double mass = 0;
-
-		for (NDDOAtom atom : atoms) {
-			com[0] = com[0] + atom.getAtomProperties().getMass() * atom.getCoordinates()[0];
-			com[1] = com[1] + atom.getAtomProperties().getMass() * atom.getCoordinates()[1];
-			com[2] = com[2] + atom.getAtomProperties().getMass() * atom.getCoordinates()[2];
-			mass += atom.getAtomProperties().getMass();
-		}
-
-		com[0] = com[0] / mass;
-		com[1] = com[1] / mass;
-		com[2] = com[2] / mass;
-
-
-		double[] chargedip = new double[]{0, 0, 0};
-
-		for (int j = 0; j < atoms.length; j++) {
-			chargedip[0] += 2.5416 * populationsderiv[j] *
-					(atoms[j].getCoordinates()[0] - com[0]);
-			chargedip[1] += 2.5416 * populationsderiv[j] *
-					(atoms[j].getCoordinates()[1] - com[1]);
-			chargedip[2] += 2.5416 * populationsderiv[j] *
-					(atoms[j].getCoordinates()[2] - com[2]);
-		}
-
-
-		double[] hybridip = new double[]{0, 0, 0};
-
-		for (int j = 0; j < atoms.length; j++) {
-
-			if (index[j].length > 1) { // exclude hydrogen
-				hybridip[0] = hybridip[0] - 2.5416 * 2 * atoms[j].D1() *
-						densityderiv.get(index[j][0], index[j][1]);
-				hybridip[1] = hybridip[1] - 2.5416 * 2 * atoms[j].D1() *
-						densityderiv.get(index[j][0], index[j][2]);
-				hybridip[2] = hybridip[2] - 2.5416 * 2 * atoms[j].D1() *
-						densityderiv.get(index[j][0], index[j][3]);
-
-				if (atoms[j].getAtomProperties().getZ() == Z) {
-					hybridip[0] = hybridip[0] - 2.5416 * 2 * D1deriv *
-							densityMatrix.get(index[j][0], index[j][1]);
-					hybridip[1] = hybridip[1] - 2.5416 * 2 * D1deriv *
-							densityMatrix.get(index[j][0], index[j][2]);
-					hybridip[2] = hybridip[2] - 2.5416 * 2 * D1deriv *
-							densityMatrix.get(index[j][0], index[j][3]);
-				}
-			}
-
-
-		}
-
-
-		double[] dipoletot =
-				new double[]{chargedip[0] + hybridip[0],
-						chargedip[1] + hybridip[1],
-						chargedip[2] + hybridip[2]};
-
-
-		return (dipoletot[0] * soln.dipoletot[0] +
-				dipoletot[1] * soln.dipoletot[1] +
-				dipoletot[2] * soln.dipoletot[2]) / soln.dipole;
 	}
 
 	static int getNum(int Z1, int Z2, int Z) {

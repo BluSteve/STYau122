@@ -208,5 +208,19 @@ public class Utils {
 		for (int i = 0; i < bohr.length; i++) res[i] = bohr[i] / Constants.bohr;
 		return res;
 	}
-}
 
+	public static SimpleMatrix plusTrans(SimpleMatrix sm) {
+		int numRows = sm.numRows();
+		int numCols = sm.numCols();
+
+		for (int i = 0; i < numRows; i++) {
+			for (int j = i; j < numCols; j++) {
+				double v = sm.get(i, j) + sm.get(j, i);
+				sm.set(i, j, v);
+				sm.set(j, i, v);
+			}
+		}
+
+		return sm;
+	}
+}
