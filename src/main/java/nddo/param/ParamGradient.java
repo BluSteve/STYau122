@@ -189,7 +189,7 @@ public abstract class ParamGradient implements IParamGradient {
 			sPrime = constructSPrime(ZI, paramNum);
 		}
 
-		computeHFDeriv(ZI, paramNum, sPrime);
+		computeHFDeriv(ZI, paramNum, sPrime); // todo lurking bug
 		if (datum[1] != 0 && datum[2] != 0) {
 			computeDipoleDeriv(ZI, paramNum, true, sPrime);
 			computeIEDeriv(ZI, paramNum, sPrime);

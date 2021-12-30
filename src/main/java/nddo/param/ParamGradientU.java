@@ -45,8 +45,6 @@ class ParamGradientU extends ParamGradient {
 			if (full) dipoleDerivs[ZI][paramNum] =
 					(sPrime.dipole - s.dipole) / Constants.LAMBDA;
 		}
-		totalGradients[ZI][paramNum] +=
-				2 * (s.hf - datum[0]) * HFDerivs[ZI][paramNum];
 		if (full) totalGradients[ZI][paramNum] +=
 				800 * (s.dipole - datum[1]) * dipoleDerivs[ZI][paramNum];
 	}

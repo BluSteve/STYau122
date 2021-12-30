@@ -20,8 +20,8 @@ public class ParamGradientNew implements IParamGradient {
 	protected final int atomLength, paramLength;
 
 	protected double[][] HFDerivs, dipoleDerivs, IEDerivs, geomDerivs, totalGradients;
-	protected SimpleMatrix[][] densityDerivs, xVectors;
-	protected SimpleMatrix[][][] staticDerivs;
+	protected SimpleMatrix[][] xVectors;
+	protected SimpleMatrix[][][] densityDerivs, staticDerivs, FDerivs, xMatrices;
 
 	public ParamGradientNew(Solution s, double[] datum, Solution sExp) {
 		this.s = s;
@@ -44,15 +44,17 @@ public class ParamGradientNew implements IParamGradient {
 
 		if (hasDip || hasIE) {
 			staticDerivs = new SimpleMatrix[atomLength][2][paramLength];
-			densityDerivs = new SimpleMatrix[atomLength][paramLength];
 			xVectors = new SimpleMatrix[atomLength][paramLength];
 
 			if (hasDip) {
+				densityDerivs = new SimpleMatrix[atomLength][paramLength][];
 				dipoleDerivs = new double[atomLength][paramLength];
 				e.addDipoleError(datum[1]);
 			}
 
 			if (hasIE) {
+				FDerivs = new SimpleMatrix[atomLength][paramLength][];
+				xMatrices = new SimpleMatrix[atomLength][paramLength][];
 				IEDerivs = new double[atomLength][paramLength];
 				e.addIEError(datum[2]);
 			}
@@ -98,8 +100,8 @@ public class ParamGradientNew implements IParamGradient {
 						Batcher.apply(aggFaUnpad,
 								subset -> PopleThiel.pople(sr, PopleThiel.aoToMo(sr.CtOcc, sr.CVirt, subset))) :
 						Batcher.apply(new SimpleMatrix[][]{aggFaUnpad, aggFbUnpad},
-								subset -> PopleThiel.thiel(su, PopleThiel.aoToMo(su.CtaOcc, su.CtaVirt, subset[0]),
-										PopleThiel.aoToMo(su.CtaOcc, su.CtaVirt, subset[1])));
+								subset -> PopleThiel.thiel(su, PopleThiel.aoToMo(su.CtaOcc, su.CaVirt, subset[0]),
+										PopleThiel.aoToMo(su.CtbOcc, su.CbVirt, subset[1])));
 
 				SimpleMatrix[] aggX = new SimpleMatrix[aggFa.length];
 
@@ -130,28 +132,51 @@ public class ParamGradientNew implements IParamGradient {
 						addHFDeriv(ZI, paramNum);
 
 						if (hasDip || hasIE) {
+							SimpleMatrix dd;
 							if (rhf) {
-								densityDerivs[ZI][paramNum] = PopleThiel.densityDeriv(sr, xVectors[ZI][paramNum]);
+								densityDerivs[ZI][paramNum] =
+										new SimpleMatrix[]{PopleThiel.densityDeriv(sr, xVectors[ZI][paramNum])};
+								dd = densityDerivs[ZI][paramNum][0];
 							}
 							else {
-								SimpleMatrix[] sms = PopleThiel.densityDeriv(su, xVectors[ZI][paramNum]);
-								densityDerivs[ZI][paramNum] = sms[0].plusi(sms[1]);
+								densityDerivs[ZI][paramNum] = PopleThiel.densityDeriv(su, xVectors[ZI][paramNum]);
+								dd = densityDerivs[ZI][paramNum][0].plus(densityDerivs[ZI][paramNum][1]);
 							}
 
 							if (hasDip) {
-								dipoleDerivs[ZI][paramNum] =
-										MNDODipoleDeriv(s, densityDerivs[ZI][paramNum], s.rm.mats[ZI], paramNum);
+								dipoleDerivs[ZI][paramNum] = MNDODipoleDeriv(s, dd, s.rm.mats[ZI], paramNum);
 								addDipoleDeriv(ZI, paramNum);
 							}
 						}
 
 						if (hasIE) {
-							SimpleMatrix xMatrix =
-									xMatrix(sr, staticDerivs[ZI][1][paramNum], densityDerivs[ZI][paramNum]);
+							if (rhf) {
+								SimpleMatrix responseMatrix =
+										PopleThiel.responseMatrix(sr, densityDerivs[ZI][paramNum][0]);
 
-							IEDerivs[ZI][paramNum] = rhf ?
-									-MNDOHomoDerivNew(sr, xMatrix, staticDerivs[ZI][1][paramNum]) :
-									-MNDOHomoDerivNew(su, xMatrix, staticDerivs[ZI][1][paramNum]);
+								SimpleMatrix plus = staticDerivs[ZI][1][paramNum].plus(responseMatrix);
+								SimpleMatrix F = sr.Ct.mult(plus).mult(sr.C);
+								FDerivs[ZI][paramNum] = new SimpleMatrix[]{F};
+
+								SimpleMatrix xMatrix = xmatrix(F, sr);
+								xMatrices[ZI][paramNum] = new SimpleMatrix[]{xMatrix};
+
+								IEDerivs[ZI][paramNum] = -MNDOHomoDerivNew(sr, xMatrix, plus);
+							}
+							else {
+								SimpleMatrix[] responseMatrices =
+										PopleThiel.responseMatrices(su, densityDerivs[ZI][paramNum]);
+
+								SimpleMatrix plus = staticDerivs[ZI][1][paramNum].plus(responseMatrices[0]);
+								SimpleMatrix Fa = su.Cta.mult(plus).mult(su.Ca);
+								SimpleMatrix Fb = su.Ctb.mult(staticDerivs[ZI][2][paramNum].plus(responseMatrices[1]))
+										.mult(su.Cb);
+								FDerivs[ZI][paramNum] = new SimpleMatrix[]{Fa, Fb};
+
+								xMatrices[ZI][paramNum] = xmatrices(Fa, Fb, su);
+
+								IEDerivs[ZI][paramNum] = -MNDOHomoDerivNew(su, xMatrices[ZI][paramNum][0], plus);
+							}
 
 							addIEDeriv(ZI, paramNum);
 						}

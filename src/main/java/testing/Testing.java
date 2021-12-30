@@ -26,11 +26,11 @@ public class Testing {
 		SolutionR s = (SolutionR) Solution.of(rm, runcycle.State.getConverter().convert(rm.atoms, input.info.npMap));
 		SolutionU s2 = (SolutionU) Solution.of(rm2, runcycle.State.getConverter().convert(rm2.atoms, input.info.npMap));
 
-		IParamGradient pg = new ParamGradientNew(s, rm.datum, null);
-		IParamGradient pg2 = ParamGradient.of(s, rm.datum, null).compute();
+		IParamGradient pg = new ParamGradientNew(s2, rm2.datum, null);
+		IParamGradient pg2 = ParamGradient.of(s2, rm2.datum, null).compute();
 
-		System.out.println("pg " + Arrays.deepToString(pg.getDipoleDerivs()));
-		System.out.println("pg2 " + Arrays.deepToString(pg2.getDipoleDerivs()));
+		System.out.println("pg " + Arrays.deepToString(pg.getTotalGradients()));
+		System.out.println("pg2 " + Arrays.deepToString(pg2.getTotalGradients()));
 
 		SimpleMatrix[][] matrices = GeometryDerivative.gradientRoutine(s);
 		SimpleMatrix[] fockderivstatic = matrices[1];

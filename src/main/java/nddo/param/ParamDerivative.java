@@ -4,7 +4,6 @@ import nddo.Constants;
 import nddo.NDDOAtom;
 import nddo.NDDOOrbital;
 import nddo.State;
-import nddo.math.PopleThiel;
 import nddo.solution.Solution;
 import nddo.solution.SolutionR;
 import nddo.solution.SolutionU;
@@ -638,36 +637,15 @@ public class ParamDerivative {
 		return Ederiv.get(soln.rm.nOccAlpha - 1, soln.rm.nOccAlpha - 1);
 	}
 
-	public static SimpleMatrix xMatrix(SolutionR soln, SimpleMatrix Fstatic, SimpleMatrix densityDerivs) {
-		SimpleMatrix responseMatrix = PopleThiel.responseMatrix(soln, densityDerivs);
-
-		SimpleMatrix F = soln.Ct.mult(responseMatrix.plusi(Fstatic)).mult(soln.C);
-
+	public static SimpleMatrix xmatrix(SimpleMatrix F, SolutionR soln) {
 		int numRows = F.numRows();
+		SimpleMatrix x = new SimpleMatrix(numRows, numRows);
 
 		for (int i = 0; i < numRows; i++) {
-			for (int j = i; j < numRows; j++) {
-				if (j == i) F.set(i, j, 0);
-
-				else {
-					double v = F.get(i, j) / (soln.E.get(j) - soln.E.get(i));
-					F.set(i, j, v);
-					F.set(j, i, -v);
-				}
-			}
-		}
-
-		return F;
-	}
-
-
-	public static SimpleMatrix xmatrix(SimpleMatrix F, SolutionR soln) {
-		SimpleMatrix x = new SimpleMatrix(F.numRows(), F.numRows());
-
-		for (int i = 0; i < F.numRows(); i++) {
-			for (int j = i + 1; j < F.numRows(); j++) {
-				x.set(i, j, F.get(i, j) / (soln.E.get(j) - soln.E.get(i)));
-				x.set(j, i, F.get(i, j) / (soln.E.get(i) - soln.E.get(j)));
+			for (int j = i + 1; j < numRows; j++) {
+				double v = F.get(i, j) / (soln.E.get(j) - soln.E.get(i));
+				x.set(i, j, v);
+				x.set(j, i, -v);
 			}
 		}
 
@@ -675,18 +653,21 @@ public class ParamDerivative {
 	}
 
 	public static SimpleMatrix[] xmatrices(SimpleMatrix Fa, SimpleMatrix Fb, SolutionU soln) {
+		int numRows = Fa.numRows();
+		SimpleMatrix xa = new SimpleMatrix(numRows, numRows);
+		SimpleMatrix xb = new SimpleMatrix(numRows, numRows);
 
-		SimpleMatrix xa = new SimpleMatrix(Fa.numRows(), Fa.numRows());
-		SimpleMatrix xb = new SimpleMatrix(Fa.numRows(), Fa.numRows());
 
+		for (int i = 0; i < numRows; i++) {
+			for (int j = i + 1; j < numRows; j++) {
+				double va = Fa.get(i, j) / (soln.Ea.get(j) - soln.Ea.get(i));
+				double vb = Fb.get(i, j) / (soln.Eb.get(j) - soln.Eb.get(i));
 
-		for (int i = 0; i < Fa.numRows(); i++) {
-			for (int j = i + 1; j < Fa.numRows(); j++) {
-				xa.set(i, j, Fa.get(i, j) / (soln.Ea.get(j) - soln.Ea.get(i)));
-				xa.set(j, i, Fa.get(i, j) / (soln.Ea.get(i) - soln.Ea.get(j)));
+				xa.set(i, j, va);
+				xa.set(j, i, -va);
 
-				xb.set(i, j, Fb.get(i, j) / (soln.Eb.get(j) - soln.Eb.get(i)));
-				xb.set(j, i, Fb.get(i, j) / (soln.Eb.get(i) - soln.Eb.get(j)));
+				xb.set(i, j, vb);
+				xb.set(j, i, -vb);
 			}
 		}
 
