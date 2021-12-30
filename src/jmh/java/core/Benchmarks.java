@@ -2,8 +2,7 @@ package core;
 
 import frontend.TxtIO;
 import nddo.geometry.GeometryDerivative;
-import nddo.geometry.GeometrySecondDerivative;
-import nddo.param.ParamDerivative;
+import nddo.math.PopleThiel;
 import nddo.solution.Solution;
 import nddo.solution.SolutionR;
 import org.ejml.simple.SimpleMatrix;
@@ -27,8 +26,7 @@ public class Benchmarks {
 	@BenchmarkMode(Mode.SampleTime)
 	@OutputTimeUnit(TimeUnit.MILLISECONDS)
 	public static void thiel(State state) {
-		ParamDerivative.zetaHfderiv(state.s, 6, 0);
-		ParamDerivative.zetaHfderiv(state.s, 6, 1);
+		PopleThiel.pople(state.s, PopleThiel.aoToMo(state.s.CtOcc, state.s.CVirt, state.fockderivstatic));
 	}
 
 	@org.openjdk.jmh.annotations.State(Scope.Benchmark)
@@ -47,7 +45,9 @@ public class Benchmarks {
 			SimpleMatrix[][] matrices = GeometryDerivative.gradientRoutine(s);
 			fockderivstatic = matrices[1];
 
-			System.out.println(GeometrySecondDerivative.hessianRoutine(s, fockderivstatic));
+			System.out.println(PopleThiel.pople(s, PopleThiel.aoToMo(s.CtOcc, s.CVirt, fockderivstatic))[0]);
+
+//			System.out.println(GeometrySecondDerivative.hessianRoutine(s, fockderivstatic));
 		}
 	}
 }

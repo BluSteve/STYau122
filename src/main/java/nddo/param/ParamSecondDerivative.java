@@ -10,13 +10,11 @@ import nddo.solution.Solution;
 import nddo.solution.SolutionR;
 import nddo.solution.SolutionU;
 import org.apache.commons.lang3.time.StopWatch;
-import org.ejml.data.SingularMatrixException;
 import org.ejml.simple.SimpleMatrix;
 import tools.Pow;
 import tools.Utils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ParamSecondDerivative {
 
@@ -1494,194 +1492,6 @@ public class ParamSecondDerivative {
 
 	}
 
-	public static SimpleMatrix[] GammaArrayLimitedPople(SolutionR soln,
-														SimpleMatrix[] staticMatrices) {
-
-		int NOcc = (int) (soln.nElectrons / 2.0);
-		int NVirt = soln.orbitals.length - NOcc;
-
-		SimpleMatrix[] gammaArray = new SimpleMatrix[staticMatrices.length];
-		SimpleMatrix[] gammaArrayHold = new SimpleMatrix[staticMatrices.length];
-		SimpleMatrix[] barray = new SimpleMatrix[staticMatrices.length];
-		SimpleMatrix[] parray = new SimpleMatrix[staticMatrices.length];
-		SimpleMatrix[] Farray = new SimpleMatrix[staticMatrices.length];
-		SimpleMatrix[] rArray = new SimpleMatrix[staticMatrices.length];
-
-
-		SimpleMatrix D = SimpleMatrix.identity(NOcc * NVirt);
-
-		SimpleMatrix Dinv = SimpleMatrix.identity(NOcc * NVirt);
-
-		for (int a = 0; a < gammaArray.length; a++) {
-			SimpleMatrix F = new SimpleMatrix(NOcc * NVirt, 1);
-
-			int count1 = 0;
-
-			for (int i = 0; i < NOcc; i++) {
-				for (int j = 0; j < NVirt; j++) {
-					double element = staticMatrices[a].get(i, j + NOcc) / (soln.E.get(j + NOcc) - soln.E.get(i));
-
-					F.set(count1, 0, element);
-					count1++;
-				}
-			}
-
-			F = D.mult(F);
-			gammaArray[a] = new SimpleMatrix(NOcc * NVirt, 1);
-			rArray[a] = gammaArray[a].copy();
-			barray[a] = F.copy();
-			Farray[a] = F.copy();
-		}
-
-
-		if (barray[0].numRows() == 0) {
-			SimpleMatrix[] densityderivs =
-					new SimpleMatrix[staticMatrices.length];
-
-			for (int i = 0; i < densityderivs.length; i++) {
-				densityderivs[i] = new SimpleMatrix(0, 0);
-			}
-
-			return densityderivs;
-		}
-
-
-		ArrayList<SimpleMatrix> b = new ArrayList<>();
-
-		ArrayList<SimpleMatrix> p = new ArrayList<>();
-
-		int[] iterable = new int[barray.length];
-
-
-		SimpleMatrix F = new SimpleMatrix(NOcc * NVirt, Farray.length);
-		for (int i = 0; i < Farray.length; i++) {
-			F.setColumn(i, 0, Farray[i].getDDRM().data);
-		}
-
-		double[] oldrMags = new double[rArray.length];
-		Arrays.fill(oldrMags, 10);
-		SimpleMatrix responseMatrix = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
-
-		bigLoop:
-		while (Utils.numIterable(iterable) > 0) {
-			for (int i = 0; i < barray.length; i++) {
-				for (int j = 0; j < i; j++) {
-					barray[i] = barray[i].minus(barray[j].scale(barray[i].dot(barray[j]) / barray[j].dot(barray[j])));
-				}
-			}
-
-			System.out.println("only " + Utils
-					.numIterable(iterable) + " left to go!");
-
-			for (int i = 0; i < barray.length; i++) {
-				b.add(barray[i].copy());
-				parray[i] = D.mult(
-						PopleThiel.computeResponseVectorsPople(soln, Dinv.mult(barray[i].copy()), responseMatrix));
-				p.add(parray[i].copy());
-			}
-
-			for (int i = 0; i < barray.length; i++) {
-				SimpleMatrix newb = parray[i];
-
-				for (int j = 0; j < b.size(); j++) {
-					double num = b.get(j).transpose().mult(parray[i]).get(0) /
-							b.get(j).transpose().mult(b.get(j)).get(0);
-					newb = newb.minus(b.get(j).scale(num));
-				}
-
-				barray[i] = newb.copy();
-			}
-
-			SimpleMatrix B = new SimpleMatrix(NOcc * NVirt, b.size());
-			SimpleMatrix P = new SimpleMatrix(NOcc * NVirt, b.size());
-
-			for (int i = 0; i < b.size(); i++) {
-				B.setColumn(i, 0, b.get(i).getDDRM().data);
-
-				P.setColumn(i, 0, b.get(i).minus(p.get(i)).getDDRM().data);
-			}
-
-
-			SimpleMatrix lhs = B.transpose().mult(P);
-			SimpleMatrix rhs = B.transpose().mult(F);
-			SimpleMatrix alpha;
-
-			try {
-				alpha = lhs.solve(rhs);
-			} catch (SingularMatrixException e) {
-				alpha = SimpleMatrix.ones(lhs.numCols(), rhs.numCols());
-			}
-
-			for (int a = 0; a < gammaArray.length; a++) {
-				rArray[a] = new SimpleMatrix(NOcc * NVirt, 1);
-				gammaArray[a] = new SimpleMatrix(NOcc * NVirt, 1);
-			}
-
-			for (int i = 0; i < alpha.numRows(); i++) {
-				for (int j = 0; j < alpha.numCols(); j++) {
-
-					rArray[j] =
-							rArray[j].plus(b.get(i).minus(p.get(i))
-									.scale(alpha.get(i, j)));
-					gammaArray[j] = gammaArray[j].plus(b.get(i).scale(alpha.get(i, j)));
-				}
-			}
-
-			int xArrayHoldNN = Utils.numNotNull(gammaArrayHold);
-			for (int j = 0; j < alpha.numCols(); j++) {
-				rArray[j] = rArray[j].minus(Farray[j]);
-				gammaArray[j] = Dinv.mult(gammaArray[j]);
-
-				double mag = Utils.mag(rArray[j]);
-				if (mag > oldrMags[j] || mag != mag) {
-//					System.err.println("something has gone wrong");
-//					System.out.println("xArrayHold = " +
-//							Arrays.toString(xArrayHold));
-//					System.out.println("xArray = " + Arrays.toString(xArray));
-//					System.out.println("mag = " + mag);
-//					System.out.println("oldrMags = " + oldrMags[j]);
-					if (xArrayHoldNN == gammaArrayHold.length) {
-						System.err.println(
-								"Some numerical instability encountered; " +
-										"returning lower precision values...");
-						gammaArray = gammaArrayHold;
-						break bigLoop;
-					}
-					else {
-						if (mag > oldrMags[j]) {
-							System.err.println(
-									"Numerical instability detected; " +
-											"reverting to Thiel algorithm (which doesn't exist)...");
-							System.exit(0);
-						}
-						if (mag != mag) {
-							System.err.println("Pople algorithm fails; " +
-									"reverting to Thiel algorithm (which doesn't exist)...");
-							System.exit(0);
-						}
-					}
-				}
-				else {
-					if (mag < 1E-7) {
-						gammaArrayHold[j] = gammaArray[j];
-						if (mag < 1E-8) {
-							iterable[j] = 1;
-						}
-					}
-					else {
-						iterable[j] = 0;
-
-					}
-					System.out.println("Pople convergence test: " + mag);
-				}
-
-				oldrMags[j] = mag;
-			}
-		}
-		return gammaArray;
-	}
-
-
 	public static boolean verifyEquations(SolutionR soln, int Z1, int param1, int Z2, int param2) {
 
 		SolutionR solnprime = (SolutionR) soln.withNewAtoms(Utils.perturbAtomParams(soln.atoms, Z1, param1));
@@ -1731,13 +1541,13 @@ public class ParamSecondDerivative {
 		SimpleMatrix rhsmat =
 				ParamSecondDerivative.staticMatrix(soln, Fstatictotal, F1, F2, x1, x2, Z1, param1, Z2, param2);
 
-		SimpleMatrix gammavec = GammaArrayLimitedPople(soln, new SimpleMatrix[]{rhsmat})[0];
+//		SimpleMatrix gammavec = PopleThiel.pople(soln, new SimpleMatrix[]{rhsmat})[0];
 
 		SimpleMatrix rhsmat2 = rhsmat.extractMatrix(0, soln.rm.nOccAlpha, soln.rm.nOccAlpha, soln.rm.nOrbitals);
 
 		SimpleMatrix newgammavec = PopleThiel.pople(soln, new SimpleMatrix[]{rhsmat2})[0];
 
-		SimpleMatrix densityderiv2response = ParamDerivative.densityDerivativeLimited(soln, gammavec);
+		SimpleMatrix densityderiv2response = ParamDerivative.densityDerivativeLimited(soln, newgammavec);
 
 		SimpleMatrix densityderiv2 = densityderiv2response.plus(densityderiv2static);
 
