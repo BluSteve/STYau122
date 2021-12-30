@@ -92,7 +92,7 @@ public class ParamDerivative {
 	}
 
 	public static double zetaHfderiv(SolutionR soln, int Z, int type) {
-		SimpleMatrix densitymatrix = soln.densityMatrix();
+		SimpleMatrix densityMatrix = soln.densityMatrix();
 		NDDOOrbital[] orbitals = soln.orbitals;
 
 		int[][] orbsOfAtom = soln.orbsOfAtom;
@@ -158,7 +158,7 @@ public class ParamDerivative {
 			}
 		}
 
-		return densitymatrix.elementMult(G.plusi(2, H)).elementSum() * 0.5 / Constants.HEATCONV;
+		return G.plusi(2, H).elementMulti(densityMatrix).elementSum() * 0.5 / Constants.HEATCONV;
 	}
 
 	private static double zetaHfderiv(SolutionU soln, int Z, int type) {
@@ -198,6 +198,10 @@ public class ParamDerivative {
 		SimpleMatrix Ga = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 		SimpleMatrix Gb = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 
+		SimpleMatrix densityMatrix = soln.densityMatrix();
+		SimpleMatrix alphaDensity = soln.alphaDensity();
+		SimpleMatrix betaDensity = soln.betaDensity();
+
 		for (int j = 0; j < soln.nOrbitals; j++) {
 			for (int k = j; k < soln.nOrbitals; k++) {
 				double suma = 0;
@@ -207,7 +211,7 @@ public class ParamDerivative {
 					for (int l : missingOfAtom[atomOfOrb[j]]) {
 						for (int m : missingOfAtom[atomOfOrb[j]]) {
 							if (atomOfOrb[l] == atomOfOrb[m]) {
-								double v = soln.densityMatrix().get(l, m) *
+								double v = densityMatrix.get(l, m) *
 										nom.Gpd(orbitals[j], orbitals[k], orbitals[l],
 												orbitals[m], getNum(atomicNumbers[atomOfOrb[j]],
 														atomicNumbers[atomOfOrb[l]], Z), type);
@@ -225,8 +229,8 @@ public class ParamDerivative {
 									getNum(atomicNumbers[atomOfOrb[j]], atomicNumbers[atomOfOrb[k]], Z),
 									type);
 
-							suma -= soln.alphaDensity().get(l, m) * gpd;
-							sumb -= soln.betaDensity().get(l, m) * gpd;
+							suma -= alphaDensity.get(l, m) * gpd;
+							sumb -= betaDensity.get(l, m) * gpd;
 						}
 					}
 				}
@@ -239,8 +243,10 @@ public class ParamDerivative {
 			}
 		}
 
-		return (soln.alphaDensity().elementMult(Ga.plusi(2, H)).elementSum() +
-				soln.betaDensity().elementMult(Gb.plusi(2, H)).elementSum()) * 0.5 / Constants.HEATCONV;
+		H.scalei(2);
+
+		return (Ga.plusi(H).elementMulti(alphaDensity).elementSum() +
+				Gb.plusi(H).elementMulti(betaDensity).elementSum()) * 0.5 / Constants.HEATCONV;
 	}
 
 	private static double eisolHfderiv(Solution soln, int Z) {
@@ -501,7 +507,35 @@ public class ParamDerivative {
 	 * Computes HF faster if Hderiv and Fderiv are already available.
 	 */
 	public static double MNDOHFDeriv(SolutionR soln, SimpleMatrix Hderiv, SimpleMatrix Fderiv) {
-		return Hderiv.plusi(Fderiv).elementMulti(soln.densityMatrix()).elementSum() * 0.5 / Constants.HEATCONV;
+		double e = 0;
+
+		SimpleMatrix densitymatrix = soln.densityMatrix();
+
+		for (int j = 0; j < soln.nOrbitals; j++) {
+			for (int k = 0; k < soln.nOrbitals; k++) {
+				// cannot be converted to SimpleMatrix operations whilst preserving H and Fderiv
+				e += densitymatrix.get(j, k) * (Hderiv.get(j, k) + Fderiv.get(j, k));
+			}
+		}
+
+		return e * 0.5 / Constants.HEATCONV;
+	}
+
+	public static double MNDOHFDeriv(SolutionU soln, SimpleMatrix Hderiv, SimpleMatrix Faderiv, SimpleMatrix Fbderiv) {
+		double e = 0;
+
+		SimpleMatrix alphaDensity = soln.alphaDensity();
+		SimpleMatrix betaDensity = soln.betaDensity();
+
+		for (int j = 0; j < soln.nOrbitals; j++) {
+			for (int k = 0; k < soln.nOrbitals; k++) {
+				double v = Hderiv.get(j, k);
+				e += alphaDensity.get(j, k) * (v + Faderiv.get(j, k)) +
+						betaDensity.get(j, k) * (v + Fbderiv.get(j, k));
+			}
+		}
+
+		return e * 0.5 / Constants.HEATCONV;
 	}
 
 	public static double MNDODipoleDeriv(Solution soln, SimpleMatrix densityderiv, int Z, int paramnum) {

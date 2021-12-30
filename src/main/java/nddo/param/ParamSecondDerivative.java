@@ -1858,6 +1858,8 @@ public class ParamSecondDerivative {
 
 		SimpleMatrix Fb = matrices[2][param1];
 
+		System.err.println("mndohfderiv= " + ParamDerivative.MNDOHFDeriv(soln, H, Fa, Fb));
+
 		SimpleMatrix xvector = PopleThiel.thiel(soln, new SimpleMatrix[]{Fa}, new SimpleMatrix[]{Fb})[0];
 
 		SimpleMatrix[] densityderivs = PopleThiel.densityDeriv(soln, xvector);

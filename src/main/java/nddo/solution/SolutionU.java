@@ -847,6 +847,7 @@ public class SolutionU extends Solution {
 
 	@Override
 	public SimpleMatrix densityMatrix() {
-		return this.alphaDensity.plus(this.betaDensity);
+		if (densityMatrix == null) densityMatrix = this.alphaDensity.plus(this.betaDensity);
+		return densityMatrix;
 	}
 }
