@@ -190,14 +190,13 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 														   SimpleMatrix responseMatrix) {
 		// x is B tilde, i.e. a guess
 		// p = d * b. this evaluates d * b without finding out what d is, as the latter is slow.
-		int NOcc = soln.rm.nOccAlpha;
-		int NVirt = soln.rm.nVirtAlpha;
 
-		SimpleMatrix xmat = x.copy();
-		xmat.reshape(NOcc, NVirt);
+		x.reshape(soln.rm.nOccAlpha, soln.rm.nVirtAlpha);
 
-		SimpleMatrix mult = soln.COcc.mult(xmat).mult(soln.CtVirt);
+		SimpleMatrix mult = soln.COcc.mult(x).mult(soln.CtVirt);
 		SimpleMatrix densityMatrixDeriv = mult.plusi(mult.transpose()).scalei(-2);
+
+		x.reshape(soln.rm.nonvAlpha, 1);
 
 		double[] integralArray = soln.integralArray;
 
@@ -251,7 +250,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		SimpleMatrix Roccvirt = soln.CtOcc.mult(responseMatrix).mult(soln.CVirt);
 
 		SimpleMatrix Rvec = Roccvirt.elementDivi(soln.Emat);
-		Rvec.reshape(NOcc * NVirt, 1);
+		Rvec.reshape(soln.rm.nOccAlpha * soln.rm.nVirtAlpha, 1);
 
 		return Rvec;
 	}
@@ -395,13 +394,9 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 
 	private static SimpleMatrix computeResponseVectorsThiel(SolutionR soln, SimpleMatrix x,
 															SimpleMatrix responseMatrix) {
-		int NOcc = soln.rm.nOccAlpha;
-		int NVirt = soln.rm.nVirtAlpha;
+		x.reshape(soln.rm.nOccAlpha, soln.rm.nVirtAlpha);
 
-		SimpleMatrix xmat = x.copy();
-		xmat.reshape(NOcc, NVirt); // todo reshape this back instead of copy
-
-		SimpleMatrix mult = soln.COcc.mult(xmat).mult(soln.CtVirt);
+		SimpleMatrix mult = soln.COcc.mult(x).mult(soln.CtVirt);
 		SimpleMatrix densityMatrixDeriv = mult.plusi(mult.transpose()).scalei(-2);
 
 		double[] integralArray = soln.integralArray;
@@ -453,8 +448,10 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 			}
 		}
 
-		SimpleMatrix p = soln.Emat.elementMult(xmat).minusi(soln.CtOcc.mult(responseMatrix).mult(soln.CVirt));
+		SimpleMatrix p = soln.Emat.elementMult(x).minusi(soln.CtOcc.mult(responseMatrix).mult(soln.CVirt));
 		p.reshape(soln.rm.nonvAlpha, 1);
+
+		x.reshape(soln.rm.nonvAlpha, 1);
 
 		return p;
 	}
@@ -621,19 +618,14 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 	private static SimpleMatrix computeResponseVectorsThiel(SolutionU soln, SimpleMatrix x,
 															SimpleMatrix Jderiv, SimpleMatrix Kaderiv,
 															SimpleMatrix Kbderiv) {
-		int NOccAlpha = soln.rm.nOccAlpha;
-		int NOccBeta = soln.rm.nOccBeta;
-		int NVirtAlpha = soln.rm.nVirtAlpha;
-		int NVirtBeta = soln.rm.nVirtBeta;
-
 		SimpleMatrix xmata = x.extractMatrix(0, soln.rm.nonvAlpha, 0, 1);
-		xmata.reshape(NOccAlpha, NVirtAlpha);
+		xmata.reshape(soln.rm.nOccAlpha, soln.rm.nVirtAlpha);
 
 		SimpleMatrix mult = soln.CaOcc.mult(xmata).mult(soln.CtaVirt);
 		SimpleMatrix densityderivalpha = mult.plusi(mult.transpose()).negativei();
 
 		SimpleMatrix xmatb = x.extractMatrix(soln.rm.nonvAlpha, x.numRows(), 0, 1);
-		xmatb.reshape(NOccBeta, NVirtBeta);
+		xmatb.reshape(soln.rm.nOccBeta, soln.rm.nVirtBeta);
 
 		mult = soln.CbOcc.mult(xmatb).mult(soln.CtbVirt);
 		SimpleMatrix densityderivbeta = mult.plusi(mult.transpose()).negativei();
