@@ -4,13 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="minor changes">
-      <change afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientNew.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientNewR.java" afterDir="false" />
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="minor bug fix">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/NewParam.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryOptimization.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamErrorFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamErrorFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientNew.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,9 +55,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Kotlin Class" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -169,6 +171,8 @@
     <property name="extract.method.default.visibility" value="public" />
     <property name="last.edited.regexp" value="asdf,       asdf" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/libs" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.26182964" />
@@ -195,13 +199,14 @@
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\src\main\java" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="nddo.param.ParamDerivative" />
       <recent name="nddo.math.PopleThiel" />
       <recent name="nddo.param.ParamSecondDerivative" />
       <recent name="tools.Pow" />
       <recent name="tools.Utils" />
-      <recent name="frontend.txt.Main" />
     </key>
     <key name="ExtractSuperBase.RECENT_KEYS">
+      <recent name="nddo.param" />
       <recent name="nddo" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
@@ -215,7 +220,7 @@
       <command value="gradlew clean" />
     </option>
   </component>
-  <component name="RunManager" selected="Application.Testing (1)">
+  <component name="RunManager" selected="Application.Main">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -240,25 +245,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Testing (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+    <configuration name="Testing" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="testing.Testing" />
       <module name="MNDOParam.main" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="testing.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Testing" type="Application" factoryName="Application" singleton="false" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="core.Testing" />
-      <module name="MNDOParam.jmh" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="core.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -340,39 +332,37 @@
     </configuration>
     <list>
       <item itemvalue="Application.Main" />
-      <item itemvalue="Application.TxtIO" />
       <item itemvalue="Application.Testing" />
-      <item itemvalue="Application.Testing (1)" />
+      <item itemvalue="Application.TxtIO" />
       <item itemvalue="Gradle.MNDOParam [jmh]" />
       <item itemvalue="Gradle.MNDOParam [clean]" />
       <item itemvalue="Shell Script.Copy" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Testing (1)" />
         <item itemvalue="Gradle.MNDOParam [clean]" />
-        <item itemvalue="Application.Testing" />
-        <item itemvalue="Application.Testing" />
         <item itemvalue="Application.TxtIO" />
+        <item itemvalue="Application.Testing" />
+        <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="StructuralSearchPlugin">
-    <replaceConfiguration name="Unnamed" created="1640883927030" text="$expr$.plusi($expr$.transpose())" recursive="true" caseInsensitive="false" type="JAVA" pattern_context="default" scope_type="PROJECT" scope_descriptor="" reformatAccordingToStyle="true" shortenFQN="false" replacement="0" history="1">
+    <replaceConfiguration name="Unnamed" created="1640941371086" text="$expr$.plusi($expr$.transpose())" recursive="true" caseInsensitive="false" type="JAVA" pattern_context="default" scope_type="PROJECT" scope_descriptor="" reformatAccordingToStyle="true" shortenFQN="false" replacement="0" history="1">
       <constraint name="__context__" within="" contains="" />
       <constraint name="expr" within="" contains="" />
     </replaceConfiguration>
-    <replaceConfiguration name="Unnamed" created="1640883900382" text="$expr$ * $expr$ * $expr$ * $expr$" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default" scope_type="PROJECT" scope_descriptor="" reformatAccordingToStyle="true" shortenFQN="false" replacement="0" history="1">
+    <replaceConfiguration name="Unnamed" created="1640941371086" text="$expr$ * $expr$ * $expr$ * $expr$" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default" scope_type="PROJECT" scope_descriptor="" reformatAccordingToStyle="true" shortenFQN="false" replacement="0" history="1">
       <constraint name="__context__" within="" contains="" />
       <constraint name="expr" within="" contains="" />
     </replaceConfiguration>
-    <replaceConfiguration name="Unnamed" created="1640883900382" text="pow($expr$, $number$)" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default" scope_type="PROJECT" scope_descriptor="" reformatAccordingToStyle="true" shortenFQN="false" replacement="0" history="1">
+    <replaceConfiguration name="Unnamed" created="1640941371086" text="pow($expr$, $number$)" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default" scope_type="PROJECT" scope_descriptor="" reformatAccordingToStyle="true" shortenFQN="false" replacement="0" history="1">
       <constraint name="__context__" within="" contains="" />
       <constraint name="expr" within="" contains="" />
       <constraint name="number" within="" contains="" />
     </replaceConfiguration>
-    <replaceConfiguration name="Unnamed" created="1640883900382" text="Math.pow($expr$, $number$)" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default" scope_type="PROJECT" scope_descriptor="" reformatAccordingToStyle="true" shortenFQN="false" replacement="Utils.pow($expr$, $number$)" history="1">
+    <replaceConfiguration name="Unnamed" created="1640941371086" text="Math.pow($expr$, $number$)" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default" scope_type="PROJECT" scope_descriptor="" reformatAccordingToStyle="true" shortenFQN="false" replacement="Utils.pow($expr$, $number$)" history="1">
       <constraint name="__context__" within="" contains="" />
       <constraint name="expr" within="" contains="" />
       <constraint name="number" within="" contains="" />
@@ -497,35 +487,9 @@
       <workItem from="1640658175453" duration="55000" />
       <workItem from="1640658400109" duration="8067000" />
       <workItem from="1640853915772" duration="2443000" />
-      <workItem from="1640863422015" duration="18384000" />
-    </task>
-    <task id="LOCAL-00153" summary="better batching">
-      <created>1640269044877</created>
-      <option name="number" value="00153" />
-      <option name="presentableId" value="LOCAL-00153" />
-      <option name="project" value="LOCAL" />
-      <updated>1640269044877</updated>
-    </task>
-    <task id="LOCAL-00154" summary="minor pople changes">
-      <created>1640270743737</created>
-      <option name="number" value="00154" />
-      <option name="presentableId" value="LOCAL-00154" />
-      <option name="project" value="LOCAL" />
-      <updated>1640270743737</updated>
-    </task>
-    <task id="LOCAL-00155" summary="refactor to use new pople solutionr alg">
-      <created>1640271128481</created>
-      <option name="number" value="00155" />
-      <option name="presentableId" value="LOCAL-00155" />
-      <option name="project" value="LOCAL" />
-      <updated>1640271128481</updated>
-    </task>
-    <task id="LOCAL-00156" summary="put thiel in poplethiel">
-      <created>1640281901302</created>
-      <option name="number" value="00156" />
-      <option name="presentableId" value="LOCAL-00156" />
-      <option name="project" value="LOCAL" />
-      <updated>1640281901303</updated>
+      <workItem from="1640863422015" duration="29665000" />
+      <workItem from="1640934073214" duration="4033000" />
+      <workItem from="1640938387270" duration="2762000" />
     </task>
     <task id="LOCAL-00157" summary="minor changes">
       <created>1640446084428</created>
@@ -842,7 +806,35 @@
       <option name="project" value="LOCAL" />
       <updated>1640885277409</updated>
     </task>
-    <option name="localTasksCounter" value="202" />
+    <task id="LOCAL-00202" summary="wip paramgradientnew">
+      <created>1640895233242</created>
+      <option name="number" value="00202" />
+      <option name="presentableId" value="LOCAL-00202" />
+      <option name="project" value="LOCAL" />
+      <updated>1640895233242</updated>
+    </task>
+    <task id="LOCAL-00203" summary="working paramgradientnew + old pg hf bug fix">
+      <created>1640898100084</created>
+      <option name="number" value="00203" />
+      <option name="presentableId" value="LOCAL-00203" />
+      <option name="project" value="LOCAL" />
+      <updated>1640898100084</updated>
+    </task>
+    <task id="LOCAL-00204" summary="minor bug fix">
+      <created>1640898225983</created>
+      <option name="number" value="00204" />
+      <option name="presentableId" value="LOCAL-00204" />
+      <option name="project" value="LOCAL" />
+      <updated>1640898225983</updated>
+    </task>
+    <task id="LOCAL-00205" summary="minor bug fix">
+      <created>1640898493896</created>
+      <option name="number" value="00205" />
+      <option name="presentableId" value="LOCAL-00205" />
+      <option name="project" value="LOCAL" />
+      <updated>1640898493896</updated>
+    </task>
+    <option name="localTasksCounter" value="206" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -889,9 +881,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="dot instead of transpose mult" />
-    <MESSAGE value="minor variable caching" />
-    <MESSAGE value="improve upon thiel crv" />
     <MESSAGE value="improve upon thiel crv more" />
     <MESSAGE value="extract out cocc mult xmat mult ctvirt" />
     <MESSAGE value="with lhs rhs pople caching" />
@@ -914,7 +903,10 @@
     <MESSAGE value="Almost finished refactoring ParamDerivative" />
     <MESSAGE value="UHF MNDOHFDeriv" />
     <MESSAGE value="minor changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="minor changes" />
+    <MESSAGE value="wip paramgradientnew" />
+    <MESSAGE value="working paramgradientnew + old pg hf bug fix" />
+    <MESSAGE value="minor bug fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="minor bug fix" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

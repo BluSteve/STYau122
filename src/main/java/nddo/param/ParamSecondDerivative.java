@@ -191,10 +191,10 @@ public class ParamSecondDerivative {
 		int[][] missingIndex = soln.missingOfAtom;
 		int[] atomNumber = soln.atomOfOrb;
 		int[] atomicnumbers = soln.atomicNumbers;
-		SimpleMatrix G = new SimpleMatrix(orbitals.length, orbitals.length);
+		SimpleMatrix G = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 
-		for (int j = 0; j < orbitals.length; j++) {
-			for (int k = j; k < orbitals.length; k++) {
+		for (int j = 0; j < soln.nOrbitals; j++) {
+			for (int k = j; k < soln.nOrbitals; k++) {
 				double sum = 0;
 
 				if (atomNumber[j] == atomNumber[k]) {
@@ -241,8 +241,8 @@ public class ParamSecondDerivative {
 															 SimpleMatrix betamat, int Z, int paramNum) {
 
 		if (paramNum < 5 || paramNum > 6) {
-			return new SimpleMatrix[]{new SimpleMatrix(soln.orbitals.length, soln.orbitals.length),
-					new SimpleMatrix(soln.orbitals.length, soln.orbitals.length)};
+			return new SimpleMatrix[]{new SimpleMatrix(soln.nOrbitals, soln.nOrbitals),
+					new SimpleMatrix(soln.nOrbitals, soln.nOrbitals)};
 		}
 		else {
 			return zetaGderivstatic(soln, alphamat, betamat, Z, paramNum - 5);
@@ -263,15 +263,15 @@ public class ParamSecondDerivative {
 
 		int[] atomicnumbers = soln.atomicNumbers;
 
-		SimpleMatrix Ga = new SimpleMatrix(orbitals.length, orbitals.length);
+		SimpleMatrix Ga = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 
-		SimpleMatrix Gb = new SimpleMatrix(orbitals.length, orbitals.length);
+		SimpleMatrix Gb = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 
 		SimpleMatrix mat = alphamat.plus(betamat);
 
 
-		for (int j = 0; j < orbitals.length; j++) {
-			for (int k = j; k < orbitals.length; k++) {
+		for (int j = 0; j < soln.nOrbitals; j++) {
+			for (int k = j; k < soln.nOrbitals; k++) {
 				double suma = 0;
 				double sumb = 0;
 
@@ -343,20 +343,18 @@ public class ParamSecondDerivative {
 
 	protected static SimpleMatrix betazetaHderiv2(Solution soln, int Z1, int type1, int Z2, int type2) {
 		NDDOOrbital[] orbitals = soln.orbitals;
+		int[] atomOfOrb = soln.atomOfOrb;
+		int[] atomicNumbers = soln.atomicNumbers;
 
-		int[] atomNumber = soln.atomOfOrb;
+		SimpleMatrix H = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 
-		int[] atomicnumbers = soln.atomicNumbers;
-
-		SimpleMatrix H = new SimpleMatrix(orbitals.length, orbitals.length);
-
-		for (int j = 0; j < orbitals.length; j++) {
-			for (int k = j; k < orbitals.length; k++) {
-				if (atomNumber[j] != atomNumber[k]) {
+		for (int j = 0; j < soln.nOrbitals; j++) {
+			for (int k = j; k < soln.nOrbitals; k++) {
+				if (atomOfOrb[j] != atomOfOrb[k]) {
 					double Huk = State.nom.Hbetazetap2d(orbitals[j], orbitals[k],
-							ParamDerivative.getNumBeta(atomicnumbers[atomNumber[j]], atomicnumbers[atomNumber[k]], Z1,
+							ParamDerivative.getNumBeta(atomicNumbers[atomOfOrb[j]], atomicNumbers[atomOfOrb[k]], Z1,
 									orbitals[j].getL(), orbitals[k].getL(), type1),
-							ParamDerivative.getNum(atomicnumbers[atomNumber[j]], atomicnumbers[atomNumber[k]], Z2),
+							ParamDerivative.getNum(atomicNumbers[atomOfOrb[j]], atomicNumbers[atomOfOrb[k]], Z2),
 							type2);
 					H.set(j, k, Huk);
 					H.set(k, j, Huk);
@@ -377,10 +375,10 @@ public class ParamSecondDerivative {
 
 		int[] atomicnumbers = soln.atomicNumbers;
 
-		SimpleMatrix H = new SimpleMatrix(orbitals.length, orbitals.length);
+		SimpleMatrix H = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 
-		for (int j = 0; j < orbitals.length; j++) {
-			for (int k = j; k < orbitals.length; k++) {
+		for (int j = 0; j < soln.nOrbitals; j++) {
+			for (int k = j; k < soln.nOrbitals; k++) {
 				if (atomNumber[j] == atomNumber[k]) {
 					double Huv = 0;
 
@@ -444,10 +442,10 @@ public class ParamSecondDerivative {
 
 		int[] atomicnumbers = soln.atomicNumbers;
 
-		SimpleMatrix G = new SimpleMatrix(orbitals.length, orbitals.length);
+		SimpleMatrix G = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 
-		for (int j = 0; j < orbitals.length; j++) {
-			for (int k = j; k < orbitals.length; k++) {
+		for (int j = 0; j < soln.nOrbitals; j++) {
+			for (int k = j; k < soln.nOrbitals; k++) {
 				double sum = 0;
 
 				if (atomNumber[j] == atomNumber[k]) {
@@ -509,12 +507,12 @@ public class ParamSecondDerivative {
 
 		int[] atomicnumbers = soln.atomicNumbers;
 
-		SimpleMatrix Ga = new SimpleMatrix(orbitals.length, orbitals.length);
-		SimpleMatrix Gb = new SimpleMatrix(orbitals.length, orbitals.length);
+		SimpleMatrix Ga = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
+		SimpleMatrix Gb = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 
 
-		for (int j = 0; j < orbitals.length; j++) {
-			for (int k = j; k < orbitals.length; k++) {
+		for (int j = 0; j < soln.nOrbitals; j++) {
+			for (int k = j; k < soln.nOrbitals; k++) {
 				double suma = 0;
 				double sumb = 0;
 
@@ -624,8 +622,8 @@ public class ParamSecondDerivative {
 
 		double e = 0;
 
-		for (int j = 0; j < soln.orbitals.length; j++) {
-			for (int k = 0; k < soln.orbitals.length; k++) {
+		for (int j = 0; j < soln.nOrbitals; j++) {
+			for (int k = 0; k < soln.nOrbitals; k++) {
 				e += 0.5 * soln.densityMatrix().get(j, k) * (H.get(j, k) + F.get(j, k));
 				e += 0.5 * densityderiv.get(j, k) * (Hfirst.get(j, k) + Ffirst.get(j, k));
 
@@ -668,8 +666,8 @@ public class ParamSecondDerivative {
 
 		double e = 0;
 
-		for (int j = 0; j < soln.orbitals.length; j++) {
-			for (int k = 0; k < soln.orbitals.length; k++) {
+		for (int j = 0; j < soln.nOrbitals; j++) {
+			for (int k = 0; k < soln.nOrbitals; k++) {
 				e += 0.5 * soln.alphaDensity().get(j, k) * (H.get(j, k) + Fa.get(j, k));
 				e += 0.5 * densityderivalpha.get(j, k) * (Hfirst.get(j, k) + Fafirst.get(j, k));
 
@@ -1884,9 +1882,9 @@ public class ParamSecondDerivative {
 		int NVirtAlpha = soln.rm.nVirtAlpha;
 		int NVirtBeta = soln.rm.nVirtBeta;
 
-		SimpleMatrix densityderivalpha = new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
+		SimpleMatrix densityderivalpha = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 
-		SimpleMatrix densityderivbeta = new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
+		SimpleMatrix densityderivbeta = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 
 
 		for (int u = 0; u < densityderivalpha.numRows(); u++) {
@@ -1925,11 +1923,11 @@ public class ParamSecondDerivative {
 			}
 		}
 
-		SimpleMatrix Jderiv = new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
+		SimpleMatrix Jderiv = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 
-		SimpleMatrix Kaderiv = new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
+		SimpleMatrix Kaderiv = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 
-		SimpleMatrix Kbderiv = new SimpleMatrix(soln.orbitals.length, soln.orbitals.length);
+		SimpleMatrix Kbderiv = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 
 
 		int Jcount = 0;
@@ -1937,8 +1935,8 @@ public class ParamSecondDerivative {
 
 		//construct J matrix
 
-		for (int j = 0; j < soln.orbitals.length; j++) {
-			for (int k = j; k < soln.orbitals.length; k++) {
+		for (int j = 0; j < soln.nOrbitals; j++) {
+			for (int k = j; k < soln.nOrbitals; k++) {
 				double val = 0;
 				if (j == k) {
 
@@ -1996,8 +1994,8 @@ public class ParamSecondDerivative {
 			}
 		}
 
-		for (int j = 0; j < soln.orbitals.length; j++) {
-			for (int k = j; k < soln.orbitals.length; k++) {
+		for (int j = 0; j < soln.nOrbitals; j++) {
+			for (int k = j; k < soln.nOrbitals; k++) {
 				double vala = 0;
 				double valb = 0;
 				if (j == k) {
@@ -2058,8 +2056,8 @@ public class ParamSecondDerivative {
 
 				double element = 0;
 
-				for (int u = 0; u < soln.orbitals.length; u++) {
-					for (int v = 0; v < soln.orbitals.length; v++) {
+				for (int u = 0; u < soln.nOrbitals; u++) {
+					for (int v = 0; v < soln.nOrbitals; v++) {
 						element += soln.Cta.get(i, u) * soln.Cta.get(j + NOccAlpha, v) *
 								responsealpha.get(u, v);
 					}
@@ -2076,8 +2074,8 @@ public class ParamSecondDerivative {
 
 				double element = 0;
 
-				for (int u = 0; u < soln.orbitals.length; u++) {
-					for (int v = 0; v < soln.orbitals.length; v++) {
+				for (int u = 0; u < soln.nOrbitals; u++) {
+					for (int v = 0; v < soln.nOrbitals; v++) {
 						element += soln.Ctb.get(i, u) * soln.Ctb.get(j + NOccBeta, v) *
 								responsebeta.get(u, v);
 					}

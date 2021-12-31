@@ -133,6 +133,7 @@ public abstract class GeometryOptimization {
 			if (numIt == 7) {
 				numIt = 0;
 				matrices = findGH();
+				gradient = matrices[0];
 				B = matrices[1];
 			}
 			else {

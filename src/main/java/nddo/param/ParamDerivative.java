@@ -673,6 +673,31 @@ public class ParamDerivative {
 		return new SimpleMatrix[]{xa, xb};
 	}
 
+
+	static int getNum(int Z1, int Z2, int Z) {
+		int num = 0;
+
+		if (Z1 == Z) {
+			num += 1;
+		}
+
+		if (Z2 == Z) {
+			num += 2;
+		}
+
+		return num - 1;
+	}
+
+	static int getNumBeta(int Z1, int Z2, int Z, int L1, int L2, int L) {
+		int num = 0;
+
+		if (Z1 == Z && L1 == L) num += 1;
+		if (Z2 == Z && L2 == L) num += 2;
+
+		return num - 1;
+	}
+
+
 	@Deprecated
 	public static double MNDOHomoDerivtemp(SolutionR soln, SimpleMatrix coeffDeriv, SimpleMatrix Fderiv) {
 
@@ -780,28 +805,5 @@ public class ParamDerivative {
 		}
 
 		return CDeriv;
-	}
-
-	static int getNum(int Z1, int Z2, int Z) {
-		int num = 0;
-
-		if (Z1 == Z) {
-			num += 1;
-		}
-
-		if (Z2 == Z) {
-			num += 2;
-		}
-
-		return num - 1;
-	}
-
-	static int getNumBeta(int Z1, int Z2, int Z, int L1, int L2, int L) {
-		int num = 0;
-
-		if (Z1 == Z && L1 == L) num += 1;
-		if (Z2 == Z && L2 == L) num += 2;
-
-		return num - 1;
 	}
 }

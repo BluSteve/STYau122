@@ -32,6 +32,12 @@ public class Testing {
 		System.out.println("pg " + Arrays.deepToString(pg.getTotalGradients()));
 		System.out.println("pg2 " + Arrays.deepToString(pg2.getTotalGradients()));
 
+		pg = new ParamGradientNew(s2, rm2.datum, null);
+		pg2 = ParamGradient.of(s2, rm2.datum, null).compute();
+
+		System.out.println("pg " + Arrays.deepToString(pg.getTotalGradients()));
+		System.out.println("pg2 " + Arrays.deepToString(pg2.getTotalGradients()));
+
 		SimpleMatrix[][] matrices = GeometryDerivative.gradientRoutine(s);
 		SimpleMatrix[] fockderivstatic = matrices[1];
 		System.out.println(GeometrySecondDerivative.hessianRoutine(s, fockderivstatic));
