@@ -9,7 +9,7 @@ import org.ejml.simple.SimpleMatrix;
 public abstract class ParamErrorFunction {
 	protected final Solution soln;
 	protected final NDDOAtom[] atoms;
-	protected final ArrayList<Double> bondErrors, angleErrors, bonds, angles, bondDerivatives, angleDerivatives;
+	protected SimpleMatrix geomGradVector;
 	protected Solution expSoln;
 	protected NDDOAtom[] expAtoms;
 	protected double HeatError, dipoleError, IEError, geomError, geomGradient;
@@ -47,9 +47,11 @@ public abstract class ParamErrorFunction {
 	public void addGeomError() {
 		double sum = 0;
 
-		for (int i = 0; i < expAtoms.length; i++) {
+		for (int i = 0, count = 0; i < expAtoms.length; i++) {
 			for (int j = 0; j < 3; j++) {
 				double d = getGradient(i, j);
+				geomGradVector.set(count, d);
+				count++;
 				sum += d * d;
 			}
 		}

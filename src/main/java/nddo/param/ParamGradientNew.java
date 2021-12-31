@@ -21,7 +21,7 @@ public class ParamGradientNew implements IParamGradient {
 	protected final int atomLength, paramLength;
 
 	protected double[][] HFDerivs, dipoleDerivs, IEDerivs, geomDerivs, totalGradients;
-	protected SimpleMatrix[][] xVectors;
+	protected SimpleMatrix[][] xVectors, gGVectorDerivs;
 	protected SimpleMatrix[][][] staticDerivs, densityDerivs, FDerivs, xMatrices;
 
 	public ParamGradientNew(Solution s, double[] datum, Solution sExp) {
