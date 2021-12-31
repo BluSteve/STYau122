@@ -24,17 +24,17 @@ public class Testing {
 		SolutionU s2 = (SolutionU) Solution.of(rm2, runcycle.State.getConverter().convert(rm2.atoms, input.info.npMap));
 		SolutionU se2 = (SolutionU) Solution.of(rm2, runcycle.State.getConverter().convert(rm2.expGeom, input.info.npMap));
 
-		IParamGradient pg = new ParamGradientNew(s, rm.datum, se);
-		IParamGradient pg2 = ParamGradient.of(s, rm.datum, se).compute();
+		IParamGradient pg = new ParamGradientNew(s, rm.datum, null);
+		IParamGradient pg2 = ParamGradient.of(s, rm.datum, null).compute();
 
-		System.out.println("pg " + Arrays.deepToString(pg.getGeomDerivs()));
-		System.out.println("pg2 " + Arrays.deepToString(pg2.getGeomDerivs()));
+		System.out.println("pg " + Arrays.deepToString(pg.getTotalGradients()));
+		System.out.println("pg2 " + Arrays.deepToString(pg2.getTotalGradients()));
 
-		pg = new ParamGradientNew(s2, rm2.datum, se2);
-		pg2 = ParamGradient.of(s2, rm2.datum, se2).compute();
+		pg = new ParamGradientNew(s2, rm2.datum, null);
+		pg2 = ParamGradient.of(s2, rm2.datum, null).compute();
 
-		System.out.println("pg " + Arrays.deepToString(pg.getGeomDerivs()));
-		System.out.println("pg2 " + Arrays.deepToString(pg2.getGeomDerivs()));
+		System.out.println("pg " + Arrays.deepToString(pg.getTotalGradients()));
+		System.out.println("pg2 " + Arrays.deepToString(pg2.getTotalGradients()));
 
 //		SimpleMatrix[][] matrices = GeometryDerivative.gradientRoutine(s);
 //		SimpleMatrix[] fockderivstatic = matrices[1];
