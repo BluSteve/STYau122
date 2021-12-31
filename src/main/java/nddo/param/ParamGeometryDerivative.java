@@ -8,7 +8,6 @@ import nddo.solution.SolutionU;
 import org.ejml.simple.SimpleMatrix;
 
 public class ParamGeometryDerivative {
-
 	public static double gradderiv(SolutionR soln, int atomnum, int tau, int Z, int paramnum,
 								   SimpleMatrix densityderiv) {
 		double e = 0;
@@ -344,5 +343,4 @@ public class ParamGeometryDerivative {
 			return e;
 		}
 	}
-
 }

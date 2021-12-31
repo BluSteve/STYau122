@@ -221,8 +221,7 @@ public abstract class ParamGradient implements IParamGradient {
 			}
 		}
 		double geomGradient = 627.5 * Math.sqrt(sum);
-		geomDerivs[ZI][paramNum] =
-				1 / Constants.LAMBDA * (geomGradient - e.geomGradient);
+		geomDerivs[ZI][paramNum] = 1 / Constants.LAMBDA * (geomGradient - e.geomGradient);
 		totalGradients[ZI][paramNum] +=
 				0.000098 * e.geomGradient * geomDerivs[ZI][paramNum];
 	}

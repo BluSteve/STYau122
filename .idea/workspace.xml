@@ -4,15 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="minor bug fix">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="minor changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryOptimization.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamErrorFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamErrorFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamErrorFunctionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamErrorFunctionR.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamErrorFunctionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamErrorFunctionU.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGeometryDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGeometryDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientNew.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
+    </list>
+    <list id="86822a5d-be33-417c-a060-aba962bf30c6" name="Changes by flyingfalcon" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamErrorFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamErrorFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientNew.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,11 +135,56 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientNew.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/testing/Testing.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/molecules.txt" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/nddo/param/ParamGeometryDerivative.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/nddo/scf/Orbital.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/mndo-install.sh" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/src/main/java/nddo/param/ParamErrorFunction.java">
+      <ranges>
+        <range start1="3" end1="4" start2="3" end2="3" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="7" end1="9" start2="6" end2="7" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="13" end1="14" start2="11" end2="12" changelist="86822a5d-be33-417c-a060-aba962bf30c6" />
+        <range start1="24" end1="31" start2="22" end2="22" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="38" end1="61" start2="29" end2="29" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="65" end1="65" start2="33" end2="35" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="79" end1="80" start2="49" end2="50" changelist="86822a5d-be33-417c-a060-aba962bf30c6" />
+        <range start1="82" end1="82" start2="52" end2="54" changelist="86822a5d-be33-417c-a060-aba962bf30c6" />
+        <range start1="91" end1="102" start2="63" end2="64" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="106" end1="108" start2="68" end2="68" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="110" end1="159" start2="70" end2="70" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+      </ranges>
+    </file>
+    <file path="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientNew.java">
+      <ranges>
+        <range start1="13" end1="13" start2="13" end2="14" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="22" end1="23" start2="23" end2="24" changelist="86822a5d-be33-417c-a060-aba962bf30c6" />
+        <range start1="31" end1="32" start2="32" end2="35" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="44" end1="45" start2="47" end2="48" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="63" end1="64" start2="66" end2="69" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="69" end1="70" start2="74" end2="75" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="77" end1="79" start2="82" end2="84" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="121" end1="122" start2="126" end2="127" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="123" end1="125" start2="128" end2="130" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="131" end1="132" start2="136" end2="137" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="133" end1="144" start2="138" end2="152" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="145" end1="149" start2="153" end2="156" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="151" end1="151" start2="158" end2="159" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="180" end1="181" start2="188" end2="189" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="182" end1="182" start2="190" end2="207" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="188" end1="191" start2="213" end2="216" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="196" end1="197" start2="221" end2="222" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="200" end1="201" start2="225" end2="226" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="204" end1="205" start2="229" end2="230" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="207" end1="207" start2="232" end2="236" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+      </ranges>
+    </file>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -170,7 +220,7 @@
     <property name="com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File" value="TEXT" />
     <property name="extract.method.default.visibility" value="public" />
     <property name="last.edited.regexp" value="asdf,       asdf" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/libs" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/AdvancedExpressionFolding.jar" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -178,7 +228,7 @@
     <property name="project.structure.proportion" value="0.26182964" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="ReaderModeSettings">
     <option name="enabled" value="false" />
@@ -220,7 +270,7 @@
       <command value="gradlew clean" />
     </option>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Application.Testing">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -490,13 +540,9 @@
       <workItem from="1640863422015" duration="29665000" />
       <workItem from="1640934073214" duration="4033000" />
       <workItem from="1640938387270" duration="2762000" />
-    </task>
-    <task id="LOCAL-00157" summary="minor changes">
-      <created>1640446084428</created>
-      <option name="number" value="00157" />
-      <option name="presentableId" value="LOCAL-00157" />
-      <option name="project" value="LOCAL" />
-      <updated>1640446084428</updated>
+      <workItem from="1640956060322" duration="1688000" />
+      <workItem from="1640957799626" duration="42000" />
+      <workItem from="1640957904080" duration="8004000" />
     </task>
     <task id="LOCAL-00158" summary="prep for thiel">
       <created>1640446604667</created>
@@ -834,7 +880,14 @@
       <option name="project" value="LOCAL" />
       <updated>1640898493896</updated>
     </task>
-    <option name="localTasksCounter" value="206" />
+    <task id="LOCAL-00206" summary="minor changes">
+      <created>1640943406787</created>
+      <option name="number" value="00206" />
+      <option name="presentableId" value="LOCAL-00206" />
+      <option name="project" value="LOCAL" />
+      <updated>1640943406787</updated>
+    </task>
+    <option name="localTasksCounter" value="207" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -862,7 +915,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="stratified2" />
+                        <option value="origin/test" />
                       </list>
                     </value>
                   </entry>
@@ -902,11 +955,11 @@
     <MESSAGE value="Make GSD use PopleThiel response &amp; density methods" />
     <MESSAGE value="Almost finished refactoring ParamDerivative" />
     <MESSAGE value="UHF MNDOHFDeriv" />
-    <MESSAGE value="minor changes" />
     <MESSAGE value="wip paramgradientnew" />
     <MESSAGE value="working paramgradientnew + old pg hf bug fix" />
     <MESSAGE value="minor bug fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="minor bug fix" />
+    <MESSAGE value="minor changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="minor changes" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

@@ -11,6 +11,7 @@ import tools.Utils;
 import java.util.Arrays;
 
 import static nddo.param.ParamDerivative.*;
+import static nddo.param.ParamGeometryDerivative.gradderiv;
 
 public class ParamGradientNew implements IParamGradient {
 	protected final Solution s, sExp;
@@ -29,7 +30,9 @@ public class ParamGradientNew implements IParamGradient {
 		this.sExp = sExp;
 		this.rhf = s instanceof SolutionR;
 
-		atomLength = s.rm.mats.length;
+		int[] mats = s.rm.mats;
+		int[][] mnps = s.rm.mnps;
+		atomLength = mats.length;
 		paramLength = Solution.maxParamNum;
 
 		hasDip = datum[1] != 0;
@@ -42,7 +45,7 @@ public class ParamGradientNew implements IParamGradient {
 		totalGradients = new double[atomLength][paramLength];
 		HFDerivs = new double[atomLength][paramLength];
 
-		if (hasDip || hasIE) {
+		if (hasDip || hasIE || hasGeom) {
 			staticDerivs = new SimpleMatrix[atomLength][][];
 			xVectors = new SimpleMatrix[atomLength][];
 			densityDerivs = new SimpleMatrix[atomLength][paramLength][];
@@ -61,13 +64,15 @@ public class ParamGradientNew implements IParamGradient {
 		}
 
 		if (hasGeom) {
-			geomDerivs = new double[s.rm.mats.length][Solution.maxParamNum];
+			geomDerivs = new double[atomLength][paramLength];
+			gGVectorDerivs = new SimpleMatrix[atomLength][paramLength];
+
 			e.createExpGeom(sExp);
 			e.addGeomError();
 		}
 
 
-		if (hasDip || hasIE) {
+		if (hasDip || hasIE || hasGeom) {
 			SolutionR sr = rhf ? (SolutionR) s : null;
 			SolutionU su = !rhf ? (SolutionU) s : null;
 
@@ -75,8 +80,8 @@ public class ParamGradientNew implements IParamGradient {
 			SimpleMatrix[] aggFb = new SimpleMatrix[atomLength * paramLength];
 
 			for (int ZI = 0, i = 0; ZI < atomLength; ZI++) {
-				staticDerivs[ZI] = rhf ? MNDOStaticMatrixDeriv(sr, s.rm.mats[ZI], 0)
-						: MNDOStaticMatrixDeriv(su, s.rm.mats[ZI], 0);
+				staticDerivs[ZI] = rhf ? MNDOStaticMatrixDeriv(sr, mats[ZI], 0)
+						: MNDOStaticMatrixDeriv(su, mats[ZI], 0);
 
 				for (int j = 0; j < staticDerivs[ZI][1].length; j++) {
 					aggFa[i] = staticDerivs[ZI][1][j];
@@ -119,35 +124,38 @@ public class ParamGradientNew implements IParamGradient {
 
 
 			for (int ZI = 0; ZI < atomLength; ZI++) {
-				for (int paramNum : s.rm.mnps[ZI]) {
+				for (int paramNum : mnps[ZI]) {
 					if (paramNum == 0 || paramNum == 7) {
-						HFDerivs[ZI][paramNum] = HFDeriv(s, s.rm.mats[ZI], paramNum);
-						addHFDeriv(ZI, paramNum);
+						HFDerivs[ZI][paramNum] = HFDeriv(s, mats[ZI], paramNum);
+						addHFGrad(ZI, paramNum);
 					}
 					else if (staticDerivs[ZI][0][paramNum] != null) {
 						HFDerivs[ZI][paramNum] = rhf ?
 								MNDOHFDeriv(sr, staticDerivs[ZI][0][paramNum], staticDerivs[ZI][1][paramNum]) :
 								MNDOHFDeriv(su, staticDerivs[ZI][0][paramNum], staticDerivs[ZI][1][paramNum],
 										staticDerivs[ZI][2][paramNum]);
-						addHFDeriv(ZI, paramNum);
+						addHFGrad(ZI, paramNum);
 
-						if (hasDip || hasIE) {
-							SimpleMatrix dd;
-							if (rhf) {
-								densityDerivs[ZI][paramNum] =
-										new SimpleMatrix[]{PopleThiel.densityDeriv(sr, xVectors[ZI][paramNum])};
-								dd = densityDerivs[ZI][paramNum][0];
-							}
-							else {
-								densityDerivs[ZI][paramNum] = PopleThiel.densityDeriv(su, xVectors[ZI][paramNum]);
-								dd = densityDerivs[ZI][paramNum][0].plus(densityDerivs[ZI][paramNum][1]);
-							}
 
-							if (hasDip) {
-								dipoleDerivs[ZI][paramNum] = MNDODipoleDeriv(s, dd, s.rm.mats[ZI], paramNum);
-								addDipoleDeriv(ZI, paramNum);
-							}
+						SimpleMatrix combinedDd;
+						if (rhf) {
+							densityDerivs[ZI][paramNum] =
+									new SimpleMatrix[]{PopleThiel.densityDeriv(sr, xVectors[ZI][paramNum])};
+
+							combinedDd = densityDerivs[ZI][paramNum][0];
 						}
+						else {
+							densityDerivs[ZI][paramNum] = PopleThiel.densityDeriv(su, xVectors[ZI][paramNum]);
+
+							combinedDd = densityDerivs[ZI][paramNum][0].plus(densityDerivs[ZI][paramNum][1]);
+						}
+
+
+						if (hasDip) {
+							dipoleDerivs[ZI][paramNum] = MNDODipoleDeriv(s, combinedDd, mats[ZI], paramNum);
+							addDipoleGrad(ZI, paramNum);
+						}
+
 
 						if (hasIE) {
 							if (rhf) {
@@ -178,7 +186,24 @@ public class ParamGradientNew implements IParamGradient {
 								IEDerivs[ZI][paramNum] = -MNDOHomoDerivNew(su, xMatrices[ZI][paramNum][0], plus);
 							}
 
-							addIEDeriv(ZI, paramNum);
+							addIEGrad(ZI, paramNum);
+						}
+
+
+						if (hasGeom) {
+							SimpleMatrix deriv = gGVectorDerivs[ZI][paramNum] = new SimpleMatrix(atomLength * 3, 1);
+							for (int atomnum = 0, i = 0; atomnum < atomLength; atomnum++) {
+								for (int tau = 0; tau < 3; tau++) {
+									deriv.set(i++, rhf ?
+											gradderiv((SolutionR) sExp, atomnum, tau, mats[ZI], paramNum,
+													densityDerivs[ZI][paramNum][0]) :
+											gradderiv((SolutionU) sExp, atomnum, tau, mats[ZI], paramNum,
+													densityDerivs[ZI][paramNum][0], densityDerivs[ZI][paramNum][1]));
+								}
+							}
+
+							geomDerivs[ZI][paramNum] = 627.5 * 627.5 * deriv.dot(e.geomGradVector) / e.geomGradient;
+							addGeomGrad(ZI, paramNum);
 						}
 					}
 				}
@@ -186,24 +211,28 @@ public class ParamGradientNew implements IParamGradient {
 		}
 		else {
 			for (int ZI = 0; ZI < atomLength; ZI++) {
-				for (int paramNum : s.rm.mnps[ZI]) {
-					HFDerivs[ZI][paramNum] = HFDeriv(s, s.rm.mats[ZI], paramNum);
-					addHFDeriv(ZI, paramNum);
+				for (int paramNum : mnps[ZI]) {
+					HFDerivs[ZI][paramNum] = HFDeriv(s, mats[ZI], paramNum);
+					addHFGrad(ZI, paramNum);
 				}
 			}
 		}
 	}
 
-	private void addHFDeriv(int ZI, int paramNum) {
+	private void addHFGrad(int ZI, int paramNum) {
 		totalGradients[ZI][paramNum] += 2 * (s.hf - datum[0]) * HFDerivs[ZI][paramNum];
 	}
 
-	private void addDipoleDeriv(int ZI, int paramNum) {
+	private void addDipoleGrad(int ZI, int paramNum) {
 		totalGradients[ZI][paramNum] += 800 * (s.dipole - datum[1]) * dipoleDerivs[ZI][paramNum];
 	}
 
-	private void addIEDeriv(int ZI, int paramNum) {
+	private void addIEGrad(int ZI, int paramNum) {
 		totalGradients[ZI][paramNum] += 200 * -(s.homo + datum[2]) * IEDerivs[ZI][paramNum];
+	}
+
+	private void addGeomGrad(int ZI, int paramNum) {
+		totalGradients[ZI][paramNum] += 0.000098 * e.geomGradient * geomDerivs[ZI][paramNum];
 	}
 
 	@Override
