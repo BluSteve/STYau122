@@ -148,21 +148,21 @@ public class Serializer {
 	private static class MoleculeOutput implements IMoleculeResult {
 		public RunnableMolecule updatedRm;
 		public long time;
-		public double hf, dipole, ie, geomGradient, totalError;
+		public double hf, dipole, ie, geomGradMag, totalError;
 		public double[][] hfpg, dipolepg, iepg, geompg, totalpg, hessian;
 
 		public MoleculeOutput() {
 		}
 
 		private MoleculeOutput(RunnableMolecule updatedRm, long time, double hf, double dipole, double ie,
-							   double geomGradient, double totalError, double[][] hfpg, double[][] dipolepg,
+							   double geomGradMag, double totalError, double[][] hfpg, double[][] dipolepg,
 							   double[][] iepg, double[][] geompg, double[][] totalpg, double[][] hessian) {
 			this.updatedRm = updatedRm;
 			this.time = time;
 			this.hf = hf;
 			this.dipole = dipole;
 			this.ie = ie;
-			this.geomGradient = geomGradient;
+			this.geomGradMag = geomGradMag;
 			this.totalError = totalError;
 			this.hfpg = hfpg;
 			this.dipolepg = dipolepg;
@@ -174,7 +174,7 @@ public class Serializer {
 
 		public static MoleculeOutput from(IMoleculeResult result) {
 			return new MoleculeOutput(result.getUpdatedRm(), result.getTime(), result.getHF(),
-					result.getDipole(), result.getIE(), result.getGeomGradient(), result.getTotalError(),
+					result.getDipole(), result.getIE(), result.getGeomGradMag(), result.getTotalError(),
 					result.getHFDerivs(), result.getDipoleDerivs(), result.getIEDerivs(), result.getGeomDerivs(),
 					result.getTotalGradients(), result.getHessian());
 		}
@@ -217,8 +217,8 @@ public class Serializer {
 		}
 
 		@Override
-		public double getGeomGradient() {
-			return geomGradient;
+		public double getGeomGradMag() {
+			return geomGradMag;
 		}
 
 		@Override

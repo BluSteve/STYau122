@@ -245,7 +245,7 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 				}
 
 				if (result.isExpAvail()) {
-					opt.addData(new ReferenceData(0, result.getGeomGradient(),
+					opt.addData(new ReferenceData(0, result.getGeomGradMag(),
 							ParamGradient.combine(result.getGeomDerivs(), info.atomTypes, info.neededParams,
 									moleculeATs, moleculeNPs, isDepad),
 							ReferenceData.GEOM_WEIGHT));
@@ -406,8 +406,8 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 		}
 
 		@Override
-		public double getGeomGradient() {
-			return getE().getGeomGradient();
+		public double getGeomGradMag() {
+			return getE().getGeomGradMag();
 		}
 
 		@Override

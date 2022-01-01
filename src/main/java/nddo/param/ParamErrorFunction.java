@@ -12,7 +12,7 @@ public abstract class ParamErrorFunction {
 	protected SimpleMatrix geomGradVector;
 	protected Solution expSoln;
 	protected NDDOAtom[] expAtoms;
-	protected double HeatError, dipoleError, IEError, geomError, geomGradient;
+	protected double HeatError, dipoleError, IEError, geomError, geomGradMag;
 
 	public ParamErrorFunction(Solution soln, double refHeat) {
 		this.atoms = soln.atoms;
@@ -56,15 +56,16 @@ public abstract class ParamErrorFunction {
 			}
 		}
 
-		this.geomGradient = 627.5 * Math.sqrt(sum);
+		this.geomGradMag = 627.5 * Math.sqrt(sum);
 		this.geomError = 0.000049 * 627.5 * 627.5 * sum;
 	}
 
 	public double getTotalError() {
 		return HeatError + dipoleError + IEError + geomError;
 	}
-	public double getGeomGradient() {
-		return geomGradient;
+
+	public double getGeomGradMag() {
+		return geomGradMag;
 	}
 
 	protected abstract double getGradient(int i, int j);

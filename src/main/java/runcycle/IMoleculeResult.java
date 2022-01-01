@@ -15,7 +15,7 @@ public interface IMoleculeResult {
 
 	double getIE();
 
-	double getGeomGradient();
+	double getGeomGradMag();
 
 	double getTotalError();
 

@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="ParamGradientNew expgeom derivs wip">
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="ParamGradientNew expgeom derivs wip2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientNew.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
     </list>
     <list id="86822a5d-be33-417c-a060-aba962bf30c6" name="Changes by flyingfalcon" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -492,14 +493,8 @@
       <workItem from="1640956060322" duration="1688000" />
       <workItem from="1640957799626" duration="42000" />
       <workItem from="1640957904080" duration="8292000" />
-      <workItem from="1640966493110" duration="1280000" />
-    </task>
-    <task id="LOCAL-00160" summary="thiel working - f mult and darr">
-      <created>1640447402160</created>
-      <option name="number" value="00160" />
-      <option name="presentableId" value="LOCAL-00160" />
-      <option name="project" value="LOCAL" />
-      <updated>1640447402160</updated>
+      <workItem from="1640966493110" duration="3940000" />
+      <workItem from="1641042835960" duration="855000" />
     </task>
     <task id="LOCAL-00161" summary="move trivial case for thiel">
       <created>1640447475119</created>
@@ -837,7 +832,14 @@
       <option name="project" value="LOCAL" />
       <updated>1640966503867</updated>
     </task>
-    <option name="localTasksCounter" value="209" />
+    <task id="LOCAL-00209" summary="ParamGradientNew expgeom derivs wip2">
+      <created>1640972733378</created>
+      <option name="number" value="00209" />
+      <option name="presentableId" value="LOCAL-00209" />
+      <option name="project" value="LOCAL" />
+      <updated>1640972733378</updated>
+    </task>
+    <option name="localTasksCounter" value="210" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -884,7 +886,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="extract out cocc mult xmat mult ctvirt" />
     <MESSAGE value="with lhs rhs pople caching" />
     <MESSAGE value="without caching - should be faster when mt'ed" />
     <MESSAGE value="minor cleanup in prep for uhf poplethiel" />
@@ -909,7 +910,8 @@
     <MESSAGE value="minor bug fix" />
     <MESSAGE value="minor changes" />
     <MESSAGE value="ParamGradientNew expgeom derivs wip" />
-    <option name="LAST_COMMIT_MESSAGE" value="ParamGradientNew expgeom derivs wip" />
+    <MESSAGE value="ParamGradientNew expgeom derivs wip2" />
+    <option name="LAST_COMMIT_MESSAGE" value="ParamGradientNew expgeom derivs wip2" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
