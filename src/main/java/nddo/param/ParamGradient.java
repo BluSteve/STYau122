@@ -352,7 +352,7 @@ public abstract class ParamGradient implements IParamGradient {
 	}
 
 	@Override
-	public double[][] getHFDerivs() {
+	public double[][] getHfDerivs() {
 		return HFDerivs;
 	}
 

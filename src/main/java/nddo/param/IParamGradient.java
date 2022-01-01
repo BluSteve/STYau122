@@ -7,7 +7,7 @@ public interface IParamGradient {
 
 	Solution getS();
 
-	double[][] getHFDerivs();
+	double[][] getHfDerivs();
 
 	double[][] getDipoleDerivs();
 

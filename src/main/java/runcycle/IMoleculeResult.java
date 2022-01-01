@@ -9,7 +9,7 @@ public interface IMoleculeResult {
 
 	boolean isExpAvail();
 
-	double getHF(); // todo rename
+	double getHf(); // todo rename
 
 	double getDipole();
 
@@ -19,7 +19,7 @@ public interface IMoleculeResult {
 
 	double getTotalError();
 
-	double[][] getHFDerivs();
+	double[][] getHfDerivs();
 
 	double[][] getDipoleDerivs();
 

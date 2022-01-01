@@ -13,7 +13,7 @@ import tools.Utils;
 import static nddo.State.nom;
 
 public class ParamDerivative {
-	public static double HFDeriv(Solution soln, int Z, int paramnum) {
+	public static double HfDeriv(Solution soln, int Z, int paramnum) {
 		if (paramnum == 0) {
 			return alphaHfderiv(soln, Z);
 		}
@@ -262,7 +262,7 @@ public class ParamDerivative {
 	}
 
 
-	public static SimpleMatrix[][] MNDOStaticMatrixDeriv(SolutionR soln, int Z, int firstParamIndex) {
+	public static SimpleMatrix[][] staticDeriv(SolutionR soln, int Z, int firstParamIndex) {
 		SimpleMatrix[] HDerivs = new SimpleMatrix[8];
 		SimpleMatrix[] FDerivs = new SimpleMatrix[8];
 
@@ -293,7 +293,7 @@ public class ParamDerivative {
 		return new SimpleMatrix[][]{HDerivs, FDerivs};
 	}
 
-	public static SimpleMatrix[][] MNDOStaticMatrixDeriv(SolutionU soln, int Z, int firstParamIndex) {
+	public static SimpleMatrix[][] staticDeriv(SolutionU soln, int Z, int firstParamIndex) {
 		SimpleMatrix[] HDerivs = new SimpleMatrix[8];
 		SimpleMatrix[] FaDerivs = new SimpleMatrix[8];
 		SimpleMatrix[] FbDerivs = new SimpleMatrix[8];
@@ -504,9 +504,9 @@ public class ParamDerivative {
 
 
 	/**
-	 * Computes HF faster if Hderiv and Fderiv are already available.
+	 * Computes Hf faster if Hderiv and Fderiv are already available.
 	 */
-	public static double MNDOHFDeriv(SolutionR soln, SimpleMatrix Hderiv, SimpleMatrix Fderiv) {
+	public static double HfDeriv(SolutionR soln, SimpleMatrix Hderiv, SimpleMatrix Fderiv) {
 		double e = 0;
 
 		SimpleMatrix densitymatrix = soln.densityMatrix();
@@ -521,7 +521,7 @@ public class ParamDerivative {
 		return e * 0.5 / Constants.HEATCONV;
 	}
 
-	public static double MNDOHFDeriv(SolutionU soln, SimpleMatrix Hderiv, SimpleMatrix Faderiv, SimpleMatrix Fbderiv) {
+	public static double HfDeriv(SolutionU soln, SimpleMatrix Hderiv, SimpleMatrix Faderiv, SimpleMatrix Fbderiv) {
 		double e = 0;
 
 		SimpleMatrix alphaDensity = soln.alphaDensity();
@@ -538,7 +538,7 @@ public class ParamDerivative {
 		return e * 0.5 / Constants.HEATCONV;
 	}
 
-	public static double MNDODipoleDeriv(Solution soln, SimpleMatrix densityDeriv, int Z, int paramnum) {
+	public static double nddoDipoleDeriv(Solution soln, SimpleMatrix densityDeriv, int Z, int paramnum) {
 		if (soln.dipole <= 1E-6) {
 			return 0;
 		}
@@ -621,7 +621,7 @@ public class ParamDerivative {
 				dipoletot[2] * soln.dipoletot[2]) / soln.dipole;
 	}
 
-	public static double MNDOHomoDerivNew(SolutionR soln, SimpleMatrix x, SimpleMatrix Fderiv) {
+	public static double homoDeriv(SolutionR soln, SimpleMatrix x, SimpleMatrix Fderiv) {
 		SimpleMatrix Cderiv = soln.C.mult(x); // todo are you sure this is faster?
 		SimpleMatrix Ederiv =
 				soln.Ct.mult(Fderiv).mult(soln.C).plus(Utils.plusTrans(soln.Ct.mult(soln.F).mult(Cderiv)));
@@ -629,7 +629,7 @@ public class ParamDerivative {
 		return Ederiv.get(soln.rm.nOccAlpha - 1, soln.rm.nOccAlpha - 1);
 	}
 
-	public static double MNDOHomoDerivNew(SolutionU soln, SimpleMatrix xa, SimpleMatrix Faderiv) {
+	public static double homoDeriv(SolutionU soln, SimpleMatrix xa, SimpleMatrix Faderiv) {
 		SimpleMatrix Cderiv = soln.Ca.mult(xa);
 		SimpleMatrix Ederiv =
 				soln.Cta.mult(Faderiv).mult(soln.Ca).plus(Utils.plusTrans(soln.Cta.mult(soln.Fa).mult(Cderiv)));
@@ -637,7 +637,7 @@ public class ParamDerivative {
 		return Ederiv.get(soln.rm.nOccAlpha - 1, soln.rm.nOccAlpha - 1);
 	}
 
-	public static SimpleMatrix xmatrix(SimpleMatrix F, SolutionR soln) {
+	public static SimpleMatrix xMatrix(SolutionR soln, SimpleMatrix F) {
 		int numRows = F.numRows();
 		SimpleMatrix x = new SimpleMatrix(numRows, numRows);
 
@@ -652,7 +652,7 @@ public class ParamDerivative {
 		return x;
 	}
 
-	public static SimpleMatrix[] xmatrices(SimpleMatrix Fa, SimpleMatrix Fb, SolutionU soln) {
+	public static SimpleMatrix[] xMatrix(SolutionU soln, SimpleMatrix Fa, SimpleMatrix Fb) {
 		int numRows = Fa.numRows();
 		SimpleMatrix xa = new SimpleMatrix(numRows, numRows);
 		SimpleMatrix xb = new SimpleMatrix(numRows, numRows);

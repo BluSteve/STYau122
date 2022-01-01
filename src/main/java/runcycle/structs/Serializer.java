@@ -173,9 +173,9 @@ public class Serializer {
 		}
 
 		public static MoleculeOutput from(IMoleculeResult result) {
-			return new MoleculeOutput(result.getUpdatedRm(), result.getTime(), result.getHF(),
+			return new MoleculeOutput(result.getUpdatedRm(), result.getTime(), result.getHf(),
 					result.getDipole(), result.getIE(), result.getGeomGradMag(), result.getTotalError(),
-					result.getHFDerivs(), result.getDipoleDerivs(), result.getIEDerivs(), result.getGeomDerivs(),
+					result.getHfDerivs(), result.getDipoleDerivs(), result.getIEDerivs(), result.getGeomDerivs(),
 					result.getTotalGradients(), result.getHessian());
 		}
 
@@ -202,7 +202,7 @@ public class Serializer {
 		}
 
 		@Override
-		public double getHF() {
+		public double getHf() {
 			return hf;
 		}
 
@@ -227,7 +227,7 @@ public class Serializer {
 		}
 
 		@Override
-		public double[][] getHFDerivs() {
+		public double[][] getHfDerivs() {
 			return hfpg;
 		}
 

@@ -36,7 +36,7 @@ class ParamGradientR extends ParamGradient {
 		for (int ZI = 0; ZI < s.rm.mats.length; ZI++) {
 			if (ZI == firstZIndex)
 				// only compute from firstParamNum onwards
-				staticDerivs[ZI] = ParamDerivative.MNDOStaticMatrixDeriv(
+				staticDerivs[ZI] = ParamDerivative.staticDeriv(
 						(SolutionR) s, s.rm.mats[ZI], firstParamNum);
 			else if (ZI < firstZIndex) {
 				// don't compute at all
@@ -45,7 +45,7 @@ class ParamGradientR extends ParamGradient {
 						new SimpleMatrix[Solution.maxParamNum]};
 			}
 			// compute all
-			else staticDerivs[ZI] = ParamDerivative.MNDOStaticMatrixDeriv(
+			else staticDerivs[ZI] = ParamDerivative.staticDeriv(
 						(SolutionR) s, s.rm.mats[ZI], 0);
 			Collections.addAll(aggregate, staticDerivs[ZI][1]);
 		}
@@ -88,7 +88,7 @@ class ParamGradientR extends ParamGradient {
 	protected void computeHFDeriv(int ZI, int paramNum, Solution sPrime) {
 		if (analytical)
 			HFDerivs[ZI][paramNum] = ParamDerivative
-					.HFDeriv(s, s.rm.mats[ZI], paramNum);
+					.HfDeriv(s, s.rm.mats[ZI], paramNum);
 		else {
 			assert sPrime != null;
 			HFDerivs[ZI][paramNum] = (sPrime.hf - s.hf) / Constants.LAMBDA;
@@ -105,20 +105,20 @@ class ParamGradientR extends ParamGradient {
 			// HFDerivs. I.e not as a part of dipole.
 			if (paramNum == 0 || paramNum == 7) {
 				HFDerivs[ZI][paramNum] = ParamDerivative
-						.HFDeriv(s, s.rm.mats[ZI],
+						.HfDeriv(s, s.rm.mats[ZI],
 								paramNum);
 			}
 			else if (staticDerivs[ZI][0][paramNum] != null ||
 					staticDerivs[ZI][1][paramNum] != null) {
 				HFDerivs[ZI][paramNum] =
-						ParamDerivative.MNDOHFDeriv((SolutionR) s,
+						ParamDerivative.HfDeriv((SolutionR) s,
 								staticDerivs[ZI][0][paramNum],
 								staticDerivs[ZI][1][paramNum]);
 				densityDerivs[ZI][paramNum] = PopleThiel
 						.densityDeriv((SolutionR) s,
 								xLimited[ZI][paramNum]);
 				if (full) dipoleDerivs[ZI][paramNum] =
-						ParamDerivative.MNDODipoleDeriv(s,
+						ParamDerivative.nddoDipoleDeriv(s,
 								densityDerivs[ZI][paramNum],
 								s.rm.mats[ZI],
 								paramNum);

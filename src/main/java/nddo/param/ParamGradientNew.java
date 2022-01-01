@@ -21,7 +21,7 @@ public class ParamGradientNew implements IParamGradient {
 	protected final boolean rhf, hasDip, hasIE, hasGeom;
 	protected final int nAtomTypes, nParams;
 
-	protected double[][] HFDerivs, dipoleDerivs, IEDerivs, geomDerivs, totalGradients;
+	protected double[][] HfDerivs, dipoleDerivs, IEDerivs, geomDerivs, totalGradients;
 
 	protected SimpleMatrix[][] xVectors;
 	protected SimpleMatrix[][][] staticDerivs, densityDerivs, FDerivs, xMatrices;
@@ -47,7 +47,7 @@ public class ParamGradientNew implements IParamGradient {
 		e = ParamErrorFunction.of(s, datum[0]);
 
 		totalGradients = new double[nAtomTypes][nParams];
-		HFDerivs = new double[nAtomTypes][nParams];
+		HfDerivs = new double[nAtomTypes][nParams];
 
 		if (hasDip || hasIE || hasGeom) {
 			staticDerivs = new SimpleMatrix[nAtomTypes][][];
@@ -90,15 +90,15 @@ public class ParamGradientNew implements IParamGradient {
 			for (int ZI = 0; ZI < nAtomTypes; ZI++) {
 				for (int paramNum : mnps[ZI]) {
 					if (paramNum == 0 || paramNum == 7) {
-						HFDerivs[ZI][paramNum] = HFDeriv(s, mats[ZI], paramNum);
-						addHFGrad(ZI, paramNum);
+						HfDerivs[ZI][paramNum] = ParamDerivative.HfDeriv(s, mats[ZI], paramNum);
+						addHfGrad(ZI, paramNum);
 					}
 					else if (staticDerivs[ZI][0][paramNum] != null) {
-						HFDerivs[ZI][paramNum] = rhf ?
-								MNDOHFDeriv(sr, staticDerivs[ZI][0][paramNum], staticDerivs[ZI][1][paramNum]) :
-								MNDOHFDeriv(su, staticDerivs[ZI][0][paramNum], staticDerivs[ZI][1][paramNum],
+						HfDerivs[ZI][paramNum] = rhf ?
+								HfDeriv(sr, staticDerivs[ZI][0][paramNum], staticDerivs[ZI][1][paramNum]) :
+								HfDeriv(su, staticDerivs[ZI][0][paramNum], staticDerivs[ZI][1][paramNum],
 										staticDerivs[ZI][2][paramNum]);
-						addHFGrad(ZI, paramNum);
+						addHfGrad(ZI, paramNum);
 
 						computeDensityDerivs(s, xVectors, ZI, paramNum, densityDerivs);
 
@@ -106,7 +106,7 @@ public class ParamGradientNew implements IParamGradient {
 							SimpleMatrix combinedDd = rhf ? densityDerivs[ZI][paramNum][0] :
 									densityDerivs[ZI][paramNum][0].plus(densityDerivs[ZI][paramNum][1]);
 
-							dipoleDerivs[ZI][paramNum] = MNDODipoleDeriv(s, combinedDd, mats[ZI], paramNum);
+							dipoleDerivs[ZI][paramNum] = nddoDipoleDeriv(s, combinedDd, mats[ZI], paramNum);
 							addDipoleGrad(ZI, paramNum);
 						}
 
@@ -119,10 +119,10 @@ public class ParamGradientNew implements IParamGradient {
 								SimpleMatrix F = sr.Ct.mult(plus).mult(sr.C);
 								FDerivs[ZI][paramNum] = new SimpleMatrix[]{F};
 
-								SimpleMatrix xMatrix = xmatrix(F, sr);
+								SimpleMatrix xMatrix = xMatrix(sr, F);
 								xMatrices[ZI][paramNum] = new SimpleMatrix[]{xMatrix};
 
-								IEDerivs[ZI][paramNum] = -MNDOHomoDerivNew(sr, xMatrix, plus);
+								IEDerivs[ZI][paramNum] = -homoDeriv(sr, xMatrix, plus);
 							}
 							else {
 								SimpleMatrix[] responseMatrices =
@@ -134,9 +134,9 @@ public class ParamGradientNew implements IParamGradient {
 										.mult(su.Cb);
 								FDerivs[ZI][paramNum] = new SimpleMatrix[]{Fa, Fb};
 
-								xMatrices[ZI][paramNum] = xmatrices(Fa, Fb, su);
+								xMatrices[ZI][paramNum] = ParamDerivative.xMatrix(su, Fa, Fb);
 
-								IEDerivs[ZI][paramNum] = -MNDOHomoDerivNew(su, xMatrices[ZI][paramNum][0], plus);
+								IEDerivs[ZI][paramNum] = -homoDeriv(su, xMatrices[ZI][paramNum][0], plus);
 							}
 
 							addIEGrad(ZI, paramNum);
@@ -148,8 +148,8 @@ public class ParamGradientNew implements IParamGradient {
 		else {
 			for (int ZI = 0; ZI < nAtomTypes; ZI++) {
 				for (int paramNum : mnps[ZI]) {
-					HFDerivs[ZI][paramNum] = HFDeriv(s, mats[ZI], paramNum);
-					addHFGrad(ZI, paramNum);
+					HfDerivs[ZI][paramNum] = ParamDerivative.HfDeriv(s, mats[ZI], paramNum);
+					addHfGrad(ZI, paramNum);
 				}
 			}
 		}
@@ -211,8 +211,8 @@ public class ParamGradientNew implements IParamGradient {
 		SimpleMatrix[] aggFb = new SimpleMatrix[atomLength * paramLength];
 
 		for (int ZI = 0, i = 0; ZI < atomLength; ZI++) {
-			sdTarget[ZI] = rhf ? MNDOStaticMatrixDeriv(sr, s.rm.mats[ZI], 0)
-					: MNDOStaticMatrixDeriv(su, s.rm.mats[ZI], 0);
+			sdTarget[ZI] = rhf ? staticDeriv(sr, s.rm.mats[ZI], 0)
+					: staticDeriv(su, s.rm.mats[ZI], 0);
 
 			for (int j = 0; j < sdTarget[ZI][1].length; j++) {
 				aggFa[i] = sdTarget[ZI][1][j];
@@ -254,8 +254,8 @@ public class ParamGradientNew implements IParamGradient {
 		}
 	}
 
-	private void addHFGrad(int ZI, int paramNum) {
-		totalGradients[ZI][paramNum] += 2 * (s.hf - datum[0]) * HFDerivs[ZI][paramNum];
+	private void addHfGrad(int ZI, int paramNum) {
+		totalGradients[ZI][paramNum] += 2 * (s.hf - datum[0]) * HfDerivs[ZI][paramNum];
 	}
 
 	private void addDipoleGrad(int ZI, int paramNum) {
@@ -281,8 +281,8 @@ public class ParamGradientNew implements IParamGradient {
 	}
 
 	@Override
-	public double[][] getHFDerivs() { // todo uncapitalize F
-		return HFDerivs;
+	public double[][] getHfDerivs() { // todo uncapitalize F
+		return HfDerivs;
 	}
 
 	@Override

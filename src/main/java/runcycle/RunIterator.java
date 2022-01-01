@@ -225,8 +225,8 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 				// add things to ParamOptimizer
 				double[] datum = result.getUpdatedRm().datum;
 
-				opt.addData(new ReferenceData(datum[0], result.getHF(),
-						ParamGradient.combine(result.getHFDerivs(), info.atomTypes, info.neededParams,
+				opt.addData(new ReferenceData(datum[0], result.getHf(),
+						ParamGradient.combine(result.getHfDerivs(), info.atomTypes, info.neededParams,
 								moleculeATs, moleculeNPs, isDepad),
 						ReferenceData.HF_WEIGHT));
 
@@ -391,7 +391,7 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 		}
 
 		@Override
-		public double getHF() {
+		public double getHf() {
 			return getS().hf;
 		}
 
@@ -416,8 +416,8 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 		}
 
 		@Override
-		public double[][] getHFDerivs() {
-			return getG().getHFDerivs();
+		public double[][] getHfDerivs() {
+			return getG().getHfDerivs();
 		}
 
 		@Override
