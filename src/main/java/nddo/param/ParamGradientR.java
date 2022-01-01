@@ -63,7 +63,7 @@ class ParamGradientR extends ParamGradient {
 		if (aggregateArrayUnpadded.length > 0) {
 			SolutionR s = (SolutionR) this.s;
 			SimpleMatrix[] xLimitedAggregate = Batcher.apply(aggregateArrayUnpadded,
-					subset -> PopleThiel.pople(s, PopleThiel.aoToMo(s.CtOcc, s.CVirt, subset)));
+					subset -> PopleThiel.pople(s, PopleThiel.toMO(s.CtOcc, s.CVirt, subset)));
 
 			SimpleMatrix[] xLimitedPadded = new SimpleMatrix[aggregateArray.length];
 

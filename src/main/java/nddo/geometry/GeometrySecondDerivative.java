@@ -144,7 +144,7 @@ public class GeometrySecondDerivative {
 	}
 
 	private static SimpleMatrix[] densityDeriv(SolutionR soln, SimpleMatrix[] fockderivstatic) {
-		SimpleMatrix[] xarray = PopleThiel.pople(soln, PopleThiel.aoToMo(soln.CtOcc, soln.CVirt, fockderivstatic));
+		SimpleMatrix[] xarray = PopleThiel.pople(soln, PopleThiel.toMO(soln.CtOcc, soln.CVirt, fockderivstatic));
 
 		SimpleMatrix[] densityDerivs = new SimpleMatrix[fockderivstatic.length];
 
@@ -160,8 +160,8 @@ public class GeometrySecondDerivative {
 		SimpleMatrix[] fockderivstaticbeta = fockderivstatics[1];
 
 		SimpleMatrix[] xarray = PopleThiel.thiel(soln,
-				PopleThiel.aoToMo(soln.CtaOcc, soln.CaVirt, fockderivstaticalpha),
-				PopleThiel.aoToMo(soln.CtbOcc, soln.CbVirt, fockderivstaticbeta));
+				PopleThiel.toMO(soln.CtaOcc, soln.CaVirt, fockderivstaticalpha),
+				PopleThiel.toMO(soln.CtbOcc, soln.CbVirt, fockderivstaticbeta));
 
 		SimpleMatrix[] densityDerivsAlpha = new SimpleMatrix[fockderivstaticalpha.length];
 		SimpleMatrix[] densityDerivsBeta = new SimpleMatrix[fockderivstaticbeta.length];

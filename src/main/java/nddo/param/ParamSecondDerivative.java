@@ -1469,10 +1469,10 @@ public class ParamSecondDerivative {
 		SimpleMatrix F2prime = ParamDerivative.staticDeriv(solnprime, Z2, 0)[1][param2];
 		SimpleMatrix F1 = ParamDerivative.staticDeriv(soln, Z1, 0)[1][param1];
 
-		SimpleMatrix x2 = PopleThiel.pople(soln, PopleThiel.aoToMo(soln.CtOcc, soln.CVirt, new SimpleMatrix[]{F2}))[0];
+		SimpleMatrix x2 = PopleThiel.pople(soln, PopleThiel.toMO(soln.CtOcc, soln.CVirt, new SimpleMatrix[]{F2}))[0];
 		SimpleMatrix x2prime = PopleThiel.pople(solnprime,
-				PopleThiel.aoToMo(solnprime.CtOcc, solnprime.CVirt, new SimpleMatrix[]{F2prime}))[0];
-		SimpleMatrix x1 = PopleThiel.pople(soln, PopleThiel.aoToMo(soln.CtOcc, soln.CVirt, new SimpleMatrix[]{F1}))[0];
+				PopleThiel.toMO(solnprime.CtOcc, solnprime.CVirt, new SimpleMatrix[]{F2prime}))[0];
+		SimpleMatrix x1 = PopleThiel.pople(soln, PopleThiel.toMO(soln.CtOcc, soln.CVirt, new SimpleMatrix[]{F1}))[0];
 
 		SimpleMatrix D1 = PopleThiel.densityDeriv(soln, x1);
 
@@ -1629,14 +1629,14 @@ public class ParamSecondDerivative {
 
 
 		SimpleMatrix x2 = PopleThiel.thiel(soln,
-				PopleThiel.aoToMo(soln.CtaOcc, soln.CaVirt, new SimpleMatrix[]{F2alpha}),
-				PopleThiel.aoToMo(soln.CtbOcc, soln.CbVirt, new SimpleMatrix[]{F2beta}))[0];
+				PopleThiel.toMO(soln.CtaOcc, soln.CaVirt, new SimpleMatrix[]{F2alpha}),
+				PopleThiel.toMO(soln.CtbOcc, soln.CbVirt, new SimpleMatrix[]{F2beta}))[0];
 		SimpleMatrix x2prime = PopleThiel.thiel(solnprime,
-				PopleThiel.aoToMo(solnprime.CtaOcc, solnprime.CaVirt, new SimpleMatrix[]{F2alphaprime}),
-				PopleThiel.aoToMo(solnprime.CtbOcc, solnprime.CbVirt, new SimpleMatrix[]{F2betaprime}))[0];
+				PopleThiel.toMO(solnprime.CtaOcc, solnprime.CaVirt, new SimpleMatrix[]{F2alphaprime}),
+				PopleThiel.toMO(solnprime.CtbOcc, solnprime.CbVirt, new SimpleMatrix[]{F2betaprime}))[0];
 		SimpleMatrix x1 = PopleThiel.thiel(soln,
-				PopleThiel.aoToMo(soln.CtaOcc, soln.CaVirt, new SimpleMatrix[]{F1alpha}),
-				PopleThiel.aoToMo(soln.CtbOcc, soln.CbVirt, new SimpleMatrix[]{F1beta}))[0];
+				PopleThiel.toMO(soln.CtaOcc, soln.CaVirt, new SimpleMatrix[]{F1alpha}),
+				PopleThiel.toMO(soln.CtbOcc, soln.CbVirt, new SimpleMatrix[]{F1beta}))[0];
 
 		SimpleMatrix[] D1 = PopleThiel.densityDeriv(soln, x1);
 

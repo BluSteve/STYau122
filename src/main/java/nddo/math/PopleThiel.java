@@ -3,6 +3,7 @@ package nddo.math;
 import nddo.solution.SolutionR;
 import nddo.solution.SolutionU;
 import org.ejml.data.SingularMatrixException;
+import org.ejml.dense.row.CommonOps_DDRM;
 import org.ejml.dense.row.SpecializedOps_DDRM;
 import org.ejml.simple.SimpleMatrix;
 import tools.Utils;
@@ -15,7 +16,7 @@ import static org.ejml.dense.row.CommonOps_DDRM.multRows;
 import static tools.Utils.mag;
 
 public class PopleThiel { // stop trying to make this faster!!!!!
-	public static SimpleMatrix[] aoToMo(SimpleMatrix CtOcc, SimpleMatrix CVirt, SimpleMatrix[] fockderivstatic) {
+	public static SimpleMatrix[] toMO(SimpleMatrix CtOcc, SimpleMatrix CVirt, SimpleMatrix[] fockderivstatic) {
 		SimpleMatrix[] res = new SimpleMatrix[fockderivstatic.length];
 
 		for (int i = 0; i < res.length; i++) {
@@ -40,6 +41,10 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		SimpleMatrix[] rarray = new SimpleMatrix[length]; // x - F
 		double[] oldrMags = new double[length];
 		Arrays.fill(oldrMags, 1);
+
+		for (int a = 0; a < length; a++) {
+			rarray[a] = new SimpleMatrix(nonv, 1);
+		}
 
 		// configure preconditioners
 		double[] Darr = new double[nonv];
@@ -136,7 +141,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 
 			// reset r array
 			for (int a = 0; a < length; a++) {
-				rarray[a] = new SimpleMatrix(nonv, 1);
+				rarray[a].zero();
 			}
 
 			for (int i = 0; i < prevSize; i++) {
@@ -312,7 +317,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 
 			for (int a = 0; a < length; a++) {
 				if (rarray[a] != null) {
-					dirs[a] = rarray[a].copy();
+					dirs[a].setTo(rarray[a]);
 
 					for (int i = 0; i < size; i++) {
 						dirs[a].plusi(beta.get(i, a), d.get(i));
@@ -378,6 +383,8 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 			dirs[a] = f.copy();
 		}
 
+		SimpleMatrix xmata = new SimpleMatrix(soln.rm.nonvAlpha, 1);
+		SimpleMatrix xmatb = new SimpleMatrix(soln.rm.nonvBeta, 1);
 		SimpleMatrix Jderiv = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 		SimpleMatrix Kaderiv = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 		SimpleMatrix Kbderiv = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
@@ -393,7 +400,8 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 				if (rarray[i] != null) {
 					d.add(dirs[i]);
 
-					SimpleMatrix sm = computeResponseVectorsThiel(soln, dirs[i], Jderiv, Kaderiv, Kbderiv);
+					SimpleMatrix sm =
+							computeResponseVectorsThiel(soln, dirs[i], xmata, xmatb, Jderiv, Kaderiv, Kbderiv);
 					multRows(Darr, sm.getDDRM());
 					p.add(sm);
 				}
@@ -471,7 +479,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 
 			for (int a = 0; a < length; a++) {
 				if (rarray[a] != null) {
-					dirs[a] = rarray[a].copy();
+					dirs[a].setTo(rarray[a]);
 
 					for (int i = 0; i < size; i++) {
 						dirs[a].plusi(beta.get(i, a), d.get(i));
@@ -606,16 +614,16 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		return p;
 	}
 
-	private static SimpleMatrix computeResponseVectorsThiel(SolutionU soln, SimpleMatrix x,
-															SimpleMatrix Jderiv, SimpleMatrix Kaderiv,
-															SimpleMatrix Kbderiv) {
-		SimpleMatrix xmata = x.extractMatrix(0, soln.rm.nonvAlpha, 0, 1);
+	private static SimpleMatrix computeResponseVectorsThiel(SolutionU soln, SimpleMatrix x, SimpleMatrix xmata,
+															SimpleMatrix xmatb, SimpleMatrix Jderiv,
+															SimpleMatrix Kaderiv, SimpleMatrix Kbderiv) {
+		CommonOps_DDRM.extract(x.getDDRM(), 0, soln.rm.nonvAlpha, 0, 1, xmata.getDDRM());
 		xmata.reshape(soln.rm.nOccAlpha, soln.rm.nVirtAlpha);
 
 		SimpleMatrix mult = soln.CaOcc.mult(xmata).mult(soln.CtaVirt);
 		SimpleMatrix densityDerivAlpha = Utils.plusTrans(mult).negativei();
 
-		SimpleMatrix xmatb = x.extractMatrix(soln.rm.nonvAlpha, x.numRows(), 0, 1);
+		CommonOps_DDRM.extract(x.getDDRM(), soln.rm.nonvAlpha, x.numRows(), 0, 1, xmatb.getDDRM());
 		xmatb.reshape(soln.rm.nOccBeta, soln.rm.nVirtBeta);
 
 		mult = soln.CbOcc.mult(xmatb).mult(soln.CtbVirt);
@@ -627,6 +635,9 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		pa.reshape(soln.rm.nonvAlpha, 1);
 		SimpleMatrix pb = soln.Ebmat.elementMult(xmatb).minusi(soln.CtbOcc.mult(sms[1]).mult(soln.CbVirt));
 		pb.reshape(soln.rm.nonvBeta, 1);
+
+		xmata.reshape(soln.rm.nonvAlpha, 1);
+		xmatb.reshape(soln.rm.nonvBeta, 1);
 
 		return pa.concatRows(pb);
 	}

@@ -26,7 +26,7 @@ public class Benchmarks {
 	@BenchmarkMode(Mode.SampleTime)
 	@OutputTimeUnit(TimeUnit.MILLISECONDS)
 	public static void thiel(State state) {
-		PopleThiel.pople(state.s, PopleThiel.aoToMo(state.s.CtOcc, state.s.CVirt, state.fockderivstatic));
+		PopleThiel.pople(state.s, PopleThiel.toMO(state.s.CtOcc, state.s.CVirt, state.fockderivstatic));
 	}
 
 	@org.openjdk.jmh.annotations.State(Scope.Benchmark)
@@ -45,7 +45,7 @@ public class Benchmarks {
 			SimpleMatrix[][] matrices = GeometryDerivative.gradientRoutine(s);
 			fockderivstatic = matrices[1];
 
-			System.out.println(PopleThiel.pople(s, PopleThiel.aoToMo(s.CtOcc, s.CVirt, fockderivstatic))[0]);
+			System.out.println(PopleThiel.pople(s, PopleThiel.toMO(s.CtOcc, s.CVirt, fockderivstatic))[0]);
 
 //			System.out.println(GeometrySecondDerivative.hessianRoutine(s, fockderivstatic));
 		}
