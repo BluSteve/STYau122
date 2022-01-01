@@ -1,5 +1,6 @@
 package nddo.defaults;
 
+import nddo.Constants;
 import nddo.NDDOParams;
 import nddo.scf.GTO;
 import nddo.structs.AtomProperties;
@@ -28,18 +29,49 @@ public class MNDOAtom extends NDDOAtomBasic<MNDOAtom> {
 		}
 	}
 
-	private static double getf(MNDOAtom a, MNDOAtom b, double R) {
+	private static double getfhydrogen(MNDOAtom a, MNDOAtom b, double R) {
 		return 1 + R / bohr * Pow.exp(-a.np.getAlpha() * R / bohr) +
 				Pow.exp(-b.np.getAlpha() * R / bohr);
 	}
 
-	private static double getfPrime(MNDOAtom a, MNDOAtom b, double R, int tau) {
-		return (a.getCoordinates()[tau] - b.getCoordinates()[tau]) / (R * bohr) *
-				Pow.exp(-a.np.getAlpha() * R / bohr) -
-				a.np.getAlpha() * (a.getCoordinates()[tau] - b.getCoordinates()[tau]) / (bohr * bohr) *
-						Pow.exp(-a.np.getAlpha() * R / bohr) -
-				b.np.getAlpha() / bohr * (a.getCoordinates()[tau] - b.getCoordinates()[tau]) / R *
-						Pow.exp(-b.np.getAlpha() * R / bohr);
+	private static double getf(MNDOAtom a, MNDOAtom b, double R) {
+		return 1 + Pow.exp(-b.np.getAlpha() * R / bohr) + Pow.exp(-a.np.getAlpha() * R / bohr);
+	}
+
+	private static double getfhydrogenpd(MNDOAtom a, double R) {
+		return -R * R / (bohr * bohr) * Pow.exp(-a.np.getAlpha() * R / bohr);
+	}
+
+	private static double getfpd(MNDOAtom a, double R) {
+		return -R / bohr * Pow.exp(-a.np.getAlpha() * R / bohr);
+	}
+
+	private static double getfhydrogenpgd(MNDOAtom a, MNDOAtom b, double R, int tau) {
+		return -2 * (a.getCoordinates()[tau] - b.getCoordinates()[tau]) / (bohr * bohr) *
+				Pow.exp(-a.np.getAlpha() * R / bohr)
+				- R / (bohr * bohr * bohr) * (a.getCoordinates()[tau] - b.getCoordinates()[tau]) *
+				Pow.exp(-a.np.getAlpha() * R / bohr);
+	}
+
+	private static double getfpgd(MNDOAtom a, MNDOAtom c, double R, int tau) {
+		return -(a.getCoordinates()[tau] - c.getCoordinates()[tau]) / (R * bohr) * Pow.exp(-a.np.getAlpha() * R / bohr)
+				+ a.np.getAlpha() * (a.getCoordinates()[tau] - c.getCoordinates()[tau]) / (bohr * bohr) *
+				Pow.exp(-a.np.getAlpha() * R / bohr);
+	}
+
+	private static double getfhydrogengd(MNDOAtom a, MNDOAtom b, double R, int tau) {
+		return (a.getCoordinates()[tau] - b.getCoordinates()[tau]) / (R * bohr) * Pow.exp(-a.np.getAlpha() * R / bohr)
+				- a.np.getAlpha() * (a.getCoordinates()[tau] - b.getCoordinates()[tau]) / (bohr * bohr) *
+				Pow.exp(-a.np.getAlpha() * R / bohr)
+				- b.np.getAlpha() / bohr * (a.getCoordinates()[tau] - b.getCoordinates()[tau]) / R *
+				Pow.exp(-b.np.getAlpha() * R / bohr);
+	}
+
+	private static double getfgd(MNDOAtom a, MNDOAtom b, double R, int tau) {
+		return -b.np.getAlpha() / bohr * (a.coordinates[tau] - b.getCoordinates()[tau]) / R *
+				Pow.exp(-b.np.getAlpha() * R / bohr) -
+				a.np.getAlpha() / bohr * (a.coordinates[tau] - b.getCoordinates()[tau]) / R *
+						Pow.exp(-a.np.getAlpha() * R / bohr);
 	}
 
 	@Override
@@ -63,10 +95,10 @@ public class MNDOAtom extends NDDOAtomBasic<MNDOAtom> {
 		double R = GTO.R(coordinates, b.getCoordinates());
 
 		if ((atomProperties.getZ() == 7 || atomProperties.getZ() == 8) && b.atomProperties.getZ() == 1)
-			f = getf(this, b, R);
+			f = getfhydrogen(this, b, R);
 		else if ((b.atomProperties.getZ() == 7 || b.atomProperties.getZ() == 8) && atomProperties.getZ() == 1)
-			f = getf(b, this, R);
-		else f = 1 + Pow.exp(-b.np.getAlpha() * R / bohr) + Pow.exp(-this.np.getAlpha() * R / bohr);
+			f = getfhydrogen(b, this, R);
+		else f = getf(this, b, R);
 
 		return f * atomProperties.getQ() * b.atomProperties.getQ() * nom.G(this.s(), this.s(), b.s(),
 				b.s());
@@ -80,19 +112,16 @@ public class MNDOAtom extends NDDOAtomBasic<MNDOAtom> {
 		double r = R / bohr;
 
 		if ((atomProperties.getZ() == 7 || atomProperties.getZ() == 8) && b.atomProperties.getZ() == 1) {
-			f = getf(this, b, R);
-			fprime = getfPrime(this, b, R, tau);
+			f = getfhydrogen(this, b, R);
+			fprime = getfhydrogengd(this, b, R, tau);
 		}
 		else if ((b.atomProperties.getZ() == 7 || b.atomProperties.getZ() == 8) && atomProperties.getZ() == 1) {
-			f = getf(b, this, R);
-			fprime = -getfPrime(b, this, R, tau);
+			f = getfhydrogen(b, this, R);
+			fprime = -getfhydrogengd(b, this, R, tau);
 		}
 		else {
 			f = 1 + Pow.exp(-b.np.getAlpha() * r) + Pow.exp(-this.np.getAlpha() * r);
-			fprime = -b.np.getAlpha() / bohr * (coordinates[tau] - b.getCoordinates()[tau]) / R *
-					Pow.exp(-b.np.getAlpha() * r) -
-					this.np.getAlpha() / bohr * (coordinates[tau] - b.getCoordinates()[tau]) / R *
-							Pow.exp(-this.np.getAlpha() * r);
+			fprime = getfgd(this, b, R, tau);
 		}
 
 		return fprime * atomProperties.getQ() * b.atomProperties.getQ() * nom.G(this.s(), this.s(), b.s(), b.s()) +
@@ -104,23 +133,107 @@ public class MNDOAtom extends NDDOAtomBasic<MNDOAtom> {
 		double orig = this.crfgd(c, tau1);
 		double[] coords = coordinates.clone();
 
-		coords[tau2] = coords[tau2] + 1E-7;
+		coords[tau2] += Constants.LAMBDA;
 		MNDOAtom perturbed = new MNDOAtom(atomProperties, coords, this.np);
 
 		double newval = perturbed.crfgd(c, tau1);
 
-		return 1E7 * (newval - orig);
+		return 1 / Constants.LAMBDA * (newval - orig);
 	}
 
-	@Override
-	public double crfalphapd(MNDOAtom c, int num) {
+	public double crfalphapd(MNDOAtom c, int num) {//todo you sure this was correct for H alpha? I rewrote it.
 		double R = GTO.R(coordinates, c.getCoordinates());
 		double val = atomProperties.getQ() * c.atomProperties.getQ() * nom.G(this.s(), this.s(), c.s(), c.s());
 
 		double returnval = 0;
 
-		if (num == 0 || num == 2) returnval += val * -R / bohr * Pow.exp(-this.np.getAlpha() * R / bohr);
-		if (num == 1 || num == 2) returnval += val * -R / bohr * Pow.exp(-c.np.getAlpha() * R / bohr);
+
+		if (atomProperties.getZ() == 1 && (c.getAtomProperties().getZ() == 7 || c.getAtomProperties().getZ() == 8)) {
+			if (num == 0) returnval += val * getfpd(this, R);
+			else if (num == 1) returnval += val * getfhydrogenpd(c, R);
+		}
+
+		else if ((atomProperties.getZ() == 7 || atomProperties.getZ() == 8) && c.getAtomProperties().getZ() == 1) {
+			if (num == 0) returnval += val * getfhydrogenpd(this, R);
+			else if (num == 1) returnval += val * getfpd(c, R);
+		}
+
+		else {
+			if (num == 0 || num == 2) returnval += val * getfpd(this, R);
+			if (num == 1 || num == 2) returnval += val * getfpd(c, R);
+		}
+
+		return returnval;
+	}
+
+	public double crfalphapgd2(MNDOAtom c, int num, int tau) {
+		double orig = this.crfalphapd(c, num);
+		double[] coords = coordinates.clone();
+
+		coords[tau] += Constants.LAMBDA;
+		MNDOAtom perturbed = new MNDOAtom(atomProperties, coords, this.np);
+
+		double newval = perturbed.crfalphapd(c, num);
+
+		double check = 1 / Constants.LAMBDA * (newval - orig);
+
+		double cry = crfalphapgd2(c, num, tau);
+
+		if (Math.abs(check - cry) > 1E-5) {
+			System.err.println("check = " + check);
+			System.err.println("cry = " + cry);
+			System.err.println(
+					this.getAtomProperties().getZ() + ", " + c.getAtomProperties().getZ() + ", " + num + ", " + tau);
+			System.exit(0);
+		}
+		else {
+			System.out.println("check = " + check);
+			System.out.println("cry = " + cry);
+		}
+
+		return 1 / Constants.LAMBDA * (newval - orig);
+	}
+
+	public double crfalphapgd(MNDOAtom c, int num, int tau) {
+		double R = GTO.R(coordinates, c.getCoordinates());
+		double val = atomProperties.getQ() * c.atomProperties.getQ() * nom.G(this.s(), this.s(), c.s(), c.s());
+		double valgd = atomProperties.getQ() * c.atomProperties.getQ() * nom.Ggd(this.s(), this.s(), c.s(), c.s(),
+				tau);
+
+		double returnval = 0;
+
+		if (atomProperties.getZ() == 1 && (c.getAtomProperties().getZ() == 7 || c.getAtomProperties().getZ() == 8)) {
+			if (num == 0) {
+				returnval += valgd * getfpd(this, R);
+				returnval += val * getfpgd(this, c, R, tau);
+			}
+			if (num == 1) {
+				returnval += valgd * getfhydrogenpd(c, R);
+				returnval += val * -getfhydrogenpgd(c, this, R, tau);
+			}
+		}
+
+		else if ((atomProperties.getZ() == 7 || atomProperties.getZ() == 8) && c.getAtomProperties().getZ() == 1) {
+			if (num == 0) {
+				returnval += valgd * getfhydrogenpd(this, R);
+				returnval += val * getfhydrogenpgd(this, c, R, tau);
+			}
+			if (num == 1) {
+				returnval += valgd * getfpd(c, R);
+				returnval += val * -getfpgd(c, this, R, tau);
+			}
+		}
+
+		else {
+			if (num == 0 || num == 2) {
+				returnval += valgd * getfpd(this, R);
+				returnval += val * getfpgd(this, c, R, tau);
+			}
+			if (num == 1 || num == 2) {
+				returnval += valgd * getfpd(c, R);
+				returnval += val * -getfpgd(c, this, R, tau);
+			}
+		}
 
 		return returnval;
 	}

@@ -11,7 +11,8 @@ import tools.Utils;
 import java.util.Arrays;
 
 import static nddo.param.ParamDerivative.*;
-import static nddo.param.ParamGeometryDerivative.gradderiv;
+import static nddo.param.ParamGeometryDerivative.gradDeriv;
+import static nddo.param.ParamGeometryDerivative.gradDerivAlpha;
 
 public class ParamGradientNew implements IParamGradient {
 	protected final Solution s, sExp;
@@ -158,20 +159,29 @@ public class ParamGradientNew implements IParamGradient {
 
 			for (int ZI = 0; ZI < nAtomTypes; ZI++) {
 				for (int paramNum : mnps[ZI]) {
-					if ((paramNum != 0 || paramNum != 7) && staticDerivsExp[ZI][0][paramNum] != null) {
-						computeDensityDerivs(sExp, xVectorsExp, ZI, paramNum, densityDerivsExp);
+					if (paramNum == 0 || staticDerivsExp[ZI][0][paramNum] != null) {
+						SimpleMatrix deriv = gGVectorDerivs[ZI][paramNum] = new SimpleMatrix(sExp.atoms.length * 3, 1);
 
-						SimpleMatrix deriv = gGVectorDerivs[ZI][paramNum] = new SimpleMatrix(s.atoms.length * 3, 1);
+						if (paramNum == 0) {
+							for (int atomNum = 0, i = 0; atomNum < sExp.atoms.length; atomNum++) {
+								for (int tau = 0; tau < 3; tau++, i++) {
+									deriv.set(i, gradDerivAlpha(sExp, atomNum, tau, mats[ZI]));
+								}
+							}
+						}
+						else {
+							computeDensityDerivs(sExp, xVectorsExp, ZI, paramNum, densityDerivsExp);
 
-						for (int atomNum = 0, i = 0; atomNum < s.atoms.length; atomNum++) {
-							for (int tau = 0; tau < 3; tau++) {
-								deriv.set(i++, rhf ?
-										gradderiv((SolutionR) sExp, atomNum, tau, mats[ZI], paramNum,
-												densityDerivsExp[ZI][paramNum][0]) :
-										gradderiv((SolutionU) sExp, atomNum, tau, mats[ZI], paramNum,
-												densityDerivsExp[ZI][paramNum][0],
-												densityDerivsExp[ZI][paramNum][1])
-								);
+							for (int atomNum = 0, i = 0; atomNum < sExp.atoms.length; atomNum++) {
+								for (int tau = 0; tau < 3; tau++, i++) {
+									deriv.set(i, rhf ?
+											gradDeriv((SolutionR) sExp, atomNum, tau, mats[ZI], paramNum,
+													densityDerivsExp[ZI][paramNum][0]) :
+											gradDeriv((SolutionU) sExp, atomNum, tau, mats[ZI], paramNum,
+													densityDerivsExp[ZI][paramNum][0],
+													densityDerivsExp[ZI][paramNum][1])
+									);
+								}
 							}
 						}
 

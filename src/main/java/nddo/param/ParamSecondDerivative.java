@@ -1586,9 +1586,9 @@ public class ParamSecondDerivative {
 
 		System.err.println("----TESTING EXPGEOM DERIVATIVES----");
 
-		double gradderiv = ParamGeometryDerivative.gradderiv(soln, 0, 0, Z2, param2, D2);
+		double gradderiv = ParamGeometryDerivative.gradDeriv(soln, 0, 0, Z2, param2, D2);
 
-		double gradderivprime = ParamGeometryDerivative.gradderiv(solnprime, 0, 0, Z2, param2, D2prime);
+		double gradderivprime = ParamGeometryDerivative.gradDeriv(solnprime, 0, 0, Z2, param2, D2prime);
 
 		double gradderiv2test =
 				ParamGeometrySecondDerivative.gradderiv2(soln, 0, 0, Z1, param1, Z2, param2, D1, D2, densityderiv2);
@@ -1772,10 +1772,10 @@ public class ParamSecondDerivative {
 //
 		System.err.println("----TESTING EXPGEOM DERIVATIVES----");
 //
-		double gradderiv = ParamGeometryDerivative.gradderiv(soln, 0, 0, Z2, param2, D2[0], D2[1]);
+		double gradderiv = ParamGeometryDerivative.gradDeriv(soln, 0, 0, Z2, param2, D2[0], D2[1]);
 //
 		double gradderivprime =
-				ParamGeometryDerivative.gradderiv(solnprime, 0, 0, Z2, param2, D2prime[0], D2prime[1]);
+				ParamGeometryDerivative.gradDeriv(solnprime, 0, 0, Z2, param2, D2prime[0], D2prime[1]);
 //
 		double gradderiv2 =
 				ParamGeometrySecondDerivative.gradderiv2(soln, 0, 0, Z1, param1, Z2, param2, D1[0], D1[1], D2[0],
@@ -1862,7 +1862,7 @@ public class ParamSecondDerivative {
 		double geomderiv = (GeometryDerivative.grad(solnprime, 0, 2) - GeometryDerivative.grad(soln, 0, 2)) /
 				Constants.LAMBDA;
 
-		double geomderivcheck = ParamGeometryDerivative.gradderiv(soln, 0, 2, Z1, param1, densityderivs[0],
+		double geomderivcheck = ParamGeometryDerivative.gradDeriv(soln, 0, 2, Z1, param1, densityderivs[0],
 				densityderivs[1]);
 
 		System.err.println(geomderiv);

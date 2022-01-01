@@ -4,12 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="ParamGradientNew expgeom derivs wip2">
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="Working expgeom derivs">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/examples/am1/AM1Atom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/examples/am1/AM1Atom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDOAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDOAtom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/defaults/MNDOAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/defaults/MNDOAtom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGeometryDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGeometryDerivative.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientNew.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Utils.java" afterDir="false" />
     </list>
-    <list id="86822a5d-be33-417c-a060-aba962bf30c6" name="Changes by flyingfalcon" comment="" />
+    <list id="86822a5d-be33-417c-a060-aba962bf30c6" name="Changes by flyingfalcon" comment="">
+      <change beforePath="$PROJECT_DIR$/param-numbers.csv" beforeDir="false" afterPath="$PROJECT_DIR$/param-numbers.csv" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -494,14 +503,7 @@
       <workItem from="1640957799626" duration="42000" />
       <workItem from="1640957904080" duration="8292000" />
       <workItem from="1640966493110" duration="3940000" />
-      <workItem from="1641042835960" duration="855000" />
-    </task>
-    <task id="LOCAL-00161" summary="move trivial case for thiel">
-      <created>1640447475119</created>
-      <option name="number" value="00161" />
-      <option name="presentableId" value="LOCAL-00161" />
-      <option name="project" value="LOCAL" />
-      <updated>1640447475119</updated>
+      <workItem from="1641042835960" duration="8187000" />
     </task>
     <task id="LOCAL-00162" summary="minor pople orthog. improvment + thiel memory">
       <created>1640447909233</created>
@@ -839,7 +841,14 @@
       <option name="project" value="LOCAL" />
       <updated>1640972733378</updated>
     </task>
-    <option name="localTasksCounter" value="210" />
+    <task id="LOCAL-00210" summary="Working expgeom derivs">
+      <created>1641045370446</created>
+      <option name="number" value="00210" />
+      <option name="presentableId" value="LOCAL-00210" />
+      <option name="project" value="LOCAL" />
+      <updated>1641045370446</updated>
+    </task>
+    <option name="localTasksCounter" value="211" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -886,7 +895,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="with lhs rhs pople caching" />
     <MESSAGE value="without caching - should be faster when mt'ed" />
     <MESSAGE value="minor cleanup in prep for uhf poplethiel" />
     <MESSAGE value="moleculeinfo nonv caching" />
@@ -911,7 +919,8 @@
     <MESSAGE value="minor changes" />
     <MESSAGE value="ParamGradientNew expgeom derivs wip" />
     <MESSAGE value="ParamGradientNew expgeom derivs wip2" />
-    <option name="LAST_COMMIT_MESSAGE" value="ParamGradientNew expgeom derivs wip2" />
+    <MESSAGE value="Working expgeom derivs" />
+    <option name="LAST_COMMIT_MESSAGE" value="Working expgeom derivs" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

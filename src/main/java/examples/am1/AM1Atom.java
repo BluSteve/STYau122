@@ -139,6 +139,11 @@ public class AM1Atom extends NDDOAtomBasic<AM1Atom> {
 	}
 
 	@Override
+	public double crfalphapgd(AM1Atom c, int num, int tau) {
+		return 0;
+	}
+
+	@Override
 	public AM1Atom copy() {
 		return new AM1Atom(atomProperties, coordinates, np);
 	}

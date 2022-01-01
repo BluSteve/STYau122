@@ -90,7 +90,7 @@ public class Utils {
 		for (int i = 0; i < atoms.length; i++) {
 			if (i == atomNum) {
 				double[] coords = atoms[i].getCoordinates().clone();
-				coords[tau] = coords[tau] + 1E-7;
+				coords[tau] = coords[tau] + Constants.LAMBDA;
 				perturbed[i] = atoms[i].withNewCoords(coords);
 			}
 			else {
