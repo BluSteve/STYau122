@@ -13,22 +13,23 @@ import java.util.Arrays;
 import java.util.List;
 
 import static nddo.param.ParamDerivative.*;
-import static nddo.param.ParamGeometryDerivative.*;
+import static nddo.param.ParamGeometryDerivative.gradDeriv;
+import static nddo.param.ParamGeometryDerivative.gradDerivAlpha;
 
-public class ParamGradientNew implements IParamGradient {
-	protected final Solution s, sExp;
-	protected final ParamErrorFunction e;
-	protected final double[] datum;
-	protected final boolean rhf, hasDip, hasIE, hasGeom;
-	protected final int nAtomTypes, nParams;
+public final class ParamGradientNew implements IParamGradient {
+	final Solution s, sExp;
+	final ParamErrorFunction e;
+	final double[] datum;
+	final boolean rhf, hasDip, hasIE, hasGeom;
+	final int nAtomTypes, nParams;
 
-	protected double[][] HfDerivs, dipoleDerivs, IEDerivs, geomDerivs, totalGradients;
+	double[][] HfDerivs, dipoleDerivs, IEDerivs, geomDerivs, totalGradients;
 
-	protected SimpleMatrix[][] xVectors;
-	protected SimpleMatrix[][][] staticDerivs, densityDerivs, FDerivs, xMatrices;
+	SimpleMatrix[][] xVectors;
+	SimpleMatrix[][][] staticDerivs, densityDerivs, FDerivs, xMatrices;
 
-	protected SimpleMatrix[][] xVectorsExp, gGVectorDerivs;
-	protected SimpleMatrix[][][] staticDerivsExp, densityDerivsExp;
+	SimpleMatrix[][] xVectorsExp, gGVectorDerivs;
+	SimpleMatrix[][][] staticDerivsExp, densityDerivsExp;
 
 	public ParamGradientNew(Solution s, double[] datum, Solution sExp) {
 		this.s = s;
@@ -282,14 +283,13 @@ public class ParamGradientNew implements IParamGradient {
 		totalGradients[ZI][paramNum] += 0.000098 * e.geomGradMag * geomDerivs[ZI][paramNum];
 	}
 
-	@Override
-	public Solution getS() {
-		return s;
+	public ParamErrorFunction getE() {
+		return e;
 	}
 
 	@Override
-	public ParamErrorFunction getE() {
-		return e;
+	public Solution getS() {
+		return s;
 	}
 
 	@Override

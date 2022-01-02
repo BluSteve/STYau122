@@ -341,7 +341,6 @@ public abstract class ParamGradient implements IParamGradient {
 	 */
 	protected abstract double findGrad(Solution sExpPrime, int i, int xyz);
 
-	@Override
 	public ParamErrorFunction getE() {
 		return this.e;
 	}

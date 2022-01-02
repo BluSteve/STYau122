@@ -1492,6 +1492,8 @@ public class ParamSecondDerivative {
 
 		SimpleMatrix densityderiv2finite = D2prime.minus(D2).scale(1 / Constants.LAMBDA);
 
+
+		// second order Fstatic
 		SimpleMatrix Fstatictotal = ParamSecondDerivative.Hderiv2(soln, Z1, param1, Z2, param2)
 				.plus(ParamSecondDerivative.Gderiv2static(soln, Z1, param1, Z2, param2));
 
