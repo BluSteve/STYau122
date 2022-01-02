@@ -4,17 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="multithreaded paramgradientnew">
-      <change afterPath="$PROJECT_DIR$/src/main/java/nddo/param/IParamHessian.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" afterDir="false" />
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="started paramhessian">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/IParamGradient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/IParamGradient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientNew.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
     </list>
-    <list id="86822a5d-be33-417c-a060-aba962bf30c6" name="Changes by flyingfalcon" comment="" />
+    <list id="86822a5d-be33-417c-a060-aba962bf30c6" name="Changes by flyingfalcon" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -140,6 +140,19 @@
     <setting file="file://$PROJECT_DIR$/src/main/java/nddo/scf/Orbital.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/mndo-install.sh" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java">
+      <ranges>
+        <range start1="604" end1="606" start2="604" end2="606" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="636" end1="639" start2="636" end2="639" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="988" end1="988" start2="988" end2="1052" changelist="86822a5d-be33-417c-a060-aba962bf30c6" />
+        <range start1="1521" end1="1522" start2="1585" end2="1586" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="1523" end1="1524" start2="1587" end2="1588" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="1714" end1="1715" start2="1778" end2="1779" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="1717" end1="1718" start2="1781" end2="1782" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+      </ranges>
+    </file>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -500,14 +513,7 @@
       <workItem from="1640957904080" duration="8292000" />
       <workItem from="1640966493110" duration="3940000" />
       <workItem from="1641042835960" duration="11321000" />
-      <workItem from="1641121962949" duration="4635000" />
-    </task>
-    <task id="LOCAL-00167" summary="minor changes">
-      <created>1640449417042</created>
-      <option name="number" value="00167" />
-      <option name="presentableId" value="LOCAL-00167" />
-      <option name="project" value="LOCAL" />
-      <updated>1640449417042</updated>
+      <workItem from="1641121962949" duration="13530000" />
     </task>
     <task id="LOCAL-00168" summary="minor changes">
       <created>1640449547178</created>
@@ -845,7 +851,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641123345441</updated>
     </task>
-    <option name="localTasksCounter" value="216" />
+    <task id="LOCAL-00216" summary="started paramhessian">
+      <created>1641134619777</created>
+      <option name="number" value="00216" />
+      <option name="presentableId" value="LOCAL-00216" />
+      <option name="project" value="LOCAL" />
+      <updated>1641134619777</updated>
+    </task>
+    <option name="localTasksCounter" value="217" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -892,7 +905,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="working c4 uhf thiel" />
     <MESSAGE value="checkpoint" />
     <MESSAGE value="densityderivthiel uhf working" />
     <MESSAGE value="fix fatal copy bug in thiel rhf and uhf" />
@@ -917,7 +929,8 @@
     <MESSAGE value="Renaming" />
     <MESSAGE value="minor changes" />
     <MESSAGE value="multithreaded paramgradientnew" />
-    <option name="LAST_COMMIT_MESSAGE" value="multithreaded paramgradientnew" />
+    <MESSAGE value="started paramhessian" />
+    <option name="LAST_COMMIT_MESSAGE" value="started paramhessian" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

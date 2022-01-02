@@ -51,22 +51,21 @@ public final class ParamGradientNew implements IParamGradient {
 		totalGradients = new double[nAtomTypes][nParams];
 		HfDerivs = new double[nAtomTypes][nParams];
 
-		if (hasDip || hasIE || hasGeom) {
-			staticDerivs = new SimpleMatrix[nAtomTypes][][];
-			xVectors = new SimpleMatrix[nAtomTypes][];
-			densityDerivs = new SimpleMatrix[nAtomTypes][nParams][];
+		staticDerivs = new SimpleMatrix[nAtomTypes][][];
+		xVectors = new SimpleMatrix[nAtomTypes][];
+		densityDerivs = new SimpleMatrix[nAtomTypes][nParams][];
 
-			if (hasDip) {
-				dipoleDerivs = new double[nAtomTypes][nParams];
-				e.addDipoleError(datum[1]);
-			}
+		FDerivs = new SimpleMatrix[nAtomTypes][nParams][];
+		xMatrices = new SimpleMatrix[nAtomTypes][nParams][];
 
-			if (hasIE) {
-				FDerivs = new SimpleMatrix[nAtomTypes][nParams][];
-				xMatrices = new SimpleMatrix[nAtomTypes][nParams][];
-				IEDerivs = new double[nAtomTypes][nParams];
-				e.addIEError(datum[2]);
-			}
+		if (hasDip) {
+			dipoleDerivs = new double[nAtomTypes][nParams];
+			e.addDipoleError(datum[1]);
+		}
+
+		if (hasIE) {
+			IEDerivs = new double[nAtomTypes][nParams];
+			e.addIEError(datum[2]);
 		}
 
 		if (hasGeom) {
@@ -83,75 +82,63 @@ public final class ParamGradientNew implements IParamGradient {
 		}
 
 
-		if (hasDip || hasIE) {
-			SolutionR sr = rhf ? (SolutionR) s : null;
-			SolutionU su = !rhf ? (SolutionU) s : null;
+		SolutionR sr = rhf ? (SolutionR) s : null;
+		SolutionU su = !rhf ? (SolutionU) s : null;
 
-			computeBatchedDerivs(s, staticDerivs, xVectors);
+		computeBatchedDerivs(s, staticDerivs, xVectors);
 
-			for (int ZI = 0; ZI < nAtomTypes; ZI++) {
-				for (int paramNum : mnps[ZI]) {
-					if (paramNum == 0 || paramNum == 7) {
-						HfDerivs[ZI][paramNum] = ParamDerivative.HfDeriv(s, mats[ZI], paramNum);
-						addHfGrad(ZI, paramNum);
-					}
-					else if (staticDerivs[ZI][0][paramNum] != null) {
-						HfDerivs[ZI][paramNum] = rhf ?
-								HfDeriv(sr, staticDerivs[ZI][0][paramNum], staticDerivs[ZI][1][paramNum]) :
-								HfDeriv(su, staticDerivs[ZI][0][paramNum], staticDerivs[ZI][1][paramNum],
-										staticDerivs[ZI][2][paramNum]);
-						addHfGrad(ZI, paramNum);
-
-						computeDensityDerivs(s, xVectors, ZI, paramNum, densityDerivs);
-
-						if (hasDip) {
-							SimpleMatrix combinedDd = rhf ? densityDerivs[ZI][paramNum][0] :
-									densityDerivs[ZI][paramNum][0].plus(densityDerivs[ZI][paramNum][1]);
-
-							dipoleDerivs[ZI][paramNum] = nddoDipoleDeriv(s, combinedDd, mats[ZI], paramNum);
-							addDipoleGrad(ZI, paramNum);
-						}
-
-						if (hasIE) {
-							if (rhf) {
-								SimpleMatrix responseMatrix =
-										PopleThiel.responseMatrix(sr, densityDerivs[ZI][paramNum][0]);
-
-								SimpleMatrix plus = staticDerivs[ZI][1][paramNum].plus(responseMatrix);
-								SimpleMatrix F = sr.Ct.mult(plus).mult(sr.C);
-								FDerivs[ZI][paramNum] = new SimpleMatrix[]{F};
-
-								SimpleMatrix xMatrix = xMatrix(sr, F);
-								xMatrices[ZI][paramNum] = new SimpleMatrix[]{xMatrix};
-
-								IEDerivs[ZI][paramNum] = -homoDeriv(sr, xMatrix, plus);
-							}
-							else {
-								SimpleMatrix[] responseMatrices =
-										PopleThiel.responseMatrices(su, densityDerivs[ZI][paramNum]);
-
-								SimpleMatrix plus = staticDerivs[ZI][1][paramNum].plus(responseMatrices[0]);
-								SimpleMatrix Fa = su.Cta.mult(plus).mult(su.Ca);
-								SimpleMatrix Fb = su.Ctb.mult(staticDerivs[ZI][2][paramNum].plus(responseMatrices[1]))
-										.mult(su.Cb);
-								FDerivs[ZI][paramNum] = new SimpleMatrix[]{Fa, Fb};
-
-								xMatrices[ZI][paramNum] = ParamDerivative.xMatrix(su, Fa, Fb);
-
-								IEDerivs[ZI][paramNum] = -homoDeriv(su, xMatrices[ZI][paramNum][0], plus);
-							}
-
-							addIEGrad(ZI, paramNum);
-						}
-					}
-				}
-			}
-		}
-		else {
-			for (int ZI = 0; ZI < nAtomTypes; ZI++) {
-				for (int paramNum : mnps[ZI]) {
+		for (int ZI = 0; ZI < nAtomTypes; ZI++) {
+			for (int paramNum : mnps[ZI]) {
+				if (paramNum == 0 || paramNum == 7) {
 					HfDerivs[ZI][paramNum] = ParamDerivative.HfDeriv(s, mats[ZI], paramNum);
 					addHfGrad(ZI, paramNum);
+				}
+				else if (staticDerivs[ZI][0][paramNum] != null) {
+					HfDerivs[ZI][paramNum] = rhf ?
+							HfDeriv(sr, staticDerivs[ZI][0][paramNum], staticDerivs[ZI][1][paramNum]) :
+							HfDeriv(su, staticDerivs[ZI][0][paramNum], staticDerivs[ZI][1][paramNum],
+									staticDerivs[ZI][2][paramNum]);
+					addHfGrad(ZI, paramNum);
+
+					computeDensityDerivs(s, xVectors, ZI, paramNum, densityDerivs);
+
+					if (hasDip) {
+						SimpleMatrix combinedDd = rhf ? densityDerivs[ZI][paramNum][0] :
+								densityDerivs[ZI][paramNum][0].plus(densityDerivs[ZI][paramNum][1]);
+
+						dipoleDerivs[ZI][paramNum] = nddoDipoleDeriv(s, combinedDd, mats[ZI], paramNum);
+						addDipoleGrad(ZI, paramNum);
+					}
+
+					if (rhf) {
+						SimpleMatrix responseMatrix =
+								PopleThiel.responseMatrix(sr, densityDerivs[ZI][paramNum][0]);
+
+						SimpleMatrix plus = staticDerivs[ZI][1][paramNum].plus(responseMatrix);
+						SimpleMatrix F = sr.Ct.mult(plus).mult(sr.C);
+						FDerivs[ZI][paramNum] = new SimpleMatrix[]{F};
+
+						SimpleMatrix xMatrix = xMatrix(sr, F);
+						xMatrices[ZI][paramNum] = new SimpleMatrix[]{xMatrix};
+
+						if (hasIE) IEDerivs[ZI][paramNum] = -homoDeriv(sr, xMatrix, plus);
+					}
+					else {
+						SimpleMatrix[] responseMatrices =
+								PopleThiel.responseMatrices(su, densityDerivs[ZI][paramNum]);
+
+						SimpleMatrix plus = staticDerivs[ZI][1][paramNum].plus(responseMatrices[0]);
+						SimpleMatrix Fa = su.Cta.mult(plus).mult(su.Ca);
+						SimpleMatrix Fb = su.Ctb.mult(staticDerivs[ZI][2][paramNum].plus(responseMatrices[1]))
+								.mult(su.Cb);
+						FDerivs[ZI][paramNum] = new SimpleMatrix[]{Fa, Fb};
+
+						xMatrices[ZI][paramNum] = ParamDerivative.xMatrix(su, Fa, Fb);
+
+						if (hasIE) IEDerivs[ZI][paramNum] = -homoDeriv(su, xMatrices[ZI][paramNum][0], plus);
+					}
+
+					if (hasIE) addIEGrad(ZI, paramNum);
 				}
 			}
 		}
@@ -224,8 +211,7 @@ public final class ParamGradientNew implements IParamGradient {
 		SimpleMatrix[] aggFb = new SimpleMatrix[atomLength * paramLength];
 
 		for (int ZI = 0, i = 0; ZI < atomLength; ZI++) {
-			sdTarget[ZI] = rhf ? staticDeriv(sr, s.rm.mats[ZI], 0)
-					: staticDeriv(su, s.rm.mats[ZI], 0);
+			sdTarget[ZI] = rhf ? staticDeriv(sr, s.rm.mats[ZI], 0) : staticDeriv(su, s.rm.mats[ZI], 0);
 
 			for (int j = 0; j < sdTarget[ZI][1].length; j++) {
 				aggFa[i] = sdTarget[ZI][1][j];
