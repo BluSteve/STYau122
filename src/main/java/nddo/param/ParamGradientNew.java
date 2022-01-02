@@ -8,11 +8,12 @@ import org.ejml.simple.SimpleMatrix;
 import tools.Batcher;
 import tools.Utils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static nddo.param.ParamDerivative.*;
-import static nddo.param.ParamGeometryDerivative.gradDeriv;
-import static nddo.param.ParamGeometryDerivative.gradDerivAlpha;
+import static nddo.param.ParamGeometryDerivative.*;
 
 public class ParamGradientNew implements IParamGradient {
 	protected final Solution s, sExp;
@@ -157,8 +158,19 @@ public class ParamGradientNew implements IParamGradient {
 		if (hasGeom) {
 			computeBatchedDerivs(sExp, staticDerivsExp, xVectorsExp);
 
+			List<int[]> params = new ArrayList<>(nAtomTypes * nParams);
 			for (int ZI = 0; ZI < nAtomTypes; ZI++) {
-				for (int paramNum : mnps[ZI]) {
+				for (int j = 0; j < mnps[ZI].length; j++) {
+					int paramNum = mnps[ZI][j];
+					int[] ints = new int[]{ZI, paramNum};
+					params.add(ints);
+				}
+			}
+
+			Batcher.consume(params.toArray(new int[0][0]), subset -> {
+				for (int[] ints : subset) {
+					int ZI = ints[0];
+					int paramNum = ints[1];
 					if (paramNum == 0 || staticDerivsExp[ZI][0][paramNum] != null) {
 						SimpleMatrix deriv = gGVectorDerivs[ZI][paramNum] = new SimpleMatrix(sExp.atoms.length * 3, 1);
 
@@ -189,7 +201,7 @@ public class ParamGradientNew implements IParamGradient {
 						addGeomGrad(ZI, paramNum);
 					}
 				}
-			}
+			});
 		}
 	}
 
@@ -281,7 +293,7 @@ public class ParamGradientNew implements IParamGradient {
 	}
 
 	@Override
-	public double[][] getHfDerivs() { // todo uncapitalize F
+	public double[][] getHfDerivs() {
 		return HfDerivs;
 	}
 
