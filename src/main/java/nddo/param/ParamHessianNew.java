@@ -104,15 +104,19 @@ public class ParamHessianNew implements IParamHessian {
 								dD2static[0], Z1, p1, Z2, p2)
 				};
 
+//				SimpleMatrix[] staticMatrix = staticMatrices[ZI1][ZI2][p1][p2] = new SimpleMatrix[]{
+//						staticMatrix(sr, PhiMatrix[0], pg.FDerivs[ZI1][p1][0], pg.FDerivs[ZI2][p2][0],
+//								pg.xMatrices[ZI1][p1][0], pg.xMatrices[ZI2][p2][0])
+//				};
+
 				SimpleMatrix[] staticMatrix = staticMatrices[ZI1][ZI2][p1][p2] = new SimpleMatrix[]{
-						staticMatrix(sr, PhiMatrix[0], pg.FDerivs[ZI1][p1][0], pg.FDerivs[ZI2][p2][0],
-								pg.xMatrices[ZI1][p1][0], pg.xMatrices[ZI2][p2][0])
+						staticMatrix(sr, Fstatic2[0], pg.staticDerivs[ZI1][0][p1],pg.staticDerivs[ZI2][0][p2], pg.xVectors[ZI1][p1], pg.xVectors[ZI2][p2], Z1, p1, Z2, p2)
 				};
 
 
 				ptInputs.add(staticMatrix[0].extractMatrix(0, s.rm.nOccAlpha, s.rm.nOccAlpha, s.rm.nOrbitals));
 
-				System.out.println(Arrays.toString(ints) + Fstatic2[0].elementSum());
+				//System.out.println(Arrays.toString(ints) + Fstatic2[0].elementSum());
 
 			}
 			else {
