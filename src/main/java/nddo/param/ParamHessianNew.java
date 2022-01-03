@@ -139,9 +139,10 @@ public class ParamHessianNew implements IParamHessian {
 								densityderiv2static(su, pg.xMatrices[ZI1][p1][0], pg.xMatrices[ZI1][p1][1],
 										pg.xMatrices[ZI2][p2][0], pg.xMatrices[ZI2][p2][1]);
 
-						SimpleMatrix[] PhiMatrix = PhiMatrices[ZI1][ZI2][p1][p2] = staticFockDeriv(su, Fstatic2,
-								pg.densityDerivs[ZI1][p1], pg.densityDerivs[ZI2][p2],
-								dD2static, Z1, p1, Z2, p2);
+						SimpleMatrix[] PhiMatrix = PhiMatrices[ZI1][ZI2][p1][p2] =
+								staticFockDeriv(su, Fstatic2,
+										pg.densityDerivs[ZI1][p1], pg.densityDerivs[ZI2][p2],
+										dD2static, Z1, p1, Z2, p2);
 
 						SimpleMatrix[] staticMatrix = staticMatrices[ZI1][ZI2][p1][p2] =
 								staticMatrix(su, PhiMatrix, pg.FDerivs[ZI1][p1], pg.FDerivs[ZI2][p2],
@@ -150,7 +151,7 @@ public class ParamHessianNew implements IParamHessian {
 						ptInputsArr[ints[4]] = staticMatrix[0].extractMatrix(0, s.rm.nOccAlpha, s.rm.nOccAlpha,
 								s.rm.nOrbitals);
 
-						ptInputsArrBeta[ints[4]] = staticMatrix[1].extractMatrix(0, s.rm.nOccAlpha, s.rm.nOccAlpha,
+						ptInputsArrBeta[ints[4]] = staticMatrix[1].extractMatrix(0, s.rm.nOccBeta, s.rm.nOccBeta,
 								s.rm.nOrbitals);
 					}
 				}
@@ -212,6 +213,7 @@ public class ParamHessianNew implements IParamHessian {
 					if (hasDip || hasIE) {
 						SimpleMatrix dD2response = finalDD2responses[j];
 						SimpleMatrix densityDeriv2 = dD2response.plus(dD2statics[ZI1][ZI2][p1][p2][0]);
+
 						if (hasDip) {
 							double dipoleDeriv2 = MNDODipoleDeriv2(sr,
 									pg.densityDerivs[ZI1][p1][0], pg.densityDerivs[ZI2][p2][0],
@@ -249,6 +251,8 @@ public class ParamHessianNew implements IParamHessian {
 								dD2response[0].plus(dD2statics[ZI1][ZI2][p1][p2][0]),
 								dD2response[1].plus(dD2statics[ZI1][ZI2][p1][p2][1])
 						};
+
+//						if (Z1 == 6 && Z2 == 6 && p1 == 5 && p2 == 5 ) System.out.println(densityDeriv2[0]);
 
 						if (hasDip) {
 							double dipoleDeriv2 = MNDODipoleDeriv2(su,

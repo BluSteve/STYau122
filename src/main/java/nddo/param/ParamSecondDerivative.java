@@ -1827,6 +1827,8 @@ public class ParamSecondDerivative {
 				ParamSecondDerivative.staticMatrix(soln, Fstatictotalalpha, Fstatictotalbeta, F1alpha, F1beta, F2alpha,
 						F2beta, x1, x2, Z1, param1, Z2, param2);
 
+		System.out.println("rhsmat = " + rhsmat[0]);
+
 		SimpleMatrix gammavec = gammaArrayThiel(soln, new SimpleMatrix[]{rhsmat[0]}, new SimpleMatrix[]{rhsmat[1]})[0];
 
 		SimpleMatrix[] densityderiv2response = PopleThiel.densityDeriv(soln, gammavec);
@@ -1837,13 +1839,13 @@ public class ParamSecondDerivative {
 
 		System.err.println(densityderiv2alpha);
 
-		System.err.println(densityderiv2alphafinite);
+//		System.err.println(densityderiv2alphafinite);
 
 		System.err.println("---");
 
-		System.err.println(densityderiv2beta);
+//		System.err.println(densityderiv2beta);
 
-		System.err.println(densityderiv2betafinite);
+//		System.err.println(densityderiv2betafinite);
 
 		double Hfderiv = 1 / Constants.LAMBDA *
 				(ParamDerivative.HfDeriv(solnprime, Z2, param2) - ParamDerivative.HfDeriv(soln, Z2, param2));

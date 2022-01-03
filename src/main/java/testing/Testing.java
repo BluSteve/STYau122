@@ -64,7 +64,8 @@ public class Testing {
 //		SimpleMatrix[] fockderivstatic2 = matrices[2];
 //		System.out.println(GeometrySecondDerivative.hessianRoutine(s2, fockderivstatic, fockderivstatic2));
 
-//		System.out.close();
+		boolean b2 = ParamSecondDerivative.verifyEquations(s2, 6, 5, 6, 5);
+
 //		for (int i = 1; i < 7; i++) {
 //			for (int j = i; j < 7; j++) {
 //				boolean b2 = ParamSecondDerivative.verifyEquations(s2, 6, i, 6, j);
