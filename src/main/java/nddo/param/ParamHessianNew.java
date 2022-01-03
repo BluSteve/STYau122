@@ -48,14 +48,23 @@ public class ParamHessianNew implements IParamHessian {
 		PhiMatrices = new SimpleMatrix[nAtomTypes][nAtomTypes][nParams][nParams][];
 
 		int[][] flat = new int[nanp * nanp][5]; // Z1, Z2, param1, param2;
+		int[][] flatAll = new int[nanp * nanp][5]; // Z1, Z2, param1, param2;
 
 		int i = 0;
+		int iAll = 0;
 		for (int ZI1 = 0; ZI1 < nAtomTypes; ZI1++) {
 			for (int p1 : mnps[ZI1]) {
-				if (p1 != 0 && p1 != 7) {
-					for (int ZI2 = ZI1; ZI2 < nAtomTypes; ZI2++) {
-						for (int p2 : mnps[ZI2]) {
-							if (p2 != 0 && p2 != 7 && p2 >= p1) {
+				for (int ZI2 = ZI1; ZI2 < nAtomTypes; ZI2++) {
+					for (int p2 : mnps[ZI2]) {
+						if (p2 >= p1) {
+							flatAll[iAll][0] = ZI1;
+							flatAll[iAll][1] = ZI2;
+							flatAll[iAll][2] = p1;
+							flatAll[iAll][3] = p2;
+							flatAll[iAll][4] = iAll;
+							iAll++;
+
+							if (p1 != 0 && p2 != 0 && p1 != 7 && p2 != 7) {
 								flat[i][0] = ZI1;
 								flat[i][1] = ZI2;
 								flat[i][2] = p1;
@@ -72,6 +81,10 @@ public class ParamHessianNew implements IParamHessian {
 		System.out.println("i = " + i);
 
 		flat = Arrays.copyOfRange(flat, 0, i);
+		flatAll = Arrays.copyOfRange(flatAll, 0, iAll);
+
+		System.out.println("flat = " + Arrays.deepToString(flat));
+		System.out.println("flatAll = " + Arrays.deepToString(flatAll));
 
 		SimpleMatrix[] ptInputsArr = new SimpleMatrix[flat.length];
 		SimpleMatrix[] ptInputsArrBeta = !rhf ? new SimpleMatrix[flat.length] : null;
@@ -147,32 +160,39 @@ public class ParamHessianNew implements IParamHessian {
 							return results;
 						}) : null;
 
-		for (int[] ints : flat) {
+		int j = 0;
+		for (int[] ints : flatAll) {
 			int ZI1 = ints[0];
 			int ZI2 = ints[1];
 			int Z1 = mats[ZI1];
 			int Z2 = mats[ZI2];
 			int p1 = ints[2];
 			int p2 = ints[3];
-			int j = ints[4];
 
-			if (rhf) {
-				SimpleMatrix dD2response = dD2responses[j];
+			if (Z1 == Z2 && p1 == 0 && p2 == 0) {
+				double HfDeriv2 = alphaHfderiv2(s, Z1);
+
+				addHfToHessian(ZI1, p1, ZI2, p2, HfDeriv2);
+			}
+			else if (p1 == 0 || p2 == 0 || p1 == 7 || p2 == 7) {
+				addHfToHessian(ZI1, p1, ZI2, p2, 0);
+			}
+			else if (rhf) {
+				SimpleMatrix dD2response = dD2responses[j++];
 				SimpleMatrix densityDeriv2 = dD2response.plus(dD2statics[ZI1][ZI2][p1][p2][0]);
 
 				double HfDeriv2 = MNDOHFDeriv2(sr, Z1, p1, Z2, p2,
 						pg.staticDerivs[ZI1][0][p1], pg.staticDerivs[ZI1][1][p1], pg.densityDerivs[ZI2][p2][0], 0);
 
-				addToHessian(ZI1, p1, ZI2, p2, 2 * (pg.HfDerivs[ZI1][p1] * pg.HfDerivs[ZI2][p2] +
-						(s.hf - datum[0]) * HfDeriv2));
+				addHfToHessian(ZI1, p1, ZI2, p2, HfDeriv2);
+
 
 				if (hasDip) {
 					double dipoleDeriv2 = MNDODipoleDeriv2(sr,
 							pg.densityDerivs[ZI1][p1][0], pg.densityDerivs[ZI2][p2][0],
 							densityDeriv2, Z1, p1, Z2, p2);
 
-					addToHessian(ZI1, p1, ZI2, p2, 800 * (pg.dipoleDerivs[ZI1][p1] * pg.dipoleDerivs[ZI2][p2] +
-							(s.dipole - datum[1]) * dipoleDeriv2));
+					addDipoleToHessian(ZI1, p1, ZI2, p2, dipoleDeriv2);
 				}
 
 				if (hasIE) {
@@ -186,8 +206,7 @@ public class ParamHessianNew implements IParamHessian {
 							pg.FDerivs[ZI1][p1][0], pg.FDerivs[ZI2][p2][0],
 							Phi.plus(R));
 
-					addToHessian(ZI1, p1, ZI2, p2, 200 * (pg.IEDerivs[ZI1][p1] * pg.IEDerivs[ZI2][p2] -
-							(s.homo + datum[2]) * IEDeriv2));
+					addIEToHessian(ZI1, p1, ZI2, p2, IEDeriv2);
 				}
 			}
 			else {
@@ -202,6 +221,21 @@ public class ParamHessianNew implements IParamHessian {
 
 		hessian[i1][i2] += x;
 		if (i1 != i2) hessian[i2][i1] += x;
+	}
+
+	private void addHfToHessian(int ZI1, int p1, int ZI2, int p2, double x) {
+		addToHessian(ZI1, p1, ZI2, p2, 2 * (pg.HfDerivs[ZI1][p1] * pg.HfDerivs[ZI2][p2] +
+				(s.hf - datum[0]) * x));
+	}
+
+	private void addDipoleToHessian(int ZI1, int p1, int ZI2, int p2, double x) {
+		addToHessian(ZI1, p1, ZI2, p2, 800 * (pg.dipoleDerivs[ZI1][p1] * pg.dipoleDerivs[ZI2][p2] +
+				(s.dipole - datum[1]) * x));
+	}
+
+	private void addIEToHessian(int ZI1, int p1, int ZI2, int p2, double x) {
+		addToHessian(ZI1, p1, ZI2, p2, 200 * (pg.IEDerivs[ZI1][p1] * pg.IEDerivs[ZI2][p2] -
+				(s.homo + datum[2]) * x));
 	}
 
 	@Override

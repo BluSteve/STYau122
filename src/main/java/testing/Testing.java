@@ -39,7 +39,7 @@ public class Testing {
 			}
 		}
 
-		System.out.println(new SimpleMatrix(a).minus(new SimpleMatrix(b)));
+		System.out.println(new SimpleMatrix(a).minus(new SimpleMatrix(b)).elementMaxAbs());
 
 //		pg = new ParamGradientNew(s2, rm2.datum, se2);
 ////		pg2 = ParamGradient.of(s2, rm2.datum, se2).compute();
@@ -60,7 +60,7 @@ public class Testing {
 //		System.out.close();
 		for (int i = 1; i < 7; i++) {
 			for (int j = i; j < 7; j++) {
-				boolean b2 = ParamSecondDerivative.verifyEquations(s, 6, i, 6, j);
+				boolean b2 = ParamSecondDerivative.verifyEquations(s, 7, i, 7, j);
 				System.err.println(i + " " + j + " " + b2);
 				if (!b2) {
 					throw new IllegalArgumentException(i + " " + j);

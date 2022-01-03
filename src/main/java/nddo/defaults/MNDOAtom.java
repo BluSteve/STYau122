@@ -174,11 +174,7 @@ public class MNDOAtom extends NDDOAtomBasic<MNDOAtom> {
 		return returnval;
 	}
 
-	public double crfalphap2d(MNDOAtom c, int num1, int num2) {
-
-		if (num1 != num2) {
-			return 0;
-		}
+	public double crfalphap2d(MNDOAtom c, int num1) {
 
 		double R = GTO.R(coordinates, c.getCoordinates());
 		double val = atomProperties.getQ() * c.atomProperties.getQ() * nom.G(this.s(), this.s(), c.s(), c.s());
@@ -202,34 +198,6 @@ public class MNDOAtom extends NDDOAtomBasic<MNDOAtom> {
 		}
 
 		return returnval;
-	}
-
-	public double crfalphapgd2(MNDOAtom c, int num, int tau) {
-		double orig = this.crfalphapd(c, num);
-		double[] coords = coordinates.clone();
-
-		coords[tau] += Constants.LAMBDA;
-		MNDOAtom perturbed = new MNDOAtom(atomProperties, coords, this.np);
-
-		double newval = perturbed.crfalphapd(c, num);
-
-		double check = 1 / Constants.LAMBDA * (newval - orig);
-
-		double cry = crfalphapgd2(c, num, tau);
-
-		if (Math.abs(check - cry) > 1E-5) {
-			System.err.println("check = " + check);
-			System.err.println("cry = " + cry);
-			System.err.println(
-					this.getAtomProperties().getZ() + ", " + c.getAtomProperties().getZ() + ", " + num + ", " + tau);
-			System.exit(0);
-		}
-		else {
-			System.out.println("check = " + check);
-			System.out.println("cry = " + cry);
-		}
-
-		return 1 / Constants.LAMBDA * (newval - orig);
 	}
 
 	public double crfalphapgd(MNDOAtom c, int num, int tau) {

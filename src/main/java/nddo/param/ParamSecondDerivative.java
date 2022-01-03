@@ -20,6 +20,19 @@ public class ParamSecondDerivative {
 
 	//NOTE: this class currently just verifies the accuracy of equations.
 
+	public static double alphaHfderiv2(Solution soln, int Z1) {
+		double sum = 0;
+
+		for (int i = 0; i < soln.atoms.length; i++) {
+			for (int j = i + 1; j < soln.atoms.length; j++) {
+				sum += soln.atoms[i].crfalphap2d(soln.atoms[j],
+						ParamDerivative.getNum(soln.atomicNumbers[i], soln.atomicNumbers[j], Z1));
+			}
+		}
+
+		return sum / Constants.HEATCONV;
+	}
+
 	public static SimpleMatrix gammamatrix(SimpleMatrix totalderiv, SolutionR soln) {
 
 		SimpleMatrix gamma = new SimpleMatrix(totalderiv.numRows(), totalderiv.numRows());
@@ -874,13 +887,13 @@ public class ParamSecondDerivative {
 				if (atoms[j].getAtomProperties().getZ() == Z1) {
 					hybriddipa[0] =
 							hybriddipa[0] - Constants.DIPOLECONV * 2 * D1deriva * densityMatrix.get(index[j][0],
-							index[j][1]);
+									index[j][1]);
 					hybriddipa[1] =
 							hybriddipa[1] - Constants.DIPOLECONV * 2 * D1deriva * densityMatrix.get(index[j][0],
-							index[j][2]);
+									index[j][2]);
 					hybriddipa[2] =
 							hybriddipa[2] - Constants.DIPOLECONV * 2 * D1deriva * densityMatrix.get(index[j][0],
-							index[j][3]);
+									index[j][3]);
 				}
 
 				hybriddipb[0] =
@@ -896,13 +909,13 @@ public class ParamSecondDerivative {
 				if (atoms[j].getAtomProperties().getZ() == Z2) {
 					hybriddipb[0] =
 							hybriddipb[0] - Constants.DIPOLECONV * 2 * D1derivb * densityMatrix.get(index[j][0],
-							index[j][1]);
+									index[j][1]);
 					hybriddipb[1] =
 							hybriddipb[1] - Constants.DIPOLECONV * 2 * D1derivb * densityMatrix.get(index[j][0],
-							index[j][2]);
+									index[j][2]);
 					hybriddipb[2] =
 							hybriddipb[2] - Constants.DIPOLECONV * 2 * D1derivb * densityMatrix.get(index[j][0],
-							index[j][3]);
+									index[j][3]);
 				}
 
 				hybriddip2[0] =
@@ -918,37 +931,37 @@ public class ParamSecondDerivative {
 				if (atoms[j].getAtomProperties().getZ() == Z1) {
 					hybriddip2[0] =
 							hybriddip2[0] - Constants.DIPOLECONV * 2 * D1deriva * densityderivb.get(index[j][0],
-							index[j][1]);
+									index[j][1]);
 					hybriddip2[1] =
 							hybriddip2[1] - Constants.DIPOLECONV * 2 * D1deriva * densityderivb.get(index[j][0],
-							index[j][2]);
+									index[j][2]);
 					hybriddip2[2] =
 							hybriddip2[2] - Constants.DIPOLECONV * 2 * D1deriva * densityderivb.get(index[j][0],
-							index[j][3]);
+									index[j][3]);
 				}
 
 				if (atoms[j].getAtomProperties().getZ() == Z2) {
 					hybriddip2[0] =
 							hybriddip2[0] - Constants.DIPOLECONV * 2 * D1derivb * densityderiva.get(index[j][0],
-							index[j][1]);
+									index[j][1]);
 					hybriddip2[1] =
 							hybriddip2[1] - Constants.DIPOLECONV * 2 * D1derivb * densityderiva.get(index[j][0],
-							index[j][2]);
+									index[j][2]);
 					hybriddip2[2] =
 							hybriddip2[2] - Constants.DIPOLECONV * 2 * D1derivb * densityderiva.get(index[j][0],
-							index[j][3]);
+									index[j][3]);
 				}
 
 				if (atoms[j].getAtomProperties().getZ() == Z1 && D1deriv2 != 0) {
 					hybriddip2[0] =
 							hybriddip2[0] - Constants.DIPOLECONV * 2 * D1deriv2 * densityMatrix.get(index[j][0],
-							index[j][1]);
+									index[j][1]);
 					hybriddip2[1] =
 							hybriddip2[1] - Constants.DIPOLECONV * 2 * D1deriv2 * densityMatrix.get(index[j][0],
-							index[j][2]);
+									index[j][2]);
 					hybriddip2[2] =
 							hybriddip2[2] - Constants.DIPOLECONV * 2 * D1deriv2 * densityMatrix.get(index[j][0],
-							index[j][3]);
+									index[j][3]);
 				}
 			}
 		}
@@ -1628,8 +1641,9 @@ public class ParamSecondDerivative {
 		SimpleMatrix totalderiv = rhsmat.plus(
 				soln.Ct.mult(PopleThiel.responseMatrix(soln, densityderiv2response)).mult(soln.C));
 
-		SimpleMatrix Fderiv2 = staticFockDeriv(soln, Fstatictotal, D1, D2, densityderiv2static, Z1, param1, Z2, param2).plus(
-				PopleThiel.responseMatrix(soln, densityderiv2response));
+		SimpleMatrix Fderiv2 =
+				staticFockDeriv(soln, Fstatictotal, D1, D2, densityderiv2static, Z1, param1, Z2, param2).plus(
+						PopleThiel.responseMatrix(soln, densityderiv2response));
 
 		SimpleMatrix Fderiva = F1.plus(PopleThiel.responseMatrix(soln, D1));
 
