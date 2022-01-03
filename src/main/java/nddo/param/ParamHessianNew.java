@@ -80,9 +80,6 @@ public class ParamHessianNew implements IParamHessian {
 			}
 		}
 
-		System.out.println("i = " + i);
-		System.out.println("iAll = " + iAll);
-
 		flat = Arrays.copyOfRange(flat, 0, i);
 		flatAll = Arrays.copyOfRange(flatAll, 0, iAll);
 
