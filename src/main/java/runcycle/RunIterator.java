@@ -348,34 +348,6 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 				rm.getLogger().error(e);
 				System.exit(1);
 			}
-
-//			for (int i = 1; i < 7; i++) {
-//				for (int j = 1; j < 7; j++) {
-//					System.err.println("C" + i + " C" + j);
-//					if (!ParamSecondDerivative.verifyEquations((SolutionR) s, 6, i, 6, j)) {
-//						System.err.println("clown");
-//						System.exit(0);
-//					}
-//
-//					System.err.println("C" + i + " N" + j);
-//					if (!ParamSecondDerivative.verifyEquations((SolutionR) s, 6, i, 7, j)) {
-//						System.err.println("clown");
-//						System.exit(0);
-//					}
-//
-//					System.err.println("N" + i + " C" + j);
-//					if (!ParamSecondDerivative.verifyEquations((SolutionR) s, 7, i, 6, j)) {
-//						System.err.println("clown");
-//						System.exit(0);
-//					}
-//
-//					System.err.println("N" + i + " N" + j);
-//					if (!ParamSecondDerivative.verifyEquations((SolutionR) s, 7, i, 7, j)) {
-//						System.err.println("clown");
-//						System.exit(0);
-//					}
-//				}
-//			}
 		}
 
 		public boolean isExpAvail() {

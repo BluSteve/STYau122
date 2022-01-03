@@ -65,97 +65,30 @@ public class ParamSecondDerivative {
 	}
 
 
-	public static SimpleMatrix densityDeriv2static(SolutionR s, SimpleMatrix x1, SimpleMatrix x2) {
-		SimpleMatrix x1occ = x1.extractMatrix(0, s.rm.nOrbitals, 0, s.rm.nOccAlpha);
-		SimpleMatrix x2occ = x2.extractMatrix(0, s.rm.nOrbitals, 0, s.rm.nOccAlpha);
+	private static SimpleMatrix densityDeriv2static(int nOrbitals, int nOcc, SimpleMatrix C, SimpleMatrix Ct,
+													SimpleMatrix COcc, SimpleMatrix CtOcc, SimpleMatrix x1,
+													SimpleMatrix x2) {
+		SimpleMatrix x1occ = x1.extractMatrix(0, nOrbitals, 0, nOcc);
+		SimpleMatrix x2occ = x2.extractMatrix(0, nOrbitals, 0, nOcc);
 
-		SimpleMatrix mat = Utils.plusTrans(s.C.mult(x2.mult(x1occ).plusi(x1.mult(x2occ))).mult(s.CtOcc));
-		SimpleMatrix mat2 = Utils.plusTrans(s.C.mult(x1occ).mult(x2occ.transpose()).mult(s.Ct));
-		SimpleMatrix mat3 = Utils.plusTrans(s.COcc.mult(x1occ.transpose()).mult(x2occ).mult(s.CtOcc));
+		SimpleMatrix mat = Utils.plusTrans(C.mult(x2.mult(x1occ).plusi(x1.mult(x2occ))).mult(CtOcc));
+		SimpleMatrix mat2 = Utils.plusTrans(C.mult(x1occ).mult(x2occ.transpose()).mult(Ct));
+		SimpleMatrix mat3 = Utils.plusTrans(COcc.mult(x1occ.transpose()).mult(x2occ).mult(CtOcc));
 
-		return mat.plusi(mat2).plusi(mat3).scalei(2);
+		return mat.plusi(mat2).plusi(mat3);
 	}
 
-	public static SimpleMatrix[] densityDeriv2static(SolutionU soln, SimpleMatrix[] x1, SimpleMatrix[] x2) {
-		int NOccAlpha = soln.rm.nOccAlpha;
-		int NOccBeta = soln.rm.nOccBeta;
+	public static SimpleMatrix densityDeriv2static(SolutionR s, SimpleMatrix x1, SimpleMatrix x2) {
+		return densityDeriv2static(s.nOrbitals, s.rm.nOccAlpha, s.C, s.Ct, s.COcc, s.CtOcc, x1, x2).scalei(2);
+	}
 
-		SimpleMatrix x1a = x1[0];
-		SimpleMatrix x1b = x1[1];
-		SimpleMatrix x2a = x2[0];
-		SimpleMatrix x2b = x2[1];
+	public static SimpleMatrix[] densityDeriv2static(SolutionU s, SimpleMatrix[] x1, SimpleMatrix[] x2) {
+		SimpleMatrix sm =
+				densityDeriv2static(s.nOrbitals, s.rm.nOccAlpha, s.Ca, s.Cta, s.CaOcc, s.CtaOcc, x1[0], x2[0]);
+		SimpleMatrix sm2 =
+				densityDeriv2static(s.nOrbitals, s.rm.nOccBeta, s.Cb, s.Ctb, s.CbOcc, s.CtbOcc, x1[1], x2[1]);
 
-		SimpleMatrix Ca = soln.Cta.transpose();
-
-		SimpleMatrix Dstaticalpha = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
-
-		for (int u = 0; u < soln.nOrbitals; u++) {
-			for (int v = u; v < soln.nOrbitals; v++) {
-				double sum = 0;
-				for (int i = 0; i < NOccAlpha; i++) {
-					for (int j = 0; j < soln.nOrbitals; j++) {
-						for (int k = 0; k < soln.nOrbitals; k++) {
-							sum += (Ca.get(u, k) * Ca.get(v, i) + Ca.get(u, i) * Ca.get(v, k)) *
-									(x1a.get(j, i) * x2a.get(k, j) + x1a.get(k, j) * x2a.get(j, i));
-							sum += (Ca.get(u, j) * Ca.get(v, k) + Ca.get(u, k) * Ca.get(v, j)) * x1a.get(j, i) *
-									x2a.get(k, i);
-						}
-					}
-				}
-
-				for (int i = 0; i < NOccAlpha; i++) {
-					for (int j = 0; j < NOccAlpha; j++) {
-						for (int k = 0; k < soln.nOrbitals; k++) {
-							sum += Ca.get(u, i) * Ca.get(v, j) *
-									(x1a.get(k, i) * x2a.get(k, j) + x1a.get(k, j) * x2a.get(k, i));
-						}
-					}
-				}
-
-				Dstaticalpha.set(u, v, sum);
-
-				Dstaticalpha.set(v, u, sum);
-
-			}
-		}
-
-		SimpleMatrix Cb = soln.Ctb.transpose();
-
-		SimpleMatrix Dstaticbeta = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
-
-		for (int u = 0; u < soln.nOrbitals; u++) {
-			for (int v = u; v < soln.nOrbitals; v++) {
-				double sum = 0;
-				for (int i = 0; i < NOccBeta; i++) {
-					for (int j = 0; j < soln.nOrbitals; j++) {
-						for (int k = 0; k < soln.nOrbitals; k++) {
-							sum += (Cb.get(u, k) * Cb.get(v, i) + Cb.get(u, i) * Cb.get(v, k)) *
-									(x1b.get(j, i) * x2b.get(k, j) + x1b.get(k, j) * x2b.get(j, i));
-							sum += (Cb.get(u, j) * Cb.get(v, k) + Cb.get(u, k) * Cb.get(v, j)) * x1b.get(j, i) *
-									x2b.get(k, i);
-						}
-					}
-				}
-
-				for (int i = 0; i < NOccBeta; i++) {
-					for (int j = 0; j < NOccBeta; j++) {
-						for (int k = 0; k < soln.nOrbitals; k++) {
-							sum += Cb.get(u, i) * Cb.get(v, j) *
-									(x1b.get(k, i) * x2b.get(k, j) + x1b.get(k, j) * x2b.get(k, i));
-						}
-					}
-				}
-
-				Dstaticbeta.set(u, v, sum);
-
-				Dstaticbeta.set(v, u, sum);
-
-			}
-		}
-
-		return new SimpleMatrix[]{Dstaticalpha, Dstaticbeta};
-
-
+		return new SimpleMatrix[]{sm, sm2};
 	}
 
 

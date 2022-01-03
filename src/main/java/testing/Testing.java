@@ -19,15 +19,15 @@ public class Testing {
 		SolutionR s = (SolutionR) Solution.of(rm, runcycle.State.getConverter().convert(rm.atoms, input.info.npMap));
 //		SolutionR se = (SolutionR) Solution.of(rm, runcycle.State.getConverter().convert(rm.expGeom,
 //				input.info.npMap));
-//		SolutionU s2 = (SolutionU) Solution.of(rm2, runcycle.State.getConverter().convert(rm2.atoms,
-//				input.info.npMap));
+		SolutionU s2 = (SolutionU) Solution.of(rm2, runcycle.State.getConverter().convert(rm2.atoms,
+				input.info.npMap));
 //		SolutionU se2 =
 //				(SolutionU) Solution.of(rm2, runcycle.State.getConverter().convert(rm2.expGeom, input.info.npMap));
 
-		ParamHessianNew pg = new ParamHessianNew(s, rm.datum, null);
-
+//		ParamHessianNew pg = new ParamHessianNew(s, rm.datum, null);
+//
 //		verify(s, rm.datum, null);
-//		verify(s2, rm2.datum, null);
+		verify(s2, rm2.datum, null);
 
 //		verifyEquations(s, 6, 6);
 //		verifyEquations(s2, 6, 6);
@@ -55,21 +55,22 @@ public class Testing {
 		System.out.println("pg " + new SimpleMatrix(pg.getTotalGradients()));
 		System.out.println("pg2 " + new SimpleMatrix(pg2.getTotalGradients()));
 
-
 		ParamHessianNew ph = new ParamHessianNew(pg);
 		ParamHessian ph2 = ParamHessian.from(pg2).compute();
 		double[][] a = ph.getHessian();
 		double[][] b = ph2.getHessian();
 
+		double maxe = 0;
 		for (int i = 0; i < a.length; i++) {
 			for (int j = 0; j < a[0].length; j++) {
 
-				double e = Math.abs(a[i][j] - b[i][j]);
-				if (e > 50) System.out.println(i + " " + j + " " + e + " " + a[i][j] + " " + b[i][j]);
+				double e = Math.abs(a[i][j] - b[i][j]) / a[i][j];
+				if (e > 0.01) System.out.println(i + " " + j + " " + e + " " + a[i][j] + " " + b[i][j]);
+				if (e > maxe) maxe = e;
 			}
 		}
 
-		System.out.println("max error = " + new SimpleMatrix(a).minus(new SimpleMatrix(b)).elementMaxAbs());
+		System.out.println("max error = " + maxe);
 		System.out.println("---");
 	}
 }

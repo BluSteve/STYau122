@@ -4,13 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="better staticmatrix">
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="better testing">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -103,7 +102,7 @@
     </favorite-branches>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="add3280f83e7f09ab3c1a4fec8b3f6bc9e0262d0" />
+        <entry key="$PROJECT_DIR$" value="17e68284223d2e2711315eec2742dc2fdddf67f4" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -223,7 +222,7 @@
       <command value="gradlew clean" />
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.MNDOParam [jmh]">
+  <component name="RunManager" selected="Application.Testing">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -920,15 +919,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="better staticmatrix" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java</url>
-          <line>440</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="nddoparam.param.ParamHessianRestricted" memberName="gPrime" />
