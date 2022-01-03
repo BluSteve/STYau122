@@ -12,7 +12,7 @@ import java.util.Arrays;
 import static nddo.param.ParamSecondDerivative.*;
 
 public class ParamHessianNew implements IParamHessian {
-	final ParamGradientNew pg;
+	public final ParamGradientNew pg;
 	final Solution s, sExp;
 	final double[] datum;
 	final boolean rhf, hasDip, hasIE, hasGeom;

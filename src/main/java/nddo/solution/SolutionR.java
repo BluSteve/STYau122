@@ -163,26 +163,19 @@ public class SolutionR extends Solution {
 			for (int k = j; k < orbitals.length; k++) {
 				if (j == k) { // case 1
 					for (int l : orbsOfAtom[atomOfOrb[j]]) {
-						if (l > -1) {
-							integralArray[integralcount] =
-									nom.OneCenterERI(orbitals[j], orbitals[j], orbitals[l], orbitals[l]) -
-											0.5 * nom.OneCenterERI(orbitals[j], orbitals[l], orbitals[j],
-													orbitals[l]);
-							integralcount++;
-						}
+						integralArray[integralcount] =
+								nom.OneCenterERI(orbitals[j], orbitals[j], orbitals[l], orbitals[l]) -
+										0.5 * nom.OneCenterERI(orbitals[j], orbitals[l], orbitals[j],
+												orbitals[l]);
+						integralcount++;
 					}
 
 					for (int l : missingOfAtom[atomOfOrb[j]]) {
-						if (l > -1) {
-							for (int m : missingOfAtom[atomOfOrb[j]]) {
-								if (m > -1) {
-									if (atomOfOrb[l] == atomOfOrb[m]) {
-										integralArray[integralcount] =
-												nom.G(orbitals[j], orbitals[j], orbitals[l], orbitals[m]);
-										integralcount++;
-									}
-								}
-
+						for (int m : missingOfAtom[atomOfOrb[j]]) {
+							if (atomOfOrb[l] == atomOfOrb[m]) {
+								integralArray[integralcount] =
+										nom.G(orbitals[j], orbitals[j], orbitals[l], orbitals[m]);
+								integralcount++;
 							}
 						}
 					}
@@ -193,29 +186,21 @@ public class SolutionR extends Solution {
 									0.5 * nom.OneCenterERI(orbitals[j], orbitals[j], orbitals[k], orbitals[k]);
 					integralcount++;
 					for (int l : missingOfAtom[atomOfOrb[j]]) {
-						if (l > -1) {
-							for (int m : missingOfAtom[atomOfOrb[j]]) {
-								if (m > -1) {
-									if (atomOfOrb[l] == atomOfOrb[m]) {
-										integralArray[integralcount] =
-												nom.G(orbitals[j], orbitals[k], orbitals[l], orbitals[m]);
-										integralcount++;
-									}
-								}
+						for (int m : missingOfAtom[atomOfOrb[j]]) {
+							if (atomOfOrb[l] == atomOfOrb[m]) {
+								integralArray[integralcount] =
+										nom.G(orbitals[j], orbitals[k], orbitals[l], orbitals[m]);
+								integralcount++;
 							}
 						}
 					}
 				}
 				else { // case 3
 					for (int l : orbsOfAtom[atomOfOrb[j]]) {
-						if (l > -1) {
-							for (int m : orbsOfAtom[atomOfOrb[k]]) {
-								if (m > -1) {
-									integralArray[integralcount] = -0.5 * nom.G(orbitals[j], orbitals[l],
-											orbitals[k], orbitals[m]);
-									integralcount++;
-								}
-							}
+						for (int m : orbsOfAtom[atomOfOrb[k]]) {
+							integralArray[integralcount] = -0.5 * nom.G(orbitals[j], orbitals[l],
+									orbitals[k], orbitals[m]);
+							integralcount++;
 						}
 					}
 				}
@@ -255,24 +240,16 @@ public class SolutionR extends Solution {
 				for (int k = j; k < orbitals.length; k++) {
 					double val = 0;
 					if (j == k) {
-
 						for (int l : orbsOfAtom[atomOfOrb[j]]) {
-							if (l > -1) {
-								val += densityMatrix.get(l, l) * integralArray[integralcount];
-								integralcount++;
-							}
+							val += densityMatrix.get(l, l) * integralArray[integralcount];
+							integralcount++;
 						}
 
 						for (int l : missingOfAtom[atomOfOrb[j]]) {
-							if (l > -1) {
-								for (int m : missingOfAtom[atomOfOrb[j]]) {
-									if (m > -1) {
-										if (atomOfOrb[l] == atomOfOrb[m]) {
-											val += densityMatrix.get(l, m) * integralArray[integralcount];
-											integralcount++;
-										}
-									}
-
+							for (int m : missingOfAtom[atomOfOrb[j]]) {
+								if (atomOfOrb[l] == atomOfOrb[m]) {
+									val += densityMatrix.get(l, m) * integralArray[integralcount];
+									integralcount++;
 								}
 							}
 						}
@@ -282,28 +259,19 @@ public class SolutionR extends Solution {
 						integralcount++;
 
 						for (int l : missingOfAtom[atomOfOrb[j]]) {
-							if (l > -1) {
-								for (int m : missingOfAtom[atomOfOrb[j]]) {
-									if (m > -1) {
-										if (atomOfOrb[l] == atomOfOrb[m]) {
-											val += densityMatrix.get(l, m) * integralArray[integralcount];
-											integralcount++;
-										}
-									}
-
+							for (int m : missingOfAtom[atomOfOrb[j]]) {
+								if (atomOfOrb[l] == atomOfOrb[m]) {
+									val += densityMatrix.get(l, m) * integralArray[integralcount];
+									integralcount++;
 								}
 							}
 						}
 					}
 					else {
 						for (int l : orbsOfAtom[atomOfOrb[j]]) {
-							if (l > -1) {
-								for (int m : orbsOfAtom[atomOfOrb[k]]) {
-									if (m > -1) {
-										val += densityMatrix.get(l, m) * integralArray[integralcount];
-										integralcount++;
-									}
-								}
+							for (int m : orbsOfAtom[atomOfOrb[k]]) {
+								val += densityMatrix.get(l, m) * integralArray[integralcount];
+								integralcount++;
 							}
 						}
 					}

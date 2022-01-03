@@ -17,15 +17,17 @@ public class Testing {
 		RunnableMolecule rm2 = input.molecules[1];
 
 		SolutionR s = (SolutionR) Solution.of(rm, runcycle.State.getConverter().convert(rm.atoms, input.info.npMap));
-		SolutionR se = (SolutionR) Solution.of(rm, runcycle.State.getConverter().convert(rm.expGeom,
-				input.info.npMap));
-		SolutionU s2 = (SolutionU) Solution.of(rm2, runcycle.State.getConverter().convert(rm2.atoms,
-				input.info.npMap));
-		SolutionU se2 =
-				(SolutionU) Solution.of(rm2, runcycle.State.getConverter().convert(rm2.expGeom, input.info.npMap));
+//		SolutionR se = (SolutionR) Solution.of(rm, runcycle.State.getConverter().convert(rm.expGeom,
+//				input.info.npMap));
+//		SolutionU s2 = (SolutionU) Solution.of(rm2, runcycle.State.getConverter().convert(rm2.atoms,
+//				input.info.npMap));
+//		SolutionU se2 =
+//				(SolutionU) Solution.of(rm2, runcycle.State.getConverter().convert(rm2.expGeom, input.info.npMap));
 
-		verify(s, rm.datum, null);
-		verify(s2, rm2.datum, null);
+		ParamHessianNew pg = new ParamHessianNew(s, rm.datum, null);
+
+//		verify(s, rm.datum, null);
+//		verify(s2, rm2.datum, null);
 
 //		verifyEquations(s, 6, 6);
 //		verifyEquations(s2, 6, 6);

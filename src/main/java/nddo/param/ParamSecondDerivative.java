@@ -66,58 +66,14 @@ public class ParamSecondDerivative {
 
 
 	public static SimpleMatrix densityDeriv2static(SolutionR s, SimpleMatrix x1, SimpleMatrix x2) {
-		int NOcc = s.rm.nOccAlpha;
-		int NVirt = s.rm.nVirtAlpha;
-		SimpleMatrix C = s.C;
-		SimpleMatrix Dstatic = new SimpleMatrix(s.nOrbitals, s.nOrbitals);
-//
-//		SimpleMatrix test = new SimpleMatrix(s.nOrbitals, s.nOrbitals);
-//
-//		System.out.println("s.rm.nOccAlpha = " + s.rm.nOccAlpha);
-//		System.out.println("s.rm.nVirtAlpha = " + s.rm.nVirtAlpha);
-//
-//		SimpleMatrix x1virtocc = x1.extractMatrix(0, NOcc, NOcc, s.nOrbitals);
-//		SimpleMatrix x2virtocc = x2.extractMatrix(0, NOcc, NOcc, s.nOrbitals);
-//		System.out.println("x1 = " + x1);
-//		System.out.println("x1virtocc = " + x1virtocc);
+		SimpleMatrix x1occ = x1.extractMatrix(0, s.rm.nOrbitals, 0, s.rm.nOccAlpha);
+		SimpleMatrix x2occ = x2.extractMatrix(0, s.rm.nOrbitals, 0, s.rm.nOccAlpha);
 
-		for (int u = 0; u < s.nOrbitals; u++) {
-			for (int v = u; v < s.nOrbitals; v++) {
-				double sum = 0;
-				double testsum = 0;
-				for (int i = 0; i < NOcc; i++) {
-					for (int j = 0; j < s.nOrbitals; j++) {
-						for (int k = 0; k < s.nOrbitals; k++) {
-							double value = 2 * (C.get(u, k) * C.get(v, i) + C.get(u, i) * C.get(v, k)) *
-									(x1.get(j, i) * x2.get(k, j) + x1.get(k, j) * x2.get(j, i));
-							sum += value;
-							testsum += value;
-							sum += 2 * (C.get(u, j) * C.get(v, k) + C.get(u, k) * C.get(v, j)) * x1.get(j, i) *
-									x2.get(k, i);
-						}
-					}
-				}
+		SimpleMatrix mat = Utils.plusTrans(s.C.mult(x2.mult(x1occ).plusi(x1.mult(x2occ))).mult(s.CtOcc));
+		SimpleMatrix mat2 = Utils.plusTrans(s.C.mult(x1occ).mult(x2occ.transpose()).mult(s.Ct));
+		SimpleMatrix mat3 = Utils.plusTrans(s.COcc.mult(x1occ.transpose()).mult(x2occ).mult(s.CtOcc));
 
-				for (int i = 0; i < NOcc; i++) {
-					for (int j = 0; j < NOcc; j++) {
-						for (int k = 0; k < s.nOrbitals; k++) {
-							sum += 2 * C.get(u, i) * C.get(v, j) *
-									(x1.get(k, i) * x2.get(k, j) + x1.get(k, j) * x2.get(k, i));
-						}
-					}
-				}
-
-				Dstatic.set(u, v, sum);
-				Dstatic.set(v, u, sum);
-//				test.set(u,v,testsum);
-//				test.set(v,u,testsum);
-			}
-		}
-
-//		System.out.println("test = " + test);
-//
-//		System.exit(0);
-		return Dstatic;
+		return mat.plusi(mat2).plusi(mat3).scalei(2);
 	}
 
 	public static SimpleMatrix[] densityDeriv2static(SolutionU soln, SimpleMatrix[] x1, SimpleMatrix[] x2) {

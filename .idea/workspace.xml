@@ -4,10 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="better testing">
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="better staticmatrix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -220,7 +223,7 @@
       <command value="gradlew clean" />
     </option>
   </component>
-  <component name="RunManager" selected="Application.Testing">
+  <component name="RunManager" selected="Gradle.MNDOParam [jmh]">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -497,14 +500,7 @@
       <workItem from="1641042835960" duration="11321000" />
       <workItem from="1641121962949" duration="14747000" />
       <workItem from="1641144415131" duration="39000" />
-      <workItem from="1641187209404" duration="27193000" />
-    </task>
-    <task id="LOCAL-00187" summary="checkpoint">
-      <created>1640599446381</created>
-      <option name="number" value="00187" />
-      <option name="presentableId" value="LOCAL-00187" />
-      <option name="project" value="LOCAL" />
-      <updated>1640599446381</updated>
+      <workItem from="1641187209404" duration="31264000" />
     </task>
     <task id="LOCAL-00188" summary="densityderivthiel uhf working">
       <created>1640599781455</created>
@@ -842,7 +838,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641211319719</updated>
     </task>
-    <option name="localTasksCounter" value="236" />
+    <task id="LOCAL-00236" summary="better staticmatrix">
+      <created>1641218111105</created>
+      <option name="number" value="00236" />
+      <option name="presentableId" value="LOCAL-00236" />
+      <option name="project" value="LOCAL" />
+      <updated>1641218111105</updated>
+    </task>
+    <option name="localTasksCounter" value="237" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -889,7 +892,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="ParamGradientNew expgeom derivs wip2" />
     <MESSAGE value="Working expgeom derivs" />
     <MESSAGE value="Working expgeom alpha derivs" />
     <MESSAGE value="Renaming" />
@@ -914,9 +916,19 @@
     <MESSAGE value="better staticMatrix" />
     <MESSAGE value="better staticMatrix for uhf as well" />
     <MESSAGE value="better testing" />
-    <option name="LAST_COMMIT_MESSAGE" value="better testing" />
+    <MESSAGE value="better staticmatrix" />
+    <option name="LAST_COMMIT_MESSAGE" value="better staticmatrix" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java</url>
+          <line>440</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="nddoparam.param.ParamHessianRestricted" memberName="gPrime" />
