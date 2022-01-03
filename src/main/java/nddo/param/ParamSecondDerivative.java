@@ -569,13 +569,14 @@ public class ParamSecondDerivative {
 		return new SimpleMatrix[]{Phialpha, Phibeta};
 	}
 
-	public static SimpleMatrix staticMatrix(SolutionR soln, SimpleMatrix Phi, SimpleMatrix FockA,
-											SimpleMatrix FockB, SimpleMatrix xA, SimpleMatrix xB) {
-		SimpleMatrix FA = soln.Ct.mult(FockA).mult(soln.C);
+	private static SimpleMatrix staticMatrix(SimpleMatrix Ct, SimpleMatrix C, SimpleMatrix E, SimpleMatrix Phi,
+											 SimpleMatrix FockA, SimpleMatrix FockB, SimpleMatrix xA,
+											 SimpleMatrix xB) {
+		SimpleMatrix FA = Ct.mult(FockA).mult(C);
 		double[] arrfa = FA.diag().getDDRM().data;
-		SimpleMatrix FB = soln.Ct.mult(FockB).mult(soln.C);
+		SimpleMatrix FB = Ct.mult(FockB).mult(C);
 		double[] arrfb = FB.diag().getDDRM().data;
-		SimpleMatrix matrix = soln.Ct.mult(Phi).mult(soln.C);
+		SimpleMatrix matrix = Ct.mult(Phi).mult(C);
 
 		SimpleMatrix xbFA = xB.copy();
 		CommonOps_DDRM.multRows(arrfa, xbFA.getDDRM());
@@ -585,19 +586,19 @@ public class ParamSecondDerivative {
 		Utils.plusTrans(xaFB);
 		matrix.plusi(xbFA).plusi(xaFB);
 
-		double[] E = soln.E.getDDRM().data;
+		double[] Earr = E.getDDRM().data;
 
 		SimpleMatrix xat = xA.copy();
-		CommonOps_DDRM.multRows(E, xat.getDDRM());
+		CommonOps_DDRM.multRows(Earr, xat.getDDRM());
 		xat = xat.transpose().mult(xB);
 		Utils.plusTrans(xat);
 		matrix.minusi(xat);
 
 		SimpleMatrix xa = xA.copy();
-		CommonOps_DDRM.multRows(E, xa.getDDRM());
+		CommonOps_DDRM.multRows(Earr, xa.getDDRM());
 		xa = xa.mult(xB);
 		SimpleMatrix xb = xB.copy();
-		CommonOps_DDRM.multRows(E, xb.getDDRM());
+		CommonOps_DDRM.multRows(Earr, xb.getDDRM());
 		xb = xb.mult(xA);
 //		System.out.println("xa.minus(xb).elementSum() = " + xa.minus(xb).elementSum());
 //		matrix.minusi(xa.scalei(2)); todo why does this work
@@ -606,51 +607,17 @@ public class ParamSecondDerivative {
 		return matrix;
 	}
 
+	public static SimpleMatrix staticMatrix(SolutionR soln, SimpleMatrix Phi, SimpleMatrix FockA,
+											SimpleMatrix FockB, SimpleMatrix xA, SimpleMatrix xB) {
+		return staticMatrix(soln.Ct, soln.C, soln.E, Phi, FockA, FockB, xA, xB);
+	}
+
 	public static SimpleMatrix[] staticMatrix(SolutionU soln, SimpleMatrix[] Phi, SimpleMatrix[] FockA,
 											  SimpleMatrix[] FockB, SimpleMatrix[] xA, SimpleMatrix[] xB) {
-		SimpleMatrix FAalpha = soln.Cta.mult(FockA[0]).mult(soln.Cta.transpose());
-		SimpleMatrix FAbeta = soln.Ctb.mult(FockA[1]).mult(soln.Ctb.transpose());
-
-		SimpleMatrix FBalpha = soln.Cta.mult(FockB[0]).mult(soln.Cta.transpose());
-		SimpleMatrix FBbeta = soln.Ctb.mult(FockB[1]).mult(soln.Ctb.transpose());
-
-		SimpleMatrix diagFAalpha = SimpleMatrix.diag(FAalpha.diag().getDDRM().data);
-		SimpleMatrix diagFBalpha = SimpleMatrix.diag(FBalpha.diag().getDDRM().data);
-
-		SimpleMatrix diagFAbeta = SimpleMatrix.diag(FAbeta.diag().getDDRM().data);
-		SimpleMatrix diagFBbeta = SimpleMatrix.diag(FBbeta.diag().getDDRM().data);
-
-		SimpleMatrix xAalpha = xA[0];
-		SimpleMatrix xAbeta = xA[1];
-
-		SimpleMatrix xBalpha = xB[0];
-		SimpleMatrix xBbeta = xB[1];
-
-
-		SimpleMatrix matrixalpha = soln.Cta.mult(Phi[0]).mult(soln.Cta.transpose());
-		SimpleMatrix matrixbeta = soln.Ctb.mult(Phi[1]).mult(soln.Ctb.transpose());
-
-		matrixalpha = matrixalpha.plus(xBalpha.transpose().mult(diagFAalpha)).plus(diagFAalpha.mult(xBalpha))
-				.plus(xAalpha.transpose().mult(diagFBalpha)).plus(diagFBalpha.mult(xAalpha));
-
-		matrixalpha =
-				matrixalpha.minus(xAalpha.transpose().mult(SimpleMatrix.diag(soln.Ea.getDDRM().data)).mult(xBalpha))
-						.minus(xBalpha.transpose().mult(SimpleMatrix.diag(soln.Ea.getDDRM().data)).mult(xAalpha));
-
-		matrixalpha = matrixalpha.minus(SimpleMatrix.diag(soln.Ea.getDDRM().data).mult(xAalpha).mult(xBalpha))
-				.minus(SimpleMatrix.diag(soln.Ea.getDDRM().data).mult(xBalpha).mult(xAalpha));
-
-
-		matrixbeta = matrixbeta.plus(xBbeta.transpose().mult(diagFAbeta)).plus(diagFAbeta.mult(xBbeta))
-				.plus(xAbeta.transpose().mult(diagFBbeta)).plus(diagFBbeta.mult(xAbeta));
-
-		matrixbeta = matrixbeta.minus(xAbeta.transpose().mult(SimpleMatrix.diag(soln.Eb.getDDRM().data)).mult(xBbeta))
-				.minus(xBbeta.transpose().mult(SimpleMatrix.diag(soln.Eb.getDDRM().data)).mult(xAbeta));
-
-		matrixbeta = matrixbeta.minus(SimpleMatrix.diag(soln.Eb.getDDRM().data).mult(xAbeta).mult(xBbeta))
-				.minus(SimpleMatrix.diag(soln.Eb.getDDRM().data).mult(xBbeta).mult(xAbeta));
-
-		return new SimpleMatrix[]{matrixalpha, matrixbeta};
+		return new SimpleMatrix[]{
+				staticMatrix(soln.Cta, soln.Ca, soln.Ea, Phi[0], FockA[0], FockB[0], xA[0], xB[0]),
+				staticMatrix(soln.Ctb, soln.Cb, soln.Eb, Phi[1], FockA[1], FockB[1], xA[1], xB[1])
+		};
 	}
 
 
