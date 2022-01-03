@@ -107,7 +107,7 @@ public class ParamHessianNew implements IParamHessian {
 						};
 
 						SimpleMatrix[] dD2static = dD2statics[ZI1][ZI2][p1][p2] = new SimpleMatrix[]{
-								densityderiv2static(sr, pg.xMatrices[ZI1][p1][0], pg.xMatrices[ZI2][p2][0])
+								densityDeriv2static(sr, pg.xMatrices[ZI1][p1][0], pg.xMatrices[ZI2][p2][0])
 						};
 
 						SimpleMatrix[] PhiMatrix = PhiMatrices[ZI1][ZI2][p1][p2] = new SimpleMatrix[]{
@@ -133,8 +133,7 @@ public class ParamHessianNew implements IParamHessian {
 						};
 
 						SimpleMatrix[] dD2static = dD2statics[ZI1][ZI2][p1][p2] =
-								densityderiv2static(su, pg.xMatrices[ZI1][p1][0], pg.xMatrices[ZI1][p1][1],
-										pg.xMatrices[ZI2][p2][0], pg.xMatrices[ZI2][p2][1]);
+								densityDeriv2static(su, pg.xMatrices[ZI1][p1], pg.xMatrices[ZI2][p2]);
 
 						SimpleMatrix[] PhiMatrix = PhiMatrices[ZI1][ZI2][p1][p2] =
 								staticFockDeriv(su, Fstatic2,
@@ -202,7 +201,7 @@ public class ParamHessianNew implements IParamHessian {
 					addHfToHessian(ZI1, p1, ZI2, p2, 0);
 				}
 				else if (rhf) {
-					double HfDeriv2 = MNDOHFDeriv2(sr, Z1, p1, Z2, p2,
+					double HfDeriv2 = HfDeriv2(sr, Z1, p1, Z2, p2,
 							pg.staticDerivs[ZI1][0][p1], pg.staticDerivs[ZI1][1][p1], pg.densityDerivs[ZI2][p2][0], 0);
 
 					addHfToHessian(ZI1, p1, ZI2, p2, HfDeriv2);
@@ -212,7 +211,7 @@ public class ParamHessianNew implements IParamHessian {
 						SimpleMatrix densityDeriv2 = dD2response.plus(dD2statics[ZI1][ZI2][p1][p2][0]);
 
 						if (hasDip) {
-							double dipoleDeriv2 = MNDODipoleDeriv2(sr,
+							double dipoleDeriv2 = dipoleDeriv2(sr,
 									pg.densityDerivs[ZI1][p1][0], pg.densityDerivs[ZI2][p2][0],
 									densityDeriv2, Z1, p1, Z2, p2);
 
@@ -236,7 +235,7 @@ public class ParamHessianNew implements IParamHessian {
 					}
 				}
 				else {
-					double HfDeriv2 = MNDOHFDeriv2(su, Z1, p1, Z2, p2,
+					double HfDeriv2 = HfDeriv2(su, Z1, p1, Z2, p2,
 							pg.staticDerivs[ZI1][0][p1], pg.staticDerivs[ZI1][1][p1], pg.staticDerivs[ZI1][2][p1],
 							pg.densityDerivs[ZI2][p2][0], pg.densityDerivs[ZI2][p2][1], 0);
 
@@ -250,7 +249,7 @@ public class ParamHessianNew implements IParamHessian {
 						};
 
 						if (hasDip) {
-							double dipoleDeriv2 = MNDODipoleDeriv2(su,
+							double dipoleDeriv2 = dipoleDeriv2(su,
 									pg.densityDerivs[ZI1][p1][0].plus(pg.densityDerivs[ZI1][p1][1]),
 									pg.densityDerivs[ZI2][p2][0].plus(pg.densityDerivs[ZI2][p2][1]),
 									densityDeriv2[0].plus(densityDeriv2[1]), Z1, p1, Z2, p2);

@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="working uhf hessian" />
-    <list id="86822a5d-be33-417c-a060-aba962bf30c6" name="Changes by flyingfalcon" comment="" />
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="better verify">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -493,21 +496,7 @@
       <workItem from="1641042835960" duration="11321000" />
       <workItem from="1641121962949" duration="14747000" />
       <workItem from="1641144415131" duration="39000" />
-      <workItem from="1641187209404" duration="14212000" />
-    </task>
-    <task id="LOCAL-00180" summary="checkpoint">
-      <created>1640597623521</created>
-      <option name="number" value="00180" />
-      <option name="presentableId" value="LOCAL-00180" />
-      <option name="project" value="LOCAL" />
-      <updated>1640597623521</updated>
-    </task>
-    <task id="LOCAL-00181" summary="checkpoint">
-      <created>1640597719437</created>
-      <option name="number" value="00181" />
-      <option name="presentableId" value="LOCAL-00181" />
-      <option name="project" value="LOCAL" />
-      <updated>1640597719437</updated>
+      <workItem from="1641187209404" duration="15522000" />
     </task>
     <task id="LOCAL-00182" summary="checkpoint">
       <created>1640598247208</created>
@@ -838,7 +827,21 @@
       <option name="project" value="LOCAL" />
       <updated>1641201523281</updated>
     </task>
-    <option name="localTasksCounter" value="229" />
+    <task id="LOCAL-00229" summary="cleanup">
+      <created>1641201941050</created>
+      <option name="number" value="00229" />
+      <option name="presentableId" value="LOCAL-00229" />
+      <option name="project" value="LOCAL" />
+      <updated>1641201941050</updated>
+    </task>
+    <task id="LOCAL-00230" summary="better verify">
+      <created>1641202408514</created>
+      <option name="number" value="00230" />
+      <option name="presentableId" value="LOCAL-00230" />
+      <option name="project" value="LOCAL" />
+      <updated>1641202408514</updated>
+    </task>
+    <option name="localTasksCounter" value="231" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -885,8 +888,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Make GSD use PopleThiel response &amp; density methods" />
-    <MESSAGE value="Almost finished refactoring ParamDerivative" />
     <MESSAGE value="UHF MNDOHFDeriv" />
     <MESSAGE value="wip paramgradientnew" />
     <MESSAGE value="working paramgradientnew + old pg hf bug fix" />
@@ -910,7 +911,9 @@
     <MESSAGE value="more multithreaded hessian" />
     <MESSAGE value="working uhf hf hessian at 1e-5" />
     <MESSAGE value="working uhf hessian" />
-    <option name="LAST_COMMIT_MESSAGE" value="working uhf hessian" />
+    <MESSAGE value="cleanup" />
+    <MESSAGE value="better verify" />
+    <option name="LAST_COMMIT_MESSAGE" value="better verify" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
