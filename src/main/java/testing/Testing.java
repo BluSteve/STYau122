@@ -24,11 +24,8 @@ public class Testing {
 		SolutionU se2 =
 				(SolutionU) Solution.of(rm2, runcycle.State.getConverter().convert(rm2.expGeom, input.info.npMap));
 
-		new ParamGradientNew(s, rm.datum, null);
-//		new ParamHessianNew(s2, rm2.datum, se2);
-//		verify(s, rm.datum, null);
-//
-//		verify(s2, rm2.datum, null);
+		verify(s, rm.datum, null);
+		verify(s2, rm2.datum, null);
 
 //		verifyEquations(s, 6, 6);
 //		verifyEquations(s2, 6, 6);

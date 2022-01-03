@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="better staticMatrix for uhf as well">
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="better testing">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -497,14 +497,7 @@
       <workItem from="1641042835960" duration="11321000" />
       <workItem from="1641121962949" duration="14747000" />
       <workItem from="1641144415131" duration="39000" />
-      <workItem from="1641187209404" duration="23072000" />
-    </task>
-    <task id="LOCAL-00186" summary="checkpoint">
-      <created>1640599367878</created>
-      <option name="number" value="00186" />
-      <option name="presentableId" value="LOCAL-00186" />
-      <option name="project" value="LOCAL" />
-      <updated>1640599367878</updated>
+      <workItem from="1641187209404" duration="27193000" />
     </task>
     <task id="LOCAL-00187" summary="checkpoint">
       <created>1640599446381</created>
@@ -842,7 +835,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641209299623</updated>
     </task>
-    <option name="localTasksCounter" value="235" />
+    <task id="LOCAL-00235" summary="better testing">
+      <created>1641211319719</created>
+      <option name="number" value="00235" />
+      <option name="presentableId" value="LOCAL-00235" />
+      <option name="project" value="LOCAL" />
+      <updated>1641211319719</updated>
+    </task>
+    <option name="localTasksCounter" value="236" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -889,7 +889,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="ParamGradientNew expgeom derivs wip" />
     <MESSAGE value="ParamGradientNew expgeom derivs wip2" />
     <MESSAGE value="Working expgeom derivs" />
     <MESSAGE value="Working expgeom alpha derivs" />
@@ -914,7 +913,8 @@
     <MESSAGE value="checkpoint" />
     <MESSAGE value="better staticMatrix" />
     <MESSAGE value="better staticMatrix for uhf as well" />
-    <option name="LAST_COMMIT_MESSAGE" value="better staticMatrix for uhf as well" />
+    <MESSAGE value="better testing" />
+    <option name="LAST_COMMIT_MESSAGE" value="better testing" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

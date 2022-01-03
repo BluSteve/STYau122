@@ -588,21 +588,19 @@ public class ParamSecondDerivative {
 
 		double[] Earr = E.getDDRM().data;
 
-		SimpleMatrix xat = xA.copy();
-		CommonOps_DDRM.multRows(Earr, xat.getDDRM());
-		xat = xat.transpose().mult(xB);
-		Utils.plusTrans(xat);
-		matrix.minusi(xat);
+		final SimpleMatrix xaE = xA.copy();
+		CommonOps_DDRM.multRows(Earr, xaE.getDDRM());
 
-		SimpleMatrix xa = xA.copy();
-		CommonOps_DDRM.multRows(Earr, xa.getDDRM());
-		xa = xa.mult(xB);
-		SimpleMatrix xb = xB.copy();
-		CommonOps_DDRM.multRows(Earr, xb.getDDRM());
-		xb = xb.mult(xA);
-//		System.out.println("xa.minus(xb).elementSum() = " + xa.minus(xb).elementSum());
-//		matrix.minusi(xa.scalei(2)); todo why does this work
-		matrix.minusi(xa).plusi(xb);
+		final SimpleMatrix xbE = xB.copy();
+		CommonOps_DDRM.multRows(Earr, xbE.getDDRM());
+
+		SimpleMatrix xatxb = xaE.transpose().mult(xB);
+		Utils.plusTrans(xatxb);
+		SimpleMatrix xaxb = xaE.mult(xB);
+		SimpleMatrix xbxa = xbE.mult(xA);
+
+		matrix.minusi(xatxb);
+		matrix.minusi(xaxb).plusi(xbxa);
 
 		return matrix;
 	}
