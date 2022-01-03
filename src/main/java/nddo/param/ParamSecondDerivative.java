@@ -30,14 +30,16 @@ public class ParamSecondDerivative {
 		return sum / Constants.HEATCONV;
 	}
 
-	public static SimpleMatrix gammaMatrix(SimpleMatrix totalderiv, SolutionR soln) {
+	public static SimpleMatrix gammaMatrix(SolutionR soln, SimpleMatrix totalderiv) {
+		int numRows = totalderiv.numRows();
+		SimpleMatrix gamma = new SimpleMatrix(numRows, numRows);
 
-		SimpleMatrix gamma = new SimpleMatrix(totalderiv.numRows(), totalderiv.numRows());
+		for (int i = 0; i < numRows; i++) {
+			for (int j = i + 1; j < numRows; j++) {
+				double v = soln.E.get(j) - soln.E.get(i);
 
-		for (int i = 0; i < totalderiv.numRows(); i++) {
-			for (int j = i + 1; j < totalderiv.numRows(); j++) {
-				gamma.set(i, j, totalderiv.get(i, j) / (soln.E.get(j) - soln.E.get(i)));
-				gamma.set(j, i, totalderiv.get(j, i) / (soln.E.get(i) - soln.E.get(j)));
+				gamma.set(i, j, totalderiv.get(i, j) / v);
+				gamma.set(j, i, totalderiv.get(j, i) / -v);
 			}
 		}
 
@@ -45,24 +47,24 @@ public class ParamSecondDerivative {
 
 	}
 
-	public static SimpleMatrix gammaMatrix(SimpleMatrix totalderivalpha, SolutionU soln) {
+	public static SimpleMatrix gammaMatrix(SolutionU soln, SimpleMatrix totalderivalpha) {
+		int numRows = totalderivalpha.numRows();
+		SimpleMatrix gamma = new SimpleMatrix(numRows, numRows);
 
-		SimpleMatrix gamma = new SimpleMatrix(totalderivalpha.numRows(), totalderivalpha.numRows());
+		for (int i = 0; i < numRows; i++) {
+			for (int j = i + 1; j < numRows; j++) {
+				double v = soln.Ea.get(j) - soln.Ea.get(i);
 
-		for (int i = 0; i < totalderivalpha.numRows(); i++) {
-			for (int j = i + 1; j < totalderivalpha.numRows(); j++) {
-				gamma.set(i, j, totalderivalpha.get(i, j) / (soln.Ea.get(j) - soln.Ea.get(i)));
-				gamma.set(j, i, totalderivalpha.get(j, i) / (soln.Ea.get(i) - soln.Ea.get(j)));
+				gamma.set(i, j, totalderivalpha.get(i, j) / v);
+				gamma.set(j, i, totalderivalpha.get(j, i) / -v);
 			}
 		}
 
 		return gamma;
-
 	}
 
 
 	public static SimpleMatrix densityDeriv2static(SolutionR s, SimpleMatrix x1, SimpleMatrix x2) {
-
 		int NOcc = (int) (s.nElectrons / 2.0);
 
 		SimpleMatrix C = s.C;
@@ -213,6 +215,7 @@ public class ParamSecondDerivative {
 		int[][] missingOfAtom = soln.missingOfAtom;
 		int[] atomOfOrb = soln.atomOfOrb;
 		int[] atomicNumbers = soln.atomicNumbers;
+
 		SimpleMatrix G = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 
 		for (int j = 0; j < soln.nOrbitals; j++) {
@@ -963,7 +966,7 @@ public class ParamSecondDerivative {
 
 		SimpleMatrix gammadiag = SimpleMatrix.diag(xA.mult(xB).plus(xB.mult(xA)).diag().getDDRM().data).scale(0.5);
 
-		SimpleMatrix gammaremainder = gammaMatrix(totalderiv, soln);
+		SimpleMatrix gammaremainder = gammaMatrix(soln, totalderiv);
 
 		SimpleMatrix gamma = gammadiag.plus(gammaremainder);
 
@@ -997,7 +1000,7 @@ public class ParamSecondDerivative {
 		SimpleMatrix gammadiag =
 				SimpleMatrix.diag(xAalpha.mult(xBalpha).plus(xBalpha.mult(xAalpha)).diag().getDDRM().data).scale(0.5);
 
-		SimpleMatrix gammaremainder = gammaMatrix(totalderivalpha, soln);
+		SimpleMatrix gammaremainder = gammaMatrix(soln, totalderivalpha);
 
 		SimpleMatrix gamma = gammadiag.plus(gammaremainder);
 

@@ -399,7 +399,7 @@ public class ParamDerivative {
 		return H;
 	}
 
-	private static SimpleMatrix zetaGderivstatic(SolutionR soln, int Z, int type) {
+	private static SimpleMatrix zetaGderivstatic(SolutionR soln, int Z, int type) { // todo unify first and second order
 		NDDOOrbital[] orbitals = soln.orbitals;
 		int[][] orbsOfAtom = soln.orbsOfAtom;
 		int[][] missingOfAtom = soln.missingOfAtom;
@@ -500,6 +500,43 @@ public class ParamDerivative {
 		}
 
 		return new SimpleMatrix[]{Ga, Gb};
+	}
+
+
+	public static SimpleMatrix xMatrix(SolutionR soln, SimpleMatrix F) {
+		int numRows = F.numRows();
+		SimpleMatrix x = new SimpleMatrix(numRows, numRows);
+
+		for (int i = 0; i < numRows; i++) {
+			for (int j = i + 1; j < numRows; j++) {
+				double v = F.get(i, j) / (soln.E.get(j) - soln.E.get(i));
+				x.set(i, j, v);
+				x.set(j, i, -v);
+			}
+		}
+
+		return x;
+	}
+
+	public static SimpleMatrix[] xMatrix(SolutionU soln, SimpleMatrix Fa, SimpleMatrix Fb) {
+		int numRows = Fa.numRows();
+		SimpleMatrix xa = new SimpleMatrix(numRows, numRows);
+		SimpleMatrix xb = new SimpleMatrix(numRows, numRows);
+
+		for (int i = 0; i < numRows; i++) {
+			for (int j = i + 1; j < numRows; j++) {
+				double va = Fa.get(i, j) / (soln.Ea.get(j) - soln.Ea.get(i));
+				double vb = Fb.get(i, j) / (soln.Eb.get(j) - soln.Eb.get(i));
+
+				xa.set(i, j, va);
+				xa.set(j, i, -va);
+
+				xb.set(i, j, vb);
+				xb.set(j, i, -vb);
+			}
+		}
+
+		return new SimpleMatrix[]{xa, xb};
 	}
 
 
@@ -633,42 +670,6 @@ public class ParamDerivative {
 		SimpleMatrix Ederiv = Utils.plusTrans(soln.Cta.mult(soln.Fa).mult(Cderiv)).plusi(Faderivmo);
 
 		return Ederiv.get(soln.rm.nOccAlpha - 1, soln.rm.nOccAlpha - 1);
-	}
-
-	public static SimpleMatrix xMatrix(SolutionR soln, SimpleMatrix F) {
-		int numRows = F.numRows();
-		SimpleMatrix x = new SimpleMatrix(numRows, numRows);
-
-		for (int i = 0; i < numRows; i++) {
-			for (int j = i + 1; j < numRows; j++) {
-				double v = F.get(i, j) / (soln.E.get(j) - soln.E.get(i));
-				x.set(i, j, v);
-				x.set(j, i, -v);
-			}
-		}
-
-		return x;
-	}
-
-	public static SimpleMatrix[] xMatrix(SolutionU soln, SimpleMatrix Fa, SimpleMatrix Fb) {
-		int numRows = Fa.numRows();
-		SimpleMatrix xa = new SimpleMatrix(numRows, numRows);
-		SimpleMatrix xb = new SimpleMatrix(numRows, numRows);
-
-		for (int i = 0; i < numRows; i++) {
-			for (int j = i + 1; j < numRows; j++) {
-				double va = Fa.get(i, j) / (soln.Ea.get(j) - soln.Ea.get(i));
-				double vb = Fb.get(i, j) / (soln.Eb.get(j) - soln.Eb.get(i));
-
-				xa.set(i, j, va);
-				xa.set(j, i, -va);
-
-				xb.set(i, j, vb);
-				xb.set(j, i, -vb);
-			}
-		}
-
-		return new SimpleMatrix[]{xa, xb};
 	}
 
 
