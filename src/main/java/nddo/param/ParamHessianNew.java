@@ -47,8 +47,8 @@ public class ParamHessianNew implements IParamHessian {
 		staticMatrices = new SimpleMatrix[nAtomTypes][nAtomTypes][nParams][nParams][];
 		PhiMatrices = new SimpleMatrix[nAtomTypes][nAtomTypes][nParams][nParams][];
 
-		int[][] flat = new int[nanp * nanp][5]; // Z1, Z2, param1, param2;
-		int[][] flatAll = new int[nanp * nanp][5]; // Z1, Z2, param1, param2;
+		int[][] flat = new int[nanp * nanp][6]; // Z1, Z2, param1, param2;
+		int[][] flatAll = new int[nanp * nanp][6]; // Z1, Z2, param1, param2;
 
 		int i = 0;
 		int iAll = 0;
@@ -61,7 +61,8 @@ public class ParamHessianNew implements IParamHessian {
 							flatAll[iAll][1] = ZI2;
 							flatAll[iAll][2] = p1;
 							flatAll[iAll][3] = p2;
-							flatAll[iAll][4] = iAll;
+							flatAll[iAll][4] = i;
+							flatAll[iAll][5] = iAll;
 							iAll++;
 
 							if (p1 != 0 && p2 != 0 && p1 != 7 && p2 != 7) {
@@ -70,6 +71,7 @@ public class ParamHessianNew implements IParamHessian {
 								flat[i][2] = p1;
 								flat[i][3] = p2;
 								flat[i][4] = i;
+								flat[i][5] = iAll;
 								i++;
 							}
 						}
@@ -158,59 +160,61 @@ public class ParamHessianNew implements IParamHessian {
 							return results;
 						}) : null;
 
-		int j = 0;
-		for (int[] ints : flatAll) {
-			int ZI1 = ints[0];
-			int ZI2 = ints[1];
-			int Z1 = mats[ZI1];
-			int Z2 = mats[ZI2];
-			int p1 = ints[2];
-			int p2 = ints[3];
+		Batcher.consume(flatAll, subset -> {
+			for (int[] ints : subset) {
+				int ZI1 = ints[0];
+				int ZI2 = ints[1];
+				int Z1 = mats[ZI1];
+				int Z2 = mats[ZI2];
+				int p1 = ints[2];
+				int p2 = ints[3];
+				int j = ints[4];
 
-			if (Z1 == Z2 && p1 == 0 && p2 == 0) {
-				double HfDeriv2 = alphaHfderiv2(s, Z1);
+				if (Z1 == Z2 && p1 == 0 && p2 == 0) {
+					double HfDeriv2 = alphaHfderiv2(s, Z1);
 
-				addHfToHessian(ZI1, p1, ZI2, p2, HfDeriv2);
-			}
-			else if (p1 == 0 || p2 == 0 || p1 == 7 || p2 == 7) {
-				addHfToHessian(ZI1, p1, ZI2, p2, 0);
-			}
-			else if (rhf) {
-				SimpleMatrix dD2response = dD2responses[j++];
-				SimpleMatrix densityDeriv2 = dD2response.plus(dD2statics[ZI1][ZI2][p1][p2][0]);
-
-				double HfDeriv2 = MNDOHFDeriv2(sr, Z1, p1, Z2, p2,
-						pg.staticDerivs[ZI1][0][p1], pg.staticDerivs[ZI1][1][p1], pg.densityDerivs[ZI2][p2][0], 0);
-
-				addHfToHessian(ZI1, p1, ZI2, p2, HfDeriv2);
-
-
-				if (hasDip) {
-					double dipoleDeriv2 = MNDODipoleDeriv2(sr,
-							pg.densityDerivs[ZI1][p1][0], pg.densityDerivs[ZI2][p2][0],
-							densityDeriv2, Z1, p1, Z2, p2);
-
-					addDipoleToHessian(ZI1, p1, ZI2, p2, dipoleDeriv2);
+					addHfToHessian(ZI1, p1, ZI2, p2, HfDeriv2);
 				}
+				else if (p1 == 0 || p2 == 0 || p1 == 7 || p2 == 7) {
+					addHfToHessian(ZI1, p1, ZI2, p2, 0);
+				}
+				else if (rhf) {
+					SimpleMatrix dD2response = dD2responses[j];
+					SimpleMatrix densityDeriv2 = dD2response.plus(dD2statics[ZI1][ZI2][p1][p2][0]);
 
-				if (hasIE) {
-					SimpleMatrix Phi = PhiMatrices[ZI1][ZI2][p1][p2][0];
-					SimpleMatrix R = PopleThiel.responseMatrix(sr, dD2response);
+					double HfDeriv2 = MNDOHFDeriv2(sr, Z1, p1, Z2, p2,
+							pg.staticDerivs[ZI1][0][p1], pg.staticDerivs[ZI1][1][p1], pg.densityDerivs[ZI2][p2][0], 0);
 
-					SimpleMatrix totalderiv = staticMatrices[ZI1][ZI2][p1][p2][0].plus(sr.Ct.mult(R).mult(sr.C));
+					addHfToHessian(ZI1, p1, ZI2, p2, HfDeriv2);
 
-					double IEDeriv2 = -homoDeriv2(sr,
-							pg.xMatrices[ZI1][p1][0], pg.xMatrices[ZI2][p2][0], totalderiv,
-							pg.FDerivs[ZI1][p1][0], pg.FDerivs[ZI2][p2][0],
-							Phi.plus(R));
 
-					addIEToHessian(ZI1, p1, ZI2, p2, IEDeriv2);
+					if (hasDip) {
+						double dipoleDeriv2 = MNDODipoleDeriv2(sr,
+								pg.densityDerivs[ZI1][p1][0], pg.densityDerivs[ZI2][p2][0],
+								densityDeriv2, Z1, p1, Z2, p2);
+
+						addDipoleToHessian(ZI1, p1, ZI2, p2, dipoleDeriv2);
+					}
+
+					if (hasIE) {
+						SimpleMatrix Phi = PhiMatrices[ZI1][ZI2][p1][p2][0];
+						SimpleMatrix R = PopleThiel.responseMatrix(sr, dD2response);
+
+						SimpleMatrix totalderiv = staticMatrices[ZI1][ZI2][p1][p2][0].plus(sr.Ct.mult(R).mult(sr.C));
+
+						double IEDeriv2 = -homoDeriv2(sr,
+								pg.xMatrices[ZI1][p1][0], pg.xMatrices[ZI2][p2][0], totalderiv,
+								pg.FDerivs[ZI1][p1][0], pg.FDerivs[ZI2][p2][0],
+								Phi.plus(R));
+
+						addIEToHessian(ZI1, p1, ZI2, p2, IEDeriv2);
+					}
+				}
+				else {
+
 				}
 			}
-			else {
-
-			}
-		}
+		});
 	}
 
 	private void addToHessian(int ZI1, int p1, int ZI2, int p2, double x) {
