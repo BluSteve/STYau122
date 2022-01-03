@@ -10,6 +10,7 @@ import nddo.solution.Solution;
 import nddo.solution.SolutionR;
 import nddo.solution.SolutionU;
 import org.apache.commons.lang3.time.StopWatch;
+import org.ejml.dense.row.CommonOps_DDRM;
 import org.ejml.simple.SimpleMatrix;
 import tools.Pow;
 import tools.Utils;
@@ -65,20 +66,32 @@ public class ParamSecondDerivative {
 
 
 	public static SimpleMatrix densityDeriv2static(SolutionR s, SimpleMatrix x1, SimpleMatrix x2) {
-		int NOcc = (int) (s.nElectrons / 2.0);
-
+		int NOcc = s.rm.nOccAlpha;
+		int NVirt = s.rm.nVirtAlpha;
 		SimpleMatrix C = s.C;
-
 		SimpleMatrix Dstatic = new SimpleMatrix(s.nOrbitals, s.nOrbitals);
+//
+//		SimpleMatrix test = new SimpleMatrix(s.nOrbitals, s.nOrbitals);
+//
+//		System.out.println("s.rm.nOccAlpha = " + s.rm.nOccAlpha);
+//		System.out.println("s.rm.nVirtAlpha = " + s.rm.nVirtAlpha);
+//
+//		SimpleMatrix x1virtocc = x1.extractMatrix(0, NOcc, NOcc, s.nOrbitals);
+//		SimpleMatrix x2virtocc = x2.extractMatrix(0, NOcc, NOcc, s.nOrbitals);
+//		System.out.println("x1 = " + x1);
+//		System.out.println("x1virtocc = " + x1virtocc);
 
 		for (int u = 0; u < s.nOrbitals; u++) {
 			for (int v = u; v < s.nOrbitals; v++) {
 				double sum = 0;
+				double testsum = 0;
 				for (int i = 0; i < NOcc; i++) {
 					for (int j = 0; j < s.nOrbitals; j++) {
 						for (int k = 0; k < s.nOrbitals; k++) {
-							sum += 2 * (C.get(u, k) * C.get(v, i) + C.get(u, i) * C.get(v, k)) *
+							double value = 2 * (C.get(u, k) * C.get(v, i) + C.get(u, i) * C.get(v, k)) *
 									(x1.get(j, i) * x2.get(k, j) + x1.get(k, j) * x2.get(j, i));
+							sum += value;
+							testsum += value;
 							sum += 2 * (C.get(u, j) * C.get(v, k) + C.get(u, k) * C.get(v, j)) * x1.get(j, i) *
 									x2.get(k, i);
 						}
@@ -95,15 +108,16 @@ public class ParamSecondDerivative {
 				}
 
 				Dstatic.set(u, v, sum);
-
 				Dstatic.set(v, u, sum);
-
+//				test.set(u,v,testsum);
+//				test.set(v,u,testsum);
 			}
 		}
 
+//		System.out.println("test = " + test);
+//
+//		System.exit(0);
 		return Dstatic;
-
-
 	}
 
 	public static SimpleMatrix[] densityDeriv2static(SolutionU soln, SimpleMatrix[] x1, SimpleMatrix[] x2) {
@@ -314,7 +328,6 @@ public class ParamSecondDerivative {
 
 
 	public static SimpleMatrix Hderiv2(Solution soln, int Z1, int param1, int Z2, int param2) {
-
 		if (param1 >= 1 && param1 <= 2) {//beta
 			if (param2 >= 5 && param2 <= 6) {//zeta
 				return ParamSecondDerivative.betazetaHderiv2(soln, Z1, param1 - 1, Z2, param2 - 5);
@@ -329,8 +342,8 @@ public class ParamSecondDerivative {
 				return ParamSecondDerivative.zetazetaHderiv2(soln, Z1, param1 - 5, Z2, param2 - 5);
 			}
 		}
-		return new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 
+		return new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 	}
 
 	protected static SimpleMatrix betazetaHderiv2(Solution soln, int Z1, int type1, int Z2, int type2) {
@@ -467,7 +480,6 @@ public class ParamSecondDerivative {
 			}
 		}
 
-
 		return G;
 	}
 
@@ -540,61 +552,56 @@ public class ParamSecondDerivative {
 
 		SimpleMatrix omega = PopleThiel.responseMatrix(soln, densityderiv2static);
 
-		return Fstatictotal.plus(GaB).plus(GbA).plus(omega);
-
+		return omega.plusi(GaB).plusi(GbA).plusi(Fstatictotal);
 	}
 
 	public static SimpleMatrix[] staticFockDeriv(SolutionU soln, SimpleMatrix[] Fstatictotal,
-												 SimpleMatrix[] densitiesA,
-												 SimpleMatrix[] densitiesB, SimpleMatrix[] densityderivs2static,
+												 SimpleMatrix[] densitiesA, SimpleMatrix[] densitiesB,
+												 SimpleMatrix[] densityderivs2static,
 												 int Z1, int param1, int Z2, int param2) {
-
-		SimpleMatrix densityAalpha = densitiesA[0];
-		SimpleMatrix densityAbeta = densitiesA[1];
-
-		SimpleMatrix densityBalpha = densitiesB[0];
-		SimpleMatrix densityBbeta = densitiesB[1];
-
-		SimpleMatrix[] GaB =
-				ParamSecondDerivative.Gderivstatic(soln, densityBalpha, densityBbeta, Z1, param1);
-
-		SimpleMatrix GaBalpha = GaB[0];
-
-		SimpleMatrix GaBbeta = GaB[1];
-
-		SimpleMatrix[] GbA =
-				ParamSecondDerivative.Gderivstatic(soln, densityAalpha, densityAbeta, Z2, param2);
-
-		SimpleMatrix GbAalpha = GbA[0];
-
-		SimpleMatrix GbAbeta = GbA[1];
-
+		SimpleMatrix[] GaB = ParamSecondDerivative.Gderivstatic(soln, densitiesB[0], densitiesB[1], Z1, param1);
+		SimpleMatrix[] GbA = ParamSecondDerivative.Gderivstatic(soln, densitiesA[0], densitiesA[1], Z2, param2);
 		SimpleMatrix[] omega = PopleThiel.responseMatrix(soln, densityderivs2static);
 
-		SimpleMatrix omegaalpha = omega[0];
-		SimpleMatrix omegabeta = omega[1];
-
-		SimpleMatrix Phialpha = Fstatictotal[0].plus(GaBalpha).plus(GbAalpha).plus(omegaalpha);
-		SimpleMatrix Phibeta = Fstatictotal[1].plus(GaBbeta).plus(GbAbeta).plus(omegabeta);
+		SimpleMatrix Phialpha = omega[0].plusi(GaB[0]).plusi(GbA[0]).plusi(Fstatictotal[0]);
+		SimpleMatrix Phibeta = omega[1].plusi(GaB[1]).plusi(GbA[1]).plusi(Fstatictotal[1]);
 
 		return new SimpleMatrix[]{Phialpha, Phibeta};
 	}
 
 	public static SimpleMatrix staticMatrix(SolutionR soln, SimpleMatrix Phi, SimpleMatrix FockA,
 											SimpleMatrix FockB, SimpleMatrix xA, SimpleMatrix xB) {
-		SimpleMatrix FA = soln.Ct.mult(FockA.mult(soln.C));
-		SimpleMatrix diagFA = SimpleMatrix.diag(FA.diag().getDDRM().data);
-		SimpleMatrix FB = soln.Ct.mult(FockB.mult(soln.C));
-		SimpleMatrix diagFB = SimpleMatrix.diag(FB.diag().getDDRM().data);
-
+		SimpleMatrix FA = soln.Ct.mult(FockA).mult(soln.C);
+		double[] arrfa = FA.diag().getDDRM().data;
+		SimpleMatrix FB = soln.Ct.mult(FockB).mult(soln.C);
+		double[] arrfb = FB.diag().getDDRM().data;
 		SimpleMatrix matrix = soln.Ct.mult(Phi).mult(soln.C);
 
-		matrix = matrix.plus(xB.transpose().mult(diagFA)).plus(diagFA.mult(xB)).plus(xA.transpose().mult(diagFB))
-				.plus(diagFB.mult(xA));
-		matrix = matrix.minus(xA.transpose().mult(SimpleMatrix.diag(soln.E.getDDRM().data)).mult(xB))
-				.minus(xB.transpose().mult(SimpleMatrix.diag(soln.E.getDDRM().data)).mult(xA));
-		matrix = matrix.minus(SimpleMatrix.diag(soln.E.getDDRM().data).mult(xA).mult(xB))
-				.minus(SimpleMatrix.diag(soln.E.getDDRM().data).mult(xB).mult(xA));
+		SimpleMatrix xbFA = xB.copy();
+		CommonOps_DDRM.multRows(arrfa, xbFA.getDDRM());
+		Utils.plusTrans(xbFA);
+		SimpleMatrix xaFB = xA.copy();
+		CommonOps_DDRM.multRows(arrfb, xaFB.getDDRM());
+		Utils.plusTrans(xaFB);
+		matrix.plusi(xbFA).plusi(xaFB);
+
+		double[] E = soln.E.getDDRM().data;
+
+		SimpleMatrix xat = xA.copy();
+		CommonOps_DDRM.multRows(E, xat.getDDRM());
+		xat = xat.transpose().mult(xB);
+		Utils.plusTrans(xat);
+		matrix.minusi(xat);
+
+		SimpleMatrix xa = xA.copy();
+		CommonOps_DDRM.multRows(E, xa.getDDRM());
+		xa = xa.mult(xB);
+		SimpleMatrix xb = xB.copy();
+		CommonOps_DDRM.multRows(E, xb.getDDRM());
+		xb = xb.mult(xA);
+//		System.out.println("xa.minus(xb).elementSum() = " + xa.minus(xb).elementSum());
+//		matrix.minusi(xa.scalei(2)); todo why does this work
+		matrix.minusi(xa).plusi(xb);
 
 		return matrix;
 	}

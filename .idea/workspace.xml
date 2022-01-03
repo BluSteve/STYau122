@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="better verify">
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="checkpoint">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -496,21 +496,7 @@
       <workItem from="1641042835960" duration="11321000" />
       <workItem from="1641121962949" duration="14747000" />
       <workItem from="1641144415131" duration="39000" />
-      <workItem from="1641187209404" duration="15522000" />
-    </task>
-    <task id="LOCAL-00182" summary="checkpoint">
-      <created>1640598247208</created>
-      <option name="number" value="00182" />
-      <option name="presentableId" value="LOCAL-00182" />
-      <option name="project" value="LOCAL" />
-      <updated>1640598247208</updated>
-    </task>
-    <task id="LOCAL-00183" summary="checkpoint">
-      <created>1640598470836</created>
-      <option name="number" value="00183" />
-      <option name="presentableId" value="LOCAL-00183" />
-      <option name="project" value="LOCAL" />
-      <updated>1640598470836</updated>
+      <workItem from="1641187209404" duration="20055000" />
     </task>
     <task id="LOCAL-00184" summary="checkpoint">
       <created>1640598626507</created>
@@ -841,7 +827,21 @@
       <option name="project" value="LOCAL" />
       <updated>1641202408514</updated>
     </task>
-    <option name="localTasksCounter" value="231" />
+    <task id="LOCAL-00231" summary="checkpoitn">
+      <created>1641204310367</created>
+      <option name="number" value="00231" />
+      <option name="presentableId" value="LOCAL-00231" />
+      <option name="project" value="LOCAL" />
+      <updated>1641204310367</updated>
+    </task>
+    <task id="LOCAL-00232" summary="checkpoint">
+      <created>1641204652053</created>
+      <option name="number" value="00232" />
+      <option name="presentableId" value="LOCAL-00232" />
+      <option name="project" value="LOCAL" />
+      <updated>1641204652053</updated>
+    </task>
+    <option name="localTasksCounter" value="233" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -888,8 +888,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="UHF MNDOHFDeriv" />
-    <MESSAGE value="wip paramgradientnew" />
     <MESSAGE value="working paramgradientnew + old pg hf bug fix" />
     <MESSAGE value="minor bug fix" />
     <MESSAGE value="ParamGradientNew expgeom derivs wip" />
@@ -913,7 +911,9 @@
     <MESSAGE value="working uhf hessian" />
     <MESSAGE value="cleanup" />
     <MESSAGE value="better verify" />
-    <option name="LAST_COMMIT_MESSAGE" value="better verify" />
+    <MESSAGE value="checkpoitn" />
+    <MESSAGE value="checkpoint" />
+    <option name="LAST_COMMIT_MESSAGE" value="checkpoint" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
