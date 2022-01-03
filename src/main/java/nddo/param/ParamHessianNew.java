@@ -104,14 +104,9 @@ public class ParamHessianNew implements IParamHessian {
 								dD2static[0], Z1, p1, Z2, p2)
 				};
 
-//				SimpleMatrix[] staticMatrix = staticMatrices[ZI1][ZI2][p1][p2] = new SimpleMatrix[]{
-//						staticMatrix(sr, PhiMatrix[0], pg.FDerivs[ZI1][p1][0], pg.FDerivs[ZI2][p2][0],
-//								pg.xMatrices[ZI1][p1][0], pg.xMatrices[ZI2][p2][0])
-//				};
-
 				SimpleMatrix[] staticMatrix = staticMatrices[ZI1][ZI2][p1][p2] = new SimpleMatrix[]{
-						staticMatrix(sr, Fstatic2[0], pg.staticDerivs[ZI1][1][p1], pg.staticDerivs[ZI2][1][p2],
-								pg.xVectors[ZI1][p1], pg.xVectors[ZI2][p2], Z1, p1, Z2, p2)
+						staticMatrix(sr, PhiMatrix[0], pg.FDerivs[ZI1][p1][0], pg.FDerivs[ZI2][p2][0],
+								pg.xMatrices[ZI1][p1][0], pg.xMatrices[ZI2][p2][0])
 				};
 
 
@@ -189,7 +184,6 @@ public class ParamHessianNew implements IParamHessian {
 
 				SimpleMatrix totalderivs = sr.Ct.mult(Phi.plus(R)).mult(sr.C);
 
-//	e IEderiv2 = MNDO			do
 
 			}
 			else {

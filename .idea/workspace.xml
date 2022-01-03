@@ -4,13 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="paramhessian fixed?">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientNew.java" afterDir="false" />
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="paramhessian fixed for dipole">
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" afterDir="false" />
     </list>
-    <list id="86822a5d-be33-417c-a060-aba962bf30c6" name="Changes by flyingfalcon" comment="" />
+    <list id="86822a5d-be33-417c-a060-aba962bf30c6" name="Changes by flyingfalcon" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -136,6 +135,15 @@
     <setting file="file://$PROJECT_DIR$/src/main/java/nddo/scf/Orbital.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/mndo-install.sh" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java">
+      <ranges>
+        <range start1="106" end1="111" start2="106" end2="106" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="112" end1="114" start2="107" end2="109" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="191" end1="192" start2="186" end2="186" changelist="86822a5d-be33-417c-a060-aba962bf30c6" />
+      </ranges>
+    </file>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -498,14 +506,7 @@
       <workItem from="1641042835960" duration="11321000" />
       <workItem from="1641121962949" duration="14747000" />
       <workItem from="1641144415131" duration="39000" />
-      <workItem from="1641187209404" duration="1130000" />
-    </task>
-    <task id="LOCAL-00171" summary="extract out cocc mult xmat mult ctvirt">
-      <created>1640455537455</created>
-      <option name="number" value="00171" />
-      <option name="presentableId" value="LOCAL-00171" />
-      <option name="project" value="LOCAL" />
-      <updated>1640455537455</updated>
+      <workItem from="1641187209404" duration="1655000" />
     </task>
     <task id="LOCAL-00172" summary="minor changes">
       <created>1640456235058</created>
@@ -843,7 +844,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641187628586</updated>
     </task>
-    <option name="localTasksCounter" value="220" />
+    <task id="LOCAL-00220" summary="paramhessian fixed for dipole">
+      <created>1641188867898</created>
+      <option name="number" value="00220" />
+      <option name="presentableId" value="LOCAL-00220" />
+      <option name="project" value="LOCAL" />
+      <updated>1641188867898</updated>
+    </task>
+    <option name="localTasksCounter" value="221" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -890,7 +898,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="deprecate densityderivpople uhf" />
     <MESSAGE value="rhf still works" />
     <MESSAGE value="passed verify equations rhf" />
     <MESSAGE value="pople better orthog" />
@@ -915,7 +922,8 @@
     <MESSAGE value="paramhessian wip" />
     <MESSAGE value="paramhessian wip 2" />
     <MESSAGE value="paramhessian fixed?" />
-    <option name="LAST_COMMIT_MESSAGE" value="paramhessian fixed?" />
+    <MESSAGE value="paramhessian fixed for dipole" />
+    <option name="LAST_COMMIT_MESSAGE" value="paramhessian fixed for dipole" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
