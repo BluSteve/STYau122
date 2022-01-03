@@ -5,15 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="paramhessian fixed for dipole">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
     </list>
     <list id="86822a5d-be33-417c-a060-aba962bf30c6" name="Changes by flyingfalcon" comment="">
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager">
+    <option name="groupingKeys">
+      <option value="module" />
+    </option>
   </component>
   <component name="CodeInsightWorkspaceSettings">
     <option name="optimizeImportsOnTheFly" value="true" />
@@ -139,9 +149,23 @@
   <component name="LineStatusTrackerManager">
     <file path="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java">
       <ranges>
-        <range start1="106" end1="111" start2="106" end2="106" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
-        <range start1="112" end1="114" start2="107" end2="109" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
-        <range start1="191" end1="192" start2="186" end2="186" changelist="86822a5d-be33-417c-a060-aba962bf30c6" />
+        <range start1="106" end1="106" start2="106" end2="107" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="164" end1="166" start2="165" end2="166" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="170" end1="172" start2="170" end2="172" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="182" end1="183" start2="182" end2="185" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="184" end1="185" start2="186" end2="187" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="186" end1="186" start2="188" end2="192" changelist="86822a5d-be33-417c-a060-aba962bf30c6" />
+        <range start1="187" end1="187" start2="193" end2="196" changelist="86822a5d-be33-417c-a060-aba962bf30c6" />
+        <range start1="192" end1="194" start2="201" end2="201" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+      </ranges>
+    </file>
+    <file path="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java">
+      <ranges>
+        <range start1="683" end1="685" start2="683" end2="685" changelist="86822a5d-be33-417c-a060-aba962bf30c6" />
+        <range start1="715" end1="718" start2="715" end2="718" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="1630" end1="1631" start2="1630" end2="1631" changelist="86822a5d-be33-417c-a060-aba962bf30c6" />
+        <range start1="1639" end1="1640" start2="1639" end2="1640" changelist="86822a5d-be33-417c-a060-aba962bf30c6" />
+        <range start1="1829" end1="1830" start2="1829" end2="1830" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
       </ranges>
     </file>
   </component>
@@ -506,14 +530,7 @@
       <workItem from="1641042835960" duration="11321000" />
       <workItem from="1641121962949" duration="14747000" />
       <workItem from="1641144415131" duration="39000" />
-      <workItem from="1641187209404" duration="1655000" />
-    </task>
-    <task id="LOCAL-00172" summary="minor changes">
-      <created>1640456235058</created>
-      <option name="number" value="00172" />
-      <option name="presentableId" value="LOCAL-00172" />
-      <option name="project" value="LOCAL" />
-      <updated>1640456235058</updated>
+      <workItem from="1641187209404" duration="4518000" />
     </task>
     <task id="LOCAL-00173" summary="with lhs rhs pople caching">
       <created>1640459190459</created>
@@ -851,7 +868,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641188867898</updated>
     </task>
-    <option name="localTasksCounter" value="221" />
+    <task id="LOCAL-00221" summary="paramhessian fixed for dipole">
+      <created>1641188896224</created>
+      <option name="number" value="00221" />
+      <option name="presentableId" value="LOCAL-00221" />
+      <option name="project" value="LOCAL" />
+      <updated>1641188896224</updated>
+    </task>
+    <option name="localTasksCounter" value="222" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -879,7 +903,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/test" />
+                        <option value="stratified2" />
                       </list>
                     </value>
                   </entry>

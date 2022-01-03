@@ -681,8 +681,8 @@ public class ParamSecondDerivative {
 
 	}
 
-	public static double MNDOIEDeriv2(SolutionR soln, SimpleMatrix xA, SimpleMatrix xB, SimpleMatrix totalderiv,
-									  SimpleMatrix Fderiva, SimpleMatrix Fderivb, SimpleMatrix Fderiv2) {
+	public static double homoDeriv2(SolutionR soln, SimpleMatrix xA, SimpleMatrix xB, SimpleMatrix totalderiv,
+									SimpleMatrix Fderiva, SimpleMatrix Fderivb, SimpleMatrix Fderiv2) {
 
 
 		SimpleMatrix gammadiag = SimpleMatrix.diag(xA.mult(xB).plus(xB.mult(xA)).diag().getDDRM().data).scale(0.5);
@@ -713,9 +713,9 @@ public class ParamSecondDerivative {
 		return E.diag().get((int) (soln.nElectrons / 2.0) - 1);
 	}
 
-	public static double MNDOIEDeriv2(SolutionU soln, SimpleMatrix xAalpha, SimpleMatrix xBalpha,
-									  SimpleMatrix totalderivalpha, SimpleMatrix Faderiva, SimpleMatrix Faderivb,
-									  SimpleMatrix Faderiv2) {
+	public static double homoDeriv2(SolutionU soln, SimpleMatrix xAalpha, SimpleMatrix xBalpha,
+									SimpleMatrix totalderivalpha, SimpleMatrix Faderiva, SimpleMatrix Faderivb,
+									SimpleMatrix Faderiv2) {
 
 
 		SimpleMatrix gammadiag =
@@ -1628,7 +1628,7 @@ public class ParamSecondDerivative {
 		SimpleMatrix totalderiv = rhsmat.plus(
 				soln.Ct.mult(PopleThiel.responseMatrix(soln, densityderiv2response)).mult(soln.C));
 
-		SimpleMatrix Fderiv2 = staticFockDeriv(soln, Fstatictotal, F1, F2, x1, x2, Z1, param1, Z2, param2).plus(
+		SimpleMatrix Fderiv2 = staticFockDeriv(soln, Fstatictotal, D1, D2, densityderiv2static, Z1, param1, Z2, param2).plus(
 				PopleThiel.responseMatrix(soln, densityderiv2response));
 
 		SimpleMatrix Fderiva = F1.plus(PopleThiel.responseMatrix(soln, D1));
@@ -1637,7 +1637,7 @@ public class ParamSecondDerivative {
 
 		SimpleMatrix Fderivbprime = F2prime.plus(PopleThiel.responseMatrix(solnprime, D2prime));
 
-		double IEtest = MNDOIEDeriv2(soln, x1mat, x2mat, totalderiv, Fderiva, Fderivb, Fderiv2);
+		double IEtest = homoDeriv2(soln, x1mat, x2mat, totalderiv, Fderiva, Fderivb, Fderiv2);
 
 		double IEderiv = ParamDerivative.homoDeriv(soln, x2mat, soln.Ct.mult(Fderivb).mult(soln.C));
 
@@ -1827,7 +1827,7 @@ public class ParamSecondDerivative {
 
 		SimpleMatrix Fderivbprime = F2alphaprime.plus(PopleThiel.responseMatrices(solnprime, D2prime)[0]);
 //
-		double IEtest = MNDOIEDeriv2(soln, x1matrix[0], x2matrix[0], totalderiv, Fderiva, Fderivb, Fderiv2);
+		double IEtest = homoDeriv2(soln, x1matrix[0], x2matrix[0], totalderiv, Fderiva, Fderivb, Fderiv2);
 
 
 		double IEderiv = ParamDerivative.homoDeriv(soln, x2matrix[0], soln.Cta.mult(Fderivb).mult(soln.Ca));

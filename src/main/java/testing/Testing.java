@@ -25,8 +25,8 @@ public class Testing {
 		ParamGradientNew pg = new ParamGradientNew(s, rm.datum, null);
 		ParamGradient pg2 = ParamGradient.of(s, rm.datum, null).compute();
 
-		System.out.println("pg " + Arrays.deepToString(pg.getHfDerivs()));
-//		System.out.println("pg2 " + Arrays.deepToString(pg2.getTotalGradients()));
+		System.out.println("pg " + Arrays.deepToString(pg.getIEDerivs()));
+		System.out.println("pg2 " + Arrays.deepToString(pg2.getIEDerivs()));
 		ParamHessianNew ph = new ParamHessianNew(pg);
 		double[][] a = ph.getHessian();
 

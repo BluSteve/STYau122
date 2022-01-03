@@ -104,6 +104,7 @@ public class ParamHessianNew implements IParamHessian {
 								dD2static[0], Z1, p1, Z2, p2)
 				};
 
+				// dD2response precursor
 				SimpleMatrix[] staticMatrix = staticMatrices[ZI1][ZI2][p1][p2] = new SimpleMatrix[]{
 						staticMatrix(sr, PhiMatrix[0], pg.FDerivs[ZI1][p1][0], pg.FDerivs[ZI2][p2][0],
 								pg.xMatrices[ZI1][p1][0], pg.xMatrices[ZI2][p2][0])
@@ -162,14 +163,13 @@ public class ParamHessianNew implements IParamHessian {
 
 			if (rhf) {
 				SimpleMatrix dD2response = dD2responses[j];
-				SimpleMatrix densityDeriv2 = dD2response.plusi(dD2statics[ZI1][ZI2][p1][p2][0]);
-				SimpleMatrix Phi = PhiMatrices[ZI1][ZI2][p1][p2][0];
+				SimpleMatrix densityDeriv2 = dD2response.plus(dD2statics[ZI1][ZI2][p1][p2][0]);
 
 				double HfDeriv2 = MNDOHFDeriv2(sr, Z1, p1, Z2, p2,
 						pg.staticDerivs[ZI1][0][p1], pg.staticDerivs[ZI1][1][p1], pg.densityDerivs[ZI2][p2][0], 0);
 
-				addToHessian(ZI1, p1, ZI2, p2,
-						2 * (pg.HfDerivs[ZI1][p1] * pg.HfDerivs[ZI2][p2] + (s.hf - datum[0]) * HfDeriv2));
+				addToHessian(ZI1, p1, ZI2, p2, 2 * (pg.HfDerivs[ZI1][p1] * pg.HfDerivs[ZI2][p2] +
+						(s.hf - datum[0]) * HfDeriv2));
 
 				if (hasDip) {
 					double dipoleDeriv2 = MNDODipoleDeriv2(sr,
@@ -180,18 +180,25 @@ public class ParamHessianNew implements IParamHessian {
 							(s.dipole - datum[1]) * dipoleDeriv2));
 				}
 
-				SimpleMatrix R = PopleThiel.responseMatrix(sr, dD2response);
+				if (hasIE) {
+					SimpleMatrix Phi = PhiMatrices[ZI1][ZI2][p1][p2][0];
+					SimpleMatrix R = PopleThiel.responseMatrix(sr, dD2response);
 
-				SimpleMatrix totalderivs = sr.Ct.mult(Phi.plus(R)).mult(sr.C);
+					SimpleMatrix totalderiv = staticMatrices[ZI1][ZI2][p1][p2][0].plus(sr.Ct.mult(R).mult(sr.C));
 
+					double IEDeriv2 = -homoDeriv2(sr,
+							pg.xMatrices[ZI1][p1][0], pg.xMatrices[ZI2][p2][0], totalderiv,
+							pg.FDerivs[ZI1][p1][0], pg.FDerivs[ZI2][p2][0],
+							Phi.plus(R));
 
+					addToHessian(ZI1, p1, ZI2, p2, 200 * (pg.IEDerivs[ZI1][p1] * pg.IEDerivs[ZI2][p2] -
+							(s.homo + datum[2]) * IEDeriv2));
+				}
 			}
 			else {
 
 			}
 		}
-
-//		System.out.println("Fstatic = " + Arrays.deepToString(Fstatic));
 	}
 
 	private void addToHessian(int ZI1, int p1, int ZI2, int p2, double x) {
