@@ -21,6 +21,10 @@ public class ParamHessianNew implements IParamHessian {
 	final double[][] hessian;
 	final SimpleMatrix[][][][][] Fstatic2s, dD2statics, staticMatrices, PhiMatrices;
 
+	public ParamHessianNew(Solution s, double[] datum, Solution sExp) {
+		this(new ParamGradientNew(s, datum, sExp));
+	}
+
 	public ParamHessianNew(ParamGradientNew pg) {
 		this.pg = pg;
 
@@ -209,7 +213,6 @@ public class ParamHessianNew implements IParamHessian {
 					if (hasDip || hasIE) {
 						SimpleMatrix dD2response = finalDD2responses[j];
 						SimpleMatrix densityDeriv2 = dD2response.plus(dD2statics[ZI1][ZI2][p1][p2][0]);
-
 						if (hasDip) {
 							double dipoleDeriv2 = dipoleDeriv2(sr,
 									pg.densityDerivs[ZI1][p1][0], pg.densityDerivs[ZI2][p2][0],

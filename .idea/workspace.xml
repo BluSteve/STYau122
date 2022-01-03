@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="checkpoint">
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="better staticMatrix for uhf as well">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -496,21 +497,7 @@
       <workItem from="1641042835960" duration="11321000" />
       <workItem from="1641121962949" duration="14747000" />
       <workItem from="1641144415131" duration="39000" />
-      <workItem from="1641187209404" duration="20055000" />
-    </task>
-    <task id="LOCAL-00184" summary="checkpoint">
-      <created>1640598626507</created>
-      <option name="number" value="00184" />
-      <option name="presentableId" value="LOCAL-00184" />
-      <option name="project" value="LOCAL" />
-      <updated>1640598626507</updated>
-    </task>
-    <task id="LOCAL-00185" summary="checkpoint">
-      <created>1640599220537</created>
-      <option name="number" value="00185" />
-      <option name="presentableId" value="LOCAL-00185" />
-      <option name="project" value="LOCAL" />
-      <updated>1640599220537</updated>
+      <workItem from="1641187209404" duration="23072000" />
     </task>
     <task id="LOCAL-00186" summary="checkpoint">
       <created>1640599367878</created>
@@ -841,7 +828,21 @@
       <option name="project" value="LOCAL" />
       <updated>1641204652053</updated>
     </task>
-    <option name="localTasksCounter" value="233" />
+    <task id="LOCAL-00233" summary="better staticMatrix">
+      <created>1641208846574</created>
+      <option name="number" value="00233" />
+      <option name="presentableId" value="LOCAL-00233" />
+      <option name="project" value="LOCAL" />
+      <updated>1641208846574</updated>
+    </task>
+    <task id="LOCAL-00234" summary="better staticMatrix for uhf as well">
+      <created>1641209299623</created>
+      <option name="number" value="00234" />
+      <option name="presentableId" value="LOCAL-00234" />
+      <option name="project" value="LOCAL" />
+      <updated>1641209299623</updated>
+    </task>
+    <option name="localTasksCounter" value="235" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -888,8 +889,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="working paramgradientnew + old pg hf bug fix" />
-    <MESSAGE value="minor bug fix" />
     <MESSAGE value="ParamGradientNew expgeom derivs wip" />
     <MESSAGE value="ParamGradientNew expgeom derivs wip2" />
     <MESSAGE value="Working expgeom derivs" />
@@ -913,7 +912,9 @@
     <MESSAGE value="better verify" />
     <MESSAGE value="checkpoitn" />
     <MESSAGE value="checkpoint" />
-    <option name="LAST_COMMIT_MESSAGE" value="checkpoint" />
+    <MESSAGE value="better staticMatrix" />
+    <MESSAGE value="better staticMatrix for uhf as well" />
+    <option name="LAST_COMMIT_MESSAGE" value="better staticMatrix for uhf as well" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
