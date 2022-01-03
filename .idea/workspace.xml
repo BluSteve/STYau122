@@ -4,26 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="paramhessian fixed for dipole">
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="more multithreaded hessian">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientNew.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
     </list>
     <list id="86822a5d-be33-417c-a060-aba962bf30c6" name="Changes by flyingfalcon" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="ChangesViewManager">
-    <option name="groupingKeys">
-      <option value="module" />
-    </option>
   </component>
   <component name="CodeInsightWorkspaceSettings">
     <option name="optimizeImportsOnTheFly" value="true" />
@@ -147,25 +144,32 @@
     <setting file="file://$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java">
-      <ranges>
-        <range start1="106" end1="106" start2="106" end2="107" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
-        <range start1="164" end1="166" start2="165" end2="166" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
-        <range start1="170" end1="172" start2="170" end2="172" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
-        <range start1="182" end1="183" start2="182" end2="185" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
-        <range start1="184" end1="185" start2="186" end2="187" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
-        <range start1="186" end1="186" start2="188" end2="192" changelist="86822a5d-be33-417c-a060-aba962bf30c6" />
-        <range start1="187" end1="187" start2="193" end2="196" changelist="86822a5d-be33-417c-a060-aba962bf30c6" />
-        <range start1="192" end1="194" start2="201" end2="201" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
-      </ranges>
-    </file>
     <file path="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java">
       <ranges>
-        <range start1="683" end1="685" start2="683" end2="685" changelist="86822a5d-be33-417c-a060-aba962bf30c6" />
-        <range start1="715" end1="718" start2="715" end2="718" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
-        <range start1="1630" end1="1631" start2="1630" end2="1631" changelist="86822a5d-be33-417c-a060-aba962bf30c6" />
-        <range start1="1639" end1="1640" start2="1639" end2="1640" changelist="86822a5d-be33-417c-a060-aba962bf30c6" />
-        <range start1="1829" end1="1830" start2="1829" end2="1830" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="109" end1="109" start2="109" end2="110" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="1025" end1="1055" start2="1026" end2="1026" changelist="86822a5d-be33-417c-a060-aba962bf30c6" />
+        <range start1="1093" end1="1105" start2="1064" end2="1066" changelist="86822a5d-be33-417c-a060-aba962bf30c6" />
+        <range start1="1106" end1="1108" start2="1067" end2="1067" changelist="86822a5d-be33-417c-a060-aba962bf30c6" />
+        <range start1="1109" end1="1111" start2="1068" end2="1070" changelist="86822a5d-be33-417c-a060-aba962bf30c6" />
+        <range start1="1112" end1="1138" start2="1071" end2="1073" changelist="86822a5d-be33-417c-a060-aba962bf30c6" />
+        <range start1="1145" end1="1147" start2="1080" end2="1080" changelist="86822a5d-be33-417c-a060-aba962bf30c6" />
+        <range start1="1150" end1="1152" start2="1083" end2="1083" changelist="86822a5d-be33-417c-a060-aba962bf30c6" />
+        <range start1="1155" end1="1159" start2="1086" end2="1086" changelist="86822a5d-be33-417c-a060-aba962bf30c6" />
+        <range start1="1160" end1="1167" start2="1087" end2="1089" changelist="86822a5d-be33-417c-a060-aba962bf30c6" />
+        <range start1="1190" end1="1190" start2="1112" end2="1246" changelist="86822a5d-be33-417c-a060-aba962bf30c6" />
+        <range start1="1221" end1="1222" start2="1277" end2="1278" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="1226" end1="1227" start2="1282" end2="1283" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="1247" end1="1248" start2="1303" end2="1304" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="1290" end1="1291" start2="1346" end2="1347" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="1295" end1="1296" start2="1351" end2="1352" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="1722" end1="1723" start2="1778" end2="1779" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="1735" end1="1736" start2="1791" end2="1792" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="1737" end1="1738" start2="1793" end2="1794" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="1801" end1="1802" start2="1857" end2="1858" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="1807" end1="1808" start2="1863" end2="1864" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="1813" end1="1814" start2="1869" end2="1870" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="1820" end1="1821" start2="1876" end2="1877" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="1924" end1="1925" start2="1980" end2="1981" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
       </ranges>
     </file>
   </component>
@@ -530,42 +534,7 @@
       <workItem from="1641042835960" duration="11321000" />
       <workItem from="1641121962949" duration="14747000" />
       <workItem from="1641144415131" duration="39000" />
-      <workItem from="1641187209404" duration="4518000" />
-    </task>
-    <task id="LOCAL-00173" summary="with lhs rhs pople caching">
-      <created>1640459190459</created>
-      <option name="number" value="00173" />
-      <option name="presentableId" value="LOCAL-00173" />
-      <option name="project" value="LOCAL" />
-      <updated>1640459190459</updated>
-    </task>
-    <task id="LOCAL-00174" summary="without caching - should be faster when mt'ed">
-      <created>1640459229525</created>
-      <option name="number" value="00174" />
-      <option name="presentableId" value="LOCAL-00174" />
-      <option name="project" value="LOCAL" />
-      <updated>1640459229525</updated>
-    </task>
-    <task id="LOCAL-00175" summary="minor cleanup in prep for uhf poplethiel">
-      <created>1640521447616</created>
-      <option name="number" value="00175" />
-      <option name="presentableId" value="LOCAL-00175" />
-      <option name="project" value="LOCAL" />
-      <updated>1640521447616</updated>
-    </task>
-    <task id="LOCAL-00176" summary="moleculeinfo nonv caching">
-      <created>1640593302467</created>
-      <option name="number" value="00176" />
-      <option name="presentableId" value="LOCAL-00176" />
-      <option name="project" value="LOCAL" />
-      <updated>1640593302467</updated>
-    </task>
-    <task id="LOCAL-00177" summary="working c4 uhf thiel">
-      <created>1640594203465</created>
-      <option name="number" value="00177" />
-      <option name="presentableId" value="LOCAL-00177" />
-      <option name="project" value="LOCAL" />
-      <updated>1640594203465</updated>
+      <workItem from="1641187209404" duration="12131000" />
     </task>
     <task id="LOCAL-00178" summary="checkpoint">
       <created>1640596513562</created>
@@ -875,7 +844,42 @@
       <option name="project" value="LOCAL" />
       <updated>1641188896224</updated>
     </task>
-    <option name="localTasksCounter" value="222" />
+    <task id="LOCAL-00222" summary="paramhessian fixed for ie">
+      <created>1641191768156</created>
+      <option name="number" value="00222" />
+      <option name="presentableId" value="LOCAL-00222" />
+      <option name="project" value="LOCAL" />
+      <updated>1641191768156</updated>
+    </task>
+    <task id="LOCAL-00223" summary="multithreading">
+      <created>1641192421020</created>
+      <option name="number" value="00223" />
+      <option name="presentableId" value="LOCAL-00223" />
+      <option name="project" value="LOCAL" />
+      <updated>1641192421020</updated>
+    </task>
+    <task id="LOCAL-00224" summary="working hessian for carbon and hydrogen">
+      <created>1641193910083</created>
+      <option name="number" value="00224" />
+      <option name="presentableId" value="LOCAL-00224" />
+      <option name="project" value="LOCAL" />
+      <updated>1641193910083</updated>
+    </task>
+    <task id="LOCAL-00225" summary="clean up">
+      <created>1641194637003</created>
+      <option name="number" value="00225" />
+      <option name="presentableId" value="LOCAL-00225" />
+      <option name="project" value="LOCAL" />
+      <updated>1641194637004</updated>
+    </task>
+    <task id="LOCAL-00226" summary="more multithreaded hessian">
+      <created>1641195257027</created>
+      <option name="number" value="00226" />
+      <option name="presentableId" value="LOCAL-00226" />
+      <option name="project" value="LOCAL" />
+      <updated>1641195257028</updated>
+    </task>
+    <option name="localTasksCounter" value="227" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -922,11 +926,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="rhf still works" />
-    <MESSAGE value="passed verify equations rhf" />
-    <MESSAGE value="pople better orthog" />
-    <MESSAGE value="pople better caching" />
-    <MESSAGE value="ParamDerivative staticmatrixderiv done for r/uhf" />
     <MESSAGE value="reshape back instead of copy for poplethiel" />
     <MESSAGE value="Move densityderiv and responsematrix to poplethiel" />
     <MESSAGE value="Make GSD use PopleThiel response &amp; density methods" />
@@ -947,7 +946,12 @@
     <MESSAGE value="paramhessian wip 2" />
     <MESSAGE value="paramhessian fixed?" />
     <MESSAGE value="paramhessian fixed for dipole" />
-    <option name="LAST_COMMIT_MESSAGE" value="paramhessian fixed for dipole" />
+    <MESSAGE value="paramhessian fixed for ie" />
+    <MESSAGE value="multithreading" />
+    <MESSAGE value="working hessian for carbon and hydrogen" />
+    <MESSAGE value="clean up" />
+    <MESSAGE value="more multithreaded hessian" />
+    <option name="LAST_COMMIT_MESSAGE" value="more multithreaded hessian" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

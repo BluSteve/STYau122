@@ -86,80 +86,105 @@ public class ParamHessianNew implements IParamHessian {
 		flat = Arrays.copyOfRange(flat, 0, i);
 		flatAll = Arrays.copyOfRange(flatAll, 0, iAll);
 
-		SimpleMatrix[] ptInputsArr = new SimpleMatrix[flat.length];
-		SimpleMatrix[] ptInputsArrBeta = !rhf ? new SimpleMatrix[flat.length] : null;
+		SimpleMatrix[] dD2responses = null;
+		SimpleMatrix[][] dD2responsesU = null;
 
-		Batcher.consume(flat, subset -> {
-			for (int[] ints : subset) {
-				int ZI1 = ints[0];
-				int ZI2 = ints[1];
-				int Z1 = mats[ZI1];
-				int Z2 = mats[ZI2];
-				int p1 = ints[2];
-				int p2 = ints[3];
+		if (hasIE || hasDip) {
+			SimpleMatrix[] ptInputsArr = new SimpleMatrix[flat.length];
+			SimpleMatrix[] ptInputsArrBeta = !rhf ? new SimpleMatrix[flat.length] : null;
 
-				SimpleMatrix Hderiv2 = Hderiv2(s, Z1, p1, Z2, p2);
+			Batcher.consume(flat, subset -> {
+				for (int[] ints : subset) {
+					int ZI1 = ints[0];
+					int ZI2 = ints[1];
+					int Z1 = mats[ZI1];
+					int Z2 = mats[ZI2];
+					int p1 = ints[2];
+					int p2 = ints[3];
 
-				if (rhf) {
-					SimpleMatrix[] Fstatic2 = Fstatic2s[ZI1][ZI2][p1][p2] = new SimpleMatrix[]{
-							Hderiv2.plusi(Gderiv2static(sr, Z1, p1, Z2, p2))
-					};
+					SimpleMatrix Hderiv2 = Hderiv2(s, Z1, p1, Z2, p2);
 
-					SimpleMatrix[] dD2static = dD2statics[ZI1][ZI2][p1][p2] = new SimpleMatrix[]{
-							densityderiv2static(sr, pg.xMatrices[ZI1][p1][0], pg.xMatrices[ZI2][p2][0])
-					};
+					if (rhf) {
+						SimpleMatrix[] Fstatic2 = Fstatic2s[ZI1][ZI2][p1][p2] = new SimpleMatrix[]{
+								Gderiv2static(sr, Z1, p1, Z2, p2).plusi(Hderiv2)
+						};
 
-					SimpleMatrix[] PhiMatrix = PhiMatrices[ZI1][ZI2][p1][p2] = new SimpleMatrix[]{
-							staticFockDeriv(sr, Fstatic2[0],
-									pg.densityDerivs[ZI1][p1][0], pg.densityDerivs[ZI2][p2][0],
-									dD2static[0], Z1, p1, Z2, p2)
-					};
+						SimpleMatrix[] dD2static = dD2statics[ZI1][ZI2][p1][p2] = new SimpleMatrix[]{
+								densityderiv2static(sr, pg.xMatrices[ZI1][p1][0], pg.xMatrices[ZI2][p2][0])
+						};
 
-					// dD2response precursor
-					SimpleMatrix[] staticMatrix = staticMatrices[ZI1][ZI2][p1][p2] = new SimpleMatrix[]{
-							staticMatrix(sr, PhiMatrix[0], pg.FDerivs[ZI1][p1][0], pg.FDerivs[ZI2][p2][0],
-									pg.xMatrices[ZI1][p1][0], pg.xMatrices[ZI2][p2][0])
-					};
+						SimpleMatrix[] PhiMatrix = PhiMatrices[ZI1][ZI2][p1][p2] = new SimpleMatrix[]{
+								staticFockDeriv(sr, Fstatic2[0],
+										pg.densityDerivs[ZI1][p1][0], pg.densityDerivs[ZI2][p2][0],
+										dD2static[0], Z1, p1, Z2, p2)
+						};
 
-					ptInputsArr[ints[4]] = staticMatrix[0].extractMatrix(0, s.rm.nOccAlpha, s.rm.nOccAlpha,
-							s.rm.nOrbitals);
+						// dD2response precursor
+						SimpleMatrix[] staticMatrix = staticMatrices[ZI1][ZI2][p1][p2] = new SimpleMatrix[]{
+								staticMatrix(sr, PhiMatrix[0], pg.FDerivs[ZI1][p1][0], pg.FDerivs[ZI2][p2][0],
+										pg.xMatrices[ZI1][p1][0], pg.xMatrices[ZI2][p2][0])
+						};
+
+						ptInputsArr[ints[4]] = staticMatrix[0].extractMatrix(0, s.rm.nOccAlpha, s.rm.nOccAlpha,
+								s.rm.nOrbitals);
+					}
+					else {
+						SimpleMatrix[] Gderiv2static = Gderiv2static(su, Z1, p1, Z2, p2);
+
+						SimpleMatrix[] Fstatic2 = Fstatic2s[ZI1][ZI2][p1][p2] = new SimpleMatrix[]{
+								Gderiv2static[0].plusi(Hderiv2), Gderiv2static[1].plusi(Hderiv2)
+						};
+
+						SimpleMatrix[] dD2static = dD2statics[ZI1][ZI2][p1][p2] =
+								densityderiv2static(su, pg.xMatrices[ZI1][p1][0], pg.xMatrices[ZI1][p1][1],
+										pg.xMatrices[ZI2][p2][0], pg.xMatrices[ZI2][p2][1]);
+
+						SimpleMatrix[] PhiMatrix = PhiMatrices[ZI1][ZI2][p1][p2] = staticFockDeriv(su, Fstatic2,
+								pg.densityDerivs[ZI1][p1], pg.densityDerivs[ZI2][p2],
+								dD2static, Z1, p1, Z2, p2);
+
+						SimpleMatrix[] staticMatrix = staticMatrices[ZI1][ZI2][p1][p2] =
+								staticMatrix(su, PhiMatrix, pg.FDerivs[ZI1][p1], pg.FDerivs[ZI2][p2],
+										pg.xMatrices[ZI1][p1], pg.xMatrices[ZI2][p2]);
+
+						ptInputsArr[ints[4]] = staticMatrix[0].extractMatrix(0, s.rm.nOccAlpha, s.rm.nOccAlpha,
+								s.rm.nOrbitals);
+
+						ptInputsArrBeta[ints[4]] = staticMatrix[1].extractMatrix(0, s.rm.nOccAlpha, s.rm.nOccAlpha,
+								s.rm.nOrbitals);
+					}
 				}
-				else {
-					SimpleMatrix[] Gderiv2static = Gderiv2static(su, Z1, p1, Z2, p2);
+			});
 
-					Fstatic2s[ZI1][ZI2][p1][p2] = new SimpleMatrix[]{
-							Gderiv2static[0].plusi(Hderiv2), Gderiv2static[1].plusi(Hderiv2)
-					};
-				}
-			}
-		});
+			dD2responses = rhf ? // flat.length
+					Batcher.apply(ptInputsArr,
+							subset -> {
+								SimpleMatrix[] sms = PopleThiel.pople(sr, subset);
+								SimpleMatrix[] results = new SimpleMatrix[sms.length];
 
-		SimpleMatrix[] dD2responses = rhf ? // flat.length
-				Batcher.apply(ptInputsArr,
-						subset -> {
-							SimpleMatrix[] sms = PopleThiel.pople(sr, subset);
-							SimpleMatrix[] results = new SimpleMatrix[sms.length];
+								for (int j = 0; j < sms.length; j++) {
+									results[j] = PopleThiel.densityDeriv(sr, sms[j]);
+								}
 
-							for (int j = 0; j < sms.length; j++) {
-								results[j] = PopleThiel.densityDeriv(sr, sms[j]);
-							}
+								return results;
+							}) : null;
 
-							return results;
-						}) : null;
+			dD2responsesU = !rhf ?
+					Batcher.apply(new SimpleMatrix[][]{ptInputsArr, ptInputsArrBeta},
+							subset -> {
+								SimpleMatrix[] sms = PopleThiel.thiel(su, subset[0], subset[1]);
+								SimpleMatrix[][] results = new SimpleMatrix[sms.length][];
 
-		SimpleMatrix[][] dD2responsesU = !rhf ?
-				Batcher.apply(new SimpleMatrix[][]{ptInputsArr, ptInputsArrBeta},
-						subset -> {
-							SimpleMatrix[] sms = PopleThiel.thiel(su, subset[0], subset[1]);
-							SimpleMatrix[][] results = new SimpleMatrix[sms.length][];
+								for (int j = 0; j < sms.length; j++) {
+									results[j] = PopleThiel.densityDeriv(su, sms[j]);
+								}
 
-							for (int j = 0; j < sms.length; j++) {
-								results[j] = PopleThiel.densityDeriv(su, sms[j]);
-							}
+								return results;
+							}) : null;
+		}
 
-							return results;
-						}) : null;
-
+		SimpleMatrix[] finalDD2responses = dD2responses;
+		SimpleMatrix[][] finalDD2responsesU = dD2responsesU;
 		Batcher.consume(flatAll, subset -> {
 			for (int[] ints : subset) {
 				int ZI1 = ints[0];
@@ -179,39 +204,76 @@ public class ParamHessianNew implements IParamHessian {
 					addHfToHessian(ZI1, p1, ZI2, p2, 0);
 				}
 				else if (rhf) {
-					SimpleMatrix dD2response = dD2responses[j];
-					SimpleMatrix densityDeriv2 = dD2response.plus(dD2statics[ZI1][ZI2][p1][p2][0]);
-
 					double HfDeriv2 = MNDOHFDeriv2(sr, Z1, p1, Z2, p2,
 							pg.staticDerivs[ZI1][0][p1], pg.staticDerivs[ZI1][1][p1], pg.densityDerivs[ZI2][p2][0], 0);
 
 					addHfToHessian(ZI1, p1, ZI2, p2, HfDeriv2);
 
+					if (hasDip || hasIE) {
+						SimpleMatrix dD2response = finalDD2responses[j];
+						SimpleMatrix densityDeriv2 = dD2response.plus(dD2statics[ZI1][ZI2][p1][p2][0]);
+						if (hasDip) {
+							double dipoleDeriv2 = MNDODipoleDeriv2(sr,
+									pg.densityDerivs[ZI1][p1][0], pg.densityDerivs[ZI2][p2][0],
+									densityDeriv2, Z1, p1, Z2, p2);
 
-					if (hasDip) {
-						double dipoleDeriv2 = MNDODipoleDeriv2(sr,
-								pg.densityDerivs[ZI1][p1][0], pg.densityDerivs[ZI2][p2][0],
-								densityDeriv2, Z1, p1, Z2, p2);
+							addDipoleToHessian(ZI1, p1, ZI2, p2, dipoleDeriv2);
+						}
 
-						addDipoleToHessian(ZI1, p1, ZI2, p2, dipoleDeriv2);
-					}
+						if (hasIE) {
+							SimpleMatrix Phi = PhiMatrices[ZI1][ZI2][p1][p2][0];
+							SimpleMatrix R = PopleThiel.responseMatrix(sr, dD2response);
 
-					if (hasIE) {
-						SimpleMatrix Phi = PhiMatrices[ZI1][ZI2][p1][p2][0];
-						SimpleMatrix R = PopleThiel.responseMatrix(sr, dD2response);
+							SimpleMatrix totalderiv =
+									staticMatrices[ZI1][ZI2][p1][p2][0].plus(sr.Ct.mult(R).mult(sr.C));
 
-						SimpleMatrix totalderiv = staticMatrices[ZI1][ZI2][p1][p2][0].plus(sr.Ct.mult(R).mult(sr.C));
+							double IEDeriv2 = -homoDeriv2(sr,
+									pg.xMatrices[ZI1][p1][0], pg.xMatrices[ZI2][p2][0], totalderiv,
+									pg.FDerivs[ZI1][p1][0], pg.FDerivs[ZI2][p2][0],
+									Phi.plus(R));
 
-						double IEDeriv2 = -homoDeriv2(sr,
-								pg.xMatrices[ZI1][p1][0], pg.xMatrices[ZI2][p2][0], totalderiv,
-								pg.FDerivs[ZI1][p1][0], pg.FDerivs[ZI2][p2][0],
-								Phi.plus(R));
-
-						addIEToHessian(ZI1, p1, ZI2, p2, IEDeriv2);
+							addIEToHessian(ZI1, p1, ZI2, p2, IEDeriv2);
+						}
 					}
 				}
 				else {
+					double HfDeriv2 = MNDOHFDeriv2(su, Z1, p1, Z2, p2,
+							pg.staticDerivs[ZI1][0][p1], pg.staticDerivs[ZI1][1][p1], pg.staticDerivs[ZI1][2][p1],
+							pg.densityDerivs[ZI2][p2][0], pg.densityDerivs[ZI2][p2][1], 0);
 
+					addHfToHessian(ZI1, p1, ZI2, p2, HfDeriv2);
+
+					if (hasDip || hasIE) {
+						SimpleMatrix[] dD2response = finalDD2responsesU[j];
+						SimpleMatrix[] densityDeriv2 = new SimpleMatrix[]{
+								dD2response[0].plus(dD2statics[ZI1][ZI2][p1][p2][0]),
+								dD2response[1].plus(dD2statics[ZI1][ZI2][p1][p2][1])
+						};
+
+						if (hasDip) {
+							double dipoleDeriv2 = MNDODipoleDeriv2(su,
+									pg.densityDerivs[ZI1][p1][0].plus(pg.densityDerivs[ZI1][p1][1]),
+									pg.densityDerivs[ZI2][p2][0].plus(pg.densityDerivs[ZI2][p2][1]),
+									densityDeriv2[0].plus(densityDeriv2[1]), Z1, p1, Z2, p2);
+
+							addDipoleToHessian(ZI1, p1, ZI2, p2, dipoleDeriv2);
+						}
+
+						if (hasIE) {
+							SimpleMatrix[] Phi = PhiMatrices[ZI1][ZI2][p1][p2];
+							SimpleMatrix[] R = PopleThiel.responseMatrix(su, dD2response);
+
+							SimpleMatrix totalderiv =
+									staticMatrices[ZI1][ZI2][p1][p2][0].plus(su.Cta.mult(R[0]).mult(su.Ca));
+
+							double IEDeriv2 = -homoDeriv2(su,
+									pg.xMatrices[ZI1][p1][0], pg.xMatrices[ZI2][p2][0], totalderiv,
+									pg.FDerivs[ZI1][p1][0], pg.FDerivs[ZI2][p2][0],
+									Phi[0].plus(R[0]));
+
+							addIEToHessian(ZI1, p1, ZI2, p2, IEDeriv2);
+						}
+					}
 				}
 			}
 		});

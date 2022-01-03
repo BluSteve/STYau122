@@ -124,7 +124,7 @@ public final class ParamGradientNew implements IParamGradient {
 						if (hasIE) IEDerivs[ZI][paramNum] = -homoDeriv(sr, xMatrix, Fmo);
 					}
 					else {
-						SimpleMatrix[] responseMatrices = PopleThiel.responseMatrices(su, densityDerivs[ZI][paramNum]);
+						SimpleMatrix[] responseMatrices = PopleThiel.responseMatrix(su, densityDerivs[ZI][paramNum]);
 
 						SimpleMatrix Faoa = responseMatrices[0].plusi(staticDerivs[ZI][1][paramNum]);
 						SimpleMatrix Faob = responseMatrices[1].plusi(staticDerivs[ZI][2][paramNum]);

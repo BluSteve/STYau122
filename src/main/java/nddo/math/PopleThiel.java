@@ -525,12 +525,12 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		return responsematrix;
 	}
 
-	public static SimpleMatrix[] responseMatrices(SolutionU soln, SimpleMatrix[] densityDeriv) {
+	public static SimpleMatrix[] responseMatrix(SolutionU soln, SimpleMatrix[] densityDeriv) {
 		SimpleMatrix Jderiv = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 		SimpleMatrix Kaderiv = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 		SimpleMatrix Kbderiv = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 
-		return responseMatrices(soln, densityDeriv[0], densityDeriv[1], Jderiv, Kaderiv, Kbderiv);
+		return responseMatrix(soln, densityDeriv[0], densityDeriv[1], Jderiv, Kaderiv, Kbderiv);
 	}
 
 	private static SimpleMatrix computeResponseVectorsPople(SolutionR soln, SimpleMatrix x,
@@ -629,7 +629,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		mult = soln.CbOcc.mult(xmatb).mult(soln.CtbVirt);
 		SimpleMatrix densityDerivBeta = Utils.plusTrans(mult).negativei();
 
-		SimpleMatrix[] sms = responseMatrices(soln, densityDerivAlpha, densityDerivBeta, Jderiv, Kaderiv, Kbderiv);
+		SimpleMatrix[] sms = responseMatrix(soln, densityDerivAlpha, densityDerivBeta, Jderiv, Kaderiv, Kbderiv);
 
 		SimpleMatrix pa = soln.Eamat.elementMult(xmata).minusi(soln.CtaOcc.mult(sms[0]).mult(soln.CaVirt));
 		pa.reshape(soln.rm.nonvAlpha, 1);
@@ -695,9 +695,9 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		return target;
 	}
 
-	private static SimpleMatrix[] responseMatrices(SolutionU soln, SimpleMatrix densityDerivAlpha,
-												   SimpleMatrix densityDerivBeta, SimpleMatrix Jderiv,
-												   SimpleMatrix Kaderiv, SimpleMatrix Kbderiv) {
+	private static SimpleMatrix[] responseMatrix(SolutionU soln, SimpleMatrix densityDerivAlpha,
+												 SimpleMatrix densityDerivBeta, SimpleMatrix Jderiv,
+												 SimpleMatrix Kaderiv, SimpleMatrix Kbderiv) {
 		int Jcount = 0;
 		int Kcount = 0;
 
