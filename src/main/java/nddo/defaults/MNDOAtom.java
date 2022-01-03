@@ -42,8 +42,16 @@ public class MNDOAtom extends NDDOAtomBasic<MNDOAtom> {
 		return -R * R / (bohr * bohr) * Pow.exp(-a.np.getAlpha() * R / bohr);
 	}
 
+	private static double getfhydrogenp2d(MNDOAtom a, double R) {
+		return R * R * R / (bohr * bohr * bohr) * Pow.exp(-a.np.getAlpha() * R / bohr);
+	}
+
 	private static double getfpd(MNDOAtom a, double R) {
 		return -R / bohr * Pow.exp(-a.np.getAlpha() * R / bohr);
+	}
+
+	private static double getfp2d(MNDOAtom a, double R) {
+		return R * R / (bohr * bohr) * Pow.exp(-a.np.getAlpha() * R / bohr);
 	}
 
 	private static double getfhydrogenpgd(MNDOAtom a, MNDOAtom b, double R, int tau) {
@@ -141,7 +149,7 @@ public class MNDOAtom extends NDDOAtomBasic<MNDOAtom> {
 		return 1 / Constants.LAMBDA * (newval - orig);
 	}
 
-	public double crfalphapd(MNDOAtom c, int num) {//todo you sure this was correct for H alpha? I rewrote it.
+	public double crfalphapd(MNDOAtom c, int num) {
 		double R = GTO.R(coordinates, c.getCoordinates());
 		double val = atomProperties.getQ() * c.atomProperties.getQ() * nom.G(this.s(), this.s(), c.s(), c.s());
 
@@ -161,6 +169,36 @@ public class MNDOAtom extends NDDOAtomBasic<MNDOAtom> {
 		else {
 			if (num == 0 || num == 2) returnval += val * getfpd(this, R);
 			if (num == 1 || num == 2) returnval += val * getfpd(c, R);
+		}
+
+		return returnval;
+	}
+
+	public double crfalphap2d(MNDOAtom c, int num1, int num2) {
+
+		if (num1 != num2) {
+			return 0;
+		}
+
+		double R = GTO.R(coordinates, c.getCoordinates());
+		double val = atomProperties.getQ() * c.atomProperties.getQ() * nom.G(this.s(), this.s(), c.s(), c.s());
+
+		double returnval = 0;
+
+
+		if (atomProperties.getZ() == 1 && (c.getAtomProperties().getZ() == 7 || c.getAtomProperties().getZ() == 8)) {
+			if (num1 == 0) returnval += val * getfp2d(this, R);
+			else if (num1 == 1) returnval += val * getfhydrogenp2d(c, R);
+		}
+
+		else if ((atomProperties.getZ() == 7 || atomProperties.getZ() == 8) && c.getAtomProperties().getZ() == 1) {
+			if (num1 == 0) returnval += val * getfhydrogenp2d(this, R);
+			else if (num1 == 1) returnval += val * getfp2d(c, R);
+		}
+
+		else {
+			if (num1 == 0 || num1 == 2) returnval += val * getfp2d(this, R);
+			if (num1 == 1 || num1 == 2) returnval += val * getfp2d(c, R);
 		}
 
 		return returnval;
