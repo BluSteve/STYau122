@@ -1189,34 +1189,6 @@ public class ParamSecondDerivative {
 		return new SimpleMatrix[]{matrixalpha, matrixbeta};
 	}
 
-
-	public static SimpleMatrix staticFockDeriv(SolutionR soln, SimpleMatrix Fstatictotal, SimpleMatrix FstaticA,
-											   SimpleMatrix FstaticB, SimpleMatrix xvectorA, SimpleMatrix xvectorB,
-											   int Z1, int param1, int Z2, int param2) {
-
-		SimpleMatrix densityA = PopleThiel.densityDeriv(soln, xvectorA);
-		SimpleMatrix densityB = PopleThiel.densityDeriv(soln, xvectorB);
-
-		SimpleMatrix GaB = ParamSecondDerivative.generalizedMNDOGderivstatic(soln, densityB, Z1, param1);
-		SimpleMatrix GbA = ParamSecondDerivative.generalizedMNDOGderivstatic(soln, densityA, Z2, param2);
-
-		SimpleMatrix FockA = FstaticA.plus(PopleThiel.responseMatrix(soln, densityA));
-		SimpleMatrix FockB = FstaticB.plus(PopleThiel.responseMatrix(soln, densityB));
-
-		SimpleMatrix FA = soln.Ct.mult(FockA.mult(soln.C));
-		SimpleMatrix FB = soln.Ct.mult(FockB.mult(soln.C));
-
-
-		SimpleMatrix xA = ParamDerivative.xMatrix(soln, FA);
-		SimpleMatrix xB = ParamDerivative.xMatrix(soln, FB);
-
-		SimpleMatrix omega =
-				PopleThiel.responseMatrix(soln, ParamSecondDerivative.densityderiv2static(soln, xA, xB));
-
-		return Fstatictotal.plus(GaB).plus(GbA).plus(omega);
-
-	}
-
 	public static SimpleMatrix[] staticFockDeriv(SolutionU soln, SimpleMatrix Fstatictotalalpha,
 												 SimpleMatrix Fstatictotalbeta, SimpleMatrix FstaticAalpha,
 												 SimpleMatrix FstaticAbeta, SimpleMatrix FstaticBalpha,

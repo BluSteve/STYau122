@@ -35,11 +35,13 @@ public class Testing {
 
 		for (int i = 0; i < a.length; i++) {
 			for (int j = 0; j < a[0].length; j++) {
-				System.out.println(i + " " + j + " " + Math.abs(a[i][j] - b[i][j]) + " " + a[i][j] + " " + b[i][j]);
+
+				double e = Math.abs(a[i][j] - b[i][j]);
+				if (e > 10) System.out.println(i + " " + j + " " + e + " " + a[i][j] + " " + b[i][j]);
 			}
 		}
 
-		System.out.println(new SimpleMatrix(a).minus(new SimpleMatrix(b)).elementMaxAbs());
+		System.out.println("max error = " + new SimpleMatrix(a).minus(new SimpleMatrix(b)).elementMaxAbs());
 
 //		pg = new ParamGradientNew(s2, rm2.datum, se2);
 ////		pg2 = ParamGradient.of(s2, rm2.datum, se2).compute();
@@ -60,7 +62,7 @@ public class Testing {
 //		System.out.close();
 		for (int i = 1; i < 7; i++) {
 			for (int j = i; j < 7; j++) {
-				boolean b2 = ParamSecondDerivative.verifyEquations(s, 7, i, 7, j);
+				boolean b2 = ParamSecondDerivative.verifyEquations(s, 6, i, 6, j);
 				System.err.println(i + " " + j + " " + b2);
 				if (!b2) {
 					throw new IllegalArgumentException(i + " " + j);
