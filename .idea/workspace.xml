@@ -4,13 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="paramhessian wip">
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="paramhessian wip 2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
-    </list>
-    <list id="86822a5d-be33-417c-a060-aba962bf30c6" name="Changes by flyingfalcon" comment="">
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" afterDir="false" />
     </list>
+    <list id="86822a5d-be33-417c-a060-aba962bf30c6" name="Changes by flyingfalcon" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -496,14 +494,9 @@
       <workItem from="1640957904080" duration="8292000" />
       <workItem from="1640966493110" duration="3940000" />
       <workItem from="1641042835960" duration="11321000" />
-      <workItem from="1641121962949" duration="14593000" />
-    </task>
-    <task id="LOCAL-00169" summary="improve upon thiel crv">
-      <created>1640453636370</created>
-      <option name="number" value="00169" />
-      <option name="presentableId" value="LOCAL-00169" />
-      <option name="project" value="LOCAL" />
-      <updated>1640453636370</updated>
+      <workItem from="1641121962949" duration="14747000" />
+      <workItem from="1641144415131" duration="39000" />
+      <workItem from="1641187209404" duration="341000" />
     </task>
     <task id="LOCAL-00170" summary="improve upon thiel crv more">
       <created>1640454435754</created>
@@ -841,7 +834,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641143496326</updated>
     </task>
-    <option name="localTasksCounter" value="218" />
+    <task id="LOCAL-00218" summary="paramhessian wip 2">
+      <created>1641144369550</created>
+      <option name="number" value="00218" />
+      <option name="presentableId" value="LOCAL-00218" />
+      <option name="project" value="LOCAL" />
+      <updated>1641144369550</updated>
+    </task>
+    <option name="localTasksCounter" value="219" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -888,7 +888,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="densityderivthiel uhf working" />
     <MESSAGE value="fix fatal copy bug in thiel rhf and uhf" />
     <MESSAGE value="deprecate densityderivpople uhf" />
     <MESSAGE value="rhf still works" />
@@ -913,7 +912,8 @@
     <MESSAGE value="multithreaded paramgradientnew" />
     <MESSAGE value="started paramhessian" />
     <MESSAGE value="paramhessian wip" />
-    <option name="LAST_COMMIT_MESSAGE" value="paramhessian wip" />
+    <MESSAGE value="paramhessian wip 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="paramhessian wip 2" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

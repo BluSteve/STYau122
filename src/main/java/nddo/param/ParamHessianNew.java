@@ -110,7 +110,8 @@ public class ParamHessianNew implements IParamHessian {
 //				};
 
 				SimpleMatrix[] staticMatrix = staticMatrices[ZI1][ZI2][p1][p2] = new SimpleMatrix[]{
-						staticMatrix(sr, Fstatic2[0], pg.staticDerivs[ZI1][0][p1],pg.staticDerivs[ZI2][0][p2], pg.xVectors[ZI1][p1], pg.xVectors[ZI2][p2], Z1, p1, Z2, p2)
+						staticMatrix(sr, Fstatic2[0], pg.staticDerivs[ZI1][1][p1], pg.staticDerivs[ZI2][1][p2],
+								pg.xVectors[ZI1][p1], pg.xVectors[ZI2][p2], Z1, p1, Z2, p2)
 				};
 
 
@@ -178,10 +179,11 @@ public class ParamHessianNew implements IParamHessian {
 				if (hasDip) {
 					double dipoleDeriv2 = MNDODipoleDeriv2(sr,
 							pg.densityDerivs[ZI1][p1][0], pg.densityDerivs[ZI2][p2][0],
-									densityDeriv2, Z1, p1, Z2, p2);
+							densityDeriv2, Z1, p1, Z2, p2);
 
+					System.out.println("asdf");
 					addToHessian(ZI1, p1, ZI2, p2, 800 * (pg.dipoleDerivs[ZI1][p1] * pg.dipoleDerivs[ZI2][p2] +
-									(s.dipole - datum[1]) * dipoleDeriv2));
+							(s.dipole - datum[1]) * dipoleDeriv2));
 				}
 
 				SimpleMatrix R = PopleThiel.responseMatrix(sr, dD2response);
