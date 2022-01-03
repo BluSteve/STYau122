@@ -862,68 +862,92 @@ public class ParamSecondDerivative {
 
 			if (index[j].length > 1) {//exclude hydrogen
 				hybriddipa[0] =
-						hybriddipa[0] - Constants.DIPOLECONV * 2 * atoms[j].D1() * densityderiva.get(index[j][0], index[j][1]);
+						hybriddipa[0] -
+								Constants.DIPOLECONV * 2 * atoms[j].D1() * densityderiva.get(index[j][0], index[j][1]);
 				hybriddipa[1] =
-						hybriddipa[1] - Constants.DIPOLECONV * 2 * atoms[j].D1() * densityderiva.get(index[j][0], index[j][2]);
+						hybriddipa[1] -
+								Constants.DIPOLECONV * 2 * atoms[j].D1() * densityderiva.get(index[j][0], index[j][2]);
 				hybriddipa[2] =
-						hybriddipa[2] - Constants.DIPOLECONV * 2 * atoms[j].D1() * densityderiva.get(index[j][0], index[j][3]);
+						hybriddipa[2] -
+								Constants.DIPOLECONV * 2 * atoms[j].D1() * densityderiva.get(index[j][0], index[j][3]);
 
 				if (atoms[j].getAtomProperties().getZ() == Z1) {
-					hybriddipa[0] = hybriddipa[0] - Constants.DIPOLECONV * 2 * D1deriva * densityMatrix.get(index[j][0],
+					hybriddipa[0] =
+							hybriddipa[0] - Constants.DIPOLECONV * 2 * D1deriva * densityMatrix.get(index[j][0],
 							index[j][1]);
-					hybriddipa[1] = hybriddipa[1] - Constants.DIPOLECONV * 2 * D1deriva * densityMatrix.get(index[j][0],
+					hybriddipa[1] =
+							hybriddipa[1] - Constants.DIPOLECONV * 2 * D1deriva * densityMatrix.get(index[j][0],
 							index[j][2]);
-					hybriddipa[2] = hybriddipa[2] - Constants.DIPOLECONV * 2 * D1deriva * densityMatrix.get(index[j][0],
+					hybriddipa[2] =
+							hybriddipa[2] - Constants.DIPOLECONV * 2 * D1deriva * densityMatrix.get(index[j][0],
 							index[j][3]);
 				}
 
 				hybriddipb[0] =
-						hybriddipb[0] - Constants.DIPOLECONV * 2 * atoms[j].D1() * densityderivb.get(index[j][0], index[j][1]);
+						hybriddipb[0] -
+								Constants.DIPOLECONV * 2 * atoms[j].D1() * densityderivb.get(index[j][0], index[j][1]);
 				hybriddipb[1] =
-						hybriddipb[1] - Constants.DIPOLECONV * 2 * atoms[j].D1() * densityderivb.get(index[j][0], index[j][2]);
+						hybriddipb[1] -
+								Constants.DIPOLECONV * 2 * atoms[j].D1() * densityderivb.get(index[j][0], index[j][2]);
 				hybriddipb[2] =
-						hybriddipb[2] - Constants.DIPOLECONV * 2 * atoms[j].D1() * densityderivb.get(index[j][0], index[j][3]);
+						hybriddipb[2] -
+								Constants.DIPOLECONV * 2 * atoms[j].D1() * densityderivb.get(index[j][0], index[j][3]);
 
 				if (atoms[j].getAtomProperties().getZ() == Z2) {
-					hybriddipb[0] = hybriddipb[0] - Constants.DIPOLECONV * 2 * D1derivb * densityMatrix.get(index[j][0],
+					hybriddipb[0] =
+							hybriddipb[0] - Constants.DIPOLECONV * 2 * D1derivb * densityMatrix.get(index[j][0],
 							index[j][1]);
-					hybriddipb[1] = hybriddipb[1] - Constants.DIPOLECONV * 2 * D1derivb * densityMatrix.get(index[j][0],
+					hybriddipb[1] =
+							hybriddipb[1] - Constants.DIPOLECONV * 2 * D1derivb * densityMatrix.get(index[j][0],
 							index[j][2]);
-					hybriddipb[2] = hybriddipb[2] - Constants.DIPOLECONV * 2 * D1derivb * densityMatrix.get(index[j][0],
+					hybriddipb[2] =
+							hybriddipb[2] - Constants.DIPOLECONV * 2 * D1derivb * densityMatrix.get(index[j][0],
 							index[j][3]);
 				}
 
 				hybriddip2[0] =
-						hybriddip2[0] - Constants.DIPOLECONV * 2 * atoms[j].D1() * densityderiv2.get(index[j][0], index[j][1]);
+						hybriddip2[0] -
+								Constants.DIPOLECONV * 2 * atoms[j].D1() * densityderiv2.get(index[j][0], index[j][1]);
 				hybriddip2[1] =
-						hybriddip2[1] - Constants.DIPOLECONV * 2 * atoms[j].D1() * densityderiv2.get(index[j][0], index[j][2]);
+						hybriddip2[1] -
+								Constants.DIPOLECONV * 2 * atoms[j].D1() * densityderiv2.get(index[j][0], index[j][2]);
 				hybriddip2[2] =
-						hybriddip2[2] - Constants.DIPOLECONV * 2 * atoms[j].D1() * densityderiv2.get(index[j][0], index[j][3]);
+						hybriddip2[2] -
+								Constants.DIPOLECONV * 2 * atoms[j].D1() * densityderiv2.get(index[j][0], index[j][3]);
 
 				if (atoms[j].getAtomProperties().getZ() == Z1) {
-					hybriddip2[0] = hybriddip2[0] - Constants.DIPOLECONV * 2 * D1deriva * densityderivb.get(index[j][0],
+					hybriddip2[0] =
+							hybriddip2[0] - Constants.DIPOLECONV * 2 * D1deriva * densityderivb.get(index[j][0],
 							index[j][1]);
-					hybriddip2[1] = hybriddip2[1] - Constants.DIPOLECONV * 2 * D1deriva * densityderivb.get(index[j][0],
+					hybriddip2[1] =
+							hybriddip2[1] - Constants.DIPOLECONV * 2 * D1deriva * densityderivb.get(index[j][0],
 							index[j][2]);
-					hybriddip2[2] = hybriddip2[2] - Constants.DIPOLECONV * 2 * D1deriva * densityderivb.get(index[j][0],
+					hybriddip2[2] =
+							hybriddip2[2] - Constants.DIPOLECONV * 2 * D1deriva * densityderivb.get(index[j][0],
 							index[j][3]);
 				}
 
 				if (atoms[j].getAtomProperties().getZ() == Z2) {
-					hybriddip2[0] = hybriddip2[0] - Constants.DIPOLECONV * 2 * D1derivb * densityderiva.get(index[j][0],
+					hybriddip2[0] =
+							hybriddip2[0] - Constants.DIPOLECONV * 2 * D1derivb * densityderiva.get(index[j][0],
 							index[j][1]);
-					hybriddip2[1] = hybriddip2[1] - Constants.DIPOLECONV * 2 * D1derivb * densityderiva.get(index[j][0],
+					hybriddip2[1] =
+							hybriddip2[1] - Constants.DIPOLECONV * 2 * D1derivb * densityderiva.get(index[j][0],
 							index[j][2]);
-					hybriddip2[2] = hybriddip2[2] - Constants.DIPOLECONV * 2 * D1derivb * densityderiva.get(index[j][0],
+					hybriddip2[2] =
+							hybriddip2[2] - Constants.DIPOLECONV * 2 * D1derivb * densityderiva.get(index[j][0],
 							index[j][3]);
 				}
 
 				if (atoms[j].getAtomProperties().getZ() == Z1 && D1deriv2 != 0) {
-					hybriddip2[0] = hybriddip2[0] - Constants.DIPOLECONV * 2 * D1deriv2 * densityMatrix.get(index[j][0],
+					hybriddip2[0] =
+							hybriddip2[0] - Constants.DIPOLECONV * 2 * D1deriv2 * densityMatrix.get(index[j][0],
 							index[j][1]);
-					hybriddip2[1] = hybriddip2[1] - Constants.DIPOLECONV * 2 * D1deriv2 * densityMatrix.get(index[j][0],
+					hybriddip2[1] =
+							hybriddip2[1] - Constants.DIPOLECONV * 2 * D1deriv2 * densityMatrix.get(index[j][0],
 							index[j][2]);
-					hybriddip2[2] = hybriddip2[2] - Constants.DIPOLECONV * 2 * D1deriv2 * densityMatrix.get(index[j][0],
+					hybriddip2[2] =
+							hybriddip2[2] - Constants.DIPOLECONV * 2 * D1deriv2 * densityMatrix.get(index[j][0],
 							index[j][3]);
 				}
 			}
@@ -988,7 +1012,9 @@ public class ParamSecondDerivative {
 	}
 
 	public static SimpleMatrix staticMatrix(SolutionR soln, SimpleMatrix Fstatictotal, SimpleMatrix FockA,
-											SimpleMatrix FockB, SimpleMatrix xA, SimpleMatrix xB, SimpleMatrix densityA, SimpleMatrix densityB, SimpleMatrix densityderiv2static,
+											SimpleMatrix FockB, SimpleMatrix xA, SimpleMatrix xB,
+											SimpleMatrix densityA,
+											SimpleMatrix densityB, SimpleMatrix densityderiv2static,
 											int Z1, int param1, int Z2, int param2) {
 
 		SimpleMatrix GaB = ParamSecondDerivative.generalizedMNDOGderivstatic(soln, densityB, Z1, param1);
@@ -1038,8 +1064,9 @@ public class ParamSecondDerivative {
 	}
 
 
-	public static SimpleMatrix staticFockDeriv (SolutionR soln, SimpleMatrix Fstatictotal, SimpleMatrix densityA, SimpleMatrix densityB, SimpleMatrix densityderiv2static,
-											int Z1, int param1, int Z2, int param2) {
+	public static SimpleMatrix staticFockDeriv(SolutionR soln, SimpleMatrix Fstatictotal, SimpleMatrix densityA,
+											   SimpleMatrix densityB, SimpleMatrix densityderiv2static,
+											   int Z1, int param1, int Z2, int param2) {
 
 		SimpleMatrix GaB = ParamSecondDerivative.generalizedMNDOGderivstatic(soln, densityB, Z1, param1);
 		SimpleMatrix GbA = ParamSecondDerivative.generalizedMNDOGderivstatic(soln, densityA, Z2, param2);
@@ -1596,7 +1623,7 @@ public class ParamSecondDerivative {
 		SimpleMatrix x2matprime =
 				ParamDerivative.xMatrix(solnprime,
 						solnprime.Ct.mult(F2prime.plus(PopleThiel.responseMatrix(solnprime, D2prime)))
-						.mult(solnprime.C));
+								.mult(solnprime.C));
 
 		SimpleMatrix totalderiv = rhsmat.plus(
 				soln.Ct.mult(PopleThiel.responseMatrix(soln, densityderiv2response)).mult(soln.C));
@@ -1612,9 +1639,10 @@ public class ParamSecondDerivative {
 
 		double IEtest = MNDOIEDeriv2(soln, x1mat, x2mat, totalderiv, Fderiva, Fderivb, Fderiv2);
 
-		double IEderiv = ParamDerivative.homoDeriv(soln, x2mat, Fderivb);
+		double IEderiv = ParamDerivative.homoDeriv(soln, x2mat, soln.Ct.mult(Fderivb).mult(soln.C));
 
-		double IEderivprime = ParamDerivative.homoDeriv(solnprime, x2matprime, Fderivbprime);
+		double IEderivprime =
+				ParamDerivative.homoDeriv(solnprime, x2matprime, solnprime.Ct.mult(Fderivbprime).mult(solnprime.C));
 
 
 		double IEderiv2 = 1 / Constants.LAMBDA * (IEderivprime - IEderiv);
@@ -1708,8 +1736,9 @@ public class ParamSecondDerivative {
 
 		SimpleMatrix[] R1 = PopleThiel.responseMatrices(soln, D1);
 
-		SimpleMatrix[] x1matrix = ParamDerivative.xMatrix(soln, soln.Cta.mult(F1alpha.plus(R1[0])).mult(soln.Cta.transpose()),
-				soln.Ctb.mult(F1beta.plus(R1[1])).mult(soln.Ctb.transpose()));
+		SimpleMatrix[] x1matrix =
+				ParamDerivative.xMatrix(soln, soln.Cta.mult(F1alpha.plus(R1[0])).mult(soln.Cta.transpose()),
+						soln.Ctb.mult(F1beta.plus(R1[1])).mult(soln.Ctb.transpose()));
 
 		SimpleMatrix C1alpha = soln.Cta.transpose().mult(x1matrix[0]);
 		SimpleMatrix C1beta = soln.Ctb.transpose().mult(x1matrix[1]);
@@ -1723,11 +1752,13 @@ public class ParamSecondDerivative {
 		SimpleMatrix[] R2prime = PopleThiel.responseMatrices(solnprime, D2prime);
 
 
-		SimpleMatrix[] x2matrix = ParamDerivative.xMatrix(soln, soln.Cta.mult(F2alpha.plus(R2[0])).mult(soln.Cta.transpose()),
-				soln.Ctb.mult(F2beta.plus(R2[1])).mult(soln.Ctb.transpose()));
+		SimpleMatrix[] x2matrix =
+				ParamDerivative.xMatrix(soln, soln.Cta.mult(F2alpha.plus(R2[0])).mult(soln.Cta.transpose()),
+						soln.Ctb.mult(F2beta.plus(R2[1])).mult(soln.Ctb.transpose()));
 
 		SimpleMatrix[] x2primematrix =
-				ParamDerivative.xMatrix(solnprime, solnprime.Cta.mult(F2alphaprime.plus(R2prime[0])).mult(solnprime.Cta.transpose()),
+				ParamDerivative.xMatrix(solnprime,
+						solnprime.Cta.mult(F2alphaprime.plus(R2prime[0])).mult(solnprime.Cta.transpose()),
 						solnprime.Ctb.mult(F2betaprime.plus(R2prime[1])).mult(solnprime.Ctb.transpose()));
 
 
@@ -1799,9 +1830,9 @@ public class ParamSecondDerivative {
 		double IEtest = MNDOIEDeriv2(soln, x1matrix[0], x2matrix[0], totalderiv, Fderiva, Fderivb, Fderiv2);
 
 
-		double IEderiv = ParamDerivative.homoDeriv(soln, x2matrix[0], Fderivb);
+		double IEderiv = ParamDerivative.homoDeriv(soln, x2matrix[0], soln.Cta.mult(Fderivb).mult(soln.Ca));
 		double IEderivprime =
-				ParamDerivative.homoDeriv(solnprime, x2primematrix[0], Fderivbprime);
+				ParamDerivative.homoDeriv(solnprime, x2primematrix[0], soln.Cta.mult(Fderivbprime).mult(soln.Ca));
 		double IEderiv2 = 1 / Constants.LAMBDA * (IEderivprime - IEderiv);
 //
 		System.err.println("----TESTING IE DERIVATIVES----");

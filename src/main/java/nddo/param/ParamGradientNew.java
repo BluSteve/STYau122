@@ -111,31 +111,31 @@ public final class ParamGradientNew implements IParamGradient {
 					}
 
 					if (rhf) {
-						SimpleMatrix responseMatrix =
-								PopleThiel.responseMatrix(sr, densityDerivs[ZI][paramNum][0]);
+						SimpleMatrix responseMatrix = PopleThiel.responseMatrix(sr, densityDerivs[ZI][paramNum][0]);
 
-						SimpleMatrix plus = staticDerivs[ZI][1][paramNum].plus(responseMatrix);
-						SimpleMatrix F = sr.Ct.mult(plus).mult(sr.C);
-						FDerivs[ZI][paramNum] = new SimpleMatrix[]{F};
+						SimpleMatrix Fao = responseMatrix.plusi(staticDerivs[ZI][1][paramNum]);
+						FDerivs[ZI][paramNum] = new SimpleMatrix[]{Fao};
 
-						SimpleMatrix xMatrix = xMatrix(sr, F);
+						SimpleMatrix Fmo = sr.Ct.mult(Fao).mult(sr.C);
+
+						SimpleMatrix xMatrix = xMatrix(sr, Fmo);
 						xMatrices[ZI][paramNum] = new SimpleMatrix[]{xMatrix};
 
-						if (hasIE) IEDerivs[ZI][paramNum] = -homoDeriv(sr, xMatrix, plus);
+						if (hasIE) IEDerivs[ZI][paramNum] = -homoDeriv(sr, xMatrix, Fmo);
 					}
 					else {
-						SimpleMatrix[] responseMatrices =
-								PopleThiel.responseMatrices(su, densityDerivs[ZI][paramNum]);
+						SimpleMatrix[] responseMatrices = PopleThiel.responseMatrices(su, densityDerivs[ZI][paramNum]);
 
-						SimpleMatrix plus = staticDerivs[ZI][1][paramNum].plus(responseMatrices[0]);
-						SimpleMatrix Fa = su.Cta.mult(plus).mult(su.Ca);
-						SimpleMatrix Fb = su.Ctb.mult(staticDerivs[ZI][2][paramNum].plus(responseMatrices[1]))
-								.mult(su.Cb);
-						FDerivs[ZI][paramNum] = new SimpleMatrix[]{Fa, Fb};
+						SimpleMatrix Faoa = responseMatrices[0].plusi(staticDerivs[ZI][1][paramNum]);
+						SimpleMatrix Faob = responseMatrices[1].plusi(staticDerivs[ZI][2][paramNum]);
+						FDerivs[ZI][paramNum] = new SimpleMatrix[]{Faoa, Faob};
 
-						xMatrices[ZI][paramNum] = ParamDerivative.xMatrix(su, Fa, Fb);
+						SimpleMatrix Fmoa = su.Cta.mult(Faoa).mult(su.Ca);
+						SimpleMatrix Fmob = su.Ctb.mult(Faob).mult(su.Cb);
 
-						if (hasIE) IEDerivs[ZI][paramNum] = -homoDeriv(su, xMatrices[ZI][paramNum][0], plus);
+						xMatrices[ZI][paramNum] = ParamDerivative.xMatrix(su, Fmoa, Fmob);
+
+						if (hasIE) IEDerivs[ZI][paramNum] = -homoDeriv(su, xMatrices[ZI][paramNum][0], Fmoa);
 					}
 
 					if (hasIE) addIEGrad(ZI, paramNum);
@@ -210,7 +210,7 @@ public final class ParamGradientNew implements IParamGradient {
 		SimpleMatrix[] aggFa = new SimpleMatrix[atomLength * paramLength];
 		SimpleMatrix[] aggFb = new SimpleMatrix[atomLength * paramLength];
 
-		for (int ZI = 0, i = 0; ZI < atomLength; ZI++) {
+		for (int ZI = 0, i = 0; ZI < atomLength; ZI++) { // todo make granular
 			sdTarget[ZI] = rhf ? staticDeriv(sr, s.rm.mats[ZI], 0) : staticDeriv(su, s.rm.mats[ZI], 0);
 
 			for (int j = 0; j < sdTarget[ZI][1].length; j++) {

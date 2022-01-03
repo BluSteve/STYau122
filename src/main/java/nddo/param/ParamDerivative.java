@@ -621,18 +621,16 @@ public class ParamDerivative {
 				dipoletot[2] * soln.dipoletot[2]) / soln.dipole;
 	}
 
-	public static double homoDeriv(SolutionR soln, SimpleMatrix x, SimpleMatrix Fderiv) {
+	public static double homoDeriv(SolutionR soln, SimpleMatrix x, SimpleMatrix Fderivmo) {
 		SimpleMatrix Cderiv = soln.C.mult(x); // todo are you sure this is faster?
-		SimpleMatrix Ederiv =
-				soln.Ct.mult(Fderiv).mult(soln.C).plus(Utils.plusTrans(soln.Ct.mult(soln.F).mult(Cderiv)));
+		SimpleMatrix Ederiv = Utils.plusTrans(soln.Ct.mult(soln.F).mult(Cderiv)).plusi(Fderivmo);
 
 		return Ederiv.get(soln.rm.nOccAlpha - 1, soln.rm.nOccAlpha - 1);
 	}
 
-	public static double homoDeriv(SolutionU soln, SimpleMatrix xa, SimpleMatrix Faderiv) {
+	public static double homoDeriv(SolutionU soln, SimpleMatrix xa, SimpleMatrix Faderivmo) {
 		SimpleMatrix Cderiv = soln.Ca.mult(xa);
-		SimpleMatrix Ederiv =
-				soln.Cta.mult(Faderiv).mult(soln.Ca).plus(Utils.plusTrans(soln.Cta.mult(soln.Fa).mult(Cderiv)));
+		SimpleMatrix Ederiv = Utils.plusTrans(soln.Cta.mult(soln.Fa).mult(Cderiv)).plusi(Faderivmo);
 
 		return Ederiv.get(soln.rm.nOccAlpha - 1, soln.rm.nOccAlpha - 1);
 	}

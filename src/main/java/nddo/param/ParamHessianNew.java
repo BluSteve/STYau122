@@ -181,7 +181,6 @@ public class ParamHessianNew implements IParamHessian {
 							pg.densityDerivs[ZI1][p1][0], pg.densityDerivs[ZI2][p2][0],
 							densityDeriv2, Z1, p1, Z2, p2);
 
-					System.out.println("asdf");
 					addToHessian(ZI1, p1, ZI2, p2, 800 * (pg.dipoleDerivs[ZI1][p1] * pg.dipoleDerivs[ZI2][p2] +
 							(s.dipole - datum[1]) * dipoleDeriv2));
 				}

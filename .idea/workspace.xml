@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="paramhessian wip 2">
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="paramhessian fixed?">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientNew.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" afterDir="false" />
     </list>
     <list id="86822a5d-be33-417c-a060-aba962bf30c6" name="Changes by flyingfalcon" comment="" />
@@ -496,14 +498,7 @@
       <workItem from="1641042835960" duration="11321000" />
       <workItem from="1641121962949" duration="14747000" />
       <workItem from="1641144415131" duration="39000" />
-      <workItem from="1641187209404" duration="341000" />
-    </task>
-    <task id="LOCAL-00170" summary="improve upon thiel crv more">
-      <created>1640454435754</created>
-      <option name="number" value="00170" />
-      <option name="presentableId" value="LOCAL-00170" />
-      <option name="project" value="LOCAL" />
-      <updated>1640454435754</updated>
+      <workItem from="1641187209404" duration="1130000" />
     </task>
     <task id="LOCAL-00171" summary="extract out cocc mult xmat mult ctvirt">
       <created>1640455537455</created>
@@ -841,7 +836,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641144369550</updated>
     </task>
-    <option name="localTasksCounter" value="219" />
+    <task id="LOCAL-00219" summary="paramhessian fixed?">
+      <created>1641187628586</created>
+      <option name="number" value="00219" />
+      <option name="presentableId" value="LOCAL-00219" />
+      <option name="project" value="LOCAL" />
+      <updated>1641187628586</updated>
+    </task>
+    <option name="localTasksCounter" value="220" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -888,7 +890,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="fix fatal copy bug in thiel rhf and uhf" />
     <MESSAGE value="deprecate densityderivpople uhf" />
     <MESSAGE value="rhf still works" />
     <MESSAGE value="passed verify equations rhf" />
@@ -913,7 +914,8 @@
     <MESSAGE value="started paramhessian" />
     <MESSAGE value="paramhessian wip" />
     <MESSAGE value="paramhessian wip 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="paramhessian wip 2" />
+    <MESSAGE value="paramhessian fixed?" />
+    <option name="LAST_COMMIT_MESSAGE" value="paramhessian fixed?" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
