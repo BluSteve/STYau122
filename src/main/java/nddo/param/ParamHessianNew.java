@@ -252,8 +252,6 @@ public class ParamHessianNew implements IParamHessian {
 								dD2response[1].plus(dD2statics[ZI1][ZI2][p1][p2][1])
 						};
 
-//						if (Z1 == 6 && Z2 == 6 && p1 == 5 && p2 == 5 ) System.out.println(densityDeriv2[0]);
-
 						if (hasDip) {
 							double dipoleDeriv2 = MNDODipoleDeriv2(su,
 									pg.densityDerivs[ZI1][p1][0].plus(pg.densityDerivs[ZI1][p1][1]),

@@ -1827,7 +1827,7 @@ public class ParamSecondDerivative {
 				ParamSecondDerivative.staticMatrix(soln, Fstatictotalalpha, Fstatictotalbeta, F1alpha, F1beta, F2alpha,
 						F2beta, x1, x2, Z1, param1, Z2, param2);
 
-		System.out.println("rhsmat = " + rhsmat[0]);
+//		System.out.println("rhsmat = " + rhsmat[0]);
 
 		SimpleMatrix gammavec = gammaArrayThiel(soln, new SimpleMatrix[]{rhsmat[0]}, new SimpleMatrix[]{rhsmat[1]})[0];
 
@@ -1837,7 +1837,7 @@ public class ParamSecondDerivative {
 
 		SimpleMatrix densityderiv2beta = densityderiv2response[1].plus(densityderiv2static[1]);
 
-		System.err.println(densityderiv2alpha);
+//		System.err.println(densityderiv2alpha);
 
 //		System.err.println(densityderiv2alphafinite);
 
