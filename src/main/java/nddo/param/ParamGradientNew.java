@@ -78,6 +78,9 @@ public final class ParamGradientNew implements IParamGradient {
 			xVectorsExp = new SimpleMatrix[nAtomTypes][];
 			densityDerivsExp = new SimpleMatrix[nAtomTypes][nParams][];
 
+			FDerivsExp = new SimpleMatrix[nAtomTypes][nParams][];
+			xMatricesExp = new SimpleMatrix[nAtomTypes][nParams][];
+
 			gGVectorDerivs = new SimpleMatrix[nAtomTypes][nParams];
 		}
 

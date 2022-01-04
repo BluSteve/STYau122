@@ -4,9 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="critical bug fix in pg2">
-      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Utils.java" afterDir="false" />
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="critical plustrans bug fix">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientNew.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
     </list>
+    <list id="cc762962-deba-4e22-b394-6a08a0781c61" name="Changes by flyingfalcon" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -178,7 +184,7 @@
     <property name="project.structure.proportion" value="0.26182964" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="profiler.jvm" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.completion" />
   </component>
   <component name="ReaderModeSettings">
     <option name="enabled" value="false" />
@@ -500,13 +506,6 @@
       <workItem from="1641144415131" duration="39000" />
       <workItem from="1641187209404" duration="31264000" />
       <workItem from="1641274063733" duration="2193000" />
-    </task>
-    <task id="LOCAL-00189" summary="fix fatal copy bug in thiel rhf and uhf">
-      <created>1640601266824</created>
-      <option name="number" value="00189" />
-      <option name="presentableId" value="LOCAL-00189" />
-      <option name="project" value="LOCAL" />
-      <updated>1640601266824</updated>
     </task>
     <task id="LOCAL-00190" summary="deprecate densityderivpople uhf">
       <created>1640601508750</created>
@@ -844,7 +843,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641274451784</updated>
     </task>
-    <option name="localTasksCounter" value="238" />
+    <task id="LOCAL-00238" summary="critical plustrans bug fix">
+      <created>1641307344292</created>
+      <option name="number" value="00238" />
+      <option name="presentableId" value="LOCAL-00238" />
+      <option name="project" value="LOCAL" />
+      <updated>1641307344292</updated>
+    </task>
+    <option name="localTasksCounter" value="239" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -891,7 +897,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Working expgeom alpha derivs" />
     <MESSAGE value="Renaming" />
     <MESSAGE value="minor changes" />
     <MESSAGE value="multithreaded paramgradientnew" />
@@ -916,7 +921,8 @@
     <MESSAGE value="better testing" />
     <MESSAGE value="better staticmatrix" />
     <MESSAGE value="critical bug fix in pg2" />
-    <option name="LAST_COMMIT_MESSAGE" value="critical bug fix in pg2" />
+    <MESSAGE value="critical plustrans bug fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="critical plustrans bug fix" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
