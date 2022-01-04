@@ -1722,7 +1722,7 @@ public class ParamSecondDerivative {
 		double Hfderiv = (solnprime.hf - soln.hf) / Constants.LAMBDA;
 
 		double hfderivcheck = ParamDerivative.HfDeriv(soln, Z1, param1);
-		System.err.println("---------");
+		System.err.println("----HF-----");
 
 		System.err.println(Hfderiv);
 
@@ -1743,11 +1743,17 @@ public class ParamSecondDerivative {
 
 		SimpleMatrix[] densityderivs = PopleThiel.densityDeriv(soln, xvector);
 
+		SimpleMatrix densityderivfinitealpha =
+				solnprime.alphaDensity().minus(soln.alphaDensity()).scale(1 / Constants.LAMBDA);
+
+		System.out.println("densityderivs[0] = " + densityderivs[0]);
+		System.out.println("densityderivfinitealpha = " + densityderivfinitealpha);
+
 		double dipolederiv = (solnprime.dipole - soln.dipole) / Constants.LAMBDA;
 
 		double dipolederivcheck =
 				ParamDerivative.nddoDipoleDeriv(soln, densityderivs[0].plus(densityderivs[1]), Z1, param1);
-		System.err.println("---------");
+		System.err.println("-----DIP----");
 
 		System.err.println(dipolederiv);
 
@@ -1767,7 +1773,7 @@ public class ParamSecondDerivative {
 		double homoderiv = (solnprime.homo - soln.homo) / Constants.LAMBDA;
 
 		double homoderivcheck = ParamDerivative.homoDeriv(soln, x[0], Fa.plus(responsematrices[0]));
-		System.err.println("---------");
+		System.err.println("-----IE----");
 
 		System.err.println(homoderiv);
 
@@ -1787,7 +1793,9 @@ public class ParamSecondDerivative {
 		System.err.println("-----expgeom end----");
 
 
-		return Math.abs(Hfderiv - hfderivcheck) < 1E-2;
+		return Math.abs(Hfderiv - hfderivcheck) < 1E-2 && Math.abs(homoderiv - homoderivcheck) < 1E-3 &&
+				Math.abs(dipolederiv - dipolederivcheck) < 1E-3 &&
+				Math.abs(geomderiv - geomderivcheck) < 1E-5;
 	}
 
 	public static SimpleMatrix computeResponseVectorsThiel(SimpleMatrix xarray, SolutionU soln) {

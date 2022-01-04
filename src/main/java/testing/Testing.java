@@ -24,9 +24,10 @@ public class Testing {
 //		SolutionU se2 =
 //				(SolutionU) Solution.of(rm2, runcycle.State.getConverter().convert(rm2.expGeom, input.info.npMap));
 
-		ParamHessianNew pg = new ParamHessianNew(s, rm.datum, null);
-		ParamHessianNew pg2 = new ParamHessianNew(s2, rm2.datum, null);
-//
+//		ParamHessianNew pg = new ParamHessianNew(s, rm.datum, null);
+//		ParamHessianNew pg2 = new ParamHessianNew(s2, rm2.datum, null);
+////
+		verifyEquations(s2, 6);
 //		verify(s, rm.datum, null);
 //		verify(s2, rm2.datum, null);
 
@@ -49,12 +50,22 @@ public class Testing {
 		}
 	}
 
+	private static void verifyEquations(SolutionU su, int Z1) {
+		for (int i = 1; i < 7; i++) {
+			boolean b2 = ParamSecondDerivative.verifyEquations(su, Z1, i);
+			System.err.println(i + " " + b2);
+			if (!b2) {
+				throw new IllegalArgumentException(i + "");
+			}
+		}
+	}
+
 	private static void verify(Solution s, double[] datum, Solution sExp) {
 		ParamGradientNew pg = new ParamGradientNew(s, datum, sExp);
 		ParamGradient pg2 = ParamGradient.of(s, datum, sExp).compute();
 
-		System.out.println("pg " + new SimpleMatrix(pg.getTotalGradients()));
-		System.out.println("pg2 " + new SimpleMatrix(pg2.getTotalGradients()));
+		System.out.println("pg " + new SimpleMatrix(pg.getDipoleDerivs()));
+		System.out.println("pg2 " + new SimpleMatrix(pg2.getDipoleDerivs()));
 
 		ParamHessianNew ph = new ParamHessianNew(pg);
 		ParamHessian ph2 = ParamHessian.from(pg2).compute();

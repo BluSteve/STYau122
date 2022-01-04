@@ -29,7 +29,7 @@ public final class ParamGradientNew implements IParamGradient {
 	SimpleMatrix[][][] staticDerivs, densityDerivs, FDerivs, xMatrices;
 
 	SimpleMatrix[][] xVectorsExp, gGVectorDerivs;
-	SimpleMatrix[][][] staticDerivsExp, densityDerivsExp;
+	SimpleMatrix[][][] staticDerivsExp, densityDerivsExp, FDerivsExp, xMatricesExp;
 
 	public ParamGradientNew(Solution s, double[] datum, Solution sExp) {
 		this.s = s;
@@ -182,6 +182,36 @@ public final class ParamGradientNew implements IParamGradient {
 													densityDerivsExp[ZI][paramNum][1])
 									);
 								}
+							}
+
+							if (rhf) {
+								SolutionR sExpr = (SolutionR) sExp;
+
+								SimpleMatrix responseMatrix =
+										PopleThiel.responseMatrix(sExpr, densityDerivsExp[ZI][paramNum][0]);
+
+								SimpleMatrix Fao = responseMatrix.plusi(staticDerivsExp[ZI][1][paramNum]);
+								FDerivsExp[ZI][paramNum] = new SimpleMatrix[]{Fao};
+
+								SimpleMatrix Fmo = sExpr.Ct.mult(Fao).mult(sExpr.C);
+
+								SimpleMatrix xMatrix = xMatrix(sExpr, Fmo);
+								xMatricesExp[ZI][paramNum] = new SimpleMatrix[]{xMatrix};
+							}
+							else {
+								SolutionU sExpu = (SolutionU) sExp;
+
+								SimpleMatrix[] responseMatrices =
+										PopleThiel.responseMatrix(sExpu, densityDerivsExp[ZI][paramNum]);
+
+								SimpleMatrix Faoa = responseMatrices[0].plusi(staticDerivsExp[ZI][1][paramNum]);
+								SimpleMatrix Faob = responseMatrices[1].plusi(staticDerivsExp[ZI][2][paramNum]);
+								FDerivsExp[ZI][paramNum] = new SimpleMatrix[]{Faoa, Faob};
+
+								SimpleMatrix Fmoa = sExpu.Cta.mult(Faoa).mult(sExpu.Ca);
+								SimpleMatrix Fmob = sExpu.Ctb.mult(Faob).mult(sExpu.Cb);
+
+								xMatricesExp[ZI][paramNum] = ParamDerivative.xMatrix(sExpu, Fmoa, Fmob);
 							}
 						}
 
