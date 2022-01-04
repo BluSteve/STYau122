@@ -101,7 +101,7 @@ public class LCGTO extends Orbital { // HAS AtomFixed, OrbitalProperties, c, e
 	}
 
 	public int getL() {
-		return i + j + k;
+		return L;
 	}
 
 	public int geti() {

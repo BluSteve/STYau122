@@ -1,13 +1,13 @@
 package core;
 
 import frontend.TxtIO;
-import nddo.param.ParamHessianNew;
 import nddo.solution.Solution;
 import nddo.solution.SolutionR;
 import org.ejml.simple.SimpleMatrix;
 import org.openjdk.jmh.annotations.*;
 import runcycle.structs.RunInput;
 import runcycle.structs.RunnableMolecule;
+import tools.Utils;
 
 import java.io.IOException;
 import java.util.Random;
@@ -20,12 +20,12 @@ public class Benchmarks {
 
 	@Benchmark
 	@Fork(value = 1, warmups = 0)
-	@Warmup(iterations = 3, time = 10)
-	@Measurement(iterations = 3, time = 30)
+	@Warmup(iterations = 3, time = 5)
+	@Measurement(iterations = 3, time = 5)
 	@BenchmarkMode(Mode.SampleTime)
-	@OutputTimeUnit(TimeUnit.MILLISECONDS)
+	@OutputTimeUnit(TimeUnit.NANOSECONDS)
 	public static void init(State state) {
-		ParamHessianNew pg = new ParamHessianNew(state.s, state.rm.datum, null);
+		Utils.plusTrans(SimpleMatrix.random_DDRM(10, 10, 0, 1, state.r));
 	}
 
 	@org.openjdk.jmh.annotations.State(Scope.Benchmark)
