@@ -214,7 +214,7 @@ public class Utils {
 		int numCols = sm.numCols();
 
 		for (int i = 0; i < numRows; i++) {
-			for (int j = i + 1; j < numCols; j++) {
+			for (int j = i; j < numCols; j++) {
 				double v = sm.get(i, j) + sm.get(j, i);
 				sm.set(i, j, v);
 				sm.set(j, i, v);
