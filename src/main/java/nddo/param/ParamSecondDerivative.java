@@ -1509,6 +1509,86 @@ public class ParamSecondDerivative {
 
 		System.err.println(gradderiv2test);
 
+		System.err.println("----TESTING MY CLOWNERY----");
+
+		SimpleMatrix geomGradVector = new SimpleMatrix(soln.atoms.length * 3, 1);
+
+		for (int i = 0, count = 0; i < soln.atoms.length; i++) {
+			for (int j = 0; j < 3; j++) {
+				double d = GeometryDerivative.grad(soln, i, j);
+				geomGradVector.set(count, d);
+				count++;
+			}
+		}
+
+		SimpleMatrix geomGradVectorprime = new SimpleMatrix(solnprime.atoms.length * 3, 1);
+
+		for (int i = 0, count = 0; i < solnprime.atoms.length; i++) {
+			for (int j = 0; j < 3; j++) {
+				double d = GeometryDerivative.grad(solnprime, i, j);
+				geomGradVectorprime.set(count, d);
+				count++;
+			}
+		}
+
+		double deriv = (geomGradVectorprime.normF() - geomGradVector.normF()) / Constants.LAMBDA;
+
+		SimpleMatrix geomGradVectorDeriv = new SimpleMatrix(soln.atoms.length * 3, 1);
+
+		for (int i = 0, count = 0; i < soln.atoms.length; i++) {
+			for (int j = 0; j < 3; j++) {
+				double d = ParamGeometryDerivative.gradDeriv(soln, i, j, Z1, param1, D1);
+				geomGradVectorDeriv.set(count, d);
+				count++;
+			}
+		}
+
+		double derivtest = geomGradVectorDeriv.dot(geomGradVector) / geomGradVector.normF();
+
+
+		SimpleMatrix geomGradVectorDeriv2 = new SimpleMatrix(soln.atoms.length * 3, 1);
+
+		for (int i = 0, count = 0; i < soln.atoms.length; i++) {
+			for (int j = 0; j < 3; j++) {
+				double d = ParamGeometryDerivative.gradDeriv(soln, i, j, Z2, param2, D2);
+				geomGradVectorDeriv2.set(count, d);
+				count++;
+			}
+		}
+
+		SimpleMatrix geomGradVectorDerivprime2 = new SimpleMatrix(soln.atoms.length * 3, 1);
+
+		for (int i = 0, count = 0; i < soln.atoms.length; i++) {
+			for (int j = 0; j < 3; j++) {
+				double d = ParamGeometryDerivative.gradDeriv(solnprime, i, j, Z2, param2, D2);
+				geomGradVectorDerivprime2.set(count, d);
+				count++;
+			}
+		}
+
+		SimpleMatrix geomGradVectorSecondDeriv = new SimpleMatrix(soln.atoms.length * 3, 1);
+
+		for (int i = 0, count = 0; i < soln.atoms.length; i++) {
+			for (int j = 0; j < 3; j++) {
+				double d = ParamGeometrySecondDerivative.gradderiv2(soln, i, j, Z1, param1, Z2, param2, D1, D2, densityderiv2);
+				geomGradVectorSecondDeriv.set(count, d);
+				count++;
+			}
+		}
+
+		double derivtestb = geomGradVectorDeriv2.dot(geomGradVector) / geomGradVector.normF();
+
+
+
+		double deriv2 =(geomGradVectorDerivprime2.normF() - geomGradVectorDeriv2.normF()) / Constants.LAMBDA;
+
+		double deriv2test =(geomGradVectorSecondDeriv.dot(geomGradVector) + geomGradVectorDeriv.dot(geomGradVectorDeriv2) - derivtest * derivtestb) / geomGradVector.normF();
+
+
+		System.err.println (deriv + "; " + derivtest);
+
+		System.err.println (deriv2 + "; " + deriv2test);
+
 
 		System.err.println("----TESTING CONCLUDED----");
 

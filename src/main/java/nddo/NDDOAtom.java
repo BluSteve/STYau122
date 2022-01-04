@@ -69,5 +69,7 @@ public interface NDDOAtom<T extends NDDOAtom, S extends NDDOOrbital> { // todo m
 
 	double crfalphapgd(T c, int num, int tau);
 
+	double crfalphap2gd(T c, int num, int tau);
+
 	T copy();
 }

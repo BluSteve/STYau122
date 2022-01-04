@@ -27,9 +27,9 @@ public class Testing {
 //		ParamHessianNew pg = new ParamHessianNew(s, rm.datum, null);
 //		ParamHessianNew pg2 = new ParamHessianNew(s2, rm2.datum, null);
 ////
-//		verifyEquations(s2, 6);
-		verify(s, rm.datum, se);
-		verify(s2, rm2.datum,se2);
+		verifyEquations(s, 6,6);
+//		verify(s, rm.datum, se);
+//		verify(s2, rm2.datum,se2);
 
 //		verifyEquations(s, 6, 6);
 //		verifyEquations(s2, 6, 6);
@@ -73,16 +73,20 @@ public class Testing {
 		double[][] b = ph2.getHessian();
 
 		double maxe = 0;
+		int maxi = 0, maxj = 0;
 		for (int i = 0; i < a.length; i++) {
 			for (int j = 0; j < a[0].length; j++) {
-
 				double e = Math.abs(a[i][j] - b[i][j]) / a[i][j];
-				System.out.println(i + " " + j + " " + e + " " + a[i][j] + " " + b[i][j]);
-				if (e > maxe) maxe = e;
+				if (e > 0.01) System.out.printf("%2d %2d %f %f %f%n", i, j, e, a[i][j], b[i][j]);
+				if (e > maxe) {
+					maxe = e;
+					maxi = i;
+					maxj = j;
+				}
 			}
 		}
 
-		System.out.println("max error = " + maxe);
+		System.out.println(maxi + " " + maxj + ": max error = " + maxe);
 		System.out.println("---");
 	}
 }

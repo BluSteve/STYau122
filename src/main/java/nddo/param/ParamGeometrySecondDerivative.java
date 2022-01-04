@@ -3,6 +3,7 @@ package nddo.param;
 import nddo.NDDOAtom;
 import nddo.NDDOOrbital;
 import nddo.State;
+import nddo.solution.Solution;
 import nddo.solution.SolutionR;
 import nddo.solution.SolutionU;
 import org.ejml.simple.SimpleMatrix;
@@ -10,7 +11,20 @@ import org.ejml.simple.SimpleMatrix;
 import static nddo.State.nom;
 
 public class ParamGeometrySecondDerivative {
+	public static double gradDeriv2Alpha(Solution soln, int atomNum, int tau, int Z) {
+		double e = 0;
 
+		for (int a = 0; a < soln.atoms.length; a++) {
+			if (a != atomNum) {
+				e += soln.atoms[atomNum].crfalphap2gd(soln.atoms[a],
+						ParamDerivative.getNum(soln.atoms[atomNum].getAtomProperties().getZ(),
+								soln.atoms[a].getAtomProperties().getZ(), Z),
+						tau);
+			}
+		}
+
+		return e;
+	}
 	public static double gradderiv2(SolutionR soln, int atomnum, int tau, int Z1, int paramnum1, int Z2, int paramnum2,
 									SimpleMatrix densityderiva, SimpleMatrix densityderivb,
 									SimpleMatrix densityderiv2) {

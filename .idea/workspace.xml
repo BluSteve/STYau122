@@ -4,15 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="critical plustrans bug fix">
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="phnew expgeom working except alpha">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/Constants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientNew.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/examples/am1/AM1Atom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/examples/am1/AM1Atom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/NDDOAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/NDDOAtom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/defaults/MNDOAtom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/defaults/MNDOAtom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGeometrySecondDerivative.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
     </list>
-    <list id="cc762962-deba-4e22-b394-6a08a0781c61" name="Changes by flyingfalcon" comment="" />
+    <list id="3e0ea8eb-765e-4625-837c-961efbbcba23" name="Changes by flyingfalcon" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -141,6 +145,22 @@
     <setting file="file://$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/nddo/param/ParamGeometryDerivative.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java">
+      <ranges>
+        <range start1="11" end1="12" start2="11" end2="12" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="24" end1="27" start2="24" end2="24" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="29" end1="29" start2="26" end2="28" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="235" end1="236" start2="234" end2="235" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="238" end1="239" start2="237" end2="238" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="242" end1="243" start2="241" end2="242" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="263" end1="266" start2="262" end2="265" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="269" end1="271" start2="268" end2="268" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="273" end1="274" start2="270" end2="273" changelist="794c51b6-1678-4e31-93ef-5bb130c9eec1" />
+        <range start1="423" end1="424" start2="422" end2="423" changelist="3e0ea8eb-765e-4625-837c-961efbbcba23" />
+      </ranges>
+    </file>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -507,20 +527,6 @@
       <workItem from="1641187209404" duration="31264000" />
       <workItem from="1641274063733" duration="2193000" />
     </task>
-    <task id="LOCAL-00190" summary="deprecate densityderivpople uhf">
-      <created>1640601508750</created>
-      <option name="number" value="00190" />
-      <option name="presentableId" value="LOCAL-00190" />
-      <option name="project" value="LOCAL" />
-      <updated>1640601508750</updated>
-    </task>
-    <task id="LOCAL-00191" summary="rhf still works">
-      <created>1640602272280</created>
-      <option name="number" value="00191" />
-      <option name="presentableId" value="LOCAL-00191" />
-      <option name="project" value="LOCAL" />
-      <updated>1640602272280</updated>
-    </task>
     <task id="LOCAL-00192" summary="passed verify equations rhf">
       <created>1640678141542</created>
       <option name="number" value="00192" />
@@ -850,7 +856,21 @@
       <option name="project" value="LOCAL" />
       <updated>1641307344292</updated>
     </task>
-    <option name="localTasksCounter" value="239" />
+    <task id="LOCAL-00239" summary="phnew expgeom working except alpha">
+      <created>1641309831833</created>
+      <option name="number" value="00239" />
+      <option name="presentableId" value="LOCAL-00239" />
+      <option name="project" value="LOCAL" />
+      <updated>1641309831833</updated>
+    </task>
+    <task id="LOCAL-00240" summary="phnew expgeom working except alpha">
+      <created>1641309851163</created>
+      <option name="number" value="00240" />
+      <option name="presentableId" value="LOCAL-00240" />
+      <option name="project" value="LOCAL" />
+      <updated>1641309851163</updated>
+    </task>
+    <option name="localTasksCounter" value="241" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -897,7 +917,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="Renaming" />
     <MESSAGE value="minor changes" />
     <MESSAGE value="multithreaded paramgradientnew" />
     <MESSAGE value="started paramhessian" />
@@ -922,7 +941,8 @@
     <MESSAGE value="better staticmatrix" />
     <MESSAGE value="critical bug fix in pg2" />
     <MESSAGE value="critical plustrans bug fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="critical plustrans bug fix" />
+    <MESSAGE value="phnew expgeom working except alpha" />
+    <option name="LAST_COMMIT_MESSAGE" value="phnew expgeom working except alpha" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
