@@ -489,7 +489,7 @@ public class ParamSecondDerivative {
 		SimpleMatrix xbxa = xbE.mult(xA);
 
 		matrix.minusi(xatxb);
-		matrix.minusi(xaxb).plusi(xbxa);
+		matrix.minusi(xaxb).minusi(xbxa);
 
 		return matrix;
 	}
