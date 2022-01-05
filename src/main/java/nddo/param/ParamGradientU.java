@@ -27,7 +27,8 @@ class ParamGradientU extends ParamGradient {
 			s.rm.getLogger().error(errorMessage);
 		}
 		else {
-			HFDerivs[ZI][paramNum] = (sPrime.hf - s.hf) / Constants.LAMBDA;
+//			HFDerivs[ZI][paramNum] = (sPrime.hf - s.hf) / Constants.LAMBDA;
+			HFDerivs[ZI][paramNum] = 0;
 		}
 
 		totalGradients[ZI][paramNum] +=

@@ -39,7 +39,7 @@ public class ParamHessianNew implements IParamHessian {
 		sr = rhf ? (SolutionR) s : null;
 		su = !rhf ? (SolutionU) s : null;
 
-		sExp = pg.s;
+		sExp = pg.sExp;
 		datum = pg.datum;
 		hasDip = pg.hasDip;
 		hasIE = pg.hasIE;
@@ -110,9 +110,9 @@ public class ParamHessianNew implements IParamHessian {
 
 			computeBatched(s, flat, ptInputsArr, ptInputsArrBeta, false);
 
-			dD2responses = rhf ? computeDensityDerivs(ptInputsArr) : null;
+			dD2responses = rhf ? computeDensityDerivs(sr, ptInputsArr) : null;
 
-			dD2responsesU = !rhf ? computeDensityDerivs(ptInputsArr, ptInputsArrBeta) : null;
+			dD2responsesU = !rhf ? computeDensityDerivs(su, ptInputsArr, ptInputsArrBeta) : null;
 		}
 
 		SimpleMatrix[] finalDD2responses = dD2responses;
@@ -215,13 +215,14 @@ public class ParamHessianNew implements IParamHessian {
 			SimpleMatrix[] ptInputsArr = new SimpleMatrix[flat.length];
 			SimpleMatrix[] ptInputsArrBeta = !rhf ? new SimpleMatrix[flat.length] : null;
 
-			computeBatched(s, flat, ptInputsArr, ptInputsArrBeta, true);
+			computeBatched(sExp, flat, ptInputsArr, ptInputsArrBeta, true);
 
-			SimpleMatrix[] dD2responsesExp = rhf ? computeDensityDerivs(ptInputsArr) : null;
+			SimpleMatrix[] dD2responsesExp = rhf ? computeDensityDerivs((SolutionR) sExp, ptInputsArr) : null;
 
-			SimpleMatrix[][] dD2responsesUExp = !rhf ? computeDensityDerivs(ptInputsArr, ptInputsArrBeta) : null;
+			SimpleMatrix[][] dD2responsesUExp =
+					!rhf ? computeDensityDerivs((SolutionU) sExp, ptInputsArr, ptInputsArrBeta) : null;
 
-			for (int[] ints : flat) {
+			for (int[] ints : flatAll) {
 				int ZI1 = ints[0];
 				int ZI2 = ints[1];
 				int Z1 = mats[ZI1];
@@ -268,14 +269,17 @@ public class ParamHessianNew implements IParamHessian {
 					}
 				}
 
-				addGeomToHessian(ZI1, p1, ZI2, p2, (627.5 * 627.5 *
-						(deriv.dot(pg.e.geomGradVector) + pg.gGVectorDerivs[ZI1][p1].dot(pg.gGVectorDerivs[ZI2][p2])) -
-						pg.geomDerivs[ZI1][p1] * pg.geomDerivs[ZI2][p2]) / pg.e.geomGradMag);
+				if (p1 != 7 && p2 != 7) {
+					addGeomToHessian(ZI1, p1, ZI2, p2, (627.5 *
+							(deriv.dot(pg.e.geomGradVector) +
+									pg.gGVectorDerivs[ZI1][p1].dot(pg.gGVectorDerivs[ZI2][p2])) -
+							pg.geomDerivs[ZI1][p1] / 627.5 * pg.geomDerivs[ZI2][p2]) / pg.e.geomGradVector.normF());
+				}
 			}
 		}
 	}
 
-	private SimpleMatrix[] computeDensityDerivs(SimpleMatrix[] ptInputsArr) {
+	private static SimpleMatrix[] computeDensityDerivs(SolutionR sr, SimpleMatrix[] ptInputsArr) {
 		return Batcher.apply(ptInputsArr,
 				subset -> {
 					SimpleMatrix[] sms = PopleThiel.pople(sr, subset);
@@ -289,7 +293,8 @@ public class ParamHessianNew implements IParamHessian {
 				});
 	}
 
-	private SimpleMatrix[][] computeDensityDerivs(SimpleMatrix[] ptInputsArr, SimpleMatrix[] ptInputsArrBeta) {
+	private static SimpleMatrix[][] computeDensityDerivs(SolutionU su, SimpleMatrix[] ptInputsArr,
+												  SimpleMatrix[] ptInputsArrBeta) {
 		return Batcher.apply(new SimpleMatrix[][]{ptInputsArr, ptInputsArrBeta},
 				subset -> {
 					SimpleMatrix[] sms = PopleThiel.thiel(su, subset[0], subset[1]);
@@ -404,8 +409,8 @@ public class ParamHessianNew implements IParamHessian {
 	}
 
 	private void addHfToHessian(int ZI1, int p1, int ZI2, int p2, double x) {
-		addToHessian(ZI1, p1, ZI2, p2, 2 * (pg.HfDerivs[ZI1][p1] * pg.HfDerivs[ZI2][p2] +
-				(s.hf - datum[0]) * x));
+//		addToHessian(ZI1, p1, ZI2, p2, 2 * (pg.HfDerivs[ZI1][p1] * pg.HfDerivs[ZI2][p2] +
+//				(s.hf - datum[0]) * x));
 	}
 
 	private void addDipoleToHessian(int ZI1, int p1, int ZI2, int p2, double x) {
@@ -420,7 +425,7 @@ public class ParamHessianNew implements IParamHessian {
 
 	private void addGeomToHessian(int ZI1, int p1, int ZI2, int p2, double x) {
 		addToHessian(ZI1, p1, ZI2, p2,
-				0.000098 * pg.geomDerivs[ZI1][p1] * pg.geomDerivs[ZI2][p2] + pg.e.geomGradMag * x);
+				0.000098 * (pg.geomDerivs[ZI1][p1] * pg.geomDerivs[ZI2][p2] + pg.e.geomGradMag * x));
 	}
 
 	@Override
