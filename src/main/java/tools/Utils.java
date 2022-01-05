@@ -176,9 +176,8 @@ public class Utils {
 
 	public static double mag(SimpleMatrix vector) {
 		double sum = 0;
-		int i1 = vector.numRows();
-		for (int i = 0; i < i1; i++) {
-			double v = vector.get(i);
+		double[] data = vector.getDDRM().data;
+		for (double v : data) {
 			sum += v * v;
 		}
 
