@@ -9,8 +9,10 @@ import nddo.param.ParamGradient;
 import nddo.param.ParamHessian;
 import nddo.solution.Solution;
 import org.apache.commons.lang3.time.StopWatch;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.ejml.simple.SimpleMatrix;
 import runcycle.optimize.ParamOptimizer;
 import runcycle.optimize.ReferenceData;
@@ -18,6 +20,7 @@ import runcycle.structs.*;
 
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static runcycle.State.getConverter;
 
@@ -134,6 +137,7 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 			lsw.start();
 
 			if (logger.isInfoEnabled()) {
+				AtomicInteger lastLeftCount = new AtomicInteger(ri.molecules.length);
 				Runnable mLeft = () -> {
 					List<String> left = new ArrayList<>();
 					int doneCount = 0;
@@ -143,16 +147,23 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 						else doneCount++;
 					}
 
-					left.sort(String::compareTo);
+					int leftCount = left.size();
+					if (lastLeftCount.get() - leftCount == 0) {
+						logger.warn("Stubborn molecule(s) detected, increasing log level...");
+						Configurator.setRootLevel(Level.TRACE);
+					}
+					lastLeftCount.set(leftCount);
 
-					String percent = String.format("%.2f", 100.0 * doneCount / (doneCount + left.size()));
+					Collections.sort(left);
+
+					String percent = String.format("%.2f", 100.0 * doneCount / (doneCount + leftCount));
 
 					logger.info("Run {}, time: {} s, {}/{} left ({}% done): {}", runNumber,
-							lsw.getTime(TimeUnit.SECONDS), left.size(),
-							doneCount + left.size(), percent, left);
+							lsw.getTime(TimeUnit.SECONDS), leftCount,
+							doneCount + leftCount, percent, left);
 				};
 
-				int wait = 10;
+				int wait = 30;
 				progressBar.scheduleAtFixedRate(mLeft, wait, wait, TimeUnit.SECONDS);
 			}
 

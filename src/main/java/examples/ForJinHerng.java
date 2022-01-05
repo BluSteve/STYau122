@@ -6,8 +6,10 @@ import frontend.TxtIO;
 import nddo.NDDOAtom;
 import nddo.geometry.GeometryOptimization;
 import nddo.solution.Solution;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.Configurator;
 import runcycle.State;
 import runcycle.structs.RunInput;
 import runcycle.structs.RunnableMolecule;
@@ -36,21 +38,28 @@ public class ForJinHerng {
 		Logger logger = LogManager.getLogger("main");
 		logger.info("Molecule count: " + mLength);
 
-		AtomicInteger atomicInteger = new AtomicInteger(0);
+		AtomicInteger doneCount = new AtomicInteger(0);
 		boolean[] isDone = new boolean[mLength];
 
+		AtomicInteger lastLeftCount = new AtomicInteger(mLength);
 		Runnable mLeft = () -> {
 			List<String> left = new ArrayList<>(mLength);
 			for (int j = 0; j < isDone.length; j++) {
 				if (!isDone[j]) left.add(input.molecules[j].debugName());
 			}
 
-			Collections.sort(left);
+			int leftCount = left.size();
+			if (lastLeftCount.get() - leftCount == 0) {
+				logger.warn("Stubborn molecule(s) detected, increasing log level...");
+				Configurator.setRootLevel(Level.TRACE);
+			}
+			lastLeftCount.set(leftCount);
 
-			logger.info("{}/{} left: {}", left.size(), mLength, left.toString().replace(", ", ","));
+			Collections.sort(left);
+			logger.info("{}/{} left: {}", leftCount, mLength, left.toString().replace(", ", ","));
 		};
 
-		int wait = 30;
+		int wait = 10;
 		progressBar.scheduleAtFixedRate(mLeft, wait, wait, TimeUnit.SECONDS);
 
 		Result[] totalResults = Batcher.apply(input.molecules, Result[].class, subset -> {
@@ -74,7 +83,7 @@ public class ForJinHerng {
 					isDone[molecule.index] = true;
 
 					molecule.getLogger().info("Finished {}. Initial Hf: {}, final Hf: {}, dipole: {}, IE: {}",
-							atomicInteger.incrementAndGet(), s.hf, optS.hf, optS.dipole, -optS.homo);
+							doneCount.incrementAndGet(), s.hf, optS.hf, optS.dipole, -optS.homo);
 				} catch (Exception e) {
 					molecule.getLogger().error(molecule.debugName(), e);
 					results[i] = new Result(molecule.index, molecule.debugName() + " (errored)", new double[4]);
@@ -97,6 +106,7 @@ public class ForJinHerng {
 			System.out.println("Press 'Enter' key to exit.");
 			System.console().readLine();
 		}
+		else System.exit(0);
 	}
 
 	private static class Result {
