@@ -4,16 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="io improvements">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/ejml-v0.42-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/libs/ejml-v0.42-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/examples/ForJinherng.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/examples/ForJinherng.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientNew.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Batcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Batcher.java" afterDir="false" />
-    </list>
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="uncommented some parts of forjh" />
     <list id="3e0ea8eb-765e-4625-837c-961efbbcba23" name="Changes by flyingfalcon" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -148,7 +139,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedIndex" value="2" />
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectId" id="20unWPR15qlisSQEnzw4ZSYoybm" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -226,7 +217,7 @@
       <command value="gradlew clean" />
     </option>
   </component>
-  <component name="RunManager" selected="Application.Testing">
+  <component name="RunManager" selected="Application.ForJinherng">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -360,11 +351,11 @@
     <list>
       <item itemvalue="Application.ForJinherng" />
       <item itemvalue="Application.Main" />
+      <item itemvalue="Application.Testing" />
       <item itemvalue="Gradle.MNDOParam [jmh]" />
       <item itemvalue="Gradle.MNDOParam [clean]" />
       <item itemvalue="Gradle.MNDOParam [jar]" />
       <item itemvalue="Shell Script.Copy" />
-      <item itemvalue="Application.Testing" />
     </list>
     <recent_temporary>
       <list>
@@ -378,20 +369,20 @@
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="StructuralSearchPlugin">
-    <replaceConfiguration name="Unnamed" created="1640941371086" text="$expr$.plusi($expr$.transpose())" recursive="true" caseInsensitive="false" type="JAVA" pattern_context="default" scope_type="PROJECT" scope_descriptor="" reformatAccordingToStyle="true" shortenFQN="false" replacement="0" history="1">
+    <replaceConfiguration name="Unnamed" created="1641398546680" text="$expr$.plusi($expr$.transpose())" recursive="true" caseInsensitive="false" type="JAVA" pattern_context="default" scope_type="PROJECT" scope_descriptor="" reformatAccordingToStyle="true" shortenFQN="false" replacement="0" history="1">
       <constraint name="__context__" within="" contains="" />
       <constraint name="expr" within="" contains="" />
     </replaceConfiguration>
-    <replaceConfiguration name="Unnamed" created="1640941371086" text="$expr$ * $expr$ * $expr$ * $expr$" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default" scope_type="PROJECT" scope_descriptor="" reformatAccordingToStyle="true" shortenFQN="false" replacement="0" history="1">
+    <replaceConfiguration name="Unnamed" created="1641398546680" text="$expr$ * $expr$ * $expr$ * $expr$" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default" scope_type="PROJECT" scope_descriptor="" reformatAccordingToStyle="true" shortenFQN="false" replacement="0" history="1">
       <constraint name="__context__" within="" contains="" />
       <constraint name="expr" within="" contains="" />
     </replaceConfiguration>
-    <replaceConfiguration name="Unnamed" created="1640941371086" text="pow($expr$, $number$)" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default" scope_type="PROJECT" scope_descriptor="" reformatAccordingToStyle="true" shortenFQN="false" replacement="0" history="1">
+    <replaceConfiguration name="Unnamed" created="1641398546680" text="pow($expr$, $number$)" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default" scope_type="PROJECT" scope_descriptor="" reformatAccordingToStyle="true" shortenFQN="false" replacement="0" history="1">
       <constraint name="__context__" within="" contains="" />
       <constraint name="expr" within="" contains="" />
       <constraint name="number" within="" contains="" />
     </replaceConfiguration>
-    <replaceConfiguration name="Unnamed" created="1640941371086" text="Math.pow($expr$, $number$)" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default" scope_type="PROJECT" scope_descriptor="" reformatAccordingToStyle="true" shortenFQN="false" replacement="Utils.pow($expr$, $number$)" history="1">
+    <replaceConfiguration name="Unnamed" created="1641398546680" text="Math.pow($expr$, $number$)" recursive="false" caseInsensitive="false" type="JAVA" pattern_context="default" scope_type="PROJECT" scope_descriptor="" reformatAccordingToStyle="true" shortenFQN="false" replacement="Utils.pow($expr$, $number$)" history="1">
       <constraint name="__context__" within="" contains="" />
       <constraint name="expr" within="" contains="" />
       <constraint name="number" within="" contains="" />
@@ -532,20 +523,6 @@
       <workItem from="1641377468339" duration="3791000" />
       <workItem from="1641381337115" duration="3708000" />
       <workItem from="1641394542398" duration="3392000" />
-    </task>
-    <task id="LOCAL-00211" summary="Working expgeom alpha derivs">
-      <created>1641055006394</created>
-      <option name="number" value="00211" />
-      <option name="presentableId" value="LOCAL-00211" />
-      <option name="project" value="LOCAL" />
-      <updated>1641055006394</updated>
-    </task>
-    <task id="LOCAL-00212" summary="Renaming">
-      <created>1641055430349</created>
-      <option name="number" value="00212" />
-      <option name="presentableId" value="LOCAL-00212" />
-      <option name="project" value="LOCAL" />
-      <updated>1641055430349</updated>
     </task>
     <task id="LOCAL-00213" summary="Renaming">
       <created>1641055436114</created>
@@ -876,7 +853,21 @@
       <option name="project" value="LOCAL" />
       <updated>1641384427663</updated>
     </task>
-    <option name="localTasksCounter" value="260" />
+    <task id="LOCAL-00260" summary="solutionr better array initialization">
+      <created>1641398701871</created>
+      <option name="number" value="00260" />
+      <option name="presentableId" value="LOCAL-00260" />
+      <option name="project" value="LOCAL" />
+      <updated>1641398701871</updated>
+    </task>
+    <task id="LOCAL-00261" summary="uncommented some parts of forjh">
+      <created>1641398826219</created>
+      <option name="number" value="00261" />
+      <option name="presentableId" value="LOCAL-00261" />
+      <option name="project" value="LOCAL" />
+      <updated>1641398826219</updated>
+    </task>
+    <option name="localTasksCounter" value="262" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -904,7 +895,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/crffix" />
+                        <option value="origin/ediis" />
                       </list>
                     </value>
                   </entry>
@@ -923,8 +914,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="checkpoitn" />
-    <MESSAGE value="checkpoint" />
     <MESSAGE value="better staticMatrix" />
     <MESSAGE value="better staticMatrix for uhf as well" />
     <MESSAGE value="better testing" />
@@ -948,7 +937,9 @@
     <MESSAGE value="progressbar in forjh" />
     <MESSAGE value="strip input" />
     <MESSAGE value="io improvements" />
-    <option name="LAST_COMMIT_MESSAGE" value="io improvements" />
+    <MESSAGE value="solutionr better array initialization" />
+    <MESSAGE value="uncommented some parts of forjh" />
+    <option name="LAST_COMMIT_MESSAGE" value="uncommented some parts of forjh" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

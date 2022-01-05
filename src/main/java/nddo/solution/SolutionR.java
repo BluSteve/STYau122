@@ -8,100 +8,17 @@ import org.ejml.dense.row.CommonOps_DDRM;
 import org.ejml.simple.SimpleMatrix;
 import tools.Utils;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import static nddo.State.nom;
 
 public class SolutionR extends Solution {
-	private static final int[][][] TBRS = {
-			{{}},
-			{{0}},
-			{{1}, {0, 1}},
-			{{2}, {0, 2}, {1, 2}, {0, 1, 2}},
-			{{3}, {0, 3}, {1, 3}, {2, 3}, {0, 1, 3}, {0, 2, 3}, {1, 2, 3}, {0, 1, 2, 3}},
-			{{4}, {0, 4}, {1, 4}, {2, 4}, {3, 4}, {0, 1, 4}, {0, 2, 4}, {0, 3, 4}, {1, 2, 4}, {1, 3, 4}, {2, 3, 4},
-					{0, 1, 2, 4}, {0, 1, 3, 4}, {0, 2, 3, 4}, {1, 2, 3, 4}, {0, 1, 2, 3, 4}},
-			{{5}, {0, 5}, {1, 5}, {2, 5}, {3, 5}, {4, 5}, {0, 1, 5}, {0, 2, 5}, {0, 3, 5}, {0, 4, 5}, {1, 2, 5},
-					{1, 3, 5}, {1, 4, 5}, {2, 3, 5}, {2, 4, 5}, {3, 4, 5}, {0, 1, 2, 5}, {0, 1, 3, 5}, {0, 1, 4, 5},
-					{0, 2, 3, 5}, {0, 2, 4, 5}, {0, 3, 4, 5}, {1, 2, 3, 5}, {1, 2, 4, 5}, {1, 3, 4, 5}, {2, 3, 4, 5},
-					{0, 1, 2, 3, 5}, {0, 1, 2, 4, 5}, {0, 1, 3, 4, 5}, {0, 2, 3, 4, 5}, {1, 2, 3, 4, 5},
-					{0, 1, 2, 3, 4, 5}},
-			{{6}, {0, 6}, {1, 6}, {2, 6}, {3, 6}, {4, 6}, {5, 6}, {0, 1, 6}, {0, 2, 6}, {0, 3, 6}, {0, 4, 6},
-					{0, 5, 6}, {1, 2, 6}, {1, 3, 6}, {1, 4, 6}, {1, 5, 6}, {2, 3, 6}, {2, 4, 6}, {2, 5, 6}, {3, 4, 6},
-					{3, 5, 6}, {4, 5, 6}, {0, 1, 2, 6}, {0, 1, 3, 6}, {0, 1, 4, 6}, {0, 1, 5, 6}, {0, 2, 3, 6},
-					{0, 2, 4, 6}, {0, 2, 5, 6}, {0, 3, 4, 6}, {0, 3, 5, 6}, {0, 4, 5, 6}, {1, 2, 3, 6}, {1, 2, 4, 6},
-					{1, 2, 5, 6}, {1, 3, 4, 6}, {1, 3, 5, 6}, {1, 4, 5, 6}, {2, 3, 4, 6}, {2, 3, 5, 6}, {2, 4, 5, 6},
-					{3, 4, 5, 6}, {0, 1, 2, 3, 6}, {0, 1, 2, 4, 6}, {0, 1, 2, 5, 6}, {0, 1, 3, 4, 6}, {0, 1, 3, 5, 6},
-					{0, 1, 4, 5, 6}, {0, 2, 3, 4, 6}, {0, 2, 3, 5, 6}, {0, 2, 4, 5, 6}, {0, 3, 4, 5, 6},
-					{1, 2, 3, 4, 6}, {1, 2, 3, 5, 6}, {1, 2, 4, 5, 6}, {1, 3, 4, 5, 6}, {2, 3, 4, 5, 6},
-					{0, 1, 2, 3, 4, 6}, {0, 1, 2, 3, 5, 6}, {0, 1, 2, 4, 5, 6}, {0, 1, 3, 4, 5, 6}, {0, 2, 3, 4, 5, 6},
-					{1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}}
-	};
 
 	public double[] integralArray;
 	public SimpleMatrix C, COcc, CVirt, Ct, CtOcc, CtVirt, F, E, Emat;
 
 	public SolutionR(MoleculeInfo mi, NDDOAtom[] atoms) {
 		super(mi, atoms);
-	}
-
-	private static SimpleMatrix commutator(SimpleMatrix F, SimpleMatrix D) {
-		return F.mult(D).minus(D.mult(F));
-	}
-
-	private static SimpleMatrix removeElements(SimpleMatrix original, int[] tbr) {
-		int newN = original.numRows() - tbr.length;
-		boolean isMatrix = original.numCols() > 1;
-		SimpleMatrix newarray = isMatrix ? new SimpleMatrix(newN, newN) : new SimpleMatrix(newN, 1);
-
-		int[] tbk = new int[newN];
-		int q = 0;
-		for (int i = 0; i < original.numRows(); i++) {
-			boolean inside = false;
-			for (int index : tbr) {
-				if (i == index) {
-					inside = true;
-					break;
-				}
-			}
-
-			if (!inside) {
-				tbk[q] = i;
-				q++;
-			}
-		}
-
-		if (isMatrix) {
-			for (int i = 0; i < newarray.numRows(); i++) {
-				for (int j = 0; j < newarray.numCols(); j++) {
-					newarray.set(i, j, original.get(tbk[i], tbk[j]));
-				}
-			}
-		}
-		else {
-			for (int i = 0; i < newarray.numRows(); i++) {
-				newarray.set(i, 0, original.get(tbk[i], 0));
-			}
-		}
-
-		return newarray;
-	}
-
-	private static SimpleMatrix addRows(SimpleMatrix original, int[] tbr) {
-		// add zero row at tbr
-		ArrayList<Double> array = new ArrayList<>();
-
-		for (double i : original.getDDRM().data) {
-			array.add(i);
-		}
-
-		for (int index : tbr) {
-			array.add(index, 0.0);
-		}
-
-		return new SimpleMatrix(original.numRows() + tbr.length, 1,
-				true, Utils.toDoubles(array));
 	}
 
 	@Override
