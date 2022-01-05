@@ -1,5 +1,6 @@
 package nddo.param;
 
+import nddo.Constants;
 import nddo.NDDOAtom;
 import nddo.solution.Solution;
 import nddo.solution.SolutionR;
@@ -56,8 +57,8 @@ public abstract class ParamErrorFunction {
 			}
 		}
 
-		this.geomGradMag = 627.5 * Math.sqrt(sum);
-		this.geomError = 0.000049 * 627.5 * 627.5 * sum;
+		this.geomGradMag = Constants.KCAL * Math.sqrt(sum);
+		this.geomError = Constants.KCAL * Constants.KCAL * sum;
 	}
 
 	public double getTotalError() {

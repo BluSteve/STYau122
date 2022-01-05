@@ -1,5 +1,6 @@
 package nddo.param;
 
+import nddo.Constants;
 import nddo.math.PopleThiel;
 import nddo.solution.Solution;
 import nddo.solution.SolutionR;
@@ -218,7 +219,8 @@ public final class ParamGradientNew implements IParamGradient {
 							}
 						}
 
-						geomDerivs[ZI][paramNum] = 627.5 * 627.5 * deriv.dot(e.geomGradVector) / e.geomGradMag;
+						geomDerivs[ZI][paramNum] =
+								Constants.KCAL * Constants.KCAL * deriv.dot(e.geomGradVector) / e.geomGradMag;
 						addGeomGrad(ZI, paramNum);
 					}
 				}
@@ -299,7 +301,7 @@ public final class ParamGradientNew implements IParamGradient {
 	}
 
 	private void addGeomGrad(int ZI, int paramNum) {
-		totalGradients[ZI][paramNum] += 0.000098 * e.geomGradMag * geomDerivs[ZI][paramNum];
+		totalGradients[ZI][paramNum] += 2 * e.geomGradMag * geomDerivs[ZI][paramNum];
 	}
 
 	public ParamErrorFunction getE() {

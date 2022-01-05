@@ -1,5 +1,6 @@
 package nddo.param;
 
+import nddo.Constants;
 import nddo.math.PopleThiel;
 import nddo.solution.Solution;
 import nddo.solution.SolutionR;
@@ -270,10 +271,10 @@ public class ParamHessianNew implements IParamHessian {
 				}
 
 				if (p1 != 7 && p2 != 7) {
-					addGeomToHessian(ZI1, p1, ZI2, p2, (627.5 *
+					addGeomToHessian(ZI1, p1, ZI2, p2, (Constants.KCAL *
 							(deriv.dot(pg.e.geomGradVector) +
 									pg.gGVectorDerivs[ZI1][p1].dot(pg.gGVectorDerivs[ZI2][p2])) -
-							pg.geomDerivs[ZI1][p1] / 627.5 * pg.geomDerivs[ZI2][p2]) / pg.e.geomGradVector.normF());
+							pg.geomDerivs[ZI1][p1] / Constants.KCAL * pg.geomDerivs[ZI2][p2]) / pg.e.geomGradVector.normF());
 				}
 			}
 		}
@@ -425,7 +426,7 @@ public class ParamHessianNew implements IParamHessian {
 
 	private void addGeomToHessian(int ZI1, int p1, int ZI2, int p2, double x) {
 		addToHessian(ZI1, p1, ZI2, p2,
-				0.000098 * (pg.geomDerivs[ZI1][p1] * pg.geomDerivs[ZI2][p2] + pg.e.geomGradMag * x));
+				2 * (pg.geomDerivs[ZI1][p1] * pg.geomDerivs[ZI2][p2] + pg.e.geomGradMag * x));
 	}
 
 	@Override

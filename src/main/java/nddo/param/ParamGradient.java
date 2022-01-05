@@ -220,10 +220,10 @@ public abstract class ParamGradient implements IParamGradient {
 				sum += d * d;
 			}
 		}
-		double geomGradient = 627.5 * Math.sqrt(sum);
+		double geomGradient = Constants.KCAL * Math.sqrt(sum);
 		geomDerivs[ZI][paramNum] = 1 / Constants.LAMBDA * (geomGradient - e.geomGradMag);
 		totalGradients[ZI][paramNum] +=
-				0.000098 * e.geomGradMag * geomDerivs[ZI][paramNum];
+				2 * e.geomGradMag * geomDerivs[ZI][paramNum];
 	}
 
 	/**

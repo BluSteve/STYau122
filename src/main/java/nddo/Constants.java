@@ -8,4 +8,5 @@ public class Constants {
 	public static final int RANDOM_SEED = 123;
 	public static final double HEATCONV = 4.3363E-2;
 	public static final double DIPOLECONV = 2.5416;
+	public static final double KCAL = 1 / HEATCONV;
 }
