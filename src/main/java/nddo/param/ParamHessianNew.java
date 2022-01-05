@@ -114,6 +114,8 @@ public class ParamHessianNew implements IParamHessian {
 			dD2responses = rhf ? computeDensityDerivs(sr, ptInputsArr) : null;
 
 			dD2responsesU = !rhf ? computeDensityDerivs(su, ptInputsArr, ptInputsArrBeta) : null;
+
+			System.out.println();
 		}
 
 		SimpleMatrix[] finalDD2responses = dD2responses;
@@ -297,9 +299,9 @@ public class ParamHessianNew implements IParamHessian {
 
 	private static SimpleMatrix[][] computeDensityDerivs(SolutionU su, SimpleMatrix[] ptInputsArr,
 														 SimpleMatrix[] ptInputsArrBeta) {
-		return Batcher.apply(new SimpleMatrix[][]{ptInputsArr, ptInputsArrBeta},
-				subset -> {
-					SimpleMatrix[] sms = PopleThiel.thiel(su, subset[0], subset[1]);
+		return Batcher.apply(ptInputsArr, ptInputsArrBeta, SimpleMatrix[][].class,
+				(subseta, subsetb) -> {
+					SimpleMatrix[] sms = PopleThiel.thiel(su, subseta, subsetb);
 					SimpleMatrix[][] results = new SimpleMatrix[sms.length][];
 
 					for (int j = 0; j < sms.length; j++) {

@@ -28,7 +28,7 @@ public class Testing {
 //		ParamHessianNew pg2 = new ParamHessianNew(s2, rm2.datum, null);
 ////
 //		verifyEquations(s, 6,6);
-		verify(s, rm.datum, se);
+//		verify(s, rm.datum, se);
 		verify(s2, rm2.datum, se2);
 
 //		verifyEquations(s, 6, 6);
