@@ -24,79 +24,83 @@ public class TxtIO {
 		ArrayList<RunnableMolecule> moleculesL = new ArrayList<>();
 		int inputi = 1;
 		int datumi = 0;
-
-		while (inputi < lines.size()) {
-			String rhf = lines.get(inputi);
-			inputi++;
-
-			String charge = lines.get(inputi);
-			inputi++;
-
-			String mult = lines.get(inputi);
-			inputi++;
-
-			// Atoms
-			ArrayList<Atom> atomsL = new ArrayList<>();
-
-			String atoms = "";
-			while (!lines.get(inputi).equals("---") && !lines.get(inputi).equals("EXPGEOM")) {
-				String strip = lines.get(inputi).strip();
-				atomsL.add(toAtom(strip));
-				atoms += strip + "\n";
+		try {
+			while (inputi < lines.size()) {
+				String rhf = lines.get(inputi);
 				inputi++;
-			}
 
-			Map<String, Integer> nameOccurrences = new TreeMap<>(
-					Comparator.comparingInt(o -> AtomProperties.getAtomsMap().get(o).getZ()));
+				String charge = lines.get(inputi);
+				inputi++;
 
-			for (Atom atom : atomsL) {
-				AtomProperties ap = AtomProperties.getAtoms()[atom.Z];
-				String name = ap.getName();
+				String mult = lines.get(inputi);
+				inputi++;
 
-				if (!nameOccurrences.containsKey(name)) nameOccurrences.put(name, 1);
-				else nameOccurrences.put(name, nameOccurrences.get(name) + 1);
-			}
+				// Atoms
+				ArrayList<Atom> atomsL = new ArrayList<>();
 
-			String name = "";
-			for (String key : nameOccurrences.keySet()) name += key + nameOccurrences.get(key);
-
-			// expGeom
-			String expGeom = "";
-			if (lines.get(inputi).equals("EXPGEOM")) {
-				while (!lines.get(inputi).equals("---")) {
-					expGeom += lines.get(inputi).strip() + "\n";
+				String atoms = "";
+				while (!lines.get(inputi).equals("---") && !lines.get(inputi).equals("EXPGEOM")) {
+					String strip = lines.get(inputi).strip();
+					atomsL.add(toAtom(strip));
+					atoms += cleanAtom(strip) + "\n";
 					inputi++;
 				}
+
+				Map<String, Integer> nameOccurrences = new TreeMap<>(
+						Comparator.comparingInt(o -> AtomProperties.getAtomsMap().get(o).getZ()));
+
+				for (Atom atom : atomsL) {
+					AtomProperties ap = AtomProperties.getAtoms()[atom.Z];
+					String name = ap.getName();
+
+					if (!nameOccurrences.containsKey(name)) nameOccurrences.put(name, 1);
+					else nameOccurrences.put(name, nameOccurrences.get(name) + 1);
+				}
+
+				String name = "";
+				for (String key : nameOccurrences.keySet()) name += key + nameOccurrences.get(key);
+
+				// expGeom
+				String expGeom = "";
+				if (lines.get(inputi).equals("EXPGEOM")) {
+					while (!lines.get(inputi).equals("---")) {
+						expGeom += cleanAtom(lines.get(inputi).strip()) + "\n";
+						inputi++;
+					}
+				}
+
+				// Datum
+				String[] datum = new String[3];
+
+				datum[0] = "HF=" + datums.get(datumi).split(" ")[1];
+				datumi++;
+
+				String[] ss = datums.get(datumi).split(" ");
+				if (ss.length > 1) datum[1] = "DIP=" + ss[1];
+				datumi++;
+
+				ss = datums.get(datumi).split(" ");
+				if (ss.length > 1) datum[2] = "IE=" + ss[1];
+				datumi += 2;
+
+				List<String> datumL = new ArrayList<>();
+				for (String s : datum) {
+					if (s != null) datumL.add(s);
+				}
+
+
+				pw.println(String.join(", ", name, rhf, charge, mult));
+				pw.println(String.join(", ", datumL));
+				pw.write(atoms);
+				pw.write(expGeom);
+				pw.println("---");
+
+
+				inputi++;
 			}
-
-			// Datum
-			String[] datum = new String[3];
-
-			datum[0] = "HF=" + datums.get(datumi).split(" ")[1];
-			datumi++;
-
-			String[] ss = datums.get(datumi).split(" ");
-			if (ss.length > 1) datum[1] = "DIP=" + ss[1];
-			datumi++;
-
-			ss = datums.get(datumi).split(" ");
-			if (ss.length > 1) datum[2] = "IE=" + ss[1];
-			datumi += 2;
-
-			List<String> datumL = new ArrayList<>();
-			for (String s : datum) {
-				if (s != null) datumL.add(s);
-			}
-
-
-			pw.println(String.join(", ", name, rhf, charge, mult));
-			pw.println(String.join(", ", datumL));
-			pw.write(atoms);
-			pw.write(expGeom);
-			pw.println("---");
-
-
-			inputi++;
+		} catch (NoSuchElementException e) {
+			System.err.println("Error caused by line " + inputi + ": \n" + lines.get(inputi));
+			throw e;
 		}
 
 		pw.close();
@@ -306,8 +310,12 @@ public class TxtIO {
 		return new Atom(AtomProperties.getAtomsMap().get(name).getZ(), Utils.bohr(coords));
 	}
 
+	private static String cleanAtom(String line) {
+		return line.replaceAll("[ ]+", "    ");
+	}
+
 	private static String[] splitCsvLine(String s) {
-		return s.split(", *");
+		return s.split(",[ ]*");
 	}
 
 	public static void main(String[] args) throws IOException {
