@@ -98,7 +98,7 @@ public class TxtIO {
 
 				inputi++;
 			}
-		} catch (NoSuchElementException e) {
+		} catch (Exception e) {
 			System.err.println("Error caused by line " + inputi + ": \n" + lines.get(inputi));
 			throw e;
 		}
