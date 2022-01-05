@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="forjinherng and batcher improvements">
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="progressbar in forjh">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/examples/ForJinherng.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/examples/ForJinherng.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/TxtIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/TxtIO.java" afterDir="false" />
     </list>
     <list id="3e0ea8eb-765e-4625-837c-961efbbcba23" name="Changes by flyingfalcon" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -524,14 +524,7 @@
       <workItem from="1641274063733" duration="2193000" />
       <workItem from="1641359371250" duration="3150000" />
       <workItem from="1641377468339" duration="3791000" />
-      <workItem from="1641381337115" duration="661000" />
-    </task>
-    <task id="LOCAL-00207" summary="ParamGradientNew expgeom derivs wip">
-      <created>1640966278380</created>
-      <option name="number" value="00207" />
-      <option name="presentableId" value="LOCAL-00207" />
-      <option name="project" value="LOCAL" />
-      <updated>1640966278380</updated>
+      <workItem from="1641381337115" duration="1462000" />
     </task>
     <task id="LOCAL-00208" summary="ParamGradientNew expgeom derivs wip">
       <created>1640966503866</created>
@@ -869,7 +862,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641381280375</updated>
     </task>
-    <option name="localTasksCounter" value="256" />
+    <task id="LOCAL-00256" summary="progressbar in forjh">
+      <created>1641382095664</created>
+      <option name="number" value="00256" />
+      <option name="presentableId" value="LOCAL-00256" />
+      <option name="project" value="LOCAL" />
+      <updated>1641382095664</updated>
+    </task>
+    <option name="localTasksCounter" value="257" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -916,7 +916,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="working uhf hessian" />
     <MESSAGE value="cleanup" />
     <MESSAGE value="better verify" />
     <MESSAGE value="checkpoitn" />
@@ -941,7 +940,8 @@
     <MESSAGE value="fix h1c1 bug" />
     <MESSAGE value="multithreaded forjinherng" />
     <MESSAGE value="forjinherng and batcher improvements" />
-    <option name="LAST_COMMIT_MESSAGE" value="forjinherng and batcher improvements" />
+    <MESSAGE value="progressbar in forjh" />
+    <option name="LAST_COMMIT_MESSAGE" value="progressbar in forjh" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

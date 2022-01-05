@@ -40,8 +40,9 @@ public class TxtIO {
 
 			String atoms = "";
 			while (!lines.get(inputi).equals("---") && !lines.get(inputi).equals("EXPGEOM")) {
-				atomsL.add(toAtom(lines.get(inputi)));
-				atoms += lines.get(inputi) + "\n";
+				String strip = lines.get(inputi).strip();
+				atomsL.add(toAtom(strip));
+				atoms += strip + "\n";
 				inputi++;
 			}
 
@@ -63,7 +64,7 @@ public class TxtIO {
 			String expGeom = "";
 			if (lines.get(inputi).equals("EXPGEOM")) {
 				while (!lines.get(inputi).equals("---")) {
-					expGeom += lines.get(inputi) + "\n";
+					expGeom += lines.get(inputi).strip() + "\n";
 					inputi++;
 				}
 			}
