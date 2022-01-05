@@ -16,6 +16,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ForJinherng {
 	private static class Result {
@@ -37,6 +38,8 @@ public class ForJinherng {
 
 		LogManager.getLogger("main").info("Molecule count: " + input.molecules.length);
 
+		AtomicInteger atomicInteger = new AtomicInteger(0);
+
 		Result[] totalResults = new Result[input.molecules.length];
 
 		Batcher.apply(input.molecules, totalResults, subset -> {
@@ -56,8 +59,8 @@ public class ForJinherng {
 
 				results[i] = new Result(molecule.debugName(), numbers);
 
-				molecule.getLogger().info("Initial Hf: {}, final Hf: {}, dipole: {}, IE: {}",
-						s.hf, optS.hf, optS.dipole, -optS.homo);
+				molecule.getLogger().info("Finished {}. Initial Hf: {}, final Hf: {}, dipole: {}, IE: {}",
+						atomicInteger.incrementAndGet(), s.hf, optS.hf, optS.dipole, -optS.homo);
 			}
 
 			return results;
