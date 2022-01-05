@@ -2,8 +2,14 @@ package examples;
 
 import com.google.gson.Gson;
 import frontend.TxtIO;
+import nddo.NDDOAtom;
+import nddo.geometry.GeometryOptimization;
+import nddo.solution.Solution;
 import org.apache.logging.log4j.LogManager;
+import runcycle.State;
 import runcycle.structs.RunInput;
+import runcycle.structs.RunnableMolecule;
+import tools.Batcher;
 import tools.Utils;
 
 import java.io.FileWriter;
@@ -34,31 +40,29 @@ public class ForJinherng {
 
 		AtomicInteger atomicInteger = new AtomicInteger(0);
 
-		Result[] totalResults = new Result[input.molecules.length];
+		Result[] totalResults = Batcher.apply(input.molecules, Result[].class, subset -> {
+			Result[] results = new Result[subset.length];
 
-//		Batcher.apply(input.molecules, totalResults, subset -> {
-//			Result[] results = new Result[subset.length];
-//
-//			for (int i = 0; i < subset.length; i++) {
-//				RunnableMolecule molecule = subset[i];
-//				NDDOAtom[] atoms = State.getConverter().convert(molecule.atoms, input.info.npMap);
-//
-//				Solution s = Solution.of(molecule, atoms);
-//
-//				GeometryOptimization go = GeometryOptimization.of(s).compute();
-//
-//				Solution optS = go.getS();
-//
-//				double[] numbers = new double[]{s.hf, optS.hf, optS.dipole, -optS.homo};
-//
-//				results[i] = new Result(molecule.debugName(), numbers);
-//
-//				molecule.getLogger().info("Finished {}. Initial Hf: {}, final Hf: {}, dipole: {}, IE: {}",
-//						atomicInteger.incrementAndGet(), s.hf, optS.hf, optS.dipole, -optS.homo);
-//			}
-//
-//			return results;
-//		});
+			for (int i = 0; i < subset.length; i++) {
+				RunnableMolecule molecule = subset[i];
+				NDDOAtom[] atoms = State.getConverter().convert(molecule.atoms, input.info.npMap);
+
+				Solution s = Solution.of(molecule, atoms);
+
+				GeometryOptimization go = GeometryOptimization.of(s).compute();
+
+				Solution optS = go.getS();
+
+				double[] numbers = new double[]{s.hf, optS.hf, optS.dipole, -optS.homo};
+
+				results[i] = new Result(molecule.debugName(), numbers);
+
+				molecule.getLogger().info("Finished {}. Initial Hf: {}, final Hf: {}, dipole: {}, IE: {}",
+						atomicInteger.incrementAndGet(), s.hf, optS.hf, optS.dipole, -optS.homo);
+			}
+
+			return results;
+		});
 
 		Arrays.sort(totalResults, Comparator.comparing(o -> o.name));
 
