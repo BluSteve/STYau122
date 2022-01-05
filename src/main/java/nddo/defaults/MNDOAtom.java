@@ -55,9 +55,15 @@ public class MNDOAtom extends NDDOAtomBasic<MNDOAtom> {
 	}
 
 	private static double getfhydrogenpgd(MNDOAtom a, MNDOAtom b, double R, int tau) {
-		return -2 * (a.getCoordinates()[tau] - b.getCoordinates()[tau]) / (bohr * bohr) *
+		return -2 * (a.getCoordinates()[tau] - b.getCoordinates()[tau]) / (bohr * bohr) * Pow.exp(-a.np.getAlpha() * R / bohr)
+				+ a.np.getAlpha() * (a.getCoordinates()[tau] - b.getCoordinates()[tau]) * R / (bohr * bohr * bohr) *
+				Pow.exp(-a.np.getAlpha() * R / bohr);
+	}
+
+	private static double getfhydrogenp2gd(MNDOAtom a, MNDOAtom b, double R, int tau) {
+		return 3 * (a.getCoordinates()[tau] - b.getCoordinates()[tau]) * R / (bohr * bohr * bohr) *
 				Pow.exp(-a.np.getAlpha() * R / bohr)
-				- R / (bohr * bohr * bohr) * (a.getCoordinates()[tau] - b.getCoordinates()[tau]) *
+				- a.np.getAlpha() * (a.getCoordinates()[tau] - b.getCoordinates()[tau]) * R * R / (bohr * bohr * bohr * bohr) *
 				Pow.exp(-a.np.getAlpha() * R / bohr);
 	}
 
@@ -89,12 +95,7 @@ public class MNDOAtom extends NDDOAtomBasic<MNDOAtom> {
 				Pow.exp(-a.np.getAlpha() * R / bohr);
 	}
 
-	private static double getfhydrogenp2gd(MNDOAtom a, MNDOAtom b, double R, int tau) {
-		return 2 * (a.getCoordinates()[tau] - b.getCoordinates()[tau]) * R / (bohr * bohr * bohr) *
-				Pow.exp(-a.np.getAlpha() * R / bohr)
-				+ R * R / (bohr * bohr * bohr * bohr) * (a.getCoordinates()[tau] - b.getCoordinates()[tau]) *
-				Pow.exp(-a.np.getAlpha() * R / bohr);
-	}
+
 
 	@Override
 	public MNDOAtom withNewParams(NDDOParams np) {

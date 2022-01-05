@@ -21,15 +21,20 @@ public class ForJinherng {
 
 			Solution s = Solution.of(molecule, atoms);
 
+			molecule.getLogger().info("Initial Hf: {}", s.hf);
+
 			GeometryOptimization go = GeometryOptimization.of(s).compute();
 
 			Solution optS = go.getS();
 
-			molecule.getLogger().info("Hf: {}", optS.hf);
+			molecule.getLogger().info("Final Hf: {}", optS.hf);
 
 			molecule.getLogger().info("Dipole: {}", optS.dipole);
 
 			molecule.getLogger().info("IE: {}", -optS.homo);
 		}
+
+		System.out.println("Press 'Enter' key to exit.");
+		System.console().readLine();
 	}
 }
