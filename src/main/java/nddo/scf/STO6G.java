@@ -26,6 +26,11 @@ public class STO6G extends LCGTO {
 		this.zeta = zeta;
 	}
 
+	public STO6G(STO6G sto6G) {
+		super(sto6G);
+		this.zeta = sto6G.zeta;
+	}
+
 	private static double[] getExps(int shell, double zeta) {
 		switch (shell) {
 			case 1:

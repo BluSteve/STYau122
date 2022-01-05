@@ -20,6 +20,17 @@ public abstract class Orbital {
 		this.L = op.L;
 	}
 
+	protected Orbital(Orbital orbital) { // not a copy constructor!
+		this.coordinates = orbital.coordinates;
+		this.op = orbital.op;
+		this.type = op.type;
+		this.shell = op.shell;
+		this.i = op.i;
+		this.j = op.j;
+		this.k = op.k;
+		this.L = op.L;
+	}
+
 	public double[] derivativeDecomposition(double[] point1, double[] point2, int tau) {
 		if (L == 0) return new double[]{0};
 		double R = GTO.R(point1, point2);

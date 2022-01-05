@@ -45,6 +45,16 @@ public class LCGTO extends Orbital { // HAS AtomFixed, OrbitalProperties, c, e
 		N = sum;
 	}
 
+	public LCGTO(LCGTO lcgto) {
+		super(lcgto);
+
+		this.gaussExponents = lcgto.gaussExponents;
+		this.coefficientArray = lcgto.coefficientArray;
+		this.n = lcgto.n;
+		this.gaussArray = lcgto.gaussArray;
+		this.N = lcgto.N;
+	}
+
 	public static double S(LCGTO X1, LCGTO X2) {//normalised overlap integral
 		double S = 0;
 

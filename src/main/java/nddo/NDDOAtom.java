@@ -2,7 +2,7 @@ package nddo;
 
 import nddo.structs.AtomProperties;
 
-public interface NDDOAtom<T extends NDDOAtom, S extends NDDOOrbital> { // todo make this interface
+public interface NDDOAtom<T extends NDDOAtom, S extends NDDOOrbital> {
 	AtomProperties getAtomProperties();
 
 	NDDOParams getParams();

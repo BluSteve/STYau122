@@ -11,7 +11,7 @@ public class NDDO6G extends STO6G implements NDDOOrbital<NDDOAtomBasic, NDDO6G> 
 	private NDDO6G[] orbitalArray;
 
 	public NDDO6G(NDDOAtomBasic atom, OrbitalProperties op, double zeta, double beta, double U) {
-		super(op, atom.getCoordinates(), zeta);
+		super(op, atom.coordinates, zeta);
 
 		this.atom = atom;
 		this.beta = beta;
@@ -29,17 +29,28 @@ public class NDDO6G extends STO6G implements NDDOOrbital<NDDOAtomBasic, NDDO6G> 
 		this.hp2 = 0.5 * (gpp - gp2);
 	}
 
-	private NDDO6G(NDDO6G nddo6G) {
-		this(nddo6G.atom, nddo6G.op, nddo6G.zeta, nddo6G.beta, nddo6G.U);
-	}
-
 	private NDDO6G(NDDO6G nddo6G, int i, int j, int k) {
-		this(nddo6G);
+		super(nddo6G);
 
-		super.i = i;
-		super.j = j;
-		super.k = k;
-		super.L = i + j + k;
+		this.i = i;
+		this.j = j;
+		this.k = k;
+		this.L = i + j + k;
+
+		this.atom = nddo6G.atom;
+		this.beta = nddo6G.beta;
+		this.U = nddo6G.U;
+		this.p0 = nddo6G.p0;
+		this.p1 = nddo6G.p1;
+		this.p2 = nddo6G.p2;
+		this.D1 = nddo6G.D1;
+		this.D2 = nddo6G.D2;
+		this.gss = nddo6G.gss;
+		this.gsp = nddo6G.gsp;
+		this.hsp = nddo6G.hsp;
+		this.gpp = nddo6G.gpp;
+		this.gp2 = nddo6G.gp2;
+		this.hp2 = nddo6G.hp2;
 	}
 
 	@Override
