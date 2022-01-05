@@ -87,9 +87,8 @@ class ParamGradientR extends ParamGradient {
 	@Override
 	protected void computeHFDeriv(int ZI, int paramNum, Solution sPrime) {
 		if (analytical)
-//			HFDerivs[ZI][paramNum] = ParamDerivative
-//					.HfDeriv(s, s.rm.mats[ZI], paramNum);
-			HFDerivs[ZI][paramNum] = 0;
+			HFDerivs[ZI][paramNum] = ParamDerivative
+					.HfDeriv(s, s.rm.mats[ZI], paramNum);
 		else {
 			assert sPrime != null;
 			HFDerivs[ZI][paramNum] = (sPrime.hf - s.hf) / Constants.LAMBDA;

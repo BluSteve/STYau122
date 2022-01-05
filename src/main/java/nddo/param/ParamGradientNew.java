@@ -287,7 +287,7 @@ public final class ParamGradientNew implements IParamGradient {
 	}
 
 	private void addHfGrad(int ZI, int paramNum) {
-//		totalGradients[ZI][paramNum] += 2 * (s.hf - datum[0]) * HfDerivs[ZI][paramNum];
+		totalGradients[ZI][paramNum] += 2 * (s.hf - datum[0]) * HfDerivs[ZI][paramNum];
 	}
 
 	private void addDipoleGrad(int ZI, int paramNum) {

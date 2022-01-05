@@ -409,8 +409,8 @@ public class ParamHessianNew implements IParamHessian {
 	}
 
 	private void addHfToHessian(int ZI1, int p1, int ZI2, int p2, double x) {
-//		addToHessian(ZI1, p1, ZI2, p2, 2 * (pg.HfDerivs[ZI1][p1] * pg.HfDerivs[ZI2][p2] +
-//				(s.hf - datum[0]) * x));
+		addToHessian(ZI1, p1, ZI2, p2, 2 * (pg.HfDerivs[ZI1][p1] * pg.HfDerivs[ZI2][p2] +
+				(s.hf - datum[0]) * x));
 	}
 
 	private void addDipoleToHessian(int ZI1, int p1, int ZI2, int p2, double x) {
