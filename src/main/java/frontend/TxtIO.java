@@ -15,7 +15,7 @@ import java.nio.file.Path;
 import java.util.*;
 
 public class TxtIO {
-	private static void txtToText() throws IOException {
+	public static void txtToText() throws IOException {
 		List<String> lines = Files.readAllLines(Path.of("input.txt"));
 		List<String> datums = Files.readAllLines(Path.of("reference.txt"));
 		PrintWriter pw = new PrintWriter("molecules.txt");

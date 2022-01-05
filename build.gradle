@@ -28,7 +28,7 @@ jar {
     clean
     manifest {
         attributes(
-                'Main-Class': 'frontend.Main',
+                'Main-Class': 'examples.ForJinherng',
                 'Multi-Release': 'true'
         )
     }
