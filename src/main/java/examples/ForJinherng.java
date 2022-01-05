@@ -18,19 +18,19 @@ public class ForJinherng {
 		RunInput input = TxtIO.readInput();
 
 		Batcher.consume(input.molecules, subset -> {
-					for (RunnableMolecule molecule : subset) {
-						NDDOAtom[] atoms = State.getConverter().convert(molecule.atoms, input.info.npMap);
+			for (RunnableMolecule molecule : subset) {
+				NDDOAtom[] atoms = State.getConverter().convert(molecule.atoms, input.info.npMap);
 
-						Solution s = Solution.of(molecule, atoms);
+				Solution s = Solution.of(molecule, atoms);
 
-						GeometryOptimization go = GeometryOptimization.of(s).compute();
+				GeometryOptimization go = GeometryOptimization.of(s).compute();
 
-						Solution optS = go.getS();
+				Solution optS = go.getS();
 
-						molecule.getLogger().info("Initial Hf: {}, final Hf: {}, dipole: {}, IE: {}",
-								s.hf, optS.hf, optS.dipole, -optS.homo);
-					}
-				});
+				molecule.getLogger().info("Initial Hf: {}, final Hf: {}, dipole: {}, IE: {}",
+						s.hf, optS.hf, optS.dipole, -optS.homo);
+			}
+		});
 
 		if (System.console() != null) {
 			System.out.println("Press 'Enter' key to exit.");
