@@ -5,7 +5,6 @@ import org.ejml.data.SingularMatrixException;
 import org.ejml.simple.SimpleMatrix;
 
 public class GeometryOptimizationR extends GeometryOptimization {
-
 	protected GeometryOptimizationR(SolutionR s) {
 		super(s);
 	}
@@ -23,6 +22,7 @@ public class GeometryOptimizationR extends GeometryOptimization {
 		try {
 			hessian = GeometrySecondDerivative.hessianRoutine((SolutionR) s, matrices[1]);
 		} catch (SingularMatrixException | IllegalStateException e) {
+			s.rm.getLogger().warn("hessianRoutine (R) failed: {}", e.toString());
 			hessian = SimpleMatrix.identity(gradient.getNumElements());
 		}
 

@@ -14,7 +14,7 @@ public final class Batcher {
 	private static final int minBatchSize = 1;
 	private static final int minBatchSize2 = minBatchSize << 1;
 
-	public static <T> void consume(T[] inputArr, Consumer<T[]> consumer) {
+	public static <T> boolean consume(T[] inputArr, Consumer<T[]> consumer) {
 		final int length = inputArr.length;
 
 		if (length <= minBatchSize2) consumer.accept(inputArr);
@@ -39,17 +39,28 @@ public final class Batcher {
 			}
 
 			ForkJoinTask.invokeAll(subtasks);
+
+			return true;
 		}
+
+		return false;
 	}
 
-	public static <T, R> R[] apply(T[] inputArr, Function<T[], R[]> function) {
+	public static <T, R> R[] apply(T[] inputArr, Function<T[], R[]> function) { // assumes output can cast into input
+		final R[] outputArr = (R[]) Array.newInstance(inputArr[0].getClass(), inputArr.length);
+
+		apply(inputArr, outputArr, function);
+
+		return outputArr;
+	}
+
+	public static  <T, R> void apply(T[] inputArr, R[] outputArr, Function<T[], R[]> function) {
 		final int length = inputArr.length;
-		if (length <= minBatchSize2) return function.apply(inputArr);
+		if (length <= minBatchSize2) System.arraycopy(function.apply(inputArr), 0, outputArr, 0, length);
 		else {
 			final int batchSize = Math.max((int) Math.ceil(length * coresinv), minBatchSize);
 			final int batchSize2 = batchSize << 1;
 
-			final var results = (R[]) Array.newInstance(inputArr[0].getClass(), length);
 			final List<RecursiveAction> subtasks = new ArrayList<>(length);
 
 			int endSize = 0;
@@ -62,14 +73,12 @@ public final class Batcher {
 					@Override
 					protected void compute() {
 						System.arraycopy(function.apply(Arrays.copyOfRange(inputArr, elapsedSize, finalEndSize)),
-								0, results, elapsedSize, finalEndSize - elapsedSize);
+								0, outputArr, elapsedSize, finalEndSize - elapsedSize);
 					}
 				});
 			}
 
 			ForkJoinTask.invokeAll(subtasks);
-
-			return results;
 		}
 	}
 

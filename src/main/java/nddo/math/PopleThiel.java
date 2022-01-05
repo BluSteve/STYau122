@@ -326,7 +326,11 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 				}
 			}
 
-			if (numIt++ > 10000) throw new IllegalStateException("Thiel has failed!");
+			if (numIt++ > 10000) {
+				IllegalStateException e = new IllegalStateException("Thiel has failed!");
+				soln.rm.getLogger().warn(e);
+				throw e;
+			}
 		}
 
 		return xarray;
@@ -491,7 +495,11 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 				}
 			}
 
-			if (numIt++ > 10000) throw new IllegalStateException("Thiel has failed!");
+			if (numIt++ > 10000) {
+				IllegalStateException e = new IllegalStateException("Thiel has failed!");
+				soln.rm.getLogger().warn(e);
+				throw e;
+			}
 		}
 
 		return xarray;
