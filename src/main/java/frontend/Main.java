@@ -16,7 +16,7 @@ public class Main {
 		RunInput input = TxtIO.readInput();
 		JsonIO.write(input, "input");
 
-		RunIterator iterator = new RunIterator(input, 10);
+		RunIterator iterator = new RunIterator(input, 1);
 		int i = 0;
 		for (RunOutput ro : iterator) {
 //			TxtIO.updateInput(ro.getNextInput());
