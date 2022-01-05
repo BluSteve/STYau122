@@ -4,9 +4,7 @@ import nddo.Constants;
 import nddo.NDDOAtom;
 import nddo.NDDOParams;
 import nddo.geometry.GeometryOptimization;
-import nddo.param.ParamErrorFunction;
-import nddo.param.ParamGradient;
-import nddo.param.ParamHessian;
+import nddo.param.*;
 import nddo.solution.Solution;
 import org.apache.commons.lang3.time.StopWatch;
 import org.apache.logging.log4j.Level;
@@ -87,7 +85,7 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 
 		RunOutput output = pRun.run();
 
-		logger.info("Run {} time taken: {}, output hash: {}\n", runNumber, output.timeTaken, output.hash);
+		logger.info("Run {} time taken: {}, output hash: {}\n\n", runNumber, output.timeTaken, output.hash);
 
 		currentRunInput = output.getNextInput();
 
@@ -316,8 +314,8 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 		private boolean withHessian, isExpAvail;
 		private RunnableMolecule rm;
 		private Solution s;
-		private ParamGradient g;
-		private ParamHessian h;
+		private IParamGradient g;
+		private IParamHessian h;
 		private Atom[] newAtoms;
 		private long time;
 
@@ -338,10 +336,10 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 				s = GeometryOptimization.of(initialS).compute().getS();
 				rm.getLogger().debug("Finished geometry optimization");
 
-				g = ParamGradient.of(s, datum, isExpAvail ? Solution.of(rm, expGeom) : null).compute();
+				g = new ParamGradientNew(s, datum, isExpAvail ? Solution.of(rm, expGeom) : null);
 				rm.getLogger().debug("Finished param gradient");
 
-				h = withHessian ? ParamHessian.from(g).compute() : null;
+				h = withHessian ? new ParamHessianNew((ParamGradientNew) g) : null;
 				rm.getLogger().debug("Finished param hessian");
 
 				// stores new optimized geometry
@@ -429,11 +427,11 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 			else throw new IllegalStateException("Hessian not found for molecule: " + rm.debugName());
 		}
 
-		public ParamGradient getG() {
+		public IParamGradient getG() {
 			return g;
 		}
 
-		public ParamHessian getH() {
+		public IParamHessian getH() {
 			return h;
 		}
 

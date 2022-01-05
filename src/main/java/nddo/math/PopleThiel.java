@@ -1,5 +1,6 @@
 package nddo.math;
 
+import nddo.solution.Solution;
 import nddo.solution.SolutionR;
 import nddo.solution.SolutionU;
 import org.ejml.data.SingularMatrixException;
@@ -84,8 +85,9 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		// responseMatrix remains the same size so pre-initialized
 		SimpleMatrix responseMatrix = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 		SimpleMatrix alpha = null;
-		int prevSize = 0;
+		int size = 0;
 
+		int numIt = 0;
 		bigLoop:
 		while (numIterable(iterable) > 0) {
 			// orthogonalize barray
@@ -111,12 +113,12 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 				prevs.add(prev);
 			}
 
-			prevSize = prevs.size();
+			size = prevs.size();
 
 			for (int i = 0; i < length; i++) {
 				SimpleMatrix newb = parray[i].copy();
 				// orthogonalize against all previous Bs
-				for (int j = 0; j < prevSize; j++) {
+				for (int j = 0; j < size; j++) {
 					SimpleMatrix[] prev = prevs.get(j);
 					double num = prev[0].dot(parray[i]) / dots.get(j);
 
@@ -126,10 +128,10 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 				barray[i] = newb; // new barray object created
 			}
 
-			SimpleMatrix Bt = new SimpleMatrix(prevSize, nonv);
-			SimpleMatrix BminusP = new SimpleMatrix(nonv, prevSize);
+			SimpleMatrix Bt = new SimpleMatrix(size, nonv);
+			SimpleMatrix BminusP = new SimpleMatrix(nonv, size);
 
-			for (int i = 0; i < prevSize; i++) {
+			for (int i = 0; i < size; i++) {
 				Bt.setRow(i, 0, prevs.get(i)[0].getDDRM().data);
 				BminusP.setColumn(i, 0, prevs.get(i)[1].getDDRM().data);
 			}
@@ -137,14 +139,18 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 			SimpleMatrix rhs = Bt.mult(F);
 			SimpleMatrix lhs = Bt.mult(BminusP);
 			// alpha dimensions are prevBs x length
-			alpha = lhs.solve(rhs);
+			try {
+				alpha = lhs.solve(rhs);
+			} catch (SingularMatrixException ignored) {
+				alpha = SimpleMatrix.ones(size, length);
+			}
 
 			// reset r array
 			for (int a = 0; a < length; a++) {
 				rarray[a].zero();
 			}
 
-			for (int i = 0; i < prevSize; i++) {
+			for (int i = 0; i < size; i++) {
 				for (int j = 0; j < length; j++) {
 					rarray[j].plusi(alpha.get(i, j), prevs.get(i)[1]);
 				}
@@ -172,6 +178,8 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 				else {
 					iterable[j] = false;
 				}
+
+				soln.rm.getLogger().trace("numIt={}, Pople mag: {}", numIt, mag);
 			}
 		}
 
@@ -179,7 +187,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 			xarray[i] = new SimpleMatrix(nonv, 1);
 		}
 
-		for (int i = 0; i < prevSize; i++) {
+		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < length; j++) {
 				xarray[j].plusi(alpha.get(i, j), prevs.get(i)[0]);
 			}
@@ -285,9 +293,15 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 						rarray[a].plusi(-v, p.get(i));
 					}
 
-					if (mag(rarray[a]) < 1E-10) {
+					double mag = mag(rarray[a]);
+					if (mag < 1E-10) {
 						rarray[a] = null;
 					}
+					else if (mag != mag) {
+						failThiel(soln, numIt);
+					}
+
+					soln.rm.getLogger().trace("numIt={}, Thiel mag: {}", numIt, mag);
 				}
 			}
 
@@ -327,13 +341,17 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 			}
 
 			if (numIt++ > 10000) {
-				IllegalStateException e = new IllegalStateException("Thiel has failed!");
-				soln.rm.getLogger().warn(e);
-				throw e;
+				failThiel(soln, numIt);
 			}
 		}
 
 		return xarray;
+	}
+
+	private static void failThiel(Solution soln, int numIt) {
+		IllegalStateException e = new IllegalStateException("Thiel has failed at numIt=" + numIt + "!");
+		soln.rm.getLogger().warn(e);
+		throw e;
 	}
 
 	public static SimpleMatrix[] thiel(SolutionU soln, SimpleMatrix[] fockderivstaticalpha,
@@ -454,9 +472,15 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 						rarray[a].plusi(-v, p.get(i));
 					}
 
-					if (mag(rarray[a]) < 1E-10) {
+					double mag = mag(rarray[a]);
+					if (mag < 1E-10) {
 						rarray[a] = null;
 					}
+					else if (mag != mag) {
+						failThiel(soln, numIt);
+					}
+
+					soln.rm.getLogger().trace("numIt={}, Thiel mag: {}", numIt, mag);
 				}
 			}
 
@@ -496,9 +520,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 			}
 
 			if (numIt++ > 10000) {
-				IllegalStateException e = new IllegalStateException("Thiel has failed!");
-				soln.rm.getLogger().warn(e);
-				throw e;
+				failThiel(soln, numIt);
 			}
 		}
 

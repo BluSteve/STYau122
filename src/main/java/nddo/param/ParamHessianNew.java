@@ -114,8 +114,6 @@ public class ParamHessianNew implements IParamHessian {
 			dD2responses = rhf ? computeDensityDerivs(sr, ptInputsArr) : null;
 
 			dD2responsesU = !rhf ? computeDensityDerivs(su, ptInputsArr, ptInputsArrBeta) : null;
-
-			System.out.println();
 		}
 
 		SimpleMatrix[] finalDD2responses = dD2responses;
@@ -435,6 +433,11 @@ public class ParamHessianNew implements IParamHessian {
 	@Override
 	public Solution getS() {
 		return s;
+	}
+
+	@Override
+	public ParamErrorFunction getE() {
+		return pg.e;
 	}
 
 	@Override
