@@ -274,7 +274,8 @@ public class ParamHessianNew implements IParamHessian {
 					addGeomToHessian(ZI1, p1, ZI2, p2, (Constants.KCAL *
 							(deriv.dot(pg.e.geomGradVector) +
 									pg.gGVectorDerivs[ZI1][p1].dot(pg.gGVectorDerivs[ZI2][p2])) -
-							pg.geomDerivs[ZI1][p1] / Constants.KCAL * pg.geomDerivs[ZI2][p2]) / pg.e.geomGradVector.normF());
+							pg.geomDerivs[ZI1][p1] / Constants.KCAL * pg.geomDerivs[ZI2][p2]) /
+							pg.e.geomGradMag * Constants.KCAL);
 				}
 			}
 		}
@@ -295,7 +296,7 @@ public class ParamHessianNew implements IParamHessian {
 	}
 
 	private static SimpleMatrix[][] computeDensityDerivs(SolutionU su, SimpleMatrix[] ptInputsArr,
-												  SimpleMatrix[] ptInputsArrBeta) {
+														 SimpleMatrix[] ptInputsArrBeta) {
 		return Batcher.apply(new SimpleMatrix[][]{ptInputsArr, ptInputsArrBeta},
 				subset -> {
 					SimpleMatrix[] sms = PopleThiel.thiel(su, subset[0], subset[1]);
