@@ -249,8 +249,9 @@ public class ParamHessian {
 
 	private ParamGradient constructGPrime(int ZIndex, int paramNum) {
 		return ParamGradient.of(s.withNewAtoms(Utils.perturbAtomParams(s.atoms,
-				s.rm.mats[ZIndex], paramNum)), datum, sExp.withNewAtoms(Utils.perturbAtomParams(sExp.atoms,
-				sExp.rm.mats[ZIndex], paramNum)));
+						s.rm.mats[ZIndex], paramNum)), datum,
+				sExp != null ? sExp.withNewAtoms(Utils.perturbAtomParams(sExp.atoms,
+						sExp.rm.mats[ZIndex], paramNum)) : null);
 	}
 
 	/**

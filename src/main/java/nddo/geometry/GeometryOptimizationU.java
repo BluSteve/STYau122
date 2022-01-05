@@ -22,10 +22,8 @@ public class GeometryOptimizationU extends GeometryOptimization {
 
 		// dunno if this is ok for unrestricted
 		try {
-			 hessian = GeometrySecondDerivative
-					.hessianRoutine((SolutionU) s, matrices[1],
-							matrices[2]);
-		} catch (SingularMatrixException e) {
+			 hessian = GeometrySecondDerivative.hessianRoutine((SolutionU) s, matrices[1], matrices[2]);
+		} catch (SingularMatrixException | IllegalStateException e) {
 			hessian = SimpleMatrix.identity(gradient.getNumElements());
 		}
 

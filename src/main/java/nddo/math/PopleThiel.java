@@ -326,7 +326,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 				}
 			}
 
-			if (numIt++ > 10000) throw new RuntimeException("Thiel has failed!");
+			if (numIt++ > 10000) throw new IllegalStateException("Thiel has failed!");
 		}
 
 		return xarray;
@@ -491,7 +491,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 				}
 			}
 
-			if (numIt++ > 10000) throw new RuntimeException("Thiel has failed!");
+			if (numIt++ > 10000) throw new IllegalStateException("Thiel has failed!");
 		}
 
 		return xarray;
