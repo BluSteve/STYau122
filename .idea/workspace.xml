@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="uncommented some parts of forjh" />
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="merge solutionu ediis">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/examples/ForJinherng.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/examples/ForJinHerng.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" afterDir="false" />
+    </list>
     <list id="3e0ea8eb-765e-4625-837c-961efbbcba23" name="Changes by flyingfalcon" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -196,11 +203,11 @@
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\src\main\java" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="nddo.solution.Solution" />
       <recent name="nddo.param.ParamDerivative" />
       <recent name="nddo.math.PopleThiel" />
       <recent name="nddo.param.ParamSecondDerivative" />
       <recent name="tools.Pow" />
-      <recent name="tools.Utils" />
     </key>
     <key name="ExtractSuperBase.RECENT_KEYS">
       <recent name="nddo.param" />
@@ -217,7 +224,7 @@
       <command value="gradlew clean" />
     </option>
   </component>
-  <component name="RunManager" selected="Application.ForJinherng">
+  <component name="RunManager" selected="Application.ForJinHerng">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -229,8 +236,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ForJinherng" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="examples.ForJinherng" />
+    <configuration name="ForJinHerng" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="examples.ForJinHerng" />
       <module name="MNDOParam.main" />
       <extension name="coverage">
         <pattern>
@@ -268,21 +275,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MNDOParam [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="MNDOParam [jar2]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
+        <option name="scriptParameters" />
         <option name="taskDescriptions">
           <list />
         </option>
         <option name="taskNames">
           <list>
-            <option value="clean" />
+            <option value="jar2" />
           </list>
         </option>
-        <option name="vmOptions" value="" />
+        <option name="vmOptions" />
       </ExternalSystemSettings>
       <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
@@ -349,21 +356,21 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.ForJinherng" />
       <item itemvalue="Application.Main" />
       <item itemvalue="Application.Testing" />
       <item itemvalue="Gradle.MNDOParam [jmh]" />
-      <item itemvalue="Gradle.MNDOParam [clean]" />
       <item itemvalue="Gradle.MNDOParam [jar]" />
       <item itemvalue="Shell Script.Copy" />
+      <item itemvalue="Application.ForJinHerng" />
+      <item itemvalue="Gradle.MNDOParam [jar2]" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Testing" />
+        <item itemvalue="Gradle.MNDOParam [jar2]" />
         <item itemvalue="Gradle.MNDOParam [jar]" />
+        <item itemvalue="Application.Testing" />
         <item itemvalue="Application.Main" />
-        <item itemvalue="Application.ForJinherng" />
-        <item itemvalue="Gradle.MNDOParam [clean]" />
+        <item itemvalue="Application.ForJinHerng" />
       </list>
     </recent_temporary>
   </component>
@@ -523,13 +530,6 @@
       <workItem from="1641377468339" duration="3791000" />
       <workItem from="1641381337115" duration="3708000" />
       <workItem from="1641394542398" duration="3392000" />
-    </task>
-    <task id="LOCAL-00213" summary="Renaming">
-      <created>1641055436114</created>
-      <option name="number" value="00213" />
-      <option name="presentableId" value="LOCAL-00213" />
-      <option name="project" value="LOCAL" />
-      <updated>1641055436114</updated>
     </task>
     <task id="LOCAL-00214" summary="minor changes">
       <created>1641056937567</created>
@@ -867,7 +867,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641398826219</updated>
     </task>
-    <option name="localTasksCounter" value="262" />
+    <task id="LOCAL-00262" summary="merge solutionu ediis">
+      <created>1641399383260</created>
+      <option name="number" value="00262" />
+      <option name="presentableId" value="LOCAL-00262" />
+      <option name="project" value="LOCAL" />
+      <updated>1641399383260</updated>
+    </task>
+    <option name="localTasksCounter" value="263" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -914,7 +921,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="better staticMatrix" />
     <MESSAGE value="better staticMatrix for uhf as well" />
     <MESSAGE value="better testing" />
     <MESSAGE value="better staticmatrix" />
@@ -939,7 +945,8 @@
     <MESSAGE value="io improvements" />
     <MESSAGE value="solutionr better array initialization" />
     <MESSAGE value="uncommented some parts of forjh" />
-    <option name="LAST_COMMIT_MESSAGE" value="uncommented some parts of forjh" />
+    <MESSAGE value="merge solutionu ediis" />
+    <option name="LAST_COMMIT_MESSAGE" value="merge solutionu ediis" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

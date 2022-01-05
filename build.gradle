@@ -28,6 +28,23 @@ jar {
     clean
     manifest {
         attributes(
+                'Main-Class': 'frontend.Main',
+                'Multi-Release': 'true'
+        )
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from {
+        configurations.runtimeClasspath.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+    baseName 'MNDOParam'
+}
+
+task jar2(type: Jar) {
+    clean
+    manifest {
+        attributes(
                 'Main-Class': 'examples.ForJinherng',
                 'Multi-Release': 'true'
         )
@@ -38,6 +55,8 @@ jar {
             it.isDirectory() ? it : zipTree(it)
         }
     }
+
+    baseName 'ForJinHerng'
 }
 
 jmh {

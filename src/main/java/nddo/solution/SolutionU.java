@@ -562,8 +562,9 @@ public class SolutionU extends Solution {
 
 
 			if (numIt > 100000) {
-				rm.getLogger().error("unstable");
-				System.exit(0);
+				IllegalStateException e = new IllegalStateException(this.rm.debugName() + " unstable");
+				rm.getLogger().error(e);
+				throw e;
 			}
 			rm.getLogger().trace("SolutionU iteration: {}, DIISError: {}", numIt, DIISError);
 
