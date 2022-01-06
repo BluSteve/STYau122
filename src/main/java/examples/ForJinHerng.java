@@ -16,6 +16,7 @@ import runcycle.structs.RunnableMolecule;
 import tools.Batcher;
 import tools.Utils;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
@@ -28,7 +29,7 @@ public class ForJinHerng {
 	private static final ScheduledExecutorService progressBar = Executors.newScheduledThreadPool(1);
 
 	public static void main(String[] args) throws IOException, InterruptedException {
-		TxtIO.txtToText();
+		if (new File("input.txt").isFile() && new File("reference.txt").isFile()) TxtIO.txtToText();
 
 		RunInput input = TxtIO.readInput();
 
