@@ -102,7 +102,7 @@ public class SolutionR extends Solution {
 		double DIISError = 10;
 		int itSinceLastDIIS = 0;
 
-		while (DIISError > 1E-12) {
+		while (DIISError > 1E-12 && !(numIt > 3000 && DIISError < 5e-12)) {
 			olddensity = densityMatrix;
 			integralcount = 0;
 

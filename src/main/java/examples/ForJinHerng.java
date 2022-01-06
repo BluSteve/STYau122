@@ -59,7 +59,7 @@ public class ForJinHerng {
 			logger.info("{}/{} left: {}", leftCount, mLength, left.toString().replace(", ", ","));
 		};
 
-		int wait = 10;
+		int wait = 30;
 		progressBar.scheduleAtFixedRate(mLeft, wait, wait, TimeUnit.SECONDS);
 
 		Result[] totalResults = Batcher.apply(input.molecules, Result[].class, subset -> {
@@ -105,6 +105,7 @@ public class ForJinHerng {
 		if (System.console() != null) {
 			System.out.println("Press 'Enter' key to exit.");
 			System.console().readLine();
+			System.exit(0);
 		}
 		else System.exit(0);
 	}
