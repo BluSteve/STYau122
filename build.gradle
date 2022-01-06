@@ -45,7 +45,7 @@ task jar2(type: Jar) {
     clean
     manifest {
         attributes(
-                'Main-Class': 'examples.ForJinherng',
+                'Main-Class': 'examples.ForJinHerng',
                 'Multi-Release': 'true'
         )
     }
@@ -55,7 +55,7 @@ task jar2(type: Jar) {
             it.isDirectory() ? it : zipTree(it)
         }
     }
-
+    with jar
     baseName 'ForJinHerng'
 }
 
