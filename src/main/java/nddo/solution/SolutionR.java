@@ -11,6 +11,7 @@ import tools.Utils;
 import java.util.Arrays;
 
 import static nddo.State.nom;
+import static nddo.State.config;
 
 public class SolutionR extends Solution {
 
@@ -102,7 +103,8 @@ public class SolutionR extends Solution {
 		double DIISError = 10;
 		int itSinceLastDIIS = 0;
 
-		while (DIISError > 1E-12 && !(numIt > 3000 && DIISError < 5e-12)) {
+		while (DIISError > config.rhf_diiserror_limit &&
+				!(numIt > config.rhf_numIt_tolerable && DIISError < config.rhf_diiserror_tolerable)) {
 			olddensity = densityMatrix;
 			integralcount = 0;
 
@@ -359,8 +361,14 @@ public class SolutionR extends Solution {
 				}
 			}
 
-			numIt++;
+			if (numIt > config.rhf_numIt_max) {
+				IllegalStateException e = new IllegalStateException(this.rm.debugName() + " unstable");
+				rm.getLogger().error(e);
+				throw e;
+			}
+
 			rm.getLogger().trace("SolutionR iteration: {}, DIISError: {}", numIt, DIISError);
+			numIt++;
 		}
 
 		// todo make these precomputations optional

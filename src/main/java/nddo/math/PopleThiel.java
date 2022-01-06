@@ -1,5 +1,6 @@
 package nddo.math;
 
+import nddo.State;
 import nddo.solution.Solution;
 import nddo.solution.SolutionR;
 import nddo.solution.SolutionU;
@@ -340,7 +341,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 				}
 			}
 
-			if (numIt++ > 10000) {
+			if (numIt++ > State.config.rhf_thiel_limit) {
 				failThiel(soln, numIt);
 			}
 		}
@@ -519,7 +520,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 				}
 			}
 
-			if (numIt++ > 10000) {
+			if (numIt++ > State.config.uhf_thiel_limit) {
 				failThiel(soln, numIt);
 			}
 		}

@@ -11,6 +11,7 @@ import tools.Utils;
 import java.util.Arrays;
 
 import static nddo.State.nom;
+import static nddo.State.config;
 
 
 public class SolutionU extends Solution {
@@ -146,7 +147,8 @@ public class SolutionU extends Solution {
 
 		double DIISError = 10;
 
-		while (!(DIISError < 5 * 1E-13)) {
+		while (!(DIISError < config.uhf_diiserror_limit) &&
+				!(numIt > config.uhf_numIt_tolerable && DIISError < config.uhf_diiserror_tolerable)) {
 
 			oldalphadensity = alphaDensity.copy();
 			oldbetadensity = betaDensity.copy();
@@ -561,7 +563,7 @@ public class SolutionU extends Solution {
 			}
 
 
-			if (numIt > 100000) {
+			if (numIt > config.uhf_numIt_max) {
 				IllegalStateException e = new IllegalStateException(this.rm.debugName() + " unstable");
 				rm.getLogger().error(e);
 				throw e;

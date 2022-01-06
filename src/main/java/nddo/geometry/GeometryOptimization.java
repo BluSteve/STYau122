@@ -1,6 +1,7 @@
 package nddo.geometry;
 
 import nddo.NDDOAtom;
+import nddo.State;
 import nddo.solution.Solution;
 import nddo.solution.SolutionR;
 import nddo.solution.SolutionU;
@@ -130,7 +131,7 @@ public abstract class GeometryOptimization {
 			// re-compute Hessian if still has not converged after n
 			// iterations
 			numIt++;
-			if (numIt == 7) {
+			if (numIt == State.config.geom_opt_hessian_interval) {
 				numIt = 0;
 				matrices = findGH();
 				gradient = matrices[0];

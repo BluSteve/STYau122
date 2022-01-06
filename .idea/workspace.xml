@@ -4,12 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="fix gradle">
+    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="solutionr threshold changes">
+      <change afterPath="$PROJECT_DIR$/src/main/java/nddo/Parameters.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/examples/ForJinHerng.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/examples/ForJinHerng.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/State.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/State.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryOptimization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -222,7 +224,7 @@
       <command value="gradlew clean" />
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.MNDOParam [jar2]">
+  <component name="RunManager" selected="Application.ForJinHerng">
     <configuration name="ForJinHerng" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="examples.ForJinHerng" />
       <module name="MNDOParam.main" />
@@ -528,14 +530,7 @@
       <workItem from="1641377468339" duration="3791000" />
       <workItem from="1641381337115" duration="3708000" />
       <workItem from="1641394542398" duration="3392000" />
-      <workItem from="1641433369633" duration="5657000" />
-    </task>
-    <task id="LOCAL-00219" summary="paramhessian fixed?">
-      <created>1641187628586</created>
-      <option name="number" value="00219" />
-      <option name="presentableId" value="LOCAL-00219" />
-      <option name="project" value="LOCAL" />
-      <updated>1641187628586</updated>
+      <workItem from="1641433369633" duration="7579000" />
     </task>
     <task id="LOCAL-00220" summary="paramhessian fixed for dipole">
       <created>1641188867898</created>
@@ -873,7 +868,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641435388194</updated>
     </task>
-    <option name="localTasksCounter" value="268" />
+    <task id="LOCAL-00268" summary="solutionr threshold changes">
+      <created>1641441167231</created>
+      <option name="number" value="00268" />
+      <option name="presentableId" value="LOCAL-00268" />
+      <option name="project" value="LOCAL" />
+      <updated>1641441167231</updated>
+    </task>
+    <option name="localTasksCounter" value="269" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -921,7 +923,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="critical bug fix in pg2" />
     <MESSAGE value="critical plustrans bug fix" />
     <MESSAGE value="phnew expgeom working except alpha" />
     <MESSAGE value="expgeom alpha wip" />
@@ -946,7 +947,8 @@
     <MESSAGE value="better forjh progressbar" />
     <MESSAGE value="auto-increase log level" />
     <MESSAGE value="fix gradle" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix gradle" />
+    <MESSAGE value="solutionr threshold changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="solutionr threshold changes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
