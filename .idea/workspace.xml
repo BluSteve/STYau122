@@ -4,14 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="solutionr threshold changes">
-      <change afterPath="$PROJECT_DIR$/src/main/java/nddo/Parameters.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="Config file">
+      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/State.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/State.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryOptimization.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -225,12 +220,12 @@
     </option>
   </component>
   <component name="RunManager" selected="Application.ForJinHerng">
-    <configuration name="ForJinHerng" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="examples.ForJinHerng" />
+    <configuration name="Config" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="nddo.Config" />
       <module name="MNDOParam.main" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="examples.*" />
+          <option name="PATTERN" value="nddo.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -238,12 +233,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="frontend.Main" />
+    <configuration name="ForJinHerng" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="examples.ForJinHerng" />
       <module name="MNDOParam.main" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="frontend.*" />
+          <option name="PATTERN" value="examples.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -356,21 +351,21 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.Main" />
       <item itemvalue="Application.Testing" />
-      <item itemvalue="Application.ForJinHerng" />
       <item itemvalue="Gradle.MNDOParam [jmh]" />
       <item itemvalue="Gradle.MNDOParam [jar]" />
       <item itemvalue="Gradle.MNDOParam [jar2]" />
       <item itemvalue="Shell Script.Copy" />
+      <item itemvalue="Application.Config" />
+      <item itemvalue="Application.ForJinHerng" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.ForJinHerng" />
+        <item itemvalue="Application.Config" />
         <item itemvalue="Gradle.MNDOParam [jar2]" />
         <item itemvalue="Gradle.MNDOParam [jar]" />
         <item itemvalue="Application.Testing" />
-        <item itemvalue="Application.Main" />
-        <item itemvalue="Application.ForJinHerng" />
       </list>
     </recent_temporary>
   </component>
@@ -530,14 +525,7 @@
       <workItem from="1641377468339" duration="3791000" />
       <workItem from="1641381337115" duration="3708000" />
       <workItem from="1641394542398" duration="3392000" />
-      <workItem from="1641433369633" duration="7579000" />
-    </task>
-    <task id="LOCAL-00220" summary="paramhessian fixed for dipole">
-      <created>1641188867898</created>
-      <option name="number" value="00220" />
-      <option name="presentableId" value="LOCAL-00220" />
-      <option name="project" value="LOCAL" />
-      <updated>1641188867898</updated>
+      <workItem from="1641433369633" duration="8487000" />
     </task>
     <task id="LOCAL-00221" summary="paramhessian fixed for dipole">
       <created>1641188896224</created>
@@ -875,7 +863,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641441167231</updated>
     </task>
-    <option name="localTasksCounter" value="269" />
+    <task id="LOCAL-00269" summary="Config file">
+      <created>1641443275562</created>
+      <option name="number" value="00269" />
+      <option name="presentableId" value="LOCAL-00269" />
+      <option name="project" value="LOCAL" />
+      <updated>1641443275562</updated>
+    </task>
+    <option name="localTasksCounter" value="270" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -923,7 +918,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="critical plustrans bug fix" />
     <MESSAGE value="phnew expgeom working except alpha" />
     <MESSAGE value="expgeom alpha wip" />
     <MESSAGE value="ipynb and better utils.mag" />
@@ -948,7 +942,8 @@
     <MESSAGE value="auto-increase log level" />
     <MESSAGE value="fix gradle" />
     <MESSAGE value="solutionr threshold changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="solutionr threshold changes" />
+    <MESSAGE value="Config file" />
+    <option name="LAST_COMMIT_MESSAGE" value="Config file" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
