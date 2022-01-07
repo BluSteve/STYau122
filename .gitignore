@@ -9,3 +9,4 @@ input.json
 logs
 flamegraph.png
 venv
+/updated-molecules.txt

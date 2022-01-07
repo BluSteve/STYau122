@@ -389,7 +389,8 @@ public class SolutionR extends Solution {
 		findEnergyAndHf();
 		if (nElectrons > 0) homo = E.get(nElectrons / 2 - 1, 0);
 		else homo = 0;
-		lumo = E.get(nElectrons / 2, 0);
+		if (nElectrons != nOrbitals << 1) lumo = E.get(nElectrons / 2, 0);
+		else lumo = 0;
 		findDipole();
 
 		return this;

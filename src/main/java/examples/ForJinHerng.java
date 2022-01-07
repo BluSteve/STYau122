@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.Configurator;
+import runcycle.RunIterator;
 import runcycle.State;
 import runcycle.structs.RunInput;
 import runcycle.structs.RunnableMolecule;
@@ -63,7 +64,8 @@ public class ForJinHerng {
 		int wait = 30;
 		progressBar.scheduleAtFixedRate(mLeft, wait, wait, TimeUnit.SECONDS);
 
-		Result[] totalResults = Batcher.apply(input.molecules, Result[].class, subset -> {
+		RunnableMolecule[] updatedRms = new RunnableMolecule[input.molecules.length];
+		Result[] totalResults = Batcher.apply(input.molecules, Result[].class, 1, subset -> {
 			Result[] results = new Result[subset.length];
 
 			for (int i = 0; i < subset.length; i++) {
@@ -76,6 +78,9 @@ public class ForJinHerng {
 					GeometryOptimization go = GeometryOptimization.of(s).compute();
 
 					Solution optS = go.getS();
+
+					updatedRms[molecule.index] = new RunnableMolecule(molecule, RunIterator.getAtoms(s),
+							molecule.expGeom, molecule.datum);
 
 					double[] numbers = new double[]{s.hf, optS.hf, optS.dipole, -optS.homo};
 
@@ -102,6 +107,8 @@ public class ForJinHerng {
 		FileWriter writer = new FileWriter("results.json");
 		gson.toJson(totalResults, writer);
 		writer.close();
+
+		TxtIO.updateMolecules(updatedRms, "updated-molecules.txt");
 
 		if (System.console() != null) {
 			System.out.println("Press 'Enter' key to exit.");

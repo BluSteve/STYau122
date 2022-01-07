@@ -66,6 +66,14 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 		return it.next();
 	}
 
+	public static Atom[] getAtoms(Solution s) {
+		Atom[] newAtoms = new Atom[s.atoms.length];
+		for (int i = 0; i < newAtoms.length; i++) {
+			newAtoms[i] = new Atom(s.atoms[i].getAtomProperties().getZ(), s.atoms[i].getCoordinates());
+		}
+		return newAtoms;
+	}
+
 	@Override
 	public boolean hasNext() {
 		if (limit != 0) return runNumber < limit;
@@ -312,11 +320,10 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 
 	private static final class MoleculeRun implements IMoleculeResult {
 		private boolean withHessian, isExpAvail;
-		private RunnableMolecule rm;
+		private RunnableMolecule rm, updatedRm;
 		private Solution s;
 		private IParamGradient g;
 		private IParamHessian h;
-		private Atom[] newAtoms;
 		private long time;
 
 		public MoleculeRun(RunnableMolecule rm, NDDOAtom[] nddoAtoms, NDDOAtom[] expGeom, double[] datum,
@@ -343,10 +350,7 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 				rm.getLogger().debug("Finished param hessian");
 
 				// stores new optimized geometry
-				newAtoms = new Atom[s.atoms.length];
-				for (int i = 0; i < newAtoms.length; i++) {
-					newAtoms[i] = new Atom(s.atoms[i].getAtomProperties().getZ(), s.atoms[i].getCoordinates());
-				}
+				updatedRm = new RunnableMolecule(rm, getAtoms(s), rm.expGeom, rm.datum);
 
 				sw.stop();
 				time = sw.getTime();
@@ -364,7 +368,7 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 		}
 
 		public RunnableMolecule getUpdatedRm() {
-			return new RunnableMolecule(rm, newAtoms, rm.expGeom, rm.datum);
+			return updatedRm;
 		}
 
 		public long getTime() {

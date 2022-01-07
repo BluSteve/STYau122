@@ -99,14 +99,16 @@ public abstract class GeometryOptimization {
 		}
 
 		int numIt = 0;
-		while (mag(gradient) > 1E-3) {
+		while (true) {
+			double mag = mag(gradient);
+			if (mag < 1E-3) break;
 			// computes new search direction
 			double lambda = lambda(h, U.transpose().mult(gradient), h.numRows() - counter);
 
 			SimpleMatrix searchDir = B.minus(SimpleMatrix.identity(B.numRows()).scale(lambda))
-							.invert()
-							.mult(gradient)
-							.negative();
+					.invert()
+					.mult(gradient)
+					.negative();
 
 			if (mag(searchDir) > 0.3) {
 				searchDir = searchDir.scale(0.3 / mag(searchDir));
@@ -117,16 +119,14 @@ public abstract class GeometryOptimization {
 			for (NDDOAtom a : s.atoms) {
 				for (int i = 0; i < 3; i++) {
 					a.getCoordinates()[i] = Math.round((a.getCoordinates()[i] + searchDir.get(coordIndex)) *
-									1000000000) / 1000000000.0;
+							1000000000) / 1000000000.0;
 					coordIndex++;
 				}
 			}
 
 			// creates new solution based on updated atom positions
 			updateSolution();
-			if (logger.isTraceEnabled()) {
-				logger.trace("hf: {}, gradient: {}", s.hf, mag(gradient));
-			}
+			logger.debug("hf: {}, gradient: {}", s.hf, mag);
 
 			// re-compute Hessian if still has not converged after n
 			// iterations
@@ -150,7 +150,7 @@ public abstract class GeometryOptimization {
 					}
 				}
 
-				double[] results = Batcher.applyDouble(params, subset -> {
+				double[] results = Batcher.applyDouble(params, 1, subset -> {
 					final double[] output = new double[subset.length];
 					for (int i = 0; i < subset.length; i++) {
 						output[i] = findDerivative(subset[i][0], subset[i][1]);

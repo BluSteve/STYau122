@@ -239,8 +239,8 @@ public class TxtIO {
 		return new RunInput(info, moleculesL.toArray(RunnableMolecule[]::new));
 	}
 
-	private static void updateMolecules(RunnableMolecule[] results) throws FileNotFoundException {
-		PrintWriter pw = new PrintWriter("molecules.txt");
+	public static void updateMolecules(RunnableMolecule[] results, String filepath) throws FileNotFoundException {
+		PrintWriter pw = new PrintWriter(filepath);
 
 		for (RunnableMolecule rm : results) {
 			pw.println(String.format("%s, %s, CHARGE=%d, MULT=%d", rm.name, rm.restricted ? "RHF" : "UHF",
@@ -281,8 +281,8 @@ public class TxtIO {
 		pw.close();
 	}
 
-	private static void updateParams(InputInfo info) throws FileNotFoundException {
-		PrintWriter pw = new PrintWriter("params.csv");
+	public static void updateParams(InputInfo info, String filepath) throws FileNotFoundException {
+		PrintWriter pw = new PrintWriter(filepath);
 
 		for (int i = 0; i < info.atomTypes.length; i++) {
 			String name = AtomProperties.getAtoms()[info.atomTypes[i]].getName();
@@ -297,8 +297,8 @@ public class TxtIO {
 	}
 
 	public static void updateInput(RunInput ri) throws FileNotFoundException {
-		updateMolecules(ri.molecules);
-		updateParams(ri.info);
+		updateMolecules(ri.molecules, "molecules.txt");
+		updateParams(ri.info, "params.csv");
 	}
 
 	private static Atom toAtom(String line) {

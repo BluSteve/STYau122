@@ -76,8 +76,8 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		}
 
 		// main loop
-		boolean[] iterable = new boolean[length];
-		boolean[] looselyIterable = new boolean[length];
+		boolean[] finished = new boolean[length];
+		boolean[]somewhatFinished = new boolean[length];
 
 		// 0: B, 2: B-P
 		List<SimpleMatrix[]> prevs = new ArrayList<>();
@@ -90,7 +90,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 
 		int numIt = 0;
 		bigLoop:
-		while (numIterable(iterable) > 0) {
+		while (numFalse(finished) > 0) {
 			// orthogonalize barray
 			for (int i = 1; i < barray.length; i++) {
 				for (int j = 0; j < i; j++) {
@@ -161,27 +161,31 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 				double mag = SpecializedOps_DDRM.diffNormF_fast(rarray[j].getDDRM(), Farray[j].getDDRM());
 
 				if (mag > oldrMags[j] || mag != mag) { // unstable
-					if (numIterable(looselyIterable) == 0) {
+					if (numFalse(somewhatFinished) == 0) {
 						soln.rm.getLogger().warn("Slight numerical instability detected; " +
-								"returning lower precision values. rarray mag = {}", mag);
+								"returning lower precision values. (mag = {})", mag);
 						break bigLoop; // i.e. mag is tolerable
 					}
 
-					soln.rm.getLogger().warn("Pople algorithm fails; reverting to Thiel algorithm...");
+					soln.rm.getLogger()
+							.warn("Pople algorithm fails; reverting to Thiel algorithm... (last mag = {})", mag);
 					return thiel(soln, fockderivstatic);
 				}
 
-				if (mag < 1E-7) {
-					if (mag < 1E-10) looselyIterable[j] = true;
+				if (mag < State.config.poplethiel_tolerable) {
+					finished[j] = mag < State.config.poplethiel_ideal;
 					oldrMags[j] = mag;
-					iterable[j] = true;
+					somewhatFinished[j] = true;
 				}
 				else {
-					iterable[j] = false;
+					finished[j] = false;
+					somewhatFinished[j] = false;
 				}
 
 				soln.rm.getLogger().trace("numIt={}, Pople mag: {}", numIt, mag);
 			}
+
+			numIt++;
 		}
 
 		for (int i = 0; i < length; i++) {
@@ -217,7 +221,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 
 		for (int i = 0; i < NOcc; i++) {
 			for (int j = 0; j < NVirt; j++) {
-				double e = -soln.E.get(i) - soln.E.get(NOcc + j);
+				double e = -soln.E.get(i) + soln.E.get(NOcc + j);
 
 				Darr[counter] = 1 / Math.sqrt(e);
 
@@ -295,10 +299,10 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 					}
 
 					double mag = mag(rarray[a]);
-					if (mag < 1E-10) {
+					if (mag < State.config.poplethiel_tolerable) {
 						rarray[a] = null;
 					}
-					else if (mag != mag) {
+					else if (mag != mag || Double.isInfinite(mag)) {
 						failThiel(soln, numIt);
 					}
 
@@ -349,12 +353,6 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		return xarray;
 	}
 
-	private static void failThiel(Solution soln, int numIt) {
-		IllegalStateException e = new IllegalStateException("Thiel has failed at numIt=" + numIt + "!");
-		soln.rm.getLogger().warn(e);
-		throw e;
-	}
-
 	public static SimpleMatrix[] thiel(SolutionU soln, SimpleMatrix[] fockderivstaticalpha,
 									   SimpleMatrix[] fockderivstaticbeta) {
 		int NOccAlpha = soln.rm.nOccAlpha;
@@ -393,6 +391,8 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 				counter++;
 			}
 		}
+
+		Arrays.fill(Darr, 1);
 
 		for (int a = 0; a < xarray.length; a++) {
 			SimpleMatrix fa = fockderivstaticalpha[a].copy();
@@ -474,10 +474,10 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 					}
 
 					double mag = mag(rarray[a]);
-					if (mag < 1E-10) {
+					if (mag < State.config.poplethiel_ideal) { // todo make tolerable once pople is done
 						rarray[a] = null;
 					}
-					else if (mag != mag) {
+					else if (mag != mag || Double.isInfinite(mag)) {
 						failThiel(soln, numIt);
 					}
 
@@ -526,6 +526,10 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		}
 
 		return xarray;
+	}
+
+	private static void failThiel(Solution soln, int numIt) {
+		throw new IllegalStateException(soln.rm.debugName() + ": Thiel has failed at numIt=" + numIt + "!");
 	}
 
 	public static SimpleMatrix densityDeriv(SolutionR soln, SimpleMatrix x) {
@@ -817,7 +821,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		return new SimpleMatrix[]{Kaderiv.plusi(Jderiv), Kbderiv.plusi(Jderiv)};
 	}
 
-	private static int numIterable(boolean[] iterable) {
+	private static int numFalse(boolean[] iterable) {
 		int count = 0;
 
 		for (boolean value : iterable) {

@@ -1,6 +1,7 @@
 package nddo.param;
 
 import nddo.Constants;
+import nddo.State;
 import nddo.math.PopleThiel;
 import nddo.solution.Solution;
 import nddo.solution.SolutionR;
@@ -118,7 +119,7 @@ public class ParamHessianNew implements IParamHessian {
 
 		SimpleMatrix[] finalDD2responses = dD2responses;
 		SimpleMatrix[][] finalDD2responsesU = dD2responsesU;
-		Batcher.consume(flatAll, subset -> {
+		Batcher.consume(flatAll, 1, subset -> {
 			for (int[] ints : subset) {
 				int ZI1 = ints[0];
 				int ZI2 = ints[1];
@@ -282,7 +283,7 @@ public class ParamHessianNew implements IParamHessian {
 	}
 
 	private static SimpleMatrix[] computeDensityDerivs(SolutionR sr, SimpleMatrix[] ptInputsArr) {
-		return Batcher.apply(ptInputsArr,
+		return Batcher.apply(ptInputsArr, State.config.poplethiel_batch_size,
 				subset -> {
 					SimpleMatrix[] sms = PopleThiel.pople(sr, subset);
 					SimpleMatrix[] results = new SimpleMatrix[sms.length];
@@ -297,7 +298,7 @@ public class ParamHessianNew implements IParamHessian {
 
 	private static SimpleMatrix[][] computeDensityDerivs(SolutionU su, SimpleMatrix[] ptInputsArr,
 														 SimpleMatrix[] ptInputsArrBeta) {
-		return Batcher.apply(ptInputsArr, ptInputsArrBeta, SimpleMatrix[][].class,
+		return Batcher.apply(ptInputsArr, ptInputsArrBeta, SimpleMatrix[][].class, State.config.poplethiel_batch_size,
 				(subseta, subsetb) -> {
 					SimpleMatrix[] sms = PopleThiel.thiel(su, subseta, subsetb);
 					SimpleMatrix[][] results = new SimpleMatrix[sms.length][];
@@ -312,7 +313,7 @@ public class ParamHessianNew implements IParamHessian {
 
 	private void computeBatched(Solution s, int[][] flat, SimpleMatrix[] ptInputsArr, SimpleMatrix[] ptInputsArrBeta,
 								boolean geom) {
-		Batcher.consume(flat, subset -> {
+		Batcher.consume(flat, 1, subset -> {
 			for (int[] ints : subset) {
 				final SolutionR sr = rhf ? (SolutionR) s : null;
 				final SolutionU su = !rhf ? (SolutionU) s : null;

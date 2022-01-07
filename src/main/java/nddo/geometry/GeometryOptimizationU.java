@@ -24,7 +24,7 @@ public class GeometryOptimizationU extends GeometryOptimization {
 			 hessian = GeometrySecondDerivative.hessianRoutine((SolutionU) s, matrices[1], matrices[2]);
 		} catch (SingularMatrixException | IllegalStateException e) {
 			s.rm.getLogger().warn("hessianRoutine (U) failed: {}", e.toString());
-			hessian = SimpleMatrix.identity(gradient.getNumElements());
+			hessian = SimpleMatrix.identity(gradient.getNumElements()).scalei(5);
 		}
 
 		return new SimpleMatrix[]{gradient, hessian};

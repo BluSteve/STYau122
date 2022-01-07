@@ -2,10 +2,10 @@
 <Configuration status="WARN">
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{ISO8601} %08r %highlight{%-5level}{TRACE=bright white} %logger{36} - %msg%n" disableAnsi="false"/>
+            <PatternLayout pattern="%d{ISO8601} %08r %highlight{%-5level}{TRACE=bright white} tid:%tid %logger{36} - %msg%n" disableAnsi="false"/>
         </Console>
         <File name="MainFile" fileName="logs/main.log">
-            <PatternLayout pattern="%d{ISO8601} %08r %-5level %logger{36} - %msg%n"/>
+            <PatternLayout pattern="%d{ISO8601} %08r %-5level tid:%tid %logger{36} - %msg%n"/>
             <Append value="false" />
         </File>
         <File name="csvFile" fileName="logs/main.csv">

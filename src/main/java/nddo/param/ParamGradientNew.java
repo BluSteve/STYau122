@@ -1,6 +1,7 @@
 package nddo.param;
 
 import nddo.Constants;
+import nddo.State;
 import nddo.math.PopleThiel;
 import nddo.solution.Solution;
 import nddo.solution.SolutionR;
@@ -159,7 +160,7 @@ public final class ParamGradientNew implements IParamGradient {
 				}
 			}
 
-			Batcher.consume(params.toArray(new int[0][0]), subset -> {
+			Batcher.consume(params.toArray(new int[0][0]), 1, subset -> {
 				for (int[] ints : subset) {
 					int ZI = ints[0];
 					int paramNum = ints[1];
@@ -267,9 +268,9 @@ public final class ParamGradientNew implements IParamGradient {
 
 		if (aggFa.length > 0) {
 			SimpleMatrix[] aggXUnpad = rhf ?
-					Batcher.apply(aggFaUnpad,
+					Batcher.apply(aggFaUnpad, State.config.poplethiel_batch_size,
 							subset -> PopleThiel.pople(sr, PopleThiel.toMO(sr.CtOcc, sr.CVirt, subset))) :
-					Batcher.apply(aggFaUnpad, aggFbUnpad, SimpleMatrix[].class,
+					Batcher.apply(aggFaUnpad, aggFbUnpad, SimpleMatrix[].class, State.config.poplethiel_batch_size,
 							(a, b) -> PopleThiel.thiel(su, PopleThiel.toMO(su.CtaOcc, su.CaVirt, a),
 									PopleThiel.toMO(su.CtbOcc, su.CbVirt, b)));
 
