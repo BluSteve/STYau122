@@ -107,13 +107,6 @@ public final class Batcher {
 
 			final List<RecursiveAction> subtasks = new ArrayList<>(length);
 
-			Pair<Integer, T>[] inputPairs = new Pair[length];
-			Pair<Integer, R>[] outputPairs = new Pair[length];
-
-			for (int i = 0; i < inputArr.length; i++) inputPairs[i] = new Pair(i, inputArr[i]);
-
-			Utils.shuffleArray(inputPairs);
-
 			int endSize = 0;
 			for (int es = 0; endSize < length; es += batchSize) {
 				int elapsedSize = es;
@@ -123,29 +116,13 @@ public final class Batcher {
 				subtasks.add(new RecursiveAction() {
 					@Override
 					protected void compute() {
-						int len = finalEndSize - elapsedSize;
-
-						Pair<Integer, T>[] inputPairSubset = new Pair[len];
-						T[] inputSubset = (T[]) Array.newInstance(inputArr.getClass().getComponentType(), len);
-						for (int i = elapsedSize, j = 0; i < finalEndSize; i++, j++) {
-							Pair<Integer, T> inputPair = inputPairs[i];
-							inputPairSubset[j] = inputPair;
-							inputSubset[j] = inputPair.second;
-						}
-
-						R[] outputSubset = function.apply(inputSubset);
-						for (int i = elapsedSize, j = 0; i < finalEndSize; i++, j++) {
-							outputPairs[i] = new Pair(inputPairSubset[j].first, outputSubset[j]);
-						}
+						System.arraycopy(function.apply(Arrays.copyOfRange(inputArr, elapsedSize, finalEndSize)),
+								0, outputArr, elapsedSize, finalEndSize - elapsedSize);
 					}
 				});
 			}
 
 			ForkJoinTask.invokeAll(subtasks);
-
-			Arrays.sort(outputPairs);
-
-			for (int i = 0; i < outputPairs.length; i++) outputArr[i] = outputPairs[i].second;
 		}
 	}
 

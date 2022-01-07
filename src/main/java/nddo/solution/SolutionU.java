@@ -356,8 +356,9 @@ public class SolutionU extends Solution {
 
 			int ediisSize = Math.min(Farrayalpha.length + 1, numIt + 2);
 
-			if (commutatorarrayalpha[Math.min(Farrayalpha.length - 1, numIt)].elementMax() > 0.01 &&
-					commutatorarraybeta[Math.min(Farrayalpha.length - 1, numIt)].elementMax() > 0.01) {
+			if (commutatorarrayalpha[Math.min(Farrayalpha.length - 1, numIt)].elementMax() > 1E-2 ||
+					commutatorarraybeta[Math.min(Farrayalpha.length - 1, numIt)].elementMax() > 1E-2) {
+
 
 				SimpleMatrix mat = new SimpleMatrix(ediisSize, ediisSize);
 
@@ -417,6 +418,7 @@ public class SolutionU extends Solution {
 					}
 				}
 
+
 				SimpleMatrix finalDIIS = bestDIIS;
 
 				SimpleMatrix Fa = new SimpleMatrix(alphaDensity.numRows(), alphaDensity.numCols());
@@ -465,6 +467,7 @@ public class SolutionU extends Solution {
 				alphaDensity = calculateDensityMatrix(Cta, nalpha);
 
 				betaDensity = calculateDensityMatrix(Ctb, nbeta);
+
 			}
 
 			else {

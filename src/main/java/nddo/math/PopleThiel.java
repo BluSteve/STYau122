@@ -345,9 +345,11 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 				}
 			}
 
-			if (numIt++ > State.config.rhf_thiel_limit) {
+			if (numIt == State.config.rhf_thiel_limit) {
 				failThiel(soln, numIt);
 			}
+
+			numIt++;
 		}
 
 		return xarray;
@@ -520,9 +522,11 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 				}
 			}
 
-			if (numIt++ > State.config.uhf_thiel_limit) {
+			if (numIt == State.config.uhf_thiel_limit) {
 				failThiel(soln, numIt);
 			}
+
+			numIt++;
 		}
 
 		return xarray;
