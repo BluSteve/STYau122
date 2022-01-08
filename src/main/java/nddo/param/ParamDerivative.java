@@ -399,7 +399,8 @@ public class ParamDerivative {
 		return H;
 	}
 
-	private static SimpleMatrix zetaGderivstatic(SolutionR soln, int Z, int type) { // todo unify first and second order
+	private static SimpleMatrix zetaGderivstatic(SolutionR soln, int Z, int type) { // todo unify first and second
+		// order
 		NDDOOrbital[] orbitals = soln.orbitals;
 		int[][] orbsOfAtom = soln.orbsOfAtom;
 		int[][] missingOfAtom = soln.missingOfAtom;
@@ -509,7 +510,11 @@ public class ParamDerivative {
 
 		for (int i = 0; i < numRows; i++) {
 			for (int j = i + 1; j < numRows; j++) {
-				double v = F.get(i, j) / (soln.E.get(j) - soln.E.get(i));
+				double ej = soln.E.get(j);
+				double ei = soln.E.get(i);
+				
+				double v = ej == ei ? 0 : F.get(i, j) / (ej - ei);
+
 				x.set(i, j, v);
 				x.set(j, i, -v);
 			}
@@ -525,8 +530,13 @@ public class ParamDerivative {
 
 		for (int i = 0; i < numRows; i++) {
 			for (int j = i + 1; j < numRows; j++) {
-				double va = Fa.get(i, j) / (soln.Ea.get(j) - soln.Ea.get(i));
-				double vb = Fb.get(i, j) / (soln.Eb.get(j) - soln.Eb.get(i));
+				double eaj = soln.Ea.get(j);
+				double eai = soln.Ea.get(i);
+				double ebj = soln.Eb.get(j);
+				double ebi = soln.Eb.get(i);
+
+				double va = eaj == eai ? 0 : Fa.get(i, j) / (eaj - eai);
+				double vb = ebj == ebi ? 0 : Fb.get(i, j) / (ebj - ebi);
 
 				xa.set(i, j, va);
 				xa.set(j, i, -va);

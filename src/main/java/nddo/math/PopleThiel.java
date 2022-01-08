@@ -230,7 +230,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		}
 
 		for (int a = 0; a < length; a++) {
-			SimpleMatrix f = fockderivstatic[a].copy(); // convert AO to MO basis
+			SimpleMatrix f = fockderivstatic[a].copy();
 			f.reshape(nonv, 1);
 			multRows(Darr, f.getDDRM());
 
