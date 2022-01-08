@@ -4,18 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="remove batcher shuffle and other debug">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/Config.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
-    </list>
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="fix batcher uhf bug in geom &amp; sigmoid threshold" />
     <list id="3e0ea8eb-765e-4625-837c-961efbbcba23" name="Changes by flyingfalcon" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -228,7 +217,7 @@
       <command value="gradlew clean" />
     </option>
   </component>
-  <component name="RunManager" selected="Application.ForJinHerng">
+  <component name="RunManager" selected="Shell Script.Copy">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -236,19 +225,6 @@
         </value>
       </option>
       <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Config" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="nddo.Config" />
-      <module name="MNDOParam.main" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="nddo.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -272,6 +248,19 @@
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="testing.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TxtIO" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="frontend.TxtIO" />
+      <module name="MNDOParam.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="frontend.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -352,21 +341,21 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.Config" />
       <item itemvalue="Application.ForJinHerng" />
       <item itemvalue="Gradle.MNDOParam [jmh]" />
       <item itemvalue="Gradle.MNDOParam [jar2]" />
       <item itemvalue="Shell Script.Copy" />
       <item itemvalue="Application.Utils" />
       <item itemvalue="Application.Testing" />
+      <item itemvalue="Application.TxtIO" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.TxtIO" />
         <item itemvalue="Application.Testing" />
         <item itemvalue="Application.Utils" />
         <item itemvalue="Gradle.MNDOParam [jar2]" />
         <item itemvalue="Application.ForJinHerng" />
-        <item itemvalue="Application.Config" />
       </list>
     </recent_temporary>
   </component>
@@ -531,14 +520,7 @@
       <workItem from="1641540012200" duration="906000" />
       <workItem from="1641540998056" duration="4372000" />
       <workItem from="1641546683374" duration="1435000" />
-      <workItem from="1641628825111" duration="7149000" />
-    </task>
-    <task id="LOCAL-00224" summary="working hessian for carbon and hydrogen">
-      <created>1641193910083</created>
-      <option name="number" value="00224" />
-      <option name="presentableId" value="LOCAL-00224" />
-      <option name="project" value="LOCAL" />
-      <updated>1641193910083</updated>
+      <workItem from="1641628825111" duration="7622000" />
     </task>
     <task id="LOCAL-00225" summary="clean up">
       <created>1641194637003</created>
@@ -876,7 +858,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641548127509</updated>
     </task>
-    <option name="localTasksCounter" value="273" />
+    <task id="LOCAL-00273" summary="fix batcher uhf bug in geom &amp; sigmoid threshold">
+      <created>1641636489051</created>
+      <option name="number" value="00273" />
+      <option name="presentableId" value="LOCAL-00273" />
+      <option name="project" value="LOCAL" />
+      <updated>1641636489051</updated>
+    </task>
+    <option name="localTasksCounter" value="274" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -923,7 +912,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="ipynb cont." />
     <MESSAGE value="working paramhessian" />
     <MESSAGE value="clean up + uncomment hf" />
     <MESSAGE value="kcal constant" />
@@ -948,7 +936,8 @@
     <MESSAGE value="better forjh" />
     <MESSAGE value="debug session with adrian and jh - shuffle batcher" />
     <MESSAGE value="remove batcher shuffle and other debug" />
-    <option name="LAST_COMMIT_MESSAGE" value="remove batcher shuffle and other debug" />
+    <MESSAGE value="fix batcher uhf bug in geom &amp; sigmoid threshold" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix batcher uhf bug in geom &amp; sigmoid threshold" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

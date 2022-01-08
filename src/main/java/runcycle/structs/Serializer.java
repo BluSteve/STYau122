@@ -33,7 +33,7 @@ public class Serializer {
 			mos[i] = MoleculeOutput.from(ro.results[i]);
 			mos[i].time = 0;
 		}
-		InputInfo info = ro.nextRunInfo;
+		InputInfo info = ro.nextInput.info;
 
 		return getHash(gson.toJson(info) + gson.toJson(mos));
 	}

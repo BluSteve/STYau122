@@ -95,7 +95,7 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 
 		logger.info("Run {} time taken: {}, output hash: {}\n\n", runNumber, output.timeTaken, output.hash);
 
-		currentRunInput = output.getNextInput();
+		currentRunInput = output.nextInput;
 
 		runNumber++;
 
@@ -307,14 +307,24 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 				}
 			}
 
+
+			IMoleculeResult[] resultsArray = results.toArray(new IMoleculeResult[0]);
 			InputInfo nextRunInfo = new InputInfo(info.atomTypes, info.neededParams, newNpMap);
+			RunnableMolecule[] nextRunRms = new RunnableMolecule[resultsArray.length];
+
+			for (int i = 0; i < nextRunRms.length; i++) {
+				nextRunRms[i] = resultsArray[i].getUpdatedRm();
+			}
+
+			RunInput nextInput = new RunInput(nextRunInfo, nextRunRms);
+
 
 			lsw.stop();
 			progressBar.shutdownNow();
 
 			logger.info("Total error: {}", ttError);
 
-			return new RunOutput(ri, nextRunInfo, results.toArray(new IMoleculeResult[0]), lsw.getTime(), ttError);
+			return new RunOutput(resultsArray, lsw.getTime(), ttError, ttGradient, ttHessian, ri, nextInput);
 		}
 	}
 

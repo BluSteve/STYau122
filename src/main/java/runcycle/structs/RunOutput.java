@@ -2,39 +2,24 @@ package runcycle.structs;
 
 import runcycle.IMoleculeResult;
 
-public final class RunOutput { // non-transient fields must be for reference purposes only
+public final class RunOutput {
 	public final String hash;
-	public final InputInfo nextRunInfo;
-	public final IMoleculeResult[] results;
 	public final long timeTaken;
+	public final RunInput input, nextInput;
 	public final double ttError;
-	private final transient RunInput input; // what made it
-	private transient RunInput nextInput; // what it made
+	public final double[] ttGradient;
+	public final double[][] ttHessian;
+	public final IMoleculeResult[] results;
 
-	public RunOutput(RunInput input, InputInfo nextRunInfo, IMoleculeResult[] results, long timeTaken, double ttError) {
-		this.input = input;
-		this.nextRunInfo = nextRunInfo;
+	public RunOutput(IMoleculeResult[] results, long timeTaken, double ttError, double[] ttGradient,
+					 double[][] ttHessian, RunInput input, RunInput nextInput) {
 		this.results = results;
 		this.timeTaken = timeTaken;
 		this.ttError = ttError;
-
+		this.ttGradient = ttGradient;
+		this.ttHessian = ttHessian;
+		this.input = input;
+		this.nextInput = nextInput;
 		hash = Serializer.getHash(this);
-	}
-
-	public RunInput getInput() {
-		return input;
-	}
-
-	public RunInput getNextInput() {
-		if (nextInput == null) {
-			RunnableMolecule[] nextRunRms = new RunnableMolecule[results.length];
-			for (int i = 0; i < nextRunRms.length; i++) {
-				nextRunRms[i] = results[i].getUpdatedRm();
-			}
-
-			nextInput = new RunInput(nextRunInfo, nextRunRms);
-		}
-
-		return nextInput;
 	}
 }
