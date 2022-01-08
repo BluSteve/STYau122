@@ -4,6 +4,7 @@ copy params.csv \\192.168.31.153\sambashare\home\steve\Downloads\mndo-server
 copy mndo-install.sh \\192.168.31.153\sambashare\home\steve\Downloads\mndo-server
 copy mndo-j.sh \\192.168.31.153\sambashare\home\steve\Downloads\mndo-server
 copy mndo-update.sh \\192.168.31.153\sambashare\home\steve\Downloads\mndo-server
+copy config.json \\192.168.31.153\sambashare\home\steve\Downloads\mndo-server
 copy build\libs\MNDOParam.jar \\192.168.31.153\sambashare\home\steve\Downloads\mndo-server\MNDOParam.jar
 
-ssh steve@34.67.32.112 -i C:\Users\billi\Documents\stevecyr "sudo ./mndo-update.sh"
+ssh steve@35.192.51.137 -i C:\Users\billi\Documents\stevecyr "./mndo-update.sh"

@@ -4,3 +4,4 @@ wget "$url/MNDOParam.jar" -O MNDOParam.jar
 wget "$url/molecules.txt" -O molecules.txt
 wget "$url/params.csv" -O params.csv
 wget "$url/param-numbers.csv" -O param-numbers.csv
+wget "$url/config.json" -O config.json

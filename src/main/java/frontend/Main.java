@@ -1,5 +1,6 @@
 package frontend;
 
+import org.apache.logging.log4j.LogManager;
 import runcycle.RunIterator;
 import runcycle.structs.RunInput;
 import runcycle.structs.RunOutput;
@@ -16,7 +17,10 @@ public class Main {
 		RunInput input = TxtIO.readInput();
 		JsonIO.write(input, "input");
 
-		RunIterator iterator = new RunIterator(input, 1);
+		RunIterator iterator = new RunIterator(input, FrontendConfig.config.num_runs);
+
+		LogManager.getLogger().info("Number of runs = {}", FrontendConfig.config.num_runs);
+
 		int i = 0;
 		for (RunOutput ro : iterator) {
 			TxtIO.updateInput(ro.nextInput);
