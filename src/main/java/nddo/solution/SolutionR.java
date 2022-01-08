@@ -103,8 +103,10 @@ public class SolutionR extends Solution {
 		double DIISError = 10;
 		int itSinceLastDIIS = 0;
 
-		while (DIISError > config.rhf_diiserror_limit &&
-				!(numIt > config.rhf_numIt_tolerable && DIISError < config.rhf_diiserror_tolerable)) {
+		while (true) {
+			double threshold = sigmoid(numIt);
+			if (!(DIISError > threshold)) break;
+
 			olddensity = densityMatrix;
 			integralcount = 0;
 
@@ -367,7 +369,7 @@ public class SolutionR extends Solution {
 				throw e;
 			}
 
-			rm.getLogger().trace("SolutionR iteration: {}, DIISError: {}", numIt, DIISError);
+			rm.getLogger().trace("numIt: {}, DIISError: {}, threshold: {}", numIt, DIISError, threshold);
 			numIt++;
 		}
 

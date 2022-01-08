@@ -21,7 +21,17 @@ public class GeometrySecondDerivative {
 				densityDerivs[i] = sm;
 			}
 		}
-		else densityDerivs = Batcher.apply(fockderivstatic, State.config.poplethiel_batch_size, subset -> densityDeriv(soln, subset));
+		else densityDerivs = Batcher.apply(fockderivstatic, State.config.poplethiel_batch_size,
+				subset -> {
+					SimpleMatrix[] sms = PopleThiel.pople(soln, PopleThiel.toMO(soln.CtOcc, soln.CVirt, subset));
+					SimpleMatrix[] results = new SimpleMatrix[sms.length];
+
+					for (int j = 0; j < sms.length; j++) {
+						results[j] = PopleThiel.densityDeriv(soln, sms[j]);
+					}
+
+					return results;
+				});
 
 		SimpleMatrix hessian = new SimpleMatrix(densityDerivs.length, densityDerivs.length);
 
@@ -72,27 +82,35 @@ public class GeometrySecondDerivative {
 
 	public static SimpleMatrix hessianRoutine(SolutionU soln, SimpleMatrix[] fockderivstaticalpha,
 											  SimpleMatrix[] fockderivstaticbeta) {
-		SimpleMatrix[][] sms;
+		SimpleMatrix[][] alphabeta;
 		if (soln.rm.nonvAlpha + soln.rm.nonvBeta == 0) {
 			SimpleMatrix sm = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
-			sms = new SimpleMatrix[2][fockderivstaticalpha.length];
+			alphabeta = new SimpleMatrix[fockderivstaticalpha.length][2];
 			for (int i = 0; i < fockderivstaticalpha.length; i++) {
-				sms[0][i] = sm;
-				sms[1][i] = sm;
+				alphabeta[i][0] = sm;
+				alphabeta[i][1] = sm;
 			}
 		}
-		else sms = Batcher.apply(fockderivstaticalpha, fockderivstaticbeta, SimpleMatrix[][].class, State.config.poplethiel_batch_size,
-				(subseta, subsetb) -> densityDeriv(soln, subseta, subsetb));
+		else alphabeta = Batcher.apply(fockderivstaticalpha, fockderivstaticbeta, SimpleMatrix[][].class,
+				State.config.poplethiel_batch_size, (subseta, subsetb) -> {
+					SimpleMatrix[] sms = PopleThiel.thiel(soln, PopleThiel.toMO(soln.CtaOcc, soln.CaVirt, subseta),
+							PopleThiel.toMO(soln.CtbOcc, soln.CbVirt, subsetb));
+					SimpleMatrix[][] results = new SimpleMatrix[sms.length][];
 
-		SimpleMatrix[] densityderivsalpha = sms[0];
-		SimpleMatrix[] densityderivsbeta = sms[1];
+					for (int i = 0; i < sms.length; i++) {
+						results[i] = PopleThiel.densityDeriv(soln, sms[i]);
+					}
 
-		SimpleMatrix hessian = new SimpleMatrix(densityderivsalpha.length, densityderivsalpha.length);
+					return results;
+				});
 
-		int[][] indices = new int[hessian.numRows() * (hessian.numRows() + 1) / 2][];
+		int length = alphabeta.length;
+		SimpleMatrix hessian = new SimpleMatrix(length, length);
+
+		int[][] indices = new int[alphabeta.length * (alphabeta.length + 1) / 2][];
 		int count = 0;
-		for (int i = 0; i < hessian.numRows(); i++) {
-			for (int j = i; j < hessian.numCols(); j++) {
+		for (int i = 0; i < alphabeta.length; i++) {
+			for (int j = i; j < alphabeta.length; j++) {
 				indices[count] = new int[]{i, j};
 				count++;
 			}
@@ -125,8 +143,8 @@ public class GeometrySecondDerivative {
 
 				for (int I = 0; I < soln.orbitals.length; I++) {
 					for (int J = 0; J < soln.orbitals.length; J++) {
-						E += fockderivstaticalpha[i].get(I, J) * densityderivsalpha[j].get(I, J);
-						E += fockderivstaticbeta[i].get(I, J) * densityderivsbeta[j].get(I, J);
+						E += fockderivstaticalpha[i].get(I, J) * alphabeta[j][0].get(I, J);
+						E += fockderivstaticbeta[i].get(I, J) * alphabeta[j][1].get(I, J);
 					}
 				}
 
@@ -136,36 +154,6 @@ public class GeometrySecondDerivative {
 		});
 
 		return hessian;
-	}
-
-	private static SimpleMatrix[] densityDeriv(SolutionR soln, SimpleMatrix[] fockderivstatic) {
-		SimpleMatrix[] xarray = PopleThiel.pople(soln, PopleThiel.toMO(soln.CtOcc, soln.CVirt, fockderivstatic));
-
-		SimpleMatrix[] densityDerivs = new SimpleMatrix[fockderivstatic.length];
-
-		for (int i = 0; i < xarray.length; i++) {
-			densityDerivs[i] = PopleThiel.densityDeriv(soln, xarray[i]);
-		}
-
-		return densityDerivs;
-	}
-
-	private static SimpleMatrix[][] densityDeriv(SolutionU soln, SimpleMatrix[] fockderivstaticalpha, SimpleMatrix[] fockderivstaticbeta) {
-		SimpleMatrix[] xarray = PopleThiel.thiel(soln,
-				PopleThiel.toMO(soln.CtaOcc, soln.CaVirt, fockderivstaticalpha),
-				PopleThiel.toMO(soln.CtbOcc, soln.CbVirt, fockderivstaticbeta));
-
-		SimpleMatrix[] densityDerivsAlpha = new SimpleMatrix[fockderivstaticalpha.length];
-		SimpleMatrix[] densityDerivsBeta = new SimpleMatrix[fockderivstaticbeta.length];
-
-		for (int i = 0; i < xarray.length; i++) {
-			SimpleMatrix[] sms = PopleThiel.densityDeriv(soln, xarray[i]);
-
-			densityDerivsAlpha[i] = sms[0];
-			densityDerivsBeta[i] = sms[1];
-		}
-
-		return new SimpleMatrix[][]{densityDerivsAlpha, densityDerivsBeta};
 	}
 
 	private static double Ederiv2(int atomnum1, int atomnum2, int[][] index, SimpleMatrix densityMatrix,

@@ -8,10 +8,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class Config {
-	public double rhf_diiserror_limit = 1e-12, rhf_diiserror_tolerable = 5e-12;
-	public int rhf_numIt_tolerable = 3000, rhf_numIt_max = 100000;
-	public double uhf_diiserror_limit = 5E-13, uhf_diiserror_tolerable = 1e-12;
-	public int uhf_numIt_tolerable = 3000, uhf_numIt_max = 100000;
+	public int rhf_numIt_max = 200;
+	public int uhf_numIt_max = 400;
 
 	public double poplethiel_tolerable = 1e-5, poplethiel_ideal = 1e-10;
 	public int poplethiel_batch_size = 1;

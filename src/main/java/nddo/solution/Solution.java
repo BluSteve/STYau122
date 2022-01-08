@@ -6,6 +6,7 @@ import nddo.NDDOOrbital;
 import nddo.defaults.NDDO6G;
 import nddo.structs.MoleculeInfo;
 import org.ejml.simple.SimpleMatrix;
+import tools.Pow;
 import tools.Utils;
 
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public abstract class Solution {
 					{0, 1, 4, 5, 6}, {0, 2, 3, 4, 6}, {0, 2, 3, 5, 6}, {0, 2, 4, 5, 6}, {0, 3, 4, 5, 6},
 					{1, 2, 3, 4, 6}, {1, 2, 3, 5, 6}, {1, 2, 4, 5, 6}, {1, 3, 4, 5, 6}, {2, 3, 4, 5, 6},
 					{0, 1, 2, 3, 4, 6}, {0, 1, 2, 3, 5, 6}, {0, 1, 2, 4, 5, 6}, {0, 1, 3, 4, 5, 6}, {0, 2, 3, 4, 5, 6},
-					{1, 2, 3, 4, 5, 6}}
+					{1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}}
 	};
 	public final int charge, mult, nElectrons, nOrbitals;
 	public final int[][] missingOfAtom, orbsOfAtom;
@@ -138,11 +139,11 @@ public abstract class Solution {
 		return true;
 	}
 
-	static SimpleMatrix commutator(SimpleMatrix F, SimpleMatrix D) {
+	protected static SimpleMatrix commutator(SimpleMatrix F, SimpleMatrix D) {
 		return F.mult(D).minus(D.mult(F));
 	}
 
-	static SimpleMatrix removeElements(SimpleMatrix original, int[] tbr) {
+	protected static SimpleMatrix removeElements(SimpleMatrix original, int[] tbr) {
 		int newN = original.numRows() - tbr.length;
 		boolean isMatrix = original.numCols() > 1;
 		SimpleMatrix newarray = isMatrix ? new SimpleMatrix(newN, newN) : new SimpleMatrix(newN, 1);
@@ -180,7 +181,7 @@ public abstract class Solution {
 		return newarray;
 	}
 
-	static SimpleMatrix addRows(SimpleMatrix original, int[] tbr) {
+	protected static SimpleMatrix addRows(SimpleMatrix original, int[] tbr) {
 		// add zero row at tbr
 		ArrayList<Double> array = new ArrayList<>();
 
@@ -194,6 +195,10 @@ public abstract class Solution {
 
 		return new SimpleMatrix(original.numRows() + tbr.length, 1,
 				true, Utils.toDoubles(array));
+	}
+
+	protected static double sigmoid(double x) {
+		return 1e-10 / (1 + Pow.exp(-0.1 * (x - 53)));
 	}
 
 	protected void findDipole() {

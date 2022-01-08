@@ -147,8 +147,9 @@ public class SolutionU extends Solution {
 
 		double DIISError = 10;
 
-		while (!(DIISError < config.uhf_diiserror_limit) &&
-				!(numIt > config.uhf_numIt_tolerable && DIISError < config.uhf_diiserror_tolerable)) {
+		while (true) {
+			double threshold = sigmoid(numIt * 0.5);
+			if (!(DIISError > threshold)) break;
 
 			oldalphadensity = alphaDensity.copy();
 			oldbetadensity = betaDensity.copy();
@@ -571,7 +572,7 @@ public class SolutionU extends Solution {
 				rm.getLogger().error(e);
 				throw e;
 			}
-			rm.getLogger().trace("SolutionU iteration: {}, DIISError: {}", numIt, DIISError);
+			rm.getLogger().trace("numIt: {}, DIISError: {}, threshold: {}", numIt, DIISError, threshold);
 
 			numIt++;
 		}
