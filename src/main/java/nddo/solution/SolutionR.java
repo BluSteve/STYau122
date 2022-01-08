@@ -10,8 +10,8 @@ import tools.Utils;
 
 import java.util.Arrays;
 
-import static nddo.State.nom;
 import static nddo.State.config;
+import static nddo.State.nom;
 
 public class SolutionR extends Solution {
 
@@ -24,7 +24,15 @@ public class SolutionR extends Solution {
 
 	@Override
 	public Solution withNewAtoms(NDDOAtom[] newAtoms) {
-		return new SolutionR(rm, newAtoms).compute();
+		SolutionR s = new SolutionR(rm, newAtoms);
+
+		s.E = E;
+		s.Ct = Ct;
+		s.densityMatrix = densityMatrix;
+
+		s.compute();
+
+		return s;
 	}
 
 	@Override
@@ -80,13 +88,17 @@ public class SolutionR extends Solution {
 			}
 		}
 
-		SimpleMatrix[] matrices = Utils.symEigen(H);
-		E = matrices[1].diag();
-		Ct = matrices[0].transpose();
-		SimpleMatrix G = new SimpleMatrix(Ct.numRows(), Ct.numCols());
-		F = H.copy();
+		if (densityMatrix == null) {
+			SimpleMatrix[] matrices = Utils.symEigen(H);
 
-		densityMatrix = calculateDensityMatrix(Ct);
+			E = matrices[1].diag();
+			Ct = matrices[0].transpose();
+
+			densityMatrix = calculateDensityMatrix(Ct);
+		}
+
+		F = H.copy();
+		SimpleMatrix G = new SimpleMatrix(Ct.numRows(), Ct.numCols());
 		SimpleMatrix olddensity;
 
 		SimpleMatrix[] Farray = new SimpleMatrix[8];
@@ -297,7 +309,7 @@ public class SolutionR extends Solution {
 					F = F.plus(Farray[i].scale(finalDIIS.get(i)));
 				}
 
-				matrices = Utils.symEigen(F);
+				SimpleMatrix[] matrices = Utils.symEigen(F);
 				E = matrices[1].diag();
 				Ct = matrices[0].transpose();
 
@@ -342,7 +354,7 @@ public class SolutionR extends Solution {
 						D.plusi(Darray[i].scale(DIIS.get(i)));
 					}
 
-					matrices = Utils.symEigen(F);
+					SimpleMatrix[] matrices = Utils.symEigen(F);
 					E = matrices[1].diag();
 					Ct = matrices[0].transpose();
 
@@ -354,7 +366,7 @@ public class SolutionR extends Solution {
 
 					densityMatrix = calculateDensityMatrix(Ct);
 				} catch (SingularMatrixException e) { // todo fix adrian
-					matrices = Utils.symEigen(F);
+					SimpleMatrix[] matrices = Utils.symEigen(F);
 					E = matrices[1].diag();
 					Ct = matrices[0].transpose();
 

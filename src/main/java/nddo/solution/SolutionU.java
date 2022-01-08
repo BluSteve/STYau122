@@ -10,8 +10,8 @@ import tools.Utils;
 
 import java.util.Arrays;
 
-import static nddo.State.nom;
 import static nddo.State.config;
+import static nddo.State.nom;
 
 
 public class SolutionU extends Solution {
@@ -100,29 +100,23 @@ public class SolutionU extends Solution {
 			}
 		}
 
-		SimpleMatrix[] matrices = Utils.symEigen(H);
+		if (alphaDensity == null || betaDensity == null) {
+			SimpleMatrix[] matrices = Utils.symEigen(H);
 
-		Ea = matrices[1].diag();
+			Ea = matrices[1].diag();
+			Eb = matrices[1].diag();
 
-		Eb = matrices[1].diag();
+			Cta = matrices[0].transpose();
+			Ctb = matrices[0].transpose();
 
-		Cta = matrices[0].transpose();
-
-		Ctb = matrices[0].transpose();
+			alphaDensity = calculateDensityMatrix(Cta, nalpha);
+			betaDensity = calculateDensityMatrix(Ctb, nbeta);
+		}
 
 		SimpleMatrix j1 = new SimpleMatrix(Cta.numRows(), Cta.numCols());
-
 		SimpleMatrix ka = new SimpleMatrix(Cta.numRows(), Cta.numCols());
-
 		SimpleMatrix kb = new SimpleMatrix(Cta.numRows(), Cta.numCols());
-
-		alphaDensity = calculateDensityMatrix(Cta, nalpha);
-
-		betaDensity = calculateDensityMatrix(Ctb, nbeta);
-
-		SimpleMatrix oldalphadensity = new SimpleMatrix(Cta.numRows(), Cta.numCols());
-
-		SimpleMatrix oldbetadensity = new SimpleMatrix(Cta.numRows(), Cta.numCols());
+		SimpleMatrix oldalphadensity, oldbetadensity;
 
 		int Jcount, Kcount;
 
@@ -357,8 +351,8 @@ public class SolutionU extends Solution {
 
 			int ediisSize = Math.min(Farrayalpha.length + 1, numIt + 2);
 
-			if (commutatorarrayalpha[Math.min(Farrayalpha.length - 1, numIt)].elementMax() > 1E-2 ||
-					commutatorarraybeta[Math.min(Farrayalpha.length - 1, numIt)].elementMax() > 1E-2) {
+			if (commutatorarrayalpha[Math.min(Farrayalpha.length - 1, numIt)].elementMax() > 1E-3 ||
+					commutatorarraybeta[Math.min(Farrayalpha.length - 1, numIt)].elementMax() > 1E-3) {
 
 
 				SimpleMatrix mat = new SimpleMatrix(ediisSize, ediisSize);
@@ -712,10 +706,8 @@ public class SolutionU extends Solution {
 		return this;
 	}
 
-	private SimpleMatrix calculateDensityMatrix(SimpleMatrix c,
-												int NElectrons) {
-		SimpleMatrix densityMatrix =
-				new SimpleMatrix(orbitals.length, orbitals.length);
+	private SimpleMatrix calculateDensityMatrix(SimpleMatrix c, int NElectrons) {
+		SimpleMatrix densityMatrix = new SimpleMatrix(orbitals.length, orbitals.length);
 
 		for (int i = 0; i < orbitals.length; i++) {
 			for (int j = 0; j < orbitals.length; j++) {
@@ -746,7 +738,19 @@ public class SolutionU extends Solution {
 
 	@Override
 	public Solution withNewAtoms(NDDOAtom[] newAtoms) {
-		return new SolutionU(rm, newAtoms).compute();
+		SolutionU s = new SolutionU(rm, newAtoms);
+
+		s.Ea = Ea;
+		s.Eb = Eb;
+		s.Cta = Cta;
+		s.Ctb = Ctb;
+
+		s.alphaDensity = alphaDensity;
+		s.betaDensity = betaDensity;
+
+		s.compute();
+
+		return s;
 	}
 
 	@Override

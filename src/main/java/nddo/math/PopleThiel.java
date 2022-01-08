@@ -476,7 +476,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 					}
 
 					double mag = mag(rarray[a]);
-					if (mag < State.config.poplethiel_ideal) { // todo make tolerable once pople is done
+					if (mag < State.config.poplethiel_tolerable) { // todo make tolerable once pople is done
 						rarray[a] = null;
 					}
 					else if (mag != mag || Double.isInfinite(mag)) {
