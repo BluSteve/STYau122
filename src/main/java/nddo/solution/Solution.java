@@ -16,7 +16,7 @@ import static nddo.State.nom;
 
 public abstract class Solution {
 	public final static int maxParamNum = 8; // todo compute this on the fly
-	static final int[][][] TBRS = {
+	protected	static final int[][][] TBRS = {
 			{{}},
 			{{0}},
 			{{1}, {0, 1}},
@@ -40,6 +40,8 @@ public abstract class Solution {
 					{0, 1, 2, 3, 4, 6}, {0, 1, 2, 3, 5, 6}, {0, 1, 2, 4, 5, 6}, {0, 1, 3, 4, 5, 6}, {0, 2, 3, 4, 5, 6},
 					{1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}}
 	};
+	protected static final double[] ZEROS = new double[8];
+
 	public final int charge, mult, nElectrons, nOrbitals;
 	public final int[][] missingOfAtom, orbsOfAtom;
 	public final int[] atomicNumbers, atomOfOrb;
@@ -140,7 +142,7 @@ public abstract class Solution {
 	}
 
 	protected static SimpleMatrix commutator(SimpleMatrix F, SimpleMatrix D) {
-		return F.mult(D).minus(D.mult(F));
+		return F.mult(D).minusi(D.mult(F));
 	}
 
 	protected static SimpleMatrix removeElements(SimpleMatrix original, int[] tbr) {
