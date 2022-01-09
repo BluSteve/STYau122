@@ -387,15 +387,25 @@ public abstract class Solution {
 	private double[] testEdiis() {
 		precomp();
 
-		computePrivate();
-		findHf();
-		double ediishf = hf;
+		double ediishf;
+		try {
+			computePrivate();
+			findHf();
+			ediishf = hf;
+		} catch (IllegalStateException e) {
+			ediishf = Double.POSITIVE_INFINITY;
+		}
 
-		densityMatrix = alphaDensity = betaDensity = null;
-		ediisThreshold = Double.POSITIVE_INFINITY;
-		computePrivate();
-		findHf();
-		double noEdiishf = hf;
+		double noEdiishf;
+		try {
+			densityMatrix = alphaDensity = betaDensity = null;
+			ediisThreshold = Double.POSITIVE_INFINITY;
+			computePrivate();
+			findHf();
+			noEdiishf = hf;
+		} catch (IllegalStateException e) {
+			noEdiishf = Double.POSITIVE_INFINITY;
+		}
 
 		return new double[]{ediishf, noEdiishf};
 	}
