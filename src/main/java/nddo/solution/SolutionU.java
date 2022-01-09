@@ -130,16 +130,14 @@ public class SolutionU extends Solution {
 			betaDensity = calculateDensityMatrix(Ctb, nBeta);
 		}
 
-		SimpleMatrix j1 = new SimpleMatrix(Cta.numRows(), Cta.numCols());
-		SimpleMatrix ka = new SimpleMatrix(Cta.numRows(), Cta.numCols());
-		SimpleMatrix kb = new SimpleMatrix(Cta.numRows(), Cta.numCols());
+		SimpleMatrix j1 = new SimpleMatrix(nOrbitals, nOrbitals);
+		SimpleMatrix ka = new SimpleMatrix(nOrbitals, nOrbitals);
+		SimpleMatrix kb = new SimpleMatrix(nOrbitals, nOrbitals);
 		SimpleMatrix oldalphadensity, oldbetadensity;
 
 		int Jcount, Kcount;
 
 		int numIt = 0;
-
-		double damp = 0.55;
 
 		SimpleMatrix[] Farrayalpha = new SimpleMatrix[8];
 		SimpleMatrix[] Farraybeta = new SimpleMatrix[8];
@@ -501,77 +499,41 @@ public class SolutionU extends Solution {
 
 				rhs.set(mat.numRows() - 1, 0, 1);
 
-				try {
-					SimpleMatrix DIIS = mat.solve(rhs);
+				SimpleMatrix DIIS = mat.solve(rhs);
 
-					SimpleMatrix Fa = new SimpleMatrix(alphaDensity.numRows(), alphaDensity.numCols());
-					SimpleMatrix Fb = new SimpleMatrix(betaDensity.numRows(), betaDensity.numCols());
+				SimpleMatrix Fa = new SimpleMatrix(nOrbitals, nOrbitals);
+				SimpleMatrix Fb = new SimpleMatrix(nOrbitals, nOrbitals);
 
+				SimpleMatrix Da = new SimpleMatrix(nOrbitals, nOrbitals);
+				SimpleMatrix Db = new SimpleMatrix(nOrbitals, nOrbitals);
 
-					SimpleMatrix Da = new SimpleMatrix(alphaDensity.numRows(), alphaDensity.numCols());
-					SimpleMatrix Db = new SimpleMatrix(betaDensity.numRows(), betaDensity.numCols());
+				for (int i = 0; i < DIIS.getNumElements() - 1; i++) {
+					double diis = DIIS.get(i);
+					Fa.plusi(diis, Farrayalpha[i]);
+					Da.plusi(diis, Darrayalpha[i]);
 
-
-					for (int i = 0; i < DIIS.getNumElements() - 1; i++) {
-						Fa.plusi(Farrayalpha[i].scale(DIIS.get(i)));
-						Da.plusi(Darrayalpha[i].scale(DIIS.get(i)));
-
-						Fb.plusi(Farraybeta[i].scale(DIIS.get(i)));
-						Db.plusi(Darraybeta[i].scale(DIIS.get(i)));
-					}
-
-
-					SimpleMatrix[] matrices1 = Utils.symEigen(Fa);
-
-					SimpleMatrix[] matrices2 = Utils.symEigen(Fb);
-
-					Ea = matrices1[1].diag();
-
-					Eb = matrices2[1].diag();
-
-					Cta = matrices1[0].transpose();
-					Ctb = matrices2[0].transpose();
-
-
-					if (Cta.get(0, 0) != Cta.get(0, 0)) {
-
-						matrices1 = Utils.symEigen(this.Fa);
-
-						matrices2 = Utils.symEigen(Fb);
-
-						Ea = matrices1[1].diag();
-
-						Eb = matrices2[1].diag();
-
-						Cta = matrices1[0].transpose();
-						Ctb = matrices2[0].transpose();
-
-
-					}
-
-					alphaDensity = calculateDensityMatrix(Cta, nAlpha);
-
-					betaDensity = calculateDensityMatrix(Ctb, nBeta);
-
-
-				} catch (Exception e) {
-					SimpleMatrix[] matrices1 = Utils.symEigen(Fa);
-
-					SimpleMatrix[] matrices2 = Utils.symEigen(Fb);
-
-					Ea = matrices1[1].diag();
-
-					Eb = matrices2[1].diag();
-
-					Cta = matrices1[0].transpose();
-					Ctb = matrices2[0].transpose();
-
-					alphaDensity = calculateDensityMatrix(Cta, nAlpha).scale(1 - damp)
-							.plus(oldalphadensity.scale(damp));
-
-					betaDensity = calculateDensityMatrix(Ctb, nBeta).scale(1 - damp)
-							.plus(oldbetadensity.scale(damp));
+					Fb.plusi(diis, Farraybeta[i]);
+					Db.plusi(diis, Darraybeta[i]);
 				}
+
+				SimpleMatrix[] matrices1 = Utils.symEigen(Fa);
+				SimpleMatrix[] matrices2 = Utils.symEigen(Fb);
+
+				SimpleMatrix Ea = matrices1[1].diag();
+				SimpleMatrix Eb = matrices2[1].diag();
+
+				SimpleMatrix Cta = matrices1[0].transposei();
+				SimpleMatrix Ctb = matrices2[0].transposei();
+
+				if (!Cta.hasUncountable() && !Ctb.hasUncountable()) {
+					this.Ea = Ea;
+					this.Eb = Eb;
+					this.Cta = Cta;
+					this.Ctb = Ctb;
+				}
+
+				alphaDensity = calculateDensityMatrix(Cta, nAlpha);
+				betaDensity = calculateDensityMatrix(Ctb, nBeta);
 			}
 
 
@@ -591,8 +553,6 @@ public class SolutionU extends Solution {
 
 			numIt++;
 		}
-
-		rm.getLogger().debug("hf = {}, dipole = {}, homo = {}", hf, dipole, homo);
 	}
 
 	protected void findMatrices() {

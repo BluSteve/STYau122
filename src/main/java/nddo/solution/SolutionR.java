@@ -326,8 +326,6 @@ public class SolutionR extends Solution {
 
 			numIt++;
 		}
-
-		rm.getLogger().debug("hf = {}, dipole = {}, homo = {}", hf, dipole, homo);
 	}
 
 	protected void findMatrices() {

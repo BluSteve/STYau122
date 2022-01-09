@@ -219,6 +219,8 @@ public abstract class Solution {
 		findDipole();
 		findHomoLumo();
 
+		rm.getLogger().debug("hf = {}, dipole = {}, homo = {}", hf, dipole, homo);
+
 		return this;
 	}
 
