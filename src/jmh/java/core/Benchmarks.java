@@ -2,12 +2,10 @@ package core;
 
 import frontend.TxtIO;
 import nddo.solution.Solution;
-import nddo.solution.SolutionR;
-import org.ejml.simple.SimpleMatrix;
 import org.openjdk.jmh.annotations.*;
+import runcycle.structs.InputInfo;
 import runcycle.structs.RunInput;
 import runcycle.structs.RunnableMolecule;
-import tools.Utils;
 
 import java.io.IOException;
 import java.util.Random;
@@ -23,26 +21,29 @@ public class Benchmarks {
 	@Warmup(iterations = 3, time = 5)
 	@Measurement(iterations = 3, time = 5)
 	@BenchmarkMode(Mode.SampleTime)
-	@OutputTimeUnit(TimeUnit.NANOSECONDS)
+	@OutputTimeUnit(TimeUnit.MICROSECONDS)
 	public static void init(State state) {
-		Utils.plusTrans(SimpleMatrix.random_DDRM(10, 10, 0, 1, state.r));
+		Solution s = Solution.of(state.rm, runcycle.State.getConverter().convert(state.rm.atoms, state.info.npMap));
 	}
 
 	@org.openjdk.jmh.annotations.State(Scope.Benchmark)
 	public static class State {
-		public SolutionR s;
-		public SimpleMatrix[] fockderivstatic;
-		public SimpleMatrix x;
 		public Random r = new Random(123);
 		public RunnableMolecule rm;
+		public InputInfo info;
 
 		@Setup(Level.Trial)
 		public void setup() throws IOException {
 			RunInput input = TxtIO.readInput();
-			rm = input.molecules[0];
+			RunnableMolecule rm = input.molecules[0];
+			this.rm = rm;
+			this.info = input.info;
 
-			s = (SolutionR) Solution.of(rm, runcycle.State.getConverter().convert(rm.atoms, input.info.npMap));
+			Solution s = Solution.of(rm, runcycle.State.getConverter().convert(rm.atoms, input.info.npMap));
 
+			System.out.println("s.hf = " + s.hf);
+			System.out.println("s.dipole = " + s.dipole);
+			System.out.println("s.homo = " + s.homo);
 		}
 	}
 }

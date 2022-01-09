@@ -19,7 +19,6 @@ public final class RunnableMolecule extends MoleculeInfo { // mid-level runnable
 		if (expGeom != null && atoms.length != expGeom.length)
 			throw new IllegalArgumentException("Atom and expGeom size mismatch!");
 
-
 		this.atoms = atoms;
 		this.expGeom = expGeom;
 		this.datum = datum;
