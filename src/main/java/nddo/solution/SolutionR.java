@@ -3,6 +3,7 @@ package nddo.solution;
 import nddo.Constants;
 import nddo.NDDOAtom;
 import nddo.structs.MoleculeInfo;
+import org.apache.logging.log4j.Level;
 import org.ejml.data.DMatrixRMaj;
 import org.ejml.data.SingularMatrixException;
 import org.ejml.simple.SimpleMatrix;
@@ -15,8 +16,6 @@ import static nddo.State.nom;
 import static org.ejml.dense.row.CommonOps_DDRM.*;
 
 public class SolutionR extends Solution {
-	private static final int LENGTH = 8;
-	private static final int LENGTH1 = LENGTH - 1;
 	public double[] integralArray;
 	public SimpleMatrix C, COcc, CVirt, Ct, CtOcc, CtVirt, F, E, Emat;
 	private SimpleMatrix[] Farray;
@@ -106,23 +105,21 @@ public class SolutionR extends Solution {
 			densityMatrix = calculateDensityMatrix();
 		}
 
-		SimpleMatrix G = new SimpleMatrix(Ct.numRows(), Ct.numCols());
-		SimpleMatrix olddensity;
+		SimpleMatrix G = new SimpleMatrix(nOrbitals, nOrbitals);
 
 		Farray = new SimpleMatrix[LENGTH];
 		Darray = new SimpleMatrix[LENGTH];
 		commutatorarray = new SimpleMatrix[LENGTH];
 		earray = new double[LENGTH];
 
-		Bforediis = new SimpleMatrix(LENGTH, LENGTH);
 		B = new SimpleMatrix(LENGTH, LENGTH);
+		Bforediis = new SimpleMatrix(LENGTH, LENGTH);
 		ddrm = new DMatrixRMaj(nOrbitals, nOrbitals);
 
 		double DIISError, threshold;
 		int numIt = 0;
 
 		while (true) {
-			olddensity = densityMatrix;
 			integralcount = 0;
 
 			for (int j = 0; j < orbitals.length; j++) {
@@ -174,7 +171,7 @@ public class SolutionR extends Solution {
 
 
 			if (numIt < LENGTH) {
-				DIISError = getDiisError(numIt);
+				DIISError = updateDiis(numIt);
 			}
 			else {
 				System.arraycopy(Farray, 1, Farray, 0, LENGTH1);
@@ -190,20 +187,22 @@ public class SolutionR extends Solution {
 				Bforediis.setRow(LENGTH1, 0, ZEROS);
 				Bforediis.setColumn(LENGTH1, 0, ZEROS);
 
-				DIISError = getDiisError(LENGTH1);
+				DIISError = updateDiis(LENGTH1);
 			}
 
 
 			int len = Math.min(LENGTH, numIt + 1);
+			int len1 = len - 1;
 			int ediisSize = len + 1;
 			// if true do EDIIS else DIIS
-			if (commutatorarray[ediisSize - 2].elementMax() > 0.01) {
+			if (commutatorarray[len1].elementMax() > 0.01) {
 				SimpleMatrix mat = new SimpleMatrix(ediisSize, ediisSize);
 
 				for (int i = 0; i < len; i++) {
 					for (int j = i; j < len; j++) {
-						mat.set(i, j, Bforediis.get(i, j));
-						mat.set(j, i, Bforediis.get(i, j));
+						double v = Bforediis.get(i, j);
+						mat.set(i, j, v);
+						mat.set(j, i, v);
 					}
 				}
 
@@ -222,7 +221,7 @@ public class SolutionR extends Solution {
 
 				double bestE = 0;
 				SimpleMatrix bestDIIS = null;
-				for (int i = 0; i <= ediisSize - 2; i++) {
+				for (int i = 0; i <= len1; i++) {
 					for (int[] tbr : TBRS[i]) {
 						try {
 							SimpleMatrix newmat = removeElements(mat, tbr);
@@ -236,11 +235,9 @@ public class SolutionR extends Solution {
 
 								for (int a = 0; a < len; a++) {
 									e -= earray[a] * tempEdiis.get(a);
-								}
 
-								for (int a = 0; a < len; a++) {
 									for (int b = 0; b < len; b++) {
-										e += 0.25 * tempEdiis.get(a) * tempEdiis.get(b) * B.get(a, b);
+										e += 0.5 * tempEdiis.get(a) * tempEdiis.get(b) * Bforediis.get(a, b);
 									}
 								}
 
@@ -249,7 +246,6 @@ public class SolutionR extends Solution {
 									bestDIIS = tempEdiis;
 								}
 							}
-
 						} catch (SingularMatrixException ignored) {
 						}
 					}
@@ -293,33 +289,27 @@ public class SolutionR extends Solution {
 				SimpleMatrix rhs = new SimpleMatrix(ediisSize, 1);
 				rhs.set(len, 0, 1);
 
-				try {
-					SimpleMatrix DIIS = mat.solve(rhs);
+				SimpleMatrix DIIS = mat.solve(rhs);
 
-					SimpleMatrix F = new SimpleMatrix(nOrbitals, nOrbitals);
-					SimpleMatrix D = new SimpleMatrix(nOrbitals, nOrbitals);
+				SimpleMatrix F = new SimpleMatrix(nOrbitals, nOrbitals);
+				SimpleMatrix D = new SimpleMatrix(nOrbitals, nOrbitals);
 
-					for (int i = 0; i < len; i++) {
-						double diis = DIIS.get(i);
-						F.plusi(diis,Farray[i]);
-						D.plusi(diis, Darray[i]);
-					}
-
-					SimpleMatrix[] matrices = Utils.symEigen(F);
-					SimpleMatrix E = matrices[1].diag();
-					SimpleMatrix Ct = matrices[0].transposei();
-
-					if (!Ct.hasUncountable()) {
-						this.E = E;
-						this.Ct = Ct;
-					}
-
-					densityMatrix = calculateDensityMatrix();
-				} catch (SingularMatrixException e) {
-
-					double damp = 0.8;
-					densityMatrix = calculateDensityMatrix().scale(1 - damp).plus(olddensity.scale(damp));
+				for (int i = 0; i < len; i++) {
+					double diis = DIIS.get(i);
+					F.plusi(diis, Farray[i]);
+					D.plusi(diis, Darray[i]);
 				}
+
+				SimpleMatrix[] matrices = Utils.symEigen(F);
+				SimpleMatrix E = matrices[1].diag();
+				SimpleMatrix Ct = matrices[0].transposei();
+
+				if (!Ct.hasUncountable()) {
+					this.E = E;
+					this.Ct = Ct;
+				}
+
+				densityMatrix = calculateDensityMatrix();
 			}
 
 			if (numIt > config.rhf_numIt_max) {
@@ -328,14 +318,17 @@ public class SolutionR extends Solution {
 				throw e;
 			}
 
-			threshold = sigmoid(numIt);
-			if (DIISError < threshold) break;
+			threshold = THRESHOLDS[numIt];
+			boolean b = DIISError < threshold;
 
-			rm.getLogger().trace("numIt: {}, DIISError: {}, threshold: {}", numIt, DIISError, threshold);
+			Level level = b ? Level.DEBUG : Level.TRACE;
+			rm.getLogger().log(level, "numIt: {}, DIISError: {}, threshold: {}", numIt, DIISError, threshold);
+
+			if (b) break;
+
 			numIt++;
 		}
 
-		rm.getLogger().debug("numIt: {}, DIISError: {}, threshold: {}", numIt, DIISError, threshold);
 
 		CtVirt = Ct.extractMatrix(rm.nOccAlpha, Ct.numCols(), 0, Ct.numCols());
 		C = Ct.transpose();
@@ -356,34 +349,35 @@ public class SolutionR extends Solution {
 		lumo = nElectrons != nOrbitals << 1 ? E.get(nElectrons / 2, 0) : 0;
 		findDipole();
 
+		rm.getLogger().debug("hf = {}, dipole = {}, homo = {}", hf, dipole, homo);
+
 		return this;
 	}
 
-	private double getDiisError(int numIt) {
-		double DIISError;
-		Farray[numIt] = F;
-		Darray[numIt] = densityMatrix;
-		earray[numIt] = -0.5 * H.mult(densityMatrix).trace();
+	private double updateDiis(int len1) {
+		Farray[len1] = F;
+		Darray[len1] = densityMatrix;
+		earray[len1] = -0.5 * H.mult(densityMatrix).trace();
 
-		commutatorarray[numIt] = commutator(F, densityMatrix);
-		DIISError = commutatorarray[numIt].normF();
+		commutatorarray[len1] = commutator(F, densityMatrix);
+		double DIISError = commutatorarray[len1].normF();
 
-		for (int i = 0; i <= numIt; i++) {
-			multTransB(commutatorarray[numIt].getDDRM(), commutatorarray[i].getDDRM(), ddrm);
+		for (int i = 0; i <= len1; i++) {
+			multTransB(commutatorarray[len1].getDDRM(), commutatorarray[i].getDDRM(), ddrm);
 			double product = trace(ddrm);
 
-			B.set(i, numIt, product);
-			B.set(numIt, i, product);
+			B.set(i, len1, product);
+			B.set(len1, i, product);
 
-			mult(Farray[i].getDDRM(), Darray[numIt].getDDRM(), ddrm);
+			mult(Farray[i].getDDRM(), Darray[len1].getDDRM(), ddrm);
 			double t1 = trace(ddrm);
-			mult(Farray[numIt].getDDRM(), Darray[i].getDDRM(), ddrm);
+			mult(Farray[len1].getDDRM(), Darray[i].getDDRM(), ddrm);
 			double t2 = trace(ddrm);
 
-			product = 0.5 * t1 + t2;
+			product = 0.5 * (t1 + t2);
 
-			Bforediis.set(i, numIt, product);
-			Bforediis.set(numIt, i, product);
+			Bforediis.set(i, len1, product);
+			Bforediis.set(len1, i, product);
 		}
 
 		return DIISError;

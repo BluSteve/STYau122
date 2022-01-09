@@ -13,11 +13,12 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import static nddo.State.config;
 import static nddo.State.nom;
 
 public abstract class Solution {
 	public final static int maxParamNum = 8; // todo compute this on the fly
-	protected	static final int[][][] TBRS = {
+	protected static final int[][][] TBRS = {
 			{{}},
 			{{0}},
 			{{1}, {0, 1}},
@@ -41,7 +42,17 @@ public abstract class Solution {
 					{0, 1, 2, 3, 4, 6}, {0, 1, 2, 3, 5, 6}, {0, 1, 2, 4, 5, 6}, {0, 1, 3, 4, 5, 6}, {0, 2, 3, 4, 5, 6},
 					{1, 2, 3, 4, 5, 6}, {0, 1, 2, 3, 4, 5, 6}}
 	};
-	protected static final double[] ZEROS = new double[8];
+	protected static final int LENGTH = 8;
+	protected static final int LENGTH1 = LENGTH - 1;
+	protected static final double[] ZEROS = new double[LENGTH];
+
+	protected static final double[] THRESHOLDS = new double[Math.max(config.rhf_numIt_max, config.uhf_numIt_max)];
+
+	static {
+		for (int i = 0; i < THRESHOLDS.length; i++) {
+			THRESHOLDS[i] = sigmoid(i);
+		}
+	}
 
 	public final int charge, mult, nElectrons, nOrbitals;
 	public final int[][] missingOfAtom, orbsOfAtom;
@@ -75,7 +86,6 @@ public abstract class Solution {
 				overallOrbitalIndex++;
 			}
 		}
-
 
 		// filling up the core matrix in accordance with NDDO formalism
 		H = new SimpleMatrix(orbitals.length, orbitals.length);
@@ -199,7 +209,7 @@ public abstract class Solution {
 		return new SimpleMatrix(original.numRows() + tbr.length, 1, true, Utils.toDoubles(array));
 	}
 
-	protected static double sigmoid(double x) {
+	private static double sigmoid(int x) {
 		return 1e-10 / (1 + Pow.exp(-0.1 * (x - 53)));
 	}
 

@@ -3,6 +3,7 @@ package nddo.solution;
 import nddo.Constants;
 import nddo.NDDOAtom;
 import nddo.structs.MoleculeInfo;
+import org.apache.logging.log4j.Level;
 import org.ejml.data.SingularMatrixException;
 import org.ejml.dense.row.CommonOps_DDRM;
 import org.ejml.simple.SimpleMatrix;
@@ -564,16 +565,17 @@ public class SolutionU extends Solution {
 				throw e;
 			}
 
-			threshold = sigmoid(numIt);
-			if (DIISError < threshold) break;
+			threshold = THRESHOLDS[numIt];
+			boolean b = DIISError < threshold;
 
-			rm.getLogger().trace("numIt: {}, DIISError: {}, threshold: {}", numIt, DIISError, threshold);
+			Level level = b ? Level.DEBUG : Level.TRACE;
+			rm.getLogger().log(level, "numIt: {}, DIISError: {}, threshold: {}", numIt, DIISError, threshold);
+
+			if (b) break;
+
 			numIt++;
 		}
 
-		rm.getLogger().debug("numIt: {}, DIISError: {}, threshold: {}", numIt, DIISError, threshold);
-
-		// todo make these precomputations optional
 		CtaOcc = Cta.extractMatrix(0, rm.nOccAlpha, 0, Cta.numCols());
 		CtaVirt = Cta.extractMatrix(rm.nOccAlpha, Cta.numCols(), 0, Cta.numCols());
 		Ca = Cta.transpose();
