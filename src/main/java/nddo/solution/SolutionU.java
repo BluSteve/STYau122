@@ -11,10 +11,7 @@ import static nddo.State.config;
 import static nddo.State.nom;
 import static org.ejml.dense.row.CommonOps_DDRM.*;
 
-
 public class SolutionU extends Solution {
-	private final int nAlpha = rm.nOccAlpha;
-	private final int nBeta = rm.nOccBeta;
 	private final SimpleMatrix[] Farrayalpha, Farraybeta, Darrayalpha, Darraybeta, commutatorarrayalpha,
 			commutatorarraybeta;
 
@@ -133,13 +130,13 @@ public class SolutionU extends Solution {
 			Cta = matrices[0].transposei();
 			Ctb = Cta.copy();
 
-			alphaDensity = calculateDensityMatrix(Cta, nAlpha);
-			betaDensity = calculateDensityMatrix(Ctb, nBeta);
+			alphaDensity = calculateDensityMatrix(Cta, rm.nOccAlpha);
+			betaDensity = calculateDensityMatrix(Ctb, rm.nOccBeta);
 		}
 
-		SimpleMatrix j1 = new SimpleMatrix(nOrbitals, nOrbitals);
-		SimpleMatrix ka = new SimpleMatrix(nOrbitals, nOrbitals);
-		SimpleMatrix kb = new SimpleMatrix(nOrbitals, nOrbitals);
+		SimpleMatrix J = new SimpleMatrix(nOrbitals, nOrbitals);
+		SimpleMatrix Ka = new SimpleMatrix(nOrbitals, nOrbitals);
+		SimpleMatrix Kb = new SimpleMatrix(nOrbitals, nOrbitals);
 
 		double DIISError, threshold;
 		int numIt = 0;
@@ -181,12 +178,13 @@ public class SolutionU extends Solution {
 						}
 					}
 
-					j1.set(j, k, val);
-					j1.set(k, j, val);
+					J.set(j, k, val);
+					J.set(k, j, val);
 				}
 			}
 
 			intCount = 0;
+
 			for (int j = 0; j < orbitals.length; j++) {
 				for (int k = j; k < orbitals.length; k++) {
 					double vala = 0;
@@ -215,15 +213,15 @@ public class SolutionU extends Solution {
 						}
 					}
 
-					ka.set(j, k, vala);
-					ka.set(k, j, vala);
-					kb.set(j, k, valb);
-					kb.set(k, j, valb);
+					Ka.set(j, k, vala);
+					Ka.set(k, j, vala);
+					Kb.set(j, k, valb);
+					Kb.set(k, j, valb);
 				}
 			}
 
-			Fa = H.plus(j1).plusi(ka);
-			Fb = H.plus(j1).plusi(kb);
+			Fa = H.plus(J).plusi(Ka);
+			Fb = H.plus(J).plusi(Kb);
 
 
 			if (numIt < LENGTH) {
@@ -352,8 +350,8 @@ public class SolutionU extends Solution {
 			this.Ctb = Ctb;
 		}
 
-		alphaDensity = calculateDensityMatrix(Cta, nAlpha);
-		betaDensity = calculateDensityMatrix(Ctb, nBeta);
+		alphaDensity = calculateDensityMatrix(Cta, rm.nOccAlpha);
+		betaDensity = calculateDensityMatrix(Ctb, rm.nOccBeta);
 	}
 
 	@Override
@@ -411,8 +409,8 @@ public class SolutionU extends Solution {
 
 	@Override
 	protected void findHomoLumo() {
-		homo = nElectrons > 0 ? Ea.get(nAlpha - 1, 0) : 0;
-		lumo = nElectrons != nOrbitals << 1 ? Eb.get(nBeta, 0) : 0;
+		homo = nElectrons > 0 ? Ea.get(rm.nOccAlpha - 1, 0) : 0;
+		lumo = nElectrons != nOrbitals << 1 ? Eb.get(rm.nOccBeta, 0) : 0;
 	}
 
 	@Override

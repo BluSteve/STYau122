@@ -4,13 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="checkpoint - values a bit different for uhf">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="solution refactor basically done">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/version.txt" beforeDir="false" />
     </list>
     <list id="3e0ea8eb-765e-4625-837c-961efbbcba23" name="Changes by flyingfalcon" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -174,7 +172,7 @@
     <property name="com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File" value="JAVA&#10;TEXT" />
     <property name="extract.method.default.visibility" value="public" />
     <property name="last.edited.regexp" value="asdf  asdf    asdfa    d d d " />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/libs" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -183,6 +181,7 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" />
   </component>
   <component name="ReaderModeSettings">
     <option name="enabled" value="false" />
@@ -203,11 +202,11 @@
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\src\main\java" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="tools.Utils" />
       <recent name="nddo.solution.Solution" />
       <recent name="nddo.param.ParamDerivative" />
       <recent name="nddo.math.PopleThiel" />
       <recent name="nddo.param.ParamSecondDerivative" />
-      <recent name="tools.Pow" />
     </key>
     <key name="ExtractSuperBase.RECENT_KEYS">
       <recent name="nddo.param" />
@@ -224,7 +223,7 @@
       <command value="gradlew clean" />
     </option>
   </component>
-  <component name="RunManager" selected="Application.Testing (1)">
+  <component name="RunManager" selected="Gradle.MNDOParam [jmh]">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -530,21 +529,7 @@
       <workItem from="1641628825111" duration="15864000" />
       <workItem from="1641646278782" duration="4813000" />
       <workItem from="1641713504006" duration="9299000" />
-      <workItem from="1641724986038" duration="18883000" />
-    </task>
-    <task id="LOCAL-00248" summary="minor changes">
-      <created>1641371718621</created>
-      <option name="number" value="00248" />
-      <option name="presentableId" value="LOCAL-00248" />
-      <option name="project" value="LOCAL" />
-      <updated>1641371718621</updated>
-    </task>
-    <task id="LOCAL-00249" summary="nitrogen tesrt">
-      <created>1641372175881</created>
-      <option name="number" value="00249" />
-      <option name="presentableId" value="LOCAL-00249" />
-      <option name="project" value="LOCAL" />
-      <updated>1641372175881</updated>
+      <workItem from="1641724986038" duration="19743000" />
     </task>
     <task id="LOCAL-00250" summary="for jinherng">
       <created>1641373923773</created>
@@ -875,7 +860,21 @@
       <option name="project" value="LOCAL" />
       <updated>1641747379367</updated>
     </task>
-    <option name="localTasksCounter" value="297" />
+    <task id="LOCAL-00297" summary="move ediis and diis into solution">
+      <created>1641749112359</created>
+      <option name="number" value="00297" />
+      <option name="presentableId" value="LOCAL-00297" />
+      <option name="project" value="LOCAL" />
+      <updated>1641749112359</updated>
+    </task>
+    <task id="LOCAL-00298" summary="solution refactor basically done">
+      <created>1641749481471</created>
+      <option name="number" value="00298" />
+      <option name="presentableId" value="LOCAL-00298" />
+      <option name="project" value="LOCAL" />
+      <updated>1641749481471</updated>
+    </task>
+    <option name="localTasksCounter" value="299" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -922,8 +921,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="better forjh progressbar" />
-    <MESSAGE value="auto-increase log level" />
     <MESSAGE value="fix gradle" />
     <MESSAGE value="solutionr threshold changes" />
     <MESSAGE value="Config file" />
@@ -947,7 +944,9 @@
     <MESSAGE value="solutionr refactor basically done" />
     <MESSAGE value="checkpoint" />
     <MESSAGE value="checkpoint - values a bit different for uhf" />
-    <option name="LAST_COMMIT_MESSAGE" value="checkpoint - values a bit different for uhf" />
+    <MESSAGE value="move ediis and diis into solution" />
+    <MESSAGE value="solution refactor basically done" />
+    <option name="LAST_COMMIT_MESSAGE" value="solution refactor basically done" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -14,8 +14,8 @@ import static org.ejml.dense.row.CommonOps_DDRM.*;
 public class SolutionR extends Solution {
 	private final SimpleMatrix[] Farray, Darray, commutatorarray;
 
-	public double[] integralArray;
 	public SimpleMatrix F, E, Emat, C, COcc, CVirt, Ct, CtOcc, CtVirt;
+	public double[] integralArray;
 
 	protected SolutionR(MoleculeInfo mi, NDDOAtom[] atoms) {
 		super(mi, atoms);
@@ -50,8 +50,7 @@ public class SolutionR extends Solution {
 					for (int l : orbsOfAtom[atomOfOrb[j]]) {
 						integralArray[intCount] =
 								nom.OneCenterERI(orbitals[j], orbitals[j], orbitals[l], orbitals[l]) -
-										0.5 * nom.OneCenterERI(orbitals[j], orbitals[l], orbitals[j],
-												orbitals[l]);
+										0.5 * nom.OneCenterERI(orbitals[j], orbitals[l], orbitals[j], orbitals[l]);
 						intCount++;
 					}
 

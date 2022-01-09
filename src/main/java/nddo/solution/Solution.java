@@ -52,7 +52,7 @@ public abstract class Solution {
 
 	static {
 		for (int i = 0; i < THRESHOLDS.length; i++) {
-			THRESHOLDS[i] = sigmoid(i);
+			THRESHOLDS[i] = 1e-10 / (1 + Pow.exp(-0.1 * (i - 53)));
 		}
 	}
 
@@ -98,19 +98,9 @@ public abstract class Solution {
 		}
 	}
 
-	/**
-	 * Initializes SCF solution of a molecule.
-	 *
-	 * @param mi    Contains intrinsic and compulsory information about a molecule.
-	 * @param atoms List of NDDO atoms.
-	 */
 	public static Solution of(MoleculeInfo mi, NDDOAtom[] atoms) {
 		if (mi.restricted) return new SolutionR(mi, atoms).compute();
 		else return new SolutionU(mi, atoms).compute();
-	}
-
-	private static double sigmoid(int x) {
-		return 1e-10 / (1 + Pow.exp(-0.1 * (x - 53)));
 	}
 
 	protected static SimpleMatrix commutator(SimpleMatrix F, SimpleMatrix D) {
