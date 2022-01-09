@@ -269,9 +269,9 @@ public final class ParamGradientNew implements IParamGradient {
 		if (aggFa.length > 0) {
 			SimpleMatrix[] aggXUnpad = rhf ?
 					Batcher.apply(aggFaUnpad, State.config.poplethiel_batch_size,
-							subset -> PopleThiel.pople(sr, PopleThiel.toMO(sr.CtOcc, sr.CVirt, subset))) :
+							subset -> PopleThiel.pt(sr, PopleThiel.toMO(sr.CtOcc, sr.CVirt, subset))) :
 					Batcher.apply(aggFaUnpad, aggFbUnpad, SimpleMatrix[].class, State.config.poplethiel_batch_size,
-							(a, b) -> PopleThiel.thiel(su, PopleThiel.toMO(su.CtaOcc, su.CaVirt, a),
+							(a, b) -> PopleThiel.pt(su, PopleThiel.toMO(su.CtaOcc, su.CaVirt, a),
 									PopleThiel.toMO(su.CtbOcc, su.CbVirt, b)));
 
 			SimpleMatrix[] aggX = new SimpleMatrix[aggFa.length];

@@ -32,8 +32,8 @@ public class Testing {
 
 		SimpleMatrix[] a = PopleThiel.toMO(s2.CtaOcc, s2.CaVirt, falpha);
 		SimpleMatrix[] b = PopleThiel.toMO(s2.CtbOcc, s2.CbVirt, fbeta);
-		SimpleMatrix[] res = PopleThiel.pople(s2, a, b);
-		SimpleMatrix[] res2 = PopleThiel.thiel(s2, a, b);
+		SimpleMatrix[] res = PopleThiel.pt(s2, a, b);
+		SimpleMatrix[] res2 = PopleThiel.pt(s2, a, b);
 
 
 		System.out.println("pople: " + res[0]);
@@ -41,7 +41,7 @@ public class Testing {
 		System.out.println("thiel: " + res2[0]);
 
 		System.out.println(
-				PopleThiel.thiel(s, PopleThiel.toMO(s.CtOcc, s.CVirt, GeometryDerivative.gradientRoutine(s)[1]))[0]);
+				PopleThiel.pt(s, PopleThiel.toMO(s.CtOcc, s.CVirt, GeometryDerivative.gradientRoutine(s)[1]))[0]);
 	}
 
 	private static void verifyEquations(Solution s, int Z1, int Z2) {

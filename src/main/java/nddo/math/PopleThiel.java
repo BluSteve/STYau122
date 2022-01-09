@@ -28,7 +28,58 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		return res;
 	}
 
-	public static SimpleMatrix[] pople(SolutionR soln, SimpleMatrix[] fockderivstatic) {
+	public static SimpleMatrix[] pt(SolutionR soln, SimpleMatrix[] fockderivstatic) {
+		return pople(soln, fockderivstatic);
+	}
+
+	public static SimpleMatrix[] pt(SolutionU soln, SimpleMatrix[] fockderivstaticalpha,
+									   SimpleMatrix[] fockderivstaticbeta) {
+		return pople(soln, fockderivstaticalpha, fockderivstaticbeta);
+	}
+
+	public static SimpleMatrix densityDeriv(SolutionR soln, SimpleMatrix x) {
+		x.reshape(soln.rm.nOccAlpha, soln.rm.nVirtAlpha);
+
+		SimpleMatrix mult = soln.COcc.mult(x).mult(soln.CtVirt);
+
+		x.reshape(soln.rm.nonvAlpha, 1);
+
+		return Utils.plusTrans(mult).scalei(-2);
+	}
+
+	public static SimpleMatrix[] densityDeriv(SolutionU soln, SimpleMatrix x) {
+		SimpleMatrix xmata = x.extractMatrix(0, soln.rm.nonvAlpha, 0, 1);
+		xmata.reshape(soln.rm.nOccAlpha, soln.rm.nVirtAlpha);
+
+		SimpleMatrix mult = soln.CaOcc.mult(xmata).mult(soln.CtaVirt);
+		SimpleMatrix densityDerivAlpha = Utils.plusTrans(mult).negativei();
+
+		SimpleMatrix xmatb = x.extractMatrix(soln.rm.nonvAlpha, x.numRows(), 0, 1);
+		xmatb.reshape(soln.rm.nOccBeta, soln.rm.nVirtBeta);
+
+		mult = soln.CbOcc.mult(xmatb).mult(soln.CtbVirt);
+		SimpleMatrix densityDerivBeta = Utils.plusTrans(mult).negativei();
+
+		return new SimpleMatrix[]{densityDerivAlpha, densityDerivBeta};
+	}
+
+	public static SimpleMatrix responseMatrix(SolutionR soln, SimpleMatrix densityDeriv) {
+		SimpleMatrix responsematrix = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
+
+		responseMatrix(soln, densityDeriv, responsematrix);
+
+		return responsematrix;
+	}
+
+	public static SimpleMatrix[] responseMatrix(SolutionU soln, SimpleMatrix[] densityDeriv) {
+		SimpleMatrix Jderiv = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
+		SimpleMatrix Kaderiv = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
+		SimpleMatrix Kbderiv = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
+
+		return responseMatrix(soln, densityDeriv[0], densityDeriv[1], Jderiv, Kaderiv, Kbderiv);
+	}
+
+	private static SimpleMatrix[] pople(SolutionR soln, SimpleMatrix[] fockderivstatic) {
 		// Pople alg will solve any equation of the form (1-D)x=B
 		int NOcc = soln.rm.nOccAlpha;
 		int NVirt = soln.rm.nVirtAlpha;
@@ -205,7 +256,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		return xarray;
 	}
 
-	public static SimpleMatrix[] thiel(SolutionR soln, SimpleMatrix[] fockderivstatic) {
+	private static SimpleMatrix[] thiel(SolutionR soln, SimpleMatrix[] fockderivstatic) {
 		int NOcc = soln.rm.nOccAlpha;
 		int NVirt = soln.rm.nVirtAlpha;
 		int length = fockderivstatic.length;
@@ -355,8 +406,8 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		return xarray;
 	}
 
-	public static SimpleMatrix[] pople(SolutionU soln, SimpleMatrix[] fockderivstaticalpha,
-									   SimpleMatrix[] fockderivstaticbeta) {
+	private static SimpleMatrix[] pople(SolutionU soln, SimpleMatrix[] fockderivstaticalpha,
+										SimpleMatrix[] fockderivstaticbeta) {
 		int NOccAlpha = soln.rm.nOccAlpha;
 		int NOccBeta = soln.rm.nOccBeta;
 		int NVirtAlpha = soln.rm.nVirtAlpha;
@@ -555,8 +606,8 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		return xarray;
 	}
 
-	public static SimpleMatrix[] thiel(SolutionU soln, SimpleMatrix[] fockderivstaticalpha,
-									   SimpleMatrix[] fockderivstaticbeta) {
+	private static SimpleMatrix[] thiel(SolutionU soln, SimpleMatrix[] fockderivstaticalpha,
+										SimpleMatrix[] fockderivstaticbeta) {
 		int NOccAlpha = soln.rm.nOccAlpha;
 		int NOccBeta = soln.rm.nOccBeta;
 		int NVirtAlpha = soln.rm.nVirtAlpha;
@@ -728,48 +779,6 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		}
 
 		return xarray;
-	}
-
-	public static SimpleMatrix densityDeriv(SolutionR soln, SimpleMatrix x) {
-		x.reshape(soln.rm.nOccAlpha, soln.rm.nVirtAlpha);
-
-		SimpleMatrix mult = soln.COcc.mult(x).mult(soln.CtVirt);
-
-		x.reshape(soln.rm.nonvAlpha, 1);
-
-		return Utils.plusTrans(mult).scalei(-2);
-	}
-
-	public static SimpleMatrix[] densityDeriv(SolutionU soln, SimpleMatrix x) {
-		SimpleMatrix xmata = x.extractMatrix(0, soln.rm.nonvAlpha, 0, 1);
-		xmata.reshape(soln.rm.nOccAlpha, soln.rm.nVirtAlpha);
-
-		SimpleMatrix mult = soln.CaOcc.mult(xmata).mult(soln.CtaVirt);
-		SimpleMatrix densityDerivAlpha = Utils.plusTrans(mult).negativei();
-
-		SimpleMatrix xmatb = x.extractMatrix(soln.rm.nonvAlpha, x.numRows(), 0, 1);
-		xmatb.reshape(soln.rm.nOccBeta, soln.rm.nVirtBeta);
-
-		mult = soln.CbOcc.mult(xmatb).mult(soln.CtbVirt);
-		SimpleMatrix densityDerivBeta = Utils.plusTrans(mult).negativei();
-
-		return new SimpleMatrix[]{densityDerivAlpha, densityDerivBeta};
-	}
-
-	public static SimpleMatrix responseMatrix(SolutionR soln, SimpleMatrix densityDeriv) {
-		SimpleMatrix responsematrix = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
-
-		responseMatrix(soln, densityDeriv, responsematrix);
-
-		return responsematrix;
-	}
-
-	public static SimpleMatrix[] responseMatrix(SolutionU soln, SimpleMatrix[] densityDeriv) {
-		SimpleMatrix Jderiv = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
-		SimpleMatrix Kaderiv = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
-		SimpleMatrix Kbderiv = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
-
-		return responseMatrix(soln, densityDeriv[0], densityDeriv[1], Jderiv, Kaderiv, Kbderiv);
 	}
 
 	private static SimpleMatrix computeResponseVectorsPople(SolutionR soln, SimpleMatrix x,

@@ -285,7 +285,7 @@ public class ParamHessianNew implements IParamHessian {
 	private static SimpleMatrix[] computeDensityDerivs(SolutionR sr, SimpleMatrix[] ptInputsArr) {
 		return Batcher.apply(ptInputsArr, State.config.poplethiel_batch_size,
 				subset -> {
-					SimpleMatrix[] sms = PopleThiel.pople(sr, subset);
+					SimpleMatrix[] sms = PopleThiel.pt(sr, subset);
 					SimpleMatrix[] results = new SimpleMatrix[sms.length];
 
 					for (int j = 0; j < sms.length; j++) {
@@ -300,7 +300,7 @@ public class ParamHessianNew implements IParamHessian {
 														 SimpleMatrix[] ptInputsArrBeta) {
 		return Batcher.apply(ptInputsArr, ptInputsArrBeta, SimpleMatrix[][].class, State.config.poplethiel_batch_size,
 				(subseta, subsetb) -> {
-					SimpleMatrix[] sms = PopleThiel.thiel(su, subseta, subsetb);
+					SimpleMatrix[] sms = PopleThiel.pt(su, subseta, subsetb);
 					SimpleMatrix[][] results = new SimpleMatrix[sms.length][];
 
 					for (int j = 0; j < sms.length; j++) {

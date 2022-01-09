@@ -1374,10 +1374,10 @@ public class ParamSecondDerivative {
 		SimpleMatrix F2prime = ParamDerivative.staticDeriv(solnprime, Z2, 0)[1][param2];
 		SimpleMatrix F1 = ParamDerivative.staticDeriv(soln, Z1, 0)[1][param1];
 
-		SimpleMatrix x2 = PopleThiel.pople(soln, PopleThiel.toMO(soln.CtOcc, soln.CVirt, new SimpleMatrix[]{F2}))[0];
-		SimpleMatrix x2prime = PopleThiel.pople(solnprime,
+		SimpleMatrix x2 = PopleThiel.pt(soln, PopleThiel.toMO(soln.CtOcc, soln.CVirt, new SimpleMatrix[]{F2}))[0];
+		SimpleMatrix x2prime = PopleThiel.pt(solnprime,
 				PopleThiel.toMO(solnprime.CtOcc, solnprime.CVirt, new SimpleMatrix[]{F2prime}))[0];
-		SimpleMatrix x1 = PopleThiel.pople(soln, PopleThiel.toMO(soln.CtOcc, soln.CVirt, new SimpleMatrix[]{F1}))[0];
+		SimpleMatrix x1 = PopleThiel.pt(soln, PopleThiel.toMO(soln.CtOcc, soln.CVirt, new SimpleMatrix[]{F1}))[0];
 
 		SimpleMatrix D1 = PopleThiel.densityDeriv(soln, x1);
 
@@ -1415,7 +1415,7 @@ public class ParamSecondDerivative {
 
 		SimpleMatrix rhsmat2 = rhsmat.extractMatrix(0, soln.rm.nOccAlpha, soln.rm.nOccAlpha, soln.rm.nOrbitals);
 
-		SimpleMatrix newgammavec = PopleThiel.pople(soln, new SimpleMatrix[]{rhsmat2})[0];
+		SimpleMatrix newgammavec = PopleThiel.pt(soln, new SimpleMatrix[]{rhsmat2})[0];
 
 		SimpleMatrix densityderiv2response = PopleThiel.densityDeriv(soln, newgammavec);
 
@@ -1617,13 +1617,13 @@ public class ParamSecondDerivative {
 		SimpleMatrix F1beta = ParamDerivative.staticDeriv(soln, Z1, 0)[2][param1];
 
 
-		SimpleMatrix x2 = PopleThiel.thiel(soln,
+		SimpleMatrix x2 = PopleThiel.pt(soln,
 				PopleThiel.toMO(soln.CtaOcc, soln.CaVirt, new SimpleMatrix[]{F2alpha}),
 				PopleThiel.toMO(soln.CtbOcc, soln.CbVirt, new SimpleMatrix[]{F2beta}))[0];
-		SimpleMatrix x2prime = PopleThiel.thiel(solnprime,
+		SimpleMatrix x2prime = PopleThiel.pt(solnprime,
 				PopleThiel.toMO(solnprime.CtaOcc, solnprime.CaVirt, new SimpleMatrix[]{F2alphaprime}),
 				PopleThiel.toMO(solnprime.CtbOcc, solnprime.CbVirt, new SimpleMatrix[]{F2betaprime}))[0];
-		SimpleMatrix x1 = PopleThiel.thiel(soln,
+		SimpleMatrix x1 = PopleThiel.pt(soln,
 				PopleThiel.toMO(soln.CtaOcc, soln.CaVirt, new SimpleMatrix[]{F1alpha}),
 				PopleThiel.toMO(soln.CtbOcc, soln.CbVirt, new SimpleMatrix[]{F1beta}))[0];
 
@@ -1821,7 +1821,7 @@ public class ParamSecondDerivative {
 		System.err.println("mndohfderiv= " + ParamDerivative.HfDeriv(soln, H, Fa, Fb));
 
 		SimpleMatrix xvector =
-				PopleThiel.thiel(soln, PopleThiel.toMO(soln.CtaOcc, soln.CaVirt, new SimpleMatrix[]{Fa}),
+				PopleThiel.pt(soln, PopleThiel.toMO(soln.CtaOcc, soln.CaVirt, new SimpleMatrix[]{Fa}),
 						PopleThiel.toMO(soln.CtbOcc, soln.CbVirt, new SimpleMatrix[]{Fb}))[0];
 
 		SimpleMatrix[] densityderivs = PopleThiel.densityDeriv(soln, xvector);

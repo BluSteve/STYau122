@@ -23,7 +23,7 @@ public class GeometrySecondDerivative {
 		}
 		else densityDerivs = Batcher.apply(fockderivstatic, State.config.poplethiel_batch_size,
 				subset -> {
-					SimpleMatrix[] sms = PopleThiel.pople(soln, PopleThiel.toMO(soln.CtOcc, soln.CVirt, subset));
+					SimpleMatrix[] sms = PopleThiel.pt(soln, PopleThiel.toMO(soln.CtOcc, soln.CVirt, subset));
 					SimpleMatrix[] results = new SimpleMatrix[sms.length];
 
 					for (int j = 0; j < sms.length; j++) {
@@ -93,7 +93,7 @@ public class GeometrySecondDerivative {
 		}
 		else alphabeta = Batcher.apply(fockderivstaticalpha, fockderivstaticbeta, SimpleMatrix[][].class,
 				State.config.poplethiel_batch_size, (subseta, subsetb) -> {
-					SimpleMatrix[] sms = PopleThiel.thiel(soln, PopleThiel.toMO(soln.CtaOcc, soln.CaVirt, subseta),
+					SimpleMatrix[] sms = PopleThiel.pt(soln, PopleThiel.toMO(soln.CtaOcc, soln.CaVirt, subseta),
 							PopleThiel.toMO(soln.CtbOcc, soln.CbVirt, subsetb));
 					SimpleMatrix[][] results = new SimpleMatrix[sms.length][];
 
