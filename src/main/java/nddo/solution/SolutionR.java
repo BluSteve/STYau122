@@ -171,8 +171,9 @@ public class SolutionR extends Solution {
 			else {
 				System.arraycopy(Farray, 1, Farray, 0, LENGTH1);
 				System.arraycopy(Darray, 1, Darray, 0, LENGTH1);
-				System.arraycopy(earray, 1, earray, 0, LENGTH1);
 				System.arraycopy(commutatorarray, 1, commutatorarray, 0, LENGTH1);
+
+				System.arraycopy(earray, 1, earray, 0, LENGTH1);
 
 				extract(B.getDDRM(), 1, LENGTH, 1, LENGTH, B.getDDRM(), 0, 0);
 				B.setRow(LENGTH1, 0, ZEROS);

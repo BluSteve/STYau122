@@ -14,7 +14,7 @@ import java.util.Arrays;
 
 import static nddo.State.config;
 import static nddo.State.nom;
-import static org.ejml.dense.row.CommonOps_DDRM.multInner;
+import static org.ejml.dense.row.CommonOps_DDRM.*;
 
 
 public class SolutionU extends Solution {
@@ -248,71 +248,25 @@ public class SolutionU extends Solution {
 			}
 
 			else {
+				System.arraycopy(Farrayalpha, 1, Farrayalpha, 0, LENGTH1);
+				System.arraycopy(Darrayalpha, 1, Darrayalpha, 0, LENGTH1);
+				System.arraycopy(commutatorarrayalpha, 1, commutatorarrayalpha, 0, LENGTH1);
 
-				for (int i = 0; i < LENGTH - 1; i++) {
+				System.arraycopy(Farraybeta, 1, Farraybeta, 0, LENGTH1);
+				System.arraycopy(Darraybeta, 1, Darraybeta, 0, LENGTH1);
+				System.arraycopy(commutatorarraybeta, 1, commutatorarraybeta, 0, LENGTH1);
 
-					Farrayalpha[i] = Farrayalpha[i + 1].copy();
-					Farraybeta[i] = Farraybeta[i + 1].copy();
+				System.arraycopy(earray, 1, earray, 0, LENGTH1);
 
-					Darrayalpha[i] = Darrayalpha[i + 1].copy();
-					Darraybeta[i] = Darraybeta[i + 1].copy();
+				extract(B.getDDRM(), 1, LENGTH, 1, LENGTH, B.getDDRM(), 0, 0);
+				B.setRow(LENGTH1, 0, ZEROS);
+				B.setColumn(LENGTH1, 0, ZEROS);
 
-					commutatorarrayalpha[i] = commutatorarrayalpha[i + 1].copy();
-					commutatorarraybeta[i] = commutatorarraybeta[i + 1].copy();
+				extract(Bforediis.getDDRM(), 1, LENGTH, 1, LENGTH, Bforediis.getDDRM(), 0, 0);
+				Bforediis.setRow(LENGTH1, 0, ZEROS);
+				Bforediis.setColumn(LENGTH1, 0, ZEROS);
 
-					earray[i] = earray[i + 1];
-				}
-
-				Farrayalpha[LENGTH - 1] = Fa.copy();
-				Farraybeta[Farraybeta.length - 1] = Fb.copy();
-
-				Darrayalpha[Darrayalpha.length - 1] = alphaDensity.copy();
-				Darraybeta[Darraybeta.length - 1] = betaDensity.copy();
-
-				commutatorarrayalpha[Darrayalpha.length - 1] = commutator(Fa.copy(), alphaDensity.copy());
-				commutatorarraybeta[Darraybeta.length - 1] = commutator(Fb.copy(), betaDensity.copy());
-
-				earray[Darrayalpha.length - 1] =
-						-0.5 * (H.mult(alphaDensity).diag().elementSum() + H.mult(betaDensity).diag().elementSum());
-
-				DIISError = commutatorarrayalpha[Darrayalpha.length - 1].normF() +
-						commutatorarraybeta[Darraybeta.length - 1].normF();
-
-				// B is dy/dx sort of, make dy/dx 0
-				SimpleMatrix newB = new SimpleMatrix(8, 8);
-				SimpleMatrix newBforediis = new SimpleMatrix(8, 8);
-
-				for (int i = 0; i < LENGTH - 1; i++) {
-					for (int j = i; j < LENGTH - 1; j++) {
-						newB.set(i, j, B.get(i + 1, j + 1));
-						newB.set(j, i, B.get(i + 1, j + 1));
-						newBforediis.set(i, j, Bforediis.get(i + 1, j + 1));
-						newBforediis.set(j, i, Bforediis.get(i + 1, j + 1));
-					}
-				}
-
-				for (int i = 0; i < LENGTH; i++) {
-
-					double product =
-							commutatorarrayalpha[LENGTH - 1].transpose().mult(commutatorarrayalpha[i])
-									.diag().elementSum() +
-									commutatorarraybeta[Farraybeta.length - 1].transpose().mult(commutatorarraybeta[i])
-											.diag().elementSum();
-
-					newB.set(i, LENGTH - 1, product);
-					newB.set(LENGTH - 1, i, product);
-
-					product = 0.5 * (Farrayalpha[i].mult(Darrayalpha[LENGTH - 1]).diag().elementSum() +
-							Farraybeta[i].mult(Darraybeta[LENGTH - 1]).diag().elementSum()
-							+ Farrayalpha[LENGTH - 1].mult(Darrayalpha[i]).diag().elementSum() +
-							Farraybeta[LENGTH - 1].mult(Darraybeta[i]).diag().elementSum());
-
-					newBforediis.set(i, LENGTH - 1, product);
-					newBforediis.set(LENGTH - 1, i, product);
-				}
-
-				B = newB.copy();
-				Bforediis = newBforediis.copy();
+				DIISError = updateDiis(LENGTH1);
 			}
 
 			int ediisSize = Math.min(LENGTH + 1, numIt + 2);
@@ -577,22 +531,30 @@ public class SolutionU extends Solution {
 		double DIISError = commutatorarrayalpha[len1].normF() + commutatorarraybeta[len1].normF();
 
 		for (int i = 0; i <= len1; i++) {
-			double product =
-					commutatorarrayalpha[len1].mult(commutatorarrayalpha[i].transpose()).diag().elementSum() +
-							commutatorarraybeta[len1].mult(commutatorarraybeta[i].transpose()).diag()
-									.elementSum();;
+			double product = 0;
+			multTransB(commutatorarrayalpha[len1].getDDRM(), commutatorarrayalpha[i].getDDRM(), ddrm);
+			product += trace(ddrm);
+			multTransB(commutatorarraybeta[len1].getDDRM(), commutatorarraybeta[i].getDDRM(), ddrm);
+			product += trace(ddrm);
+
 			B.set(i, len1, product);
 			B.set(len1, i, product);
 
-			product = 0.5 * (Farrayalpha[i].mult(Darrayalpha[len1]).diag().elementSum() +
-					Farraybeta[i].mult(Darraybeta[len1]).diag().elementSum()
-					+ Farrayalpha[len1].mult(Darrayalpha[i]).diag().elementSum() +
-					Farraybeta[len1].mult(Darraybeta[i]).diag().elementSum());
+			mult(Farrayalpha[i].getDDRM(), Darrayalpha[len1].getDDRM(), ddrm);
+			double t1 = trace(ddrm);
+			mult(Farrayalpha[len1].getDDRM(), Darrayalpha[i].getDDRM(), ddrm);
+			double t2 = trace(ddrm);
+			mult(Farraybeta[i].getDDRM(), Darraybeta[len1].getDDRM(), ddrm);
+			double t3 = trace(ddrm);
+			mult(Farraybeta[len1].getDDRM(), Darraybeta[i].getDDRM(), ddrm);
+			double t4 = trace(ddrm);
+
+			product = 0.5 * (t1 + t2 + t3 + t4);
 
 			Bforediis.set(i, len1, product);
 			Bforediis.set(len1, i, product);
-
 		}
+
 		return DIISError;
 	}
 
