@@ -4,12 +4,20 @@ import org.apache.logging.log4j.LogManager;
 import runcycle.RunIterator;
 import runcycle.structs.RunInput;
 import runcycle.structs.RunOutput;
+import tools.Utils;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class Main {
+	static {
+		try {
+			LogManager.getLogger().info("Date compiled: {}", Utils.getResource("version.txt"));
+		} catch (IOException ignored) {
+		}
+	}
+
 	public static void main(String[] args) throws IOException {
 		Files.createDirectories(Path.of("pastinputs"));
 		Files.createDirectories(Path.of("outputs"));

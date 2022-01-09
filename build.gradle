@@ -1,11 +1,6 @@
-import proguard.gradle.ProGuardTask
-
 buildscript {
     repositories {
         mavenCentral()
-    }
-    dependencies {
-        classpath 'com.guardsquare:proguard-gradle:7.1.1'
     }
 }
 
@@ -21,8 +16,15 @@ repositories {
     mavenCentral()
 }
 
-String outputJar = "${buildDir}/libs/${rootProject.name}.jar"
-String dependsDir = "${buildDir}/libs/dependencies/"
+static def writeTime() {
+    FileWriter file = new FileWriter("src/main/resources/version.txt")
+    file.write(new Date().toString())
+    file.close()
+}
+
+compileJava {
+    doLast { writeTime() }
+}
 
 jar {
     clean
@@ -63,49 +65,10 @@ jmh {
     resultFormat = 'CSV'
 }
 
-task myProguardTask(type: ProGuardTask) {
-    dependsOn 'jar'
-
-    task copyDepends(type: Copy) {
-        from configurations.default
-        into "${dependsDir}"
-    }
-    dependsOn 'copyDepends'
-
-    injars "${outputJar}"
-
-    libraryjars "${System.getProperty('java.home')}/jmods"
-    libraryjars "${dependsDir}"
-
-    dontwarn "org.apache.logging.log4j.**"
-    keepattributes "Signature"
-    keep "class org.apache.logging.log4j.** { *; }"
-    keep "class org.apache.commons.csv.** { *; }"
-
-    keep "class * extends com.google.gson.TypeAdapter"
-    keep "class * implements com.google.gson.TypeAdapterFactory"
-    keep "class * implements com.google.gson.JsonSerializer"
-    keep "class * implements com.google.gson.JsonDeserializer"
-
-    keep "public class runcycle.structs.** {*;}"
-    keep "public class nddo.structs.** {*;}"
-    keep "public class frontend.** {*;}"
-
-    dontobfuscate()
-    optimizations("!library/gson")
-
-    dontwarn "org.ejml.**"
-    dontwarn "pabeles.**"
-
-    keep "public class frontend.Main { public static void main(java.lang.String[]);}"
-
-    outjars "${buildDir}/libs/proguard.jar"
-}
-
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    implementation files('libs/ejml-v0.42-SNAPSHOT.jar') // todo add docs
+    implementation files('libs/ejml-v0.42-SNAPSHOT.jar')
     implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'org.apache.commons:commons-lang3:3.12.0'
     implementation 'org.apache.commons:commons-csv:1.9.0'

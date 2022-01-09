@@ -13,6 +13,25 @@ import java.io.IOException;
 
 public class FrontendConfig extends Config {
 	public static FrontendConfig config;
+
+	static {
+		Gson gson = new Gson();
+		FrontendConfig config;
+		try {
+			config = gson.fromJson(new FileReader("config.json"), FrontendConfig.class);
+		} catch (FileNotFoundException e) {
+			config = new FrontendConfig();
+			LogManager.getLogger().warn("config.json not found, using default config");
+		}
+		config.setLoggingLevel();
+
+		LogManager.getLogger().info(config);
+
+		nddo.State.config = config;
+
+		FrontendConfig.config = config;
+	}
+
 	public int num_runs = 1;
 	public String logging_level = "info";
 
@@ -28,24 +47,6 @@ public class FrontendConfig extends Config {
 		Configurator.setRootLevel(level);
 
 		return this;
-	}
-
-	static {
-		Gson gson = new Gson();
-		FrontendConfig config;
-		try {
-			config = gson.fromJson(new FileReader("config.json"),FrontendConfig.class);
-		} catch (FileNotFoundException e) {
-			config = new FrontendConfig();
-			LogManager.getLogger().warn("config.json not found, using default config");
-		}
-		config.setLoggingLevel();
-
-		LogManager.getLogger().info(config);
-
-		nddo.State.config = config;
-
-		FrontendConfig.config = config;
 	}
 
 	@Override
