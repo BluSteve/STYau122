@@ -1,6 +1,8 @@
 package testing;
 
 import frontend.TxtIO;
+import nddo.geometry.GeometryDerivative;
+import nddo.math.PopleThiel;
 import nddo.param.*;
 import nddo.solution.Solution;
 import nddo.solution.SolutionR;
@@ -24,15 +26,17 @@ public class Testing {
 		SolutionU se2 =
 				(SolutionU) Solution.of(rm2, runcycle.State.getConverter().convert(rm2.expGeom, input.info.npMap));
 
-//		ParamHessianNew pg = new ParamHessianNew(s, rm.datum, null);
-//		ParamHessianNew pg2 = new ParamHessianNew(s2, rm2.datum, null);
-////
-//		verifyEquations(s, 6,6);
-		verify(s, rm.datum, se);
-		verify(s2, rm2.datum, se2);
+		SimpleMatrix[][] matrices = GeometryDerivative.gradientRoutine(s2);
+		SimpleMatrix[] falpha = matrices[1];
+		SimpleMatrix[] fbeta = matrices[2];
 
-//		verifyEquations(s, 6, 6);
-//		verifyEquations(s2, 6, 6);
+		SimpleMatrix[] res = PopleThiel.thiel(s2,
+				PopleThiel.toMO(s2.CtaOcc, s2.CaVirt, falpha), PopleThiel.toMO(s2.CtbOcc, s2.CbVirt, fbeta));
+
+		System.out.println(res[0]);
+
+		System.out.println(
+				PopleThiel.pople(s, PopleThiel.toMO(s.CtOcc, s.CVirt, GeometryDerivative.gradientRoutine(s)[1]))[0]);
 	}
 
 	private static void verifyEquations(Solution s, int Z1, int Z2) {

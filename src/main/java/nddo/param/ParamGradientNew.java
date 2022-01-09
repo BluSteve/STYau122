@@ -302,7 +302,7 @@ public final class ParamGradientNew implements IParamGradient {
 	}
 
 	private void addGeomGrad(int ZI, int paramNum) {
-		totalGradients[ZI][paramNum] += 2 * e.geomGradMag * geomDerivs[ZI][paramNum];
+		totalGradients[ZI][paramNum] += 0.25 * 2 * e.geomGradMag * geomDerivs[ZI][paramNum];
 	}
 
 	public ParamErrorFunction getE() {

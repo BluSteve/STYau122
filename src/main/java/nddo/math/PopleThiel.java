@@ -355,6 +355,187 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		return xarray;
 	}
 
+	public static SimpleMatrix[] pople(SolutionU soln, SimpleMatrix[] fockderivstaticalpha,
+									   SimpleMatrix[] fockderivstaticbeta) {
+		int NOccAlpha = soln.rm.nOccAlpha;
+		int NOccBeta = soln.rm.nOccBeta;
+		int NVirtAlpha = soln.rm.nVirtAlpha;
+		int NVirtBeta = soln.rm.nVirtBeta;
+		int length = fockderivstaticalpha.length;
+		int nonvAlpha = soln.rm.nonvAlpha;
+		int nonvBeta = soln.rm.nonvBeta;
+		int nonv = nonvAlpha + nonvBeta;
+
+		// array initialization
+		SimpleMatrix[] xarray = new SimpleMatrix[length];
+		SimpleMatrix[] barray = new SimpleMatrix[length]; // B tilde
+		SimpleMatrix[] parray = new SimpleMatrix[length]; // trial R / (ej - ei) as well as D * B tilde
+		SimpleMatrix[] Farray = new SimpleMatrix[length]; // F in MO basis divided by (ej - ei)
+		SimpleMatrix[] rarray = new SimpleMatrix[length]; // x - F
+		double[] oldrMags = new double[length];
+		Arrays.fill(oldrMags, 1);
+
+		for (int a = 0; a < length; a++) {
+			rarray[a] = new SimpleMatrix(nonv, 1);
+		}
+
+		// configure preconditioners
+		double[] Darr = new double[nonv];
+		double[] Dinvarr = new double[nonv];
+
+		int counter = 0;
+		for (int i = 0; i < NOcc; i++) {
+			for (int j = 0; j < NVirt; j++) {
+				double e = -soln.E.get(i) + soln.E.get(NOcc + j);
+
+				Dinvarr[counter] = Math.sqrt(e);
+				Darr[counter] = 1 / Dinvarr[counter];
+
+				counter++;
+			}
+		}
+
+		SimpleMatrix F = new SimpleMatrix(nonv, length); // scaled fockderivstatic vectors in matrix form, cf. Farray
+		for (int a = 0; a < length; a++) {
+			SimpleMatrix f = fockderivstatic[a].elementDiv(soln.Emat); // divided by (ej - ei)
+			f.reshape(nonv, 1);
+
+			multRows(Darr, f.getDDRM());
+			barray[a] = f;
+			Farray[a] = f.copy();
+			F.setColumn(a, 0, barray[a].getDDRM().data);
+		}
+
+		// main loop
+		boolean[] finished = new boolean[length];
+		boolean[]somewhatFinished = new boolean[length];
+
+		// 0: B, 2: B-P
+		List<SimpleMatrix[]> prevs = new ArrayList<>();
+		List<Double> dots = new ArrayList<>();
+
+		// responseMatrix remains the same size so pre-initialized
+		SimpleMatrix responseMatrix = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
+		SimpleMatrix alpha = null;
+		int size = 0;
+
+		int numIt = 0;
+		bigLoop:
+		while (numFalse(finished) > 0) {
+			// orthogonalize barray
+			for (int i = 1; i < barray.length; i++) {
+				for (int j = 0; j < i; j++) {
+					barray[i].plusi(-barray[i].dot(barray[j]) / barray[j].dot(barray[j]), barray[j]);
+				}
+			}
+
+			for (int i = 0; i < length; i++) {
+				SimpleMatrix b = barray[i].copy();
+				multRows(Dinvarr, b.getDDRM());
+				SimpleMatrix p = computeResponseVectorsPople(soln, b, responseMatrix); // P = D * B
+				multRows(Darr, p.getDDRM());
+				parray[i] = p;
+
+				SimpleMatrix[] prev = new SimpleMatrix[2];
+				prev[0] = barray[i]; // original barray object here
+				dots.add(barray[i].dot(barray[i]));
+
+				prev[1] = barray[i].minus(parray[i]);
+
+				prevs.add(prev);
+			}
+
+			size = prevs.size();
+
+			for (int i = 0; i < length; i++) {
+				SimpleMatrix newb = parray[i].copy();
+				// orthogonalize against all previous Bs
+				for (int j = 0; j < size; j++) {
+					SimpleMatrix[] prev = prevs.get(j);
+					double num = prev[0].dot(parray[i]) / dots.get(j);
+
+					newb.plusi(-num, prev[0]);
+				}
+
+				barray[i] = newb; // new barray object created
+			}
+
+			SimpleMatrix Bt = new SimpleMatrix(size, nonv);
+			SimpleMatrix BminusP = new SimpleMatrix(nonv, size);
+
+			for (int i = 0; i < size; i++) {
+				Bt.setRow(i, 0, prevs.get(i)[0].getDDRM().data);
+				BminusP.setColumn(i, 0, prevs.get(i)[1].getDDRM().data);
+			}
+
+			SimpleMatrix rhs = Bt.mult(F);
+			SimpleMatrix lhs = Bt.mult(BminusP);
+			// alpha dimensions are prevBs x length
+			try {
+				alpha = lhs.solve(rhs);
+			} catch (SingularMatrixException ignored) {
+				alpha = SimpleMatrix.ones(size, length);
+			}
+
+			// reset r array
+			for (int a = 0; a < length; a++) {
+				rarray[a].zero();
+			}
+
+			for (int i = 0; i < size; i++) {
+				for (int j = 0; j < length; j++) {
+					rarray[j].plusi(alpha.get(i, j), prevs.get(i)[1]);
+				}
+			}
+
+			for (int j = 0; j < length; j++) {
+				double mag = SpecializedOps_DDRM.diffNormF_fast(rarray[j].getDDRM(), Farray[j].getDDRM());
+
+				if (mag > oldrMags[j] || mag != mag) { // unstable
+					if (numFalse(somewhatFinished) == 0) {
+						soln.rm.getLogger().warn("Slight numerical instability detected; " +
+								"returning lower precision values. (mag = {})", mag);
+						break bigLoop; // i.e. mag is tolerable
+					}
+
+					soln.rm.getLogger()
+							.warn("Pople algorithm fails; reverting to Thiel algorithm... (last mag = {})", mag);
+					return thiel(soln, fockderivstatic);
+				}
+
+				if (mag < State.config.poplethiel_tolerable) {
+					finished[j] = mag < State.config.poplethiel_ideal;
+					oldrMags[j] = mag;
+					somewhatFinished[j] = true;
+				}
+				else {
+					finished[j] = false;
+					somewhatFinished[j] = false;
+				}
+
+				soln.rm.getLogger().trace("numIt={}, Pople mag: {}", numIt, mag);
+			}
+
+			numIt++;
+		}
+
+		for (int i = 0; i < length; i++) {
+			xarray[i] = new SimpleMatrix(nonv, 1);
+		}
+
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < length; j++) {
+				xarray[j].plusi(alpha.get(i, j), prevs.get(i)[0]);
+			}
+		}
+
+		for (int j = 0; j < length; j++) {
+			multRows(Dinvarr, xarray[j].getDDRM());
+		}
+
+		return xarray;
+	}
+
 	public static SimpleMatrix[] thiel(SolutionU soln, SimpleMatrix[] fockderivstaticalpha,
 									   SimpleMatrix[] fockderivstaticbeta) {
 		int NOccAlpha = soln.rm.nOccAlpha;
@@ -530,10 +711,6 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		}
 
 		return xarray;
-	}
-
-	private static void failThiel(Solution soln, int numIt) {
-		throw new IllegalStateException(soln.rm.debugName() + ": Thiel has failed at numIt=" + numIt + "!");
 	}
 
 	public static SimpleMatrix densityDeriv(SolutionR soln, SimpleMatrix x) {
@@ -823,6 +1000,10 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		}
 
 		return new SimpleMatrix[]{Kaderiv.plusi(Jderiv), Kbderiv.plusi(Jderiv)};
+	}
+
+	private static void failThiel(Solution soln, int numIt) {
+		throw new IllegalStateException(soln.rm.debugName() + ": Thiel has failed at numIt=" + numIt + "!");
 	}
 
 	private static int numFalse(boolean[] iterable) {

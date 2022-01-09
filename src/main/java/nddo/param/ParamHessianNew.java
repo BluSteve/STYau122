@@ -428,7 +428,7 @@ public class ParamHessianNew implements IParamHessian {
 
 	private void addGeomToHessian(int ZI1, int p1, int ZI2, int p2, double x) {
 		addToHessian(ZI1, p1, ZI2, p2,
-				2 * (pg.geomDerivs[ZI1][p1] * pg.geomDerivs[ZI2][p2] + pg.e.geomGradMag * x));
+				0.25 * 2 * (pg.geomDerivs[ZI1][p1] * pg.geomDerivs[ZI2][p2] + pg.e.geomGradMag * x));
 	}
 
 	@Override

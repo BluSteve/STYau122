@@ -7,7 +7,7 @@ public class ReferenceData {
 	private double updated;
 	public static final double HF_WEIGHT = 1;
 	public static final double DIPOLE_WEIGHT = 20;
-	public static final double GEOM_WEIGHT = 0.007;
+	public static final double GEOM_WEIGHT = 0.5;
 	public static final double IE_WEIGHT = 10;
 
 	public ReferenceData(double reference, double actual, double[] derivatives,

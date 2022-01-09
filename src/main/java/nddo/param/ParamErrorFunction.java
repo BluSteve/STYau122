@@ -58,7 +58,7 @@ public abstract class ParamErrorFunction {
 		}
 
 		this.geomGradMag = Constants.KCAL * Math.sqrt(sum);
-		this.geomError = Constants.KCAL * Constants.KCAL * sum;
+		this.geomError = 0.5 * Constants.KCAL * Constants.KCAL * sum;
 	}
 
 	public double getTotalError() {
