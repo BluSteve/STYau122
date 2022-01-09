@@ -4,6 +4,7 @@ import nddo.Constants;
 import nddo.NDDOAtom;
 import nddo.structs.MoleculeInfo;
 import org.apache.logging.log4j.Level;
+import org.ejml.data.DMatrixRMaj;
 import org.ejml.data.SingularMatrixException;
 import org.ejml.dense.row.CommonOps_DDRM;
 import org.ejml.simple.SimpleMatrix;
@@ -19,15 +20,33 @@ import static org.ejml.dense.row.CommonOps_DDRM.multInner;
 public class SolutionU extends Solution {
 	private final int nAlpha = rm.nOccAlpha;
 	private final int nBeta = rm.nOccBeta;
+	private final SimpleMatrix[] Farrayalpha, Farraybeta, Darrayalpha, Darraybeta, commutatorarrayalpha,
+			commutatorarraybeta;
+	private final SimpleMatrix B, Bforediis;
+	private final double[] earray;
+	private final transient DMatrixRMaj ddrm;
+
 	public SimpleMatrix Ea, Eb, Eamat, Ebmat, Fa, Fb,
 			Ca, CaOcc, CaVirt, Cta, CtaOcc, CtaVirt, Cb, CbOcc, CbVirt, Ctb, CtbOcc, CtbVirt;
 	public double[] integralArrayCoulomb, integralArrayExchange;
 
 	protected SolutionU(MoleculeInfo mi, NDDOAtom[] atoms) {
 		super(mi, atoms);
+
 		if (nElectrons % 2 == mult % 2 || mult < 1) {
 			mi.getLogger().error("Please check mult and charge: nElectrons: {}, mult: {}", nElectrons, mult);
 		}
+
+		Farrayalpha = new SimpleMatrix[8];
+		Farraybeta = new SimpleMatrix[8];
+		Darrayalpha = new SimpleMatrix[8];
+		Darraybeta = new SimpleMatrix[8];
+		commutatorarrayalpha = new SimpleMatrix[8];
+		commutatorarraybeta = new SimpleMatrix[8];
+		earray = new double[8];
+		B = new SimpleMatrix(8, 8);
+		Bforediis = new SimpleMatrix(8, 8);
+		ddrm = new DMatrixRMaj(nOrbitals, nOrbitals);
 	}
 
 	@Override
@@ -51,35 +70,35 @@ public class SolutionU extends Solution {
 	public void computePrivate() {
 		integralArrayCoulomb = new double[rm.nCoulombInts];
 
-		int integralCount = 0;
+		int intCount = 0;
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
 				if (j == k) {
 					for (int l : orbsOfAtom[atomOfOrb[j]]) {
-						integralArrayCoulomb[integralCount] =
+						integralArrayCoulomb[intCount] =
 								nom.OneCenterERI(orbitals[j], orbitals[j], orbitals[l], orbitals[l]);
-						integralCount++;
+						intCount++;
 					}
 					for (int l : missingOfAtom[atomOfOrb[j]]) {
 						for (int m : missingOfAtom[atomOfOrb[j]]) {
 							if (atomOfOrb[l] == atomOfOrb[m]) {
-								integralArrayCoulomb[integralCount] =
+								integralArrayCoulomb[intCount] =
 										nom.G(orbitals[j], orbitals[j], orbitals[l], orbitals[m]);
-								integralCount++;
+								intCount++;
 							}
 						}
 					}
 				}
 				else if (atomOfOrb[j] == atomOfOrb[k]) {
-					integralArrayCoulomb[integralCount] =
+					integralArrayCoulomb[intCount] =
 							2 * nom.OneCenterERI(orbitals[j], orbitals[k], orbitals[j], orbitals[k]);
-					integralCount++;
+					intCount++;
 					for (int l : missingOfAtom[atomOfOrb[j]]) {
 						for (int m : missingOfAtom[atomOfOrb[j]]) {
 							if (atomOfOrb[l] == atomOfOrb[m]) {
-								integralArrayCoulomb[integralCount] =
+								integralArrayCoulomb[intCount] =
 										nom.G(orbitals[j], orbitals[k], orbitals[l], orbitals[m]);
-								integralCount++;
+								intCount++;
 							}
 						}
 					}
@@ -89,28 +108,28 @@ public class SolutionU extends Solution {
 
 		integralArrayExchange = new double[rm.nExchangeInts];
 
-		integralCount = 0;
+		intCount = 0;
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
 				if (j == k) {
 					for (int l : orbsOfAtom[atomOfOrb[j]]) {
-						integralArrayExchange[integralCount] =
+						integralArrayExchange[intCount] =
 								-nom.OneCenterERI(orbitals[j], orbitals[l], orbitals[j], orbitals[l]);
-						integralCount++;
+						intCount++;
 					}
 				}
 				else if (atomOfOrb[j] == atomOfOrb[k]) {
-					integralArrayExchange[integralCount] =
+					integralArrayExchange[intCount] =
 							-nom.OneCenterERI(orbitals[j], orbitals[k], orbitals[j], orbitals[k]) -
 									nom.OneCenterERI(orbitals[j], orbitals[j], orbitals[k], orbitals[k]);
-					integralCount++;
+					intCount++;
 				}
 				else {
 					for (int l : orbsOfAtom[atomOfOrb[j]]) {
 						for (int m : orbsOfAtom[atomOfOrb[k]]) {
-							integralArrayExchange[integralCount] =
+							integralArrayExchange[intCount] =
 									-nom.G(orbitals[j], orbitals[l], orbitals[k], orbitals[m]);
-							integralCount++;
+							intCount++;
 						}
 					}
 				}
@@ -133,85 +152,52 @@ public class SolutionU extends Solution {
 		SimpleMatrix j1 = new SimpleMatrix(nOrbitals, nOrbitals);
 		SimpleMatrix ka = new SimpleMatrix(nOrbitals, nOrbitals);
 		SimpleMatrix kb = new SimpleMatrix(nOrbitals, nOrbitals);
-		SimpleMatrix oldalphadensity, oldbetadensity;
-
-		int Jcount, Kcount;
-
-		int numIt = 0;
-
-		SimpleMatrix[] Farrayalpha = new SimpleMatrix[8];
-		SimpleMatrix[] Farraybeta = new SimpleMatrix[8];
-
-		SimpleMatrix[] Darrayalpha = new SimpleMatrix[8];
-		SimpleMatrix[] Darraybeta = new SimpleMatrix[8];
-
-
-		SimpleMatrix B = new SimpleMatrix(8, 8);
-		SimpleMatrix Bforediis = new SimpleMatrix(8, 8);
-
-
-		SimpleMatrix[] commutatorarrayalpha = new SimpleMatrix[8];
-		SimpleMatrix[] commutatorarraybeta = new SimpleMatrix[8];
-		double[] earray = new double[8];
 
 		double DIISError, threshold;
+		int numIt = 0;
 
 		while (true) {
-			oldalphadensity = alphaDensity.copy();
-			oldbetadensity = betaDensity.copy();
-
-			Jcount = 0;
-			Kcount = 0;
-
-			//construct J matrix
-
+			intCount = 0;
 			for (int j = 0; j < orbitals.length; j++) {
 				for (int k = j; k < orbitals.length; k++) {
 					double val = 0;
 					if (j == k) {
-
 						for (int l : orbsOfAtom[atomOfOrb[j]]) {
-							val += (alphaDensity.get(l, l) +
-									betaDensity.get(l, l)) *
-									integralArrayCoulomb[Jcount];
-							Jcount++;
+							val += (alphaDensity.get(l, l) + betaDensity.get(l, l)) * integralArrayCoulomb[intCount];
+							intCount++;
 						}
 
 						for (int l : missingOfAtom[atomOfOrb[j]]) {
 							for (int m : missingOfAtom[atomOfOrb[j]]) {
 								if (atomOfOrb[l] == atomOfOrb[m]) {
-									val += (alphaDensity.get(l, m) +
-											betaDensity.get(l, m)) *
-											integralArrayCoulomb[Jcount];
-									Jcount++;
+									val += (alphaDensity.get(l, m) + betaDensity.get(l, m)) *
+											integralArrayCoulomb[intCount];
+									intCount++;
 								}
 							}
 						}
 					}
 					else if (atomOfOrb[j] == atomOfOrb[k]) {
-						val += (alphaDensity.get(j, k) +
-								betaDensity.get(j, k)) *
-								integralArrayCoulomb[Jcount];
-						Jcount++;
+						val += (alphaDensity.get(j, k) + betaDensity.get(j, k)) * integralArrayCoulomb[intCount];
+						intCount++;
 
 						for (int l : missingOfAtom[atomOfOrb[j]]) {
 							for (int m : missingOfAtom[atomOfOrb[j]]) {
 								if (atomOfOrb[l] == atomOfOrb[m]) {
-									val += (alphaDensity.get(l, m) +
-											betaDensity.get(l, m)) *
-											integralArrayCoulomb[Jcount];
-									Jcount++;
+									val += (alphaDensity.get(l, m) + betaDensity.get(l, m)) *
+											integralArrayCoulomb[intCount];
+									intCount++;
 								}
 							}
 						}
 					}
-
 
 					j1.set(j, k, val);
 					j1.set(k, j, val);
 				}
 			}
 
+			intCount = 0;
 			for (int j = 0; j < orbitals.length; j++) {
 				for (int k = j; k < orbitals.length; k++) {
 					double vala = 0;
@@ -220,29 +206,29 @@ public class SolutionU extends Solution {
 
 						for (int l : orbsOfAtom[atomOfOrb[j]]) {
 							vala += alphaDensity.get(l, l) *
-									integralArrayExchange[Kcount];
+									integralArrayExchange[intCount];
 							valb += betaDensity.get(l, l) *
-									integralArrayExchange[Kcount];
-							Kcount++;
+									integralArrayExchange[intCount];
+							intCount++;
 						}
 
 					}
 					else if (atomOfOrb[j] == atomOfOrb[k]) {
 						vala += alphaDensity.get(j, k) *
-								integralArrayExchange[Kcount];
+								integralArrayExchange[intCount];
 						valb += betaDensity.get(j, k) *
-								integralArrayExchange[Kcount];
-						Kcount++;
+								integralArrayExchange[intCount];
+						intCount++;
 
 					}
 					else {
 						for (int l : orbsOfAtom[atomOfOrb[j]]) {
 							for (int m : orbsOfAtom[atomOfOrb[k]]) {
 								vala += alphaDensity.get(l, m) *
-										integralArrayExchange[Kcount];
+										integralArrayExchange[intCount];
 								valb += betaDensity.get(l, m) *
-										integralArrayExchange[Kcount];
-								Kcount++;
+										integralArrayExchange[intCount];
+								intCount++;
 							}
 						}
 					}
@@ -254,48 +240,16 @@ public class SolutionU extends Solution {
 				}
 			}
 
-			Fa = H.plus(j1).plus(ka);
-			Fb = H.plus(j1).plus(kb);
+			Fa = H.plus(j1).plusi(ka);
+			Fb = H.plus(j1).plusi(kb);
 
-			if (numIt < Farrayalpha.length) {
-
-				Farrayalpha[numIt] = Fa.copy();
-				Farraybeta[numIt] = Fb.copy();
-
-
-				Darrayalpha[numIt] = alphaDensity.copy();
-				Darraybeta[numIt] = betaDensity.copy();
-				earray[numIt] =
-						-0.5 * (H.mult(alphaDensity).diag().elementSum() + H.mult(betaDensity).diag().elementSum());
-
-				commutatorarrayalpha[numIt] = commutator(Fa.copy(), alphaDensity.copy());
-				commutatorarraybeta[numIt] = commutator(Fb.copy(), betaDensity.copy());
-
-				DIISError = commutatorarrayalpha[numIt].normF() + commutatorarraybeta[numIt].normF();
-
-				for (int i = 0; i <= numIt; i++) {
-
-					double product =
-							commutatorarrayalpha[numIt].mult(commutatorarrayalpha[i].transpose()).diag().elementSum() +
-									commutatorarraybeta[numIt].mult(commutatorarraybeta[i].transpose()).diag()
-											.elementSum();
-					B.set(i, numIt, product);
-					B.set(numIt, i, product);
-
-					product = 0.5 * (Farrayalpha[i].mult(Darrayalpha[numIt]).diag().elementSum() +
-							Farraybeta[i].mult(Darraybeta[numIt]).diag().elementSum()
-							+ Farrayalpha[numIt].mult(Darrayalpha[i]).diag().elementSum() +
-							Farraybeta[numIt].mult(Darraybeta[i]).diag().elementSum());
-
-					Bforediis.set(i, numIt, product);
-					Bforediis.set(numIt, i, product);
-
-				}
+			if (numIt < LENGTH) {
+				DIISError = updateDiis(numIt);
 			}
 
 			else {
 
-				for (int i = 0; i < Farrayalpha.length - 1; i++) {
+				for (int i = 0; i < LENGTH - 1; i++) {
 
 					Farrayalpha[i] = Farrayalpha[i + 1].copy();
 					Farraybeta[i] = Farraybeta[i + 1].copy();
@@ -309,7 +263,7 @@ public class SolutionU extends Solution {
 					earray[i] = earray[i + 1];
 				}
 
-				Farrayalpha[Farrayalpha.length - 1] = Fa.copy();
+				Farrayalpha[LENGTH - 1] = Fa.copy();
 				Farraybeta[Farraybeta.length - 1] = Fb.copy();
 
 				Darrayalpha[Darrayalpha.length - 1] = alphaDensity.copy();
@@ -328,8 +282,8 @@ public class SolutionU extends Solution {
 				SimpleMatrix newB = new SimpleMatrix(8, 8);
 				SimpleMatrix newBforediis = new SimpleMatrix(8, 8);
 
-				for (int i = 0; i < Farrayalpha.length - 1; i++) {
-					for (int j = i; j < Farrayalpha.length - 1; j++) {
+				for (int i = 0; i < LENGTH - 1; i++) {
+					for (int j = i; j < LENGTH - 1; j++) {
 						newB.set(i, j, B.get(i + 1, j + 1));
 						newB.set(j, i, B.get(i + 1, j + 1));
 						newBforediis.set(i, j, Bforediis.get(i + 1, j + 1));
@@ -337,34 +291,34 @@ public class SolutionU extends Solution {
 					}
 				}
 
-				for (int i = 0; i < Farrayalpha.length; i++) {
+				for (int i = 0; i < LENGTH; i++) {
 
 					double product =
-							commutatorarrayalpha[Farrayalpha.length - 1].transpose().mult(commutatorarrayalpha[i])
+							commutatorarrayalpha[LENGTH - 1].transpose().mult(commutatorarrayalpha[i])
 									.diag().elementSum() +
 									commutatorarraybeta[Farraybeta.length - 1].transpose().mult(commutatorarraybeta[i])
 											.diag().elementSum();
 
-					newB.set(i, Farrayalpha.length - 1, product);
-					newB.set(Farrayalpha.length - 1, i, product);
+					newB.set(i, LENGTH - 1, product);
+					newB.set(LENGTH - 1, i, product);
 
-					product = 0.5 * (Farrayalpha[i].mult(Darrayalpha[Farrayalpha.length - 1]).diag().elementSum() +
-							Farraybeta[i].mult(Darraybeta[Farrayalpha.length - 1]).diag().elementSum()
-							+ Farrayalpha[Farrayalpha.length - 1].mult(Darrayalpha[i]).diag().elementSum() +
-							Farraybeta[Farrayalpha.length - 1].mult(Darraybeta[i]).diag().elementSum());
+					product = 0.5 * (Farrayalpha[i].mult(Darrayalpha[LENGTH - 1]).diag().elementSum() +
+							Farraybeta[i].mult(Darraybeta[LENGTH - 1]).diag().elementSum()
+							+ Farrayalpha[LENGTH - 1].mult(Darrayalpha[i]).diag().elementSum() +
+							Farraybeta[LENGTH - 1].mult(Darraybeta[i]).diag().elementSum());
 
-					newBforediis.set(i, Farrayalpha.length - 1, product);
-					newBforediis.set(Farrayalpha.length - 1, i, product);
+					newBforediis.set(i, LENGTH - 1, product);
+					newBforediis.set(LENGTH - 1, i, product);
 				}
 
 				B = newB.copy();
 				Bforediis = newBforediis.copy();
 			}
 
-			int ediisSize = Math.min(Farrayalpha.length + 1, numIt + 2);
+			int ediisSize = Math.min(LENGTH + 1, numIt + 2);
 
-			if (commutatorarrayalpha[Math.min(Farrayalpha.length - 1, numIt)].elementMax() > 1E-3 ||
-					commutatorarraybeta[Math.min(Farrayalpha.length - 1, numIt)].elementMax() > 1E-3) {
+			if (commutatorarrayalpha[Math.min(LENGTH - 1, numIt)].elementMax() > 1E-3 ||
+					commutatorarraybeta[Math.min(LENGTH - 1, numIt)].elementMax() > 1E-3) {
 
 
 				SimpleMatrix mat = new SimpleMatrix(ediisSize, ediisSize);
@@ -480,8 +434,8 @@ public class SolutionU extends Solution {
 			else {
 				SimpleMatrix mat = new SimpleMatrix(ediisSize, ediisSize);
 
-				for (int i = 0; i < Math.min(Farrayalpha.length, numIt + 1); i++) {
-					for (int j = i; j < Math.min(Farrayalpha.length, numIt + 1);
+				for (int i = 0; i < Math.min(LENGTH, numIt + 1); i++) {
+					for (int j = i; j < Math.min(LENGTH, numIt + 1);
 						 j++) {
 						mat.set(i, j, B.get(i, j));
 						mat.set(j, i, B.get(i, j));
@@ -609,6 +563,37 @@ public class SolutionU extends Solution {
 	protected void findHomoLumo() {
 		homo = nElectrons > 0 ? Ea.get(nAlpha - 1, 0) : 0;
 		lumo = nElectrons != nOrbitals << 1 ? Eb.get(nBeta, 0) : 0;
+	}
+
+	private double updateDiis(int len1) {
+		Farrayalpha[len1] = Fa;
+		Farraybeta[len1] = Fb;
+		Darrayalpha[len1] = alphaDensity;
+		Darraybeta[len1] = betaDensity;
+		earray[len1] = -0.5 * (H.mult(alphaDensity).trace() + H.mult(betaDensity).trace());
+
+		commutatorarrayalpha[len1] = commutator(Fa, alphaDensity);
+		commutatorarraybeta[len1] = commutator(Fb, betaDensity);
+		double DIISError = commutatorarrayalpha[len1].normF() + commutatorarraybeta[len1].normF();
+
+		for (int i = 0; i <= len1; i++) {
+			double product =
+					commutatorarrayalpha[len1].mult(commutatorarrayalpha[i].transpose()).diag().elementSum() +
+							commutatorarraybeta[len1].mult(commutatorarraybeta[i].transpose()).diag()
+									.elementSum();;
+			B.set(i, len1, product);
+			B.set(len1, i, product);
+
+			product = 0.5 * (Farrayalpha[i].mult(Darrayalpha[len1]).diag().elementSum() +
+					Farraybeta[i].mult(Darraybeta[len1]).diag().elementSum()
+					+ Farrayalpha[len1].mult(Darrayalpha[i]).diag().elementSum() +
+					Farraybeta[len1].mult(Darraybeta[i]).diag().elementSum());
+
+			Bforediis.set(i, len1, product);
+			Bforediis.set(len1, i, product);
+
+		}
+		return DIISError;
 	}
 
 	private SimpleMatrix calculateDensityMatrix(SimpleMatrix Ct, int nElectrons) {
