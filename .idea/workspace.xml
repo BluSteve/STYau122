@@ -4,16 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="use old densitymatrix for withNewAtoms">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="work in progress uhf pople">
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamErrorFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamErrorFunction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientNew.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/optimize/ReferenceData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/optimize/ReferenceData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
     </list>
     <list id="3e0ea8eb-765e-4625-837c-961efbbcba23" name="Changes by flyingfalcon" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -174,7 +166,7 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="codeWithMe.voiceChat.enabledByDefault" value="false" />
-    <property name="com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File" value="TEXT" />
+    <property name="com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File" value="JAVA&#10;TEXT" />
     <property name="extract.method.default.visibility" value="public" />
     <property name="last.edited.regexp" value="asdf  asdf    asdfa    d d d " />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/libs" />
@@ -532,14 +524,7 @@
       <workItem from="1641546683374" duration="1435000" />
       <workItem from="1641628825111" duration="15864000" />
       <workItem from="1641646278782" duration="4813000" />
-      <workItem from="1641713504006" duration="390000" />
-    </task>
-    <task id="LOCAL-00229" summary="cleanup">
-      <created>1641201941050</created>
-      <option name="number" value="00229" />
-      <option name="presentableId" value="LOCAL-00229" />
-      <option name="project" value="LOCAL" />
-      <updated>1641201941050</updated>
+      <workItem from="1641713504006" duration="1670000" />
     </task>
     <task id="LOCAL-00230" summary="better verify">
       <created>1641202408514</created>
@@ -877,7 +862,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641646195485</updated>
     </task>
-    <option name="localTasksCounter" value="278" />
+    <task id="LOCAL-00278" summary="work in progress uhf pople">
+      <created>1641714309548</created>
+      <option name="number" value="00278" />
+      <option name="presentableId" value="LOCAL-00278" />
+      <option name="project" value="LOCAL" />
+      <updated>1641714309548</updated>
+    </task>
+    <option name="localTasksCounter" value="279" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -924,7 +916,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="nitrogen tesrt" />
     <MESSAGE value="for jinherng" />
     <MESSAGE value="better mndoatom and forjinherng" />
     <MESSAGE value="fix h1c1 bug" />
@@ -949,7 +940,8 @@
     <MESSAGE value="FrontendConfig" />
     <MESSAGE value="fix xmatrices degenerate orbitals problem" />
     <MESSAGE value="use old densitymatrix for withNewAtoms" />
-    <option name="LAST_COMMIT_MESSAGE" value="use old densitymatrix for withNewAtoms" />
+    <MESSAGE value="work in progress uhf pople" />
+    <option name="LAST_COMMIT_MESSAGE" value="work in progress uhf pople" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

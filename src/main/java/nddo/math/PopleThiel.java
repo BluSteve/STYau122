@@ -77,7 +77,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 
 		// main loop
 		boolean[] finished = new boolean[length];
-		boolean[]somewhatFinished = new boolean[length];
+		boolean[] somewhatFinished = new boolean[length];
 
 		// 0: B, 2: B-P
 		List<SimpleMatrix[]> prevs = new ArrayList<>();
@@ -384,9 +384,21 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		double[] Dinvarr = new double[nonv];
 
 		int counter = 0;
-		for (int i = 0; i < NOcc; i++) {
-			for (int j = 0; j < NVirt; j++) {
-				double e = -soln.E.get(i) + soln.E.get(NOcc + j);
+
+		for (int i = 0; i < NOccAlpha; i++) {
+			for (int j = 0; j < NVirtAlpha; j++) {
+				double e = -soln.Ea.get(i) + soln.Ea.get(NOccAlpha + j);
+
+				Dinvarr[counter] = Math.sqrt(e);
+				Darr[counter] = 1 / Dinvarr[counter];
+
+				counter++;
+			}
+		}
+
+		for (int i = 0; i < NOccBeta; i++) {
+			for (int j = 0; j < NVirtBeta; j++) {
+				double e = -soln.Eb.get(i) + soln.Eb.get(NOccBeta + j);
 
 				Dinvarr[counter] = Math.sqrt(e);
 				Darr[counter] = 1 / Dinvarr[counter];
@@ -397,10 +409,15 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 
 		SimpleMatrix F = new SimpleMatrix(nonv, length); // scaled fockderivstatic vectors in matrix form, cf. Farray
 		for (int a = 0; a < length; a++) {
-			SimpleMatrix f = fockderivstatic[a].elementDiv(soln.Emat); // divided by (ej - ei)
-			f.reshape(nonv, 1);
+			SimpleMatrix fa = fockderivstaticalpha[a].elementDiv(soln.Eamat); // divided by (ej - ei)
+			fa.reshape(nonvAlpha, 1);
 
+			SimpleMatrix fb = fockderivstaticbeta[a].elementDiv(soln.Ebmat);
+			fb.reshape(nonvBeta, 1);
+
+			SimpleMatrix f = fa.concatRows(fb);
 			multRows(Darr, f.getDDRM());
+
 			barray[a] = f;
 			Farray[a] = f.copy();
 			F.setColumn(a, 0, barray[a].getDDRM().data);
@@ -408,14 +425,16 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 
 		// main loop
 		boolean[] finished = new boolean[length];
-		boolean[]somewhatFinished = new boolean[length];
+		boolean[] somewhatFinished = new boolean[length];
 
 		// 0: B, 2: B-P
 		List<SimpleMatrix[]> prevs = new ArrayList<>();
 		List<Double> dots = new ArrayList<>();
 
 		// responseMatrix remains the same size so pre-initialized
-		SimpleMatrix responseMatrix = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
+		SimpleMatrix Jderiv = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
+		SimpleMatrix Kaderiv = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
+		SimpleMatrix Kbderiv = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 		SimpleMatrix alpha = null;
 		int size = 0;
 
@@ -432,7 +451,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 			for (int i = 0; i < length; i++) {
 				SimpleMatrix b = barray[i].copy();
 				multRows(Dinvarr, b.getDDRM());
-				SimpleMatrix p = computeResponseVectorsPople(soln, b, responseMatrix); // P = D * B
+				SimpleMatrix p = computeResponseVectorsPople(soln, b, Jderiv, Kaderiv, Kbderiv); // P = D * B
 				multRows(Darr, p.getDDRM());
 				parray[i] = p;
 
@@ -500,7 +519,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 
 					soln.rm.getLogger()
 							.warn("Pople algorithm fails; reverting to Thiel algorithm... (last mag = {})", mag);
-					return thiel(soln, fockderivstatic);
+					return thiel(soln, fockderivstaticalpha, fockderivstaticbeta);
 				}
 
 				if (mag < State.config.poplethiel_tolerable) {
@@ -574,8 +593,6 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 				counter++;
 			}
 		}
-
-		Arrays.fill(Darr, 1);
 
 		for (int a = 0; a < xarray.length; a++) {
 			SimpleMatrix fa = fockderivstaticalpha[a].copy();
@@ -762,61 +779,30 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 
 		SimpleMatrix densityDeriv = densityDeriv(soln, x);
 
-		double[] integralArray = soln.integralArray;
-
-		int integralcount = 0;
-
-		for (int j = 0; j < soln.nOrbitals; j++) {
-			for (int k = j; k < soln.nOrbitals; k++) {
-				double val = 0;
-				if (j == k) {
-					for (int l : soln.orbsOfAtom[soln.atomOfOrb[j]]) {
-						val += densityDeriv.get(l, l) * integralArray[integralcount];
-						integralcount++;
-					}
-
-					for (int l : soln.missingOfAtom[soln.atomOfOrb[j]]) {
-						for (int m : soln.missingOfAtom[soln.atomOfOrb[j]]) {
-							if (soln.atomOfOrb[l] == soln.atomOfOrb[m]) {
-								val += densityDeriv.get(l, m) * integralArray[integralcount];
-								integralcount++;
-							}
-						}
-					}
-				}
-				else if (soln.atomOfOrb[j] == soln.atomOfOrb[k]) {
-					val += densityDeriv.get(j, k) * integralArray[integralcount];
-					integralcount++;
-
-					for (int l : soln.missingOfAtom[soln.atomOfOrb[j]]) {
-						for (int m : soln.missingOfAtom[soln.atomOfOrb[j]]) {
-							if (soln.atomOfOrb[l] == soln.atomOfOrb[m]) {
-								val += densityDeriv.get(l, m) * integralArray[integralcount];
-								integralcount++;
-							}
-						}
-					}
-				}
-				else {
-					for (int l : soln.orbsOfAtom[soln.atomOfOrb[j]]) {
-						for (int m : soln.orbsOfAtom[soln.atomOfOrb[k]]) {
-							val += densityDeriv.get(l, m) * integralArray[integralcount];
-							integralcount++;
-						}
-					}
-				}
-
-				responseMatrix.set(j, k, val);
-				responseMatrix.set(k, j, val);
-			}
-		}
+		responseMatrix(soln, densityDeriv, responseMatrix);
 
 		SimpleMatrix Roccvirt = soln.CtOcc.mult(responseMatrix).mult(soln.CVirt);
 
 		SimpleMatrix Rvec = Roccvirt.elementDivi(soln.Emat);
-		Rvec.reshape(soln.rm.nOccAlpha * soln.rm.nVirtAlpha, 1);
+		Rvec.reshape(soln.rm.nonvAlpha, 1);
 
 		return Rvec;
+	}
+
+	private static SimpleMatrix computeResponseVectorsPople(SolutionU soln, SimpleMatrix x, SimpleMatrix Jderiv,
+															SimpleMatrix Kaderiv, SimpleMatrix Kbderiv) {
+		SimpleMatrix[] densityDeriv = densityDeriv(soln, x);
+
+		SimpleMatrix[] responseMatrices = responseMatrix(soln, densityDeriv[0], densityDeriv[1],
+				Jderiv, Kaderiv, Kbderiv);
+
+		SimpleMatrix Rveca = soln.CtaOcc.mult(responseMatrices[0]).mult(soln.CaVirt).elementDivi(soln.Eamat);
+		SimpleMatrix Rvecb = soln.CtbOcc.mult(responseMatrices[1]).mult(soln.CbVirt).elementDivi(soln.Ebmat);
+
+		Rveca.reshape(soln.rm.nonvAlpha, 1);
+		Rvecb.reshape(soln.rm.nonvBeta, 1);
+
+		return Rveca.concatRows(Rvecb);
 	}
 
 	private static SimpleMatrix computeResponseVectorsThiel(SolutionR soln, SimpleMatrix x,
