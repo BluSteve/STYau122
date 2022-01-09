@@ -24,6 +24,11 @@ public final class RunnableMolecule extends MoleculeInfo { // mid-level runnable
 		this.datum = datum;
 	}
 
+	@Override
+	public String toString() {
+		return Serializer.gson.toJson(this);
+	}
+
 	public static class RMBuilder {
 		public int index;
 		public String name;

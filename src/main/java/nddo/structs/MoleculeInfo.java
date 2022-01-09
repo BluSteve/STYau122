@@ -106,20 +106,13 @@ public class MoleculeInfo { // low level molecule info representation
 				for (int k = j; k < nOrbitals; k++) {
 					if (j == k) {
 						for (int l : orbsOfAtom[atomOfOrb[j]]) {
-							if (l > -1) {
-								size++;
-							}
+							size++;
 						}
 
 						for (int l : missingOfAtom[atomOfOrb[j]]) {
-							if (l > -1) {
-								for (int m : missingOfAtom[atomOfOrb[j]]) {
-									if (m > -1) {
-										if (atomOfOrb[l] == atomOfOrb[m]) {
-											size++;
-										}
-									}
-
+							for (int m : missingOfAtom[atomOfOrb[j]]) {
+								if (atomOfOrb[l] == atomOfOrb[m]) {
+									size++;
 								}
 							}
 						}
@@ -128,26 +121,17 @@ public class MoleculeInfo { // low level molecule info representation
 						size++;
 
 						for (int l : missingOfAtom[atomOfOrb[j]]) {
-							if (l > -1) {
-								for (int m : missingOfAtom[atomOfOrb[j]]) {
-									if (m > -1) {
-										if (atomOfOrb[l] == atomOfOrb[m]) {
-											size++;
-										}
-									}
-
+							for (int m : missingOfAtom[atomOfOrb[j]]) {
+								if (atomOfOrb[l] == atomOfOrb[m]) {
+									size++;
 								}
 							}
 						}
 					}
 					else {
 						for (int l : orbsOfAtom[atomOfOrb[j]]) {
-							if (l > -1) {
-								for (int m : orbsOfAtom[atomOfOrb[k]]) {
-									if (m > -1) {
-										size++;
-									}
-								}
+							for (int m : orbsOfAtom[atomOfOrb[k]]) {
+								size++;
 							}
 						}
 					}
@@ -165,18 +149,12 @@ public class MoleculeInfo { // low level molecule info representation
 				for (int k = j; k < nOrbitals; k++) {
 					if (j == k) {
 						for (int l : orbsOfAtom[atomOfOrb[j]]) {
-							if (l > -1) {
-								size++;
-							}
+							size++;
 						}
 						for (int l : missingOfAtom[atomOfOrb[j]]) {
-							if (l > -1) {
-								for (int m : missingOfAtom[atomOfOrb[j]]) {
-									if (m > -1) {
-										if (atomOfOrb[l] == atomOfOrb[m]) {
-											size++;
-										}
-									}
+							for (int m : missingOfAtom[atomOfOrb[j]]) {
+								if (atomOfOrb[l] == atomOfOrb[m]) {
+									size++;
 								}
 							}
 						}
@@ -184,14 +162,9 @@ public class MoleculeInfo { // low level molecule info representation
 					else if (atomOfOrb[j] == atomOfOrb[k]) {
 						size++;
 						for (int l : missingOfAtom[atomOfOrb[j]]) {
-							if (l > -1) {
-								for (int m : missingOfAtom[atomOfOrb[j]]) {
-									if (m > -1) {
-										if (atomOfOrb[l] == atomOfOrb[m]) {
-											size++;
-										}
-									}
-
+							for (int m : missingOfAtom[atomOfOrb[j]]) {
+								if (atomOfOrb[l] == atomOfOrb[m]) {
+									size++;
 								}
 							}
 						}
@@ -209,9 +182,7 @@ public class MoleculeInfo { // low level molecule info representation
 				for (int k = j; k < nOrbitals; k++) {
 					if (j == k) {
 						for (int l : orbsOfAtom[atomOfOrb[j]]) {
-							if (l > -1) {
-								size++;
-							}
+							size++;
 						}
 					}
 					else if (atomOfOrb[j] == atomOfOrb[k]) {
@@ -219,12 +190,8 @@ public class MoleculeInfo { // low level molecule info representation
 					}
 					else {
 						for (int l : orbsOfAtom[atomOfOrb[j]]) {
-							if (l > -1) {
-								for (int m : orbsOfAtom[atomOfOrb[k]]) {
-									if (m > -1) {
-										size++;
-									}
-								}
+							for (int m : orbsOfAtom[atomOfOrb[k]]) {
+								size++;
 							}
 						}
 					}

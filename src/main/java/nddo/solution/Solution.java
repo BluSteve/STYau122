@@ -60,10 +60,9 @@ public abstract class Solution {
 	public final NDDOAtom[] atoms;
 	public final NDDOOrbital[] orbitals;
 	public final MoleculeInfo rm;
-	protected final SimpleMatrix H;
 	public double energy, homo, lumo, hf, dipole;
 	public double[] chargedip, hybridip, dipoletot;
-	protected SimpleMatrix densityMatrix, alphaDensity, betaDensity;
+	protected SimpleMatrix H, densityMatrix, alphaDensity, betaDensity;
 
 	protected Solution(MoleculeInfo rm, NDDOAtom[] atoms) {
 		this.atoms = atoms;
@@ -86,43 +85,6 @@ public abstract class Solution {
 				overallOrbitalIndex++;
 			}
 		}
-
-		// filling up the core matrix in accordance with NDDO formalism
-		H = new SimpleMatrix(orbitals.length, orbitals.length);
-
-		for (int j = 0; j < orbitals.length; j++) {
-			for (int k = j; k < orbitals.length; k++) {
-				if (k == j) {
-					double Huu = orbitals[j].U();
-
-					for (int an = 0; an < atoms.length; an++) {
-						if (atomOfOrb[j] != an) {
-							Huu += atoms[an].V(orbitals[j], orbitals[k]);
-						}
-					}
-
-					H.set(j, k, Huu);
-				}
-				else if (atomOfOrb[j] == atomOfOrb[k]) {
-					double Huv = 0;
-
-					for (int an = 0; an < atoms.length; an++) {
-						if (atomOfOrb[j] != an) {
-							Huv += atoms[an].V(orbitals[j], orbitals[k]);
-						}
-					}
-
-					H.set(j, k, Huv);
-					H.set(k, j, Huv);
-				}
-				else {
-					double Huk = nom.H(orbitals[j], orbitals[k]);
-
-					H.set(j, k, Huk);
-					H.set(k, j, Huk);
-				}
-			}
-		}
 	}
 
 	/**
@@ -139,8 +101,7 @@ public abstract class Solution {
 	/**
 	 * Checks if two DoubleMatrices are similar below a threshold.
 	 */
-	public static boolean isSimilar(SimpleMatrix x, SimpleMatrix y,
-									double limit) {
+	public static boolean isSimilar(SimpleMatrix x, SimpleMatrix y, double limit) {
 		for (int i = 0; i < y.numRows(); i++) {
 			for (int j = 0; j < y.numCols(); j++) {
 				if (Math.abs(x.get(i, j) - y.get(i, j)) > limit) {
@@ -150,6 +111,10 @@ public abstract class Solution {
 		}
 
 		return true;
+	}
+
+	private static double sigmoid(int x) {
+		return 1e-10 / (1 + Pow.exp(-0.1 * (x - 53)));
 	}
 
 	protected static SimpleMatrix commutator(SimpleMatrix F, SimpleMatrix D) {
@@ -209,9 +174,55 @@ public abstract class Solution {
 		return new SimpleMatrix(original.numRows() + tbr.length, 1, true, Utils.toDoubles(array));
 	}
 
-	private static double sigmoid(int x) {
-		return 1e-10 / (1 + Pow.exp(-0.1 * (x - 53)));
+	public final Solution compute() {
+		H = new SimpleMatrix(orbitals.length, orbitals.length);
+
+		for (int j = 0; j < orbitals.length; j++) {
+			for (int k = j; k < orbitals.length; k++) {
+				if (k == j) {
+					double Huu = orbitals[j].U();
+
+					for (int an = 0; an < atoms.length; an++) {
+						if (atomOfOrb[j] != an) {
+							Huu += atoms[an].V(orbitals[j], orbitals[k]);
+						}
+					}
+
+					H.set(j, k, Huu);
+				}
+				else if (atomOfOrb[j] == atomOfOrb[k]) {
+					double Huv = 0;
+
+					for (int an = 0; an < atoms.length; an++) {
+						if (atomOfOrb[j] != an) {
+							Huv += atoms[an].V(orbitals[j], orbitals[k]);
+						}
+					}
+
+					H.set(j, k, Huv);
+					H.set(k, j, Huv);
+				}
+				else {
+					double Huk = nom.H(orbitals[j], orbitals[k]);
+
+					H.set(j, k, Huk);
+					H.set(k, j, Huk);
+				}
+			}
+		}
+
+		computePrivate();
+
+		findMatrices();
+
+		findEnergyAndHf();
+		findDipole();
+		findHomoLumo();
+
+		return this;
 	}
+
+	protected abstract void findEnergyAndHf();
 
 	protected void findDipole() {
 		double[] populations = new double[atoms.length];
@@ -265,7 +276,11 @@ public abstract class Solution {
 		dipole = Math.sqrt(dipoletot[0] * dipoletot[0] + dipoletot[1] * dipoletot[1] + dipoletot[2] * dipoletot[2]);
 	}
 
-	public MoleculeInfo getRm() {
+	protected abstract void findHomoLumo();
+
+	protected abstract  void findMatrices();
+
+	public final MoleculeInfo getRm() {
 		return rm;
 	}
 
@@ -283,7 +298,7 @@ public abstract class Solution {
 
 	public abstract Solution withNewAtoms(NDDOAtom[] newAtoms);
 
-	public abstract Solution compute();
+	protected abstract void computePrivate();
 
 	@Override
 	public String toString() {

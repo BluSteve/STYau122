@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="explicit version printing">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/version.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/version.txt" afterDir="false" />
-    </list>
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="solutionr refactor basically done" />
     <list id="3e0ea8eb-765e-4625-837c-961efbbcba23" name="Changes by flyingfalcon" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -529,14 +523,7 @@
       <workItem from="1641628825111" duration="15864000" />
       <workItem from="1641646278782" duration="4813000" />
       <workItem from="1641713504006" duration="9299000" />
-      <workItem from="1641724986038" duration="13218000" />
-    </task>
-    <task id="LOCAL-00243" summary="ipynb cont.">
-      <created>1641366074153</created>
-      <option name="number" value="00243" />
-      <option name="presentableId" value="LOCAL-00243" />
-      <option name="project" value="LOCAL" />
-      <updated>1641366074153</updated>
+      <workItem from="1641724986038" duration="13549000" />
     </task>
     <task id="LOCAL-00244" summary="working paramhessian">
       <created>1641371100789</created>
@@ -874,7 +861,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641742330146</updated>
     </task>
-    <option name="localTasksCounter" value="292" />
+    <task id="LOCAL-00292" summary="solutionr refactor basically done">
+      <created>1641743436884</created>
+      <option name="number" value="00292" />
+      <option name="presentableId" value="LOCAL-00292" />
+      <option name="project" value="LOCAL" />
+      <updated>1641743436884</updated>
+    </task>
+    <option name="localTasksCounter" value="293" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -921,7 +915,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="uncommented some parts of forjh" />
     <MESSAGE value="merge solutionu ediis" />
     <MESSAGE value="better forjh progressbar" />
     <MESSAGE value="auto-increase log level" />
@@ -946,7 +939,8 @@
     <MESSAGE value="prep for solution optimization" />
     <MESSAGE value="checkpoint" />
     <MESSAGE value="explicit version printing" />
-    <option name="LAST_COMMIT_MESSAGE" value="explicit version printing" />
+    <MESSAGE value="solutionr refactor basically done" />
+    <option name="LAST_COMMIT_MESSAGE" value="solutionr refactor basically done" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -13,14 +13,15 @@ import java.util.Arrays;
 
 import static nddo.State.config;
 import static nddo.State.nom;
+import static org.ejml.dense.row.CommonOps_DDRM.multInner;
 
 
 public class SolutionU extends Solution {
-	public SimpleMatrix Ea, Eb, Eamat, Ebmat,
-			Ca, CaOcc, CaVirt, Cta, CtaOcc, CtaVirt, Cb, CbOcc, CbVirt, Ctb, CtbOcc, CtbVirt, Fa;
+	private final int nAlpha = rm.nOccAlpha;
+	private final int nBeta = rm.nOccBeta;
+	public SimpleMatrix Ea, Eb, Eamat, Ebmat, Fa, Fb,
+			Ca, CaOcc, CaVirt, Cta, CtaOcc, CtaVirt, Cb, CbOcc, CbVirt, Ctb, CtbOcc, CtbVirt;
 	public double[] integralArrayCoulomb, integralArrayExchange;
-	private SimpleMatrix Fb;
-	private SimpleMatrix alphaDensity, betaDensity;
 
 	protected SolutionU(MoleculeInfo mi, NDDOAtom[] atoms) {
 		super(mi, atoms);
@@ -30,10 +31,24 @@ public class SolutionU extends Solution {
 	}
 
 	@Override
-	public SolutionU compute() {
-		int nalpha = (nElectrons - mult + 1) / 2 + mult - 1;
-		int nbeta = nElectrons - nalpha;
+	public Solution withNewAtoms(NDDOAtom[] newAtoms) {
+		SolutionU s = new SolutionU(rm, newAtoms);
 
+		s.Ea = Ea;
+		s.Eb = Eb;
+		s.Cta = Cta;
+		s.Ctb = Ctb;
+
+		s.alphaDensity = alphaDensity;
+		s.betaDensity = betaDensity;
+
+		s.compute();
+
+		return s;
+	}
+
+	@Override
+	public void computePrivate() {
 		integralArrayCoulomb = new double[rm.nCoulombInts];
 
 		int integralCount = 0;
@@ -73,6 +88,7 @@ public class SolutionU extends Solution {
 		}
 
 		integralArrayExchange = new double[rm.nExchangeInts];
+
 		integralCount = 0;
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = j; k < orbitals.length; k++) {
@@ -105,13 +121,13 @@ public class SolutionU extends Solution {
 			SimpleMatrix[] matrices = Utils.symEigen(H);
 
 			Ea = matrices[1].diag();
-			Eb = matrices[1].diag();
+			Eb = Ea.copy();
 
-			Cta = matrices[0].transpose();
-			Ctb = matrices[0].transpose();
+			Cta = matrices[0].transposei();
+			Ctb = Cta.copy();
 
-			alphaDensity = calculateDensityMatrix(Cta, nalpha);
-			betaDensity = calculateDensityMatrix(Ctb, nbeta);
+			alphaDensity = calculateDensityMatrix(Cta, nAlpha);
+			betaDensity = calculateDensityMatrix(Ctb, nBeta);
 		}
 
 		SimpleMatrix j1 = new SimpleMatrix(Cta.numRows(), Cta.numCols());
@@ -140,7 +156,7 @@ public class SolutionU extends Solution {
 		SimpleMatrix[] commutatorarraybeta = new SimpleMatrix[8];
 		double[] earray = new double[8];
 
-		double DIISError = 10, threshold;
+		double DIISError, threshold;
 
 		while (true) {
 			oldalphadensity = alphaDensity.copy();
@@ -445,7 +461,7 @@ public class SolutionU extends Solution {
 
 					matrices1 = Utils.symEigen(this.Fa);
 
-					matrices2 = Utils.symEigen(this.Fb);
+					matrices2 = Utils.symEigen(Fb);
 
 					Ea = matrices1[1].diag();
 
@@ -457,9 +473,9 @@ public class SolutionU extends Solution {
 
 				}
 
-				alphaDensity = calculateDensityMatrix(Cta, nalpha);
+				alphaDensity = calculateDensityMatrix(Cta, nAlpha);
 
-				betaDensity = calculateDensityMatrix(Ctb, nbeta);
+				betaDensity = calculateDensityMatrix(Ctb, nBeta);
 
 			}
 
@@ -521,7 +537,7 @@ public class SolutionU extends Solution {
 
 						matrices1 = Utils.symEigen(this.Fa);
 
-						matrices2 = Utils.symEigen(this.Fb);
+						matrices2 = Utils.symEigen(Fb);
 
 						Ea = matrices1[1].diag();
 
@@ -533,9 +549,9 @@ public class SolutionU extends Solution {
 
 					}
 
-					alphaDensity = calculateDensityMatrix(Cta, nalpha);
+					alphaDensity = calculateDensityMatrix(Cta, nAlpha);
 
-					betaDensity = calculateDensityMatrix(Ctb, nbeta);
+					betaDensity = calculateDensityMatrix(Ctb, nBeta);
 
 
 				} catch (Exception e) {
@@ -550,10 +566,10 @@ public class SolutionU extends Solution {
 					Cta = matrices1[0].transpose();
 					Ctb = matrices2[0].transpose();
 
-					alphaDensity = calculateDensityMatrix(Cta, nalpha).scale(1 - damp)
+					alphaDensity = calculateDensityMatrix(Cta, nAlpha).scale(1 - damp)
 							.plus(oldalphadensity.scale(damp));
 
-					betaDensity = calculateDensityMatrix(Ctb, nbeta).scale(1 - damp)
+					betaDensity = calculateDensityMatrix(Ctb, nBeta).scale(1 - damp)
 							.plus(oldbetadensity.scale(damp));
 				}
 			}
@@ -576,6 +592,10 @@ public class SolutionU extends Solution {
 			numIt++;
 		}
 
+		rm.getLogger().debug("hf = {}, dipole = {}, homo = {}", hf, dipole, homo);
+	}
+
+	protected void findMatrices() {
 		CtaOcc = Cta.extractMatrix(0, rm.nOccAlpha, 0, Cta.numCols());
 		CtaVirt = Cta.extractMatrix(rm.nOccAlpha, Cta.numCols(), 0, Cta.numCols());
 		Ca = Cta.transpose();
@@ -603,15 +623,14 @@ public class SolutionU extends Solution {
 		for (int i = 0; i < rm.nOccBeta; i++) {
 			Ebmat.insertIntoThis(i, 0, sm.minus(Eb.get(i)));
 		}
+	}
 
-		double e = 0;
-
+	protected void findEnergyAndHf() {
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = 0; k < orbitals.length; k++) {
-				e += 0.5 * alphaDensity.get(j, k) *
-						(H.get(j, k) + Fa.get(j, k));
-				e += 0.5 * betaDensity.get(j, k) * (H.get(j, k) + Fb.get(j,
-						k));
+				double v = H.get(j, k);
+				energy += 0.5 * alphaDensity.get(j, k) * (v + Fa.get(j, k));
+				energy += 0.5 * betaDensity.get(j, k) * (v + Fb.get(j, k));
 			}
 		}
 
@@ -619,40 +638,24 @@ public class SolutionU extends Solution {
 		for (int j = 0; j < atoms.length; j++) {
 			heat += atoms[j].getAtomProperties().getHeat() - atoms[j].getParams().getEisol();
 			for (int k = j + 1; k < atoms.length; k++) {
-				e += atoms[j].crf(atoms[k]);
+				energy += atoms[j].crf(atoms[k]);
 			}
 		}
-		energy = e;
 
-		heat += e;
-
-		this.hf = heat / Constants.HEATCONV;
-
-		this.homo = Ea.get(nalpha - 1, 0);
-		this.lumo = 0.001 * Math.round(Eb.get(nbeta, 0) * 1000);
-
-		findDipole();
-		return this;
+		heat += energy;
+		hf = heat / Constants.HEATCONV;
 	}
 
-	private SimpleMatrix calculateDensityMatrix(SimpleMatrix c, int NElectrons) {
-		SimpleMatrix densityMatrix = new SimpleMatrix(orbitals.length, orbitals.length);
+	protected void findHomoLumo() {
+		homo = nElectrons > 0 ? Ea.get(nAlpha - 1, 0) : 0;
+		lumo = nElectrons != nOrbitals << 1 ? Eb.get(nBeta, 0) : 0;
+	}
 
-		for (int i = 0; i < orbitals.length; i++) {
-			for (int j = 0; j < orbitals.length; j++) {
-				double sum = 0;
-				int count = NElectrons;
-				int counter = -1;
-				while (count > 0) {
-					counter++;
-					sum += c.get(counter, i) * c.get(counter, j);
-					count -= 1;
-
-				}
-				densityMatrix.set(i, j, sum);
-			}
-		}
-		return densityMatrix;
+	private SimpleMatrix calculateDensityMatrix(SimpleMatrix Ct, int nElectrons) {
+		SimpleMatrix CtOcc = Ct.extractMatrix(0, nElectrons, 0, Ct.numCols());
+		SimpleMatrix output = new SimpleMatrix(nOrbitals, nOrbitals);
+		multInner(CtOcc.getDDRM(), output.getDDRM());
+		return output;
 	}
 
 	@Override
@@ -663,23 +666,6 @@ public class SolutionU extends Solution {
 	@Override
 	public SimpleMatrix betaDensity() {
 		return this.betaDensity;
-	}
-
-	@Override
-	public Solution withNewAtoms(NDDOAtom[] newAtoms) {
-		SolutionU s = new SolutionU(rm, newAtoms);
-
-		s.Ea = Ea;
-		s.Eb = Eb;
-		s.Cta = Cta;
-		s.Ctb = Ctb;
-
-		s.alphaDensity = alphaDensity;
-		s.betaDensity = betaDensity;
-
-		s.compute();
-
-		return s;
 	}
 
 	@Override

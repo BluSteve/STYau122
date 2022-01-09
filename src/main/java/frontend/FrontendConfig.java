@@ -32,6 +32,8 @@ public class FrontendConfig extends Config {
 		FrontendConfig.config = config;
 	}
 
+	public static void init() {}
+
 	public int num_runs = 1;
 	public String logging_level = "info";
 

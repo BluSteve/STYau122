@@ -17,17 +17,23 @@ import static org.ejml.dense.row.CommonOps_DDRM.*;
 
 public class SolutionR extends Solution {
 	public double[] integralArray;
-	public SimpleMatrix C, COcc, CVirt, Ct, CtOcc, CtVirt, F, E, Emat;
-	private SimpleMatrix[] Farray;
-	private SimpleMatrix[] Darray;
-	private double[] earray;
-	private SimpleMatrix Bforediis;
-	private SimpleMatrix B;
-	private SimpleMatrix[] commutatorarray;
-	private DMatrixRMaj ddrm;
+	public SimpleMatrix F, E, Emat, C, COcc, CVirt, Ct, CtOcc, CtVirt;
+
+	private final SimpleMatrix[] Farray, Darray, commutatorarray;
+	private final double[] earray;
+	private final  SimpleMatrix B, Bforediis;
+	private final transient DMatrixRMaj ddrm;
 
 	public SolutionR(MoleculeInfo mi, NDDOAtom[] atoms) {
 		super(mi, atoms);
+
+		Farray = new SimpleMatrix[LENGTH];
+		Darray = new SimpleMatrix[LENGTH];
+		commutatorarray = new SimpleMatrix[LENGTH];
+		earray = new double[LENGTH];
+		B = new SimpleMatrix(LENGTH, LENGTH);
+		Bforediis = new SimpleMatrix(LENGTH, LENGTH);
+		ddrm = new DMatrixRMaj(nOrbitals, nOrbitals);
 	}
 
 	@Override
@@ -36,6 +42,7 @@ public class SolutionR extends Solution {
 
 		s.E = E;
 		s.Ct = Ct;
+
 		s.densityMatrix = densityMatrix;
 
 		s.compute();
@@ -44,7 +51,7 @@ public class SolutionR extends Solution {
 	}
 
 	@Override
-	public SolutionR compute() {
+	public void computePrivate() {
 		integralArray = new double[rm.nIntegrals];
 
 		int integralcount = 0;
@@ -106,15 +113,6 @@ public class SolutionR extends Solution {
 		}
 
 		SimpleMatrix G = new SimpleMatrix(nOrbitals, nOrbitals);
-
-		Farray = new SimpleMatrix[LENGTH];
-		Darray = new SimpleMatrix[LENGTH];
-		commutatorarray = new SimpleMatrix[LENGTH];
-		earray = new double[LENGTH];
-
-		B = new SimpleMatrix(LENGTH, LENGTH);
-		Bforediis = new SimpleMatrix(LENGTH, LENGTH);
-		ddrm = new DMatrixRMaj(nOrbitals, nOrbitals);
 
 		double DIISError, threshold;
 		int numIt = 0;
@@ -329,7 +327,10 @@ public class SolutionR extends Solution {
 			numIt++;
 		}
 
+		rm.getLogger().debug("hf = {}, dipole = {}, homo = {}", hf, dipole, homo);
+	}
 
+	protected void findMatrices() {
 		CtVirt = Ct.extractMatrix(rm.nOccAlpha, Ct.numCols(), 0, Ct.numCols());
 		C = Ct.transpose();
 		COcc = CtOcc.transpose();
@@ -342,16 +343,30 @@ public class SolutionR extends Solution {
 		for (int i = 0; i < rm.nOccAlpha; i++) {
 			Emat.insertIntoThis(i, 0, sm.minus(E.get(i)));
 		}
+	}
 
+	protected void findEnergyAndHf() {
+		for (int j = 0; j < orbitals.length; j++) {
+			for (int k = 0; k < orbitals.length; k++) {
+				energy += 0.5 * densityMatrix.get(j, k) * (H.get(j, k) + F.get(j, k));
+			}
+		}
 
-		findEnergyAndHf();
-		homo = nElectrons > 0 ? E.get(nElectrons / 2 - 1, 0) : 0;
-		lumo = nElectrons != nOrbitals << 1 ? E.get(nElectrons / 2, 0) : 0;
-		findDipole();
+		double heat = 0;
+		for (int j = 0; j < atoms.length; j++) {
+			heat += atoms[j].getAtomProperties().getHeat() - atoms[j].getParams().getEisol();
+			for (int k = j + 1; k < atoms.length; k++) {
+				energy += atoms[j].crf(atoms[k]);
+			}
+		}
 
-		rm.getLogger().debug("hf = {}, dipole = {}, homo = {}", hf, dipole, homo);
+		heat += energy;
+		hf = heat / Constants.HEATCONV;
+	}
 
-		return this;
+	protected void findHomoLumo() {
+		homo = nElectrons > 0 ? E.get(rm.nOccAlpha - 1, 0) : 0;
+		lumo = nElectrons != nOrbitals << 1 ? E.get(rm.nOccAlpha, 0) : 0;
 	}
 
 	private double updateDiis(int len1) {
@@ -381,25 +396,6 @@ public class SolutionR extends Solution {
 		}
 
 		return DIISError;
-	}
-
-	private void findEnergyAndHf() {
-		for (int j = 0; j < orbitals.length; j++) {
-			for (int k = 0; k < orbitals.length; k++) {
-				energy += 0.5 * densityMatrix.get(j, k) * (H.get(j, k) + F.get(j, k));
-			}
-		}
-
-		double heat = 0;
-		for (int j = 0; j < atoms.length; j++) {
-			heat += atoms[j].getAtomProperties().getHeat() - atoms[j].getParams().getEisol();
-			for (int k = j + 1; k < atoms.length; k++) {
-				energy += atoms[j].crf(atoms[k]);
-			}
-		}
-
-		heat += energy;
-		hf = heat / Constants.HEATCONV;
 	}
 
 	private SimpleMatrix calculateDensityMatrix() {
