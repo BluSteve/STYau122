@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="solution refactor basically done">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="minor cleanup">
+      <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Testing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/Config.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" afterDir="false" />
@@ -126,18 +128,24 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/build.gradle" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/tools/Utils.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/nddo/scf/Orbital.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/testing/Testing.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/molecules.txt" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/nddo/param/ParamGeometryDerivative.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/mndo-install.sh" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.txt" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/nddo/structs/MoleculeInfo.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/nddo/structs/OrbitalProperties.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientNew.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/jmh/java/core/Testing.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -223,7 +231,7 @@
       <command value="gradlew clean" />
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.MNDOParam [jmh]">
+  <component name="RunManager" selected="Application.Testing (1)">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -529,14 +537,7 @@
       <workItem from="1641628825111" duration="15864000" />
       <workItem from="1641646278782" duration="4813000" />
       <workItem from="1641713504006" duration="9299000" />
-      <workItem from="1641724986038" duration="19743000" />
-    </task>
-    <task id="LOCAL-00250" summary="for jinherng">
-      <created>1641373923773</created>
-      <option name="number" value="00250" />
-      <option name="presentableId" value="LOCAL-00250" />
-      <option name="project" value="LOCAL" />
-      <updated>1641373923774</updated>
+      <workItem from="1641724986038" duration="20663000" />
     </task>
     <task id="LOCAL-00251" summary="better mndoatom and forjinherng">
       <created>1641375338135</created>
@@ -874,7 +875,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641749481471</updated>
     </task>
-    <option name="localTasksCounter" value="299" />
+    <task id="LOCAL-00299" summary="minor cleanup">
+      <created>1641749858848</created>
+      <option name="number" value="00299" />
+      <option name="presentableId" value="LOCAL-00299" />
+      <option name="project" value="LOCAL" />
+      <updated>1641749858848</updated>
+    </task>
+    <option name="localTasksCounter" value="300" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -921,7 +929,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="fix gradle" />
     <MESSAGE value="solutionr threshold changes" />
     <MESSAGE value="Config file" />
     <MESSAGE value="better forjh" />
@@ -946,10 +953,18 @@
     <MESSAGE value="checkpoint - values a bit different for uhf" />
     <MESSAGE value="move ediis and diis into solution" />
     <MESSAGE value="solution refactor basically done" />
-    <option name="LAST_COMMIT_MESSAGE" value="solution refactor basically done" />
+    <MESSAGE value="minor cleanup" />
+    <option name="LAST_COMMIT_MESSAGE" value="minor cleanup" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java</url>
+          <line>256</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">

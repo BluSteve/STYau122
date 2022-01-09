@@ -52,7 +52,7 @@ public class SolutionU extends Solution {
 	}
 
 	@Override
-	public void computePrivate() {
+	public void computePrivate(double ediisThreshold) {
 		integralArrayCoulomb = new double[rm.nCoulombInts];
 
 		int intCount = 0;
@@ -251,7 +251,8 @@ public class SolutionU extends Solution {
 
 
 			int len = Math.min(LENGTH, numIt + 1);
-			if (commutatorarrayalpha[len - 1].elementMax() > 1E-3 || commutatorarraybeta[len - 1].elementMax() > 1E-3) {
+			if (commutatorarrayalpha[len - 1].elementMax() > ediisThreshold
+					|| commutatorarraybeta[len - 1].elementMax() > ediisThreshold) {
 				fromDiis(ediis(len));
 			}
 			else {
@@ -386,7 +387,9 @@ public class SolutionU extends Solution {
 	}
 
 	@Override
-	protected void findEnergyAndHf() {
+	protected void findHf() {
+		energy = 0;
+
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = 0; k < orbitals.length; k++) {
 				double v = H.get(j, k);
@@ -408,7 +411,7 @@ public class SolutionU extends Solution {
 	}
 
 	@Override
-	protected void findHomoLumo() {
+	protected void findHomo() {
 		homo = nElectrons > 0 ? Ea.get(rm.nOccAlpha - 1, 0) : 0;
 		lumo = nElectrons != nOrbitals << 1 ? Eb.get(rm.nOccBeta, 0) : 0;
 	}

@@ -40,7 +40,7 @@ public class SolutionR extends Solution {
 	}
 
 	@Override
-	public void computePrivate() {
+	public void computePrivate(double ediisThreshold) {
 		integralArray = new double[rm.nIntegrals];
 
 		int intCount = 0;
@@ -176,7 +176,7 @@ public class SolutionR extends Solution {
 
 
 			int len = Math.min(LENGTH, numIt + 1);
-			if (commutatorarray[len - 1].elementMax() > 0.01) { // todo maybe use elementmaxabs?
+			if (commutatorarray[len - 1].elementMax() > ediisThreshold) { // todo maybe use elementmaxabs?
 				fromDiis(ediis(len));
 			}
 			else {
@@ -275,7 +275,9 @@ public class SolutionR extends Solution {
 	}
 
 	@Override
-	protected void findEnergyAndHf() {
+	protected void findHf() {
+		energy = 0;
+
 		for (int j = 0; j < orbitals.length; j++) {
 			for (int k = 0; k < orbitals.length; k++) {
 				energy += 0.5 * densityMatrix.get(j, k) * (H.get(j, k) + F.get(j, k));
@@ -295,7 +297,7 @@ public class SolutionR extends Solution {
 	}
 
 	@Override
-	protected void findHomoLumo() {
+	protected void findHomo() {
 		homo = nElectrons > 0 ? E.get(rm.nOccAlpha - 1, 0) : 0;
 		lumo = nElectrons != nOrbitals << 1 ? E.get(rm.nOccAlpha, 0) : 0;
 	}

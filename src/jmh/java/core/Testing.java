@@ -9,5 +9,7 @@ public class Testing {
 		FrontendConfig.init();
 		Benchmarks.State state = new Benchmarks.State();
 		state.setup();
+
+		state.s.testEdiis();
 	}
 }

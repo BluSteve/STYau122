@@ -57,17 +57,18 @@ public abstract class Solution {
 	}
 
 	public final int charge, mult, nElectrons, nOrbitals;
-	public final int[][] missingOfAtom, orbsOfAtom;
 	public final int[] atomicNumbers, atomOfOrb;
+	public final int[][] missingOfAtom, orbsOfAtom;
 	public final NDDOAtom[] atoms;
 	public final NDDOOrbital[] orbitals;
 	public final MoleculeInfo rm;
+
 	protected final SimpleMatrix B, Bforediis;
 	protected final double[] earray;
 	protected final transient DMatrixRMaj ddrm;
 
 	public double energy, homo, lumo, hf, dipole;
-	public double[] chargedip, hybridip, dipoletot;
+	public double[] dipoletot;
 	protected SimpleMatrix H, densityMatrix, alphaDensity, betaDensity;
 
 	protected Solution(MoleculeInfo rm, NDDOAtom[] atoms) {
@@ -199,20 +200,31 @@ public abstract class Solution {
 			}
 		}
 
-		computePrivate();
+		computePrivate(config.ediis_threshold);
 
 		findMatrices();
 
-		findEnergyAndHf();
+		findHf();
 		findDipole();
-		findHomoLumo();
+		findHomo();
 
 		rm.getLogger().debug("hf = {}, dipole = {}, homo = {}", hf, dipole, homo);
 
 		return this;
 	}
 
-	protected abstract void computePrivate();
+	public void testEdiis() {
+		densityMatrix = alphaDensity = betaDensity = null;
+		computePrivate(1e-2);
+		findHf();
+		System.out.println(hf);
+		densityMatrix = alphaDensity = betaDensity = null;
+		computePrivate(Double.POSITIVE_INFINITY);
+		findHf();
+		System.out.println(hf);
+	}
+
+	protected abstract void computePrivate(double ediisThreshold);
 
 	protected final SimpleMatrix ediis(int len) {
 		int ediisSize = len + 1;
@@ -303,7 +315,7 @@ public abstract class Solution {
 
 	protected abstract void findMatrices();
 
-	protected abstract void findEnergyAndHf();
+	protected abstract void findHf();
 
 	protected void findDipole() {
 		double[] populations = new double[atoms.length];
@@ -332,7 +344,7 @@ public abstract class Solution {
 		com[1] /= mass;
 		com[2] /= mass;
 
-		chargedip = new double[]{0, 0, 0};
+		double[] chargedip = new double[]{0, 0, 0};
 
 		for (int j = 0; j < atoms.length; j++) {
 			double v1 = Constants.DIPOLECONV * populations[j];
@@ -341,7 +353,7 @@ public abstract class Solution {
 			chargedip[2] += v1 * (atoms[j].getCoordinates()[2] - com[2]);
 		}
 
-		hybridip = new double[]{0, 0, 0};
+		double[] hybridip = new double[]{0, 0, 0};
 
 		for (int j = 0; j < atoms.length; j++) {
 			if (orbsOfAtom[j].length > 1) { // exclude hydrogen
@@ -357,7 +369,7 @@ public abstract class Solution {
 		dipole = Math.sqrt(dipoletot[0] * dipoletot[0] + dipoletot[1] * dipoletot[1] + dipoletot[2] * dipoletot[2]);
 	}
 
-	protected abstract void findHomoLumo();
+	protected abstract void findHomo();
 
 	public final MoleculeInfo getRm() {
 		return rm;

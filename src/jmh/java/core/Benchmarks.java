@@ -29,18 +29,19 @@ public class Benchmarks {
 	@org.openjdk.jmh.annotations.State(Scope.Benchmark)
 	public static class State {
 		public Random r = new Random(123);
+		public Solution s;
 		public RunnableMolecule rm;
 		public InputInfo info;
 
 		@Setup(Level.Trial)
 		public void setup() throws IOException {
 			RunInput input = TxtIO.readInput();
-			RunnableMolecule rm = input.molecules[0];
+			RunnableMolecule rm = input.molecules[1];
 			System.out.println("rm = " + rm);
 			this.rm = rm;
 			this.info = input.info;
 
-			Solution s = Solution.of(rm, runcycle.State.getConverter().convert(rm.atoms, input.info.npMap));
+			s = Solution.of(rm, runcycle.State.getConverter().convert(rm.atoms, input.info.npMap));
 
 			System.out.println("s.hf = " + s.hf);
 			System.out.println("s.dipole = " + s.dipole);
