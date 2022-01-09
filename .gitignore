@@ -10,3 +10,4 @@ logs
 flamegraph.png
 venv
 /updated-molecules.txt
+src/main/resources/version.txt

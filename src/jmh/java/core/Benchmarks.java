@@ -35,7 +35,7 @@ public class Benchmarks {
 		@Setup(Level.Trial)
 		public void setup() throws IOException {
 			RunInput input = TxtIO.readInput();
-			RunnableMolecule rm = input.molecules[1];
+			RunnableMolecule rm = input.molecules[0];
 			System.out.println("rm = " + rm);
 			this.rm = rm;
 			this.info = input.info;

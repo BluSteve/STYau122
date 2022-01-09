@@ -5,6 +5,8 @@ import nddo.NDDOAtom;
 import nddo.NDDOOrbital;
 import nddo.defaults.NDDO6G;
 import nddo.structs.MoleculeInfo;
+import org.ejml.data.DMatrixRMaj;
+import org.ejml.data.SingularMatrixException;
 import org.ejml.simple.SimpleMatrix;
 import tools.Pow;
 import tools.Utils;
@@ -15,6 +17,7 @@ import java.util.List;
 
 import static nddo.State.config;
 import static nddo.State.nom;
+import static org.ejml.dense.row.CommonOps_DDRM.elementMin;
 
 public abstract class Solution {
 	public final static int maxParamNum = 8; // todo compute this on the fly
@@ -45,7 +48,6 @@ public abstract class Solution {
 	protected static final int LENGTH = 8;
 	protected static final int LENGTH1 = LENGTH - 1;
 	protected static final double[] ZEROS = new double[LENGTH];
-
 	protected static final double[] THRESHOLDS = new double[Math.max(config.rhf_numIt_max, config.uhf_numIt_max)];
 
 	static {
@@ -63,6 +65,9 @@ public abstract class Solution {
 	public double energy, homo, lumo, hf, dipole;
 	public double[] chargedip, hybridip, dipoletot;
 	protected SimpleMatrix H, densityMatrix, alphaDensity, betaDensity;
+	protected final SimpleMatrix B, Bforediis;
+	protected final double[] earray;
+	protected final transient DMatrixRMaj ddrm;
 
 	protected Solution(MoleculeInfo rm, NDDOAtom[] atoms) {
 		this.atoms = atoms;
@@ -72,6 +77,11 @@ public abstract class Solution {
 		this.atomicNumbers = rm.atomicNumbers;
 		this.nElectrons = rm.nElectrons;
 		this.nOrbitals = rm.nOrbitals;
+
+		earray = new double[8];
+		B = new SimpleMatrix(8, 8);
+		Bforediis = new SimpleMatrix(8, 8);
+		ddrm = new DMatrixRMaj(nOrbitals, nOrbitals);
 
 		orbitals = new NDDO6G[nOrbitals];
 		orbsOfAtom = rm.orbsOfAtom; // variable length 2d array
@@ -224,6 +234,93 @@ public abstract class Solution {
 		return this;
 	}
 
+	protected final SimpleMatrix ediis(int len) {
+		int ediisSize = len + 1;
+		int len1 = len - 1;
+
+		SimpleMatrix mat = new SimpleMatrix(ediisSize, ediisSize);
+
+		for (int i = 0; i < len; i++) {
+			for (int j = i; j < len; j++) {
+				double v = Bforediis.get(i, j);
+				mat.set(i, j, v);
+				mat.set(j, i, v);
+			}
+		}
+
+		double[] row = new double[ediisSize];
+		double[] col = new double[ediisSize];
+		Arrays.fill(row, 1);
+		Arrays.fill(col, 1);
+		mat.setColumn(len, 0, row);
+		mat.setRow(len, 0, col);
+		mat.set(len, len, 0);
+
+		SimpleMatrix rhs = SimpleMatrix.ones(ediisSize, 1);
+		for (int i = 0; i < len; i++) {
+			rhs.set(i, earray[i]);
+		}
+
+		double bestE = 0;
+		SimpleMatrix bestEdiis = null;
+		for (int i = 0; i <= len1; i++) {
+			for (int[] tbr : TBRS[i]) {
+				try {
+					SimpleMatrix newmat = removeElements(mat, tbr);
+					SimpleMatrix newrhs = removeElements(rhs, tbr);
+					SimpleMatrix tempEdiis = addRows(newmat.solve(newrhs), tbr);
+					tempEdiis.set(len, 0);
+					boolean nonNegative = !(elementMin(tempEdiis.getDDRM()) < 0);
+
+					if (nonNegative) {
+						double e = 0;
+
+						for (int a = 0; a < len; a++) {
+							e -= earray[a] * tempEdiis.get(a);
+
+							for (int b = 0; b < len; b++) {
+								e += 0.5 * tempEdiis.get(a) * tempEdiis.get(b) * Bforediis.get(a, b);
+							}
+						}
+
+						if (e < bestE) {
+							bestE = e;
+							bestEdiis = tempEdiis;
+						}
+					}
+				} catch (SingularMatrixException ignored) {
+				}
+			}
+		}
+
+		return bestEdiis;
+	}
+
+	protected final SimpleMatrix diis(int len) {
+		int ediisSize = len + 1;
+
+		SimpleMatrix mat = new SimpleMatrix(ediisSize, ediisSize);
+
+		for (int i = 0; i < len; i++) {
+			for (int j = i; j < len; j++) {
+				double v = B.get(i, j);
+				mat.set(i, j, v);
+				mat.set(j, i, v);
+			}
+		}
+
+		double[] a = new double[ediisSize];
+		Arrays.fill(a, 1);
+		mat.setColumn(len, 0, a);
+		mat.setRow(len, 0, a);
+		mat.set(len, len, 0);
+
+		SimpleMatrix rhs = new SimpleMatrix(ediisSize, 1);
+		rhs.set(len, 0, 1);
+
+		return mat.solve(rhs);
+	}
+
 	protected abstract void findEnergyAndHf();
 
 	protected void findDipole() {
@@ -280,7 +377,7 @@ public abstract class Solution {
 
 	protected abstract void findHomoLumo();
 
-	protected abstract  void findMatrices();
+	protected abstract void findMatrices();
 
 	public final MoleculeInfo getRm() {
 		return rm;

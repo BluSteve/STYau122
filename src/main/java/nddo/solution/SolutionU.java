@@ -4,13 +4,8 @@ import nddo.Constants;
 import nddo.NDDOAtom;
 import nddo.structs.MoleculeInfo;
 import org.apache.logging.log4j.Level;
-import org.ejml.data.DMatrixRMaj;
-import org.ejml.data.SingularMatrixException;
-import org.ejml.dense.row.CommonOps_DDRM;
 import org.ejml.simple.SimpleMatrix;
 import tools.Utils;
-
-import java.util.Arrays;
 
 import static nddo.State.config;
 import static nddo.State.nom;
@@ -22,9 +17,6 @@ public class SolutionU extends Solution {
 	private final int nBeta = rm.nOccBeta;
 	private final SimpleMatrix[] Farrayalpha, Farraybeta, Darrayalpha, Darraybeta, commutatorarrayalpha,
 			commutatorarraybeta;
-	private final SimpleMatrix B, Bforediis;
-	private final double[] earray;
-	private final transient DMatrixRMaj ddrm;
 
 	public SimpleMatrix Ea, Eb, Eamat, Ebmat, Fa, Fb,
 			Ca, CaOcc, CaVirt, Cta, CtaOcc, CtaVirt, Cb, CbOcc, CbVirt, Ctb, CtbOcc, CtbVirt;
@@ -43,10 +35,6 @@ public class SolutionU extends Solution {
 		Darraybeta = new SimpleMatrix[8];
 		commutatorarrayalpha = new SimpleMatrix[8];
 		commutatorarraybeta = new SimpleMatrix[8];
-		earray = new double[8];
-		B = new SimpleMatrix(8, 8);
-		Bforediis = new SimpleMatrix(8, 8);
-		ddrm = new DMatrixRMaj(nOrbitals, nOrbitals);
 	}
 
 	@Override
@@ -158,6 +146,7 @@ public class SolutionU extends Solution {
 
 		while (true) {
 			intCount = 0;
+
 			for (int j = 0; j < orbitals.length; j++) {
 				for (int k = j; k < orbitals.length; k++) {
 					double val = 0;
@@ -203,31 +192,24 @@ public class SolutionU extends Solution {
 					double vala = 0;
 					double valb = 0;
 					if (j == k) {
-
 						for (int l : orbsOfAtom[atomOfOrb[j]]) {
-							vala += alphaDensity.get(l, l) *
-									integralArrayExchange[intCount];
-							valb += betaDensity.get(l, l) *
-									integralArrayExchange[intCount];
+							vala += alphaDensity.get(l, l) * integralArrayExchange[intCount];
+							valb += betaDensity.get(l, l) * integralArrayExchange[intCount];
 							intCount++;
 						}
 
 					}
 					else if (atomOfOrb[j] == atomOfOrb[k]) {
-						vala += alphaDensity.get(j, k) *
-								integralArrayExchange[intCount];
-						valb += betaDensity.get(j, k) *
-								integralArrayExchange[intCount];
+						vala += alphaDensity.get(j, k) * integralArrayExchange[intCount];
+						valb += betaDensity.get(j, k) * integralArrayExchange[intCount];
 						intCount++;
 
 					}
 					else {
 						for (int l : orbsOfAtom[atomOfOrb[j]]) {
 							for (int m : orbsOfAtom[atomOfOrb[k]]) {
-								vala += alphaDensity.get(l, m) *
-										integralArrayExchange[intCount];
-								valb += betaDensity.get(l, m) *
-										integralArrayExchange[intCount];
+								vala += alphaDensity.get(l, m) * integralArrayExchange[intCount];
+								valb += betaDensity.get(l, m) * integralArrayExchange[intCount];
 								intCount++;
 							}
 						}
@@ -243,10 +225,10 @@ public class SolutionU extends Solution {
 			Fa = H.plus(j1).plusi(ka);
 			Fb = H.plus(j1).plusi(kb);
 
+
 			if (numIt < LENGTH) {
 				DIISError = updateDiis(numIt);
 			}
-
 			else {
 				System.arraycopy(Farrayalpha, 1, Farrayalpha, 0, LENGTH1);
 				System.arraycopy(Darrayalpha, 1, Darrayalpha, 0, LENGTH1);
@@ -269,179 +251,13 @@ public class SolutionU extends Solution {
 				DIISError = updateDiis(LENGTH1);
 			}
 
-			int ediisSize = Math.min(LENGTH + 1, numIt + 2);
 
-			if (commutatorarrayalpha[Math.min(LENGTH - 1, numIt)].elementMax() > 1E-3 ||
-					commutatorarraybeta[Math.min(LENGTH - 1, numIt)].elementMax() > 1E-3) {
-
-
-				SimpleMatrix mat = new SimpleMatrix(ediisSize, ediisSize);
-
-				for (int i = 0; i < ediisSize - 1; i++) {
-					for (int j = i; j < ediisSize - 1; j++) {
-						mat.set(i, j, Bforediis.get(i, j));
-						mat.set(j, i, Bforediis.get(i, j));
-					}
-				}
-
-				double[] row = new double[mat.numRows()];
-				double[] col = new double[mat.numCols()];
-				Arrays.fill(row, 1);
-				Arrays.fill(col, 1);
-				mat.setColumn(mat.numCols() - 1, 0, row);
-				mat.setRow(mat.numRows() - 1, 0, col);
-				mat.set(mat.numRows() - 1, mat.numCols() - 1, 0);
-
-				SimpleMatrix rhs = SimpleMatrix.ones(mat.numRows(), 1);
-				for (int i = 0; i < ediisSize - 1; i++) {
-					rhs.set(i, earray[i]);
-				}
-
-				double bestE = 0;
-				SimpleMatrix bestDIIS = null;
-				int n = mat.numRows() - 2;
-				for (int i = 0; i <= n; i++) {
-					for (int[] tbr : TBRS[i]) {
-						try {
-							SimpleMatrix newmat = removeElements(mat, tbr);
-							SimpleMatrix newrhs = removeElements(rhs, tbr);
-							SimpleMatrix tempEdiis = addRows(newmat.solve(newrhs), tbr);
-							tempEdiis.set(tempEdiis.numRows() - 1, 0);
-							boolean nonNegative = !(CommonOps_DDRM.elementMin(tempEdiis.getDDRM()) < 0);
-
-							if (nonNegative) {
-								double e = 0;
-
-								for (int a = 0; a < tempEdiis.getNumElements() - 1; a++) {
-									e -= earray[a] * tempEdiis.get(a);
-								}
-
-								for (int a = 0; a < tempEdiis.getNumElements() - 1; a++) {
-									for (int b = 0; b < tempEdiis.getNumElements() - 1; b++) {
-										e += 0.5 * tempEdiis.get(a) * tempEdiis.get(b) * Bforediis.get(a, b);
-									}
-								}
-
-								if (e < bestE) {
-									bestE = e;
-									bestDIIS = tempEdiis;
-								}
-							}
-
-						} catch (SingularMatrixException ignored) {
-						}
-					}
-				}
-
-
-				SimpleMatrix finalDIIS = bestDIIS;
-
-				SimpleMatrix Fa = new SimpleMatrix(alphaDensity.numRows(), alphaDensity.numCols());
-				SimpleMatrix Fb = new SimpleMatrix(betaDensity.numRows(), betaDensity.numCols());
-
-
-				SimpleMatrix Da = new SimpleMatrix(alphaDensity.numRows(), alphaDensity.numCols());
-				SimpleMatrix Db = new SimpleMatrix(betaDensity.numRows(), betaDensity.numCols());
-
-				for (int i = 0; i < finalDIIS.getNumElements() - 1; i++) {
-					Fa.plusi(Farrayalpha[i].scale(finalDIIS.get(i)));
-					Da.plusi(Darrayalpha[i].scale(finalDIIS.get(i)));
-
-					Fb.plusi(Farraybeta[i].scale(finalDIIS.get(i)));
-					Db.plusi(Darraybeta[i].scale(finalDIIS.get(i)));
-				}
-
-				SimpleMatrix[] matrices1 = Utils.symEigen(Fa);
-
-				SimpleMatrix[] matrices2 = Utils.symEigen(Fb);
-
-				Ea = matrices1[1].diag();
-
-				Eb = matrices2[1].diag();
-
-				Cta = matrices1[0].transpose();
-				Ctb = matrices2[0].transpose();
-
-
-				if (Cta.get(0, 0) != Cta.get(0, 0)) {
-
-					matrices1 = Utils.symEigen(this.Fa);
-
-					matrices2 = Utils.symEigen(Fb);
-
-					Ea = matrices1[1].diag();
-
-					Eb = matrices2[1].diag();
-
-					Cta = matrices1[0].transpose();
-					Ctb = matrices2[0].transpose();
-
-
-				}
-
-				alphaDensity = calculateDensityMatrix(Cta, nAlpha);
-
-				betaDensity = calculateDensityMatrix(Ctb, nBeta);
-
+			int len = Math.min(LENGTH, numIt + 1);
+			if (commutatorarrayalpha[len - 1].elementMax() > 1E-3 || commutatorarraybeta[len - 1].elementMax() > 1E-3) {
+				fromDiis(ediis(len));
 			}
-
 			else {
-				SimpleMatrix mat = new SimpleMatrix(ediisSize, ediisSize);
-
-				for (int i = 0; i < Math.min(LENGTH, numIt + 1); i++) {
-					for (int j = i; j < Math.min(LENGTH, numIt + 1);
-						 j++) {
-						mat.set(i, j, B.get(i, j));
-						mat.set(j, i, B.get(i, j));
-
-					}
-				}
-
-				double[] a = new double[mat.numRows()];
-				Arrays.fill(a, 1);
-				mat.setColumn(mat.numCols() - 1, 0, a);
-				mat.setRow(mat.numRows() - 1, 0, a);
-				mat.set(mat.numRows() - 1, mat.numCols() - 1, 0);
-
-				SimpleMatrix rhs = new SimpleMatrix(mat.numRows(), 1);
-
-				rhs.set(mat.numRows() - 1, 0, 1);
-
-				SimpleMatrix DIIS = mat.solve(rhs);
-
-				SimpleMatrix Fa = new SimpleMatrix(nOrbitals, nOrbitals);
-				SimpleMatrix Fb = new SimpleMatrix(nOrbitals, nOrbitals);
-
-				SimpleMatrix Da = new SimpleMatrix(nOrbitals, nOrbitals);
-				SimpleMatrix Db = new SimpleMatrix(nOrbitals, nOrbitals);
-
-				for (int i = 0; i < DIIS.getNumElements() - 1; i++) {
-					double diis = DIIS.get(i);
-					Fa.plusi(diis, Farrayalpha[i]);
-					Da.plusi(diis, Darrayalpha[i]);
-
-					Fb.plusi(diis, Farraybeta[i]);
-					Db.plusi(diis, Darraybeta[i]);
-				}
-
-				SimpleMatrix[] matrices1 = Utils.symEigen(Fa);
-				SimpleMatrix[] matrices2 = Utils.symEigen(Fb);
-
-				SimpleMatrix Ea = matrices1[1].diag();
-				SimpleMatrix Eb = matrices2[1].diag();
-
-				SimpleMatrix Cta = matrices1[0].transposei();
-				SimpleMatrix Ctb = matrices2[0].transposei();
-
-				if (!Cta.hasUncountable() && !Ctb.hasUncountable()) {
-					this.Ea = Ea;
-					this.Eb = Eb;
-					this.Cta = Cta;
-					this.Ctb = Ctb;
-				}
-
-				alphaDensity = calculateDensityMatrix(Cta, nAlpha);
-				betaDensity = calculateDensityMatrix(Ctb, nBeta);
+				fromDiis(diis(len));
 			}
 
 
@@ -461,6 +277,37 @@ public class SolutionU extends Solution {
 
 			numIt++;
 		}
+	}
+
+	private void fromDiis(SimpleMatrix finalEdiis) {
+		SimpleMatrix Fa = new SimpleMatrix(nOrbitals, nOrbitals);
+		SimpleMatrix Fb = new SimpleMatrix(nOrbitals, nOrbitals);
+
+		for (int i = 0, len = finalEdiis.getNumElements() - 1; i < len; i++) {
+			double diis = finalEdiis.get(i);
+
+			Fa.plusi(diis, Farrayalpha[i]);
+			Fb.plusi(diis, Farraybeta[i]);
+		}
+
+		SimpleMatrix[] matrices1 = Utils.symEigen(Fa);
+		SimpleMatrix[] matrices2 = Utils.symEigen(Fb);
+
+		SimpleMatrix Ea = matrices1[1].diag();
+		SimpleMatrix Eb = matrices2[1].diag();
+
+		SimpleMatrix Cta = matrices1[0].transposei();
+		SimpleMatrix Ctb = matrices2[0].transposei();
+
+		if (!Cta.hasUncountable() && !Ctb.hasUncountable()) {
+			this.Ea = Ea;
+			this.Eb = Eb;
+			this.Cta = Cta;
+			this.Ctb = Ctb;
+		}
+
+		alphaDensity = calculateDensityMatrix(Cta, nAlpha);
+		betaDensity = calculateDensityMatrix(Ctb, nBeta);
 	}
 
 	protected void findMatrices() {
