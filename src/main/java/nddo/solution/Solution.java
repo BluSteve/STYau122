@@ -62,12 +62,13 @@ public abstract class Solution {
 	public final NDDOAtom[] atoms;
 	public final NDDOOrbital[] orbitals;
 	public final MoleculeInfo rm;
-	public double energy, homo, lumo, hf, dipole;
-	public double[] chargedip, hybridip, dipoletot;
-	protected SimpleMatrix H, densityMatrix, alphaDensity, betaDensity;
 	protected final SimpleMatrix B, Bforediis;
 	protected final double[] earray;
 	protected final transient DMatrixRMaj ddrm;
+
+	public double energy, homo, lumo, hf, dipole;
+	public double[] chargedip, hybridip, dipoletot;
+	protected SimpleMatrix H, densityMatrix, alphaDensity, betaDensity;
 
 	protected Solution(MoleculeInfo rm, NDDOAtom[] atoms) {
 		this.atoms = atoms;
@@ -106,21 +107,6 @@ public abstract class Solution {
 	public static Solution of(MoleculeInfo mi, NDDOAtom[] atoms) {
 		if (mi.restricted) return new SolutionR(mi, atoms).compute();
 		else return new SolutionU(mi, atoms).compute();
-	}
-
-	/**
-	 * Checks if two DoubleMatrices are similar below a threshold.
-	 */
-	public static boolean isSimilar(SimpleMatrix x, SimpleMatrix y, double limit) {
-		for (int i = 0; i < y.numRows(); i++) {
-			for (int j = 0; j < y.numCols(); j++) {
-				if (Math.abs(x.get(i, j) - y.get(i, j)) > limit) {
-					return false;
-				}
-			}
-		}
-
-		return true;
 	}
 
 	private static double sigmoid(int x) {
@@ -184,6 +170,8 @@ public abstract class Solution {
 		return new SimpleMatrix(original.numRows() + tbr.length, 1, true, Utils.toDoubles(array));
 	}
 
+	public abstract Solution withNewAtoms(NDDOAtom[] newAtoms);
+
 	public final Solution compute() {
 		H = new SimpleMatrix(orbitals.length, orbitals.length);
 
@@ -233,6 +221,8 @@ public abstract class Solution {
 
 		return this;
 	}
+
+	protected abstract void computePrivate();
 
 	protected final SimpleMatrix ediis(int len) {
 		int ediisSize = len + 1;
@@ -321,6 +311,8 @@ public abstract class Solution {
 		return mat.solve(rhs);
 	}
 
+	protected abstract void findMatrices();
+
 	protected abstract void findEnergyAndHf();
 
 	protected void findDipole() {
@@ -377,8 +369,6 @@ public abstract class Solution {
 
 	protected abstract void findHomoLumo();
 
-	protected abstract void findMatrices();
-
 	public final MoleculeInfo getRm() {
 		return rm;
 	}
@@ -393,35 +383,5 @@ public abstract class Solution {
 
 	public SimpleMatrix betaDensity() {
 		return betaDensity;
-	}
-
-	public abstract Solution withNewAtoms(NDDOAtom[] newAtoms);
-
-	protected abstract void computePrivate();
-
-	@Override
-	public String toString() {
-		return "Solution{" +
-				"rm=" + rm +
-				", energy=" + energy +
-				", homo=" + homo +
-				", lumo=" + lumo +
-				", hf=" + hf +
-				", dipole=" + dipole +
-				", charge=" + charge +
-				", mult=" + mult +
-				", nElectrons=" + nElectrons +
-				", nOrbitals=" + nOrbitals +
-				", missingOfAtom=" + Arrays.toString(missingOfAtom) +
-				", orbsOfAtom=" + Arrays.toString(orbsOfAtom) +
-				", atomicNumbers=" + Arrays.toString(atomicNumbers) +
-				", atomOfOrb=" + Arrays.toString(atomOfOrb) +
-				", atoms=" + Arrays.toString(atoms) +
-				", orbitals=" + Arrays.toString(orbitals) +
-				", H=" + H +
-				", chargedip=" + Arrays.toString(chargedip) +
-				", hybridip=" + Arrays.toString(hybridip) +
-				", dipoletot=" + Arrays.toString(dipoletot) +
-				'}';
 	}
 }

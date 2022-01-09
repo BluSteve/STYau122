@@ -1592,7 +1592,7 @@ public class ParamSecondDerivative {
 
 		System.err.println("----TESTING CONCLUDED----");
 
-		return Solution.isSimilar(densityderiv2, densityderiv2finite, 1E-5) && Math.abs(Hfderiv - Hfderivtest) < 1E-3 &&
+		return Utils.isSimilar(densityderiv2, densityderiv2finite, 1E-5) && Math.abs(Hfderiv - Hfderivtest) < 1E-3 &&
 				Math.abs(IEderiv2 - IEtest) < 1E-3 && Math.abs(dipolederiv2 - dipolederivtest) < 1E-3 &&
 				Math.abs(gradderiv2test - gradderiv2) < 1E-5;
 	}
@@ -1787,8 +1787,8 @@ public class ParamSecondDerivative {
 		System.err.println("----TESTING CONCLUDED----");
 
 
-		return Solution.isSimilar(densityderiv2alpha, densityderiv2alphafinite, 1E-5) &&
-				Solution.isSimilar(densityderiv2beta, densityderiv2betafinite, 1E-5) &&
+		return Utils.isSimilar(densityderiv2alpha, densityderiv2alphafinite, 1E-5) &&
+				Utils.isSimilar(densityderiv2beta, densityderiv2betafinite, 1E-5) &&
 				Math.abs(Hfderiv - Hfderivtest) < 1E-3 && Math.abs(IEderiv2 - IEtest) < 1E-3 &&
 				Math.abs(dipolederiv2 - dipolederivtest) < 1E-3 && Math.abs(gradderiv2test - gradderiv2) < 1E-5;
 	}

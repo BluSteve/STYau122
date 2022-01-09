@@ -17,7 +17,7 @@ public class SolutionR extends Solution {
 	public double[] integralArray;
 	public SimpleMatrix F, E, Emat, C, COcc, CVirt, Ct, CtOcc, CtVirt;
 
-	public SolutionR(MoleculeInfo mi, NDDOAtom[] atoms) {
+	protected SolutionR(MoleculeInfo mi, NDDOAtom[] atoms) {
 		super(mi, atoms);
 
 		Farray = new SimpleMatrix[LENGTH];
@@ -203,63 +203,11 @@ public class SolutionR extends Solution {
 		}
 	}
 
-	private void fromDiis(SimpleMatrix DIIS) {
-		SimpleMatrix F = new SimpleMatrix(nOrbitals, nOrbitals);
-
-		for (int i = 0, len = DIIS.getNumElements() - 1; i < len; i++) {
-			F.plusi(DIIS.get(i), Farray[i]);
-		}
-
-		SimpleMatrix[] matrices = Utils.symEigen(F);
-
-		SimpleMatrix E = matrices[1].diag();
-		SimpleMatrix Ct = matrices[0].transposei();
-
-		if (!Ct.hasUncountable()) {
-			this.E = E;
-			this.Ct = Ct;
-		}
-
-		densityMatrix = calculateDensityMatrix();
-	}
-
-	protected void findMatrices() {
-		CtVirt = Ct.extractMatrix(rm.nOccAlpha, Ct.numCols(), 0, Ct.numCols());
-		C = Ct.transpose();
-		COcc = CtOcc.transpose();
-		CVirt = CtVirt.transpose();
-
-		SimpleMatrix sm = E.extractMatrix(rm.nOccAlpha, nOrbitals, 0, 1);
-		sm.reshape(1, rm.nVirtAlpha);
-
-		Emat = new SimpleMatrix(rm.nOccAlpha, rm.nVirtAlpha);
-		for (int i = 0; i < rm.nOccAlpha; i++) {
-			Emat.insertIntoThis(i, 0, sm.minus(E.get(i)));
-		}
-	}
-
-	protected void findEnergyAndHf() {
-		for (int j = 0; j < orbitals.length; j++) {
-			for (int k = 0; k < orbitals.length; k++) {
-				energy += 0.5 * densityMatrix.get(j, k) * (H.get(j, k) + F.get(j, k));
-			}
-		}
-
-		double heat = 0;
-		for (int j = 0; j < atoms.length; j++) {
-			heat += atoms[j].getAtomProperties().getHeat() - atoms[j].getParams().getEisol();
-			for (int k = j + 1; k < atoms.length; k++) {
-				energy += atoms[j].crf(atoms[k]);
-			}
-		}
-
-		heat += energy;
-		hf = heat / Constants.HEATCONV;
-	}
-
-	protected void findHomoLumo() {
-		homo = nElectrons > 0 ? E.get(rm.nOccAlpha - 1, 0) : 0;
-		lumo = nElectrons != nOrbitals << 1 ? E.get(rm.nOccAlpha, 0) : 0;
+	private SimpleMatrix calculateDensityMatrix() {
+		CtOcc = Ct.extractMatrix(0, rm.nOccAlpha, 0, Ct.numCols());
+		SimpleMatrix output = new SimpleMatrix(nOrbitals, nOrbitals);
+		multInner(CtOcc.getDDRM(), output.getDDRM());
+		return output.scalei(2);
 	}
 
 	private double updateDiis(int len1) {
@@ -291,11 +239,66 @@ public class SolutionR extends Solution {
 		return DIISError;
 	}
 
-	private SimpleMatrix calculateDensityMatrix() {
-		CtOcc = Ct.extractMatrix(0, rm.nOccAlpha, 0, Ct.numCols());
-		SimpleMatrix output = new SimpleMatrix(nOrbitals, nOrbitals);
-		multInner(CtOcc.getDDRM(), output.getDDRM());
-		return output.scalei(2);
+	private void fromDiis(SimpleMatrix DIIS) {
+		SimpleMatrix F = new SimpleMatrix(nOrbitals, nOrbitals);
+
+		for (int i = 0, len = DIIS.getNumElements() - 1; i < len; i++) {
+			F.plusi(DIIS.get(i), Farray[i]);
+		}
+
+		SimpleMatrix[] matrices = Utils.symEigen(F);
+
+		SimpleMatrix E = matrices[1].diag();
+		SimpleMatrix Ct = matrices[0].transposei();
+
+		if (!Ct.hasUncountable()) {
+			this.E = E;
+			this.Ct = Ct;
+		}
+
+		densityMatrix = calculateDensityMatrix();
+	}
+
+	@Override
+	protected void findMatrices() {
+		CtVirt = Ct.extractMatrix(rm.nOccAlpha, Ct.numCols(), 0, Ct.numCols());
+		C = Ct.transpose();
+		COcc = CtOcc.transpose();
+		CVirt = CtVirt.transpose();
+
+		SimpleMatrix sm = E.extractMatrix(rm.nOccAlpha, nOrbitals, 0, 1);
+		sm.reshape(1, rm.nVirtAlpha);
+
+		Emat = new SimpleMatrix(rm.nOccAlpha, rm.nVirtAlpha);
+		for (int i = 0; i < rm.nOccAlpha; i++) {
+			Emat.insertIntoThis(i, 0, sm.minus(E.get(i)));
+		}
+	}
+
+	@Override
+	protected void findEnergyAndHf() {
+		for (int j = 0; j < orbitals.length; j++) {
+			for (int k = 0; k < orbitals.length; k++) {
+				energy += 0.5 * densityMatrix.get(j, k) * (H.get(j, k) + F.get(j, k));
+			}
+		}
+
+		double heat = 0;
+		for (int j = 0; j < atoms.length; j++) {
+			heat += atoms[j].getAtomProperties().getHeat() - atoms[j].getParams().getEisol();
+			for (int k = j + 1; k < atoms.length; k++) {
+				energy += atoms[j].crf(atoms[k]);
+			}
+		}
+
+		heat += energy;
+		hf = heat / Constants.HEATCONV;
+	}
+
+	@Override
+	protected void findHomoLumo() {
+		homo = nElectrons > 0 ? E.get(rm.nOccAlpha - 1, 0) : 0;
+		lumo = nElectrons != nOrbitals << 1 ? E.get(rm.nOccAlpha, 0) : 0;
 	}
 
 	@Override
