@@ -1,5 +1,6 @@
 package runcycle;
 
+import com.sun.management.OperatingSystemMXBean;
 import nddo.Constants;
 import nddo.NDDOAtom;
 import nddo.NDDOParams;
@@ -16,6 +17,7 @@ import runcycle.optimize.ParamOptimizer;
 import runcycle.optimize.ReferenceData;
 import runcycle.structs.*;
 
+import java.lang.management.ManagementFactory;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -23,7 +25,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static runcycle.State.getConverter;
 
 public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutput> {
+	private static final Level defaultLevel = LogManager.getRootLogger().getLevel();
 	private static final Logger logger = LogManager.getLogger("RunIterator");
+	private static final OperatingSystemMXBean bean =
+			(OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 	public final RunInput initialRunInput;
 	private final int limit;
 	private int runNumber = 0;
@@ -91,6 +96,7 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 			ranMolecules = null;
 		}
 
+		Configurator.setRootLevel(defaultLevel);
 		RunOutput output = pRun.run();
 
 		logger.info("Run {} time taken: {}, output hash: {}\n\n", runNumber, output.timeTaken, output.hash);
@@ -164,12 +170,12 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 
 					String percent = String.format("%.2f", 100.0 * doneCount / (doneCount + leftCount));
 
-					logger.info("Run {}, time: {} s, {}/{} left ({}% done): {}", runNumber,
-							lsw.getTime(TimeUnit.SECONDS), leftCount,
-							doneCount + leftCount, percent, left);
+					logger.info("Run {}, time: {} s, CPU load: {}, {}/{} left ({}% done): {}", runNumber,
+							lsw.getTime(TimeUnit.SECONDS), bean.getProcessCpuLoad(), leftCount, doneCount + leftCount,
+							percent, left);
 				};
 
-				int wait = 30;
+				int wait = 3;
 				progressBar.scheduleAtFixedRate(mLeft, wait, wait, TimeUnit.SECONDS);
 			}
 

@@ -225,6 +225,8 @@ public class ParamHessianNew implements IParamHessian {
 					!rhf ? computeDensityDerivs((SolutionU) sExp, ptInputsArr, ptInputsArrBeta) : null;
 
 			for (int[] ints : flatAll) {
+				s.rm.getLogger().trace("Starting batched derivs {} for ParamHessian geom", ints);
+
 				int ZI1 = ints[0];
 				int ZI2 = ints[1];
 				int Z1 = mats[ZI1];
@@ -278,6 +280,8 @@ public class ParamHessianNew implements IParamHessian {
 							pg.geomDerivs[ZI1][p1] / Constants.KCAL * pg.geomDerivs[ZI2][p2]) /
 							pg.e.geomGradMag * Constants.KCAL);
 				}
+
+				s.rm.getLogger().trace("Finished batched derivs {} for ParamHessian geom", ints);
 			}
 		}
 	}

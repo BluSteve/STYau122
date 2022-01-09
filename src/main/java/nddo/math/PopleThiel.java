@@ -222,7 +222,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 					}
 
 					soln.rm.getLogger().warn("Pople algorithm fails; reverting to Thiel algorithm. " +
-									"(oldMag = {}, mag = {})", oldrMags[j], mag);
+							"(oldMag = {}, mag = {})", oldrMags[j], mag);
 					return thiel(soln, fockderivstatic);
 				}
 
@@ -239,7 +239,8 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 				if (mag > maxMag) maxMag = mag;
 			}
 
-			soln.rm.getLogger().trace("numit: {}, Pople maxMag: {}, threshold: {}", numIt, maxMag, threshold);
+			soln.rm.getLogger()
+					.trace("length: {}, numit: {}, Pople maxMag: {}, threshold: {}", length, numIt, maxMag, threshold);
 
 			numIt++;
 		}
@@ -367,7 +368,8 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 				}
 			}
 
-			soln.rm.getLogger().trace("numit: {}, Thiel maxMag: {}, threshold: {}", numIt, maxMag, threshold);
+			soln.rm.getLogger()
+					.trace("length: {}, numit: {}, Pople maxMag: {}, threshold: {}", length, numIt, maxMag, threshold);
 
 			solver = new SimpleMatrix(size, size);
 
@@ -595,7 +597,8 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 				if (mag > maxMag) maxMag = mag;
 			}
 
-			soln.rm.getLogger().trace("numit: {}, Pople maxMag: {}, threshold: {}", numIt, maxMag, threshold);
+			soln.rm.getLogger()
+					.trace("length: {}, numit: {}, Pople maxMag: {}, threshold: {}", length, numIt, maxMag, threshold);
 
 			numIt++;
 		}
@@ -748,7 +751,8 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 				}
 			}
 
-			soln.rm.getLogger().trace("numit: {}, Thiel maxMag: {}, threshold: {}", numIt, maxMag, threshold);
+			soln.rm.getLogger()
+					.trace("length: {}, numit: {}, Pople maxMag: {}, threshold: {}", length, numIt, maxMag, threshold);
 
 			solver = new SimpleMatrix(size, size);
 
