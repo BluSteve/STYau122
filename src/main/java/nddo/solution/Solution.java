@@ -109,11 +109,16 @@ public abstract class Solution {
 		Boolean useEdiis = USE_EDIIS.get(mi.index);
 		if (useEdiis == null) {
 			Solution stest = mi.restricted ? new SolutionR(mi, atoms) : new SolutionU(mi, atoms);
-			useEdiis = stest.testEdiis();
+
+			double[] results = stest.testEdiis();
+			double v = results[0] - results[1];
+			useEdiis = v < config.ediis_max_diff;
+			if (!useEdiis) mi.getLogger().warn("EDIIS gives higher energy ({} - {} = {})- using purely DIIS from now on.",
+					results[0], results[1], v);
+
 			USE_EDIIS.put(mi.index, useEdiis);
 		}
 		if (!useEdiis) {
-			mi.getLogger().warn("EDIIS gives higher energy- using purely DIIS from now on.");
 			s.ediisThreshold = Double.POSITIVE_INFINITY;
 		}
 
@@ -379,7 +384,7 @@ public abstract class Solution {
 
 	protected abstract void findHomo();
 
-	private boolean testEdiis() {
+	private double[] testEdiis() {
 		precomp();
 
 		computePrivate();
@@ -392,7 +397,7 @@ public abstract class Solution {
 		findHf();
 		double noEdiishf = hf;
 
-		return ediishf < noEdiishf;
+		return new double[]{ediishf, noEdiishf};
 	}
 
 	public final MoleculeInfo getRm() {

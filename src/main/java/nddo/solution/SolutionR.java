@@ -205,6 +205,9 @@ public class SolutionR extends Solution {
 	private SimpleMatrix calculateDensityMatrix() {
 		CtOcc = Ct.extractMatrix(0, rm.nOccAlpha, 0, Ct.numCols());
 		SimpleMatrix output = new SimpleMatrix(nOrbitals, nOrbitals);
+
+		if (CtOcc.getNumElements() == 0) return output;
+
 		multInner(CtOcc.getDDRM(), output.getDDRM());
 		return output.scalei(2);
 	}

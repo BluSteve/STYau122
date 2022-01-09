@@ -281,6 +281,9 @@ public class SolutionU extends Solution {
 	private SimpleMatrix calculateDensityMatrix(SimpleMatrix Ct, int nElectrons) {
 		SimpleMatrix CtOcc = Ct.extractMatrix(0, nElectrons, 0, Ct.numCols());
 		SimpleMatrix output = new SimpleMatrix(nOrbitals, nOrbitals);
+
+		if (CtOcc.getNumElements() == 0) return output;
+
 		multInner(CtOcc.getDDRM(), output.getDDRM());
 		return output;
 	}
