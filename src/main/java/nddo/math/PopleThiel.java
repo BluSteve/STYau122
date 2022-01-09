@@ -81,10 +81,6 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		return responseMatrix(soln, densityDeriv[0], densityDeriv[1], Jderiv, Kaderiv, Kbderiv);
 	}
 
-	private static double sigmoid(double x) {
-		return 1e-5 / (1 + Pow.exp(-3.4 * (0.2 * x - 3.4)));
-	}
-
 	private static SimpleMatrix[] pople(SolutionR soln, SimpleMatrix[] fockderivstatic) {
 		// Pople alg will solve any equation of the form (1-D)x=B
 		int NOcc = soln.rm.nOccAlpha;
@@ -214,22 +210,22 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 				}
 			}
 
+			double maxMag = 0, threshold = sigmoid(numIt);
 			for (int j = 0; j < length; j++) {
 				double mag = SpecializedOps_DDRM.diffNormF_fast(rarray[j].getDDRM(), Farray[j].getDDRM());
 
 				if (mag > oldrMags[j] || mag != mag) { // unstable
 					if (numFalse(somewhatFinished) == 0) {
 						soln.rm.getLogger().warn("Slight numerical instability detected; " +
-								"returning lower precision values. (mag = {})", mag);
+								"returning lower precision values. (oldMag = {}, mag = {})", oldrMags[j], mag);
 						break bigLoop; // i.e. mag is tolerable
 					}
 
-					soln.rm.getLogger()
-							.warn("Pople algorithm fails; reverting to Thiel algorithm... (last mag = {})", mag);
+					soln.rm.getLogger().warn("Pople algorithm fails; reverting to Thiel algorithm. " +
+									"(oldMag = {}, mag = {})", oldrMags[j], mag);
 					return thiel(soln, fockderivstatic);
 				}
 
-				double threshold = sigmoid(numIt);
 				if (mag < threshold) {
 					finished[j] = mag < State.config.poplethiel_ideal;
 					oldrMags[j] = mag;
@@ -240,8 +236,10 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 					somewhatFinished[j] = false;
 				}
 
-				soln.rm.getLogger().trace("numit: {}, Pople mag: {}, threshold: {}", numIt, mag, threshold);
+				if (mag > maxMag) maxMag = mag;
 			}
+
+			soln.rm.getLogger().trace("numit: {}, Pople maxMag: {}, threshold: {}", numIt, maxMag, threshold);
 
 			numIt++;
 		}
@@ -348,6 +346,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 				alpha = SimpleMatrix.ones(size, length);
 			}
 
+			double maxMag = 0, threshold = sigmoid(numIt);
 			for (int a = 0; a < length; a++) {
 				if (rarray[a] != null) {
 					for (int i = 0; i < size; i++) {
@@ -357,7 +356,6 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 					}
 
 					double mag = mag(rarray[a]);
-					double threshold = sigmoid(numIt);
 					if (mag < threshold) {
 						rarray[a] = null;
 					}
@@ -365,9 +363,11 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 						failThiel(soln, numIt);
 					}
 
-					soln.rm.getLogger().trace("numit: {}, Thiel mag: {}, threshold: {}", numIt, mag, threshold);
+					if (mag > maxMag) maxMag = mag;
 				}
 			}
+
+			soln.rm.getLogger().trace("numit: {}, Thiel maxMag: {}, threshold: {}", numIt, maxMag, threshold);
 
 			solver = new SimpleMatrix(size, size);
 
@@ -566,22 +566,22 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 				}
 			}
 
+			double maxMag = 0, threshold = sigmoid(numIt);
 			for (int j = 0; j < length; j++) {
 				double mag = SpecializedOps_DDRM.diffNormF_fast(rarray[j].getDDRM(), Farray[j].getDDRM());
 
 				if (mag > oldrMags[j] || mag != mag) { // unstable
 					if (numFalse(somewhatFinished) == 0) {
 						soln.rm.getLogger().warn("Slight numerical instability detected; " +
-								"returning lower precision values. (mag = {})", mag);
+								"returning lower precision values. (oldMag = {}, mag = {})", oldrMags[j], mag);
 						break bigLoop; // i.e. mag is tolerable
 					}
 
-					soln.rm.getLogger()
-							.warn("Pople algorithm fails; reverting to Thiel algorithm... (last mag = {})", mag);
+					soln.rm.getLogger().warn("Pople algorithm fails; reverting to Thiel algorithm. " +
+							"(oldMag = {}, mag = {})", oldrMags[j], mag);
 					return thiel(soln, fockderivstaticalpha, fockderivstaticbeta);
 				}
 
-				double threshold = sigmoid(numIt);
 				if (mag < threshold) {
 					finished[j] = mag < State.config.poplethiel_ideal;
 					oldrMags[j] = mag;
@@ -592,8 +592,10 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 					somewhatFinished[j] = false;
 				}
 
-				soln.rm.getLogger().trace("numit: {}, Pople mag: {}, threshold: {}", numIt, mag, threshold);
+				if (mag > maxMag) maxMag = mag;
 			}
+
+			soln.rm.getLogger().trace("numit: {}, Pople maxMag: {}, threshold: {}", numIt, maxMag, threshold);
 
 			numIt++;
 		}
@@ -725,6 +727,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 				alpha = SimpleMatrix.ones(size, length);
 			}
 
+			double maxMag = 0, threshold = sigmoid(numIt);
 			for (int a = 0; a < length; a++) {
 				if (rarray[a] != null) {
 					for (int i = 0; i < size; i++) {
@@ -734,7 +737,6 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 					}
 
 					double mag = mag(rarray[a]);
-					double threshold = sigmoid(numIt);
 					if (mag < threshold) {
 						rarray[a] = null;
 					}
@@ -742,9 +744,11 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 						failThiel(soln, numIt);
 					}
 
-					soln.rm.getLogger().trace("numit: {}, Thiel mag: {}, threshold: {}", numIt, mag, threshold);
+					if (mag > maxMag) maxMag = mag;
 				}
 			}
+
+			soln.rm.getLogger().trace("numit: {}, Thiel maxMag: {}, threshold: {}", numIt, maxMag, threshold);
 
 			solver = new SimpleMatrix(size, size);
 
@@ -1007,6 +1011,10 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		return new SimpleMatrix[]{Kaderiv.plusi(Jderiv), Kbderiv.plusi(Jderiv)};
 	}
 
+	private static double sigmoid(double x) {
+		return 1e-5 / (1 + Pow.exp(-3.4 * (0.2 * x - 3.4)));
+	}
+
 	private static void failThiel(Solution soln, int numIt) {
 		throw new IllegalStateException(soln.rm.debugName() + ": Thiel has failed at numIt=" + numIt + "!");
 	}
@@ -1023,19 +1031,19 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 
 	public static boolean verify(Solution soln, SimpleMatrix[] fockderivstatic, SimpleMatrix[] fockderivstaticbeta,
 								 double limit) {
-		SimpleMatrix[] thiel;
 		SimpleMatrix[] pople;
+		SimpleMatrix[] thiel;
 
 		if (fockderivstaticbeta == null) {
 			SolutionR sr = (SolutionR) soln;
-			thiel = thiel(sr, toMO(sr.CtOcc, sr.CVirt, fockderivstatic));
 			pople = pople(sr, toMO(sr.CtOcc, sr.CVirt, fockderivstatic));
+			thiel = thiel(sr, toMO(sr.CtOcc, sr.CVirt, fockderivstatic));
 		}
 		else {
 			SolutionU su = (SolutionU) soln;
-			thiel = thiel(su, toMO(su.CtaOcc, su.CaVirt, fockderivstatic),
-					toMO(su.CtbOcc, su.CbVirt, fockderivstaticbeta));
 			pople = pople(su, toMO(su.CtaOcc, su.CaVirt, fockderivstatic),
+					toMO(su.CtbOcc, su.CbVirt, fockderivstaticbeta));
+			thiel = thiel(su, toMO(su.CtaOcc, su.CaVirt, fockderivstatic),
 					toMO(su.CtbOcc, su.CbVirt, fockderivstaticbeta));
 		}
 
