@@ -14,7 +14,6 @@ import static nddo.State.config;
 import static nddo.State.nom;
 
 public class SolutionR extends Solution {
-
 	public double[] integralArray;
 	public SimpleMatrix C, COcc, CVirt, Ct, CtOcc, CtVirt, F, E, Emat;
 
@@ -92,9 +91,9 @@ public class SolutionR extends Solution {
 			SimpleMatrix[] matrices = Utils.symEigen(H);
 
 			E = matrices[1].diag();
-			Ct = matrices[0].transpose();
+			Ct = matrices[0].transposei();
 
-			densityMatrix = calculateDensityMatrix(Ct);
+			densityMatrix = calculateDensityMatrix();
 		}
 
 		F = H.copy();
@@ -316,7 +315,7 @@ public class SolutionR extends Solution {
 					Ct = matrices[0].transpose();
 				}
 
-				densityMatrix = calculateDensityMatrix(Ct);
+				densityMatrix = calculateDensityMatrix();
 			}
 			else {
 				itSinceLastDIIS = 0;
@@ -361,14 +360,14 @@ public class SolutionR extends Solution {
 						Ct = matrices[0].transpose();
 					}
 
-					densityMatrix = calculateDensityMatrix(Ct);
+					densityMatrix = calculateDensityMatrix();
 				} catch (SingularMatrixException e) { // todo fix adrian
 					SimpleMatrix[] matrices = Utils.symEigen(F);
 					E = matrices[1].diag();
 					Ct = matrices[0].transpose();
 
 					double damp = 0.8;
-					densityMatrix = calculateDensityMatrix(Ct).scale(1 - damp).plus(olddensity.scale(damp));
+					densityMatrix = calculateDensityMatrix().scale(1 - damp).plus(olddensity.scale(damp));
 				}
 			}
 
@@ -387,11 +386,8 @@ public class SolutionR extends Solution {
 
 		rm.getLogger().debug("numIt: {}, DIISError: {}, threshold: {}", numIt, DIISError, threshold);
 
-		// todo make these precomputations optional
-		CtOcc = Ct.extractMatrix(0, rm.nOccAlpha, 0, Ct.numCols());
 		CtVirt = Ct.extractMatrix(rm.nOccAlpha, Ct.numCols(), 0, Ct.numCols());
 		C = Ct.transpose();
-		COcc = CtOcc.transpose();
 		CVirt = CtVirt.transpose();
 
 		SimpleMatrix sm = E.extractMatrix(rm.nOccAlpha, nOrbitals, 0, 1);
@@ -402,11 +398,10 @@ public class SolutionR extends Solution {
 			Emat.insertIntoThis(i, 0, sm.minus(E.get(i)));
 		}
 
+
 		findEnergyAndHf();
-		if (nElectrons > 0) homo = E.get(nElectrons / 2 - 1, 0);
-		else homo = 0;
-		if (nElectrons != nOrbitals << 1) lumo = E.get(nElectrons / 2, 0);
-		else lumo = 0;
+		homo = nElectrons > 0 ? E.get(nElectrons / 2 - 1, 0) : 0;
+		lumo = nElectrons != nOrbitals << 1 ? E.get(nElectrons / 2, 0) : 0;
 		findDipole();
 
 		return this;
@@ -431,24 +426,11 @@ public class SolutionR extends Solution {
 		hf = heat / Constants.HEATCONV;
 	}
 
-	private SimpleMatrix calculateDensityMatrix(SimpleMatrix c) {
-		SimpleMatrix densityMatrix = new SimpleMatrix(orbitals.length, orbitals.length);
+	private SimpleMatrix calculateDensityMatrix() {
+		CtOcc = Ct.extractMatrix(0, rm.nOccAlpha, 0, Ct.numCols());
+		COcc = CtOcc.transpose();
 
-		for (int i = 0; i < orbitals.length; i++) {
-			for (int j = 0; j < orbitals.length; j++) {
-				double sum = 0;
-				int count = nElectrons;
-				int counter = -1;
-				while (count > 0) {
-					counter++;
-					sum += 2 * c.get(counter, i) * c.get(counter, j);
-					count -= 2;
-				}
-				densityMatrix.set(i, j, sum);
-			}
-		}
-
-		return densityMatrix;
+		return COcc.mult(CtOcc).scalei(2);
 	}
 
 	@Override

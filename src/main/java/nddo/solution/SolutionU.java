@@ -628,82 +628,8 @@ public class SolutionU extends Solution {
 
 		this.homo = Ea.get(nalpha - 1, 0);
 		this.lumo = 0.001 * Math.round(Eb.get(nbeta, 0) * 1000);
-//		System.out.println(moleculeName + " SCF completed");
 
-		double[] populations = new double[atoms.length];
-
-		for (int j = 0; j < atoms.length; j++) {
-			double sum = 0;
-			for (int k : orbsOfAtom[j]) {
-				sum += alphaDensity.get(k, k) + betaDensity.get(k, k);
-			}
-
-			populations[j] = atoms[j].getAtomProperties().getQ() - sum;
-		}
-
-
-		double[] com = new double[]{0, 0, 0};
-
-		double mass = 0;
-
-		for (NDDOAtom atom : atoms) {
-			com[0] = com[0] + atom.getAtomProperties().getMass() * atom.getCoordinates()[0];
-			com[1] = com[1] + atom.getAtomProperties().getMass() * atom.getCoordinates()[1];
-			com[2] = com[2] + atom.getAtomProperties().getMass() * atom.getCoordinates()[2];
-			mass += atom.getAtomProperties().getMass();
-		}
-
-		com[0] = com[0] / mass;
-		com[1] = com[1] / mass;
-		com[2] = com[2] / mass;
-
-
-		chargedip = new double[]{0, 0, 0};
-
-		for (int j = 0; j < atoms.length; j++) {
-			chargedip[0] +=
-					Constants.DIPOLECONV * populations[j] *
-							(atoms[j].getCoordinates()[0] - com[0]);
-			chargedip[1] +=
-					Constants.DIPOLECONV * populations[j] *
-							(atoms[j].getCoordinates()[1] - com[1]);
-			chargedip[2] +=
-					Constants.DIPOLECONV * populations[j] *
-							(atoms[j].getCoordinates()[2] - com[2]);
-		}
-
-
-		hybridip = new double[]{0, 0, 0};
-
-		for (int j = 0; j < atoms.length; j++) {
-
-			if (orbsOfAtom[j].length > 1) {//exclude hydrogen
-				hybridip[0] = hybridip[0] - Constants.DIPOLECONV * 2 * atoms[j].D1() *
-						(alphaDensity.get(orbsOfAtom[j][0], orbsOfAtom[j][1]) +
-								betaDensity.get(orbsOfAtom[j][0],
-										orbsOfAtom[j][1]));
-				hybridip[1] = hybridip[1] - Constants.DIPOLECONV * 2 * atoms[j].D1() *
-						(alphaDensity.get(orbsOfAtom[j][0], orbsOfAtom[j][2]) +
-								betaDensity.get(orbsOfAtom[j][0],
-										orbsOfAtom[j][2]));
-				hybridip[2] = hybridip[2] - Constants.DIPOLECONV * 2 * atoms[j].D1() *
-						(alphaDensity.get(orbsOfAtom[j][0], orbsOfAtom[j][3]) +
-								betaDensity.get(orbsOfAtom[j][0],
-										orbsOfAtom[j][3]));
-			}
-		}
-
-
-		dipoletot = new double[]{chargedip[0] + hybridip[0],
-				chargedip[1] + hybridip[1],
-				chargedip[2] + hybridip[2]};
-
-
-		dipole = Math.sqrt(
-				dipoletot[0] * dipoletot[0] + dipoletot[1] * dipoletot[1] +
-						dipoletot[2] * dipoletot[2]);
-
-		//System.err.println ("numit: " + numIt);
+		findDipole();
 		return this;
 	}
 
