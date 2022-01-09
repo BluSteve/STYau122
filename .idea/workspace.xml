@@ -4,8 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="work in progress uhf pople">
+    <list default="true" id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="cleanup poplethiel into pt">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/Config.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
     </list>
     <list id="3e0ea8eb-765e-4625-837c-961efbbcba23" name="Changes by flyingfalcon" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -524,21 +528,7 @@
       <workItem from="1641546683374" duration="1435000" />
       <workItem from="1641628825111" duration="15864000" />
       <workItem from="1641646278782" duration="4813000" />
-      <workItem from="1641713504006" duration="1670000" />
-    </task>
-    <task id="LOCAL-00230" summary="better verify">
-      <created>1641202408514</created>
-      <option name="number" value="00230" />
-      <option name="presentableId" value="LOCAL-00230" />
-      <option name="project" value="LOCAL" />
-      <updated>1641202408514</updated>
-    </task>
-    <task id="LOCAL-00231" summary="checkpoitn">
-      <created>1641204310367</created>
-      <option name="number" value="00231" />
-      <option name="presentableId" value="LOCAL-00231" />
-      <option name="project" value="LOCAL" />
-      <updated>1641204310367</updated>
+      <workItem from="1641713504006" duration="4312000" />
     </task>
     <task id="LOCAL-00232" summary="checkpoint">
       <created>1641204652053</created>
@@ -869,7 +859,21 @@
       <option name="project" value="LOCAL" />
       <updated>1641714309548</updated>
     </task>
-    <option name="localTasksCounter" value="279" />
+    <task id="LOCAL-00279" summary="work in progress uhf pople">
+      <created>1641715730384</created>
+      <option name="number" value="00279" />
+      <option name="presentableId" value="LOCAL-00279" />
+      <option name="project" value="LOCAL" />
+      <updated>1641715730384</updated>
+    </task>
+    <task id="LOCAL-00280" summary="cleanup poplethiel into pt">
+      <created>1641716069913</created>
+      <option name="number" value="00280" />
+      <option name="presentableId" value="LOCAL-00280" />
+      <option name="project" value="LOCAL" />
+      <updated>1641716069913</updated>
+    </task>
+    <option name="localTasksCounter" value="281" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -916,7 +920,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="for jinherng" />
     <MESSAGE value="better mndoatom and forjinherng" />
     <MESSAGE value="fix h1c1 bug" />
     <MESSAGE value="multithreaded forjinherng" />
@@ -941,7 +944,8 @@
     <MESSAGE value="fix xmatrices degenerate orbitals problem" />
     <MESSAGE value="use old densitymatrix for withNewAtoms" />
     <MESSAGE value="work in progress uhf pople" />
-    <option name="LAST_COMMIT_MESSAGE" value="work in progress uhf pople" />
+    <MESSAGE value="cleanup poplethiel into pt" />
+    <option name="LAST_COMMIT_MESSAGE" value="cleanup poplethiel into pt" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

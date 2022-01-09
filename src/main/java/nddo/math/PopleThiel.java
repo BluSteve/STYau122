@@ -4,10 +4,12 @@ import nddo.State;
 import nddo.solution.Solution;
 import nddo.solution.SolutionR;
 import nddo.solution.SolutionU;
+import org.apache.logging.log4j.Level;
 import org.ejml.data.SingularMatrixException;
 import org.ejml.dense.row.CommonOps_DDRM;
 import org.ejml.dense.row.SpecializedOps_DDRM;
 import org.ejml.simple.SimpleMatrix;
+import tools.Pow;
 import tools.Utils;
 
 import java.util.ArrayList;
@@ -33,7 +35,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 	}
 
 	public static SimpleMatrix[] pt(SolutionU soln, SimpleMatrix[] fockderivstaticalpha,
-									   SimpleMatrix[] fockderivstaticbeta) {
+									SimpleMatrix[] fockderivstaticbeta) {
 		return pople(soln, fockderivstaticalpha, fockderivstaticbeta);
 	}
 
@@ -77,6 +79,10 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		SimpleMatrix Kbderiv = new SimpleMatrix(soln.nOrbitals, soln.nOrbitals);
 
 		return responseMatrix(soln, densityDeriv[0], densityDeriv[1], Jderiv, Kaderiv, Kbderiv);
+	}
+
+	private static double sigmoid(double x) {
+		return 1 / (1 + Pow.exp(-3.4 * (0.02 * x - 3.4)));
 	}
 
 	private static SimpleMatrix[] pople(SolutionR soln, SimpleMatrix[] fockderivstatic) {
@@ -1009,5 +1015,40 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		}
 
 		return count;
+	}
+
+	public static boolean verify(Solution soln, SimpleMatrix[] fockderivstatic, SimpleMatrix[] fockderivstaticbeta,
+								 double limit) {
+		SimpleMatrix[] thiel;
+		SimpleMatrix[] pople;
+
+		if (fockderivstaticbeta == null) {
+			SolutionR sr = (SolutionR) soln;
+			thiel = thiel(sr, toMO(sr.CtOcc, sr.CVirt, fockderivstatic));
+			pople = pople(sr, toMO(sr.CtOcc, sr.CVirt, fockderivstatic));
+		}
+		else {
+			SolutionU su = (SolutionU) soln;
+			thiel = thiel(su, toMO(su.CtaOcc, su.CaVirt, fockderivstatic),
+					toMO(su.CtbOcc, su.CbVirt, fockderivstaticbeta));
+			pople = pople(su, toMO(su.CtaOcc, su.CaVirt, fockderivstatic),
+					toMO(su.CtbOcc, su.CbVirt, fockderivstaticbeta));
+		}
+
+		double maxdiff = 0;
+		for (int i = 0; i < thiel.length; i++) {
+			SimpleMatrix residual = thiel[i].minus(pople[i]);
+			double diff = residual.elementMaxAbs();
+
+			if (diff > maxdiff) maxdiff = diff;
+
+			Level level = diff > limit ? Level.ERROR : Level.INFO;
+
+			soln.rm.getLogger().log(level, "i = {}, max abs error = {}", i, residual.elementMaxAbs());
+		}
+
+		soln.rm.getLogger().info("Max diff = {}", maxdiff);
+
+		return maxdiff < limit;
 	}
 }

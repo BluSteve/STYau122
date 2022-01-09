@@ -1,6 +1,8 @@
 package testing;
 
+import frontend.FrontendConfig;
 import frontend.TxtIO;
+import nddo.Config;
 import nddo.geometry.GeometryDerivative;
 import nddo.math.PopleThiel;
 import nddo.param.*;
@@ -14,6 +16,7 @@ import runcycle.structs.RunnableMolecule;
 
 public class Testing {
 	public static void main(String[] args) throws Exception {
+		Config config = FrontendConfig.config;
 		RunInput input = TxtIO.readInput();
 		RunnableMolecule rm = input.molecules[0];
 		RunnableMolecule rm2 = input.molecules[1];
@@ -30,18 +33,7 @@ public class Testing {
 		SimpleMatrix[] falpha = matrices[1];
 		SimpleMatrix[] fbeta = matrices[2];
 
-		SimpleMatrix[] a = PopleThiel.toMO(s2.CtaOcc, s2.CaVirt, falpha);
-		SimpleMatrix[] b = PopleThiel.toMO(s2.CtbOcc, s2.CbVirt, fbeta);
-		SimpleMatrix[] res = PopleThiel.pt(s2, a, b);
-		SimpleMatrix[] res2 = PopleThiel.pt(s2, a, b);
-
-
-		System.out.println("pople: " + res[0]);
-
-		System.out.println("thiel: " + res2[0]);
-
-		System.out.println(
-				PopleThiel.pt(s, PopleThiel.toMO(s.CtOcc, s.CVirt, GeometryDerivative.gradientRoutine(s)[1]))[0]);
+		System.out.println(PopleThiel.verify(s2, falpha, fbeta, 1e-5));
 	}
 
 	private static void verifyEquations(Solution s, int Z1, int Z2) {
