@@ -150,6 +150,7 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 
 			if (logger.isInfoEnabled()) {
 				AtomicInteger lastLeftCount = new AtomicInteger(ri.molecules.length);
+				AtomicInteger count = new AtomicInteger(0);
 				Runnable mLeft = () -> {
 					List<String> left = new ArrayList<>();
 					int doneCount = 0;
@@ -160,18 +161,23 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 					}
 
 					int leftCount = left.size();
-					if (lastLeftCount.get() - leftCount == 0) {
-						logger.warn("Stubborn molecule(s) detected, increasing log level...");
-						Configurator.setRootLevel(Level.TRACE);
+
+					if (count.get() % 2 == 1) {
+						if (lastLeftCount.get() - leftCount == 0) {
+							logger.warn("Stubborn molecule(s) detected, increasing log level...");
+							Configurator.setRootLevel(Level.TRACE);
+						}
+						lastLeftCount.set(leftCount);
 					}
-					lastLeftCount.set(leftCount);
+
+					count.incrementAndGet();
 
 					Collections.sort(left);
 
 					String percent = String.format("%.2f", 100.0 * doneCount / (doneCount + leftCount));
 
 					logger.info("Run {}, time: {} s, CPU load: {}, {}/{} left ({}% done): {}", runNumber,
-							lsw.getTime(TimeUnit.SECONDS), bean.getProcessCpuLoad(), leftCount, doneCount + leftCount,
+							lsw.getTime(TimeUnit.SECONDS), bean.getSystemCpuLoad(), leftCount, doneCount + leftCount,
 							percent, left);
 				};
 
