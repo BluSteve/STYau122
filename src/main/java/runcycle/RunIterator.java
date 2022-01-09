@@ -175,7 +175,7 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 							percent, left);
 				};
 
-				int wait = 3;
+				int wait = 30;
 				progressBar.scheduleAtFixedRate(mLeft, wait, wait, TimeUnit.SECONDS);
 			}
 
