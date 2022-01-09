@@ -1054,7 +1054,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 
 			if (diff > maxdiff) maxdiff = diff;
 
-			Level level = diff > limit ? Level.ERROR : Level.INFO;
+			Level level = diff < limit ? Level.INFO : Level.ERROR;
 
 			soln.rm.getLogger().log(level, "i = {}, max abs error = {}", i, residual.elementMaxAbs());
 		}
