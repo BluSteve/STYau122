@@ -139,12 +139,9 @@ public class SolutionU extends Solution {
 		SimpleMatrix[] commutatorarraybeta = new SimpleMatrix[8];
 		double[] earray = new double[8];
 
-		double DIISError = 10;
+		double DIISError = 10, threshold;
 
 		while (true) {
-			double threshold = sigmoid(numIt * 0.5);
-			if (!(DIISError > threshold)) break;
-
 			oldalphadensity = alphaDensity.copy();
 			oldbetadensity = betaDensity.copy();
 
@@ -566,11 +563,15 @@ public class SolutionU extends Solution {
 				rm.getLogger().error(e);
 				throw e;
 			}
-			rm.getLogger().trace("numIt: {}, DIISError: {}, threshold: {}", numIt, DIISError, threshold);
 
+			threshold = sigmoid(numIt);
+			if (DIISError < threshold) break;
+
+			rm.getLogger().trace("numIt: {}, DIISError: {}, threshold: {}", numIt, DIISError, threshold);
 			numIt++;
 		}
 
+		rm.getLogger().debug("numIt: {}, DIISError: {}, threshold: {}", numIt, DIISError, threshold);
 
 		// todo make these precomputations optional
 		CtaOcc = Cta.extractMatrix(0, rm.nOccAlpha, 0, Cta.numCols());

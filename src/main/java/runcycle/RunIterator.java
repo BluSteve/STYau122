@@ -343,7 +343,7 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 				this.withHessian = withHessian;
 				this.isExpAvail = expGeom != null;
 
-				rm.getLogger().info("Started");
+				rm.getLogger().debug("Started");
 				StopWatch sw = new StopWatch();
 				sw.start();
 

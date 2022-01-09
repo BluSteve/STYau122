@@ -112,13 +112,10 @@ public class SolutionR extends Solution {
 		SimpleMatrix[] commutatorarray = new SimpleMatrix[8];
 
 		int numIt = 0;
-		double DIISError = 10;
+		double DIISError = 10, threshold;
 		int itSinceLastDIIS = 0;
 
 		while (true) {
-			double threshold = sigmoid(numIt);
-			if (!(DIISError > threshold)) break;
-
 			olddensity = densityMatrix;
 			integralcount = 0;
 
@@ -381,9 +378,14 @@ public class SolutionR extends Solution {
 				throw e;
 			}
 
+			threshold = sigmoid(numIt);
+			if (DIISError < threshold) break;
+
 			rm.getLogger().trace("numIt: {}, DIISError: {}, threshold: {}", numIt, DIISError, threshold);
 			numIt++;
 		}
+
+		rm.getLogger().debug("numIt: {}, DIISError: {}, threshold: {}", numIt, DIISError, threshold);
 
 		// todo make these precomputations optional
 		CtOcc = Ct.extractMatrix(0, rm.nOccAlpha, 0, Ct.numCols());
