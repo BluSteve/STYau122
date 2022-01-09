@@ -82,7 +82,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 	}
 
 	private static double sigmoid(double x) {
-		return 1 / (1 + Pow.exp(-3.4 * (0.02 * x - 3.4)));
+		return 1e-5 / (1 + Pow.exp(-3.4 * (0.2 * x - 3.4)));
 	}
 
 	private static SimpleMatrix[] pople(SolutionR soln, SimpleMatrix[] fockderivstatic) {
@@ -229,7 +229,8 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 					return thiel(soln, fockderivstatic);
 				}
 
-				if (mag < State.config.poplethiel_tolerable) {
+				double threshold = sigmoid(numIt);
+				if (mag < threshold) {
 					finished[j] = mag < State.config.poplethiel_ideal;
 					oldrMags[j] = mag;
 					somewhatFinished[j] = true;
@@ -239,7 +240,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 					somewhatFinished[j] = false;
 				}
 
-				soln.rm.getLogger().trace("numIt={}, Pople mag: {}", numIt, mag);
+				soln.rm.getLogger().trace("numit: {}, Pople mag: {}, threshold: {}", numIt, mag, threshold);
 			}
 
 			numIt++;
@@ -356,14 +357,15 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 					}
 
 					double mag = mag(rarray[a]);
-					if (mag < State.config.poplethiel_tolerable) {
+					double threshold = sigmoid(numIt);
+					if (mag < threshold) {
 						rarray[a] = null;
 					}
 					else if (mag != mag || Double.isInfinite(mag)) {
 						failThiel(soln, numIt);
 					}
 
-					soln.rm.getLogger().trace("numIt={}, Thiel mag: {}", numIt, mag);
+					soln.rm.getLogger().trace("numit: {}, Thiel mag: {}, threshold: {}", numIt, mag, threshold);
 				}
 			}
 
@@ -579,7 +581,8 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 					return thiel(soln, fockderivstaticalpha, fockderivstaticbeta);
 				}
 
-				if (mag < State.config.poplethiel_tolerable) {
+				double threshold = sigmoid(numIt);
+				if (mag < threshold) {
 					finished[j] = mag < State.config.poplethiel_ideal;
 					oldrMags[j] = mag;
 					somewhatFinished[j] = true;
@@ -589,7 +592,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 					somewhatFinished[j] = false;
 				}
 
-				soln.rm.getLogger().trace("numIt={}, Pople mag: {}", numIt, mag);
+				soln.rm.getLogger().trace("numit: {}, Pople mag: {}, threshold: {}", numIt, mag, threshold);
 			}
 
 			numIt++;
@@ -731,14 +734,15 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 					}
 
 					double mag = mag(rarray[a]);
-					if (mag < State.config.poplethiel_tolerable) { // todo make tolerable once pople is done
+					double threshold = sigmoid(numIt);
+					if (mag < threshold) {
 						rarray[a] = null;
 					}
 					else if (mag != mag || Double.isInfinite(mag)) {
 						failThiel(soln, numIt);
 					}
 
-					soln.rm.getLogger().trace("numIt={}, Thiel mag: {}", numIt, mag);
+					soln.rm.getLogger().trace("numit: {}, Thiel mag: {}, threshold: {}", numIt, mag, threshold);
 				}
 			}
 

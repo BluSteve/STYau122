@@ -33,6 +33,7 @@ public class Testing {
 		SimpleMatrix[] falpha = matrices[1];
 		SimpleMatrix[] fbeta = matrices[2];
 
+		System.out.println(PopleThiel.verify(s, GeometryDerivative.gradientRoutine(s)[1], null, 1e-5));
 		System.out.println(PopleThiel.verify(s2, falpha, fbeta, 1e-5));
 	}
 
