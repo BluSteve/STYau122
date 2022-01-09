@@ -40,7 +40,7 @@ public class SolutionR extends Solution {
 	}
 
 	@Override
-	public void computePrivate(double ediisThreshold) {
+	public void computePrivate() {
 		integralArray = new double[rm.nIntegrals];
 
 		int intCount = 0;

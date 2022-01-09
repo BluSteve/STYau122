@@ -52,7 +52,7 @@ public class SolutionU extends Solution {
 	}
 
 	@Override
-	public void computePrivate(double ediisThreshold) {
+	public void computePrivate() {
 		integralArrayCoulomb = new double[rm.nCoulombInts];
 
 		int intCount = 0;

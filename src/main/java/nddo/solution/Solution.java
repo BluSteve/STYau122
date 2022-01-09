@@ -14,6 +14,8 @@ import tools.Utils;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static nddo.State.config;
 import static nddo.State.nom;
@@ -21,6 +23,7 @@ import static org.ejml.dense.row.CommonOps_DDRM.elementMin;
 
 public abstract class Solution {
 	public final static int maxParamNum = 8; // todo compute this on the fly
+	public static final Map<Integer, Boolean> USE_EDIIS = new ConcurrentHashMap<>();
 	protected static final int[][][] TBRS = {
 			{{}},
 			{{0}},
@@ -61,7 +64,7 @@ public abstract class Solution {
 	public final int[][] missingOfAtom, orbsOfAtom;
 	public final NDDOAtom[] atoms;
 	public final NDDOOrbital[] orbitals;
-	public final MoleculeInfo rm;
+	public final MoleculeInfo rm; // todo rename
 
 	protected final SimpleMatrix B, Bforediis;
 	protected final double[] earray;
@@ -70,15 +73,16 @@ public abstract class Solution {
 	public double energy, homo, lumo, hf, dipole;
 	public double[] dipoletot;
 	protected SimpleMatrix H, densityMatrix, alphaDensity, betaDensity;
+	protected double ediisThreshold = config.ediis_threshold;
 
-	protected Solution(MoleculeInfo rm, NDDOAtom[] atoms) {
+	protected Solution(MoleculeInfo mi, NDDOAtom[] atoms) {
 		this.atoms = atoms;
-		this.rm = rm;
-		this.charge = rm.charge;
-		this.mult = rm.mult;
-		this.atomicNumbers = rm.atomicNumbers;
-		this.nElectrons = rm.nElectrons;
-		this.nOrbitals = rm.nOrbitals;
+		this.rm = mi;
+		this.charge = mi.charge;
+		this.mult = mi.mult;
+		this.atomicNumbers = mi.atomicNumbers;
+		this.nElectrons = mi.nElectrons;
+		this.nOrbitals = mi.nOrbitals;
 
 		earray = new double[8];
 		B = new SimpleMatrix(8, 8);
@@ -86,9 +90,9 @@ public abstract class Solution {
 		ddrm = new DMatrixRMaj(nOrbitals, nOrbitals);
 
 		orbitals = new NDDO6G[nOrbitals];
-		orbsOfAtom = rm.orbsOfAtom; // variable length 2d array
-		missingOfAtom = rm.missingOfAtom; // variable length 2d array, complement of orbsOfAtom
-		atomOfOrb = rm.atomOfOrb; // nOrbitals length 1d array
+		orbsOfAtom = mi.orbsOfAtom; // variable length 2d array
+		missingOfAtom = mi.missingOfAtom; // variable length 2d array, complement of orbsOfAtom
+		atomOfOrb = mi.atomOfOrb; // nOrbitals length 1d array
 
 		int overallOrbitalIndex = 0;
 		for (NDDOAtom atom : atoms) {
@@ -100,8 +104,20 @@ public abstract class Solution {
 	}
 
 	public static Solution of(MoleculeInfo mi, NDDOAtom[] atoms) {
-		if (mi.restricted) return new SolutionR(mi, atoms).compute();
-		else return new SolutionU(mi, atoms).compute();
+		Solution s = mi.restricted ? new SolutionR(mi, atoms) : new SolutionU(mi, atoms);
+
+		Boolean useEdiis = USE_EDIIS.get(mi.index);
+		if (useEdiis == null) {
+			Solution stest = mi.restricted ? new SolutionR(mi, atoms) : new SolutionU(mi, atoms);
+			useEdiis = stest.testEdiis();
+			USE_EDIIS.put(mi.index, useEdiis);
+		}
+		if (!useEdiis) {
+			mi.getLogger().warn("EDIIS gives higher energy- using purely DIIS from now on.");
+			s.ediisThreshold = Double.POSITIVE_INFINITY;
+		}
+
+		return s.compute();
 	}
 
 	protected static SimpleMatrix commutator(SimpleMatrix F, SimpleMatrix D) {
@@ -164,6 +180,21 @@ public abstract class Solution {
 	public abstract Solution withNewAtoms(NDDOAtom[] newAtoms);
 
 	public final Solution compute() {
+		precomp();
+
+		computePrivate();
+
+		findMatrices();
+		findHf();
+		findDipole();
+		findHomo();
+
+		rm.getLogger().debug("hf = {}, dipole = {}, homo = {}", hf, dipole, homo);
+
+		return this;
+	}
+
+	private void precomp() {
 		H = new SimpleMatrix(orbitals.length, orbitals.length);
 
 		for (int j = 0; j < orbitals.length; j++) {
@@ -199,32 +230,9 @@ public abstract class Solution {
 				}
 			}
 		}
-
-		computePrivate(config.ediis_threshold);
-
-		findMatrices();
-
-		findHf();
-		findDipole();
-		findHomo();
-
-		rm.getLogger().debug("hf = {}, dipole = {}, homo = {}", hf, dipole, homo);
-
-		return this;
 	}
 
-	public void testEdiis() {
-		densityMatrix = alphaDensity = betaDensity = null;
-		computePrivate(1e-2);
-		findHf();
-		System.out.println(hf);
-		densityMatrix = alphaDensity = betaDensity = null;
-		computePrivate(Double.POSITIVE_INFINITY);
-		findHf();
-		System.out.println(hf);
-	}
-
-	protected abstract void computePrivate(double ediisThreshold);
+	protected abstract void computePrivate();
 
 	protected final SimpleMatrix ediis(int len) {
 		int ediisSize = len + 1;
@@ -370,6 +378,22 @@ public abstract class Solution {
 	}
 
 	protected abstract void findHomo();
+
+	private boolean testEdiis() {
+		precomp();
+
+		computePrivate();
+		findHf();
+		double ediishf = hf;
+
+		densityMatrix = alphaDensity = betaDensity = null;
+		ediisThreshold = Double.POSITIVE_INFINITY;
+		computePrivate();
+		findHf();
+		double noEdiishf = hf;
+
+		return ediishf < noEdiishf;
+	}
 
 	public final MoleculeInfo getRm() {
 		return rm;

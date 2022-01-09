@@ -1,6 +1,7 @@
 package core;
 
 import frontend.FrontendConfig;
+import nddo.solution.Solution;
 
 import java.io.IOException;
 
@@ -10,6 +11,6 @@ public class Testing {
 		Benchmarks.State state = new Benchmarks.State();
 		state.setup();
 
-		state.s.testEdiis();
+		System.out.println(Solution.USE_EDIIS);
 	}
 }
