@@ -20,6 +20,7 @@
       <option name="processComments" value="true" />
     </inspection_tool>
     <inspection_tool class="StringConcatenationInLoops" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="SuspiciousSystemArraycopy" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="UNCHECKED_WARNING" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="UnaryPlus" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="UnnecessaryParentheses" enabled="true" level="WEAK WARNING" enabled_by_default="true">
@@ -29,7 +30,7 @@
     </inspection_tool>
     <inspection_tool class="UnnecessaryQualifierForThis" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="UnusedReturnValue" enabled="true" level="INFORMATION" enabled_by_default="true" />
-    <inspection_tool class="unused" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+    <inspection_tool class="unused" enabled="true" level="WEAK WARNING" enabled_by_default="true" checkParameterExcludingHierarchy="false">
       <option name="LOCAL_VARIABLE" value="true" />
       <option name="FIELD" value="true" />
       <option name="METHOD" value="true" />

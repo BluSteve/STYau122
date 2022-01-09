@@ -9,8 +9,9 @@ import org.ejml.simple.SimpleMatrix;
 import tools.Pow;
 import tools.Utils;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 import static nddo.State.nom;
 
@@ -185,7 +186,7 @@ public abstract class Solution {
 
 	protected static SimpleMatrix addRows(SimpleMatrix original, int[] tbr) {
 		// add zero row at tbr
-		ArrayList<Double> array = new ArrayList<>();
+		List<Double> array = new LinkedList<>();
 
 		for (double i : original.getDDRM().data) {
 			array.add(i);
@@ -195,8 +196,7 @@ public abstract class Solution {
 			array.add(index, 0.0);
 		}
 
-		return new SimpleMatrix(original.numRows() + tbr.length, 1,
-				true, Utils.toDoubles(array));
+		return new SimpleMatrix(original.numRows() + tbr.length, 1, true, Utils.toDoubles(array));
 	}
 
 	protected static double sigmoid(double x) {
