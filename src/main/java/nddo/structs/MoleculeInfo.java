@@ -6,7 +6,7 @@ import org.apache.logging.log4j.Logger;
 public class MoleculeInfo { // low level molecule info representation
 	public final int index; // must be unique, preferably small
 	public final String name;
-	public final boolean restricted;
+	public final boolean restricted, useEdiis;
 	public final int charge, mult;
 	public final int[] atomicNumbers;
 	public final int nElectrons, nOccAlpha, nOccBeta, nVirtAlpha, nVirtBeta, nonvAlpha, nonvBeta, nOrbitals,
@@ -19,13 +19,15 @@ public class MoleculeInfo { // low level molecule info representation
 	private transient String debugName;
 	private transient Logger logger;
 
-	public MoleculeInfo(int index, String name, boolean restricted, int charge, int mult, int[] atomicNumbers,
-						int nElectrons, int nOccAlpha, int nOccBeta, int nVirtAlpha, int nVirtBeta, int nonvAlpha,
-						int nonvBeta, int nOrbitals, int nIntegrals, int nCoulombInts, int nExchangeInts,
-						int[][] orbsOfAtom, int[][] missingOfAtom, int[] atomOfOrb, int[] mats, int[][] mnps) {
+	public MoleculeInfo(int index, String name, boolean restricted, boolean useEdiis, int charge, int mult,
+						int[] atomicNumbers, int nElectrons, int nOccAlpha, int nOccBeta, int nVirtAlpha,
+						int nVirtBeta, int nonvAlpha, int nonvBeta, int nOrbitals, int nIntegrals, int nCoulombInts,
+						int nExchangeInts, int[][] orbsOfAtom, int[][] missingOfAtom, int[] atomOfOrb,
+						int[] mats, int[][] mnps) {
 		this.index = index;
 		this.name = name;
 		this.restricted = restricted;
+		this.useEdiis = useEdiis;
 		this.charge = charge;
 		this.mult = mult;
 		this.atomicNumbers = atomicNumbers;
@@ -51,6 +53,7 @@ public class MoleculeInfo { // low level molecule info representation
 		this.index = mi.index;
 		this.name = mi.name;
 		this.restricted = mi.restricted;
+		this.useEdiis = mi.useEdiis;
 		this.charge = mi.charge;
 		this.mult = mi.mult;
 		this.atomicNumbers = mi.atomicNumbers;
@@ -90,7 +93,7 @@ public class MoleculeInfo { // low level molecule info representation
 	public static class MIBuilder {
 		public int index;
 		public String name;
-		public boolean restricted = true;
+		public boolean restricted = true, useEdiis = true;
 		public int charge, mult;
 		public int[] atomicNumbers;
 		public int nElectrons, nOrbitals;
@@ -220,9 +223,9 @@ public class MoleculeInfo { // low level molecule info representation
 				int nonvAlpha = nOccAlpha * nVirtAlpha;
 				int nonvBeta = nOccBeta * nVirtBeta;
 
-				return new MoleculeInfo(index, name, restricted, charge, mult, atomicNumbers, nElectrons, nOccAlpha,
-						nOccBeta, nVirtAlpha, nVirtBeta, nonvAlpha, nonvBeta, nOrbitals, nIntegrals, nCoulombInts,
-						nExchangeInts, orbsOfAtom, missingOfAtom, atomOfOrb, mats, mnps);
+				return new MoleculeInfo(index, name, restricted, useEdiis, charge, mult, atomicNumbers, nElectrons,
+						nOccAlpha, nOccBeta, nVirtAlpha, nVirtBeta, nonvAlpha, nonvBeta, nOrbitals, nIntegrals,
+						nCoulombInts, nExchangeInts, orbsOfAtom, missingOfAtom, atomOfOrb, mats, mnps);
 			}
 
 			throw new IllegalStateException("Invalid MIBuilder parameters for building!");

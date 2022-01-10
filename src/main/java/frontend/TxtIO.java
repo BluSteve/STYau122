@@ -230,7 +230,7 @@ public class TxtIO {
 			}
 
 
-			moleculesL.add(builder.build(atomTypes, neededParams));
+			moleculesL.add(builder.build(atomTypes, neededParams, info.npMap));
 			i++;
 
 			moleculei++;

@@ -14,6 +14,7 @@ public class Main {
 	static {
 		try {
 			LogManager.getLogger().info("Date compiled: {}", Utils.getResource("version.txt"));
+			FrontendConfig.init();
 		} catch (IOException ignored) {
 		}
 	}

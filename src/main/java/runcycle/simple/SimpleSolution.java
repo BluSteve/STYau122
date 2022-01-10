@@ -17,7 +17,7 @@ public class SimpleSolution {
 		builder.charge = charge;
 		builder.mult = mult;
 
-		RunnableMolecule rm = builder.build(info.atomTypes, info.neededParams);
+		RunnableMolecule rm = builder.build(info.atomTypes, info.neededParams, info.npMap);
 
 		return Solution.of(rm, nddoAtoms);
 	}

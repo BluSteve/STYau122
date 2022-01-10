@@ -1,7 +1,10 @@
 package runcycle.structs;
 
+import nddo.NDDOParams;
+import nddo.solution.Solution;
 import nddo.structs.AtomProperties;
 import nddo.structs.MoleculeInfo;
+import runcycle.State;
 import tools.Utils;
 
 import java.util.*;
@@ -33,19 +36,13 @@ public final class RunnableMolecule extends MoleculeInfo { // mid-level runnable
 		public int index;
 		public String name;
 		public boolean restricted = true;
+		public Boolean useEdiis;
 		public int charge, mult;
 		public double[] datum;
 		public Atom[] atoms, expGeom;
 
-		/**
-		 * neededParams is the only model dependent field in RawMolecule, so it should be decided at build time.
-		 *
-		 * @param atomTypes    atomTypes must include all of the atoms present in the molecule.
-		 * @param neededParams The trainable params indices corresponding to the atom number at the same position in
-		 *                     atomTypes
-		 * @return A complete, valid RawMolecule object.
-		 */
-		public RunnableMolecule build(int[] atomTypes, int[][] neededParams) { // can use neededParams map instead
+		public RunnableMolecule build(int[] atomTypes, int[][] neededParams,
+									  NDDOParams[] npMap) { // can use neededParams map instead
 			Arrays.sort(atoms, Comparator.comparingInt(o -> -o.Z));
 			if (expGeom != null) Arrays.sort(expGeom, Comparator.comparingInt(o -> -o.Z));
 
@@ -153,6 +150,13 @@ public final class RunnableMolecule extends MoleculeInfo { // mid-level runnable
 
 				miBuilder.missingOfAtom[j] = missing;
 			}
+
+			if (npMap != null && useEdiis == null) { // override ediis
+				MoleculeInfo temp = miBuilder.build();
+				miBuilder.useEdiis = Solution.shouldEdiis(temp, State.getConverter().convert(atoms, npMap));
+			}
+			else if (useEdiis != null) miBuilder.useEdiis = useEdiis;
+			// otherwise use default useEdiis
 
 			return new RunnableMolecule(miBuilder.build(), atoms, expGeom, datum);
 		}

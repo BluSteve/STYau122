@@ -14,8 +14,6 @@ import tools.Utils;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import static nddo.State.config;
 import static nddo.State.nom;
@@ -23,7 +21,6 @@ import static org.ejml.dense.row.CommonOps_DDRM.elementMin;
 
 public abstract class Solution {
 	public final static int maxParamNum = 8; // todo compute this on the fly
-	public static final Map<Integer, Boolean> USE_EDIIS = new ConcurrentHashMap<>();
 	protected static final int[][][] TBRS = {
 			{{}},
 			{{0}},
@@ -106,26 +103,28 @@ public abstract class Solution {
 	public static Solution of(MoleculeInfo mi, NDDOAtom[] atoms) {
 		Solution s = mi.restricted ? new SolutionR(mi, atoms) : new SolutionU(mi, atoms);
 
-		Boolean useEdiis = USE_EDIIS.get(mi.index);
-		if (useEdiis == null) {
-			mi.getLogger().debug("Starting EDIIS test...");
-
-			Solution stest = mi.restricted ? new SolutionR(mi, atoms) : new SolutionU(mi, atoms);
-
-			double[] results = stest.testEdiis();
-			double v = results[0] - results[1];
-			useEdiis = v < config.ediis_max_diff;
-			if (!useEdiis)
-				mi.getLogger().warn("EDIIS gives higher energy ({} - {} = {})- using purely DIIS from now on.",
-						results[0], results[1], v);
-
-			USE_EDIIS.put(mi.index, useEdiis);
-		}
-		if (!useEdiis) {
+		if (!mi.useEdiis) {
 			s.ediisThreshold = Double.POSITIVE_INFINITY;
 		}
 
 		return s.compute();
+	}
+
+	public static boolean shouldEdiis(MoleculeInfo mi, NDDOAtom[] atoms) {
+		mi.getLogger().debug("Starting EDIIS test...");
+
+		Solution stest = mi.restricted ? new SolutionR(mi, atoms) : new SolutionU(mi, atoms);
+
+		double[] results = stest.testEdiis();
+		double v = results[0] - results[1];
+		boolean useEdiis = v < config.ediis_max_diff;
+		if (!useEdiis)
+			mi.getLogger().warn("EDIIS gives higher energy ({} - {} = {})- using purely DIIS from now on.",
+					results[0], results[1], v);
+
+		mi.getLogger().debug("useEdiis = {}", useEdiis);
+
+		return useEdiis;
 	}
 
 	protected static SimpleMatrix commutator(SimpleMatrix F, SimpleMatrix D) {
@@ -392,6 +391,8 @@ public abstract class Solution {
 
 		double ediishf;
 		try {
+			densityMatrix = alphaDensity = betaDensity = null;
+			ediisThreshold = config.ediis_threshold;
 			computePrivate();
 			findHf();
 			ediishf = hf;

@@ -74,6 +74,7 @@ public class Serializer {
 			json.addProperty("index", src.index);
 			json.addProperty("name", src.name);
 			json.addProperty("restricted", src.restricted);
+			json.addProperty("useEdiis", src.useEdiis);
 			json.addProperty("charge", src.charge);
 			json.addProperty("mult", src.mult);
 			json.add("datum", gson.toJsonTree(src.datum));
@@ -106,6 +107,7 @@ public class Serializer {
 			builder.index = object.get("index").getAsInt();
 			builder.name = object.get("name").getAsString();
 			builder.restricted = object.get("restricted").getAsBoolean();
+			builder.useEdiis = object.get("useEdiis").getAsBoolean();
 			builder.charge = object.get("charge").getAsInt();
 			builder.mult = object.get("mult").getAsInt();
 			builder.datum = gson.fromJson(object.get("datum"), double[].class);
@@ -121,7 +123,7 @@ public class Serializer {
 			int[] mats = gson.fromJson(object.get("mats"), int[].class);
 			int[][] mnps = gson.fromJson(object.get("mnps"), int[][].class);
 
-			return builder.build(mats, mnps);
+			return builder.build(mats, mnps, null);
 		};
 
 		GsonBuilder builder = new GsonBuilder();
