@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="fix forjinherng isDone bug" />
+    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="better logging" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -543,13 +543,6 @@
       <workItem from="1641713504006" duration="9299000" />
       <workItem from="1641724986038" duration="26261000" />
     </task>
-    <task id="LOCAL-00262" summary="merge solutionu ediis">
-      <created>1641399383260</created>
-      <option name="number" value="00262" />
-      <option name="presentableId" value="LOCAL-00262" />
-      <option name="project" value="LOCAL" />
-      <updated>1641399383260</updated>
-    </task>
     <task id="LOCAL-00263" summary="better forjh progressbar">
       <created>1641401687711</created>
       <option name="number" value="00263" />
@@ -886,7 +879,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641796616415</updated>
     </task>
-    <option name="localTasksCounter" value="311" />
+    <task id="LOCAL-00311" summary="better logging">
+      <created>1641796959492</created>
+      <option name="number" value="00311" />
+      <option name="presentableId" value="LOCAL-00311" />
+      <option name="project" value="LOCAL" />
+      <updated>1641796959492</updated>
+    </task>
+    <option name="localTasksCounter" value="312" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -938,7 +938,6 @@
     <MESSAGE value="prep for poplethiel sigmoid" />
     <MESSAGE value="poplethiel sigmoid" />
     <MESSAGE value="better poplethiel debugging" />
-    <MESSAGE value="better logging" />
     <MESSAGE value="minor changes" />
     <MESSAGE value="prep for solution optimization" />
     <MESSAGE value="explicit version printing" />
@@ -958,7 +957,8 @@
     <MESSAGE value="multithread building molecules" />
     <MESSAGE value="multithread expgeom hessian" />
     <MESSAGE value="fix forjinherng isDone bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix forjinherng isDone bug" />
+    <MESSAGE value="better logging" />
+    <option name="LAST_COMMIT_MESSAGE" value="better logging" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

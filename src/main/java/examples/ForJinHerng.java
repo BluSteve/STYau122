@@ -31,6 +31,7 @@ public class ForJinHerng {
 	private static final ScheduledExecutorService progressBar = Executors.newScheduledThreadPool(1);
 
 	public static void main(String[] args) throws IOException, InterruptedException {
+		LogManager.getLogger().info("Date compiled: {}", Utils.getResource("version.txt"));
 		FrontendConfig.init();
 
 		if (new File("input.txt").isFile() && new File("reference.txt").isFile()) TxtIO.txtToText();
