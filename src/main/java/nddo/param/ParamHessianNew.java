@@ -224,65 +224,67 @@ public class ParamHessianNew implements IParamHessian {
 			SimpleMatrix[][] dD2responsesUExp =
 					!rhf ? computeDensityDerivs((SolutionU) sExp, ptInputsArr, ptInputsArrBeta) : null;
 
-			for (int[] ints : flatAll) {
-				s.rm.getLogger().trace("Starting batched derivs {} for ParamHessian geom", ints);
+			Batcher.consume(flatAll, 1, subset -> {
+				for (int[] ints : subset) {
+					s.rm.getLogger().trace("Starting batched derivs {} for ParamHessian geom", ints);
 
-				int ZI1 = ints[0];
-				int ZI2 = ints[1];
-				int Z1 = mats[ZI1];
-				int Z2 = mats[ZI2];
-				int p1 = ints[2];
-				int p2 = ints[3];
-				int j = ints[4];
+					int ZI1 = ints[0];
+					int ZI2 = ints[1];
+					int Z1 = mats[ZI1];
+					int Z2 = mats[ZI2];
+					int p1 = ints[2];
+					int p2 = ints[3];
+					int j = ints[4];
 
-				SimpleMatrix deriv = gHVectorDerivs[ZI1][ZI2][p1][p2] = new SimpleMatrix(sExp.atoms.length * 3, 1);
+					SimpleMatrix deriv = gHVectorDerivs[ZI1][ZI2][p1][p2] = new SimpleMatrix(sExp.atoms.length * 3, 1);
 
-				if (Z1 == Z2 && p1 == 0 && p2 == 0) {
-					for (int atomNum = 0, k = 0; atomNum < sExp.atoms.length; atomNum++) {
-						for (int tau = 0; tau < 3; tau++, k++) {
-							deriv.set(k, gradDeriv2Alpha(sExp, atomNum, tau, mats[ZI1]));
-						}
-					}
-				}
-				else if (p1 != 0 && p1 != 7 && p2 != 0 && p2 != 7) {
-					if (rhf) {
-						SimpleMatrix densityDeriv2 = dD2responsesExp[j].plus(dD2staticsExp[ZI1][ZI2][p1][p2][0]);
-
+					if (Z1 == Z2 && p1 == 0 && p2 == 0) {
 						for (int atomNum = 0, k = 0; atomNum < sExp.atoms.length; atomNum++) {
 							for (int tau = 0; tau < 3; tau++, k++) {
-								deriv.set(k, gradderiv2((SolutionR) sExp, atomNum, tau, Z1, p1,
-										Z2, p2, pg.densityDerivsExp[ZI1][p1][0], pg.densityDerivsExp[ZI2][p2][0],
-										densityDeriv2));
+								deriv.set(k, gradDeriv2Alpha(sExp, atomNum, tau, mats[ZI1]));
 							}
 						}
 					}
-					else {
-						SimpleMatrix[] densityDeriv2 = new SimpleMatrix[]{
-								dD2responsesUExp[j][0].plus(dD2staticsExp[ZI1][ZI2][p1][p2][0]),
-								dD2responsesUExp[j][1].plus(dD2staticsExp[ZI1][ZI2][p1][p2][1])
-						};
+					else if (p1 != 0 && p1 != 7 && p2 != 0 && p2 != 7) {
+						if (rhf) {
+							SimpleMatrix densityDeriv2 = dD2responsesExp[j].plus(dD2staticsExp[ZI1][ZI2][p1][p2][0]);
 
-						for (int atomNum = 0, k = 0; atomNum < sExp.atoms.length; atomNum++) {
-							for (int tau = 0; tau < 3; tau++, k++) {
-								deriv.set(k, gradderiv2((SolutionU) sExp, atomNum, tau, Z1, p1, Z2, p2,
-										pg.densityDerivsExp[ZI1][p1][0], pg.densityDerivsExp[ZI1][p1][1],
-										pg.densityDerivsExp[ZI2][p2][0], pg.densityDerivsExp[ZI2][p2][1],
-										densityDeriv2[0], densityDeriv2[1]));
+							for (int atomNum = 0, k = 0; atomNum < sExp.atoms.length; atomNum++) {
+								for (int tau = 0; tau < 3; tau++, k++) {
+									deriv.set(k, gradderiv2((SolutionR) sExp, atomNum, tau, Z1, p1,
+											Z2, p2, pg.densityDerivsExp[ZI1][p1][0], pg.densityDerivsExp[ZI2][p2][0],
+											densityDeriv2));
+								}
+							}
+						}
+						else {
+							SimpleMatrix[] densityDeriv2 = new SimpleMatrix[]{
+									dD2responsesUExp[j][0].plus(dD2staticsExp[ZI1][ZI2][p1][p2][0]),
+									dD2responsesUExp[j][1].plus(dD2staticsExp[ZI1][ZI2][p1][p2][1])
+							};
+
+							for (int atomNum = 0, k = 0; atomNum < sExp.atoms.length; atomNum++) {
+								for (int tau = 0; tau < 3; tau++, k++) {
+									deriv.set(k, gradderiv2((SolutionU) sExp, atomNum, tau, Z1, p1, Z2, p2,
+											pg.densityDerivsExp[ZI1][p1][0], pg.densityDerivsExp[ZI1][p1][1],
+											pg.densityDerivsExp[ZI2][p2][0], pg.densityDerivsExp[ZI2][p2][1],
+											densityDeriv2[0], densityDeriv2[1]));
+								}
 							}
 						}
 					}
-				}
 
-				if (p1 != 7 && p2 != 7) {
-					addGeomToHessian(ZI1, p1, ZI2, p2, (Constants.KCAL *
-							(deriv.dot(pg.e.geomGradVector) +
-									pg.gGVectorDerivs[ZI1][p1].dot(pg.gGVectorDerivs[ZI2][p2])) -
-							pg.geomDerivs[ZI1][p1] / Constants.KCAL * pg.geomDerivs[ZI2][p2]) /
-							pg.e.geomGradMag * Constants.KCAL);
-				}
+					if (p1 != 7 && p2 != 7) {
+						addGeomToHessian(ZI1, p1, ZI2, p2, (Constants.KCAL *
+								(deriv.dot(pg.e.geomGradVector) +
+										pg.gGVectorDerivs[ZI1][p1].dot(pg.gGVectorDerivs[ZI2][p2])) -
+								pg.geomDerivs[ZI1][p1] / Constants.KCAL * pg.geomDerivs[ZI2][p2]) /
+								pg.e.geomGradMag * Constants.KCAL);
+					}
 
-				s.rm.getLogger().trace("Finished batched derivs {} for ParamHessian geom", ints);
-			}
+					s.rm.getLogger().trace("Finished batched derivs {} for ParamHessian geom", ints);
+				}
+			});
 		}
 	}
 
