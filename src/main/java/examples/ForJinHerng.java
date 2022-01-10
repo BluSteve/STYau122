@@ -49,8 +49,11 @@ public class ForJinHerng {
 		AtomicInteger count = new AtomicInteger(0);
 		Runnable mLeft = () -> {
 			List<String> left = new ArrayList<>(mLength);
-			for (int j = 0; j < isDone.length; j++) {
-				if (!isDone[j]) left.add(input.molecules[j].debugName());
+			for (int j = 0; j < input.molecules.length; j++) {
+				RunnableMolecule molecule = input.molecules[j];
+				if (!isDone[molecule.index]) {
+					left.add(molecule.debugName());
+				}
 			}
 
 			int leftCount = left.size();

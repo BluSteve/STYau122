@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="multithread building molecules" />
+    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="multithread expgeom hessian">
+      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -535,13 +537,6 @@
       <workItem from="1641713504006" duration="9299000" />
       <workItem from="1641724986038" duration="26261000" />
     </task>
-    <task id="LOCAL-00260" summary="solutionr better array initialization">
-      <created>1641398701871</created>
-      <option name="number" value="00260" />
-      <option name="presentableId" value="LOCAL-00260" />
-      <option name="project" value="LOCAL" />
-      <updated>1641398701871</updated>
-    </task>
     <task id="LOCAL-00261" summary="uncommented some parts of forjh">
       <created>1641398826219</created>
       <option name="number" value="00261" />
@@ -878,7 +873,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641795027138</updated>
     </task>
-    <option name="localTasksCounter" value="309" />
+    <task id="LOCAL-00309" summary="multithread expgeom hessian">
+      <created>1641795863404</created>
+      <option name="number" value="00309" />
+      <option name="presentableId" value="LOCAL-00309" />
+      <option name="project" value="LOCAL" />
+      <updated>1641795863404</updated>
+    </task>
+    <option name="localTasksCounter" value="310" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -925,7 +927,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="fix xmatrices degenerate orbitals problem" />
     <MESSAGE value="use old densitymatrix for withNewAtoms" />
     <MESSAGE value="work in progress uhf pople" />
     <MESSAGE value="cleanup poplethiel into pt" />
@@ -950,7 +951,8 @@
     <MESSAGE value="put back damping" />
     <MESSAGE value="store useEdiis" />
     <MESSAGE value="multithread building molecules" />
-    <option name="LAST_COMMIT_MESSAGE" value="multithread building molecules" />
+    <MESSAGE value="multithread expgeom hessian" />
+    <option name="LAST_COMMIT_MESSAGE" value="multithread expgeom hessian" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
