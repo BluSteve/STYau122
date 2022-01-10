@@ -6,7 +6,8 @@ import org.apache.logging.log4j.Logger;
 public class MoleculeInfo { // low level molecule info representation
 	public final int index; // must be unique, preferably small
 	public final String name;
-	public final boolean restricted, useEdiis;
+	public final boolean restricted;
+	public boolean useEdiis;
 	public final int charge, mult;
 	public final int[] atomicNumbers;
 	public final int nElectrons, nOccAlpha, nOccBeta, nVirtAlpha, nVirtBeta, nonvAlpha, nonvBeta, nOrbitals,

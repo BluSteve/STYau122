@@ -1,6 +1,7 @@
 package frontend;
 
 import nddo.structs.AtomProperties;
+import org.apache.logging.log4j.LogManager;
 import runcycle.structs.Atom;
 import runcycle.structs.InputInfo;
 import runcycle.structs.RunInput;
@@ -156,7 +157,7 @@ public class TxtIO {
 
 		List<String> mtxt = Files.readAllLines(Path.of("molecules.txt"));
 
-		ArrayList<RunnableMolecule> moleculesL = new ArrayList<>();
+		List<RunnableMolecule.RMBuilder> builders = new ArrayList<>();
 		int i = 0;
 		int moleculei = 0;
 
@@ -229,14 +230,21 @@ public class TxtIO {
 				builder.expGeom = expGeom;
 			}
 
-
-			moleculesL.add(builder.build(atomTypes, neededParams, info.npMap));
+			builders.add(builder);
+//			moleculesL.add(builder.build(atomTypes, neededParams, info.npMap));
 			i++;
 
 			moleculei++;
 		}
 
-		return new RunInput(info, moleculesL.toArray(RunnableMolecule[]::new));
+		RunnableMolecule[] molecules = new RunnableMolecule[builders.size()];
+		LogManager.getLogger().info("Building molecules...");
+		builders.parallelStream().forEach(rmBuilder -> {
+			molecules[rmBuilder.index] = rmBuilder.build(atomTypes, neededParams, info.npMap);
+		});
+		LogManager.getLogger().info("Molecules built.");
+
+		return new RunInput(info, molecules);
 	}
 
 	public static void updateMolecules(RunnableMolecule[] results, String filepath) throws FileNotFoundException {

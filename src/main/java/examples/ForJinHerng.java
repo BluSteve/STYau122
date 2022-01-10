@@ -2,6 +2,7 @@ package examples;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import frontend.FrontendConfig;
 import frontend.TxtIO;
 import nddo.NDDOAtom;
 import nddo.geometry.GeometryOptimization;
@@ -30,6 +31,8 @@ public class ForJinHerng {
 	private static final ScheduledExecutorService progressBar = Executors.newScheduledThreadPool(1);
 
 	public static void main(String[] args) throws IOException, InterruptedException {
+		FrontendConfig.init();
+
 		if (new File("input.txt").isFile() && new File("reference.txt").isFile()) TxtIO.txtToText();
 
 		RunInput input = TxtIO.readInput();
@@ -40,10 +43,10 @@ public class ForJinHerng {
 		Logger logger = LogManager.getLogger("main");
 		logger.info("Molecule count: " + mLength);
 
-		AtomicInteger doneCount = new AtomicInteger(0);
 		boolean[] isDone = new boolean[mLength];
 
 		AtomicInteger lastLeftCount = new AtomicInteger(mLength);
+		AtomicInteger count = new AtomicInteger(0);
 		Runnable mLeft = () -> {
 			List<String> left = new ArrayList<>(mLength);
 			for (int j = 0; j < isDone.length; j++) {
@@ -51,11 +54,16 @@ public class ForJinHerng {
 			}
 
 			int leftCount = left.size();
-			if (lastLeftCount.get() - leftCount == 0) {
-				logger.warn("Stubborn molecule(s) detected, increasing log level...");
-				Configurator.setRootLevel(Level.TRACE);
+
+			if (count.get() % 2 == 1) {
+				if (lastLeftCount.get() - leftCount == 0) {
+					logger.warn("Stubborn molecule(s) detected, increasing log level...");
+					Configurator.setRootLevel(Level.TRACE);
+				}
+				lastLeftCount.set(leftCount);
 			}
-			lastLeftCount.set(leftCount);
+
+			count.incrementAndGet();
 
 			Collections.sort(left);
 			logger.info("{}/{} left: {}", leftCount, mLength, left.toString().replace(", ", ","));
@@ -65,6 +73,7 @@ public class ForJinHerng {
 		progressBar.scheduleAtFixedRate(mLeft, wait, wait, TimeUnit.SECONDS);
 
 		RunnableMolecule[] updatedRms = new RunnableMolecule[input.molecules.length];
+		AtomicInteger doneCount = new AtomicInteger(0);
 		Result[] totalResults = Batcher.apply(input.molecules, Result[].class, 1, subset -> {
 			Result[] results = new Result[subset.length];
 
@@ -113,9 +122,8 @@ public class ForJinHerng {
 		if (System.console() != null) {
 			System.out.println("Press 'Enter' key to exit.");
 			System.console().readLine();
-			System.exit(0);
 		}
-		else System.exit(0);
+		System.exit(0);
 	}
 
 	private static class Result {
