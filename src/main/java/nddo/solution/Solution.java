@@ -108,13 +108,16 @@ public abstract class Solution {
 
 		Boolean useEdiis = USE_EDIIS.get(mi.index);
 		if (useEdiis == null) {
+			mi.getLogger().debug("Starting EDIIS test...");
+
 			Solution stest = mi.restricted ? new SolutionR(mi, atoms) : new SolutionU(mi, atoms);
 
 			double[] results = stest.testEdiis();
 			double v = results[0] - results[1];
 			useEdiis = v < config.ediis_max_diff;
-			if (!useEdiis) mi.getLogger().warn("EDIIS gives higher energy ({} - {} = {})- using purely DIIS from now on.",
-					results[0], results[1], v);
+			if (!useEdiis)
+				mi.getLogger().warn("EDIIS gives higher energy ({} - {} = {})- using purely DIIS from now on.",
+						results[0], results[1], v);
 
 			USE_EDIIS.put(mi.index, useEdiis);
 		}

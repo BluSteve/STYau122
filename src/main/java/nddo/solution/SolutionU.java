@@ -4,6 +4,7 @@ import nddo.Constants;
 import nddo.NDDOAtom;
 import nddo.structs.MoleculeInfo;
 import org.apache.logging.log4j.Level;
+import org.ejml.data.SingularMatrixException;
 import org.ejml.simple.SimpleMatrix;
 import tools.Utils;
 
@@ -256,7 +257,26 @@ public class SolutionU extends Solution {
 				fromDiis(ediis(len));
 			}
 			else {
-				fromDiis(diis(len));
+				try {
+					fromDiis(diis(len));
+				} catch (SingularMatrixException e) {
+					rm.getLogger().warn("DIIS has failed; using damping instead...");
+
+					SimpleMatrix[] matricesa = Utils.symEigen(Fa);
+					SimpleMatrix[] matricesb = Utils.symEigen(Fb);
+
+					Ea = matricesa[1].diag();
+					Eb = matricesb[1].diag();
+
+					Cta = matricesa[0].transposei();
+					Ctb = matricesb[0].transposei();
+
+					double damp = config.uhf_damp;
+					alphaDensity = calculateDensityMatrix(Cta, rm.nOccAlpha).scalei(1 - damp)
+							.plusi(damp, alphaDensity);
+					betaDensity = calculateDensityMatrix(Ctb, rm.nOccBeta).scalei(1 - damp)
+							.plusi(damp, betaDensity);
+				}
 			}
 
 

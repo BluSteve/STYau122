@@ -25,33 +25,28 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static runcycle.State.getConverter;
 
 public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutput> {
-	private static final Level defaultLevel = LogManager.getRootLogger().getLevel();
 	private static final Logger logger = LogManager.getLogger("RunIterator");
 	private static final OperatingSystemMXBean bean =
 			(OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+
 	public final RunInput initialRunInput;
-	private final int limit;
+	public final int limit;
+
 	private int runNumber = 0;
 	private RunInput currentRunInput;
 	private IMoleculeResult[] ranMolecules;
+	private final Level defaultLevel;
 
 	public RunIterator(RunInput runInput) {
-		this.initialRunInput = runInput;
-		this.currentRunInput = runInput;
-		this.limit = 0;
+		this(runInput, 0, null);
 	}
 
 	public RunIterator(RunInput runInput, int limit) {
-		this.initialRunInput = runInput;
-		this.currentRunInput = runInput;
-		this.limit = limit;
+		this(runInput, limit, null);
 	}
 
 	public RunIterator(RunInput runInput, IMoleculeResult[] ranMolecules) {
-		this.initialRunInput = runInput;
-		this.currentRunInput = runInput;
-		this.ranMolecules = ranMolecules;
-		this.limit = 0;
+		this(runInput, 0, ranMolecules);
 	}
 
 	public RunIterator(RunInput runInput, int limit, IMoleculeResult[] ranMolecules) {
@@ -59,16 +54,8 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 		this.currentRunInput = runInput;
 		this.ranMolecules = ranMolecules;
 		this.limit = limit;
-	}
 
-	public static RunOutput runOnce(RunInput ri) {
-		RunIterator it = new RunIterator(ri);
-		return it.next();
-	}
-
-	public static RunOutput runOnce(RunInput ri, IMoleculeResult[] ranMolecules) {
-		RunIterator it = new RunIterator(ri, ranMolecules);
-		return it.next();
+		defaultLevel = LogManager.getRootLogger().getLevel();
 	}
 
 	public static Atom[] getAtoms(Solution s) {
