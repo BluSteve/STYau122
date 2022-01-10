@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="multithread expgeom hessian">
-      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
-    </list>
+    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="fix forjinherng isDone bug" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -267,19 +265,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TxtIO" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="frontend.TxtIO" />
-      <module name="MNDOParam.main" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="frontend.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -292,6 +277,27 @@
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
+    </configuration>
+    <configuration name="MNDOParam [jar2]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="jar2" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
     </configuration>
     <configuration name="MNDOParam [jar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
@@ -353,21 +359,21 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.TxtIO" />
       <item itemvalue="Application.Main" />
       <item itemvalue="Application.Testing (1)" />
       <item itemvalue="Application.ForJinHerng" />
       <item itemvalue="Gradle.MNDOParam [jmh]" />
       <item itemvalue="Gradle.MNDOParam [jar]" />
       <item itemvalue="Shell Script.Copy" />
+      <item itemvalue="Gradle.MNDOParam [jar2]" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.MNDOParam [jar2]" />
         <item itemvalue="Application.ForJinHerng" />
         <item itemvalue="Gradle.MNDOParam [jar]" />
         <item itemvalue="Application.Testing (1)" />
         <item itemvalue="Application.Main" />
-        <item itemvalue="Application.TxtIO" />
       </list>
     </recent_temporary>
   </component>
@@ -536,13 +542,6 @@
       <workItem from="1641646278782" duration="4813000" />
       <workItem from="1641713504006" duration="9299000" />
       <workItem from="1641724986038" duration="26261000" />
-    </task>
-    <task id="LOCAL-00261" summary="uncommented some parts of forjh">
-      <created>1641398826219</created>
-      <option name="number" value="00261" />
-      <option name="presentableId" value="LOCAL-00261" />
-      <option name="project" value="LOCAL" />
-      <updated>1641398826219</updated>
     </task>
     <task id="LOCAL-00262" summary="merge solutionu ediis">
       <created>1641399383260</created>
@@ -880,7 +879,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641795863404</updated>
     </task>
-    <option name="localTasksCounter" value="310" />
+    <task id="LOCAL-00310" summary="fix forjinherng isDone bug">
+      <created>1641796616415</created>
+      <option name="number" value="00310" />
+      <option name="presentableId" value="LOCAL-00310" />
+      <option name="project" value="LOCAL" />
+      <updated>1641796616415</updated>
+    </task>
+    <option name="localTasksCounter" value="311" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -927,7 +933,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="use old densitymatrix for withNewAtoms" />
     <MESSAGE value="work in progress uhf pople" />
     <MESSAGE value="cleanup poplethiel into pt" />
     <MESSAGE value="prep for poplethiel sigmoid" />
@@ -952,7 +957,8 @@
     <MESSAGE value="store useEdiis" />
     <MESSAGE value="multithread building molecules" />
     <MESSAGE value="multithread expgeom hessian" />
-    <option name="LAST_COMMIT_MESSAGE" value="multithread expgeom hessian" />
+    <MESSAGE value="fix forjinherng isDone bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix forjinherng isDone bug" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
