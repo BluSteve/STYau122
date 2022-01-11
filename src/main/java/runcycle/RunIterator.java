@@ -84,15 +84,21 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 		}
 
 		Configurator.setRootLevel(defaultLevel);
-		RunOutput output = pRun.run();
 
-		logger.info("Run {} time taken: {}, output hash: {}\n\n", runNumber, output.timeTaken, output.hash);
+		try {
+			RunOutput output = pRun.run();
 
-		currentRunInput = output.nextInput;
+			logger.info("Run {} time taken: {}, output hash: {}\n\n", runNumber, output.timeTaken, output.hash);
 
-		runNumber++;
+			currentRunInput = output.nextInput;
 
-		return output;
+			runNumber++;
+
+			return output;
+		} catch (Exception e) {
+			logger.error("{} errored!",runNumber, e);
+			throw e;
+		}
 	}
 
 	@Override
@@ -161,11 +167,14 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 
 					Collections.sort(left);
 
-					String percent = String.format("%.2f", 100.0 * doneCount / (doneCount + leftCount));
+					int totalCount = doneCount + leftCount;
+					String percent = String.format("%.2f", 100.0 * doneCount / totalCount);
 
-					logger.info("Run {}, time: {} s, CPU load: {}, {}/{} left ({}% done): {}", runNumber,
-							lsw.getTime(TimeUnit.SECONDS), bean.getSystemCpuLoad(), leftCount, doneCount + leftCount,
-							percent, left);
+					long time = lsw.getTime(TimeUnit.SECONDS);
+					double systemCpuLoad = bean.getSystemCpuLoad();
+					logger.info("Run {}, time: {} s, CPU load: {}, ETA: {} s, {}/{} left ({}% done): {}", runNumber,
+							time, systemCpuLoad, time * (1.0 * totalCount / doneCount), leftCount, totalCount, percent,
+							left);
 				};
 
 				int wait = 30;

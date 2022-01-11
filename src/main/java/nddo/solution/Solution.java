@@ -48,7 +48,7 @@ public abstract class Solution {
 	protected static final int LENGTH = 8;
 	protected static final int LENGTH1 = LENGTH - 1;
 	protected static final double[] ZEROS = new double[LENGTH];
-	protected static final double[] THRESHOLDS = new double[Math.max(config.rhf_numIt_max, config.uhf_numIt_max)];
+	protected static final double[] THRESHOLDS = new double[Math.max(config.rhf_numIt_max, config.uhf_numIt_max) + 1];
 
 	static {
 		for (int i = 0; i < THRESHOLDS.length; i++) {
@@ -117,7 +117,7 @@ public abstract class Solution {
 
 		double[] results = stest.testEdiis();
 		double v = results[0] - results[1];
-		boolean useEdiis = v < config.ediis_max_diff;
+		boolean useEdiis = v < config.ediis_max_diff || v != v; // if Inf - Inf then EDIIS
 		if (!useEdiis)
 			mi.getLogger().warn("EDIIS gives higher energy ({} - {} = {})- using purely DIIS from now on.",
 					results[0], results[1], v);

@@ -12,15 +12,15 @@ import java.io.IOException;
 
 public class JsonIO {
 	public static <T> T read(String filename, Class<T> clazz) throws FileNotFoundException {
-		return Serializer.gson.fromJson(new FileReader(filename), clazz);
+		return Serializer.gson.fromJson(new FileReader(filename+ ".json"), clazz);
 	}
 
 	public static RunInput readInput(String filename) throws FileNotFoundException {
-		return Serializer.gson.fromJson(new FileReader(filename), RunInput.class);
+		return Serializer.gson.fromJson(new FileReader(filename + ".json"), RunInput.class);
 	}
 
 	public static RunOutput readOutput(String filename) throws FileNotFoundException {
-		return Serializer.gson.fromJson(new FileReader(filename), RunOutput.class);
+		return Serializer.gson.fromJson(new FileReader(filename+ ".json"), RunOutput.class);
 	}
 
 	public static void write(Object o, String... filenames) throws IOException {

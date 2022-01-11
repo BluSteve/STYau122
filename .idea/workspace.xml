@@ -4,7 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="better logging" />
+    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="add compile date to forjinherng">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Testing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/FrontendConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/FrontendConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/JsonIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/JsonIO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -169,7 +178,7 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="codeWithMe.voiceChat.enabledByDefault" value="false" />
-    <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="TEXT" />
+    <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="JSON&#10;TEXT" />
     <property name="com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File" value="JAVA&#10;TEXT" />
     <property name="extract.method.default.visibility" value="public" />
     <property name="last.edited.regexp" value="asdf  asdf    asdfa    d d d " />
@@ -182,7 +191,7 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="terminal" />
     <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" />
   </component>
   <component name="ReaderModeSettings">
@@ -225,7 +234,7 @@
       <command value="gradlew clean" />
     </option>
   </component>
-  <component name="RunManager" selected="Application.ForJinHerng">
+  <component name="RunManager" selected="Gradle.MNDOParam [jar]">
     <configuration name="ForJinHerng" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="examples.ForJinHerng" />
       <module name="MNDOParam.main" />
@@ -265,15 +274,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -364,14 +371,14 @@
       <item itemvalue="Application.ForJinHerng" />
       <item itemvalue="Gradle.MNDOParam [jmh]" />
       <item itemvalue="Gradle.MNDOParam [jar]" />
-      <item itemvalue="Shell Script.Copy" />
       <item itemvalue="Gradle.MNDOParam [jar2]" />
+      <item itemvalue="Shell Script.Copy" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.MNDOParam [jar]" />
         <item itemvalue="Gradle.MNDOParam [jar2]" />
         <item itemvalue="Application.ForJinHerng" />
-        <item itemvalue="Gradle.MNDOParam [jar]" />
         <item itemvalue="Application.Testing (1)" />
         <item itemvalue="Application.Main" />
       </list>
@@ -400,7 +407,7 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="794c51b6-1678-4e31-93ef-5bb130c9eec1" name="Changes" comment="better forjh" />
+      <changelist id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="add compile date to forjinherng" />
       <created>1636903371497</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -542,13 +549,7 @@
       <workItem from="1641646278782" duration="4813000" />
       <workItem from="1641713504006" duration="9299000" />
       <workItem from="1641724986038" duration="26261000" />
-    </task>
-    <task id="LOCAL-00263" summary="better forjh progressbar">
-      <created>1641401687711</created>
-      <option name="number" value="00263" />
-      <option name="presentableId" value="LOCAL-00263" />
-      <option name="project" value="LOCAL" />
-      <updated>1641401687711</updated>
+      <workItem from="1641869120482" duration="4620000" />
     </task>
     <task id="LOCAL-00264" summary="auto-increase log level">
       <created>1641402879495</created>
@@ -886,7 +887,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641796959492</updated>
     </task>
-    <option name="localTasksCounter" value="312" />
+    <task id="LOCAL-00312" summary="add compile date to forjinherng">
+      <created>1641797014896</created>
+      <option name="number" value="00312" />
+      <option name="presentableId" value="LOCAL-00312" />
+      <option name="project" value="LOCAL" />
+      <updated>1641797014896</updated>
+    </task>
+    <option name="localTasksCounter" value="313" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -933,7 +941,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="work in progress uhf pople" />
     <MESSAGE value="cleanup poplethiel into pt" />
     <MESSAGE value="prep for poplethiel sigmoid" />
     <MESSAGE value="poplethiel sigmoid" />
@@ -958,7 +965,8 @@
     <MESSAGE value="multithread expgeom hessian" />
     <MESSAGE value="fix forjinherng isDone bug" />
     <MESSAGE value="better logging" />
-    <option name="LAST_COMMIT_MESSAGE" value="better logging" />
+    <MESSAGE value="add compile date to forjinherng" />
+    <option name="LAST_COMMIT_MESSAGE" value="add compile date to forjinherng" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

@@ -14,7 +14,7 @@ import java.io.IOException;
 public class FrontendConfig extends Config {
 	public static FrontendConfig config;
 
-	static {
+	public static void init() {
 		Gson gson = new Gson();
 		FrontendConfig config;
 		try {
@@ -31,8 +31,6 @@ public class FrontendConfig extends Config {
 
 		FrontendConfig.config = config;
 	}
-
-	public static void init() {}
 
 	public int num_runs = 1;
 	public String logging_level = "info";
