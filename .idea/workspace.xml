@@ -4,16 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="multithreaded gradient routine">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/examples/ForJinHerng.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/examples/ForJinHerng.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/TxtIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/TxtIO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
-    </list>
+    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="multithreaded main" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -551,13 +542,6 @@
       <workItem from="1641724986038" duration="26261000" />
       <workItem from="1641869120482" duration="9030000" />
     </task>
-    <task id="LOCAL-00270" summary="better forjh">
-      <created>1641487296489</created>
-      <option name="number" value="00270" />
-      <option name="presentableId" value="LOCAL-00270" />
-      <option name="project" value="LOCAL" />
-      <updated>1641487296489</updated>
-    </task>
     <task id="LOCAL-00271" summary="debug session with adrian and jh - shuffle batcher">
       <created>1641545383486</created>
       <option name="number" value="00271" />
@@ -894,7 +878,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641920807436</updated>
     </task>
-    <option name="localTasksCounter" value="319" />
+    <task id="LOCAL-00319" summary="multithreaded main">
+      <created>1641922752267</created>
+      <option name="number" value="00319" />
+      <option name="presentableId" value="LOCAL-00319" />
+      <option name="project" value="LOCAL" />
+      <updated>1641922752267</updated>
+    </task>
+    <option name="localTasksCounter" value="320" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -941,7 +932,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="explicit version printing" />
     <MESSAGE value="solutionr refactor basically done" />
     <MESSAGE value="checkpoint" />
     <MESSAGE value="checkpoint - values a bit different for uhf" />
@@ -966,7 +956,8 @@
     <MESSAGE value="multithreaded Ederiv2 in pgsd" />
     <MESSAGE value="remove a lot of -1" />
     <MESSAGE value="multithreaded gradient routine" />
-    <option name="LAST_COMMIT_MESSAGE" value="multithreaded gradient routine" />
+    <MESSAGE value="multithreaded main" />
+    <option name="LAST_COMMIT_MESSAGE" value="multithreaded main" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

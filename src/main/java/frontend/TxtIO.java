@@ -22,7 +22,6 @@ public class TxtIO {
 		PrintWriter pw = new PrintWriter("molecules.txt");
 
 		// Molecules
-		ArrayList<RunnableMolecule> moleculesL = new ArrayList<>();
 		int inputi = 1;
 		int datumi = 0;
 		try {
@@ -152,14 +151,15 @@ public class TxtIO {
 			params[i] = Utils.toDoubles(Arrays.copyOfRange(linea, 1, linea.length));
 		}
 
-		InputInfo info = new InputInfo(atomTypes, neededParams, params);
-
 
 		List<String> mtxt = Files.readAllLines(Path.of(filename));
 
 		List<RunnableMolecule.RMBuilder> builders = new ArrayList<>();
 		int i = 0;
 		int moleculei = 0;
+
+		List<Integer> actualAtomTypes = new ArrayList<>();
+		List<int[]> actualNeededParams = new ArrayList<>();
 
 		while (i < mtxt.size()) {
 			RunnableMolecule.RMBuilder builder = new RunnableMolecule.RMBuilder();
@@ -196,6 +196,14 @@ public class TxtIO {
 				Atom e = toAtom(mtxt.get(i));
 				atomsL.add(e);
 
+				if (!actualAtomTypes.contains(e.Z)) {
+					actualAtomTypes.add(e.Z);
+
+					for (int j = 0; j < atomTypes.length; j++) {
+						if (atomTypes[j] == e.Z) actualNeededParams.add(neededParams[j]);
+					}
+				}
+
 				boolean present = false;
 				for (int atomType : atomTypes) {
 					if (e.Z == atomType) {
@@ -231,16 +239,18 @@ public class TxtIO {
 			}
 
 			builders.add(builder);
-//			moleculesL.add(builder.build(atomTypes, neededParams, info.npMap));
 			i++;
 
 			moleculei++;
 		}
 
+		InputInfo info =
+				new InputInfo(Utils.toInts(actualAtomTypes), actualNeededParams.toArray(new int[0][]), params);
+
 		RunnableMolecule[] molecules = new RunnableMolecule[builders.size()];
 		LogManager.getLogger().info("Building molecules...");
 		builders.parallelStream().forEach(rmBuilder -> {
-			molecules[rmBuilder.index] = rmBuilder.build(atomTypes, neededParams, info.npMap);
+			molecules[rmBuilder.index] = rmBuilder.build(info.atomTypes, info.neededParams, info.npMap);
 		});
 		LogManager.getLogger().info("Molecules built.");
 
