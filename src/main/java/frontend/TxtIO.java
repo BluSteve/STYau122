@@ -107,7 +107,7 @@ public class TxtIO {
 		pw.close();
 	}
 
-	public static RunInput readInput() throws IOException {
+	public static RunInput readInput(String filename) throws IOException {
 		final String pncsvname = "param-numbers.csv";
 		// if specified then take specified else default
 		List<String> pncsv = Files.exists(Path.of(pncsvname)) ?
@@ -155,7 +155,7 @@ public class TxtIO {
 		InputInfo info = new InputInfo(atomTypes, neededParams, params);
 
 
-		List<String> mtxt = Files.readAllLines(Path.of("molecules.txt"));
+		List<String> mtxt = Files.readAllLines(Path.of(filename));
 
 		List<RunnableMolecule.RMBuilder> builders = new ArrayList<>();
 		int i = 0;
@@ -304,8 +304,8 @@ public class TxtIO {
 		pw.close();
 	}
 
-	public static void updateInput(RunInput ri) throws FileNotFoundException {
-		updateMolecules(ri.molecules, "molecules.txt");
+	public static void updateInput(RunInput ri, String filename) throws FileNotFoundException {
+		updateMolecules(ri.molecules, filename);
 		updateParams(ri.info, "params.csv");
 	}
 

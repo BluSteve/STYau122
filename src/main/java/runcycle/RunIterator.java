@@ -31,12 +31,10 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 
 	public final RunInput initialRunInput;
 	public final int limit;
-
+	private final Level defaultLevel;
 	private int runNumber = 0;
 	private RunInput currentRunInput;
 	private IMoleculeResult[] ranMolecules;
-	private final Level defaultLevel;
-
 	public RunIterator(RunInput runInput) {
 		this(runInput, 0, null);
 	}
@@ -64,6 +62,10 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 			newAtoms[i] = new Atom(s.atoms[i].getAtomProperties().getZ(), s.atoms[i].getCoordinates());
 		}
 		return newAtoms;
+	}
+
+	public RunInput getCurrentRunInput() {
+		return currentRunInput;
 	}
 
 	@Override

@@ -4,10 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="remove a lot of -1">
-      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params.csv" beforeDir="false" afterPath="$PROJECT_DIR$/params.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryDerivative.java" afterDir="false" />
+    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="multithreaded gradient routine">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/examples/ForJinHerng.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/examples/ForJinHerng.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/TxtIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/TxtIO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -178,7 +183,7 @@
     <property name="com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File" value="JAVA&#10;TEXT" />
     <property name="extract.method.default.visibility" value="public" />
     <property name="last.edited.regexp" value="asdf  asdf    asdfa    d d d " />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/inputs" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -194,11 +199,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\billi\IdeaProjects\MNDOParam\inputs" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\libs" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\src\main\java" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\after1strun" />
-      <recent name="C:\Users\billi\IdeaProjects\MNDOParam-gradle" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam" />
@@ -546,13 +551,6 @@
       <workItem from="1641724986038" duration="26261000" />
       <workItem from="1641869120482" duration="9030000" />
     </task>
-    <task id="LOCAL-00269" summary="Config file">
-      <created>1641443275562</created>
-      <option name="number" value="00269" />
-      <option name="presentableId" value="LOCAL-00269" />
-      <option name="project" value="LOCAL" />
-      <updated>1641443275562</updated>
-    </task>
     <task id="LOCAL-00270" summary="better forjh">
       <created>1641487296489</created>
       <option name="number" value="00270" />
@@ -889,7 +887,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641920052228</updated>
     </task>
-    <option name="localTasksCounter" value="318" />
+    <task id="LOCAL-00318" summary="multithreaded gradient routine">
+      <created>1641920807436</created>
+      <option name="number" value="00318" />
+      <option name="presentableId" value="LOCAL-00318" />
+      <option name="project" value="LOCAL" />
+      <updated>1641920807436</updated>
+    </task>
+    <option name="localTasksCounter" value="319" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -936,7 +941,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="prep for solution optimization" />
     <MESSAGE value="explicit version printing" />
     <MESSAGE value="solutionr refactor basically done" />
     <MESSAGE value="checkpoint" />
@@ -961,7 +965,8 @@
     <MESSAGE value="remove -1 and reformatt psgd2" />
     <MESSAGE value="multithreaded Ederiv2 in pgsd" />
     <MESSAGE value="remove a lot of -1" />
-    <option name="LAST_COMMIT_MESSAGE" value="remove a lot of -1" />
+    <MESSAGE value="multithreaded gradient routine" />
+    <option name="LAST_COMMIT_MESSAGE" value="multithreaded gradient routine" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

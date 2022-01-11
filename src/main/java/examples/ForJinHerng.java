@@ -36,7 +36,7 @@ public class ForJinHerng {
 
 		if (new File("input.txt").isFile() && new File("reference.txt").isFile()) TxtIO.txtToText();
 
-		RunInput input = TxtIO.readInput();
+		RunInput input = TxtIO.readInput("molecules.txt");
 
 		Utils.shuffleArray(input.molecules);
 

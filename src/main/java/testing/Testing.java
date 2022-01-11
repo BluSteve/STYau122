@@ -15,7 +15,7 @@ import runcycle.structs.RunnableMolecule;
 public class Testing {
 	public static void main(String[] args) throws Exception {
 		Config config = FrontendConfig.config;
-		RunInput input = TxtIO.readInput();
+		RunInput input = TxtIO.readInput("molecules.txt");
 		RunnableMolecule rm = input.molecules[0];
 		RunnableMolecule rm2 = input.molecules[1];
 
