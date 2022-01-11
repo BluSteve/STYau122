@@ -10,8 +10,10 @@ import static nddo.State.nom;
 
 public class GeometryDerivative {
 	public static SimpleMatrix[][] gradientRoutine(SolutionR soln) {
-		SimpleMatrix[] fockderivatives = new SimpleMatrix[soln.atoms.length * 3];
-		SimpleMatrix grad = new SimpleMatrix(soln.atoms.length * 3, 1);
+		int l3 = soln.atoms.length * 3;
+		SimpleMatrix[] fockderivatives = new SimpleMatrix[l3];
+		SimpleMatrix grad = new SimpleMatrix(l3, 1);
+
 		int count = 0;
 		for (int a = 0; a < soln.atoms.length; a++) {
 			for (int tau = 0; tau < 3; tau++) {
@@ -37,9 +39,10 @@ public class GeometryDerivative {
 	}
 
 	public static SimpleMatrix[][] gradientRoutine(SolutionU soln) {
-		SimpleMatrix[] fockderivativesalpha = new SimpleMatrix[soln.atoms.length * 3];
-		SimpleMatrix[] fockderivativesbeta = new SimpleMatrix[soln.atoms.length * 3];
-		SimpleMatrix grad = new SimpleMatrix(soln.atoms.length * 3, 1);
+		int l3 = soln.atoms.length * 3;
+		SimpleMatrix[] fockderivativesalpha = new SimpleMatrix[l3];
+		SimpleMatrix[] fockderivativesbeta = new SimpleMatrix[l3];
+		SimpleMatrix grad = new SimpleMatrix(l3, 1);
 		int count = 0;
 		for (int a = 0; a < soln.atoms.length; a++) {
 			for (int tau = 0; tau < 3; tau++) {
@@ -93,35 +96,26 @@ public class GeometryDerivative {
 		double e = 0;
 		for (int i : index[atomnum1]) {
 			for (int j : index[atomnum1]) {
-				if (i != -1 && j != -1) {
-					e += densityMatrix.get(i, j) * atoms[atomnum2].Vgd(orbitals[i], orbitals[j], tau);
-				}
+				e += densityMatrix.get(i, j) * atoms[atomnum2].Vgd(orbitals[i], orbitals[j], tau);
 			}
 		}
 		for (int k : index[atomnum2]) {
 			for (int l : index[atomnum2]) {
-				if (k != -1 && l != -1) {
-					e -= densityMatrix.get(k, l) * atoms[atomnum1].Vgd(orbitals[k], orbitals[l], tau);
-				}
+				e -= densityMatrix.get(k, l) * atoms[atomnum1].Vgd(orbitals[k], orbitals[l], tau);
 			}
 		}
 		for (int i : index[atomnum1]) {
 			for (int k : index[atomnum2]) {
-				if (i != -1 && k != -1) {
-					e += 2 * densityMatrix.get(i, k) * nom.Hgd(orbitals[i], orbitals[k], tau);
-				}
+				e += 2 * densityMatrix.get(i, k) * nom.Hgd(orbitals[i], orbitals[k], tau);
 			}
 		}
 		for (int i : index[atomnum1]) {
 			for (int j : index[atomnum1]) {
 				for (int k : index[atomnum2]) {
 					for (int l : index[atomnum2]) {
-						if (i != -1 && j != -1 && k != -1 && l != -1) {
-							e +=
-									(densityMatrix.get(i, j) * densityMatrix.get(k, l) -
-											densityMatrix.get(i, k) * 0.5 * densityMatrix.get(j, l)) *
-											nom.Ggd(orbitals[i], orbitals[j], orbitals[k], orbitals[l], tau);
-						}
+						e += (densityMatrix.get(i, j) * densityMatrix.get(k, l) -
+								densityMatrix.get(i, k) * 0.5 * densityMatrix.get(j, l)) *
+								nom.Ggd(orbitals[i], orbitals[j], orbitals[k], orbitals[l], tau);
 					}
 				}
 			}
@@ -134,40 +128,30 @@ public class GeometryDerivative {
 		double e = 0;
 		for (int i : index[atomnum1]) {
 			for (int j : index[atomnum1]) {
-				if (i != -1 && j != -1) {
-					e += (alphaDensity.get(i, j) + betaDensity.get(i, j)) *
-							atoms[atomnum2].Vgd(orbitals[i], orbitals[j], tau);
-				}
+				e += (alphaDensity.get(i, j) + betaDensity.get(i, j)) *
+						atoms[atomnum2].Vgd(orbitals[i], orbitals[j], tau);
 			}
 		}
 		for (int k : index[atomnum2]) {
 			for (int l : index[atomnum2]) {
-				if (k != -1 && l != -1) {
-					e -= (alphaDensity.get(k, l) + betaDensity.get(k, l)) *
-							atoms[atomnum1].Vgd(orbitals[k], orbitals[l], tau);
-				}
+				e -= (alphaDensity.get(k, l) + betaDensity.get(k, l)) *
+						atoms[atomnum1].Vgd(orbitals[k], orbitals[l], tau);
 			}
 		}
 		for (int i : index[atomnum1]) {
 			for (int k : index[atomnum2]) {
-				if (i != -1 && k != -1) {
-					e += 2 * (alphaDensity.get(i, k) + betaDensity.get(i, k)) *
-							nom.Hgd(orbitals[i], orbitals[k], tau);
-				}
+				e += 2 * (alphaDensity.get(i, k) + betaDensity.get(i, k)) * nom.Hgd(orbitals[i], orbitals[k], tau);
 			}
 		}
 		for (int i : index[atomnum1]) {
 			for (int j : index[atomnum1]) {
 				for (int k : index[atomnum2]) {
 					for (int l : index[atomnum2]) {
-						if (i != -1 && j != -1 && k != -1 && l != -1) {
-							e +=
-									((alphaDensity.get(i, j) + betaDensity.get(i, j)) *
-											(alphaDensity.get(k, l) + betaDensity.get(k, l)) -
-											alphaDensity.get(i, k) * alphaDensity.get(j, l) -
-											betaDensity.get(i, k) * betaDensity.get(j, l)) *
-											nom.Ggd(orbitals[i], orbitals[j], orbitals[k], orbitals[l], tau);
-						}
+						e += ((alphaDensity.get(i, j) + betaDensity.get(i, j)) *
+								(alphaDensity.get(k, l) + betaDensity.get(k, l)) -
+								alphaDensity.get(i, k) * alphaDensity.get(j, l) -
+								betaDensity.get(i, k) * betaDensity.get(j, l)) *
+								nom.Ggd(orbitals[i], orbitals[j], orbitals[k], orbitals[l], tau);
 					}
 				}
 			}
@@ -215,14 +199,9 @@ public class GeometryDerivative {
 						for (int a = 0; a < atoms.length; a++) {
 							if (a != atomnum) {
 								for (int l : index[a]) {
-									if (l > -1) {
-										for (int m : index[a]) {
-											if (m > -1) {
-												sum += densitymatrix.get(l, m) *
-														nom.Ggd(orbitals[j], orbitals[k], orbitals[l], orbitals[m],
-																tau);
-											}
-										}
+									for (int m : index[a]) {
+										sum += densitymatrix.get(l, m) *
+												nom.Ggd(orbitals[j], orbitals[k], orbitals[l], orbitals[m], tau);
 									}
 								}
 							}
@@ -230,38 +209,26 @@ public class GeometryDerivative {
 					}
 					else {
 						for (int l : index[atomnum]) {
-							if (l > -1) {
-								for (int m : index[atomnum]) {
-									if (m > -1) {
-										sum += densitymatrix.get(l, m) *
-												nom.Ggd(orbitals[l], orbitals[m], orbitals[j], orbitals[k], tau);
-									}
-								}
+							for (int m : index[atomnum]) {
+								sum += densitymatrix.get(l, m) *
+										nom.Ggd(orbitals[l], orbitals[m], orbitals[j], orbitals[k], tau);
 							}
 						}
 					}
 				}
 				else if (atomnumber[j] == atomnum) {
 					for (int l : index[atomnum]) {
-						if (l > -1) {
-							for (int m : index[atomnumber[k]]) {
-								if (m > -1) {
-									sum -= 0.5 * densitymatrix.get(l, m) *
-											nom.Ggd(orbitals[j], orbitals[l], orbitals[k], orbitals[m], tau);
-								}
-							}
+						for (int m : index[atomnumber[k]]) {
+							sum -= 0.5 * densitymatrix.get(l, m) *
+									nom.Ggd(orbitals[j], orbitals[l], orbitals[k], orbitals[m], tau);
 						}
 					}
 				}
 				else if (atomnumber[k] == atomnum) {
 					for (int l : index[atomnum]) {
-						if (l > -1) {
-							for (int m : index[atomnumber[j]]) {
-								if (m > -1) {
-									sum -= 0.5 * densitymatrix.get(l, m) *
-											nom.Ggd(orbitals[k], orbitals[l], orbitals[j], orbitals[m], tau);
-								}
-							}
+						for (int m : index[atomnumber[j]]) {
+							sum -= 0.5 * densitymatrix.get(l, m) *
+									nom.Ggd(orbitals[k], orbitals[l], orbitals[j], orbitals[m], tau);
 						}
 					}
 				}
@@ -314,14 +281,9 @@ public class GeometryDerivative {
 						for (int a = 0; a < atoms.length; a++) {
 							if (a != atomnum) {
 								for (int l : index[a]) {
-									if (l > -1) {
-										for (int m : index[a]) {
-											if (m > -1) {
-												sum += (alphadensity.get(l, m) + betadensity.get(l, m)) *
-														nom.Ggd(orbitals[j], orbitals[k], orbitals[l], orbitals[m],
-																tau);
-											}
-										}
+									for (int m : index[a]) {
+										sum += (alphadensity.get(l, m) + betadensity.get(l, m)) *
+												nom.Ggd(orbitals[j], orbitals[k], orbitals[l], orbitals[m], tau);
 									}
 								}
 							}
@@ -329,13 +291,9 @@ public class GeometryDerivative {
 					}
 					else {
 						for (int l : index[atomnum]) {
-							if (l > -1) {
-								for (int m : index[atomnum]) {
-									if (m > -1) {
-										sum += (alphadensity.get(l, m) + betadensity.get(l, m)) *
-												nom.Ggd(orbitals[l], orbitals[m], orbitals[j], orbitals[k], tau);
-									}
-								}
+							for (int m : index[atomnum]) {
+								sum += (alphadensity.get(l, m) + betadensity.get(l, m)) *
+										nom.Ggd(orbitals[l], orbitals[m], orbitals[j], orbitals[k], tau);
 							}
 						}
 					}
@@ -351,25 +309,17 @@ public class GeometryDerivative {
 				if (atomnumber[j] != atomnumber[k]) {
 					if (atomnumber[j] == atomnum) {
 						for (int l : index[atomnum]) {
-							if (l > -1) {
-								for (int m : index[atomnumber[k]]) {
-									if (m > -1) {
-										sum -= alphadensity.get(l, m) *
-												nom.Ggd(orbitals[j], orbitals[l], orbitals[k], orbitals[m], tau);
-									}
-								}
+							for (int m : index[atomnumber[k]]) {
+								sum -= alphadensity.get(l, m) *
+										nom.Ggd(orbitals[j], orbitals[l], orbitals[k], orbitals[m], tau);
 							}
 						}
 					}
 					else if (atomnumber[k] == atomnum) {
 						for (int l : index[atomnum]) {
-							if (l > -1) {
-								for (int m : index[atomnumber[j]]) {
-									if (m > -1) {
-										sum -= alphadensity.get(l, m) *
-												nom.Ggd(orbitals[k], orbitals[l], orbitals[j], orbitals[m], tau);
-									}
-								}
+							for (int m : index[atomnumber[j]]) {
+								sum -= alphadensity.get(l, m) *
+										nom.Ggd(orbitals[k], orbitals[l], orbitals[j], orbitals[m], tau);
 							}
 						}
 					}
@@ -385,25 +335,17 @@ public class GeometryDerivative {
 				if (atomnumber[j] != atomnumber[k]) {
 					if (atomnumber[j] == atomnum) {
 						for (int l : index[atomnum]) {
-							if (l > -1) {
-								for (int m : index[atomnumber[k]]) {
-									if (m > -1) {
-										sum -= betadensity.get(l, m) *
-												nom.Ggd(orbitals[j], orbitals[l], orbitals[k], orbitals[m], tau);
-									}
-								}
+							for (int m : index[atomnumber[k]]) {
+								sum -= betadensity.get(l, m) *
+										nom.Ggd(orbitals[j], orbitals[l], orbitals[k], orbitals[m], tau);
 							}
 						}
 					}
 					else if (atomnumber[k] == atomnum) {
 						for (int l : index[atomnum]) {
-							if (l > -1) {
-								for (int m : index[atomnumber[j]]) {
-									if (m > -1) {
-										sum -= betadensity.get(l, m) *
-												nom.Ggd(orbitals[k], orbitals[l], orbitals[j], orbitals[m], tau);
-									}
-								}
+							for (int m : index[atomnumber[j]]) {
+								sum -= betadensity.get(l, m) *
+										nom.Ggd(orbitals[k], orbitals[l], orbitals[j], orbitals[m], tau);
 							}
 						}
 					}
@@ -458,14 +400,9 @@ public class GeometryDerivative {
 						for (int a = 0; a < atoms.length; a++) {
 							if (a != atomnum) {
 								for (int l : index[a]) {
-									if (l > -1) {
-										for (int m : index[a]) {
-											if (m > -1) {
-												sum += densitymatrix.get(l, m) *
-														nom.Ggd(orbitals[j], orbitals[k], orbitals[l], orbitals[m],
-																tau);
-											}
-										}
+									for (int m : index[a]) {
+										sum += densitymatrix.get(l, m) *
+												nom.Ggd(orbitals[j], orbitals[k], orbitals[l], orbitals[m], tau);
 									}
 								}
 							}
@@ -473,38 +410,26 @@ public class GeometryDerivative {
 					}
 					else {
 						for (int l : index[atomnum]) {
-							if (l > -1) {
-								for (int m : index[atomnum]) {
-									if (m > -1) {
-										sum += densitymatrix.get(l, m) *
-												nom.Ggd(orbitals[l], orbitals[m], orbitals[j], orbitals[k], tau);
-									}
-								}
+							for (int m : index[atomnum]) {
+								sum += densitymatrix.get(l, m) *
+										nom.Ggd(orbitals[l], orbitals[m], orbitals[j], orbitals[k], tau);
 							}
 						}
 					}
 				}
 				else if (atomnumber[j] == atomnum) {
 					for (int l : index[atomnum]) {
-						if (l > -1) {
-							for (int m : index[atomnumber[k]]) {
-								if (m > -1) {
-									sum -= 0.5 * densitymatrix.get(l, m) *
-											nom.Ggd(orbitals[j], orbitals[l], orbitals[k], orbitals[m], tau);
-								}
-							}
+						for (int m : index[atomnumber[k]]) {
+							sum -= 0.5 * densitymatrix.get(l, m) *
+									nom.Ggd(orbitals[j], orbitals[l], orbitals[k], orbitals[m], tau);
 						}
 					}
 				}
 				else if (atomnumber[k] == atomnum) {
 					for (int l : index[atomnum]) {
-						if (l > -1) {
-							for (int m : index[atomnumber[j]]) {
-								if (m > -1) {
-									sum -= 0.5 * densitymatrix.get(l, m) *
-											nom.Ggd(orbitals[k], orbitals[l], orbitals[j], orbitals[m], tau);
-								}
-							}
+						for (int m : index[atomnumber[j]]) {
+							sum -= 0.5 * densitymatrix.get(l, m) *
+									nom.Ggd(orbitals[k], orbitals[l], orbitals[j], orbitals[m], tau);
 						}
 					}
 				}
@@ -569,14 +494,9 @@ public class GeometryDerivative {
 						for (int a = 0; a < atoms.length; a++) {
 							if (a != atomnum) {
 								for (int l : index[a]) {
-									if (l > -1) {
-										for (int m : index[a]) {
-											if (m > -1) {
-												sum += (alphadensity.get(l, m) + betadensity.get(l, m)) *
-														nom.Ggd(orbitals[j], orbitals[k], orbitals[l], orbitals[m],
-																tau);
-											}
-										}
+									for (int m : index[a]) {
+										sum += (alphadensity.get(l, m) + betadensity.get(l, m)) *
+												nom.Ggd(orbitals[j], orbitals[k], orbitals[l], orbitals[m], tau);
 									}
 								}
 							}
@@ -584,13 +504,9 @@ public class GeometryDerivative {
 					}
 					else {
 						for (int l : index[atomnum]) {
-							if (l > -1) {
-								for (int m : index[atomnum]) {
-									if (m > -1) {
-										sum += (alphadensity.get(l, m) + betadensity.get(l, m)) *
-												nom.Ggd(orbitals[l], orbitals[m], orbitals[j], orbitals[k], tau);
-									}
-								}
+							for (int m : index[atomnum]) {
+								sum += (alphadensity.get(l, m) + betadensity.get(l, m)) *
+										nom.Ggd(orbitals[l], orbitals[m], orbitals[j], orbitals[k], tau);
 							}
 						}
 					}
@@ -606,25 +522,17 @@ public class GeometryDerivative {
 				if (atomnumber[j] != atomnumber[k]) {
 					if (atomnumber[j] == atomnum) {
 						for (int l : index[atomnum]) {
-							if (l > -1) {
-								for (int m : index[atomnumber[k]]) {
-									if (m > -1) {
-										sum -= alphadensity.get(l, m) *
-												nom.Ggd(orbitals[j], orbitals[l], orbitals[k], orbitals[m], tau);
-									}
-								}
+							for (int m : index[atomnumber[k]]) {
+								sum -= alphadensity.get(l, m) *
+										nom.Ggd(orbitals[j], orbitals[l], orbitals[k], orbitals[m], tau);
 							}
 						}
 					}
 					else if (atomnumber[k] == atomnum) {
 						for (int l : index[atomnum]) {
-							if (l > -1) {
-								for (int m : index[atomnumber[j]]) {
-									if (m > -1) {
-										sum -= alphadensity.get(l, m) *
-												nom.Ggd(orbitals[k], orbitals[l], orbitals[j], orbitals[m], tau);
-									}
-								}
+							for (int m : index[atomnumber[j]]) {
+								sum -= alphadensity.get(l, m) *
+										nom.Ggd(orbitals[k], orbitals[l], orbitals[j], orbitals[m], tau);
 							}
 						}
 					}
@@ -640,25 +548,17 @@ public class GeometryDerivative {
 				if (atomnumber[j] != atomnumber[k]) {
 					if (atomnumber[j] == atomnum) {
 						for (int l : index[atomnum]) {
-							if (l > -1) {
-								for (int m : index[atomnumber[k]]) {
-									if (m > -1) {
-										sum -= betadensity.get(l, m) *
-												nom.Ggd(orbitals[j], orbitals[l], orbitals[k], orbitals[m], tau);
-									}
-								}
+							for (int m : index[atomnumber[k]]) {
+								sum -= betadensity.get(l, m) *
+										nom.Ggd(orbitals[j], orbitals[l], orbitals[k], orbitals[m], tau);
 							}
 						}
 					}
 					else if (atomnumber[k] == atomnum) {
 						for (int l : index[atomnum]) {
-							if (l > -1) {
-								for (int m : index[atomnumber[j]]) {
-									if (m > -1) {
-										sum -= betadensity.get(l, m) *
-												nom.Ggd(orbitals[k], orbitals[l], orbitals[j], orbitals[m], tau);
-									}
-								}
+							for (int m : index[atomnumber[j]]) {
+								sum -= betadensity.get(l, m) *
+										nom.Ggd(orbitals[k], orbitals[l], orbitals[j], orbitals[m], tau);
 							}
 						}
 					}

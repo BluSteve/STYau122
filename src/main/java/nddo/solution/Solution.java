@@ -338,9 +338,7 @@ public abstract class Solution {
 		for (int j = 0; j < atoms.length; j++) {
 			double sum = 0;
 			for (int k : orbsOfAtom[j]) {
-				if (k > -1) {
-					sum += densityMatrix().get(k, k);
-				}
+				sum += densityMatrix().get(k, k);
 			}
 
 			populations[j] = atoms[j].getAtomProperties().getQ() - sum;

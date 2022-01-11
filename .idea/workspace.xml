@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="remove -1 and reformatt psgd2">
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGeometrySecondDerivative.java" afterDir="false" />
+    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="multithreaded Ederiv2 in pgsd">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/params.csv" beforeDir="false" afterPath="$PROJECT_DIR$/params.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryDerivative.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -369,8 +372,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.MNDOParam [jar]" />
         <item itemvalue="Application.Main" />
+        <item itemvalue="Gradle.MNDOParam [jar]" />
         <item itemvalue="Application.Testing" />
         <item itemvalue="Gradle.MNDOParam [jar2]" />
         <item itemvalue="Application.ForJinHerng" />
@@ -543,13 +546,6 @@
       <workItem from="1641713504006" duration="9299000" />
       <workItem from="1641724986038" duration="26261000" />
       <workItem from="1641869120482" duration="9030000" />
-    </task>
-    <task id="LOCAL-00267" summary="fix gradle">
-      <created>1641435388194</created>
-      <option name="number" value="00267" />
-      <option name="presentableId" value="LOCAL-00267" />
-      <option name="project" value="LOCAL" />
-      <updated>1641435388194</updated>
     </task>
     <task id="LOCAL-00268" summary="solutionr threshold changes">
       <created>1641441167231</created>
@@ -887,7 +883,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641918355812</updated>
     </task>
-    <option name="localTasksCounter" value="316" />
+    <task id="LOCAL-00316" summary="multithreaded Ederiv2 in pgsd">
+      <created>1641918842278</created>
+      <option name="number" value="00316" />
+      <option name="presentableId" value="LOCAL-00316" />
+      <option name="project" value="LOCAL" />
+      <updated>1641918842278</updated>
+    </task>
+    <option name="localTasksCounter" value="317" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -934,7 +937,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="better poplethiel debugging" />
     <MESSAGE value="minor changes" />
     <MESSAGE value="prep for solution optimization" />
     <MESSAGE value="explicit version printing" />
@@ -959,7 +961,8 @@
     <MESSAGE value="minor config bug fixes" />
     <MESSAGE value="multithread ederiv2 even more" />
     <MESSAGE value="remove -1 and reformatt psgd2" />
-    <option name="LAST_COMMIT_MESSAGE" value="remove -1 and reformatt psgd2" />
+    <MESSAGE value="multithreaded Ederiv2 in pgsd" />
+    <option name="LAST_COMMIT_MESSAGE" value="multithreaded Ederiv2 in pgsd" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

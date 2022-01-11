@@ -137,11 +137,11 @@ public class ParamSecondDerivative {
 					for (int l : missingOfAtom[atomOfOrb[j]]) {
 						for (int m : missingOfAtom[atomOfOrb[j]]) {
 							if (atomOfOrb[l] == atomOfOrb[m]) {
-								sum += mat.get(l, m) * State.nom.Gpd(
-										orbitals[j], orbitals[k], orbitals[l], orbitals[m],
+								sum += mat.get(l, m) * State.nom.Gpd(orbitals[j], orbitals[k], orbitals[l],
+										orbitals[m],
 										ParamDerivative.getNum(atomicNumbers[atomOfOrb[j]],
-												atomicNumbers[atomOfOrb[l]], Z), type
-								);
+												atomicNumbers[atomOfOrb[l]],
+												Z), type);
 							}
 						}
 					}
@@ -149,11 +149,10 @@ public class ParamSecondDerivative {
 				else {
 					for (int l : orbsOfAtom[atomOfOrb[j]]) {
 						for (int m : orbsOfAtom[atomOfOrb[k]]) {
-							sum += mat.get(l, m) * (-0.5 * State.nom.Gpd(
-									orbitals[j], orbitals[l], orbitals[k], orbitals[m],
-									ParamDerivative.getNum(atomicNumbers[atomOfOrb[j]],
-											atomicNumbers[atomOfOrb[k]], Z), type)
-							);
+							sum += mat.get(l, m) * (-0.5 *
+									State.nom.Gpd(orbitals[j], orbitals[l], orbitals[k], orbitals[m],
+											ParamDerivative.getNum(atomicNumbers[atomOfOrb[j]],
+													atomicNumbers[atomOfOrb[k]], Z), type));
 						}
 					}
 				}
@@ -203,8 +202,9 @@ public class ParamSecondDerivative {
 					for (int l : orbsOfAtom[atomOfOrb[j]]) {
 						for (int m : orbsOfAtom[atomOfOrb[k]]) {
 							double v = State.nom.Gpd(orbitals[j], orbitals[l], orbitals[k], orbitals[m],
-									ParamDerivative.getNum(atomicNumbers[atomOfOrb[j]],
-											atomicNumbers[atomOfOrb[k]], Z), type);
+									ParamDerivative.getNum(atomicNumbers[atomOfOrb[j]], atomicNumbers[atomOfOrb[k]],
+											Z),
+									type);
 
 							suma -= alphamat.get(l, m) * v;
 							sumb -= betamat.get(l, m) * v;
@@ -284,10 +284,8 @@ public class ParamSecondDerivative {
 					for (int an = 0; an < atoms.length; an++) {
 						if (atomOfOrb[j] != an) {
 							Huv += atoms[an].Vp2d(orbitals[j], orbitals[k],
-									ParamDerivative.getNum(atomicNumbers[an], atomicNumbers[atomOfOrb[j]], Z1),
-									type1,
-									ParamDerivative.getNum(atomicNumbers[an], atomicNumbers[atomOfOrb[j]], Z2),
-									type2);
+									ParamDerivative.getNum(atomicNumbers[an], atomicNumbers[atomOfOrb[j]], Z1), type1,
+									ParamDerivative.getNum(atomicNumbers[an], atomicNumbers[atomOfOrb[j]], Z2), type2);
 						}
 					}
 
@@ -348,8 +346,7 @@ public class ParamSecondDerivative {
 						for (int m : missingOfAtom[atomOfOrb[j]]) {
 							if (atomOfOrb[l] == atomOfOrb[m]) {
 								sum += soln.densityMatrix().get(l, m) *
-										State.nom.Gp2d(orbitals[j], orbitals[k], orbitals[l],
-												orbitals[m],
+										State.nom.Gp2d(orbitals[j], orbitals[k], orbitals[l], orbitals[m],
 												ParamDerivative.getNum(atomicNumbers[atomOfOrb[j]],
 														atomicNumbers[atomOfOrb[l]], Z1), type1,
 												ParamDerivative.getNum(atomicNumbers[atomOfOrb[j]],
@@ -363,8 +360,8 @@ public class ParamSecondDerivative {
 					for (int l : orbsOfAtom[atomOfOrb[j]]) {
 						for (int m : orbsOfAtom[atomOfOrb[k]]) {
 							sum += soln.densityMatrix().get(l, m) * (-0.5 *
-									State.nom.Gp2d(orbitals[j], orbitals[l], orbitals[k],
-											orbitals[m], ParamDerivative.getNum(atomicNumbers[atomOfOrb[j]],
+									State.nom.Gp2d(orbitals[j], orbitals[l], orbitals[k], orbitals[m],
+											ParamDerivative.getNum(atomicNumbers[atomOfOrb[j]],
 													atomicNumbers[atomOfOrb[k]], Z1), type1,
 											ParamDerivative.getNum(atomicNumbers[atomOfOrb[j]],
 													atomicNumbers[atomOfOrb[k]], Z2), type2));
@@ -442,8 +439,8 @@ public class ParamSecondDerivative {
 
 
 	public static SimpleMatrix staticFockDeriv(SolutionR soln, SimpleMatrix Fstatictotal, SimpleMatrix densityA,
-											   SimpleMatrix densityB, SimpleMatrix densityderiv2static,
-											   int Z1, int param1, int Z2, int param2) {
+											   SimpleMatrix densityB, SimpleMatrix densityderiv2static, int Z1,
+											   int param1, int Z2, int param2) {
 		SimpleMatrix GaB = ParamSecondDerivative.Gderivstatic(soln, densityB, Z1, param1);
 		SimpleMatrix GbA = ParamSecondDerivative.Gderivstatic(soln, densityA, Z2, param2);
 
@@ -453,9 +450,10 @@ public class ParamSecondDerivative {
 	}
 
 	public static SimpleMatrix[] staticFockDeriv(SolutionU soln, SimpleMatrix[] Fstatictotal,
-												 SimpleMatrix[] densitiesA, SimpleMatrix[] densitiesB,
-												 SimpleMatrix[] densityderivs2static,
-												 int Z1, int param1, int Z2, int param2) {
+												 SimpleMatrix[] densitiesA,
+												 SimpleMatrix[] densitiesB, SimpleMatrix[] densityderivs2static,
+												 int Z1,
+												 int param1, int Z2, int param2) {
 		SimpleMatrix[] GaB = ParamSecondDerivative.Gderivstatic(soln, densitiesB[0], densitiesB[1], Z1, param1);
 		SimpleMatrix[] GbA = ParamSecondDerivative.Gderivstatic(soln, densitiesA[0], densitiesA[1], Z2, param2);
 		SimpleMatrix[] omega = PopleThiel.responseMatrix(soln, densityderivs2static);
@@ -502,17 +500,15 @@ public class ParamSecondDerivative {
 		return matrix;
 	}
 
-	public static SimpleMatrix staticMatrix(SolutionR soln, SimpleMatrix Phi, SimpleMatrix FockA,
-											SimpleMatrix FockB, SimpleMatrix xA, SimpleMatrix xB) {
+	public static SimpleMatrix staticMatrix(SolutionR soln, SimpleMatrix Phi, SimpleMatrix FockA, SimpleMatrix FockB,
+											SimpleMatrix xA, SimpleMatrix xB) {
 		return staticMatrix(soln.Ct, soln.C, soln.E, Phi, FockA, FockB, xA, xB);
 	}
 
 	public static SimpleMatrix[] staticMatrix(SolutionU soln, SimpleMatrix[] Phi, SimpleMatrix[] FockA,
 											  SimpleMatrix[] FockB, SimpleMatrix[] xA, SimpleMatrix[] xB) {
-		return new SimpleMatrix[]{
-				staticMatrix(soln.Cta, soln.Ca, soln.Ea, Phi[0], FockA[0], FockB[0], xA[0], xB[0]),
-				staticMatrix(soln.Ctb, soln.Cb, soln.Eb, Phi[1], FockA[1], FockB[1], xA[1], xB[1])
-		};
+		return new SimpleMatrix[]{staticMatrix(soln.Cta, soln.Ca, soln.Ea, Phi[0], FockA[0], FockB[0], xA[0], xB[0]),
+				staticMatrix(soln.Ctb, soln.Cb, soln.Eb, Phi[1], FockA[1], FockB[1], xA[1], xB[1])};
 	}
 
 
@@ -564,8 +560,7 @@ public class ParamSecondDerivative {
 
 				SimpleMatrix[] matrices1 = Gderiv2static(soln, Z1, param1, Z2, param2);
 
-				SimpleMatrix[] matrices2 =
-						Gderivstatic(soln, densityderivalpha, densityderivbeta, Z1, param1);
+				SimpleMatrix[] matrices2 = Gderivstatic(soln, densityderivalpha, densityderivbeta, Z1, param1);
 
 				Fa = H.plus(matrices1[0]).plus(matrices2[0]);
 				Fb = H.plus(matrices1[1]).plus(matrices2[1]);
@@ -651,12 +646,9 @@ public class ParamSecondDerivative {
 			double sumb = 0;
 			double sum2 = 0;
 			for (int k : orbsOfAtom[j]) {
-				if (k > -1) {
-					suma += densityderiva.get(k, k);
-					sumb += densityderivb.get(k, k);
-					sum2 += densityderiv2.get(k, k);
-
-				}
+				suma += densityderiva.get(k, k);
+				sumb += densityderivb.get(k, k);
+				sum2 += densityderiv2.get(k, k);
 			}
 
 			populationsderiva[j] = -suma;
@@ -709,102 +701,84 @@ public class ParamSecondDerivative {
 		for (int j = 0; j < atoms.length; j++) {
 
 			if (orbsOfAtom[j].length > 1) {//exclude hydrogen
-				hybriddipa[0] =
-						hybriddipa[0] -
-								Constants.DIPOLECONV * 2 * atoms[j].D1() *
-										densityderiva.get(orbsOfAtom[j][0], orbsOfAtom[j][1]);
-				hybriddipa[1] =
-						hybriddipa[1] -
-								Constants.DIPOLECONV * 2 * atoms[j].D1() *
-										densityderiva.get(orbsOfAtom[j][0], orbsOfAtom[j][2]);
-				hybriddipa[2] =
-						hybriddipa[2] -
-								Constants.DIPOLECONV * 2 * atoms[j].D1() *
-										densityderiva.get(orbsOfAtom[j][0], orbsOfAtom[j][3]);
+				hybriddipa[0] = hybriddipa[0] - Constants.DIPOLECONV * 2 * atoms[j].D1() *
+						densityderiva.get(orbsOfAtom[j][0], orbsOfAtom[j][1]);
+				hybriddipa[1] = hybriddipa[1] - Constants.DIPOLECONV * 2 * atoms[j].D1() *
+						densityderiva.get(orbsOfAtom[j][0], orbsOfAtom[j][2]);
+				hybriddipa[2] = hybriddipa[2] - Constants.DIPOLECONV * 2 * atoms[j].D1() *
+						densityderiva.get(orbsOfAtom[j][0], orbsOfAtom[j][3]);
 
 				if (atoms[j].getAtomProperties().getZ() == Z1) {
-					hybriddipa[0] =
-							hybriddipa[0] - Constants.DIPOLECONV * 2 * D1deriva * densityMatrix.get(orbsOfAtom[j][0],
+					hybriddipa[0] = hybriddipa[0] -
+							Constants.DIPOLECONV * 2 * D1deriva * densityMatrix.get(orbsOfAtom[j][0],
 									orbsOfAtom[j][1]);
-					hybriddipa[1] =
-							hybriddipa[1] - Constants.DIPOLECONV * 2 * D1deriva * densityMatrix.get(orbsOfAtom[j][0],
+					hybriddipa[1] = hybriddipa[1] -
+							Constants.DIPOLECONV * 2 * D1deriva * densityMatrix.get(orbsOfAtom[j][0],
 									orbsOfAtom[j][2]);
-					hybriddipa[2] =
-							hybriddipa[2] - Constants.DIPOLECONV * 2 * D1deriva * densityMatrix.get(orbsOfAtom[j][0],
+					hybriddipa[2] = hybriddipa[2] -
+							Constants.DIPOLECONV * 2 * D1deriva * densityMatrix.get(orbsOfAtom[j][0],
 									orbsOfAtom[j][3]);
 				}
 
-				hybriddipb[0] =
-						hybriddipb[0] -
-								Constants.DIPOLECONV * 2 * atoms[j].D1() *
-										densityderivb.get(orbsOfAtom[j][0], orbsOfAtom[j][1]);
-				hybriddipb[1] =
-						hybriddipb[1] -
-								Constants.DIPOLECONV * 2 * atoms[j].D1() *
-										densityderivb.get(orbsOfAtom[j][0], orbsOfAtom[j][2]);
-				hybriddipb[2] =
-						hybriddipb[2] -
-								Constants.DIPOLECONV * 2 * atoms[j].D1() *
-										densityderivb.get(orbsOfAtom[j][0], orbsOfAtom[j][3]);
+				hybriddipb[0] = hybriddipb[0] - Constants.DIPOLECONV * 2 * atoms[j].D1() *
+						densityderivb.get(orbsOfAtom[j][0], orbsOfAtom[j][1]);
+				hybriddipb[1] = hybriddipb[1] - Constants.DIPOLECONV * 2 * atoms[j].D1() *
+						densityderivb.get(orbsOfAtom[j][0], orbsOfAtom[j][2]);
+				hybriddipb[2] = hybriddipb[2] - Constants.DIPOLECONV * 2 * atoms[j].D1() *
+						densityderivb.get(orbsOfAtom[j][0], orbsOfAtom[j][3]);
 
 				if (atoms[j].getAtomProperties().getZ() == Z2) {
-					hybriddipb[0] =
-							hybriddipb[0] - Constants.DIPOLECONV * 2 * D1derivb * densityMatrix.get(orbsOfAtom[j][0],
+					hybriddipb[0] = hybriddipb[0] -
+							Constants.DIPOLECONV * 2 * D1derivb * densityMatrix.get(orbsOfAtom[j][0],
 									orbsOfAtom[j][1]);
-					hybriddipb[1] =
-							hybriddipb[1] - Constants.DIPOLECONV * 2 * D1derivb * densityMatrix.get(orbsOfAtom[j][0],
+					hybriddipb[1] = hybriddipb[1] -
+							Constants.DIPOLECONV * 2 * D1derivb * densityMatrix.get(orbsOfAtom[j][0],
 									orbsOfAtom[j][2]);
-					hybriddipb[2] =
-							hybriddipb[2] - Constants.DIPOLECONV * 2 * D1derivb * densityMatrix.get(orbsOfAtom[j][0],
+					hybriddipb[2] = hybriddipb[2] -
+							Constants.DIPOLECONV * 2 * D1derivb * densityMatrix.get(orbsOfAtom[j][0],
 									orbsOfAtom[j][3]);
 				}
 
-				hybriddip2[0] =
-						hybriddip2[0] -
-								Constants.DIPOLECONV * 2 * atoms[j].D1() *
-										densityderiv2.get(orbsOfAtom[j][0], orbsOfAtom[j][1]);
-				hybriddip2[1] =
-						hybriddip2[1] -
-								Constants.DIPOLECONV * 2 * atoms[j].D1() *
-										densityderiv2.get(orbsOfAtom[j][0], orbsOfAtom[j][2]);
-				hybriddip2[2] =
-						hybriddip2[2] -
-								Constants.DIPOLECONV * 2 * atoms[j].D1() *
-										densityderiv2.get(orbsOfAtom[j][0], orbsOfAtom[j][3]);
+				hybriddip2[0] = hybriddip2[0] - Constants.DIPOLECONV * 2 * atoms[j].D1() *
+						densityderiv2.get(orbsOfAtom[j][0], orbsOfAtom[j][1]);
+				hybriddip2[1] = hybriddip2[1] - Constants.DIPOLECONV * 2 * atoms[j].D1() *
+						densityderiv2.get(orbsOfAtom[j][0], orbsOfAtom[j][2]);
+				hybriddip2[2] = hybriddip2[2] - Constants.DIPOLECONV * 2 * atoms[j].D1() *
+						densityderiv2.get(orbsOfAtom[j][0], orbsOfAtom[j][3]);
 
 				if (atoms[j].getAtomProperties().getZ() == Z1) {
-					hybriddip2[0] =
-							hybriddip2[0] - Constants.DIPOLECONV * 2 * D1deriva * densityderivb.get(orbsOfAtom[j][0],
+					hybriddip2[0] = hybriddip2[0] -
+							Constants.DIPOLECONV * 2 * D1deriva * densityderivb.get(orbsOfAtom[j][0],
 									orbsOfAtom[j][1]);
-					hybriddip2[1] =
-							hybriddip2[1] - Constants.DIPOLECONV * 2 * D1deriva * densityderivb.get(orbsOfAtom[j][0],
+					hybriddip2[1] = hybriddip2[1] -
+							Constants.DIPOLECONV * 2 * D1deriva * densityderivb.get(orbsOfAtom[j][0],
 									orbsOfAtom[j][2]);
-					hybriddip2[2] =
-							hybriddip2[2] - Constants.DIPOLECONV * 2 * D1deriva * densityderivb.get(orbsOfAtom[j][0],
+					hybriddip2[2] = hybriddip2[2] -
+							Constants.DIPOLECONV * 2 * D1deriva * densityderivb.get(orbsOfAtom[j][0],
 									orbsOfAtom[j][3]);
 				}
 
 				if (atoms[j].getAtomProperties().getZ() == Z2) {
-					hybriddip2[0] =
-							hybriddip2[0] - Constants.DIPOLECONV * 2 * D1derivb * densityderiva.get(orbsOfAtom[j][0],
+					hybriddip2[0] = hybriddip2[0] -
+							Constants.DIPOLECONV * 2 * D1derivb * densityderiva.get(orbsOfAtom[j][0],
 									orbsOfAtom[j][1]);
-					hybriddip2[1] =
-							hybriddip2[1] - Constants.DIPOLECONV * 2 * D1derivb * densityderiva.get(orbsOfAtom[j][0],
+					hybriddip2[1] = hybriddip2[1] -
+							Constants.DIPOLECONV * 2 * D1derivb * densityderiva.get(orbsOfAtom[j][0],
 									orbsOfAtom[j][2]);
-					hybriddip2[2] =
-							hybriddip2[2] - Constants.DIPOLECONV * 2 * D1derivb * densityderiva.get(orbsOfAtom[j][0],
+					hybriddip2[2] = hybriddip2[2] -
+							Constants.DIPOLECONV * 2 * D1derivb * densityderiva.get(orbsOfAtom[j][0],
 									orbsOfAtom[j][3]);
 				}
 
 				if (atoms[j].getAtomProperties().getZ() == Z1 && D1deriv2 != 0) {
-					hybriddip2[0] =
-							hybriddip2[0] - Constants.DIPOLECONV * 2 * D1deriv2 * densityMatrix.get(orbsOfAtom[j][0],
+					hybriddip2[0] = hybriddip2[0] -
+							Constants.DIPOLECONV * 2 * D1deriv2 * densityMatrix.get(orbsOfAtom[j][0],
 									orbsOfAtom[j][1]);
-					hybriddip2[1] =
-							hybriddip2[1] - Constants.DIPOLECONV * 2 * D1deriv2 * densityMatrix.get(orbsOfAtom[j][0],
+					hybriddip2[1] = hybriddip2[1] -
+							Constants.DIPOLECONV * 2 * D1deriv2 * densityMatrix.get(orbsOfAtom[j][0],
 									orbsOfAtom[j][2]);
-					hybriddip2[2] =
-							hybriddip2[2] - Constants.DIPOLECONV * 2 * D1deriv2 * densityMatrix.get(orbsOfAtom[j][0],
+					hybriddip2[2] = hybriddip2[2] -
+							Constants.DIPOLECONV * 2 * D1deriv2 * densityMatrix.get(orbsOfAtom[j][0],
 									orbsOfAtom[j][3]);
 				}
 			}
@@ -822,8 +796,7 @@ public class ParamSecondDerivative {
 
 		return (dipoletot2[0] * soln.dipoletot[0] + dipoletota[0] * dipoletotb[0] + dipoletot2[1] * soln.dipoletot[1] +
 				dipoletota[1] * dipoletotb[1] + dipoletot2[2] * soln.dipoletot[2] + dipoletota[2] * dipoletotb[2]) /
-				soln.dipole
-				- (dipoletota[0] * soln.dipoletot[0] + dipoletota[1] * soln.dipoletot[1] +
+				soln.dipole - (dipoletota[0] * soln.dipoletot[0] + dipoletota[1] * soln.dipoletot[1] +
 				dipoletota[2] * soln.dipoletot[2]) *
 				(dipoletotb[0] * soln.dipoletot[0] + dipoletotb[1] * soln.dipoletot[1] +
 						dipoletotb[2] * soln.dipoletot[2]) / Pow.pow(soln.dipole, 3);
@@ -899,7 +872,8 @@ public class ParamSecondDerivative {
 	@Deprecated
 	public static SimpleMatrix staticMatrix(SolutionR soln, SimpleMatrix Fstatictotal, SimpleMatrix FstaticA,
 											SimpleMatrix FstaticB, SimpleMatrix xvectorA, SimpleMatrix xvectorB,
-											int Z1, int param1, int Z2, int param2) {
+											int Z1,
+											int param1, int Z2, int param2) {
 
 		SimpleMatrix densityA = PopleThiel.densityDeriv(soln, xvectorA);
 		SimpleMatrix densityB = PopleThiel.densityDeriv(soln, xvectorB);
@@ -919,8 +893,7 @@ public class ParamSecondDerivative {
 		SimpleMatrix xA = ParamDerivative.xMatrix(soln, FA);
 		SimpleMatrix xB = ParamDerivative.xMatrix(soln, FB);
 
-		SimpleMatrix omega =
-				PopleThiel.responseMatrix(soln, ParamSecondDerivative.densityDeriv2static(soln, xA, xB));
+		SimpleMatrix omega = PopleThiel.responseMatrix(soln, ParamSecondDerivative.densityDeriv2static(soln, xA, xB));
 
 		SimpleMatrix Phi = Fstatictotal.plus(GaB).plus(GbA).plus(omega);
 
@@ -953,15 +926,13 @@ public class ParamSecondDerivative {
 		SimpleMatrix densityBalpha = densitiesB[0];
 		SimpleMatrix densityBbeta = densitiesB[1];
 
-		SimpleMatrix[] GaB =
-				ParamSecondDerivative.Gderivstatic(soln, densityBalpha, densityBbeta, Z1, param1);
+		SimpleMatrix[] GaB = ParamSecondDerivative.Gderivstatic(soln, densityBalpha, densityBbeta, Z1, param1);
 
 		SimpleMatrix GaBalpha = GaB[0];
 
 		SimpleMatrix GaBbeta = GaB[1];
 
-		SimpleMatrix[] GbA =
-				ParamSecondDerivative.Gderivstatic(soln, densityAalpha, densityAbeta, Z2, param2);
+		SimpleMatrix[] GbA = ParamSecondDerivative.Gderivstatic(soln, densityAalpha, densityAbeta, Z2, param2);
 
 		SimpleMatrix GbAalpha = GbA[0];
 
@@ -1052,15 +1023,13 @@ public class ParamSecondDerivative {
 		SimpleMatrix densityBalpha = densitiesB[0];
 		SimpleMatrix densityBbeta = densitiesB[1];
 
-		SimpleMatrix[] GaB =
-				ParamSecondDerivative.Gderivstatic(soln, densityBalpha, densityBbeta, Z1, param1);
+		SimpleMatrix[] GaB = ParamSecondDerivative.Gderivstatic(soln, densityBalpha, densityBbeta, Z1, param1);
 
 		SimpleMatrix GaBalpha = GaB[0];
 
 		SimpleMatrix GaBbeta = GaB[1];
 
-		SimpleMatrix[] GbA =
-				ParamSecondDerivative.Gderivstatic(soln, densityAalpha, densityAbeta, Z2, param2);
+		SimpleMatrix[] GbA = ParamSecondDerivative.Gderivstatic(soln, densityAalpha, densityAbeta, Z2, param2);
 
 		SimpleMatrix GbAalpha = GbA[0];
 
@@ -1234,8 +1203,7 @@ public class ParamSecondDerivative {
 
 
 		if (dirs[0].numRows() == 0) {
-			SimpleMatrix[] densityderivs =
-					new SimpleMatrix[matrixderivalpha.length];
+			SimpleMatrix[] densityderivs = new SimpleMatrix[matrixderivalpha.length];
 
 			for (int i = 0; i < densityderivs.length; i++) {
 				densityderivs[i] = new SimpleMatrix(0, 0);
@@ -1276,9 +1244,7 @@ public class ParamSecondDerivative {
 					SimpleMatrix rhs = new SimpleMatrix(p.size(), 1);
 
 					for (int i = 0; i < rhs.numRows(); i++) {
-						rhs.set(i, 0, 2 *
-								rarray[a].transpose().mult(d.get(i)).get(0,
-										0));
+						rhs.set(i, 0, 2 * rarray[a].transpose().mult(d.get(i)).get(0, 0));
 
 					}
 
@@ -1289,8 +1255,7 @@ public class ParamSecondDerivative {
 			for (int i = 0; i < solver.numRows(); i++) {
 				for (int j = i; j < solver.numRows(); j++) {
 
-					double val = p.get(j).transpose().mult(d.get(i)).get(0,
-							0) +
+					double val = p.get(j).transpose().mult(d.get(i)).get(0, 0) +
 							p.get(i).transpose().mult(d.get(j)).get(0, 0);
 					solver.set(i, j, val);
 					solver.set(j, i, val);
@@ -1304,10 +1269,8 @@ public class ParamSecondDerivative {
 
 
 					for (int i = 0; i < alpha.numRows(); i++) {
-						xarray[a] =
-								xarray[a].plus(d.get(i).scale(alpha.get(i, a)));
-						rarray[a] =
-								rarray[a].minus(p.get(i).scale(alpha.get(i, a)));
+						xarray[a] = xarray[a].plus(d.get(i).scale(alpha.get(i, a)));
+						rarray[a] = rarray[a].minus(p.get(i).scale(alpha.get(i, a)));
 
 					}
 
@@ -1328,8 +1291,7 @@ public class ParamSecondDerivative {
 					SimpleMatrix rhs = new SimpleMatrix(solver.numRows(), 1);
 
 					for (int i = 0; i < rhs.numRows(); i++) {
-						rhs.set(i, 0, -rarray[a].transpose().mult(p.get(i))
-								.get(0, 0));
+						rhs.set(i, 0, -rarray[a].transpose().mult(p.get(i)).get(0, 0));
 
 					}
 
@@ -1442,13 +1404,11 @@ public class ParamSecondDerivative {
 		SimpleMatrix x2mat =
 				ParamDerivative.xMatrix(soln, soln.Ct.mult(F2.plus(PopleThiel.responseMatrix(soln, D2))).mult(soln.C));
 
-		SimpleMatrix x2matprime =
-				ParamDerivative.xMatrix(solnprime,
-						solnprime.Ct.mult(F2prime.plus(PopleThiel.responseMatrix(solnprime, D2prime)))
-								.mult(solnprime.C));
+		SimpleMatrix x2matprime = ParamDerivative.xMatrix(solnprime,
+				solnprime.Ct.mult(F2prime.plus(PopleThiel.responseMatrix(solnprime, D2prime))).mult(solnprime.C));
 
-		SimpleMatrix totalderiv = rhsmat.plus(
-				soln.Ct.mult(PopleThiel.responseMatrix(soln, densityderiv2response)).mult(soln.C));
+		SimpleMatrix totalderiv =
+				rhsmat.plus(soln.Ct.mult(PopleThiel.responseMatrix(soln, densityderiv2response)).mult(soln.C));
 
 		SimpleMatrix Fderiv2 =
 				staticFockDeriv(soln, Fstatictotal, D1, D2, densityderiv2static, Z1, param1, Z2, param2).plus(
@@ -1578,8 +1538,8 @@ public class ParamSecondDerivative {
 
 		for (int i = 0, count = 0; i < soln.atoms.length; i++) {
 			for (int j = 0; j < 3; j++) {
-				double d = ParamGeometrySecondDerivative
-						.gradderiv2(soln, i, j, Z1, param1, Z2, param2, D1, D2, densityderiv2);
+				double d = ParamGeometrySecondDerivative.gradderiv2(soln, i, j, Z1, param1, Z2, param2, D1, D2,
+						densityderiv2);
 				geomGradVectorSecondDeriv.set(count, d);
 				count++;
 			}
@@ -1627,14 +1587,12 @@ public class ParamSecondDerivative {
 		SimpleMatrix F1beta = ParamDerivative.staticDeriv(soln, Z1, 0)[2][param1];
 
 
-		SimpleMatrix x2 = PopleThiel.pt(soln,
-				PopleThiel.toMO(soln.CtaOcc, soln.CaVirt, new SimpleMatrix[]{F2alpha}),
+		SimpleMatrix x2 = PopleThiel.pt(soln, PopleThiel.toMO(soln.CtaOcc, soln.CaVirt, new SimpleMatrix[]{F2alpha}),
 				PopleThiel.toMO(soln.CtbOcc, soln.CbVirt, new SimpleMatrix[]{F2beta}))[0];
 		SimpleMatrix x2prime = PopleThiel.pt(solnprime,
 				PopleThiel.toMO(solnprime.CtaOcc, solnprime.CaVirt, new SimpleMatrix[]{F2alphaprime}),
 				PopleThiel.toMO(solnprime.CtbOcc, solnprime.CbVirt, new SimpleMatrix[]{F2betaprime}))[0];
-		SimpleMatrix x1 = PopleThiel.pt(soln,
-				PopleThiel.toMO(soln.CtaOcc, soln.CaVirt, new SimpleMatrix[]{F1alpha}),
+		SimpleMatrix x1 = PopleThiel.pt(soln, PopleThiel.toMO(soln.CtaOcc, soln.CaVirt, new SimpleMatrix[]{F1alpha}),
 				PopleThiel.toMO(soln.CtbOcc, soln.CbVirt, new SimpleMatrix[]{F1beta}))[0];
 
 		SimpleMatrix[] D1 = PopleThiel.densityDeriv(soln, x1);
@@ -1661,10 +1619,9 @@ public class ParamSecondDerivative {
 				ParamDerivative.xMatrix(soln, soln.Cta.mult(F2alpha.plus(R2[0])).mult(soln.Cta.transpose()),
 						soln.Ctb.mult(F2beta.plus(R2[1])).mult(soln.Ctb.transpose()));
 
-		SimpleMatrix[] x2primematrix =
-				ParamDerivative.xMatrix(solnprime,
-						solnprime.Cta.mult(F2alphaprime.plus(R2prime[0])).mult(solnprime.Cta.transpose()),
-						solnprime.Ctb.mult(F2betaprime.plus(R2prime[1])).mult(solnprime.Ctb.transpose()));
+		SimpleMatrix[] x2primematrix = ParamDerivative.xMatrix(solnprime,
+				solnprime.Cta.mult(F2alphaprime.plus(R2prime[0])).mult(solnprime.Cta.transpose()),
+				solnprime.Ctb.mult(F2betaprime.plus(R2prime[1])).mult(solnprime.Ctb.transpose()));
 
 
 		SimpleMatrix C2alpha = soln.Cta.transpose().mult(x2matrix[0]);
@@ -1720,8 +1677,7 @@ public class ParamSecondDerivative {
 				ParamSecondDerivative.HfDeriv2(soln, Z1, param1, Z2, param2, H2, F2alpha, F2beta, D1[0], D1[1], 1);
 
 		SimpleMatrix totalderiv = rhsmat[0].plus(
-				soln.Cta.mult(PopleThiel.responseMatrix(soln, densityderiv2response)[0])
-						.mult(soln.Cta.transpose()));
+				soln.Cta.mult(PopleThiel.responseMatrix(soln, densityderiv2response)[0]).mult(soln.Cta.transpose()));
 
 		SimpleMatrix Fderiv2 =
 				staticFockDeriv(soln, Fstatictotalalpha, Fstatictotalbeta, F1alpha, F1beta, F2alpha, F2beta, x1, x2,
@@ -1738,9 +1694,8 @@ public class ParamSecondDerivative {
 
 
 		double IEderiv = ParamDerivative.homoDeriv(soln, x2matrix[0], soln.Cta.mult(Fderivb).mult(soln.Ca));
-		double IEderivprime =
-				ParamDerivative.homoDeriv(solnprime, x2primematrix[0],
-						solnprime.Cta.mult(Fderivbprime).mult(solnprime.Ca));
+		double IEderivprime = ParamDerivative.homoDeriv(solnprime, x2primematrix[0],
+				solnprime.Cta.mult(Fderivbprime).mult(solnprime.Ca));
 		double IEderiv2 = 1 / Constants.LAMBDA * (IEderivprime - IEderiv);
 //
 		System.err.println("----TESTING IE DERIVATIVES----");
@@ -1758,9 +1713,9 @@ public class ParamSecondDerivative {
 		System.err.println(Hfderivtest2);
 //
 		double dipolederivtest =
-				dipoleDeriv2(soln, D1[0].plus(D1[1]), D2[0].plus(D2[1]),
-						densityderiv2alpha.plus(densityderiv2beta),
-						Z1, param1, Z2, param2);
+				dipoleDeriv2(soln, D1[0].plus(D1[1]), D2[0].plus(D2[1]), densityderiv2alpha.plus(densityderiv2beta),
+						Z1,
+						param1, Z2, param2);
 //
 		double dipolederiv = ParamDerivative.nddoDipoleDeriv(soln, D2[0].plus(D2[1]), Z2, param2);
 //
@@ -1780,12 +1735,12 @@ public class ParamSecondDerivative {
 //
 		double gradderiv = ParamGeometryDerivative.gradDeriv(soln, 0, 0, Z2, param2, D2[0], D2[1]);
 //
-		double gradderivprime =
-				ParamGeometryDerivative.gradDeriv(solnprime, 0, 0, Z2, param2, D2prime[0], D2prime[1]);
+		double gradderivprime = ParamGeometryDerivative.gradDeriv(solnprime, 0, 0, Z2, param2, D2prime[0], D2prime[1]);
 //
 		double gradderiv2 =
 				ParamGeometrySecondDerivative.gradderiv2(soln, 0, 0, Z1, param1, Z2, param2, D1[0], D1[1], D2[0],
-						D2[1], densityderiv2alpha, densityderiv2beta);
+						D2[1],
+						densityderiv2alpha, densityderiv2beta);
 //
 		System.err.println("analyt " + gradderiv2);
 //
@@ -1830,9 +1785,8 @@ public class ParamSecondDerivative {
 
 		System.err.println("mndohfderiv= " + ParamDerivative.HfDeriv(soln, H, Fa, Fb));
 
-		SimpleMatrix xvector =
-				PopleThiel.pt(soln, PopleThiel.toMO(soln.CtaOcc, soln.CaVirt, new SimpleMatrix[]{Fa}),
-						PopleThiel.toMO(soln.CtbOcc, soln.CbVirt, new SimpleMatrix[]{Fb}))[0];
+		SimpleMatrix xvector = PopleThiel.pt(soln, PopleThiel.toMO(soln.CtaOcc, soln.CaVirt, new SimpleMatrix[]{Fa}),
+				PopleThiel.toMO(soln.CtbOcc, soln.CbVirt, new SimpleMatrix[]{Fb}))[0];
 
 		SimpleMatrix[] densityderivs = PopleThiel.densityDeriv(soln, xvector);
 
@@ -1869,11 +1823,11 @@ public class ParamSecondDerivative {
 		System.err.println("----expgeom start-----");
 
 
-		double geomderiv = (GeometryDerivative.grad(solnprime, 0, 2) - GeometryDerivative.grad(soln, 0, 2)) /
-				Constants.LAMBDA;
+		double geomderiv =
+				(GeometryDerivative.grad(solnprime, 0, 2) - GeometryDerivative.grad(soln, 0, 2)) / Constants.LAMBDA;
 
-		double geomderivcheck = ParamGeometryDerivative.gradDeriv(soln, 0, 2, Z1, param1, densityderivs[0],
-				densityderivs[1]);
+		double geomderivcheck =
+				ParamGeometryDerivative.gradDeriv(soln, 0, 2, Z1, param1, densityderivs[0], densityderivs[1]);
 
 		System.err.println(geomderiv);
 
@@ -1881,8 +1835,7 @@ public class ParamSecondDerivative {
 		System.err.println("-----expgeom end----");
 
 		return Math.abs(Hfderiv - hfderivcheck) < 1E-2 && Math.abs(homoderiv - homoderivcheck) < 1E-3 &&
-				Math.abs(dipolederiv - dipolederivcheck) < 1E-3 &&
-				Math.abs(geomderiv - geomderivcheck) < 1E-5;
+				Math.abs(dipolederiv - dipolederivcheck) < 1E-3 && Math.abs(geomderiv - geomderivcheck) < 1E-5;
 	}
 
 	public static SimpleMatrix computeResponseVectorsThiel(SimpleMatrix xarray, SolutionU soln) {
@@ -1905,8 +1858,7 @@ public class ParamSecondDerivative {
 				for (int i = 0; i < NOccAlpha; i++) {
 					for (int j = 0; j < NVirtAlpha; j++) {
 						sum -= (soln.Cta.get(i, u) * soln.Cta.get(j + NOccAlpha, v) +
-								soln.Cta.get(j + NOccAlpha, u) * soln.Cta.get(i, v)) *
-								xarray.get(count, 0);
+								soln.Cta.get(j + NOccAlpha, u) * soln.Cta.get(i, v)) * xarray.get(count, 0);
 						count++;
 					}
 				}
@@ -1923,8 +1875,7 @@ public class ParamSecondDerivative {
 				for (int i = 0; i < NOccBeta; i++) {
 					for (int j = 0; j < NVirtBeta; j++) {
 						sum -= (soln.Ctb.get(i, u) * soln.Ctb.get(j + NOccBeta, v) +
-								soln.Ctb.get(j + NOccBeta, u) * soln.Ctb.get(i, v)) *
-								xarray.get(count, 0);
+								soln.Ctb.get(j + NOccBeta, u) * soln.Ctb.get(i, v)) * xarray.get(count, 0);
 						count++;
 					}
 				}
@@ -1952,48 +1903,32 @@ public class ParamSecondDerivative {
 				if (j == k) {
 
 					for (int l : soln.orbsOfAtom[soln.atomOfOrb[j]]) {
-						if (l > -1) {
-							val += (densityderivalpha.get(l, l) +
-									densityderivbeta.get(l, l)) *
-									soln.integralArrayCoulomb[Jcount];
-							Jcount++;
-						}
+						val += (densityderivalpha.get(l, l) + densityderivbeta.get(l, l)) *
+								soln.integralArrayCoulomb[Jcount];
+						Jcount++;
 					}
 
 					for (int l : soln.missingOfAtom[soln.atomOfOrb[j]]) {
-						if (l > -1) {
-							for (int m : soln.missingOfAtom[soln.atomOfOrb[j]]) {
-								if (m > -1) {
-									if (soln.atomOfOrb[l] == soln.atomOfOrb[m]) {
-										val += (densityderivalpha.get(l, m) +
-												densityderivbeta.get(l, m)) *
-												soln.integralArrayCoulomb[Jcount];
-										Jcount++;
-									}
-								}
-
+						for (int m : soln.missingOfAtom[soln.atomOfOrb[j]]) {
+							if (soln.atomOfOrb[l] == soln.atomOfOrb[m]) {
+								val += (densityderivalpha.get(l, m) + densityderivbeta.get(l, m)) *
+										soln.integralArrayCoulomb[Jcount];
+								Jcount++;
 							}
 						}
 					}
 				}
 				else if (soln.atomOfOrb[j] == soln.atomOfOrb[k]) {
-					val += (densityderivalpha.get(j, k) +
-							densityderivbeta.get(j, k)) *
+					val += (densityderivalpha.get(j, k) + densityderivbeta.get(j, k)) *
 							soln.integralArrayCoulomb[Jcount];
 					Jcount++;
 
 					for (int l : soln.missingOfAtom[soln.atomOfOrb[j]]) {
-						if (l > -1) {
-							for (int m : soln.missingOfAtom[soln.atomOfOrb[j]]) {
-								if (m > -1) {
-									if (soln.atomOfOrb[l] == soln.atomOfOrb[m]) {
-										val += (densityderivalpha.get(l, m) +
-												densityderivbeta.get(l, m)) *
-												soln.integralArrayCoulomb[Jcount];
-										Jcount++;
-									}
-								}
-
+						for (int m : soln.missingOfAtom[soln.atomOfOrb[j]]) {
+							if (soln.atomOfOrb[l] == soln.atomOfOrb[m]) {
+								val += (densityderivalpha.get(l, m) + densityderivbeta.get(l, m)) *
+										soln.integralArrayCoulomb[Jcount];
+								Jcount++;
 							}
 						}
 					}
@@ -2010,38 +1945,24 @@ public class ParamSecondDerivative {
 				double vala = 0;
 				double valb = 0;
 				if (j == k) {
-
 					for (int l : soln.orbsOfAtom[soln.atomOfOrb[j]]) {
-						if (l > -1) {
-							vala += densityderivalpha.get(l, l) *
-									soln.integralArrayExchange[Kcount];
-							valb += densityderivbeta.get(l, l) *
-									soln.integralArrayExchange[Kcount];
-							Kcount++;
-						}
+						vala += densityderivalpha.get(l, l) * soln.integralArrayExchange[Kcount];
+						valb += densityderivbeta.get(l, l) * soln.integralArrayExchange[Kcount];
+						Kcount++;
 					}
-
 				}
 				else if (soln.atomOfOrb[j] == soln.atomOfOrb[k]) {
-					vala += densityderivalpha.get(j, k) *
-							soln.integralArrayExchange[Kcount];
-					valb += densityderivbeta.get(j, k) *
-							soln.integralArrayExchange[Kcount];
+					vala += densityderivalpha.get(j, k) * soln.integralArrayExchange[Kcount];
+					valb += densityderivbeta.get(j, k) * soln.integralArrayExchange[Kcount];
 					Kcount++;
 
 				}
 				else {
 					for (int l : soln.orbsOfAtom[soln.atomOfOrb[j]]) {
-						if (l > -1) {
-							for (int m : soln.orbsOfAtom[soln.atomOfOrb[k]]) {
-								if (m > -1) {
-									vala += densityderivalpha.get(l, m) *
-											soln.integralArrayExchange[Kcount];
-									valb += densityderivbeta.get(l, m) *
-											soln.integralArrayExchange[Kcount];
-									Kcount++;
-								}
-							}
+						for (int m : soln.orbsOfAtom[soln.atomOfOrb[k]]) {
+							vala += densityderivalpha.get(l, m) * soln.integralArrayExchange[Kcount];
+							valb += densityderivbeta.get(l, m) * soln.integralArrayExchange[Kcount];
+							Kcount++;
 						}
 					}
 				}
@@ -2069,8 +1990,7 @@ public class ParamSecondDerivative {
 
 				for (int u = 0; u < soln.nOrbitals; u++) {
 					for (int v = 0; v < soln.nOrbitals; v++) {
-						element += soln.Cta.get(i, u) * soln.Cta.get(j + NOccAlpha, v) *
-								responsealpha.get(u, v);
+						element += soln.Cta.get(i, u) * soln.Cta.get(j + NOccAlpha, v) * responsealpha.get(u, v);
 					}
 				}
 
@@ -2087,8 +2007,7 @@ public class ParamSecondDerivative {
 
 				for (int u = 0; u < soln.nOrbitals; u++) {
 					for (int v = 0; v < soln.nOrbitals; v++) {
-						element += soln.Ctb.get(i, u) * soln.Ctb.get(j + NOccBeta, v) *
-								responsebeta.get(u, v);
+						element += soln.Ctb.get(i, u) * soln.Ctb.get(j + NOccBeta, v) * responsebeta.get(u, v);
 					}
 				}
 

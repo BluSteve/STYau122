@@ -771,8 +771,7 @@ public class ParamDerivative {
 
 		int count = 0;
 
-		for (int i = xlimited.getNumElements() - NVirt;
-			 i < xlimited.getNumElements(); i++) {
+		for (int i = xlimited.getNumElements() - NVirt; i < xlimited.getNumElements(); i++) {
 			if (i > -1) {
 				x.set(count, 0, xlimited.get(i, 0));
 				count++;
