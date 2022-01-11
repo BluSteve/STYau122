@@ -3,8 +3,6 @@ package testing;
 import frontend.FrontendConfig;
 import frontend.TxtIO;
 import nddo.Config;
-import nddo.geometry.GeometryDerivative;
-import nddo.math.PopleThiel;
 import nddo.param.*;
 import nddo.solution.Solution;
 import nddo.solution.SolutionR;
@@ -29,12 +27,8 @@ public class Testing {
 		SolutionU se2 =
 				(SolutionU) Solution.of(rm2, runcycle.State.getConverter().convert(rm2.expGeom, input.info.npMap));
 
-		SimpleMatrix[][] matrices = GeometryDerivative.gradientRoutine(s2);
-		SimpleMatrix[] falpha = matrices[1];
-		SimpleMatrix[] fbeta = matrices[2];
-
-		System.out.println(PopleThiel.verify(s, GeometryDerivative.gradientRoutine(s)[1], null, 1e-5));
-		System.out.println(PopleThiel.verify(s2, falpha, fbeta, 1e-5));
+		verifyEquations(s, 6,6);
+		verifyEquations(s2, 6,6);
 	}
 
 	private static void verifyEquations(Solution s, int Z1, int Z2) {

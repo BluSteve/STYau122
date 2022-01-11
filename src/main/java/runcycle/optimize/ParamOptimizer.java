@@ -1,12 +1,16 @@
 package runcycle.optimize;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.ejml.simple.SimpleMatrix;
+import tools.Utils;
 
 import java.util.ArrayList;
 
 public class ParamOptimizer {
 	private final ArrayList<ReferenceData> datum;
 	private double value;
+	private static final Logger logger = LogManager.getLogger();
 
 	public ParamOptimizer() {
 		this.datum = new ArrayList<>();
@@ -18,7 +22,16 @@ public class ParamOptimizer {
 	}
 
 	public double[] optimize(SimpleMatrix B, SimpleMatrix gradient) {
-		SimpleMatrix searchdir = B.pseudoInverse().mult(gradient);
+		SimpleMatrix searchdir;
+		try {
+			searchdir = B.pseudoInverse().mult(gradient);
+			SimpleMatrix eigenvalues = Utils.symEigen(B)[1];
+			logger.info("Hessian eigenvalues: {}", eigenvalues);
+		}
+		catch (IllegalArgumentException e) {
+			logger.warn("Hessian pinv failed; using gradient instead.");
+			searchdir = gradient;
+		}
 
 		double sum = 0;
 

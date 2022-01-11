@@ -9,7 +9,7 @@ public interface IMoleculeResult {
 
 	boolean isExpAvail();
 
-	double getHf(); // todo rename
+	double getHf();
 
 	double getDipole();
 

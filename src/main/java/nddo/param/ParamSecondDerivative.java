@@ -37,10 +37,14 @@ public class ParamSecondDerivative {
 
 		for (int i = 0; i < numRows; i++) {
 			for (int j = i + 1; j < numRows; j++) {
-				double v = soln.E.get(j) - soln.E.get(i);
+				double ej = soln.E.get(j);
+				double ei = soln.E.get(i);
 
-				gamma.set(i, j, totalderiv.get(i, j) / v);
-				gamma.set(j, i, totalderiv.get(j, i) / -v);
+				double va = ej == ei ? 0 : totalderiv.get(i, j) / (ej - ei);
+				double vb = ej == ei ? 0 : totalderiv.get(j, i) / (ei - ej);
+
+				gamma.set(i, j, va);
+				gamma.set(j, i, vb);
 			}
 		}
 
@@ -54,10 +58,14 @@ public class ParamSecondDerivative {
 
 		for (int i = 0; i < numRows; i++) {
 			for (int j = i + 1; j < numRows; j++) {
-				double v = soln.Ea.get(j) - soln.Ea.get(i);
+				double ej = soln.Ea.get(j);
+				double ei = soln.Ea.get(i);
 
-				gamma.set(i, j, totalderivalpha.get(i, j) / v);
-				gamma.set(j, i, totalderivalpha.get(j, i) / -v);
+				double va = ej == ei ? 0 : totalderivalpha.get(i, j) / (ej - ei);
+				double vb = ej == ei ? 0 : totalderivalpha.get(j, i) / (ei - ej);
+
+				gamma.set(i, j, va);
+				gamma.set(j, i, vb);
 			}
 		}
 
@@ -1570,7 +1578,8 @@ public class ParamSecondDerivative {
 
 		for (int i = 0, count = 0; i < soln.atoms.length; i++) {
 			for (int j = 0; j < 3; j++) {
-				double d = ParamGeometrySecondDerivative.gradderiv2(soln, i, j, Z1, param1, Z2, param2, D1, D2, densityderiv2);
+				double d = ParamGeometrySecondDerivative
+						.gradderiv2(soln, i, j, Z1, param1, Z2, param2, D1, D2, densityderiv2);
 				geomGradVectorSecondDeriv.set(count, d);
 				count++;
 			}
@@ -1579,15 +1588,16 @@ public class ParamSecondDerivative {
 		double derivtestb = geomGradVectorDeriv2.dot(geomGradVector) / geomGradVector.normF();
 
 
+		double deriv2 = (geomGradVectorDerivprime2.normF() - geomGradVectorDeriv2.normF()) / Constants.LAMBDA;
 
-		double deriv2 =(geomGradVectorDerivprime2.normF() - geomGradVectorDeriv2.normF()) / Constants.LAMBDA;
+		double deriv2test =
+				(geomGradVectorSecondDeriv.dot(geomGradVector) + geomGradVectorDeriv.dot(geomGradVectorDeriv2) -
+						derivtest * derivtestb) / geomGradVector.normF();
 
-		double deriv2test =(geomGradVectorSecondDeriv.dot(geomGradVector) + geomGradVectorDeriv.dot(geomGradVectorDeriv2) - derivtest * derivtestb) / geomGradVector.normF();
 
+		System.err.println(deriv + "; " + derivtest);
 
-		System.err.println (deriv + "; " + derivtest);
-
-		System.err.println (deriv2 + "; " + deriv2test);
+		System.err.println(deriv2 + "; " + deriv2test);
 
 
 		System.err.println("----TESTING CONCLUDED----");

@@ -96,7 +96,7 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 
 			return output;
 		} catch (Exception e) {
-			logger.error("{} errored!",runNumber, e);
+			logger.error("{} errored!", runNumber, e);
 			throw e;
 		}
 	}
@@ -172,9 +172,10 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 
 					long time = lsw.getTime(TimeUnit.SECONDS);
 					double systemCpuLoad = bean.getSystemCpuLoad();
-					logger.info("Run {}, time: {} s, CPU load: {}, ETA: {} s, {}/{} left ({}% done): {}", runNumber,
-							time, systemCpuLoad, time * (1.0 * totalCount / doneCount), leftCount, totalCount, percent,
-							left);
+					double eta = time * (1.0 * totalCount / doneCount);
+					logger.info("Run {}, time: {} s, CPU load: {}, ETA: {} s, {}/{} left ({}% done): {}",
+							runNumber, time, String.format("%.2f", systemCpuLoad), String.format("%.2f", eta),
+							leftCount, totalCount, percent, left);
 				};
 
 				int wait = 30;
@@ -289,9 +290,19 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 				double[][] h = ParamHessian.padHessian(result.getHessian(), result.getUpdatedRm().mats,
 						info.atomTypes, info.neededParams);
 
+				boolean hasNan = false;
 				for (int i = 0; i < h.length; i++) {
-					for (int j = 0; j < h[0].length; j++)
-						ttHessian[i][j] += h[i][j];
+					for (int j = 0; j < h[0].length; j++) {
+						if (Double.isNaN(h[i][j])) {
+							hasNan = true;
+						}
+						else ttHessian[i][j] += h[i][j];
+					}
+				}
+
+				if (hasNan) {
+					logger.warn("NaN in Hessian! {}: \n{}\n{}", result.getUpdatedRm().debugName(), g,
+							Arrays.deepToString(h));
 				}
 			}
 

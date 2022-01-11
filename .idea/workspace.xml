@@ -4,15 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="add compile date to forjinherng">
+    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="minor config bug fixes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jmh/java/core/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/jmh/java/core/Testing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/FrontendConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/FrontendConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/JsonIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/JsonIO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/params.csv" beforeDir="false" afterPath="$PROJECT_DIR$/params.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/IMoleculeResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/IMoleculeResult.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/optimize/ParamOptimizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/optimize/ParamOptimizer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/testing/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Testing.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -234,7 +234,7 @@
       <command value="gradlew clean" />
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.MNDOParam [jar]">
+  <component name="RunManager" selected="Application.Testing">
     <configuration name="ForJinHerng" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="examples.ForJinHerng" />
       <module name="MNDOParam.main" />
@@ -248,12 +248,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="frontend.Main" />
-      <module name="MNDOParam.main" />
+    <configuration name="Testing (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="core.Testing" />
+      <module name="MNDOParam.jmh" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="frontend.*" />
+          <option name="PATTERN" value="core.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -261,12 +261,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Testing (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="core.Testing" />
-      <module name="MNDOParam.jmh" />
+    <configuration name="Testing" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="testing.Testing" />
+      <module name="MNDOParam.main" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="core.*" />
+          <option name="PATTERN" value="testing.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -366,21 +366,21 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.Main" />
       <item itemvalue="Application.Testing (1)" />
       <item itemvalue="Application.ForJinHerng" />
       <item itemvalue="Gradle.MNDOParam [jmh]" />
       <item itemvalue="Gradle.MNDOParam [jar]" />
       <item itemvalue="Gradle.MNDOParam [jar2]" />
       <item itemvalue="Shell Script.Copy" />
+      <item itemvalue="Application.Testing" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Testing" />
         <item itemvalue="Gradle.MNDOParam [jar]" />
         <item itemvalue="Gradle.MNDOParam [jar2]" />
         <item itemvalue="Application.ForJinHerng" />
         <item itemvalue="Application.Testing (1)" />
-        <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
   </component>
@@ -549,14 +549,7 @@
       <workItem from="1641646278782" duration="4813000" />
       <workItem from="1641713504006" duration="9299000" />
       <workItem from="1641724986038" duration="26261000" />
-      <workItem from="1641869120482" duration="4620000" />
-    </task>
-    <task id="LOCAL-00264" summary="auto-increase log level">
-      <created>1641402879495</created>
-      <option name="number" value="00264" />
-      <option name="presentableId" value="LOCAL-00264" />
-      <option name="project" value="LOCAL" />
-      <updated>1641402879495</updated>
+      <workItem from="1641869120482" duration="9030000" />
     </task>
     <task id="LOCAL-00265" summary="auto-increase log level">
       <created>1641402917280</created>
@@ -894,7 +887,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641797014896</updated>
     </task>
-    <option name="localTasksCounter" value="313" />
+    <task id="LOCAL-00313" summary="minor config bug fixes">
+      <created>1641881470272</created>
+      <option name="number" value="00313" />
+      <option name="presentableId" value="LOCAL-00313" />
+      <option name="project" value="LOCAL" />
+      <updated>1641881470276</updated>
+    </task>
+    <option name="localTasksCounter" value="314" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -941,7 +941,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="cleanup poplethiel into pt" />
     <MESSAGE value="prep for poplethiel sigmoid" />
     <MESSAGE value="poplethiel sigmoid" />
     <MESSAGE value="better poplethiel debugging" />
@@ -966,7 +965,8 @@
     <MESSAGE value="fix forjinherng isDone bug" />
     <MESSAGE value="better logging" />
     <MESSAGE value="add compile date to forjinherng" />
-    <option name="LAST_COMMIT_MESSAGE" value="add compile date to forjinherng" />
+    <MESSAGE value="minor config bug fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="minor config bug fixes" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
