@@ -9,6 +9,8 @@ import nddo.solution.SolutionU;
 import org.ejml.simple.SimpleMatrix;
 import tools.Batcher;
 
+import java.util.stream.IntStream;
+
 import static nddo.State.nom;
 
 public class GeometrySecondDerivative {
@@ -55,16 +57,20 @@ public class GeometrySecondDerivative {
 				int tau2 = j - 3 * atomnum2;
 
 				if (atomnum1 == atomnum2) {
-					for (int a = 0; a < soln.atoms.length; a++) {
+					E += IntStream.range(0, soln.atoms.length).parallel().mapToDouble(a -> {
+						double E2 = 0;
 						if (a != atomnum1) {
-							E += Ederiv2(atomnum1, a, soln.orbsOfAtom, soln.densityMatrix(), soln.atoms, soln.orbitals,
-									tau1, tau2);
-							E += soln.atoms[atomnum1].crfg2d(soln.atoms[a], tau1, tau2);
+							E2 += Ederiv2(atomnum1, a, soln.orbsOfAtom, soln.densityMatrix(),
+									soln.atoms, soln.orbitals, tau1, tau2);
+							E2 += soln.atoms[atomnum1].crfg2d(soln.atoms[a], tau1, tau2);
 						}
-					}
+
+						return E2;
+					}).sum();
 				}
-				else E = -Ederiv2(atomnum1, atomnum2, soln.orbsOfAtom, soln.densityMatrix(), soln.atoms, soln.orbitals,
-						tau1, tau2) - soln.atoms[atomnum1].crfg2d(soln.atoms[atomnum2], tau1, tau2);
+				else E = -Ederiv2(atomnum1, atomnum2, soln.orbsOfAtom, soln.densityMatrix(),
+						soln.atoms, soln.orbitals, tau1, tau2) -
+						soln.atoms[atomnum1].crfg2d(soln.atoms[atomnum2], tau1, tau2);
 
 				for (int I = 0; I < soln.orbitals.length; I++) {
 					for (int J = 0; J < soln.orbitals.length; J++) {

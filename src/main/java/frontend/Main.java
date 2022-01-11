@@ -35,11 +35,12 @@ public class Main {
 
 		logger.info("Number of runs = {}", FrontendConfig.config.num_runs);
 
-		int i = 0;
+		int i = FrontendConfig.config.starting_run_num;
 		for (RunOutput ro : iterator) {
+			JsonIO.write(ro, String.format("outputs/%04d-%s-%s", i, ro.input.hash, ro.hash));
+
 			TxtIO.updateInput(ro.nextInput);
 			JsonIO.write(ro.nextInput, String.format("pastinputs/%04d-%s", i, ro.nextInput.hash));
-			JsonIO.write(ro, String.format("outputs/%04d-%s-%s", i, ro.input.hash, ro.hash));
 			i++;
 		}
 

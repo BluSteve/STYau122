@@ -32,7 +32,7 @@ public class FrontendConfig extends Config {
 		FrontendConfig.config = config;
 	}
 
-	public int num_runs = 1;
+	public int num_runs = 1, starting_run_num = 0;
 	public String logging_level = "info";
 
 	public static void main(String[] args) throws IOException {
