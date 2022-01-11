@@ -8,6 +8,8 @@ import nddo.solution.SolutionR;
 import nddo.solution.SolutionU;
 import org.ejml.simple.SimpleMatrix;
 
+import java.util.stream.IntStream;
+
 import static nddo.State.nom;
 
 public class ParamGeometrySecondDerivative {
@@ -28,17 +30,15 @@ public class ParamGeometrySecondDerivative {
 	public static double gradderiv2(SolutionR soln, int atomnum, int tau, int Z1, int paramnum1, int Z2, int paramnum2,
 									SimpleMatrix densityderiva, SimpleMatrix densityderivb,
 									SimpleMatrix densityderiv2) {
+		return IntStream.range(0, soln.atoms.length).parallel().mapToDouble(
+				a -> {
+					if (a != atomnum) {
+						return Ederiv2(soln, atomnum, a, densityderiva, densityderivb, densityderiv2, tau, Z1,
+								paramnum1, Z2, paramnum2);
+					}
 
-		double e = 0;
-
-		for (int a = 0; a < soln.atoms.length; a++) {
-			if (a != atomnum) {
-				e += Ederiv2(soln, atomnum, a, densityderiva, densityderivb, densityderiv2, tau, Z1, paramnum1, Z2,
-						paramnum2);
-			}
-		}
-
-		return e;
+					return 0;
+				}).sum();
 	}
 
 	public static double gradderiv2(SolutionU soln, int atomnum, int tau, int Z1, int paramnum1, int Z2, int paramnum2,
@@ -46,16 +46,16 @@ public class ParamGeometrySecondDerivative {
 									SimpleMatrix densityderivbalpha, SimpleMatrix densityderivbbeta,
 									SimpleMatrix densityderiv2alpha, SimpleMatrix densityderiv2beta) {
 
-		double e = 0;
+		return IntStream.range(0, soln.atoms.length).parallel().mapToDouble(
+				a -> {
+					if (a != atomnum) {
+						return Ederiv2(soln, atomnum, a, densityderivaalpha, densityderivabeta, densityderivbalpha,
+								densityderivbbeta, densityderiv2alpha, densityderiv2beta, tau, Z1, paramnum1, Z2,
+								paramnum2);
+					}
 
-		for (int a = 0; a < soln.atoms.length; a++) {
-			if (a != atomnum) {
-				e += Ederiv2(soln, atomnum, a, densityderivaalpha, densityderivabeta, densityderivbalpha,
-						densityderivbbeta, densityderiv2alpha, densityderiv2beta, tau, Z1, paramnum1, Z2, paramnum2);
-			}
-		}
-
-		return e;
+					return 0;
+				}).sum();
 	}
 
 	private static double Ederiv2(SolutionR soln, int atomnum1, int atomnum2, SimpleMatrix densityderiva,

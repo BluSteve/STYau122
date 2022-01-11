@@ -4,14 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="minor config bug fixes">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/params.csv" beforeDir="false" afterPath="$PROJECT_DIR$/params.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/FrontendConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/FrontendConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometrySecondDerivative.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/optimize/ParamOptimizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/optimize/ParamOptimizer.java" afterDir="false" />
+    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="remove -1 and reformatt psgd2">
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGeometrySecondDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/param/ParamGeometrySecondDerivative.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -233,7 +227,7 @@
       <command value="gradlew clean" />
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.MNDOParam [jar]">
+  <component name="RunManager" selected="Application.Main">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -549,20 +543,6 @@
       <workItem from="1641713504006" duration="9299000" />
       <workItem from="1641724986038" duration="26261000" />
       <workItem from="1641869120482" duration="9030000" />
-    </task>
-    <task id="LOCAL-00265" summary="auto-increase log level">
-      <created>1641402917280</created>
-      <option name="number" value="00265" />
-      <option name="presentableId" value="LOCAL-00265" />
-      <option name="project" value="LOCAL" />
-      <updated>1641402917280</updated>
-    </task>
-    <task id="LOCAL-00266" summary="auto-increase log level">
-      <created>1641402928352</created>
-      <option name="number" value="00266" />
-      <option name="presentableId" value="LOCAL-00266" />
-      <option name="project" value="LOCAL" />
-      <updated>1641402928352</updated>
     </task>
     <task id="LOCAL-00267" summary="fix gradle">
       <created>1641435388194</created>
@@ -893,7 +873,21 @@
       <option name="project" value="LOCAL" />
       <updated>1641881470276</updated>
     </task>
-    <option name="localTasksCounter" value="314" />
+    <task id="LOCAL-00314" summary="multithread ederiv2 even more">
+      <created>1641917959176</created>
+      <option name="number" value="00314" />
+      <option name="presentableId" value="LOCAL-00314" />
+      <option name="project" value="LOCAL" />
+      <updated>1641917959177</updated>
+    </task>
+    <task id="LOCAL-00315" summary="remove -1 and reformatt psgd2">
+      <created>1641918355812</created>
+      <option name="number" value="00315" />
+      <option name="presentableId" value="LOCAL-00315" />
+      <option name="project" value="LOCAL" />
+      <updated>1641918355812</updated>
+    </task>
+    <option name="localTasksCounter" value="316" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -906,6 +900,7 @@
         <option value="Default.Author" />
         <option value="Default.Date" />
         <option value="Default.Subject" />
+        <option value="Space.CommitStatus" />
       </list>
     </option>
   </component>
@@ -939,8 +934,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="prep for poplethiel sigmoid" />
-    <MESSAGE value="poplethiel sigmoid" />
     <MESSAGE value="better poplethiel debugging" />
     <MESSAGE value="minor changes" />
     <MESSAGE value="prep for solution optimization" />
@@ -964,7 +957,9 @@
     <MESSAGE value="better logging" />
     <MESSAGE value="add compile date to forjinherng" />
     <MESSAGE value="minor config bug fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="minor config bug fixes" />
+    <MESSAGE value="multithread ederiv2 even more" />
+    <MESSAGE value="remove -1 and reformatt psgd2" />
+    <option name="LAST_COMMIT_MESSAGE" value="remove -1 and reformatt psgd2" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
