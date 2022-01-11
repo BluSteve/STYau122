@@ -158,8 +158,7 @@ public class TxtIO {
 		int i = 0;
 		int moleculei = 0;
 
-		List<Integer> actualAtomTypes = new ArrayList<>();
-		List<int[]> actualNeededParams = new ArrayList<>();
+		Map<Integer, int[]> actual = new TreeMap();
 
 		while (i < mtxt.size()) {
 			RunnableMolecule.RMBuilder builder = new RunnableMolecule.RMBuilder();
@@ -196,12 +195,18 @@ public class TxtIO {
 				Atom e = toAtom(mtxt.get(i));
 				atomsL.add(e);
 
-				if (!actualAtomTypes.contains(e.Z)) {
-					actualAtomTypes.add(e.Z);
-
+				if (!actual.containsKey(e.Z)) {
+					int[] neededParam = null;
 					for (int j = 0; j < atomTypes.length; j++) {
-						if (atomTypes[j] == e.Z) actualNeededParams.add(neededParams[j]);
+						if (atomTypes[j] == e.Z) {
+							neededParam = neededParams[j];
+							break;
+						}
 					}
+
+					assert neededParam != null;
+
+					actual.put(e.Z, neededParam);
 				}
 
 				boolean present = false;
@@ -244,17 +249,28 @@ public class TxtIO {
 			moleculei++;
 		}
 
-		InputInfo info =
-				new InputInfo(Utils.toInts(actualAtomTypes), actualNeededParams.toArray(new int[0][]), params);
+		int[] actualAtomTypes = new int[actual.size()];
+		int[][] actualNeededParams = new int[actual.size()][];
+		int k = 0;
+		for (Map.Entry<Integer, int[]> entry : actual.entrySet()) {
+			actualAtomTypes[k] = entry.getKey();
+			actualNeededParams[k] = entry.getValue();
+			k++;
+		}
+
+		InputInfo info = new InputInfo(actualAtomTypes, actualNeededParams, params);
 
 		RunnableMolecule[] molecules = new RunnableMolecule[builders.size()];
 		LogManager.getLogger().info("Building molecules...");
 		builders.parallelStream().forEach(rmBuilder -> {
 			molecules[rmBuilder.index] = rmBuilder.build(info.atomTypes, info.neededParams, info.npMap);
 		});
-		LogManager.getLogger().info("Molecules built.");
 
-		return new RunInput(info, molecules);
+		RunInput runInput = new RunInput(info, molecules);
+
+		LogManager.getLogger().info("{} molecules built for {}", molecules.length, runInput.hash);
+
+		return runInput;
 	}
 
 	public static void updateMolecules(RunnableMolecule[] results, String filepath) throws FileNotFoundException {

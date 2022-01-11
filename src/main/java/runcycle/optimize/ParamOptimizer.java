@@ -8,9 +8,9 @@ import tools.Utils;
 import java.util.ArrayList;
 
 public class ParamOptimizer {
+	private static final Logger logger = LogManager.getLogger();
 	private final ArrayList<ReferenceData> datum;
 	private double value;
-	private static final Logger logger = LogManager.getLogger();
 
 	public ParamOptimizer() {
 		this.datum = new ArrayList<>();
@@ -26,9 +26,8 @@ public class ParamOptimizer {
 		try {
 			searchdir = B.pseudoInverse().mult(gradient);
 			SimpleMatrix eigenvalues = Utils.symEigen(B)[1];
-			logger.info("Hessian eigenvalues: {}", eigenvalues.diag());
-		}
-		catch (IllegalArgumentException e) {
+			if (logger.isInfoEnabled()) logger.info("Hessian eigenvalues: {}", eigenvalues.diag().transposei());
+		} catch (IllegalArgumentException e) {
 			logger.warn("Hessian pinv failed; using gradient instead.");
 			searchdir = gradient;
 		}

@@ -25,11 +25,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static runcycle.State.getConverter;
 
 public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutput> {
-	private static final Logger logger = LogManager.getLogger("RunIterator");
 	private static final OperatingSystemMXBean bean =
 			(OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 
 	public final RunInput initialRunInput;
+	private final Logger logger;
 	public final int limit;
 	private final Level defaultLevel;
 	private int runNumber = 0;
@@ -53,6 +53,7 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 		this.ranMolecules = ranMolecules;
 		this.limit = limit;
 
+		logger = LogManager.getLogger(initialRunInput.hash);
 		defaultLevel = LogManager.getRootLogger().getLevel();
 	}
 
@@ -78,7 +79,7 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 	public RunOutput next() {
 		logger.info("Run number: {}, input hash: {}", runNumber, currentRunInput.hash);
 
-		PRun pRun = new PRun(currentRunInput, runNumber);
+		PRun pRun = new PRun(currentRunInput, runNumber, logger);
 
 		if (ranMolecules != null) {
 			pRun.ranMolecules = ranMolecules;
@@ -90,7 +91,7 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 		try {
 			RunOutput output = pRun.run();
 
-			logger.info("Run {} time taken: {}, output hash: {}\n\n", runNumber, output.timeTaken, output.hash);
+			logger.info("Run {} time taken: {}, output hash: {}", runNumber, output.timeTaken, output.hash);
 
 			currentRunInput = output.nextInput;
 
@@ -113,15 +114,16 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 	}
 
 	private static final class PRun { // stands for ParameterizationRun
-		private static final Logger logger = LogManager.getLogger("PRun");
+		private final Logger logger;
 		private final RunInput ri;
 		private final int runNumber;
 		private final ScheduledExecutorService progressBar = Executors.newScheduledThreadPool(1);
 		private IMoleculeResult[] ranMolecules;
 
-		PRun(RunInput runInput, int runNumber) {
+		PRun(RunInput runInput, int runNumber, Logger logger) {
 			this.ri = runInput;
 			this.runNumber = runNumber;
+			this.logger = logger;
 		}
 
 		private static int getMaxMoleculeIndex(RunnableMolecule[] rms) {

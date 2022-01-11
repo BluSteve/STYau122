@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="multithreaded main" />
+    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="no need to change paramnumbers for subset of chnof">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/TxtIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/TxtIO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/Config.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -367,8 +372,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
         <item itemvalue="Gradle.MNDOParam [jar]" />
+        <item itemvalue="Application.Main" />
         <item itemvalue="Application.Testing" />
         <item itemvalue="Gradle.MNDOParam [jar2]" />
         <item itemvalue="Application.ForJinHerng" />
@@ -541,13 +546,6 @@
       <workItem from="1641713504006" duration="9299000" />
       <workItem from="1641724986038" duration="26261000" />
       <workItem from="1641869120482" duration="9030000" />
-    </task>
-    <task id="LOCAL-00271" summary="debug session with adrian and jh - shuffle batcher">
-      <created>1641545383486</created>
-      <option name="number" value="00271" />
-      <option name="presentableId" value="LOCAL-00271" />
-      <option name="project" value="LOCAL" />
-      <updated>1641545383486</updated>
     </task>
     <task id="LOCAL-00272" summary="remove batcher shuffle and other debug">
       <created>1641548127509</created>
@@ -885,7 +883,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641922752267</updated>
     </task>
-    <option name="localTasksCounter" value="320" />
+    <task id="LOCAL-00320" summary="no need to change paramnumbers for subset of chnof">
+      <created>1641924033501</created>
+      <option name="number" value="00320" />
+      <option name="presentableId" value="LOCAL-00320" />
+      <option name="project" value="LOCAL" />
+      <updated>1641924033501</updated>
+    </task>
+    <option name="localTasksCounter" value="321" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -932,7 +937,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="solutionr refactor basically done" />
     <MESSAGE value="checkpoint" />
     <MESSAGE value="checkpoint - values a bit different for uhf" />
     <MESSAGE value="move ediis and diis into solution" />
@@ -957,9 +961,26 @@
     <MESSAGE value="remove a lot of -1" />
     <MESSAGE value="multithreaded gradient routine" />
     <MESSAGE value="multithreaded main" />
-    <option name="LAST_COMMIT_MESSAGE" value="multithreaded main" />
+    <MESSAGE value="no need to change paramnumbers for subset of chnof" />
+    <option name="LAST_COMMIT_MESSAGE" value="no need to change paramnumbers for subset of chnof" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/frontend/TxtIO.java</url>
+          <line>254</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+      </breakpoints>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="nddoparam.param.ParamHessianRestricted" memberName="gPrime" />

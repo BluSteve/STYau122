@@ -1,8 +1,8 @@
 package nddo;
 
 public class Config { // serializable
-	public int rhf_numIt_max = 200;
-	public int uhf_numIt_max = 400;
+	public int rhf_numIt_max = 400;
+	public int uhf_numIt_max = 800;
 	public double ediis_threshold = 1e-2, ediis_max_diff = 1e-5;
 	public double rhf_damp = 0.8, uhf_damp = 0.55;
 

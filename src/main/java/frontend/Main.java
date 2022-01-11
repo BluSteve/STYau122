@@ -34,14 +34,14 @@ public class Main {
 			logger.info("Input overriden.");
 		} catch (FileNotFoundException e) {
 			filenames = Files.walk(Path.of("inputs"))
-					.map(path -> path.getFileName().toString())
+					.map(Path::toString)
 					.filter(s -> s.endsWith(".txt"))
 					.collect(Collectors.toList());
 
+			logger.info("{} inputs found: {}", filenames.size(), filenames);
 
 			filenames.forEach(filename -> {
 				try {
-					logger.info("Input file found: {}", filename);
 					inputs.add(TxtIO.readInput(filename));
 				} catch (IOException ex) {
 					throw new RuntimeException(ex);
@@ -50,9 +50,6 @@ public class Main {
 		}
 
 		int inputCount = inputs.size();
-
-		logger.info("{} inputs found: {}", inputCount, filenames);
-
 		RunIterator[] iterators = new RunIterator[inputCount];
 
 		for (int i = 0; i < inputCount; i++) {
@@ -75,7 +72,9 @@ public class Main {
 						RunOutput ro = iterator.next();
 
 						JsonIO.write(ro, String.format("outputs/%04d-%s-%s", i, ro.input.hash, ro.hash));
-						TxtIO.updateInput(ro.nextInput, filename);
+						TxtIO.updateMolecules(ro.nextInput.molecules, filename);
+
+						logger.info("{} finished run {}", filename, i);
 
 						i++;
 					} catch (IOException e) {
