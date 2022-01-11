@@ -5,6 +5,7 @@ import nddo.NDDOOrbital;
 import nddo.solution.SolutionR;
 import nddo.solution.SolutionU;
 import org.ejml.simple.SimpleMatrix;
+import tools.Batcher;
 
 import static nddo.State.nom;
 
@@ -14,15 +15,25 @@ public class GeometryDerivative {
 		SimpleMatrix[] fockderivatives = new SimpleMatrix[l3];
 		SimpleMatrix grad = new SimpleMatrix(l3, 1);
 
-		int count = 0;
-		for (int a = 0; a < soln.atoms.length; a++) {
+		int[][] flats = new int[l3][];
+		for (int a = 0, count = 0; a < soln.atoms.length; a++) {
 			for (int tau = 0; tau < 3; tau++) {
+				flats[count] = new int[]{count, a, tau};
+				count++;
+			}
+		}
+
+		Batcher.consume(flats, 1, subset -> {
+			for (int[] ints : subset) {
+				int count = ints[0];
+				int a = ints[1];
+				int tau = ints[2];
+
 				SimpleMatrix[] matrices = staticderivs(soln.atoms, soln, a, tau);
 				fockderivatives[count] = matrices[1];
 				double sum = 0;
 				for (int i = 0; i < matrices[1].numRows(); i++) {
-					for (int j = 0; j < matrices[1].numRows(); j++) // todo is this correct
-					{
+					for (int j = 0; j < matrices[1].numRows(); j++) {
 						sum += 0.5 * soln.densityMatrix().get(i, j) * (matrices[0].get(i, j) + matrices[1].get(i, j));
 					}
 				}
@@ -32,9 +43,9 @@ public class GeometryDerivative {
 					}
 				}
 				grad.set(count, 0, sum);
-				count++;
 			}
-		}
+		});
+
 		return new SimpleMatrix[][]{new SimpleMatrix[]{grad}, fockderivatives};
 	}
 
@@ -43,9 +54,23 @@ public class GeometryDerivative {
 		SimpleMatrix[] fockderivativesalpha = new SimpleMatrix[l3];
 		SimpleMatrix[] fockderivativesbeta = new SimpleMatrix[l3];
 		SimpleMatrix grad = new SimpleMatrix(l3, 1);
-		int count = 0;
-		for (int a = 0; a < soln.atoms.length; a++) {
+
+
+		int[][] flats = new int[l3][];
+		for (int a = 0, count = 0; a < soln.atoms.length; a++) {
 			for (int tau = 0; tau < 3; tau++) {
+				flats[count] = new int[]{count, a, tau};
+				count++;
+			}
+		}
+
+
+		Batcher.consume(flats, 1, subset -> {
+			for (int[] ints : subset) {
+				int count = ints[0];
+				int a = ints[1];
+				int tau = ints[2];
+
 				SimpleMatrix[] matrices = staticderivs(soln.atoms, soln, a, tau);
 				fockderivativesalpha[count] = matrices[1];
 				fockderivativesbeta[count] = matrices[2];
@@ -62,9 +87,9 @@ public class GeometryDerivative {
 					}
 				}
 				grad.set(count, 0, sum);
-				count++;
 			}
-		}
+		});
+
 		return new SimpleMatrix[][]{new SimpleMatrix[]{grad}, fockderivativesalpha, fockderivativesbeta};
 	}
 

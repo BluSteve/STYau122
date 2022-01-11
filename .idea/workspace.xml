@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="multithreaded Ederiv2 in pgsd">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="remove a lot of -1">
       <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/params.csv" beforeDir="false" afterPath="$PROJECT_DIR$/params.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryDerivative.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/geometry/GeometryDerivative.java" afterDir="false" />
@@ -547,13 +546,6 @@
       <workItem from="1641724986038" duration="26261000" />
       <workItem from="1641869120482" duration="9030000" />
     </task>
-    <task id="LOCAL-00268" summary="solutionr threshold changes">
-      <created>1641441167231</created>
-      <option name="number" value="00268" />
-      <option name="presentableId" value="LOCAL-00268" />
-      <option name="project" value="LOCAL" />
-      <updated>1641441167231</updated>
-    </task>
     <task id="LOCAL-00269" summary="Config file">
       <created>1641443275562</created>
       <option name="number" value="00269" />
@@ -890,7 +882,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641918842278</updated>
     </task>
-    <option name="localTasksCounter" value="317" />
+    <task id="LOCAL-00317" summary="remove a lot of -1">
+      <created>1641920052228</created>
+      <option name="number" value="00317" />
+      <option name="presentableId" value="LOCAL-00317" />
+      <option name="project" value="LOCAL" />
+      <updated>1641920052228</updated>
+    </task>
+    <option name="localTasksCounter" value="318" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -937,7 +936,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="minor changes" />
     <MESSAGE value="prep for solution optimization" />
     <MESSAGE value="explicit version printing" />
     <MESSAGE value="solutionr refactor basically done" />
@@ -962,7 +960,8 @@
     <MESSAGE value="multithread ederiv2 even more" />
     <MESSAGE value="remove -1 and reformatt psgd2" />
     <MESSAGE value="multithreaded Ederiv2 in pgsd" />
-    <option name="LAST_COMMIT_MESSAGE" value="multithreaded Ederiv2 in pgsd" />
+    <MESSAGE value="remove a lot of -1" />
+    <option name="LAST_COMMIT_MESSAGE" value="remove a lot of -1" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
