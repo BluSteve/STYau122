@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="refactor poplethiel">
-      <change afterPath="$PROJECT_DIR$/overriden-molecules.txt" afterDir="false" />
+    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="save densitymatrix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/structs/MoleculeInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/structs/MoleculeInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunnableMolecule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunnableMolecule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/structs/Serializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/Serializer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -548,14 +544,7 @@
       <workItem from="1641713504006" duration="9299000" />
       <workItem from="1641724986038" duration="26261000" />
       <workItem from="1641869120482" duration="9030000" />
-      <workItem from="1641954395789" duration="4523000" />
-    </task>
-    <task id="LOCAL-00274" summary="IO changes in prep for fullch training set">
-      <created>1641638153083</created>
-      <option name="number" value="00274" />
-      <option name="presentableId" value="LOCAL-00274" />
-      <option name="project" value="LOCAL" />
-      <updated>1641638153084</updated>
+      <workItem from="1641954395789" duration="5550000" />
     </task>
     <task id="LOCAL-00275" summary="FrontendConfig">
       <created>1641639399858</created>
@@ -893,7 +882,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641956600728</updated>
     </task>
-    <option name="localTasksCounter" value="323" />
+    <task id="LOCAL-00323" summary="save densitymatrix">
+      <created>1641959365607</created>
+      <option name="number" value="00323" />
+      <option name="presentableId" value="LOCAL-00323" />
+      <option name="project" value="LOCAL" />
+      <updated>1641959365607</updated>
+    </task>
+    <option name="localTasksCounter" value="324" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -906,7 +902,6 @@
         <option value="Default.Author" />
         <option value="Default.Date" />
         <option value="Default.Subject" />
-        <option value="Space.CommitStatus" />
       </list>
     </option>
   </component>
@@ -941,7 +936,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="move ediis and diis into solution" />
     <MESSAGE value="solution refactor basically done" />
     <MESSAGE value="minor cleanup" />
     <MESSAGE value="ediisThreshold" />
@@ -966,7 +960,8 @@
     <MESSAGE value="no need to change paramnumbers for subset of chnof" />
     <MESSAGE value="constant paramoptizer changes" />
     <MESSAGE value="refactor poplethiel" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor poplethiel" />
+    <MESSAGE value="save densitymatrix" />
+    <option name="LAST_COMMIT_MESSAGE" value="save densitymatrix" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

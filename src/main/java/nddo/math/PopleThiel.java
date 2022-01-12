@@ -301,8 +301,6 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 			d.clear();
 			p.clear();
 
-			orthogonalize(dirs);
-
 			for (int i = 0; i < length; i++) {
 				if (rarray[i] != null) {
 					d.add(dirs[i]);
@@ -681,8 +679,6 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		while (Utils.numNotNull(rarray) > 0) {
 			d.clear();
 			p.clear();
-
-			orthogonalize(dirs);
 
 			for (int i = 0; i < length; i++) {
 				if (rarray[i] != null) {
