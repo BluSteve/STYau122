@@ -145,11 +145,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		bigLoop:
 		while (numFalse(finished) > 0) {
 			// orthogonalize barray
-			for (int i = 1; i < barray.length; i++) {
-				for (int j = 0; j < i; j++) {
-					barray[i].plusi(-barray[i].dot(barray[j]) / barray[j].dot(barray[j]), barray[j]);
-				}
-			}
+			orthogonalize(barray);
 
 			for (int i = 0; i < length; i++) {
 				SimpleMatrix b = barray[i].copy();
@@ -305,6 +301,8 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 			d.clear();
 			p.clear();
 
+			orthogonalize(dirs);
+
 			for (int i = 0; i < length; i++) {
 				if (rarray[i] != null) {
 					d.add(dirs[i]);
@@ -361,7 +359,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 						rarray[a] = null;
 					}
 					else if (mag != mag || Double.isInfinite(mag)) {
-						failThiel(soln, numIt);
+						failThiel(soln, numIt, mag);
 					}
 
 					if (mag > maxMag) maxMag = mag;
@@ -407,7 +405,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 			}
 
 			if (numIt == State.config.rhf_thiel_limit) {
-				failThiel(soln, numIt);
+				failThiel(soln, numIt, maxMag);
 			}
 
 			numIt++;
@@ -503,11 +501,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		bigLoop:
 		while (numFalse(finished) > 0) {
 			// orthogonalize barray
-			for (int i = 1; i < barray.length; i++) {
-				for (int j = 0; j < i; j++) {
-					barray[i].plusi(-barray[i].dot(barray[j]) / barray[j].dot(barray[j]), barray[j]);
-				}
-			}
+			orthogonalize(barray);
 
 			for (int i = 0; i < length; i++) {
 				SimpleMatrix b = barray[i].copy();
@@ -688,6 +682,8 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 			d.clear();
 			p.clear();
 
+			orthogonalize(dirs);
+
 			for (int i = 0; i < length; i++) {
 				if (rarray[i] != null) {
 					d.add(dirs[i]);
@@ -744,7 +740,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 						rarray[a] = null;
 					}
 					else if (mag != mag || Double.isInfinite(mag)) {
-						failThiel(soln, numIt);
+						failThiel(soln, numIt, mag);
 					}
 
 					if (mag > maxMag) maxMag = mag;
@@ -790,13 +786,21 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 			}
 
 			if (numIt == State.config.uhf_thiel_limit) {
-				failThiel(soln, numIt);
+				failThiel(soln, numIt, maxMag);
 			}
 
 			numIt++;
 		}
 
 		return xarray;
+	}
+
+	private static void orthogonalize(SimpleMatrix[] barray) {
+		for (int i = 1; i < barray.length; i++) {
+			for (int j = 0; j < i; j++) {
+				barray[i].plusi(-barray[i].dot(barray[j]) / barray[j].dot(barray[j]), barray[j]);
+			}
+		}
 	}
 
 	private static SimpleMatrix computeResponseVectorsPople(SolutionR soln, SimpleMatrix x,
@@ -1019,8 +1023,9 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		return 1e-5 / (1 + Pow.exp(-3.4 * (0.2 * x - 3.4)));
 	}
 
-	private static void failThiel(Solution soln, int numIt) {
-		throw new IllegalStateException(soln.rm.debugName() + ": Thiel has failed at numIt=" + numIt + "!");
+	private static void failThiel(Solution soln, int numIt, double mag) {
+		throw new IllegalStateException(
+				soln.rm.debugName() + ": Thiel has failed at numIt=" + numIt + "! (mag=" + mag + ")");
 	}
 
 	private static int numFalse(boolean[] iterable) {

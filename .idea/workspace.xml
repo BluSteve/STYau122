@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="minor config bug fixes">
+    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="constant paramoptizer changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/optimize/ParamOptimizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/optimize/ParamOptimizer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -264,19 +264,6 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -546,13 +533,7 @@
       <workItem from="1641713504006" duration="9299000" />
       <workItem from="1641724986038" duration="26261000" />
       <workItem from="1641869120482" duration="9030000" />
-    </task>
-    <task id="LOCAL-00272" summary="remove batcher shuffle and other debug">
-      <created>1641548127509</created>
-      <option name="number" value="00272" />
-      <option name="presentableId" value="LOCAL-00272" />
-      <option name="project" value="LOCAL" />
-      <updated>1641548127509</updated>
+      <workItem from="1641954395789" duration="1903000" />
     </task>
     <task id="LOCAL-00273" summary="fix batcher uhf bug in geom &amp; sigmoid threshold">
       <created>1641636489051</created>
@@ -890,7 +871,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641924033501</updated>
     </task>
-    <option name="localTasksCounter" value="321" />
+    <task id="LOCAL-00321" summary="constant paramoptizer changes">
+      <created>1641953847426</created>
+      <option name="number" value="00321" />
+      <option name="presentableId" value="LOCAL-00321" />
+      <option name="project" value="LOCAL" />
+      <updated>1641953847427</updated>
+    </task>
+    <option name="localTasksCounter" value="322" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -938,7 +926,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="checkpoint" />
     <MESSAGE value="checkpoint - values a bit different for uhf" />
     <MESSAGE value="move ediis and diis into solution" />
     <MESSAGE value="solution refactor basically done" />
@@ -963,7 +950,8 @@
     <MESSAGE value="multithreaded gradient routine" />
     <MESSAGE value="multithreaded main" />
     <MESSAGE value="no need to change paramnumbers for subset of chnof" />
-    <option name="LAST_COMMIT_MESSAGE" value="no need to change paramnumbers for subset of chnof" />
+    <MESSAGE value="constant paramoptizer changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="constant paramoptizer changes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
