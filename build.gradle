@@ -27,6 +27,9 @@ compileJava {
 }
 
 jar {
+    doFirst {
+        writeTime()
+    }
     clean
     manifest {
         attributes(
@@ -44,6 +47,9 @@ jar {
 }
 
 task jar2(type: Jar) {
+    doFirst {
+        writeTime()
+    }
     clean
     manifest {
         attributes(
