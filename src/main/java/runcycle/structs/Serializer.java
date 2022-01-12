@@ -69,18 +69,10 @@ public class Serializer {
 		};
 
 		JsonSerializer<RunnableMolecule> rms = (src, typeOfSrc, context) -> {
-			JsonObject json = new JsonObject();
+			JsonObject json = gson.toJsonTree(src).getAsJsonObject();
 
-			json.addProperty("index", src.index);
-			json.addProperty("name", src.name);
-			json.addProperty("restricted", src.restricted);
-			json.addProperty("useEdiis", src.useEdiis);
-			json.addProperty("charge", src.charge);
-			json.addProperty("mult", src.mult);
-			json.add("datum", gson.toJsonTree(src.datum));
-			json.add("mats", gson.toJsonTree(src.mats));
-			json.add("mnps", gson.toJsonTree(src.mnps));
-			json.add("densityMatrices", gson.toJsonTree(src.densityMatrices));
+			json.remove("atoms");
+			json.remove("expGeom");
 
 			Atom[] bohratoms = new Atom[src.atoms.length];
 			for (int i = 0; i < bohratoms.length; i++) {

@@ -29,12 +29,13 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 			(OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 
 	public final RunInput initialRunInput;
-	private final Logger logger;
 	public final int limit;
+	private final Logger logger;
 	private final Level defaultLevel;
 	private int runNumber = 0;
 	private RunInput currentRunInput;
 	private IMoleculeResult[] ranMolecules;
+
 	public RunIterator(RunInput runInput) {
 		this(runInput, 0, null);
 	}
@@ -370,17 +371,26 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 				StopWatch sw = new StopWatch();
 				sw.start();
 
-				Solution initialS = Solution.of(rm, nddoAtoms);
+				Solution initialS = Solution.of(rm, nddoAtoms, rm.densityMatrices);
 				rm.getLogger().debug("Finished initial solution computation");
 
 				s = GeometryOptimization.of(initialS).compute().getS();
 				rm.getLogger().debug("Finished geometry optimization");
 
-				g = new ParamGradientNew(s, datum, isExpAvail ? Solution.of(rm, expGeom) : null);
+				Solution sExp = isExpAvail ? Solution.of(rm, expGeom, rm.densityMatricesExp) : null;
+				g = new ParamGradientNew(s, datum, sExp);
 				rm.getLogger().debug("Finished param gradient");
 
 				h = withHessian ? new ParamHessianNew((ParamGradientNew) g) : null;
 				rm.getLogger().debug("Finished param hessian");
+
+				rm.densityMatrices = rm.restricted ?
+						new double[][]{s.densityMatrix().getDDRM().data} :
+						new double[][]{s.alphaDensity().getDDRM().data, s.betaDensity().getDDRM().data};
+
+				if (isExpAvail) rm.densityMatricesExp = rm.restricted ?
+						new double[][]{sExp.densityMatrix().getDDRM().data} :
+						new double[][]{sExp.alphaDensity().getDDRM().data, sExp.betaDensity().getDDRM().data};
 
 				// stores new optimized geometry
 				updatedRm = new RunnableMolecule(rm, getAtoms(s), rm.expGeom, rm.datum);

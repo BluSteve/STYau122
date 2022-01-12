@@ -7,7 +7,7 @@ public class MoleculeInfo { // low level molecule info representation
 	public final int index; // must be unique, preferably small
 	public final String name;
 	public final boolean restricted;
-	public boolean useEdiis;
+	public final boolean useEdiis;
 	public final int charge, mult;
 	public final int[] atomicNumbers;
 	public final int nElectrons, nOccAlpha, nOccBeta, nVirtAlpha, nVirtBeta, nonvAlpha, nonvBeta, nOrbitals,
@@ -16,7 +16,7 @@ public class MoleculeInfo { // low level molecule info representation
 	public final int[] atomOfOrb;
 	public final int[] mats; // molecule atom types
 	public final int[][] mnps; // molecule needed params
-	public double[][] densityMatrices;
+	public double[][] densityMatrices, densityMatricesExp;
 
 	private transient String debugName;
 	private transient Logger logger;
@@ -25,7 +25,7 @@ public class MoleculeInfo { // low level molecule info representation
 						int[] atomicNumbers, int nElectrons, int nOccAlpha, int nOccBeta, int nVirtAlpha,
 						int nVirtBeta, int nonvAlpha, int nonvBeta, int nOrbitals, int nIntegrals, int nCoulombInts,
 						int nExchangeInts, int[][] orbsOfAtom, int[][] missingOfAtom, int[] atomOfOrb, int[] mats,
-						int[][] mnps, double[][] densityMatrices) {
+						int[][] mnps, double[][] densityMatrices, double[][] densityMatricesExp) {
 		this.index = index;
 		this.name = name;
 		this.restricted = restricted;
@@ -50,6 +50,7 @@ public class MoleculeInfo { // low level molecule info representation
 		this.mats = mats;
 		this.mnps = mnps;
 		this.densityMatrices = densityMatrices;
+		this.densityMatricesExp = densityMatricesExp;
 	}
 
 	protected MoleculeInfo(MoleculeInfo mi) {
@@ -77,6 +78,7 @@ public class MoleculeInfo { // low level molecule info representation
 		this.mats = mi.mats;
 		this.mnps = mi.mnps;
 		this.densityMatrices = mi.densityMatrices;
+		this.densityMatricesExp = mi.densityMatricesExp;
 	}
 
 	public String debugName() {
@@ -105,7 +107,7 @@ public class MoleculeInfo { // low level molecule info representation
 		public int[] atomOfOrb;
 		public int[] mats;
 		public int[][] mnps;
-		public double[][] densityMatrices;
+		public double[][] densityMatrices, densityMatricesExp;
 
 		public int findNIntegrals() {
 			int size = 0;
@@ -231,7 +233,7 @@ public class MoleculeInfo { // low level molecule info representation
 				return new MoleculeInfo(index, name, restricted, useEdiis, charge, mult, atomicNumbers, nElectrons,
 						nOccAlpha, nOccBeta, nVirtAlpha, nVirtBeta, nonvAlpha, nonvBeta, nOrbitals, nIntegrals,
 						nCoulombInts, nExchangeInts, orbsOfAtom, missingOfAtom, atomOfOrb, mats, mnps,
-						densityMatrices);
+						densityMatrices, densityMatricesExp);
 			}
 
 			throw new IllegalStateException("Invalid MIBuilder parameters for building!");

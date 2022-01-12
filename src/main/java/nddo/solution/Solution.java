@@ -101,13 +101,17 @@ public abstract class Solution {
 	}
 
 	public static Solution of(MoleculeInfo mi, NDDOAtom[] atoms) {
+		return of(mi, atoms, null);
+	}
+
+	public static Solution of(MoleculeInfo mi, NDDOAtom[] atoms, double[][] densityMatrices) {
 		Solution s = mi.restricted ? new SolutionR(mi, atoms) : new SolutionU(mi, atoms);
 
 		if (!mi.useEdiis) {
 			s.ediisThreshold = Double.POSITIVE_INFINITY;
 		}
 
-		return s.compute();
+		return s.compute(densityMatrices);
 	}
 
 	public static boolean shouldEdiis(MoleculeInfo mi, NDDOAtom[] atoms) {
@@ -194,22 +198,25 @@ public abstract class Solution {
 	public abstract Solution withNewAtoms(NDDOAtom[] newAtoms);
 
 	public final Solution compute() {
+		compute(null);
+
+		return this;
+	}
+
+	public final Solution compute(double[][] densityMatrices) {
 		precomp();
 
-		if (rm.densityMatrices != null) {
+		if (densityMatrices != null) {
 			if (rm.restricted) {
-				densityMatrix = new SimpleMatrix(rm.nOrbitals, rm.nOrbitals, true, rm.densityMatrices[0]);
+				densityMatrix = new SimpleMatrix(rm.nOrbitals, rm.nOrbitals, true, densityMatrices[0]);
 			}
 			else {
-				alphaDensity =  new SimpleMatrix(rm.nOrbitals, rm.nOrbitals, true, rm.densityMatrices[0]);
-				betaDensity =  new SimpleMatrix(rm.nOrbitals, rm.nOrbitals, true, rm.densityMatrices[1]);
+				alphaDensity =  new SimpleMatrix(rm.nOrbitals, rm.nOrbitals, true, densityMatrices[0]);
+				betaDensity =  new SimpleMatrix(rm.nOrbitals, rm.nOrbitals, true, densityMatrices[1]);
 			}
 		}
 
 		computePrivate();
-
-		rm.densityMatrices = rm.restricted ? new double[][]{densityMatrix.getDDRM().data} :
-				new double[][]{alphaDensity.getDDRM().data, betaDensity.getDDRM().data};
 
 		findMatrices();
 		findHf();

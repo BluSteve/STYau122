@@ -27,8 +27,7 @@ public abstract class GeometryOptimization {
 		else if (s instanceof SolutionU) {
 			return new GeometryOptimizationU((SolutionU) s);
 		}
-		else throw new IllegalArgumentException(
-					"Solution is neither restricted nor unrestricted!");
+		else throw new IllegalArgumentException("Solution is neither restricted nor unrestricted!");
 	}
 
 	private static double lambda(SimpleMatrix h, SimpleMatrix g, int count) {
@@ -71,15 +70,6 @@ public abstract class GeometryOptimization {
 		return B.plus(m1).minus(m2);
 	}
 
-	private static double mag(SimpleMatrix gradient) {
-		double sum = 0;
-		for (int i = 0; i < gradient.numRows(); i++) {
-			sum += gradient.get(i) * gradient.get(i);
-		}
-
-		return Math.sqrt(sum);
-	}
-
 	public GeometryOptimization compute() {
 		logger.debug("initial hf: {}", s.hf);
 
@@ -100,7 +90,7 @@ public abstract class GeometryOptimization {
 
 		int numIt = 0;
 		while (true) {
-			double mag = mag(gradient);
+			double mag = Utils.mag(gradient);
 			if (mag < 1E-3) break;
 			// computes new search direction
 			double lambda = lambda(h, U.transpose().mult(gradient), h.numRows() - counter);
@@ -110,8 +100,9 @@ public abstract class GeometryOptimization {
 					.mult(gradient)
 					.negative();
 
-			if (mag(searchDir) > 0.3) {
-				searchDir = searchDir.scale(0.3 / mag(searchDir));
+			double mag1 = Utils.mag(searchDir);
+			if (mag1 > 0.3) {
+				searchDir.scalei(0.3 / mag1);
 			}
 
 			// updates coordinates of atoms using search direction
