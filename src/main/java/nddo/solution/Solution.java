@@ -127,6 +127,13 @@ public abstract class Solution {
 		return useEdiis;
 	}
 
+	public static SimpleMatrix[] findDensityMatrices(MoleculeInfo mi, NDDOAtom[] atoms) {
+		Solution s = Solution.of(mi, atoms);
+
+		if (mi.restricted) return new SimpleMatrix[]{s.densityMatrix};
+		else return new SimpleMatrix[]{s.alphaDensity, s.betaDensity};
+	}
+
 	protected static SimpleMatrix commutator(SimpleMatrix F, SimpleMatrix D) {
 		return F.mult(D).minusi(D.mult(F));
 	}
@@ -189,7 +196,20 @@ public abstract class Solution {
 	public final Solution compute() {
 		precomp();
 
+		if (rm.densityMatrices != null) {
+			if (rm.restricted) {
+				densityMatrix = new SimpleMatrix(rm.nOrbitals, rm.nOrbitals, true, rm.densityMatrices[0]);
+			}
+			else {
+				alphaDensity =  new SimpleMatrix(rm.nOrbitals, rm.nOrbitals, true, rm.densityMatrices[0]);
+				betaDensity =  new SimpleMatrix(rm.nOrbitals, rm.nOrbitals, true, rm.densityMatrices[1]);
+			}
+		}
+
 		computePrivate();
+
+		rm.densityMatrices = rm.restricted ? new double[][]{densityMatrix.getDDRM().data} :
+				new double[][]{alphaDensity.getDDRM().data, betaDensity.getDDRM().data};
 
 		findMatrices();
 		findHf();

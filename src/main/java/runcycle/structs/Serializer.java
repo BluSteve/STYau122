@@ -80,6 +80,7 @@ public class Serializer {
 			json.add("datum", gson.toJsonTree(src.datum));
 			json.add("mats", gson.toJsonTree(src.mats));
 			json.add("mnps", gson.toJsonTree(src.mnps));
+			json.add("densityMatrices", gson.toJsonTree(src.densityMatrices));
 
 			Atom[] bohratoms = new Atom[src.atoms.length];
 			for (int i = 0; i < bohratoms.length; i++) {
@@ -113,6 +114,7 @@ public class Serializer {
 			builder.datum = gson.fromJson(object.get("datum"), double[].class);
 			builder.atoms = gson.fromJson(object.get("atoms"), Atom[].class);
 			builder.expGeom = gson.fromJson(object.get("expGeom"), Atom[].class);
+			builder.densityMatrices = gson.fromJson(object.get("densityMatrices"), double[][].class);
 
 			for (int i = 0; i < builder.atoms.length; i++) {
 				builder.atoms[i] = new Atom(builder.atoms[i].Z, Utils.bohr(builder.atoms[i].coords));

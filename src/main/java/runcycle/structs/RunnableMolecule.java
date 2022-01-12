@@ -1,9 +1,11 @@
 package runcycle.structs;
 
+import nddo.NDDOAtom;
 import nddo.NDDOParams;
 import nddo.solution.Solution;
 import nddo.structs.AtomProperties;
 import nddo.structs.MoleculeInfo;
+import org.ejml.simple.SimpleMatrix;
 import runcycle.State;
 import tools.Utils;
 
@@ -37,6 +39,7 @@ public final class RunnableMolecule extends MoleculeInfo { // mid-level runnable
 		public String name;
 		public boolean restricted = true;
 		public Boolean useEdiis;
+		public double[][] densityMatrices;
 		public int charge, mult;
 		public double[] datum;
 		public Atom[] atoms, expGeom;
@@ -151,12 +154,24 @@ public final class RunnableMolecule extends MoleculeInfo { // mid-level runnable
 				miBuilder.missingOfAtom[j] = missing;
 			}
 
-			if (npMap != null && useEdiis == null) { // override ediis
-				MoleculeInfo temp = miBuilder.build();
-				miBuilder.useEdiis = Solution.shouldEdiis(temp, State.getConverter().convert(atoms, npMap));
+			MoleculeInfo temp = miBuilder.build();
+			if (npMap != null) {
+				NDDOAtom[] nddoAtoms = State.getConverter().convert(atoms, npMap);
+				miBuilder.useEdiis = useEdiis == null ?
+						Solution.shouldEdiis(temp, nddoAtoms) : useEdiis;
+
+				temp = miBuilder.build();
+				if (densityMatrices != null) miBuilder.densityMatrices = densityMatrices;
+				else {
+					SimpleMatrix[] densityMatrices = Solution.findDensityMatrices(temp, nddoAtoms);
+					double[][] doubleDM = new double[densityMatrices.length][];
+					for (int j = 0; j < densityMatrices.length; j++) {
+						doubleDM[j] = densityMatrices[j].getDDRM().data;
+					}
+
+					miBuilder.densityMatrices = doubleDM;
+				}
 			}
-			else if (useEdiis != null) miBuilder.useEdiis = useEdiis;
-			// otherwise use default useEdiis
 
 			return new RunnableMolecule(miBuilder.build(), atoms, expGeom, datum);
 		}
