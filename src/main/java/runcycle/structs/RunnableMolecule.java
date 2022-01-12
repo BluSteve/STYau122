@@ -161,19 +161,27 @@ public final class RunnableMolecule extends MoleculeInfo { // mid-level runnable
 						Solution.shouldEdiis(temp, nddoAtoms) : useEdiis;
 
 				temp = miBuilder.build();
-				if (densityMatrices != null) miBuilder.densityMatrices = densityMatrices;
-				else {
-					SimpleMatrix[] densityMatrices = Solution.findDensityMatrices(temp, nddoAtoms);
-					double[][] doubleDM = new double[densityMatrices.length][];
-					for (int j = 0; j < densityMatrices.length; j++) {
-						doubleDM[j] = densityMatrices[j].getDDRM().data;
-					}
-
-					miBuilder.densityMatrices = doubleDM;
+				miBuilder.densityMatrices = getDoubleDM(temp, nddoAtoms);
+				if (expGeom != null) {
+					NDDOAtom[] expAtoms = State.getConverter().convert(expGeom, npMap);
+					miBuilder.densityMatricesExp = getDoubleDM(temp, expAtoms);
 				}
 			}
 
 			return new RunnableMolecule(miBuilder.build(), atoms, expGeom, datum);
+		}
+
+		private double[][] getDoubleDM(MoleculeInfo temp, NDDOAtom[] nddoAtoms) {
+			if (densityMatrices != null) return densityMatrices;
+			else {
+				SimpleMatrix[] densityMatrices = Solution.findDensityMatrices(temp, nddoAtoms);
+				double[][] doubleDM = new double[densityMatrices.length][];
+				for (int j = 0; j < densityMatrices.length; j++) {
+					doubleDM[j] = densityMatrices[j].getDDRM().data;
+				}
+
+				return doubleDM;
+			}
 		}
 
 		public void setAtoms(int[] Zs, double[][] coords) {

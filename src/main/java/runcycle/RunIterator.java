@@ -398,7 +398,7 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 				sw.stop();
 				time = sw.getTime();
 
-				rm.getLogger().info("Finished in {}", time);
+				rm.getLogger().info("Finished in {}", String.format("%06d", time));
 			} catch (Exception e) {
 				e.printStackTrace();
 				rm.getLogger().error(e);

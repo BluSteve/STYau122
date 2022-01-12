@@ -90,7 +90,7 @@ public class MoleculeInfo { // low level molecule info representation
 
 	public Logger getLogger() {
 		if (logger == null) {
-			logger = LogManager.getLogger(debugName());
+			logger = LogManager.getLogger(String.format("%-26s", debugName()));
 		}
 
 		return logger;
