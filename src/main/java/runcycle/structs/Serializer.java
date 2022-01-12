@@ -53,7 +53,7 @@ public class Serializer {
 
 			json.add("atomTypes", gson.toJsonTree(src.atomTypes));
 			json.add("neededParams", gson.toJsonTree(src.neededParams));
-			json.add("params", gson.toJsonTree(src.getParams()));
+			json.add("paramsMap", gson.toJsonTree(src.getParamsMap()));
 
 			return json;
 		};
@@ -64,7 +64,7 @@ public class Serializer {
 			return new InputInfo(
 					gson.fromJson(object.get("atomTypes"), int[].class),
 					gson.fromJson(object.get("neededParams"), int[][].class),
-					gson.fromJson(object.get("params"), double[][].class)
+					gson.fromJson(object.get("paramsMap"), double[][].class)
 			);
 		};
 

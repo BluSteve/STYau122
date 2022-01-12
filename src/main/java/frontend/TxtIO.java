@@ -122,11 +122,14 @@ public class TxtIO {
 
 
 		List<String> pcsv = Files.readAllLines(Path.of("params.csv"));
+		int[] paramsAtomTypes = new int[pcsv.size()];
 		double[][] params = new double[pcsv.size()][];
 		for (int i = 0; i < pcsv.size(); i++) {
 			String[] linea = splitCsvLine(pcsv.get(i));
 
 			int Z = AtomProperties.getAtomsMap().get(linea[0]).getZ();
+
+			paramsAtomTypes[i] = Z;
 
 			// if Z is in atomTypes then check corresponding neededparams to see if a needed param exceeds size of
 			// params
@@ -258,7 +261,7 @@ public class TxtIO {
 			k++;
 		}
 
-		InputInfo info = new InputInfo(actualAtomTypes, actualNeededParams, params);
+		InputInfo info = new InputInfo(actualAtomTypes, actualNeededParams, paramsAtomTypes, params);
 
 		RunnableMolecule[] molecules = new RunnableMolecule[builders.size()];
 		LogManager.getLogger().info("Building molecules...");
