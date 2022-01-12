@@ -4,13 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="Better logging and build densityMatricesExp">
+    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="minor changes">
+      <change afterPath="$PROJECT_DIR$/src/main/java/testing/HazelServer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mndo-install.sh" beforeDir="false" afterPath="$PROJECT_DIR$/mndo-install.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mndo-j.sh" beforeDir="false" afterPath="$PROJECT_DIR$/mndo-j.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mndo-update.sh" beforeDir="false" afterPath="$PROJECT_DIR$/mndo-update.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,7 +103,7 @@
     </favorite-branches>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="6a4ecf5fa2f6c075a3852af8b56baa905c92ddbf" />
+        <entry key="$PROJECT_DIR$" value="stratified2" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -204,8 +205,8 @@
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\after1strun" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\billi\IdeaProjects\MNDOParam\inputs" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam" />
+      <recent name="C:\Users\billi\IdeaProjects\MNDOParam\inputs" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\src\main\java\examples\am1" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\src\main\resources" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\src\main\java\frontend\json" />
@@ -232,7 +233,7 @@
       <command value="gradlew clean" />
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.MNDOParam [jar]">
+  <component name="RunManager" selected="Gradle.MNDOParam [jar2]">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -244,12 +245,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ForJinHerng" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="examples.ForJinHerng" />
+    <configuration name="HazelTesting" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="testing.HazelTesting" />
       <module name="MNDOParam.main" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="examples.*" />
+          <option name="PATTERN" value="testing.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -364,9 +365,9 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.ForJinHerng" />
       <item itemvalue="Application.Testing" />
       <item itemvalue="Application.Main" />
+      <item itemvalue="Application.HazelTesting" />
       <item itemvalue="Gradle.MNDOParam [jmh]" />
       <item itemvalue="Gradle.MNDOParam [jar]" />
       <item itemvalue="Gradle.MNDOParam [jar2]" />
@@ -374,11 +375,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.MNDOParam [jar2]" />
         <item itemvalue="Gradle.MNDOParam [jar]" />
+        <item itemvalue="Application.HazelTesting" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.Testing" />
-        <item itemvalue="Gradle.MNDOParam [jar2]" />
-        <item itemvalue="Application.ForJinHerng" />
       </list>
     </recent_temporary>
   </component>
@@ -549,13 +550,8 @@
       <workItem from="1641724986038" duration="26261000" />
       <workItem from="1641869120482" duration="9030000" />
       <workItem from="1641954395789" duration="5550000" />
-    </task>
-    <task id="LOCAL-00277" summary="use old densitymatrix for withNewAtoms">
-      <created>1641646195485</created>
-      <option name="number" value="00277" />
-      <option name="presentableId" value="LOCAL-00277" />
-      <option name="project" value="LOCAL" />
-      <updated>1641646195485</updated>
+      <workItem from="1642010213724" duration="486000" />
+      <workItem from="1642010722469" duration="1479000" />
     </task>
     <task id="LOCAL-00278" summary="work in progress uhf pople">
       <created>1641714309548</created>
@@ -893,7 +889,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642002420982</updated>
     </task>
-    <option name="localTasksCounter" value="326" />
+    <task id="LOCAL-00326" summary="minor changes">
+      <created>1642006345201</created>
+      <option name="number" value="00326" />
+      <option name="presentableId" value="LOCAL-00326" />
+      <option name="project" value="LOCAL" />
+      <updated>1642006345201</updated>
+    </task>
+    <option name="localTasksCounter" value="327" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -939,7 +942,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="ediisThreshold" />
     <MESSAGE value="automatically determine ediis/diis" />
     <MESSAGE value="ediis_max_diff" />
     <MESSAGE value="constant changes" />
@@ -964,7 +966,8 @@
     <MESSAGE value="save densitymatrix" />
     <MESSAGE value="separate densitymatrix for s and sexp" />
     <MESSAGE value="Better logging and build densityMatricesExp" />
-    <option name="LAST_COMMIT_MESSAGE" value="Better logging and build densityMatricesExp" />
+    <MESSAGE value="minor changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="minor changes" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

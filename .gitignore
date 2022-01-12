@@ -13,3 +13,5 @@ venv
 /updated-molecules.txt
 src/main/resources/version.txt
 overriden-molecules.txt
+*.war
+*.jar
