@@ -47,7 +47,7 @@ public class ParamOptimizer {
 		double val = 0;
 		double[] changes = new double[searchdir.numRows()];
 
-		while (Math.abs(val - value) > 1E-6 && Math.abs(lambda) <= 0.05) {
+		while (Math.abs(val - value) > 1E-8 && Math.abs(lambda) <= 0.5) {
 			lambda += k;
 			val = value;
 			changes = searchdir.scale(lambda).getDDRM().data;
