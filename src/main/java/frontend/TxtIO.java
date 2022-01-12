@@ -106,7 +106,7 @@ public class TxtIO {
 		pw.close();
 	}
 
-	public static RunInput readInput(String filename) throws IOException {
+	public static RunInput readInput(List<String> pcsv, List<String> mtxt) throws IOException {
 		final String pncsvname = "param-numbers.csv";
 		// if specified then take specified else default
 		List<String> pncsv = Files.exists(Path.of(pncsvname)) ?
@@ -120,8 +120,6 @@ public class TxtIO {
 			neededParams[i] = Utils.toInts(Arrays.copyOfRange(linea, 1, linea.length));
 		}
 
-
-		List<String> pcsv = Files.readAllLines(Path.of("params.csv"));
 		int[] paramsAtomTypes = new int[pcsv.size()];
 		double[][] params = new double[pcsv.size()][];
 		for (int i = 0; i < pcsv.size(); i++) {
@@ -154,8 +152,6 @@ public class TxtIO {
 			params[i] = Utils.toDoubles(Arrays.copyOfRange(linea, 1, linea.length));
 		}
 
-
-		List<String> mtxt = Files.readAllLines(Path.of(filename));
 
 		List<RunnableMolecule.RMBuilder> builders = new ArrayList<>();
 		int i = 0;
@@ -274,6 +270,13 @@ public class TxtIO {
 		LogManager.getLogger().info("{} molecules built for {}", molecules.length, runInput.hash);
 
 		return runInput;
+	}
+
+	public static RunInput readInput(String filename) throws IOException {
+		List<String> pcsv = Files.readAllLines(Path.of("params.csv"));
+		List<String> mtxt = Files.readAllLines(Path.of(filename));
+
+		return readInput(pcsv, mtxt);
 	}
 
 	public static void updateMolecules(RunnableMolecule[] results, String filepath) throws FileNotFoundException {

@@ -9,7 +9,7 @@ public class HazelServer {
 	public static void main(String[] args) {
 		FrontendConfig.init();
 		Config config = new Config();
-		config.setClusterName("dev");
+		config.setClusterName("beJSaHB3AJQVUBa3G7eSptMopuJCRg");
 		config.setProperty("hazelcast.logging.type", "log4j2");
 
 		HazelcastInstance h1 = Hazelcast.newHazelcastInstance(config);
