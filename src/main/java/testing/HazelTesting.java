@@ -5,8 +5,8 @@ import com.hazelcast.client.config.ClientConfig;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IExecutorService;
 import frontend.FrontendConfig;
-import frontend.JsonIO;
 import frontend.TxtIO;
+import org.apache.logging.log4j.LogManager;
 import runcycle.RunIterator;
 import runcycle.structs.RunInput;
 import runcycle.structs.RunOutput;
@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -25,24 +26,33 @@ public class HazelTesting {
 	public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
 		FrontendConfig.init();
 
-		ClientConfig clientconf = new ClientConfig();
-		clientconf.setClusterName("beJSaHB3AJQVUBa3G7eSptMopuJCRg");
-		clientconf.getNetworkConfig().addAddress("34.136.52.126");
+		List<IExecutorService> executorServices = new ArrayList<>();
+		String[] ips = {"localhost", "192.168.31.153"};
 
-		HazelcastInstance h = HazelcastClient.newHazelcastClient(clientconf);
-		IExecutorService executorService = h.getExecutorService("serbice");
+		for (String ip : ips) {
+			ClientConfig clientconf = new ClientConfig();
+			clientconf.setClusterName("beJSaHB3AJQVUBa3G7eSptMopuJCRg");
+			clientconf.getNetworkConfig().addAddress(ip);
+			clientconf.setProperty("hazelcast.logging.type", "log4j2");
+			HazelcastInstance h = HazelcastClient.newHazelcastClient(clientconf);
+			IExecutorService executorService = h.getExecutorService("serbice");
+			executorServices.add(executorService);
+		}
 
 		List<String> pcsv = Files.readAllLines(Path.of("params.csv"));
-		List<String> mtxt = Files.readAllLines(Path.of("inputs/fullch.txt"));
+		List<String> mtxt = Files.readAllLines(Path.of("molecules.txt"));
 
-		Future<String> future = executorService.submit(new SolutionTask(pcsv, mtxt));
-
-		RunOutput ro = Serializer.gson.fromJson(future.get(), RunOutput.class);
-
-		JsonIO.write(ro, "remote-output");
+		for (int i = 0; i < executorServices.size(); i++) {
+			Future<String[]> future = executorServices.get(i).submit(new SolutionTask(pcsv, mtxt));
+			String[] s = future.get();
+			RunOutput ro = Serializer.gson.fromJson(s[0], RunOutput.class);
+			RunInput nextInput = Serializer.gson.fromJson(s[1], RunInput.class);
+			LogManager.getLogger().info("{}: {}", ips[i], nextInput.info.getParams());
+		}
 	}
 
-	public static class SolutionTask implements Callable<String>, Serializable {
+	public static class SolutionTask implements Callable<String[]>, Serializable {
+		public static final long serialVersionUID = 1234;
 		private final String[] pcsv, mtxt;
 
 		public SolutionTask(List<String> pcsv, List<String> mtxt) {
@@ -51,14 +61,14 @@ public class HazelTesting {
 		}
 
 		@Override
-		public String call() throws IOException {
+		public String[] call() throws IOException {
 			RunInput runInput = TxtIO.readInput(List.of(pcsv), List.of(mtxt));
 
 			RunIterator runIterator = new RunIterator(runInput, FrontendConfig.config.num_runs);
 
 			RunOutput ro = runIterator.next();
 
-			return Serializer.gson.toJson(ro);
+			return new String[]{Serializer.gson.toJson(ro), Serializer.gson.toJson(ro.nextInput)};
 		}
 	}
 }

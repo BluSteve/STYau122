@@ -1,2 +1,3 @@
 rootProject.name = 'MNDOParam'
+include 'hazel'
 
