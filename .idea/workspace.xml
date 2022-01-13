@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="set up hazelcast">
-      <change afterPath="$PROJECT_DIR$/.idea/modules/hazel.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="hazel on multiple machines">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -552,14 +549,7 @@
       <workItem from="1641954395789" duration="5550000" />
       <workItem from="1642010213724" duration="486000" />
       <workItem from="1642010722469" duration="1479000" />
-      <workItem from="1642048616296" duration="1837000" />
-    </task>
-    <task id="LOCAL-00278" summary="work in progress uhf pople">
-      <created>1641714309548</created>
-      <option name="number" value="00278" />
-      <option name="presentableId" value="LOCAL-00278" />
-      <option name="project" value="LOCAL" />
-      <updated>1641714309548</updated>
+      <workItem from="1642048616296" duration="3941000" />
     </task>
     <task id="LOCAL-00279" summary="work in progress uhf pople">
       <created>1641715730384</created>
@@ -897,7 +887,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642006345201</updated>
     </task>
-    <option name="localTasksCounter" value="327" />
+    <task id="LOCAL-00327" summary="hazel on multiple machines">
+      <created>1642050685475</created>
+      <option name="number" value="00327" />
+      <option name="presentableId" value="LOCAL-00327" />
+      <option name="project" value="LOCAL" />
+      <updated>1642050685476</updated>
+    </task>
+    <option name="localTasksCounter" value="328" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -944,7 +941,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="automatically determine ediis/diis" />
     <MESSAGE value="ediis_max_diff" />
     <MESSAGE value="constant changes" />
     <MESSAGE value="fix testediis crashing bug" />
@@ -969,7 +965,8 @@
     <MESSAGE value="separate densitymatrix for s and sexp" />
     <MESSAGE value="Better logging and build densityMatricesExp" />
     <MESSAGE value="minor changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="minor changes" />
+    <MESSAGE value="hazel on multiple machines" />
+    <option name="LAST_COMMIT_MESSAGE" value="hazel on multiple machines" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

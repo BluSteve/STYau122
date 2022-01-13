@@ -26,7 +26,7 @@ public class HazelTesting {
 	public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
 		FrontendConfig.init();
 
-		List<IExecutorService> executorServices = new ArrayList<>();
+		List<RemoteExecutor> executors = new ArrayList<>();
 		String[] ips = {"localhost", "192.168.31.153"};
 
 		for (String ip : ips) {
@@ -36,18 +36,37 @@ public class HazelTesting {
 			clientconf.setProperty("hazelcast.logging.type", "log4j2");
 			HazelcastInstance h = HazelcastClient.newHazelcastClient(clientconf);
 			IExecutorService executorService = h.getExecutorService("serbice");
-			executorServices.add(executorService);
+			executors.add(new RemoteExecutor(ip, executorService, executorService.submit(new CoreTask()).get()));
 		}
 
 		List<String> pcsv = Files.readAllLines(Path.of("params.csv"));
 		List<String> mtxt = Files.readAllLines(Path.of("molecules.txt"));
 
-		for (int i = 0; i < executorServices.size(); i++) {
-			Future<String[]> future = executorServices.get(i).submit(new SolutionTask(pcsv, mtxt));
+		for (RemoteExecutor executor : executors) {
+			Future<String[]> future = executor.executorService.submit(new SolutionTask(pcsv, mtxt));
 			String[] s = future.get();
 			RunOutput ro = Serializer.gson.fromJson(s[0], RunOutput.class);
 			RunInput nextInput = Serializer.gson.fromJson(s[1], RunInput.class);
-			LogManager.getLogger().info("{}: {}", ips[i], nextInput.info.getParams());
+			LogManager.getLogger().info("{} {}: {}", executor.coreCount, executor.ip, nextInput.info.getParams());
+		}
+	}
+
+	public static class RemoteExecutor {
+		public final String ip;
+		public final IExecutorService executorService;
+		public final int coreCount;
+
+		public RemoteExecutor(String ip, IExecutorService executorService, int coreCount) {
+			this.ip = ip;
+			this.executorService = executorService;
+			this.coreCount = coreCount;
+		}
+	}
+
+	public static class CoreTask implements Callable<Integer>, Serializable {
+		@Override
+		public Integer call() {
+			return Runtime.getRuntime().availableProcessors();
 		}
 	}
 
