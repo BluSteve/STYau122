@@ -8,7 +8,9 @@ import frontend.FrontendConfig;
 import frontend.JsonIO;
 import frontend.TxtIO;
 import org.apache.logging.log4j.LogManager;
+import runcycle.RunIterator;
 import runcycle.structs.RunInput;
+import runcycle.structs.RunOutput;
 import runcycle.structs.Serializer;
 
 import java.io.IOException;
@@ -44,11 +46,17 @@ public class HazelTesting {
 
 		for (RemoteExecutor executor : executors) {
 			Future<byte[]> future = executor.executorService.submit(new BuildMoleculesTask(pnFile, pFile, mFile));
-			byte[] bytearr = future.get();
-			String s = Compressor.inflate(bytearr);
-			RunInput runInput = Serializer.gson.fromJson(s, RunInput.class); // not deserializing correctly
+			RunInput runInput = inflate(future.get(), RunInput.class);
 			JsonIO.write(runInput, "remote-input");
 			LogManager.getLogger().info("{} {}: {}", executor.coreCount, executor.ip, runInput.molecules.length);
+
+
+			Future<byte[][]> future2 = executor.executorService.submit(new SolutionTask(runInput));
+			byte[][] bytes = future2.get();
+			RunOutput ro = inflate(bytes[0], RunOutput.class);
+			RunInput nextRunInput = inflate(bytes[1], RunInput.class);
+			JsonIO.write(ro, "remote-output");
+			JsonIO.write(nextRunInput, "next-run-input");
 		}
 	}
 
@@ -71,24 +79,32 @@ public class HazelTesting {
 		}
 	}
 
-//	public static class SolutionTask implements Callable<String[]>, Serializable {
-//		private final String riJson;
-//
-//		public SolutionTask(RunInput ri) {
-//			this.rmsJson = Serializer.gson.toJson(rms);
-//		}
-//
-//		@Override
-//		public String[] call() throws IOException {
-//			RunInput runInput = TxtIO.readInput(List.of(pcsv), List.of(mtxt));
-//
-//			RunIterator runIterator = new RunIterator(runInput, FrontendConfig.config.num_runs);
-//
-//			RunOutput ro = runIterator.next();
-//
-//			return new String[]{Serializer.gson.toJson(ro), Serializer.gson.toJson(ro.nextInput)};
-//		}
-//	}
+	public static class SolutionTask implements Callable<byte[][]>, Serializable {
+		private final byte[] compressedRi;
+
+		public SolutionTask(RunInput ri) {
+			this.compressedRi = deflate(ri);
+		}
+
+		@Override
+		public byte[][] call() {
+			RunInput runInput = Serializer.gson.fromJson(Compressor.inflate(compressedRi), RunInput.class);
+
+			RunIterator runIterator = new RunIterator(runInput, FrontendConfig.config.num_runs);
+
+			RunOutput ro = runIterator.next();
+
+			return new byte[][] { deflate(ro), deflate(ro.nextInput)};
+		}
+	}
+
+	private static byte[] deflate(Object obj) {
+		return Compressor.deflate(Serializer.gson.toJson(obj));
+	}
+
+	private static <T> T inflate(byte[] bytearr, Class<T> clazz) {
+		return Serializer.gson.fromJson(Compressor.inflate(bytearr), clazz);
+	}
 
 	public static class BuildMoleculesTask implements Callable<byte[]>, Serializable {
 		private final String pnFile, pFile, mFile;
@@ -101,7 +117,7 @@ public class HazelTesting {
 
 		@Override
 		public byte[] call()  {
-			return Compressor.deflate(Serializer.gson.toJson(TxtIO.readInput(pnFile, pFile, mFile)));
+			return deflate(TxtIO.readInput(pnFile, pFile, mFile));
 		}
 	}
 }

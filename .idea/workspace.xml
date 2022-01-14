@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="compression improved">
-      <change beforePath="$PROJECT_DIR$/src/main/java/testing/Compressor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Compressor.java" afterDir="false" />
+    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="compression improved with streams">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -543,13 +544,6 @@
       <workItem from="1642010722469" duration="1479000" />
       <workItem from="1642048616296" duration="3941000" />
     </task>
-    <task id="LOCAL-00282" summary="poplethiel sigmoid">
-      <created>1641718503261</created>
-      <option name="number" value="00282" />
-      <option name="presentableId" value="LOCAL-00282" />
-      <option name="project" value="LOCAL" />
-      <updated>1641718503261</updated>
-    </task>
     <task id="LOCAL-00283" summary="better poplethiel debugging">
       <created>1641719222160</created>
       <option name="number" value="00283" />
@@ -886,7 +880,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642186224674</updated>
     </task>
-    <option name="localTasksCounter" value="331" />
+    <task id="LOCAL-00331" summary="compression improved with streams">
+      <created>1642186584167</created>
+      <option name="number" value="00331" />
+      <option name="presentableId" value="LOCAL-00331" />
+      <option name="project" value="LOCAL" />
+      <updated>1642186584167</updated>
+    </task>
+    <option name="localTasksCounter" value="332" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -932,7 +933,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="put back damping" />
     <MESSAGE value="store useEdiis" />
     <MESSAGE value="multithread building molecules" />
     <MESSAGE value="multithread expgeom hessian" />
@@ -957,7 +957,8 @@
     <MESSAGE value="working buildmolecules" />
     <MESSAGE value="compression" />
     <MESSAGE value="compression improved" />
-    <option name="LAST_COMMIT_MESSAGE" value="compression improved" />
+    <MESSAGE value="compression improved with streams" />
+    <option name="LAST_COMMIT_MESSAGE" value="compression improved with streams" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
