@@ -160,7 +160,7 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 
 					int leftCount = left.size();
 
-					if (count.get() % 2 == 1) {
+					if (count.get() % 6 == 1) {
 						if (lastLeftCount.get() - leftCount == 0) {
 							logger.warn("Stubborn molecule(s) detected, increasing log level...");
 							Configurator.setRootLevel(Level.TRACE);

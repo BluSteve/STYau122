@@ -281,9 +281,15 @@ public class SolutionU extends Solution {
 
 
 			if (numIt > config.uhf_numIt_max) {
-				IllegalStateException e = new IllegalStateException(this.rm.debugName() + " unstable");
-				rm.getLogger().error(e);
-				throw e;
+				if (DIISError < config.diiserror_hard_limit) {
+					rm.getLogger().warn("numIt limit reached but DIISError ({}) below hard limit; continuing...",
+							DIISError);
+				}
+				else {
+					IllegalStateException e = new IllegalStateException(this.rm.debugName() + " unstable");
+					rm.getLogger().error(e);
+					throw e;
+				}
 			}
 
 			threshold = THRESHOLDS[numIt];

@@ -57,7 +57,17 @@ public class HazelTesting {
 			RunInput nextRunInput = inflate(bytes[1], RunInput.class);
 			JsonIO.write(ro, "remote-output");
 			JsonIO.write(nextRunInput, "next-run-input");
+
+			System.out.println("run complete");
 		}
+	}
+
+	private static byte[] deflate(Object obj) {
+		return Compressor.deflate(Serializer.gson.toJson(obj));
+	}
+
+	private static <T> T inflate(byte[] bytearr, Class<T> clazz) {
+		return Serializer.gson.fromJson(Compressor.inflate(bytearr), clazz);
 	}
 
 	public static class RemoteExecutor {
@@ -94,16 +104,8 @@ public class HazelTesting {
 
 			RunOutput ro = runIterator.next();
 
-			return new byte[][] { deflate(ro), deflate(ro.nextInput)};
+			return new byte[][]{deflate(ro), deflate(ro.nextInput)};
 		}
-	}
-
-	private static byte[] deflate(Object obj) {
-		return Compressor.deflate(Serializer.gson.toJson(obj));
-	}
-
-	private static <T> T inflate(byte[] bytearr, Class<T> clazz) {
-		return Serializer.gson.fromJson(Compressor.inflate(bytearr), clazz);
 	}
 
 	public static class BuildMoleculesTask implements Callable<byte[]>, Serializable {
@@ -116,7 +118,7 @@ public class HazelTesting {
 		}
 
 		@Override
-		public byte[] call()  {
+		public byte[] call() {
 			return deflate(TxtIO.readInput(pnFile, pFile, mFile));
 		}
 	}

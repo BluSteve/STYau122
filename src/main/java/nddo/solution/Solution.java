@@ -48,7 +48,8 @@ public abstract class Solution {
 	protected static final int LENGTH = 8;
 	protected static final int LENGTH1 = LENGTH - 1;
 	protected static final double[] ZEROS = new double[LENGTH];
-	protected static final double[] THRESHOLDS = new double[Math.max(config.rhf_numIt_max, config.uhf_numIt_max) + 1];
+	protected static final double[] THRESHOLDS =
+			new double[10 * Math.max(config.rhf_numIt_max, config.uhf_numIt_max) + 1];
 
 	static {
 		for (int i = 0; i < THRESHOLDS.length; i++) {
@@ -211,8 +212,8 @@ public abstract class Solution {
 				densityMatrix = new SimpleMatrix(rm.nOrbitals, rm.nOrbitals, true, densityMatrices[0]);
 			}
 			else {
-				alphaDensity =  new SimpleMatrix(rm.nOrbitals, rm.nOrbitals, true, densityMatrices[0]);
-				betaDensity =  new SimpleMatrix(rm.nOrbitals, rm.nOrbitals, true, densityMatrices[1]);
+				alphaDensity = new SimpleMatrix(rm.nOrbitals, rm.nOrbitals, true, densityMatrices[0]);
+				betaDensity = new SimpleMatrix(rm.nOrbitals, rm.nOrbitals, true, densityMatrices[1]);
 			}
 		}
 
