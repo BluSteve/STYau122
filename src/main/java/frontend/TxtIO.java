@@ -106,24 +106,25 @@ public class TxtIO {
 		pw.close();
 	}
 
-	public static RunInput readInput(List<String> pcsv, List<String> mtxt) throws IOException {
+	public static RunInput readInput(String pnFile, String pFile, String mFile) {
 		final String pncsvname = "param-numbers.csv";
 		// if specified then take specified else default
-		List<String> pncsv = Files.exists(Path.of(pncsvname)) ?
-				Files.readAllLines(Path.of(pncsvname)) : Utils.getResourceAsList(pncsvname);
+		String pnString = pnFile == null || pnFile.length() == 0 ?  Utils.getResource(pncsvname) : pnFile;
+		String[] pncsv = pnString.split("\\R");
 
-		int[] atomTypes = new int[pncsv.size()];
-		int[][] neededParams = new int[pncsv.size()][];
-		for (int i = 0; i < pncsv.size(); i++) {
-			String[] linea = splitCsvLine(pncsv.get(i));
+		int[] atomTypes = new int[pncsv.length];
+		int[][] neededParams = new int[pncsv.length][];
+		for (int i = 0; i < pncsv.length; i++) {
+			String[] linea = splitCsvLine(pncsv[i]);
 			atomTypes[i] = AtomProperties.getAtomsMap().get(linea[0]).getZ();
 			neededParams[i] = Utils.toInts(Arrays.copyOfRange(linea, 1, linea.length));
 		}
 
-		int[] paramsAtomTypes = new int[pcsv.size()];
-		double[][] params = new double[pcsv.size()][];
-		for (int i = 0; i < pcsv.size(); i++) {
-			String[] linea = splitCsvLine(pcsv.get(i));
+		String[] pcsv = pFile.split("\\R");
+		int[] paramsAtomTypes = new int[pcsv.length];
+		double[][] params = new double[pcsv.length][];
+		for (int i = 0; i < pcsv.length; i++) {
+			String[] linea = splitCsvLine(pcsv[i]);
 
 			int Z = AtomProperties.getAtomsMap().get(linea[0]).getZ();
 
@@ -159,10 +160,12 @@ public class TxtIO {
 
 		Map<Integer, int[]> actual = new TreeMap();
 
-		while (i < mtxt.size()) {
+		String[] mtxt = mFile.split("\\R");
+
+		while (i < mtxt.length) {
 			RunnableMolecule.RMBuilder builder = new RunnableMolecule.RMBuilder();
 
-			String[] minfo = splitCsvLine(mtxt.get(i));
+			String[] minfo = splitCsvLine(mtxt[i]);
 			if (!minfo[0].equals("")) builder.name = minfo[0];
 
 			builder.restricted = minfo[1].equals("RHF");
@@ -176,7 +179,7 @@ public class TxtIO {
 			// Datum
 			i++;
 			double[] datum = new double[3];
-			String[] mdatum = splitCsvLine(mtxt.get(i));
+			String[] mdatum = splitCsvLine(mtxt[i]);
 
 			for (String s : mdatum) {
 				if (s.startsWith("HF=")) datum[0] = Double.parseDouble(s.split("=")[1]);
@@ -190,8 +193,8 @@ public class TxtIO {
 			i++;
 			ArrayList<Atom> atomsL = new ArrayList<>();
 
-			while (!mtxt.get(i).equals("---") && !mtxt.get(i).equals("EXPGEOM")) {
-				Atom e = toAtom(mtxt.get(i));
+			while (!mtxt[i].equals("---") && !mtxt[i].equals("EXPGEOM")) {
+				Atom e = toAtom(mtxt[i]);
 				atomsL.add(e);
 
 				if (!actual.containsKey(e.Z)) {
@@ -226,12 +229,12 @@ public class TxtIO {
 
 
 			// expGeom
-			if (mtxt.get(i).equals("EXPGEOM")) {
+			if (mtxt[i].equals("EXPGEOM")) {
 				i++;
 
 				ArrayList<Atom> expGeomL = new ArrayList<>();
-				while (!mtxt.get(i).equals("---")) {
-					expGeomL.add(toAtom(mtxt.get(i)));
+				while (!mtxt[i].equals("---")) {
+					expGeomL.add(toAtom(mtxt[i]));
 					i++;
 				}
 
@@ -272,11 +275,12 @@ public class TxtIO {
 		return runInput;
 	}
 
-	public static RunInput readInput(String filename) throws IOException {
-		List<String> pcsv = Files.readAllLines(Path.of("params.csv"));
-		List<String> mtxt = Files.readAllLines(Path.of(filename));
+	public static RunInput readInput(String moleculesFilename) throws IOException {
+		String pnFile = Files.readString(Path.of("param-numbers.csv"));
+		String pFile = Files.readString(Path.of("params.csv"));
+		String mFile = Files.readString(Path.of(moleculesFilename));
 
-		return readInput(pcsv, mtxt);
+		return readInput(pnFile, pFile, mFile);
 	}
 
 	public static void updateMolecules(RunnableMolecule[] results, String filepath) throws FileNotFoundException {

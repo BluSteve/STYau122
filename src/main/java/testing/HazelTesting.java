@@ -5,11 +5,10 @@ import com.hazelcast.client.config.ClientConfig;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IExecutorService;
 import frontend.FrontendConfig;
+import frontend.JsonIO;
 import frontend.TxtIO;
 import org.apache.logging.log4j.LogManager;
-import runcycle.RunIterator;
 import runcycle.structs.RunInput;
-import runcycle.structs.RunOutput;
 import runcycle.structs.Serializer;
 
 import java.io.IOException;
@@ -27,7 +26,7 @@ public class HazelTesting {
 		FrontendConfig.init();
 
 		List<RemoteExecutor> executors = new ArrayList<>();
-		String[] ips = {"localhost", "192.168.31.153"};
+		String[] ips = {"35.225.69.182"};
 
 		for (String ip : ips) {
 			ClientConfig clientconf = new ClientConfig();
@@ -39,15 +38,16 @@ public class HazelTesting {
 			executors.add(new RemoteExecutor(ip, executorService, executorService.submit(new CoreTask()).get()));
 		}
 
-		List<String> pcsv = Files.readAllLines(Path.of("params.csv"));
-		List<String> mtxt = Files.readAllLines(Path.of("molecules.txt"));
+		String pnFile = null;
+		String pFile = Files.readString(Path.of("params.csv"));
+		String mFile = Files.readString(Path.of("molecules.txt"));
 
 		for (RemoteExecutor executor : executors) {
-			Future<String[]> future = executor.executorService.submit(new SolutionTask(pcsv, mtxt));
-			String[] s = future.get();
-			RunOutput ro = Serializer.gson.fromJson(s[0], RunOutput.class);
-			RunInput nextInput = Serializer.gson.fromJson(s[1], RunInput.class);
-			LogManager.getLogger().info("{} {}: {}", executor.coreCount, executor.ip, nextInput.info.getParams());
+			Future<String> future = executor.executorService.submit(new BuildMoleculesTask(pnFile, pFile, mFile));
+			String s = future.get();
+			RunInput runInput = Serializer.gson.fromJson(s, RunInput.class); // not deserializing correctly
+			JsonIO.write(runInput, "remote-input");
+			LogManager.getLogger().info("{} {}: {}", executor.coreCount, executor.ip, runInput.molecules.length);
 		}
 	}
 
@@ -70,24 +70,37 @@ public class HazelTesting {
 		}
 	}
 
-	public static class SolutionTask implements Callable<String[]>, Serializable {
-		public static final long serialVersionUID = 1234;
-		private final String[] pcsv, mtxt;
+//	public static class SolutionTask implements Callable<String[]>, Serializable {
+//		private final String riJson;
+//
+//		public SolutionTask(RunInput ri) {
+//			this.rmsJson = Serializer.gson.toJson(rms);
+//		}
+//
+//		@Override
+//		public String[] call() throws IOException {
+//			RunInput runInput = TxtIO.readInput(List.of(pcsv), List.of(mtxt));
+//
+//			RunIterator runIterator = new RunIterator(runInput, FrontendConfig.config.num_runs);
+//
+//			RunOutput ro = runIterator.next();
+//
+//			return new String[]{Serializer.gson.toJson(ro), Serializer.gson.toJson(ro.nextInput)};
+//		}
+//	}
 
-		public SolutionTask(List<String> pcsv, List<String> mtxt) {
-			this.pcsv = pcsv.toArray(new String[0]);
-			this.mtxt = mtxt.toArray(new String[0]);
+	public static class BuildMoleculesTask implements Callable<String>, Serializable {
+		private final String pnFile, pFile, mFile;
+
+		public BuildMoleculesTask(String pnFile, String pFile, String mFile) {
+			this.pnFile = pnFile;
+			this.pFile = pFile;
+			this.mFile = mFile;
 		}
 
 		@Override
-		public String[] call() throws IOException {
-			RunInput runInput = TxtIO.readInput(List.of(pcsv), List.of(mtxt));
-
-			RunIterator runIterator = new RunIterator(runInput, FrontendConfig.config.num_runs);
-
-			RunOutput ro = runIterator.next();
-
-			return new String[]{Serializer.gson.toJson(ro), Serializer.gson.toJson(ro.nextInput)};
+		public String call()  {
+			return Serializer.gson.toJson(TxtIO.readInput(pnFile, pFile, mFile));
 		}
 	}
 }

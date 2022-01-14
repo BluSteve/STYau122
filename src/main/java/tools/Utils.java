@@ -101,14 +101,19 @@ public class Utils {
 		return perturbed;
 	}
 
-	public static String getResource(String resourceName) throws IOException {
+	public static String getResource(String resourceName) {
 		InputStream inputStream =
 				Objects.requireNonNull(Utils.class.getClassLoader().getResourceAsStream(resourceName));
 
 		ByteArrayOutputStream result = new ByteArrayOutputStream();
-		byte[] buffer = new byte[1024];
-		for (int length; (length = inputStream.read(buffer)) != -1; ) {
-			result.write(buffer, 0, length);
+
+		try {
+			byte[] buffer = new byte[1024];
+			for (int length; (length = inputStream.read(buffer)) != -1; ) {
+				result.write(buffer, 0, length);
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
 		}
 
 		return result.toString(StandardCharsets.UTF_8);

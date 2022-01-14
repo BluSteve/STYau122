@@ -107,6 +107,7 @@ public class Serializer {
 			builder.atoms = gson.fromJson(object.get("atoms"), Atom[].class);
 			builder.expGeom = gson.fromJson(object.get("expGeom"), Atom[].class);
 			builder.densityMatrices = gson.fromJson(object.get("densityMatrices"), double[][].class);
+			builder.densityMatricesExp =  gson.fromJson(object.get("densityMatricesExp"), double[][].class);
 
 			for (int i = 0; i < builder.atoms.length; i++) {
 				builder.atoms[i] = new Atom(builder.atoms[i].Z, Utils.bohr(builder.atoms[i].coords));

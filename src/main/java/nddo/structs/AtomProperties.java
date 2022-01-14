@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import nddo.Constants;
 import tools.Utils;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -31,7 +30,7 @@ public class AtomProperties { // Only 119 of these, immutable
 				getAtoms()[atom.getZ()] = atom;
 				getAtomsMap().put(atom.getName(), atom);
 			}
-		} catch (IOException | NullPointerException e) {
+		} catch (NullPointerException e) {
 			throw new RuntimeException("atom-properties.json not found!");
 		}
 	}

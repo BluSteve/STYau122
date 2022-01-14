@@ -39,7 +39,7 @@ public final class RunnableMolecule extends MoleculeInfo { // mid-level runnable
 		public String name;
 		public boolean restricted = true;
 		public Boolean useEdiis;
-		public double[][] densityMatrices;
+		public double[][] densityMatrices, densityMatricesExp;
 		public int charge, mult;
 		public double[] datum;
 		public Atom[] atoms, expGeom;
@@ -155,16 +155,22 @@ public final class RunnableMolecule extends MoleculeInfo { // mid-level runnable
 			}
 
 			MoleculeInfo temp = miBuilder.build();
-			if (npMap != null) {
-				NDDOAtom[] nddoAtoms = State.getConverter().convert(atoms, npMap);
-				miBuilder.useEdiis = useEdiis == null ?
-						Solution.shouldEdiis(temp, nddoAtoms) : useEdiis;
 
-				temp = miBuilder.build();
-				miBuilder.densityMatrices = getDoubleDM(temp, nddoAtoms);
-				if (expGeom != null) {
-					NDDOAtom[] expAtoms = State.getConverter().convert(expGeom, npMap);
-					miBuilder.densityMatricesExp = getDoubleDM(temp, expAtoms);
+			miBuilder.densityMatrices = densityMatrices;
+			miBuilder.densityMatricesExp = densityMatricesExp;
+
+			if (npMap != null && (useEdiis == null || densityMatrices == null || densityMatricesExp == null)) {
+				NDDOAtom[] nddoAtoms = State.getConverter().convert(atoms, npMap);
+
+				miBuilder.useEdiis = useEdiis == null ? Solution.shouldEdiis(temp, nddoAtoms) : useEdiis;
+
+				if (densityMatrices == null && densityMatricesExp == null) {
+					temp = miBuilder.build();
+					miBuilder.densityMatrices = getDoubleDM(temp, nddoAtoms);
+					if (expGeom != null) {
+						NDDOAtom[] expAtoms = State.getConverter().convert(expGeom, npMap);
+						miBuilder.densityMatricesExp = getDoubleDM(temp, expAtoms);
+					}
 				}
 			}
 
@@ -172,16 +178,13 @@ public final class RunnableMolecule extends MoleculeInfo { // mid-level runnable
 		}
 
 		private double[][] getDoubleDM(MoleculeInfo temp, NDDOAtom[] nddoAtoms) {
-			if (densityMatrices != null) return densityMatrices;
-			else {
-				SimpleMatrix[] densityMatrices = Solution.findDensityMatrices(temp, nddoAtoms);
-				double[][] doubleDM = new double[densityMatrices.length][];
-				for (int j = 0; j < densityMatrices.length; j++) {
-					doubleDM[j] = densityMatrices[j].getDDRM().data;
-				}
-
-				return doubleDM;
+			SimpleMatrix[] dms = Solution.findDensityMatrices(temp, nddoAtoms);
+			double[][] doubleDM = new double[dms.length][];
+			for (int j = 0; j < dms.length; j++) {
+				doubleDM[j] = dms[j].getDDRM().data;
 			}
+
+			return doubleDM;
 		}
 
 		public void setAtoms(int[] Zs, double[][] coords) {
