@@ -7,6 +7,7 @@ import com.hazelcast.core.IExecutorService;
 import frontend.FrontendConfig;
 import frontend.JsonIO;
 import frontend.TxtIO;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import runcycle.structs.RunInput;
 import runcycle.structs.Serializer;
@@ -43,8 +44,9 @@ public class HazelTesting {
 		String mFile = Files.readString(Path.of("molecules.txt"));
 
 		for (RemoteExecutor executor : executors) {
-			Future<String> future = executor.executorService.submit(new BuildMoleculesTask(pnFile, pFile, mFile));
-			String s = future.get();
+			Future<Pair<Integer, byte[]>> future = executor.executorService.submit(new BuildMoleculesTask(pnFile, pFile, mFile));
+			Pair<Integer, byte[]> pair = future.get();
+			String s = Compressor.inflate(pair.getLeft(), pair.getRight());
 			RunInput runInput = Serializer.gson.fromJson(s, RunInput.class); // not deserializing correctly
 			JsonIO.write(runInput, "remote-input");
 			LogManager.getLogger().info("{} {}: {}", executor.coreCount, executor.ip, runInput.molecules.length);
@@ -89,7 +91,7 @@ public class HazelTesting {
 //		}
 //	}
 
-	public static class BuildMoleculesTask implements Callable<String>, Serializable {
+	public static class BuildMoleculesTask implements Callable<Pair<Integer, byte[]>>, Serializable {
 		private final String pnFile, pFile, mFile;
 
 		public BuildMoleculesTask(String pnFile, String pFile, String mFile) {
@@ -99,8 +101,8 @@ public class HazelTesting {
 		}
 
 		@Override
-		public String call()  {
-			return Serializer.gson.toJson(TxtIO.readInput(pnFile, pFile, mFile));
+		public Pair<Integer, byte[]> call()  {
+			return Compressor.deflate(Serializer.gson.toJson(TxtIO.readInput(pnFile, pFile, mFile)));
 		}
 	}
 }
