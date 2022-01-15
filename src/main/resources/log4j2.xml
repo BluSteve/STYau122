@@ -8,6 +8,10 @@
             <PatternLayout pattern="%d{ISO8601} %08r %-5level tid:%03tid %logger{36} - %msg%n"/>
             <Append value="false" />
         </File>
+        <File name="TempFile" fileName="logs/temp.log">
+            <PatternLayout pattern="%d{ISO8601} %08r %highlight{%-5level}{TRACE=bright white} tid:%03tid %logger{36} - %msg%n" disableAnsi="false"/>
+            <Append value="false" />
+        </File>
         <File name="PerpetualFile" fileName="logs/all.log">
             <PatternLayout pattern="%d{ISO8601} %08r %-5level tid:%03tid %logger{36} - %msg%n"/>
         </File>
@@ -17,6 +21,7 @@
         </File>
         <Async name="AsyncFile">
             <AppenderRef ref="MainFile"/>
+            <AppenderRef ref="TempFile"/>
             <AppenderRef ref="PerpetualFile"/>
             <AppenderRef ref="csvFile"/>
         </Async>

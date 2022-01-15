@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="working distributed runs" />
+    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="reordering">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -542,14 +546,7 @@
       <workItem from="1642048616296" duration="3941000" />
       <workItem from="1642192057443" duration="1440000" />
       <workItem from="1642227480350" duration="718000" />
-      <workItem from="1642228411449" duration="11444000" />
-    </task>
-    <task id="LOCAL-00289" summary="checkpoint">
-      <created>1641729198856</created>
-      <option name="number" value="00289" />
-      <option name="presentableId" value="LOCAL-00289" />
-      <option name="project" value="LOCAL" />
-      <updated>1641729198856</updated>
+      <workItem from="1642228411449" duration="16429000" />
     </task>
     <task id="LOCAL-00290" summary="checkpoint">
       <created>1641734790035</created>
@@ -887,7 +884,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642240231457</updated>
     </task>
-    <option name="localTasksCounter" value="338" />
+    <task id="LOCAL-00338" summary="reordering">
+      <created>1642240342071</created>
+      <option name="number" value="00338" />
+      <option name="presentableId" value="LOCAL-00338" />
+      <option name="project" value="LOCAL" />
+      <updated>1642240342071</updated>
+    </task>
+    <option name="localTasksCounter" value="339" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -915,7 +919,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/nonsense" />
+                        <option value="noserializablemol" />
                       </list>
                     </value>
                   </entry>
@@ -934,7 +938,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="minor config bug fixes" />
     <MESSAGE value="multithread ederiv2 even more" />
     <MESSAGE value="remove -1 and reformatt psgd2" />
     <MESSAGE value="multithreaded Ederiv2 in pgsd" />
@@ -959,7 +962,8 @@
     <MESSAGE value="stubborn molecule detector" />
     <MESSAGE value="working distribution" />
     <MESSAGE value="working distributed runs" />
-    <option name="LAST_COMMIT_MESSAGE" value="working distributed runs" />
+    <MESSAGE value="reordering" />
+    <option name="LAST_COMMIT_MESSAGE" value="reordering" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

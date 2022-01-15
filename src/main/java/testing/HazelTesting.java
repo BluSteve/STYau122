@@ -25,7 +25,9 @@ import runcycle.optimize.ReferenceData;
 import runcycle.structs.*;
 import tools.Utils;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.lang.management.ManagementFactory;
 import java.nio.file.Files;
@@ -139,10 +141,15 @@ public class HazelTesting {
 		IMoleculeResult[][] results2d = new IMoleculeResult[nComputers][];
 		for (int i = 0; i < lrm.length; i++) {
 			RemoteExecutor executor = executors.get(i);
-			RunMoleculesTask task = new RunMoleculesTask(lrm[i], runInput.info);
-			Future<byte[]> future2 = executor.executorService.submit(task);
-			byte[] bytes = future2.get();
-			results2d[i] = inflate(bytes, IMoleculeResult[].class);
+			IExecutorService es = executor.executorService;
+
+			RunMoleculesTask task = new RunMoleculesTask(lrm[i], runInput.info, runInput.hash);
+
+			byte[] resultsBytes = es.submit(task).get();
+			results2d[i] = inflate(resultsBytes, IMoleculeResult[].class);
+
+			byte[] logsBytes = es.submit(new LogsTask()).get();
+			if (logger.isInfoEnabled()) logger.info("{}:\n{}", executor, Compressor.inflate(logsBytes));
 		}
 
 		IMoleculeResult[] results = Stream.of(results2d).flatMap(Arrays::stream).sorted(
@@ -268,6 +275,14 @@ public class HazelTesting {
 			this.executorService = executorService;
 			this.coreCount = coreCount;
 		}
+
+		@Override
+		public String toString() {
+			return "RemoteExecutor{" +
+					"ip='" + ip + '\'' +
+					", coreCount=" + coreCount +
+					'}';
+		}
 	}
 
 	public static class CoreTask implements Callable<Integer>, Serializable {
@@ -293,23 +308,35 @@ public class HazelTesting {
 	}
 
 	public static class RunMoleculesTask implements Callable<byte[]>, Serializable {
-
 		private static final Logger logger = LogManager.getLogger();
 		private static final OperatingSystemMXBean bean =
 				(OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 
 		private final byte[] rmsBytes, infoBytes;
+		private final String hash;
 
-		public RunMoleculesTask(RunnableMolecule[] rms, InputInfo info) {
+		public RunMoleculesTask(RunnableMolecule[] rms, InputInfo info, String hash) {
 			this.rmsBytes = deflate(rms); // must originally be in sorted order, not necessarily consecutive
 			this.infoBytes = deflate(info);
+			this.hash = hash;
 		}
 
 		@Override
 		public byte[] call() {
+			// remove past logging
+			try {
+				new PrintWriter("logs/temp.log").close();
+			} catch (FileNotFoundException ignored) {
+			}
+
+
+			// inflate compressed data
 			final RunnableMolecule[] rms = inflate(rmsBytes, RunnableMolecule[].class);
 			final InputInfo info = inflate(infoBytes, InputInfo.class);
 
+
+			// start molecule runs
+			logger.info("Input hash: {}, nMolecules: {} - Started", hash, rms.length);
 
 			StopWatch sw = StopWatch.createStarted();
 
@@ -376,7 +403,17 @@ public class HazelTesting {
 
 			progressBar.shutdownNow();
 
+
+			logger.info("Input hash: {}, nMolecules: {} - Finished", hash, rms.length);
 			return deflate(mResults);
+		}
+	}
+
+	public static class LogsTask implements Callable<byte[]>, Serializable {
+		@Override
+		public byte[] call() throws IOException {
+			String input = Files.readString(Path.of("logs/temp.log")); // todo super bandaid
+			return Compressor.deflate(input.replaceAll(String.valueOf(input.charAt(0)), ""));
 		}
 	}
 
