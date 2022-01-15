@@ -11,5 +11,5 @@ public class Config { // serializable
 	public int rhf_thiel_limit = 1000, uhf_thiel_limit = 1000;
 	public int geom_opt_hessian_interval = 7;
 
-	public int progress_bar_interval = 30;
+	public int progress_bar_interval = 30, log_increase_time = 1; // todo move to runcycle config
 }

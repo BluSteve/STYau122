@@ -188,8 +188,6 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 			}
 
 
-
-
 			// create tasks to run in parallel and then runs them
 			// excludes ran molecules from previous dynamic output
 			List<RecursiveTask<MoleculeRun>> moleculeTasks = new ArrayList<>();
@@ -369,8 +367,16 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 				this.isExpAvail = expGeom != null;
 
 				rm.getLogger().debug("Started");
-				StopWatch sw = new StopWatch();
-				sw.start();
+				StopWatch sw = StopWatch.createStarted();
+
+				Level orig = rm.getLogger().getLevel();
+				ScheduledExecutorService logIncreaser = Executors.newScheduledThreadPool(1);
+				logIncreaser.schedule(() -> {
+					if (sw.getTime() >= nddo.State.config.log_increase_time) {
+						rm.getLogger().warn("Stubborn molecule detected- increasing log level...");
+						Configurator.setLevel(rm.getLogger().getName(), Level.TRACE);
+					}
+				}, nddo.State.config.log_increase_time, TimeUnit.SECONDS);
 
 				Solution initialS = Solution.of(rm, nddoAtoms, rm.densityMatrices);
 				rm.getLogger().debug("Finished initial solution computation");
@@ -398,6 +404,9 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 
 				sw.stop();
 				time = sw.getTime();
+
+				logIncreaser.shutdownNow();
+				Configurator.setLevel(rm.getLogger().getName(), orig);
 
 				rm.getLogger().info("Finished in {}", String.format("%06d", time));
 			} catch (Exception e) {

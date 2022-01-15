@@ -58,8 +58,8 @@ public class HazelTesting {
 			logger.info("{} {}: {}", executor.coreCount, executor.ip, runInput.molecules.length);
 
 
-			Future<byte[]> future2 =
-					executor.executorService.submit(new RunMoleculesTask(runInput.molecules, runInput.info));
+			RunMoleculesTask task = new RunMoleculesTask(runInput.molecules, runInput.info);
+			Future<byte[]> future2 = executor.executorService.submit(task);
 			byte[] bytes = future2.get();
 			IMoleculeResult[] results = inflate(bytes, IMoleculeResult[].class);
 
@@ -194,6 +194,8 @@ public class HazelTesting {
 
 				return mr;
 			}).sorted(Comparator.comparingInt(r -> r.getUpdatedRm().index)).toArray(IMoleculeResult[]::new);
+
+			progressBar.shutdownNow();
 
 			return deflate(mResults);
 		}

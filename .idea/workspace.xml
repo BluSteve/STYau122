@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="working! chnof">
+    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="working molecule level distributed computing">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nddo/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/Config.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/testing/Compressor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/Compressor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -233,7 +231,7 @@
       <command value="gradlew clean" />
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.MNDOParam [jar2]">
+  <component name="RunManager" selected="Application.HazelTesting">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -549,14 +547,7 @@
       <workItem from="1642048616296" duration="3941000" />
       <workItem from="1642192057443" duration="1440000" />
       <workItem from="1642227480350" duration="718000" />
-      <workItem from="1642228411449" duration="1794000" />
-    </task>
-    <task id="LOCAL-00285" summary="better logging">
-      <created>1641720176174</created>
-      <option name="number" value="00285" />
-      <option name="presentableId" value="LOCAL-00285" />
-      <option name="project" value="LOCAL" />
-      <updated>1641720176174</updated>
+      <workItem from="1642228411449" duration="3455000" />
     </task>
     <task id="LOCAL-00286" summary="minor changes">
       <created>1641720947068</created>
@@ -894,7 +885,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642190707689</updated>
     </task>
-    <option name="localTasksCounter" value="334" />
+    <task id="LOCAL-00334" summary="working molecule level distributed computing">
+      <created>1642230427434</created>
+      <option name="number" value="00334" />
+      <option name="presentableId" value="LOCAL-00334" />
+      <option name="project" value="LOCAL" />
+      <updated>1642230427434</updated>
+    </task>
+    <option name="localTasksCounter" value="335" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -941,7 +939,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="multithread expgeom hessian" />
     <MESSAGE value="fix forjinherng isDone bug" />
     <MESSAGE value="better logging" />
     <MESSAGE value="add compile date to forjinherng" />
@@ -966,7 +963,8 @@
     <MESSAGE value="compression improved with streams" />
     <MESSAGE value="working run based solutiontask" />
     <MESSAGE value="working! chnof" />
-    <option name="LAST_COMMIT_MESSAGE" value="working! chnof" />
+    <MESSAGE value="working molecule level distributed computing" />
+    <option name="LAST_COMMIT_MESSAGE" value="working molecule level distributed computing" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
