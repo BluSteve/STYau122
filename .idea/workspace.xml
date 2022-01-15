@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="swap poplethiel ideal and tolerable">
+    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="better logging">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/optimize/ParamOptimizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/optimize/ParamOptimizer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/testing/HazelServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/HazelServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -126,23 +128,33 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/build.gradle" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/tools/Utils.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/nddo/scf/Orbital.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/testing/Testing.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/nddo/param/ParamDerivative.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/molecules.txt" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/nddo/param/ParamGeometryDerivative.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/nddo/param/ParamSecondDerivative.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/mndo-install.sh" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/nddo/solution/Solution.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.txt" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/nddo/structs/MoleculeInfo.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/nddo/structs/OrbitalProperties.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientNew.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/frontend/Main.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/jmh/java/core/Testing.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/jmh/java/core/Benchmarks.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/power.txt" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/nddo/scf/Orbital.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/logs/main.log" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/inputs/fullch.txt" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/testing/HazelServer.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/frontend/JsonIO.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.txt" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/nddo/param/ParamGradientNew.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/nddo/param/ParamHessianNew.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/config.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/nddo/Config.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -195,10 +207,10 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam" />
+      <recent name="C:\Users\billi\IdeaProjects\MNDOParam\logs" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\src\main\resources" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\hazel\src\main\resources" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\inputs" />
-      <recent name="C:\Users\billi\IdeaProjects\MNDOParam\libs" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\src\hazel\src" />
@@ -538,14 +550,7 @@
       <workItem from="1642048616296" duration="3941000" />
       <workItem from="1642192057443" duration="1440000" />
       <workItem from="1642227480350" duration="718000" />
-      <workItem from="1642228411449" duration="27061000" />
-    </task>
-    <task id="LOCAL-00295" summary="checkpoint">
-      <created>1641747034809</created>
-      <option name="number" value="00295" />
-      <option name="presentableId" value="LOCAL-00295" />
-      <option name="project" value="LOCAL" />
-      <updated>1641747034809</updated>
+      <workItem from="1642228411449" duration="34394000" />
     </task>
     <task id="LOCAL-00296" summary="checkpoint - values a bit different for uhf">
       <created>1641747379367</created>
@@ -883,7 +888,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642257758885</updated>
     </task>
-    <option name="localTasksCounter" value="344" />
+    <task id="LOCAL-00344" summary="better logging">
+      <created>1642259167460</created>
+      <option name="number" value="00344" />
+      <option name="presentableId" value="LOCAL-00344" />
+      <option name="project" value="LOCAL" />
+      <updated>1642259167460</updated>
+    </task>
+    <option name="localTasksCounter" value="345" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -930,7 +942,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="multithreaded main" />
     <MESSAGE value="no need to change paramnumbers for subset of chnof" />
     <MESSAGE value="constant paramoptizer changes" />
     <MESSAGE value="refactor poplethiel" />
@@ -955,7 +966,8 @@
     <MESSAGE value="power instead of cores" />
     <MESSAGE value="3 machines" />
     <MESSAGE value="swap poplethiel ideal and tolerable" />
-    <option name="LAST_COMMIT_MESSAGE" value="swap poplethiel ideal and tolerable" />
+    <MESSAGE value="better logging" />
+    <option name="LAST_COMMIT_MESSAGE" value="better logging" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

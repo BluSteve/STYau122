@@ -17,10 +17,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class HazelServer {
-	public static final double power = getPower();
+	public static double power;
 
 	public static void main(String[] args) {
 		FrontendConfig.init();
+
+		power = getPower();
+
 		Config config = new Config();
 		config.setClusterName("beJSaHB3AJQVUBa3G7eSptMopuJCRg");
 

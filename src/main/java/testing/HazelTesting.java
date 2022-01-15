@@ -59,7 +59,8 @@ public class HazelTesting {
 
 		// set up Hazelcast
 		List<RemoteExecutor> executors = new ArrayList<>();
-		String[] ips = {"34.136.5.8", "34.67.122.134", "34.136.23.70"};
+		String[] ips = {"34.136.5.8", "34.67.122.134", "34.136.23.70",
+				"34.75.130.54", "34.68.27.35", "35.199.155.191", "192.168.31.184"};
 
 		for (String ip : ips) {
 			ClientConfig clientconf = new ClientConfig();
@@ -96,8 +97,9 @@ public class HazelTesting {
 			int end = (int) Math.round(length * (executor.power / totalpower) + inte);
 			endingIndices.add(end);
 		}
+		endingIndices.set(endingIndices.size() - 1, length); // just in case rounding issue
 		logger.info("Length: {}, ending indices: {}, powers: {}.", length, endingIndices,
-				executors.stream().mapToDouble(e -> e.power));
+				executors.stream().mapToDouble(e -> e.power).toArray());
 
 
 		// do runs
@@ -149,18 +151,16 @@ public class HazelTesting {
 				RemoteExecutor executor = executors.get(i);
 				IExecutorService es = executor.executorService;
 
-				RunMoleculesTask task = new RunMoleculesTask(rms2d[i], runInput.info, runInput.hash);
+				RunMoleculesTask task = new RunMoleculesTask(rms2d[i], runInput.info, runInput.hash, executor.ip);
 
 				byte[] resultsBytes = es.submit(task).get();
 				results2d[i] = inflate(resultsBytes, IMoleculeResult[].class);
 
 				byte[] logsBytes = es.submit(new LogsTask()).get();
 				if (logger.isInfoEnabled()) logger.info("{}:\n{}", executor, Compressor.inflate(logsBytes));
-			}
-			catch (InterruptedException | ExecutionException e) {
+			} catch (InterruptedException | ExecutionException e) {
 				e.printStackTrace();
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				logger.error("", e);
 				throw e;
 			}
@@ -326,14 +326,13 @@ public class HazelTesting {
 				(OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 
 		private final byte[] rmsBytes, infoBytes;
-		private final String hash;
-		private final Logger logger;
+		private final String hash, ip;
 
-		public RunMoleculesTask(RunnableMolecule[] rms, InputInfo info, String hash) {
+		public RunMoleculesTask(RunnableMolecule[] rms, InputInfo info, String hash, String ip) {
 			this.rmsBytes = deflate(rms); // must originally be in sorted order, not necessarily consecutive
 			this.infoBytes = deflate(info);
 			this.hash = hash;
-			logger = LogManager.getLogger(hash);
+			this.ip = ip;
 		}
 
 		@Override
@@ -344,6 +343,7 @@ public class HazelTesting {
 			} catch (FileNotFoundException ignored) {
 			}
 
+			Logger logger = LogManager.getLogger(ip + "_" + hash);
 
 			// inflate compressed data
 			final RunnableMolecule[] rms = inflate(rmsBytes, RunnableMolecule[].class);
