@@ -24,7 +24,7 @@ public class Compressor {
 	}
 
 	public static byte[] deflate(String input) {
-		logger.info("input length: {}", input.length());
+		logger.debug("input length: {}", input.length());
 
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		try (DeflaterOutputStream dos = new DeflaterOutputStream(os)) {
@@ -33,7 +33,7 @@ public class Compressor {
 			throw new RuntimeException(e);
 		}
 
-		logger.info("deflated length: {}", os.size());
+		logger.debug("deflated length: {}", os.size());
 
 		return os.toByteArray();
 	}
@@ -45,6 +45,8 @@ public class Compressor {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+
+		logger.debug("inflated length: {}", os.size());
 
 		return os.toString(StandardCharsets.UTF_8);
 	}

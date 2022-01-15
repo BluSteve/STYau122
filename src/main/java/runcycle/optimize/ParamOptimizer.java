@@ -26,7 +26,8 @@ public class ParamOptimizer {
 		try {
 			searchdir = B.pseudoInverse().mult(gradient);
 			SimpleMatrix eigenvalues = Utils.symEigen(B)[1];
-			if (logger.isInfoEnabled()) logger.info("Hessian eigenvalues: {}", eigenvalues.diag().transposei());
+			if (logger.isInfoEnabled())
+				logger.info("Hessian eigenvalues: {}", eigenvalues.diag().transposei().toString().strip());
 		} catch (IllegalArgumentException e) {
 			logger.warn("Hessian pinv failed; using gradient instead.");
 			searchdir = gradient;

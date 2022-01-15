@@ -42,6 +42,8 @@ public class HazelTesting {
 		FrontendConfig.init();
 		Logger logger = LogManager.getLogger();
 
+
+		// set up Hazelcast
 		List<RemoteExecutor> executors = new ArrayList<>();
 		String[] ips = {"localhost", "192.168.31.153"};
 
@@ -54,6 +56,8 @@ public class HazelTesting {
 			executors.add(new RemoteExecutor(ip, executorService, executorService.submit(new CoreTask()).get()));
 		}
 
+
+		// build initial RunInput object
 		String pnFile = null;
 		String pFile = Files.readString(Path.of("params.csv"));
 		String mFile = Files.readString(Path.of("molecules.txt"));
@@ -62,16 +66,13 @@ public class HazelTesting {
 		Future<byte[]> future = mainExecutor.executorService.submit(new BuildMoleculesTask(pnFile, pFile, mFile));
 		RunInput runInput = inflate(future.get(), RunInput.class);
 		JsonIO.write(runInput, "remote-input");
-		System.out.println("done here");
+		logger.info("Finished initializing molecules.");
 
 
-		RunnableMolecule[] rms = runInput.molecules;
-		Utils.shuffleArray(rms);
-		int length = rms.length;
+		// creating endingIndices to group molecules by
+		int length = runInput.molecules.length;
 		int totalcores = 0;
-		for (RemoteExecutor executor : executors) {
-			totalcores += executor.coreCount;
-		}
+		for (RemoteExecutor executor : executors) totalcores += executor.coreCount;
 
 		List<Integer> endingIndices = new ArrayList<>();
 		endingIndices.add(0);
@@ -80,50 +81,84 @@ public class HazelTesting {
 			int end = (int) Math.round(length * (1.0 * executor.coreCount / totalcores) + inte);
 			endingIndices.add(end);
 		}
-		System.out.println(length);
-		System.out.println(endingIndices);
+		logger.info("Length: {}, ending indices: {}, cores: {}.", length, endingIndices,
+				executors.stream().mapToInt(e -> e.coreCount));
 
-		int size = executors.size();
-		RunnableMolecule[][] lrm = new RunnableMolecule[size][];
+
+		// do runs
+		int i = FrontendConfig.config.starting_run_num;
+		try {
+			RunInput currentRunInput = runInput;
+			for (; i < FrontendConfig.config.starting_run_num + FrontendConfig.config.num_runs; i++) {
+				logger.info("Run number: {}, input hash: {}", i, currentRunInput.hash);
+
+				RunOutput ro = run(executors, endingIndices, currentRunInput);
+
+				logger.info("Run {} time taken: {}, output hash: {}, next input hash: {}\n\n", i, ro.timeTaken,
+						ro.hash, ro.nextInputHash);
+
+				currentRunInput = ro.nextInput;
+
+				JsonIO.write(ro, "remote-output");
+				JsonIO.write(ro.nextInput, "remote-nextinput");
+			}
+		} catch (Exception e) {
+			logger.error("{} errored!", i, e);
+			throw e;
+		}
+	}
+
+	private static RunOutput run(List<RemoteExecutor> executors, List<Integer> endingIndices, RunInput runInput)
+			throws InterruptedException, ExecutionException {
+		Logger logger = LogManager.getLogger(runInput.hash);
+		RunnableMolecule[] rms = runInput.molecules;
+		InputInfo info = runInput.info;
+		int nComputers = executors.size();
+		StopWatch sw = StopWatch.createStarted();
+
+		// grouping molecules based on coreCount
+		Utils.shuffleArray(rms); // shuffles whole rms
+		RunnableMolecule[][] lrm = new RunnableMolecule[nComputers][];
 		for (int i = 1; i < endingIndices.size(); i++) {
 			RunnableMolecule[] rmsubset = Arrays.copyOfRange(rms, endingIndices.get(i - 1), endingIndices.get(i));
 			Arrays.sort(rmsubset, Comparator.comparingInt(rm -> rm.index));
 			lrm[i - 1] = rmsubset;
 		}
+		Arrays.sort(rms, Comparator.comparingInt(rm -> rm.index)); // deshuffles rms
 
-		IMoleculeResult[][] results = new IMoleculeResult[size][];
+
+		// doing the actual computation
+		IMoleculeResult[][] results2d = new IMoleculeResult[nComputers][];
 		for (int i = 0; i < lrm.length; i++) {
 			RemoteExecutor executor = executors.get(i);
-			System.out.println("lrm[i].length = " + lrm[i].length);
 			RunMoleculesTask task = new RunMoleculesTask(lrm[i], runInput.info);
 			Future<byte[]> future2 = executor.executorService.submit(task);
 			byte[] bytes = future2.get();
-			results[i] = inflate(bytes, IMoleculeResult[].class);
+			results2d[i] = inflate(bytes, IMoleculeResult[].class);
 		}
 
-		IMoleculeResult[] resultstgt = Stream.of(results).flatMap(Arrays::stream).sorted(
-						Comparator.comparingInt(r->r.getUpdatedRm().index)).toArray(IMoleculeResult[]::new);
-		Arrays.sort(rms, Comparator.comparingInt(rm->rm.index));
-		InputInfo info = runInput.info;
+		IMoleculeResult[] results = Stream.of(results2d).flatMap(Arrays::stream).sorted(
+				Comparator.comparingInt(r -> r.getUpdatedRm().index)).toArray(IMoleculeResult[]::new);
 
-		// combined length of all differentiated params
-		int paramLength = 0;
-		for (int[] param : info.neededParams) paramLength += param.length;
 
 		// processing results
+		int paramLength = 0; // combined length of all differentiated params
+		for (int[] param : info.neededParams) paramLength += param.length;
+
+
+		// optimizes params based on this run
 		ParamOptimizer opt = new ParamOptimizer();
 		double ttError = 0;
 		double[] ttGradient = new double[paramLength];
 		double[][] ttHessian = new double[paramLength][paramLength];
 
-		for (IMoleculeResult result : resultstgt) {
+		for (IMoleculeResult result : results) {
 			int[] moleculeATs = result.getUpdatedRm().mats;
 			int[][] moleculeNPs = result.getUpdatedRm().mnps;
 			boolean isDepad = true;
 
 			ttError += result.getTotalError();
 
-			// add things to ParamOptimizer
 			double[] datum = result.getUpdatedRm().datum;
 
 			opt.addData(new ReferenceData(datum[0], result.getHf(),
@@ -152,15 +187,12 @@ public class HazelTesting {
 						ReferenceData.GEOM_WEIGHT));
 			}
 
-
 			// ttGradient is sum of totalGradients across molecules
 			double[] g = ParamGradient.combine(result.getTotalGradients(), info.atomTypes, info.neededParams,
 					moleculeATs, moleculeNPs, isDepad);
-
 			for (int i = 0; i < g.length; i++) {
 				ttGradient[i] += g[i];
 			}
-
 
 			double[][] h = ParamHessian.padHessian(result.getHessian(), result.getUpdatedRm().mats,
 					info.atomTypes, info.neededParams);
@@ -181,13 +213,17 @@ public class HazelTesting {
 			}
 		}
 
-		// optimizes params based on this run and gets new search direction
+		logger.info("Total error: {}", ttError);
+
+
+		// get new search direction
 		SimpleMatrix newGradient = new SimpleMatrix(ttGradient);
 		SimpleMatrix newHessian = new SimpleMatrix(ttHessian);
 
 		double[] dir = opt.optimize(newHessian, newGradient);
 
-		// generating nextRunInfo
+
+		// generating nextInput
 		NDDOParams[] newNpMap = new NDDOParams[info.npMap.length];
 		for (int i = 0; i < newNpMap.length; i++) {
 			if (info.npMap[i] != null) newNpMap[i] = info.npMap[i].copy();
@@ -202,30 +238,16 @@ public class HazelTesting {
 		}
 
 		InputInfo nextRunInfo = new InputInfo(info.atomTypes, info.neededParams, newNpMap);
-		RunnableMolecule[] nextRunRms = new RunnableMolecule[resultstgt.length];
+		RunnableMolecule[] nextRunRms = new RunnableMolecule[results.length];
 
 		for (int i = 0; i < nextRunRms.length; i++) {
-			nextRunRms[i] = resultstgt[i].getUpdatedRm();
+			nextRunRms[i] = results[i].getUpdatedRm();
 		}
 
 		RunInput nextInput = new RunInput(nextRunInfo, nextRunRms);
 
-		logger.info("Total error: {}", ttError);
 
-		RunOutput ro = new RunOutput(resultstgt, 0, ttError, ttGradient, ttHessian, runInput, nextInput);
-
-		logger.info("Output hash: {}", ro.hash);
-
-		JsonIO.write(ro, "remote-output");
-		JsonIO.write(nextInput, "remote-nextinput");
-		//		logger.info("{} {}: {}", executor.coreCount, executor.ip, runInput.molecules.length);
-//		RunMoleculesTask task = new RunMoleculesTask(runInput.molecules, runInput.info);
-//		Future<byte[]> future2 = executor.executorService.submit(task);
-//		byte[] bytes = future2.get();
-//		IMoleculeResult[] results = inflate(bytes, IMoleculeResult[].class);
-//
-//		JsonIO.write(results, "remote-results");
-//		logger.info("run complete: " + bytes.length);
+		return new RunOutput(results, sw.getTime(), ttError, ttGradient, ttHessian, runInput, nextInput);
 	}
 
 
