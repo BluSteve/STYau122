@@ -7,11 +7,21 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterOutputStream;
 
 public class Compressor {
 	private static final Logger logger = LogManager.getLogger();
+
+	public static void main(String[] args) throws IOException {
+		String json = Files.readString(Path.of("remote-output.json"));
+
+		byte[] d2 = deflate(json);
+		System.out.println("deflate: " + d2.length);
+		System.out.println(inflate(d2).substring(0, 100));
+	}
 
 	public static byte[] deflate(String input) {
 		logger.info("input length: {}", input.length());

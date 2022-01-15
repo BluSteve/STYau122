@@ -188,9 +188,6 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 			}
 
 
-			// combined length of all differentiated params
-			int paramLength = 0;
-			for (int[] param : info.neededParams) paramLength += param.length;
 
 
 			// create tasks to run in parallel and then runs them
@@ -239,6 +236,10 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 
 			results.sort(Comparator.comparingInt(x -> x.getUpdatedRm().index));
 
+
+			// combined length of all differentiated params
+			int paramLength = 0;
+			for (int[] param : info.neededParams) paramLength += param.length;
 
 			// processing results
 			ParamOptimizer opt = new ParamOptimizer();
@@ -352,7 +353,7 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 		}
 	}
 
-	private static final class MoleculeRun implements IMoleculeResult {
+	public static final class MoleculeRun implements IMoleculeResult {
 		private boolean withHessian, isExpAvail;
 		private RunnableMolecule rm, updatedRm;
 		private Solution s;
