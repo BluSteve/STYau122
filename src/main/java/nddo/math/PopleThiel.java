@@ -222,8 +222,8 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 					return thiel(soln, fockderivstatic);
 				}
 
-				if (mag < threshold) {
-					finished[j] = mag < State.config.poplethiel_ideal;
+				if (mag < State.config.poplethiel_tolerable) {
+					finished[j] = mag < threshold;
 					oldrMags[j] = mag;
 					somewhatFinished[j] = true;
 				}
@@ -576,8 +576,8 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 					return thiel(soln, fockderivstaticalpha, fockderivstaticbeta);
 				}
 
-				if (mag < threshold) {
-					finished[j] = mag < State.config.poplethiel_ideal;
+				if (mag < State.config.poplethiel_tolerable) {
+					finished[j] = mag < threshold;
 					oldrMags[j] = mag;
 					somewhatFinished[j] = true;
 				}

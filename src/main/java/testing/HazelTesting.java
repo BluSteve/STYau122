@@ -53,6 +53,8 @@ public class HazelTesting {
 	public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
 		FrontendConfig.init();
 		Logger logger = LogManager.getLogger();
+		Files.createDirectories(Path.of("pastinputs"));
+		Files.createDirectories(Path.of("outputs"));
 
 
 		// set up Hazelcast
@@ -70,17 +72,17 @@ public class HazelTesting {
 
 
 		// build initial RunInput object
-//		String pnFile = null;
-//		String pFile = Files.readString(Path.of("params.csv"));
-//		String mFile = Files.readString(Path.of("molecules.txt"));
-//
-//		RemoteExecutor mainExecutor = executors.get(0);
-//		Future<byte[]> future = mainExecutor.executorService.submit(new BuildMoleculesTask(pnFile, pFile, mFile));
-//		RunInput runInput = inflate(future.get(), RunInput.class);
-//		JsonIO.write(runInput, "remote-input");
-//		logger.info("Finished initializing molecules.");
+		String pnFile = null;
+		String pFile = Files.readString(Path.of("params.csv"));
+		String mFile = Files.readString(Path.of("molecules.txt"));
 
-		RunInput runInput = JsonIO.readInput("chnof-run1");
+		RemoteExecutor mainExecutor = executors.get(0);
+		Future<byte[]> future = mainExecutor.executorService.submit(new BuildMoleculesTask(pnFile, pFile, mFile));
+		RunInput runInput = inflate(future.get(), RunInput.class);
+		JsonIO.write(runInput, "remote-input");
+		logger.info("Finished initializing molecules.");
+
+//		RunInput runInput = JsonIO.readInput("chnof-run1");
 
 		// creating endingIndices to group molecules by
 		int length = runInput.molecules.length;
@@ -104,6 +106,8 @@ public class HazelTesting {
 			RunInput currentRunInput = runInput;
 			for (; i < FrontendConfig.config.starting_run_num + FrontendConfig.config.num_runs; i++) {
 				logger.info("Run number: {}, input hash: {}", i, currentRunInput.hash);
+				JsonIO.write(currentRunInput, String.format("pastinputs/%04d-%s", i, currentRunInput.hash));
+
 
 				RunOutput ro = run(executors, endingIndices, currentRunInput);
 
@@ -112,7 +116,7 @@ public class HazelTesting {
 
 				currentRunInput = ro.nextInput;
 
-				JsonIO.write(ro, "remote-output");
+				JsonIO.write(ro, String.format("outputs/%04d-%s-%s", i, ro.inputHash, ro.hash));
 				JsonIO.write(ro.nextInput, "remote-nextinput");
 			}
 		} catch (Exception e) {
