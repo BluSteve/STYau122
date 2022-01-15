@@ -72,17 +72,17 @@ public class HazelTesting {
 
 
 		// build initial RunInput object
-		String pnFile = null;
-		String pFile = Files.readString(Path.of("params.csv"));
-		String mFile = Files.readString(Path.of("molecules.txt"));
+//		String pnFile = null;
+//		String pFile = Files.readString(Path.of("params.csv"));
+//		String mFile = Files.readString(Path.of("molecules.txt"));
+//
+//		RemoteExecutor mainExecutor = executors.get(0);
+//		Future<byte[]> future = mainExecutor.executorService.submit(new BuildMoleculesTask(pnFile, pFile, mFile));
+//		RunInput runInput = inflate(future.get(), RunInput.class);
+//		JsonIO.write(runInput, "remote-input");
+//		logger.info("Finished initializing molecules.");
 
-		RemoteExecutor mainExecutor = executors.get(0);
-		Future<byte[]> future = mainExecutor.executorService.submit(new BuildMoleculesTask(pnFile, pFile, mFile));
-		RunInput runInput = inflate(future.get(), RunInput.class);
-		JsonIO.write(runInput, "remote-input");
-		logger.info("Finished initializing molecules.");
-
-//		RunInput runInput = JsonIO.readInput("chnof-run1");
+		RunInput runInput = JsonIO.readInput("remote-input");
 
 		// creating endingIndices to group molecules by
 		int length = runInput.molecules.length;
@@ -108,7 +108,6 @@ public class HazelTesting {
 				logger.info("Run number: {}, input hash: {}", i, currentRunInput.hash);
 				JsonIO.write(currentRunInput, String.format("pastinputs/%04d-%s", i, currentRunInput.hash));
 
-
 				RunOutput ro = run(executors, endingIndices, currentRunInput);
 
 				logger.info("Run {} time taken: {}, output hash: {}, next input hash: {}\n\n", i, ro.timeTaken,
@@ -125,8 +124,7 @@ public class HazelTesting {
 		}
 	}
 
-	public static RunOutput run(List<RemoteExecutor> executors, List<Integer> endingIndices, RunInput runInput)
-			throws InterruptedException, ExecutionException {
+	public static RunOutput run(List<RemoteExecutor> executors, List<Integer> endingIndices, RunInput runInput) {
 		Logger logger = LogManager.getLogger(runInput.hash);
 		RunnableMolecule[] rms = runInput.molecules;
 		InputInfo info = runInput.info;
@@ -161,6 +159,10 @@ public class HazelTesting {
 			}
 			catch (InterruptedException | ExecutionException e) {
 				e.printStackTrace();
+			}
+			catch (Exception e) {
+				logger.error("", e);
+				throw e;
 			}
 		});
 
@@ -320,17 +322,18 @@ public class HazelTesting {
 	}
 
 	public static class RunMoleculesTask implements Callable<byte[]>, Serializable {
-		private static final Logger logger = LogManager.getLogger();
 		private static final OperatingSystemMXBean bean =
 				(OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 
 		private final byte[] rmsBytes, infoBytes;
 		private final String hash;
+		private final Logger logger;
 
 		public RunMoleculesTask(RunnableMolecule[] rms, InputInfo info, String hash) {
 			this.rmsBytes = deflate(rms); // must originally be in sorted order, not necessarily consecutive
 			this.infoBytes = deflate(info);
 			this.hash = hash;
+			logger = LogManager.getLogger(hash);
 		}
 
 		@Override

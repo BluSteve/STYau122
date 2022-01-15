@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="3 machines">
+    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="swap poplethiel ideal and tolerable">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -179,7 +178,7 @@
     <property name="com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File" value="JSON&#10;JAVA&#10;TEXT" />
     <property name="extract.method.default.visibility" value="public" />
     <property name="last.edited.regexp" value="asdf  asdf    asdfa    d d d " />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -195,8 +194,8 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\billi\IdeaProjects\MNDOParam\src\main\resources" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam" />
+      <recent name="C:\Users\billi\IdeaProjects\MNDOParam\src\main\resources" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\hazel\src\main\resources" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\inputs" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\libs" />
@@ -539,14 +538,7 @@
       <workItem from="1642048616296" duration="3941000" />
       <workItem from="1642192057443" duration="1440000" />
       <workItem from="1642227480350" duration="718000" />
-      <workItem from="1642228411449" duration="25516000" />
-    </task>
-    <task id="LOCAL-00294" summary="checkpoint">
-      <created>1641746326244</created>
-      <option name="number" value="00294" />
-      <option name="presentableId" value="LOCAL-00294" />
-      <option name="project" value="LOCAL" />
-      <updated>1641746326244</updated>
+      <workItem from="1642228411449" duration="27061000" />
     </task>
     <task id="LOCAL-00295" summary="checkpoint">
       <created>1641747034809</created>
@@ -884,7 +876,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642251932410</updated>
     </task>
-    <option name="localTasksCounter" value="343" />
+    <task id="LOCAL-00343" summary="swap poplethiel ideal and tolerable">
+      <created>1642257758885</created>
+      <option name="number" value="00343" />
+      <option name="presentableId" value="LOCAL-00343" />
+      <option name="project" value="LOCAL" />
+      <updated>1642257758885</updated>
+    </task>
+    <option name="localTasksCounter" value="344" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -931,7 +930,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="multithreaded gradient routine" />
     <MESSAGE value="multithreaded main" />
     <MESSAGE value="no need to change paramnumbers for subset of chnof" />
     <MESSAGE value="constant paramoptizer changes" />
@@ -956,7 +954,8 @@
     <MESSAGE value="multicomputer working!" />
     <MESSAGE value="power instead of cores" />
     <MESSAGE value="3 machines" />
-    <option name="LAST_COMMIT_MESSAGE" value="3 machines" />
+    <MESSAGE value="swap poplethiel ideal and tolerable" />
+    <option name="LAST_COMMIT_MESSAGE" value="swap poplethiel ideal and tolerable" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
