@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="reordering">
+    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="logs working with bandaid">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -178,7 +178,7 @@
     <property name="com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File" value="JSON&#10;JAVA&#10;TEXT" />
     <property name="extract.method.default.visibility" value="public" />
     <property name="last.edited.regexp" value="asdf  asdf    asdfa    d d d " />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/hazel/src/main/resources" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -194,9 +194,9 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\billi\IdeaProjects\MNDOParam" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\hazel\src\main\resources" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\inputs" />
-      <recent name="C:\Users\billi\IdeaProjects\MNDOParam" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\libs" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\src\main\java" />
     </key>
@@ -546,14 +546,7 @@
       <workItem from="1642048616296" duration="3941000" />
       <workItem from="1642192057443" duration="1440000" />
       <workItem from="1642227480350" duration="718000" />
-      <workItem from="1642228411449" duration="16429000" />
-    </task>
-    <task id="LOCAL-00290" summary="checkpoint">
-      <created>1641734790035</created>
-      <option name="number" value="00290" />
-      <option name="presentableId" value="LOCAL-00290" />
-      <option name="project" value="LOCAL" />
-      <updated>1641734790035</updated>
+      <workItem from="1642228411449" duration="18839000" />
     </task>
     <task id="LOCAL-00291" summary="explicit version printing">
       <created>1641742330146</created>
@@ -891,7 +884,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642240342071</updated>
     </task>
-    <option name="localTasksCounter" value="339" />
+    <task id="LOCAL-00339" summary="logs working with bandaid">
+      <created>1642245653880</created>
+      <option name="number" value="00339" />
+      <option name="presentableId" value="LOCAL-00339" />
+      <option name="project" value="LOCAL" />
+      <updated>1642245653880</updated>
+    </task>
+    <option name="localTasksCounter" value="340" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -938,7 +938,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="multithread ederiv2 even more" />
     <MESSAGE value="remove -1 and reformatt psgd2" />
     <MESSAGE value="multithreaded Ederiv2 in pgsd" />
     <MESSAGE value="remove a lot of -1" />
@@ -963,7 +962,8 @@
     <MESSAGE value="working distribution" />
     <MESSAGE value="working distributed runs" />
     <MESSAGE value="reordering" />
-    <option name="LAST_COMMIT_MESSAGE" value="reordering" />
+    <MESSAGE value="logs working with bandaid" />
+    <option name="LAST_COMMIT_MESSAGE" value="logs working with bandaid" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

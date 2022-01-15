@@ -35,6 +35,8 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static runcycle.State.getConverter;
@@ -55,7 +57,7 @@ public class HazelTesting {
 
 		// set up Hazelcast
 		List<RemoteExecutor> executors = new ArrayList<>();
-		String[] ips = {"localhost", "192.168.31.153"};
+		String[] ips = {"34.136.5.8", "34.67.122.134"};
 
 		for (String ip : ips) {
 			ClientConfig clientconf = new ClientConfig();
@@ -68,16 +70,17 @@ public class HazelTesting {
 
 
 		// build initial RunInput object
-		String pnFile = null;
-		String pFile = Files.readString(Path.of("params.csv"));
-		String mFile = Files.readString(Path.of("molecules.txt"));
+//		String pnFile = null;
+//		String pFile = Files.readString(Path.of("params.csv"));
+//		String mFile = Files.readString(Path.of("molecules.txt"));
+//
+//		RemoteExecutor mainExecutor = executors.get(0);
+//		Future<byte[]> future = mainExecutor.executorService.submit(new BuildMoleculesTask(pnFile, pFile, mFile));
+//		RunInput runInput = inflate(future.get(), RunInput.class);
+//		JsonIO.write(runInput, "remote-input");
+//		logger.info("Finished initializing molecules.");
 
-		RemoteExecutor mainExecutor = executors.get(0);
-		Future<byte[]> future = mainExecutor.executorService.submit(new BuildMoleculesTask(pnFile, pFile, mFile));
-		RunInput runInput = inflate(future.get(), RunInput.class);
-		JsonIO.write(runInput, "remote-input");
-		logger.info("Finished initializing molecules.");
-
+		RunInput runInput = JsonIO.readInput("chnof-run1");
 
 		// creating endingIndices to group molecules by
 		int length = runInput.molecules.length;
@@ -128,29 +131,34 @@ public class HazelTesting {
 
 		// grouping molecules based on coreCount
 		Utils.shuffleArray(rms); // shuffles whole rms
-		RunnableMolecule[][] lrm = new RunnableMolecule[nComputers][];
+		RunnableMolecule[][] rms2d = new RunnableMolecule[nComputers][];
 		for (int i = 1; i < endingIndices.size(); i++) {
 			RunnableMolecule[] rmsubset = Arrays.copyOfRange(rms, endingIndices.get(i - 1), endingIndices.get(i));
 			Arrays.sort(rmsubset, Comparator.comparingInt(rm -> rm.index));
-			lrm[i - 1] = rmsubset;
+			rms2d[i - 1] = rmsubset;
 		}
 		Arrays.sort(rms, Comparator.comparingInt(rm -> rm.index)); // deshuffles rms
 
 
 		// doing the actual computation
 		IMoleculeResult[][] results2d = new IMoleculeResult[nComputers][];
-		for (int i = 0; i < lrm.length; i++) {
-			RemoteExecutor executor = executors.get(i);
-			IExecutorService es = executor.executorService;
+		IntStream.range(0, rms2d.length).parallel().forEach(i -> { // multithreaded uploading
+			try {
+				RemoteExecutor executor = executors.get(i);
+				IExecutorService es = executor.executorService;
 
-			RunMoleculesTask task = new RunMoleculesTask(lrm[i], runInput.info, runInput.hash);
+				RunMoleculesTask task = new RunMoleculesTask(rms2d[i], runInput.info, runInput.hash);
 
-			byte[] resultsBytes = es.submit(task).get();
-			results2d[i] = inflate(resultsBytes, IMoleculeResult[].class);
+				byte[] resultsBytes = es.submit(task).get();
+				results2d[i] = inflate(resultsBytes, IMoleculeResult[].class);
 
-			byte[] logsBytes = es.submit(new LogsTask()).get();
-			if (logger.isInfoEnabled()) logger.info("{}:\n{}", executor, Compressor.inflate(logsBytes));
-		}
+				byte[] logsBytes = es.submit(new LogsTask()).get();
+				if (logger.isInfoEnabled()) logger.info("{}:\n{}", executor, Compressor.inflate(logsBytes));
+			}
+			catch (InterruptedException | ExecutionException e) {
+				e.printStackTrace();
+			}
+		});
 
 		IMoleculeResult[] results = Stream.of(results2d).flatMap(Arrays::stream).sorted(
 				Comparator.comparingInt(r -> r.getUpdatedRm().index)).toArray(IMoleculeResult[]::new);
@@ -366,7 +374,7 @@ public class HazelTesting {
 
 					int totalCount = doneCount + leftCount;
 					double progress = 1.0 * doneCount / totalCount;
-					long time = sw.getTime();
+					long time = sw.getTime(TimeUnit.SECONDS);
 					double systemCpuLoad = bean.getSystemCpuLoad();
 					double eta = time / progress;
 					double percent = 100.0 * progress;
@@ -378,7 +386,7 @@ public class HazelTesting {
 							leftCount,
 							totalCount,
 							String.format("%.2f", percent),
-							left.stream().map(MoleculeInfo::debugName)
+							left.stream().map(MoleculeInfo::debugName).collect(Collectors.toList())
 					);
 				};
 
