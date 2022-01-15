@@ -65,37 +65,37 @@ public class HazelTesting {
 			clientconf.getNetworkConfig().addAddress(ip + ":5701");
 			HazelcastInstance h = HazelcastClient.newHazelcastClient(clientconf);
 			IExecutorService executorService = h.getExecutorService("serbice");
-			executors.add(new RemoteExecutor(ip, executorService, executorService.submit(new CoreTask()).get()));
+			executors.add(new RemoteExecutor(ip, executorService, executorService.submit(new PowerTask()).get()));
 		}
 
 
 		// build initial RunInput object
-//		String pnFile = null;
-//		String pFile = Files.readString(Path.of("params.csv"));
-//		String mFile = Files.readString(Path.of("molecules.txt"));
-//
-//		RemoteExecutor mainExecutor = executors.get(0);
-//		Future<byte[]> future = mainExecutor.executorService.submit(new BuildMoleculesTask(pnFile, pFile, mFile));
-//		RunInput runInput = inflate(future.get(), RunInput.class);
-//		JsonIO.write(runInput, "remote-input");
-//		logger.info("Finished initializing molecules.");
+		String pnFile = null;
+		String pFile = Files.readString(Path.of("params.csv"));
+		String mFile = Files.readString(Path.of("molecules.txt"));
 
-		RunInput runInput = JsonIO.readInput("chnof-run1");
+		RemoteExecutor mainExecutor = executors.get(0);
+		Future<byte[]> future = mainExecutor.executorService.submit(new BuildMoleculesTask(pnFile, pFile, mFile));
+		RunInput runInput = inflate(future.get(), RunInput.class);
+		JsonIO.write(runInput, "remote-input");
+		logger.info("Finished initializing molecules.");
+
+//		RunInput runInput = JsonIO.readInput("chnof-run1");
 
 		// creating endingIndices to group molecules by
 		int length = runInput.molecules.length;
-		int totalcores = 0;
-		for (RemoteExecutor executor : executors) totalcores += executor.coreCount;
+		double totalpower = 0;
+		for (RemoteExecutor executor : executors) totalpower += executor.power;
 
 		List<Integer> endingIndices = new ArrayList<>();
 		endingIndices.add(0);
 		for (RemoteExecutor executor : executors) {
 			int inte = endingIndices.get(endingIndices.size() - 1);
-			int end = (int) Math.round(length * (1.0 * executor.coreCount / totalcores) + inte);
+			int end = (int) Math.round(length * (executor.power / totalpower) + inte);
 			endingIndices.add(end);
 		}
-		logger.info("Length: {}, ending indices: {}, cores: {}.", length, endingIndices,
-				executors.stream().mapToInt(e -> e.coreCount));
+		logger.info("Length: {}, ending indices: {}, powers: {}.", length, endingIndices,
+				executors.stream().mapToDouble(e -> e.power));
 
 
 		// do runs
@@ -276,27 +276,27 @@ public class HazelTesting {
 	public static class RemoteExecutor {
 		public final String ip;
 		public final IExecutorService executorService;
-		public final int coreCount;
+		public final double power;
 
-		public RemoteExecutor(String ip, IExecutorService executorService, int coreCount) {
+		public RemoteExecutor(String ip, IExecutorService executorService, double power) {
 			this.ip = ip;
 			this.executorService = executorService;
-			this.coreCount = coreCount;
+			this.power = power;
 		}
 
 		@Override
 		public String toString() {
 			return "RemoteExecutor{" +
 					"ip='" + ip + '\'' +
-					", coreCount=" + coreCount +
+					", power=" + power +
 					'}';
 		}
 	}
 
-	public static class CoreTask implements Callable<Integer>, Serializable {
+	public static class PowerTask implements Callable<Double>, Serializable {
 		@Override
-		public Integer call() {
-			return Runtime.getRuntime().availableProcessors();
+		public Double call() {
+			return HazelServer.power;
 		}
 	}
 

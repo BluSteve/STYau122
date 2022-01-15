@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="logs working with bandaid">
+    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="multicomputer working!">
+      <change afterPath="$PROJECT_DIR$/power.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/testing/HazelServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/HazelServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -178,7 +180,7 @@
     <property name="com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File" value="JSON&#10;JAVA&#10;TEXT" />
     <property name="extract.method.default.visibility" value="public" />
     <property name="last.edited.regexp" value="asdf  asdf    asdfa    d d d " />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -194,11 +196,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\billi\IdeaProjects\MNDOParam\src\main\resources" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\hazel\src\main\resources" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\inputs" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\libs" />
-      <recent name="C:\Users\billi\IdeaProjects\MNDOParam\src\main\java" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\src\hazel\src" />
@@ -230,7 +232,7 @@
       <command value="gradlew clean" />
     </option>
   </component>
-  <component name="RunManager" selected="Application.HazelTesting">
+  <component name="RunManager" selected="Gradle.MNDOParam [jar2]">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -244,6 +246,19 @@
     </configuration>
     <configuration name="Compressor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="testing.Compressor" />
+      <module name="MNDOParam.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="testing.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HazelServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="testing.HazelServer" />
       <module name="MNDOParam.main" />
       <extension name="coverage">
         <pattern>
@@ -280,27 +295,6 @@
         <option name="taskNames">
           <list>
             <option value="jar2" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
-    <configuration name="MNDOParam [jar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="jar" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -358,19 +352,19 @@
     <list>
       <item itemvalue="Application.Compressor" />
       <item itemvalue="Gradle.MNDOParam [jmh]" />
-      <item itemvalue="Gradle.MNDOParam [jar]" />
       <item itemvalue="Gradle.MNDOParam [jar2]" />
       <item itemvalue="Java Scratch.Scratch" />
       <item itemvalue="Shell Script.Copy" />
       <item itemvalue="Application.HazelTesting" />
+      <item itemvalue="Application.HazelServer" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.MNDOParam [jar2]" />
+        <item itemvalue="Application.HazelServer" />
         <item itemvalue="Application.HazelTesting" />
         <item itemvalue="Application.Compressor" />
         <item itemvalue="Java Scratch.Scratch" />
-        <item itemvalue="Gradle.MNDOParam [jar]" />
       </list>
     </recent_temporary>
   </component>
@@ -546,14 +540,7 @@
       <workItem from="1642048616296" duration="3941000" />
       <workItem from="1642192057443" duration="1440000" />
       <workItem from="1642227480350" duration="718000" />
-      <workItem from="1642228411449" duration="18839000" />
-    </task>
-    <task id="LOCAL-00291" summary="explicit version printing">
-      <created>1641742330146</created>
-      <option name="number" value="00291" />
-      <option name="presentableId" value="LOCAL-00291" />
-      <option name="project" value="LOCAL" />
-      <updated>1641742330146</updated>
+      <workItem from="1642228411449" duration="21193000" />
     </task>
     <task id="LOCAL-00292" summary="solutionr refactor basically done">
       <created>1641743436884</created>
@@ -891,7 +878,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642245653880</updated>
     </task>
-    <option name="localTasksCounter" value="340" />
+    <task id="LOCAL-00340" summary="multicomputer working!">
+      <created>1642247874057</created>
+      <option name="number" value="00340" />
+      <option name="presentableId" value="LOCAL-00340" />
+      <option name="project" value="LOCAL" />
+      <updated>1642247874057</updated>
+    </task>
+    <option name="localTasksCounter" value="341" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -938,7 +932,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="remove -1 and reformatt psgd2" />
     <MESSAGE value="multithreaded Ederiv2 in pgsd" />
     <MESSAGE value="remove a lot of -1" />
     <MESSAGE value="multithreaded gradient routine" />
@@ -963,7 +956,8 @@
     <MESSAGE value="working distributed runs" />
     <MESSAGE value="reordering" />
     <MESSAGE value="logs working with bandaid" />
-    <option name="LAST_COMMIT_MESSAGE" value="logs working with bandaid" />
+    <MESSAGE value="multicomputer working!" />
+    <option name="LAST_COMMIT_MESSAGE" value="multicomputer working!" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
