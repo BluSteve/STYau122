@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="multicomputer working!">
-      <change afterPath="$PROJECT_DIR$/power.txt" afterDir="false" />
+    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="power instead of cores">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/testing/HazelServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/HazelServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -232,7 +229,7 @@
       <command value="gradlew clean" />
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.MNDOParam [jar2]">
+  <component name="RunManager" selected="Application.HazelTesting">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -540,14 +537,7 @@
       <workItem from="1642048616296" duration="3941000" />
       <workItem from="1642192057443" duration="1440000" />
       <workItem from="1642227480350" duration="718000" />
-      <workItem from="1642228411449" duration="21193000" />
-    </task>
-    <task id="LOCAL-00292" summary="solutionr refactor basically done">
-      <created>1641743436884</created>
-      <option name="number" value="00292" />
-      <option name="presentableId" value="LOCAL-00292" />
-      <option name="project" value="LOCAL" />
-      <updated>1641743436884</updated>
+      <workItem from="1642228411449" duration="21994000" />
     </task>
     <task id="LOCAL-00293" summary="checkpoint">
       <created>1641745826686</created>
@@ -885,7 +875,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642247874057</updated>
     </task>
-    <option name="localTasksCounter" value="341" />
+    <task id="LOCAL-00341" summary="power instead of cores">
+      <created>1642250281441</created>
+      <option name="number" value="00341" />
+      <option name="presentableId" value="LOCAL-00341" />
+      <option name="project" value="LOCAL" />
+      <updated>1642250281441</updated>
+    </task>
+    <option name="localTasksCounter" value="342" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -932,7 +929,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="multithreaded Ederiv2 in pgsd" />
     <MESSAGE value="remove a lot of -1" />
     <MESSAGE value="multithreaded gradient routine" />
     <MESSAGE value="multithreaded main" />
@@ -957,7 +953,8 @@
     <MESSAGE value="reordering" />
     <MESSAGE value="logs working with bandaid" />
     <MESSAGE value="multicomputer working!" />
-    <option name="LAST_COMMIT_MESSAGE" value="multicomputer working!" />
+    <MESSAGE value="power instead of cores" />
+    <option name="LAST_COMMIT_MESSAGE" value="power instead of cores" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

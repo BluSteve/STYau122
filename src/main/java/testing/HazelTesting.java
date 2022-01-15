@@ -57,7 +57,7 @@ public class HazelTesting {
 
 		// set up Hazelcast
 		List<RemoteExecutor> executors = new ArrayList<>();
-		String[] ips = {"34.136.5.8", "34.67.122.134"};
+		String[] ips = {"34.136.5.8", "34.67.122.134", "34.136.23.70"};
 
 		for (String ip : ips) {
 			ClientConfig clientconf = new ClientConfig();
@@ -70,17 +70,17 @@ public class HazelTesting {
 
 
 		// build initial RunInput object
-		String pnFile = null;
-		String pFile = Files.readString(Path.of("params.csv"));
-		String mFile = Files.readString(Path.of("molecules.txt"));
+//		String pnFile = null;
+//		String pFile = Files.readString(Path.of("params.csv"));
+//		String mFile = Files.readString(Path.of("molecules.txt"));
+//
+//		RemoteExecutor mainExecutor = executors.get(0);
+//		Future<byte[]> future = mainExecutor.executorService.submit(new BuildMoleculesTask(pnFile, pFile, mFile));
+//		RunInput runInput = inflate(future.get(), RunInput.class);
+//		JsonIO.write(runInput, "remote-input");
+//		logger.info("Finished initializing molecules.");
 
-		RemoteExecutor mainExecutor = executors.get(0);
-		Future<byte[]> future = mainExecutor.executorService.submit(new BuildMoleculesTask(pnFile, pFile, mFile));
-		RunInput runInput = inflate(future.get(), RunInput.class);
-		JsonIO.write(runInput, "remote-input");
-		logger.info("Finished initializing molecules.");
-
-//		RunInput runInput = JsonIO.readInput("chnof-run1");
+		RunInput runInput = JsonIO.readInput("chnof-run1");
 
 		// creating endingIndices to group molecules by
 		int length = runInput.molecules.length;
@@ -412,7 +412,7 @@ public class HazelTesting {
 			progressBar.shutdownNow();
 
 
-			logger.info("Input hash: {}, nMolecules: {} - Finished", hash, rms.length);
+			logger.info("Input hash: {}, nMolecules: {} - Finished in {}", hash, rms.length, sw.getTime());
 			return deflate(mResults);
 		}
 	}
