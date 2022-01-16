@@ -35,6 +35,8 @@ public class HazelServer {
 	private static double getPower() {
 		Logger logger = LogManager.getLogger();
 
+		logger.info("Date compiled: {}", Utils.getResource("version.txt"));
+
 		double power;
 		try {
 			String powerstr = Files.readString(Path.of("power.txt")).strip();

@@ -4,11 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="faster geomopt">
+    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="rfo paramopt">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/optimize/ParamOptimizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/optimize/ParamOptimizer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/Config.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/testing/HazelServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/HazelServer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -241,7 +242,7 @@
       <command value="gradlew clean" />
     </option>
   </component>
-  <component name="RunManager" selected="Application.HazelTesting">
+  <component name="RunManager" selected="Gradle.MNDOParam [jar2]">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -550,14 +551,7 @@
       <workItem from="1642192057443" duration="1440000" />
       <workItem from="1642227480350" duration="718000" />
       <workItem from="1642228411449" duration="64274000" />
-      <workItem from="1642340551830" duration="2939000" />
-    </task>
-    <task id="LOCAL-00301" summary="automatically determine ediis/diis">
-      <created>1641752470411</created>
-      <option name="number" value="00301" />
-      <option name="presentableId" value="LOCAL-00301" />
-      <option name="project" value="LOCAL" />
-      <updated>1641752470411</updated>
+      <workItem from="1642340551830" duration="5766000" />
     </task>
     <task id="LOCAL-00302" summary="ediis_max_diff">
       <created>1641753711888</created>
@@ -895,7 +889,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642341879777</updated>
     </task>
-    <option name="localTasksCounter" value="350" />
+    <task id="LOCAL-00350" summary="rfo paramopt">
+      <created>1642344130365</created>
+      <option name="number" value="00350" />
+      <option name="presentableId" value="LOCAL-00350" />
+      <option name="project" value="LOCAL" />
+      <updated>1642344130365</updated>
+    </task>
+    <option name="localTasksCounter" value="351" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -942,7 +943,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="separate densitymatrix for s and sexp" />
     <MESSAGE value="Better logging and build densityMatricesExp" />
     <MESSAGE value="hazel on multiple machines" />
     <MESSAGE value="working buildmolecules" />
@@ -967,7 +967,8 @@
     <MESSAGE value="runnablemolecule[] caching" />
     <MESSAGE value="store final lambda" />
     <MESSAGE value="faster geomopt" />
-    <option name="LAST_COMMIT_MESSAGE" value="faster geomopt" />
+    <MESSAGE value="rfo paramopt" />
+    <option name="LAST_COMMIT_MESSAGE" value="rfo paramopt" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

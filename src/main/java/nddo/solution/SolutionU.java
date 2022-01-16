@@ -280,20 +280,22 @@ public class SolutionU extends Solution {
 			}
 
 
+			boolean exceededLimitButOK = false;
 			if (numIt > config.uhf_numIt_max) {
 				if (DIISError < config.diiserror_hard_limit) {
-					rm.getLogger().warn("numIt limit reached but DIISError ({}) below hard limit; continuing...",
-							DIISError);
+					rm.getLogger().warn("numIt limit reached but DIISError ({}) below hard limit;" +
+									" finished prematurely.", DIISError);
+					exceededLimitButOK = true;
 				}
 				else {
 					IllegalStateException e = new IllegalStateException(this.rm.debugName() + " unstable");
-					rm.getLogger().error(e);
+					rm.getLogger().error("DIISError: {}, numIt: {}", DIISError, numIt, e);
 					throw e;
 				}
 			}
 
 			threshold = THRESHOLDS[numIt];
-			boolean b = DIISError < threshold;
+			boolean b = exceededLimitButOK || DIISError < threshold;
 
 			Level level = b ? Level.DEBUG : Level.TRACE;
 			rm.getLogger().log(level, "numIt: {}, DIISError: {}, threshold: {}", numIt, DIISError, threshold);
