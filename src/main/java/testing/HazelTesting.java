@@ -59,8 +59,9 @@ public class HazelTesting {
 
 		// set up Hazelcast
 		List<RemoteExecutor> executors = new ArrayList<>();
-		String[] ips = {"34.136.5.8", "34.67.122.134", "34.136.23.70",
-				"34.75.130.54", "34.68.27.35", "35.199.155.191", "192.168.31.184"};
+		String[] ips = {"localhost", "192.168.31.184",
+				"34.136.5.8", "34.67.122.134", "34.136.23.70",
+				"34.75.130.54", "34.68.27.35", "35.199.155.191"};
 
 		for (String ip : ips) {
 			ClientConfig clientconf = new ClientConfig();
@@ -98,8 +99,8 @@ public class HazelTesting {
 			endingIndices.add(end);
 		}
 		endingIndices.set(endingIndices.size() - 1, length); // just in case rounding issue
-		logger.info("Length: {}, ending indices: {}, powers: {}.", length, endingIndices,
-				executors.stream().mapToDouble(e -> e.power).toArray());
+		logger.info("Length: {}, ending indices: {}, executors: {}, total power: {}",
+				length, endingIndices, executors, totalpower);
 
 
 		// do runs
@@ -107,8 +108,8 @@ public class HazelTesting {
 		try {
 			RunInput currentRunInput = runInput;
 			for (; i < FrontendConfig.config.starting_run_num + FrontendConfig.config.num_runs; i++) {
-				logger.info("Run number: {}, input hash: {}", i, currentRunInput.hash);
 				JsonIO.write(currentRunInput, String.format("pastinputs/%04d-%s", i, currentRunInput.hash));
+				logger.info("Run number: {}, input hash: {}", i, currentRunInput.hash);
 
 				RunOutput ro = run(executors, endingIndices, currentRunInput);
 
@@ -146,6 +147,8 @@ public class HazelTesting {
 
 		// doing the actual computation
 		IMoleculeResult[][] results2d = new IMoleculeResult[nComputers][];
+		AtomicInteger doneCount = new AtomicInteger(0);
+		AtomicInteger doneMachineCount = new AtomicInteger(0);
 		IntStream.range(0, rms2d.length).parallel().forEach(i -> { // multithreaded uploading
 			try {
 				RemoteExecutor executor = executors.get(i);
@@ -156,8 +159,10 @@ public class HazelTesting {
 				byte[] resultsBytes = es.submit(task).get();
 				results2d[i] = inflate(resultsBytes, IMoleculeResult[].class);
 
-				byte[] logsBytes = es.submit(new LogsTask()).get();
-				if (logger.isInfoEnabled()) logger.info("{}:\n{}", executor, Compressor.inflate(logsBytes));
+				if (logger.isInfoEnabled()) logger.info("{}:\n{}", executor, Compressor.inflate(
+						es.submit(new LogsTask()).get()));
+				logger.info("{} molecules finished from {} machines", doneCount.addAndGet(results2d[i].length),
+						doneMachineCount.incrementAndGet());
 			} catch (InterruptedException | ExecutionException e) {
 				e.printStackTrace();
 			} catch (Exception e) {

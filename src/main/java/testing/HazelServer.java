@@ -26,6 +26,8 @@ public class HazelServer {
 
 		Config config = new Config();
 		config.setClusterName("beJSaHB3AJQVUBa3G7eSptMopuJCRg");
+		config.getNetworkConfig().getJoin().getAutoDetectionConfig().setEnabled(false);
+		config.getNetworkConfig().getJoin().getMulticastConfig().setEnabled(false);
 
 		Hazelcast.newHazelcastInstance(config);
 	}

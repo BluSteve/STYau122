@@ -4,9 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="better logging">
+    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="minor changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/after1strun/molecules.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/after1strun/params.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/molecules-benchmark-no-bad.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nddo/math/PopleThiel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/optimize/ParamOptimizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/optimize/ParamOptimizer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/testing/HazelServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/HazelServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" afterDir="false" />
@@ -213,11 +217,11 @@
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\inputs" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\billi\IdeaProjects\MNDOParam\pastinputs" />
+      <recent name="C:\Users\billi\IdeaProjects\MNDOParam" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\src\hazel\src" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\src\hazel" />
-      <recent name="C:\Users\billi\IdeaProjects\MNDOParam" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\inputs" />
-      <recent name="C:\Users\billi\IdeaProjects\MNDOParam\src\main\java\examples\am1" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
       <recent name="tools.Utils" />
@@ -550,14 +554,7 @@
       <workItem from="1642048616296" duration="3941000" />
       <workItem from="1642192057443" duration="1440000" />
       <workItem from="1642227480350" duration="718000" />
-      <workItem from="1642228411449" duration="34394000" />
-    </task>
-    <task id="LOCAL-00296" summary="checkpoint - values a bit different for uhf">
-      <created>1641747379367</created>
-      <option name="number" value="00296" />
-      <option name="presentableId" value="LOCAL-00296" />
-      <option name="project" value="LOCAL" />
-      <updated>1641747379367</updated>
+      <workItem from="1642228411449" duration="45875000" />
     </task>
     <task id="LOCAL-00297" summary="move ediis and diis into solution">
       <created>1641749112359</created>
@@ -895,7 +892,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642259167460</updated>
     </task>
-    <option name="localTasksCounter" value="345" />
+    <task id="LOCAL-00345" summary="minor changes">
+      <created>1642267087122</created>
+      <option name="number" value="00345" />
+      <option name="presentableId" value="LOCAL-00345" />
+      <option name="project" value="LOCAL" />
+      <updated>1642267087122</updated>
+    </task>
+    <option name="localTasksCounter" value="346" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -948,7 +952,6 @@
     <MESSAGE value="save densitymatrix" />
     <MESSAGE value="separate densitymatrix for s and sexp" />
     <MESSAGE value="Better logging and build densityMatricesExp" />
-    <MESSAGE value="minor changes" />
     <MESSAGE value="hazel on multiple machines" />
     <MESSAGE value="working buildmolecules" />
     <MESSAGE value="compression" />
@@ -967,7 +970,8 @@
     <MESSAGE value="3 machines" />
     <MESSAGE value="swap poplethiel ideal and tolerable" />
     <MESSAGE value="better logging" />
-    <option name="LAST_COMMIT_MESSAGE" value="better logging" />
+    <MESSAGE value="minor changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="minor changes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

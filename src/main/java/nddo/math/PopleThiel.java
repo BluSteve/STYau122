@@ -211,14 +211,15 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 				double mag = SpecializedOps_DDRM.diffNormF_fast(rarray[j].getDDRM(), Farray[j].getDDRM());
 
 				if (mag > oldrMags[j] || mag != mag) { // unstable
-					if (numFalse(somewhatFinished) == 0) {
+					int numFalse = numFalse(somewhatFinished);
+					if (numFalse == 0) {
 						soln.rm.getLogger().warn("Slight numerical instability detected; " +
 								"returning lower precision values. (oldMag = {}, mag = {})", oldrMags[j], mag);
 						break bigLoop; // i.e. mag is tolerable
 					}
 
 					soln.rm.getLogger().warn("Pople algorithm fails; reverting to Thiel algorithm. " +
-							"(oldMag = {}, mag = {})", oldrMags[j], mag);
+							"(oldMag = {}, mag = {}, numFalse = {})", oldrMags[j], mag, numFalse);
 					return thiel(soln, fockderivstatic);
 				}
 
@@ -565,14 +566,15 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 				double mag = SpecializedOps_DDRM.diffNormF_fast(rarray[j].getDDRM(), Farray[j].getDDRM());
 
 				if (mag > oldrMags[j] || mag != mag) { // unstable
-					if (numFalse(somewhatFinished) == 0) {
+					int numFalse = numFalse(somewhatFinished);
+					if (numFalse == 0) {
 						soln.rm.getLogger().warn("Slight numerical instability detected; " +
 								"returning lower precision values. (oldMag = {}, mag = {})", oldrMags[j], mag);
 						break bigLoop; // i.e. mag is tolerable
 					}
 
 					soln.rm.getLogger().warn("Pople algorithm fails; reverting to Thiel algorithm. " +
-							"(oldMag = {}, mag = {})", oldrMags[j], mag);
+							"(oldMag = {}, mag = {}, numFalse = {})", oldrMags[j], mag, numFalse);
 					return thiel(soln, fockderivstaticalpha, fockderivstaticbeta);
 				}
 
