@@ -43,9 +43,10 @@ public abstract class GeometryOptimization {
 			double fprime = -1;
 
 			for (int i = 0; i < h.numRows(); i++) {
-				f += g.get(i) * g.get(i) / (initialGuess - h.get(i));
-				fprime -= g.get(i) * g.get(i) /
-						((initialGuess - h.get(i)) * (initialGuess - h.get(i)));
+				double v = g.get(i);
+				double v1 = h.get(i);
+				f += v * v / (initialGuess - v1);
+				fprime -= v * v / ((initialGuess - v1) * (initialGuess - v1));
 			}
 
 			newGuess = initialGuess - f / fprime;
@@ -62,12 +63,12 @@ public abstract class GeometryOptimization {
 		SimpleMatrix yt = y.transpose();
 		SimpleMatrix searchdirt = searchdir.transpose();
 
-		double a = 1 / yt.mult(searchdir).get(0);
+		double a = 1 / y.dot(searchdir);
 		double b = searchdirt.mult(B).mult(searchdir).get(0);
-		SimpleMatrix m2 = B.mult(searchdir).mult(searchdirt).mult(B.transpose()).scale(b);
-		SimpleMatrix m1 = y.mult(yt).scale(a);
+		SimpleMatrix m2 = B.mult(searchdir).mult(searchdirt).mult(B.transpose()).scalei(b);
+		SimpleMatrix m1 = y.mult(yt).scalei(a);
 
-		return B.plus(m1).minus(m2);
+		return B.plus(m1).minusi(m2);
 	}
 
 	public GeometryOptimization compute() {
@@ -95,10 +96,10 @@ public abstract class GeometryOptimization {
 			// computes new search direction
 			double lambda = lambda(h, U.transpose().mult(gradient), h.numRows() - counter);
 
-			SimpleMatrix searchDir = B.minus(SimpleMatrix.identity(B.numRows()).scale(lambda))
-					.invert()
+			SimpleMatrix searchDir = B.plus(-lambda, SimpleMatrix.identity(B.numRows()))
+					.pseudoInversei()
 					.mult(gradient)
-					.negative();
+					.negativei();
 
 			double mag1 = Utils.mag(searchDir);
 			if (mag1 > 0.3) {
