@@ -53,6 +53,9 @@ public class HazelTesting {
 	public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
 		FrontendConfig.init();
 		Logger logger = LogManager.getLogger();
+
+		logger.info("Date compiled: {}", Utils.getResource("version.txt"));
+
 		Files.createDirectories(Path.of("pastinputs"));
 		Files.createDirectories(Path.of("outputs"));
 
@@ -60,7 +63,8 @@ public class HazelTesting {
 		// set up Hazelcast
 		List<RemoteExecutor> executors = new ArrayList<>();
 		String[] ips = {"34.136.23.70", "localhost", "192.168.31.184",
-				"35.204.53.185", "34.67.122.134", "34.75.130.54", "34.68.27.35", "35.199.155.191"};;
+				"35.204.53.185", "34.67.122.134", "34.75.130.54", "34.68.27.35", "35.199.155.191",
+				"34.70.29.31"};
 
 		for (String ip : ips) {
 			ClientConfig clientconf = new ClientConfig();
@@ -75,7 +79,7 @@ public class HazelTesting {
 		// build initial RunInput object
 //		String pnFile = null;
 //		String pFile = Files.readString(Path.of("params.csv"));
-//		String mFile = Files.readString(Path.of("molecules.txt"));
+//		String mFile = Files.readString(Path.of("inputs/fullch.txt"));
 //
 //		RemoteExecutor mainExecutor = executors.get(0);
 //		Future<byte[]> future = mainExecutor.executorService.submit(new BuildMoleculesTask(pnFile, pFile, mFile));
@@ -172,8 +176,8 @@ public class HazelTesting {
 				if (logger.isInfoEnabled()) logger.info("{}:\n{}", executor, Compressor.inflate(
 						es.submit(new LogsTask()).get()));
 
-				logger.info("{} molecules finished from {} machines", doneCount.addAndGet(results2d[i].length),
-						doneMachineCount.incrementAndGet());
+				logger.info("{} molecules finished from {}/{} machines", doneCount.addAndGet(results2d[i].length),
+						doneMachineCount.incrementAndGet(), nComputers);
 			} catch (InterruptedException | ExecutionException e) {
 				e.printStackTrace();
 			} catch (Exception e) {

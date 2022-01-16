@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="runnablemolecule[] caching">
+    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="faster geomopt">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/optimize/ParamOptimizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/optimize/ParamOptimizer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunOutput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunOutput.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -143,7 +142,6 @@
     <setting file="file://$PROJECT_DIR$/power.txt" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/nddo/scf/Orbital.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/logs/main.log" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/inputs/fullch.txt" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/nddo/solution/SolutionU.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" root0="FORCE_HIGHLIGHTING" />
@@ -214,8 +212,8 @@
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\inputs" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\billi\IdeaProjects\MNDOParam\pastinputs" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam" />
+      <recent name="C:\Users\billi\IdeaProjects\MNDOParam\pastinputs" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\src\hazel\src" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\src\hazel" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\inputs" />
@@ -362,12 +360,12 @@
     </configuration>
     <list>
       <item itemvalue="Application.Compressor" />
+      <item itemvalue="Application.HazelTesting" />
+      <item itemvalue="Application.HazelServer" />
       <item itemvalue="Gradle.MNDOParam [jmh]" />
       <item itemvalue="Gradle.MNDOParam [jar2]" />
       <item itemvalue="Java Scratch.Scratch" />
       <item itemvalue="Shell Script.Copy" />
-      <item itemvalue="Application.HazelTesting" />
-      <item itemvalue="Application.HazelServer" />
     </list>
     <recent_temporary>
       <list>
@@ -551,21 +549,8 @@
       <workItem from="1642048616296" duration="3941000" />
       <workItem from="1642192057443" duration="1440000" />
       <workItem from="1642227480350" duration="718000" />
-      <workItem from="1642228411449" duration="52839000" />
-    </task>
-    <task id="LOCAL-00299" summary="minor cleanup">
-      <created>1641749858848</created>
-      <option name="number" value="00299" />
-      <option name="presentableId" value="LOCAL-00299" />
-      <option name="project" value="LOCAL" />
-      <updated>1641749858848</updated>
-    </task>
-    <task id="LOCAL-00300" summary="ediisThreshold">
-      <created>1641750788696</created>
-      <option name="number" value="00300" />
-      <option name="presentableId" value="LOCAL-00300" />
-      <option name="project" value="LOCAL" />
-      <updated>1641750788696</updated>
+      <workItem from="1642228411449" duration="64274000" />
+      <workItem from="1642340551830" duration="2939000" />
     </task>
     <task id="LOCAL-00301" summary="automatically determine ediis/diis">
       <created>1641752470411</created>
@@ -896,7 +881,21 @@
       <option name="project" value="LOCAL" />
       <updated>1642314692868</updated>
     </task>
-    <option name="localTasksCounter" value="348" />
+    <task id="LOCAL-00348" summary="store final lambda">
+      <created>1642317646631</created>
+      <option name="number" value="00348" />
+      <option name="presentableId" value="LOCAL-00348" />
+      <option name="project" value="LOCAL" />
+      <updated>1642317646631</updated>
+    </task>
+    <task id="LOCAL-00349" summary="faster geomopt">
+      <created>1642341879777</created>
+      <option name="number" value="00349" />
+      <option name="presentableId" value="LOCAL-00349" />
+      <option name="project" value="LOCAL" />
+      <updated>1642341879777</updated>
+    </task>
+    <option name="localTasksCounter" value="350" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -943,8 +942,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="refactor poplethiel" />
-    <MESSAGE value="save densitymatrix" />
     <MESSAGE value="separate densitymatrix for s and sexp" />
     <MESSAGE value="Better logging and build densityMatricesExp" />
     <MESSAGE value="hazel on multiple machines" />
@@ -968,7 +965,9 @@
     <MESSAGE value="minor changes" />
     <MESSAGE value="minor bug fixes + remove methoxy radical" />
     <MESSAGE value="runnablemolecule[] caching" />
-    <option name="LAST_COMMIT_MESSAGE" value="runnablemolecule[] caching" />
+    <MESSAGE value="store final lambda" />
+    <MESSAGE value="faster geomopt" />
+    <option name="LAST_COMMIT_MESSAGE" value="faster geomopt" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
