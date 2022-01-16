@@ -70,6 +70,8 @@ public class ParamOptimizer {
 			}
 		}
 
+		logger.info("Final lambda: {}", lambda);
+
 		return changes;
 	}
 }

@@ -59,9 +59,8 @@ public class HazelTesting {
 
 		// set up Hazelcast
 		List<RemoteExecutor> executors = new ArrayList<>();
-		String[] ips = {"localhost", "192.168.31.184",
-				"34.136.5.8", "34.67.122.134", "34.136.23.70",
-				"34.75.130.54", "34.68.27.35", "35.199.155.191"};
+		String[] ips = {"34.136.23.70", "localhost", "192.168.31.184",
+				"35.204.53.185", "34.67.122.134", "34.75.130.54", "34.68.27.35", "35.199.155.191"};;
 
 		for (String ip : ips) {
 			ClientConfig clientconf = new ClientConfig();
@@ -135,11 +134,11 @@ public class HazelTesting {
 		StopWatch sw = StopWatch.createStarted();
 
 		// grouping molecules based on coreCount
-		Utils.shuffleArray(rms); // shuffles whole rms
+		Utils.shuffleArray(rms); // shuffles whole rms, should be the same across runs
 		RunnableMolecule[][] rms2d = new RunnableMolecule[nComputers][];
 		for (int i = 1; i < endingIndices.size(); i++) {
 			RunnableMolecule[] rmsubset = Arrays.copyOfRange(rms, endingIndices.get(i - 1), endingIndices.get(i));
-			Arrays.sort(rmsubset, Comparator.comparingInt(rm -> rm.index));
+			Arrays.sort(rmsubset, Comparator.comparingInt(rm -> rm.index)); // sorted
 			rms2d[i - 1] = rmsubset;
 		}
 		Arrays.sort(rms, Comparator.comparingInt(rm -> rm.index)); // deshuffles rms
@@ -154,13 +153,25 @@ public class HazelTesting {
 				RemoteExecutor executor = executors.get(i);
 				IExecutorService es = executor.executorService;
 
-				RunMoleculesTask task = new RunMoleculesTask(rms2d[i], runInput.info, runInput.hash, executor.ip);
+				String cachedRmsHash = es.submit(new HashTask()).get();
+				String currentRmsHash = Serializer.getHash(rms2d[i]);
+
+				RunMoleculesTask task;
+				if (currentRmsHash.equals(cachedRmsHash)) {
+					logger.info("{}: using cached runnable molecules.", executor.ip);
+					task = new RunMoleculesTask(runInput.info, runInput.hash, executor.ip);
+				}
+				else {
+					logger.info("{}: uploading molecules...", executor.ip);
+					task = new RunMoleculesTask(rms2d[i], runInput.info, runInput.hash, executor.ip);
+				}
 
 				byte[] resultsBytes = es.submit(task).get();
 				results2d[i] = inflate(resultsBytes, IMoleculeResult[].class);
 
 				if (logger.isInfoEnabled()) logger.info("{}:\n{}", executor, Compressor.inflate(
 						es.submit(new LogsTask()).get()));
+
 				logger.info("{} molecules finished from {} machines", doneCount.addAndGet(results2d[i].length),
 						doneMachineCount.incrementAndGet());
 			} catch (InterruptedException | ExecutionException e) {
@@ -326,15 +337,30 @@ public class HazelTesting {
 		}
 	}
 
+	public static class HashTask implements Callable<String>, Serializable {
+		@Override
+		public String call() {
+			return RunMoleculesTask.cachedRms == null ? "null" : Serializer.getHash(RunMoleculesTask.cachedRms);
+		}
+	}
+
 	public static class RunMoleculesTask implements Callable<byte[]>, Serializable {
 		private static final OperatingSystemMXBean bean =
 				(OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+		public static RunnableMolecule[] cachedRms;
 
 		private final byte[] rmsBytes, infoBytes;
 		private final String hash, ip;
 
 		public RunMoleculesTask(RunnableMolecule[] rms, InputInfo info, String hash, String ip) {
 			this.rmsBytes = deflate(rms); // must originally be in sorted order, not necessarily consecutive
+			this.infoBytes = deflate(info);
+			this.hash = hash;
+			this.ip = ip;
+		}
+
+		public RunMoleculesTask(InputInfo info, String hash, String ip) {
+			this.rmsBytes = null;
 			this.infoBytes = deflate(info);
 			this.hash = hash;
 			this.ip = ip;
@@ -350,8 +376,15 @@ public class HazelTesting {
 
 			Logger logger = LogManager.getLogger(ip + "_" + hash);
 
-			// inflate compressed data
-			final RunnableMolecule[] rms = inflate(rmsBytes, RunnableMolecule[].class);
+
+			// inflate compressed data and find whether to use cached values
+			final RunnableMolecule[] rms;
+			if (rmsBytes == null) {
+				logger.info("Using cached runnable molecules.");
+				rms = cachedRms;
+			}
+			else rms = inflate(rmsBytes, RunnableMolecule[].class);
+
 			final InputInfo info = inflate(infoBytes, InputInfo.class);
 
 
@@ -422,6 +455,12 @@ public class HazelTesting {
 			}).sorted(Comparator.comparingInt(r -> r.getUpdatedRm().index)).toArray(IMoleculeResult[]::new);
 
 			progressBar.shutdownNow();
+
+
+			cachedRms = new RunnableMolecule[mResults.length];
+			for (int i = 0; i < mResults.length; i++) {
+				cachedRms[i] = mResults[i].getUpdatedRm();
+			}
 
 
 			logger.info("Input hash: {}, nMolecules: {} - Finished in {}", hash, rms.length, sw.getTime());
