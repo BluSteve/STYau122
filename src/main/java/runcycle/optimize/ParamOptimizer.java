@@ -11,6 +11,7 @@ public class ParamOptimizer {
 	private static final Logger logger = LogManager.getLogger();
 	private final ArrayList<ReferenceData> datum;
 	private double value;
+	public double lambda;
 
 	public ParamOptimizer() {
 		this.datum = new ArrayList<>();
@@ -50,7 +51,7 @@ public class ParamOptimizer {
 
 
 		double k = -0.001;
-		double lambda = 0;
+		lambda = 0;
 		double val = 0;
 		double[] changes = new double[searchdir.numRows()];
 

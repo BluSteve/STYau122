@@ -292,7 +292,11 @@ public class HazelTesting {
 		RunInput nextInput = new RunInput(nextRunInfo, nextRunRms);
 
 
-		return new RunOutput(results, sw.getTime(), ttError, ttGradient, ttHessian, runInput, nextInput);
+		RunOutput runOutput = new RunOutput(results, sw.getTime(), ttError, ttGradient, ttHessian, runInput,
+				nextInput);
+		runOutput.finalLambda = opt.lambda;
+
+		return runOutput;
 	}
 
 	public static class RemoteExecutor {

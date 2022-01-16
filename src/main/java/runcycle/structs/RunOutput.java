@@ -9,8 +9,8 @@ public final class RunOutput {
 	public final double[] ttGradient;
 	public final double[][] ttHessian;
 	public final IMoleculeResult[] results;
-
 	public final transient RunInput input, nextInput;
+	public double finalLambda;
 
 	public RunOutput(IMoleculeResult[] results, long timeTaken, double ttError, double[] ttGradient,
 					 double[][] ttHessian, RunInput input, RunInput nextInput) {
