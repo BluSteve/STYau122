@@ -10,9 +10,9 @@ import java.util.Comparator;
 
 public class Analysis {
 	public static void main(String[] args) throws IOException {
-		RunOutput ro = JsonIO.readOutput("foranalysis");
+		RunOutput ro = JsonIO.readOutput("foranal2");
 
-		JsonIO.write(ro, "slimmeddown");
+		JsonIO.write(ro, "slimmeddown2");
 
 		IMoleculeResult[] results = ro.results.clone();
 		Arrays.sort(results, Comparator.comparingDouble(IMoleculeResult::getTotalError));

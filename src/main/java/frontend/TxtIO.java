@@ -109,7 +109,7 @@ public class TxtIO {
 	public static RunInput readInput(String pnFile, String pFile, String mFile) {
 		final String pncsvname = "param-numbers.csv";
 		// if specified then take specified else default
-		String pnString = pnFile == null || pnFile.length() == 0 ?  Utils.getResource(pncsvname) : pnFile;
+		String pnString = pnFile == null || pnFile.length() == 0 ? Utils.getResource(pncsvname) : pnFile;
 		String[] pncsv = pnString.split("\\R");
 
 		int[] atomTypes = new int[pncsv.length];
@@ -276,7 +276,8 @@ public class TxtIO {
 	}
 
 	public static RunInput readInput(String moleculesFilename) throws IOException {
-		String pnFile = Files.readString(Path.of("param-numbers.csv"));
+		String pnFile = Files.exists(Path.of("param-numbers.csv")) ? Files.readString(Path.of("param-numbers.csv")) :
+				Utils.getResource("param-numbers.csv");
 		String pFile = Files.readString(Path.of("params.csv"));
 		String mFile = Files.readString(Path.of(moleculesFilename));
 
