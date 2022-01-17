@@ -187,7 +187,7 @@ public class HazelTesting {
 		});
 
 		IMoleculeResult[] results = Stream.of(results2d).flatMap(Arrays::stream).sorted(
-				Comparator.comparingInt(r -> r.getUpdatedRm().index)).toArray(IMoleculeResult[]::new);
+				Comparator.comparingInt(r -> r.getUpdatedRm().getIndex())).toArray(IMoleculeResult[]::new);
 
 
 		// processing results
@@ -202,13 +202,13 @@ public class HazelTesting {
 		double[][] ttHessian = new double[paramLength][paramLength];
 
 		for (IMoleculeResult result : results) {
-			int[] moleculeATs = result.getUpdatedRm().mats;
-			int[][] moleculeNPs = result.getUpdatedRm().mnps;
+			int[] moleculeATs = result.getUpdatedRm().getMats();
+			int[][] moleculeNPs = result.getUpdatedRm().getMnps();
 			boolean isDepad = true;
 
 			ttError += result.getTotalError();
 
-			double[] datum = result.getUpdatedRm().datum;
+			double[] datum = result.getUpdatedRm().getDatum();
 
 			opt.addData(new ReferenceData(datum[0], result.getHf(),
 					ParamGradient.combine(result.getHfDerivs(), info.atomTypes, info.neededParams,
@@ -243,7 +243,7 @@ public class HazelTesting {
 				ttGradient[i] += g[i];
 			}
 
-			double[][] h = ParamHessian.padHessian(result.getHessian(), result.getUpdatedRm().mats,
+			double[][] h = ParamHessian.padHessian(result.getHessian(), result.getUpdatedRm().getMats(),
 					info.atomTypes, info.neededParams);
 
 			boolean hasNan = false;
@@ -290,7 +290,7 @@ public class HazelTesting {
 		RunnableMolecule[] nextRunRms = new RunnableMolecule[results.length];
 
 		for (int i = 0; i < nextRunRms.length; i++) {
-			nextRunRms[i] = results[i].getUpdatedRm();
+			nextRunRms[i] = (RunnableMolecule) results[i].getUpdatedRm();
 		}
 
 		RunInput nextInput = new RunInput(nextRunInfo, nextRunRms);
@@ -467,7 +467,7 @@ public class HazelTesting {
 
 			cachedRms = new RunnableMolecule[mResults.length];
 			for (int i = 0; i < mResults.length; i++) {
-				cachedRms[i] = mResults[i].getUpdatedRm();
+				cachedRms[i] = (RunnableMolecule) mResults[i].getUpdatedRm();
 			}
 
 

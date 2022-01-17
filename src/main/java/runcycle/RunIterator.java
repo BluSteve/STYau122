@@ -196,7 +196,7 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 
 				if (ranMolecules != null) {
 					for (IMoleculeResult mo : ranMolecules) {
-						if (mo.getUpdatedRm().index == rm.index) {
+						if (mo.getUpdatedRm().getIndex() == rm.index) {
 							isDoneAlready = true;
 							isDones[rm.index] = true;
 							break;
@@ -232,7 +232,7 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 				results.add(task.join());
 			}
 
-			results.sort(Comparator.comparingInt(x -> x.getUpdatedRm().index));
+			results.sort(Comparator.comparingInt(x -> x.getUpdatedRm().getIndex()));
 
 
 			// combined length of all differentiated params
@@ -246,14 +246,14 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 			double[][] ttHessian = new double[paramLength][paramLength];
 
 			for (IMoleculeResult result : results) {
-				int[] moleculeATs = result.getUpdatedRm().mats;
-				int[][] moleculeNPs = result.getUpdatedRm().mnps;
+				int[] moleculeATs = result.getUpdatedRm().getMats();
+				int[][] moleculeNPs = result.getUpdatedRm().getMnps();
 				boolean isDepad = true;
 
 				ttError += result.getTotalError();
 
 				// add things to ParamOptimizer
-				double[] datum = result.getUpdatedRm().datum;
+				double[] datum = result.getUpdatedRm().getDatum();
 
 				opt.addData(new ReferenceData(datum[0], result.getHf(),
 						ParamGradient.combine(result.getHfDerivs(), info.atomTypes, info.neededParams,
@@ -291,7 +291,7 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 				}
 
 
-				double[][] h = ParamHessian.padHessian(result.getHessian(), result.getUpdatedRm().mats,
+				double[][] h = ParamHessian.padHessian(result.getHessian(), result.getUpdatedRm().getMats(),
 						info.atomTypes, info.neededParams);
 
 				boolean hasNan = false;
@@ -336,7 +336,7 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 			RunnableMolecule[] nextRunRms = new RunnableMolecule[resultsArray.length];
 
 			for (int i = 0; i < nextRunRms.length; i++) {
-				nextRunRms[i] = resultsArray[i].getUpdatedRm();
+				nextRunRms[i] = (RunnableMolecule) resultsArray[i].getUpdatedRm();
 			}
 
 			RunInput nextInput = new RunInput(nextRunInfo, nextRunRms);

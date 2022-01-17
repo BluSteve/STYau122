@@ -107,7 +107,7 @@ public class Serializer {
 			builder.atoms = gson.fromJson(object.get("atoms"), Atom[].class);
 			builder.expGeom = gson.fromJson(object.get("expGeom"), Atom[].class);
 			builder.densityMatrices = gson.fromJson(object.get("densityMatrices"), double[][].class);
-			builder.densityMatricesExp =  gson.fromJson(object.get("densityMatricesExp"), double[][].class);
+			builder.densityMatricesExp = gson.fromJson(object.get("densityMatricesExp"), double[][].class);
 
 			for (int i = 0; i < builder.atoms.length; i++) {
 				builder.atoms[i] = new Atom(builder.atoms[i].Z, Utils.bohr(builder.atoms[i].coords));
@@ -121,7 +121,15 @@ public class Serializer {
 			return builder.build(mats, mnps, null);
 		};
 
+		JsonSerializer<IEssentialMolecule> ems =
+				(src, typeOfSrc, context) -> gson.toJsonTree(new EssentialMolecule(src)).getAsJsonObject();
+
+		JsonDeserializer<IEssentialMolecule> emds =
+				(json, typeOfT, context) -> gson.fromJson(json, EssentialMolecule.class);
+
 		GsonBuilder builder = new GsonBuilder();
+		builder.registerTypeAdapter(IEssentialMolecule.class, ems);
+		builder.registerTypeAdapter(IEssentialMolecule.class, emds);
 		builder.registerTypeAdapter(InputInfo.class, iis);
 		builder.registerTypeAdapter(InputInfo.class, iids);
 		builder.registerTypeAdapter(RunnableMolecule.class, rms);
@@ -130,20 +138,19 @@ public class Serializer {
 		Gson finalgson = builder.create();
 
 		JsonSerializer<IMoleculeResult> imrs =
-				(src, typeOfSrc, context) -> finalgson.toJsonTree(MoleculeOutput.from(src));
+				(src, typeOfSrc, context) -> finalgson.toJsonTree(MoleculeOutput.from(src)).getAsJsonObject();
 
 		JsonDeserializer<IMoleculeResult> imrds =
 				(json, typeOfT, context) -> finalgson.fromJson(json, MoleculeOutput.class);
 
 		builder.registerTypeAdapter(IMoleculeResult.class, imrs);
 		builder.registerTypeAdapter(IMoleculeResult.class, imrds);
-//		builder.setPrettyPrinting();
 
 		return builder.create();
 	}
 
 	private static class MoleculeOutput implements IMoleculeResult {
-		public RunnableMolecule updatedRm;
+		public IEssentialMolecule updatedRm;
 		public long time;
 		public double hf, dipole, ie, geomGradMag, totalError;
 		public double[][] hfpg, dipolepg, iepg, geompg, totalpg, hessian;
@@ -151,7 +158,7 @@ public class Serializer {
 		public MoleculeOutput() {
 		}
 
-		private MoleculeOutput(RunnableMolecule updatedRm, long time, double hf, double dipole, double ie,
+		private MoleculeOutput(IEssentialMolecule updatedRm, long time, double hf, double dipole, double ie,
 							   double geomGradMag, double totalError, double[][] hfpg, double[][] dipolepg,
 							   double[][] iepg, double[][] geompg, double[][] totalpg, double[][] hessian) {
 			this.updatedRm = updatedRm;
@@ -177,7 +184,7 @@ public class Serializer {
 		}
 
 		@Override
-		public RunnableMolecule getUpdatedRm() {
+		public IEssentialMolecule getUpdatedRm() {
 			return updatedRm;
 		}
 
@@ -188,7 +195,7 @@ public class Serializer {
 
 		@Override
 		public boolean isExpAvail() {
-			return updatedRm.expGeom != null;
+			return updatedRm.getExpGeom() != null;
 		}
 
 		@Override

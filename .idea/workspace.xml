@@ -4,9 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="wip conccurentqueue">
+    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="minor changes">
+      <change afterPath="$PROJECT_DIR$/src/main/java/analysis/Analysis.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/EssentialMolecule.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/IEssentialMolecule.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python/Analysis.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/python/Analysis.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/IMoleculeResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/IMoleculeResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunInput.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunOutput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunOutput.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunnableMolecule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunnableMolecule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/structs/Serializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/Serializer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -184,8 +193,9 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="codeWithMe.voiceChat.enabledByDefault" value="false" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="JSON&#10;TEXT" />
-    <property name="com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File" value="JSON&#10;JAVA&#10;TEXT" />
+    <property name="com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File" value="JAVA&#10;JSON&#10;TEXT" />
     <property name="extract.method.default.visibility" value="public" />
+    <property name="jdk.selected.PYTHON_MODULE" value="Python 3.9 (MNDOParam)" />
     <property name="last.edited.regexp" value="asdf  asdf    asdfa    d d d " />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
@@ -193,7 +203,7 @@
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.26182964" />
-    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="project.structure.side.proportion" value="0.13140607" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="terminal" />
     <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/src/main/java/nddo/solution/SolutionR.java" />
@@ -240,7 +250,7 @@
       <command value="gradlew clean" />
     </option>
   </component>
-  <component name="RunManager" selected="Application.HazelTesting">
+  <component name="RunManager" selected="Application.Analysis">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -252,12 +262,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Compressor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="testing.Compressor" />
+    <configuration name="Analysis" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="analysis.Analysis" />
       <module name="MNDOParam.main" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="testing.*" />
+          <option name="PATTERN" value="analysis.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -267,19 +277,6 @@
     </configuration>
     <configuration name="HazelServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="testing.HazelServer" />
-      <module name="MNDOParam.main" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="testing.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="HazelTesting" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="testing.HazelTesting" />
       <module name="MNDOParam.main" />
       <extension name="coverage">
         <pattern>
@@ -333,9 +330,16 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
+    <configuration name="Scratch (1)" type="Java Scratch" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Scratch" />
+      <option name="SCRATCH_FILE_URL" value="file://$APPLICATION_CONFIG_DIR$/scratches/scratch_12.java" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Scratch" type="Java Scratch" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Scratch" />
-      <option name="SCRATCH_FILE_URL" value="file://$APPLICATION_CONFIG_DIR$/scratches/scratch_4.java" />
+      <option name="SCRATCH_FILE_URL" value="file://$APPLICATION_CONFIG_DIR$/scratches/scratch_13.java" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -358,21 +362,21 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.Compressor" />
-      <item itemvalue="Application.HazelTesting" />
       <item itemvalue="Application.HazelServer" />
+      <item itemvalue="Application.Analysis" />
       <item itemvalue="Gradle.MNDOParam [jmh]" />
       <item itemvalue="Gradle.MNDOParam [jar2]" />
+      <item itemvalue="Java Scratch.Scratch (1)" />
       <item itemvalue="Java Scratch.Scratch" />
       <item itemvalue="Shell Script.Copy" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Analysis" />
+        <item itemvalue="Java Scratch.Scratch" />
+        <item itemvalue="Java Scratch.Scratch (1)" />
         <item itemvalue="Gradle.MNDOParam [jar2]" />
         <item itemvalue="Application.HazelServer" />
-        <item itemvalue="Application.HazelTesting" />
-        <item itemvalue="Application.Compressor" />
-        <item itemvalue="Java Scratch.Scratch" />
       </list>
     </recent_temporary>
   </component>
@@ -550,13 +554,7 @@
       <workItem from="1642227480350" duration="718000" />
       <workItem from="1642228411449" duration="64274000" />
       <workItem from="1642340551830" duration="5766000" />
-    </task>
-    <task id="LOCAL-00302" summary="ediis_max_diff">
-      <created>1641753711888</created>
-      <option name="number" value="00302" />
-      <option name="presentableId" value="LOCAL-00302" />
-      <option name="project" value="LOCAL" />
-      <updated>1641753711888</updated>
+      <workItem from="1642426694406" duration="1007000" />
     </task>
     <task id="LOCAL-00303" summary="constant changes">
       <created>1641753907976</created>
@@ -894,7 +892,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642344130365</updated>
     </task>
-    <option name="localTasksCounter" value="351" />
+    <task id="LOCAL-00351" summary="minor changes">
+      <created>1642404749683</created>
+      <option name="number" value="00351" />
+      <option name="presentableId" value="LOCAL-00351" />
+      <option name="project" value="LOCAL" />
+      <updated>1642404749683</updated>
+    </task>
+    <option name="localTasksCounter" value="352" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -960,13 +965,13 @@
     <MESSAGE value="3 machines" />
     <MESSAGE value="swap poplethiel ideal and tolerable" />
     <MESSAGE value="better logging" />
-    <MESSAGE value="minor changes" />
     <MESSAGE value="minor bug fixes + remove methoxy radical" />
     <MESSAGE value="runnablemolecule[] caching" />
     <MESSAGE value="store final lambda" />
     <MESSAGE value="faster geomopt" />
     <MESSAGE value="rfo paramopt" />
-    <option name="LAST_COMMIT_MESSAGE" value="rfo paramopt" />
+    <MESSAGE value="minor changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="minor changes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
