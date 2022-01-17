@@ -62,9 +62,9 @@ public class HazelTesting {
 
 		// set up Hazelcast
 		List<RemoteExecutor> executors = new ArrayList<>();
-		String[] ips = {"34.136.23.70", "localhost", "192.168.31.184",
-				"35.204.53.185", "34.67.122.134", "34.75.130.54", "34.68.27.35", "35.199.155.191",
-				"34.70.29.31"};
+		String[] ips = {"34.66.129.149", "localhost", "192.168.31.184",
+				"35.204.53.185", "34.123.83.237", "34.75.130.54", "35.199.155.191", "35.222.163.23",
+				"35.226.4.174"};
 
 		for (String ip : ips) {
 			ClientConfig clientconf = new ClientConfig();

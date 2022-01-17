@@ -89,29 +89,11 @@ public class ParamOptimizer {
 		}
 
 		sum = Math.sqrt(sum);
+
+		lambda = Math.max(sum, 0.5);
 		searchdir = searchdir.scale(1 / sum);
 
-
-		double k = -0.001;
-		lambda = 0;
-		double val = 0;
-		double[] changes = new double[searchdir.numRows()];
-
-//		while (Math.abs(val - value) > 1E-8) {
-//			lambda += k;
-//			val = value;
-//			changes = searchdir.scale(lambda).getDDRM().data;
-//			value = 0;
-//
-//			for (ReferenceData d : datum) {
-//				d.update(changes);
-//				value += d.getValue();
-//			}
-//
-//			if (value > val) {
-//				k *= -0.5;
-//			}
-//		}
+		double[] changes = searchdir.scale(lambda).getDDRM().data;
 
 		logger.info("Final lambda: {}", lambda);
 
