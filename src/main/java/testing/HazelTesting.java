@@ -72,22 +72,23 @@ public class HazelTesting {
 			clientconf.getNetworkConfig().addAddress(ip + ":5701");
 			HazelcastInstance h = HazelcastClient.newHazelcastClient(clientconf);
 			IExecutorService executorService = h.getExecutorService("serbice");
-			executors.add(new RemoteExecutor(ip, executorService, executorService.submit(new PowerTask()).get()));
+			RemoteExecutor re = new RemoteExecutor(ip, executorService, executorService.submit(new PowerTask()).get());
+			executors.add(re);
 		}
 
 
 		// build initial RunInput object
-//		String pnFile = null;
-//		String pFile = Files.readString(Path.of("params.csv"));
-//		String mFile = Files.readString(Path.of("inputs/fullch.txt"));
-//
-//		RemoteExecutor mainExecutor = executors.get(0);
-//		Future<byte[]> future = mainExecutor.executorService.submit(new BuildMoleculesTask(pnFile, pFile, mFile));
-//		RunInput runInput = inflate(future.get(), RunInput.class);
-//		JsonIO.write(runInput, "remote-input");
-//		logger.info("Finished initializing molecules.");
+		String pnFile = null;
+		String pFile = Files.readString(Path.of("params.csv"));
+		String mFile = Files.readString(Path.of("inputs/fullch.txt"));
 
-		RunInput runInput = JsonIO.readInput("remote-input");
+		RemoteExecutor mainExecutor = executors.get(0);
+		Future<byte[]> future = mainExecutor.executorService.submit(new BuildMoleculesTask(pnFile, pFile, mFile));
+		RunInput runInput = inflate(future.get(), RunInput.class);
+		JsonIO.write(runInput, "remote-input");
+		logger.info("Finished initializing molecules.");
+
+//		RunInput runInput = JsonIO.readInput("remote-input");
 
 		// creating endingIndices to group molecules by
 		int length = runInput.molecules.length;
@@ -122,7 +123,6 @@ public class HazelTesting {
 				currentRunInput = ro.nextInput;
 
 				JsonIO.write(ro, String.format("outputs/%04d-%s-%s", i, ro.inputHash, ro.hash));
-				JsonIO.write(ro.nextInput, "remote-nextinput");
 			}
 		} catch (Exception e) {
 			logger.error("{} errored!", i, e);
