@@ -21,6 +21,9 @@ public class EssentialMolecule implements  IEssentialMolecule{
 		name = iem.getName();
 		mats = iem.getMats();
 		mnps = iem.getMnps();
+		charge = iem.getCharge();
+		mult = iem.getMult();
+		restricted = iem.isRestricted();
 		debugName = debugName();
 	}
 
