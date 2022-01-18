@@ -61,7 +61,9 @@ public class HazelTesting {
 
 		// set up Hazelcast
 		List<RemoteExecutor> executors = new ArrayList<>();
-		String[] ips = {"localhost", "34.123.83.237"};
+		String[] ips = {"34.134.161.196", "localhost",
+				"34.123.83.237", "34.122.33.119", "34.75.130.54",
+				"35.199.155.191", "35.204.53.185", "35.232.103.247"};
 
 		for (String ip : ips) {
 			ClientConfig clientconf = new ClientConfig();
@@ -75,17 +77,17 @@ public class HazelTesting {
 
 
 		// build initial RunInput object
-		String pnFile = null;
-		String pFile = Files.readString(Path.of("params.csv"));
-		String mFile = Files.readString(Path.of("molecules.txt"));
+//		String pnFile = null;
+//		String pFile = Files.readString(Path.of("params.csv"));
+//		String mFile = Files.readString(Path.of("molecules.txt"));
+//
+//		RemoteExecutor mainExecutor = executors.get(0);
+//		Future<byte[]> future = mainExecutor.executorService.submit(new BuildMoleculesTask(pnFile, pFile, mFile));
+//		RunInput runInput = inflateFromJson(future.get(), RunInput.class);
+//		JsonIO.write(runInput, "remote-input");
+//		logger.info("Finished initializing molecules.");
 
-		RemoteExecutor mainExecutor = executors.get(0);
-		Future<byte[]> future = mainExecutor.executorService.submit(new BuildMoleculesTask(pnFile, pFile, mFile));
-		RunInput runInput = inflateFromJson(future.get(), RunInput.class);
-		JsonIO.write(runInput, "remote-input");
-		logger.info("Finished initializing molecules.");
-
-//		RunInput runInput = JsonIO.readInput("remote-input");
+		RunInput runInput = JsonIO.readInput("remote-input");
 
 		// creating endingIndices to group molecules by
 		int length = runInput.molecules.length;
@@ -146,36 +148,37 @@ public class HazelTesting {
 
 
 		// doing the actual computation
-		Semaphore semaphore = new Semaphore(1);
+		Semaphore[] semaphores = new Semaphore[nComputers];
 		Queue<IMoleculeResult>[] resultsQs = new Queue[nComputers];
-		for (int i = 0; i < nComputers; i++) resultsQs[i] = new ConcurrentLinkedQueue<>();
+		for (int i = 0; i < nComputers; i++) {
+			semaphores[i] = new Semaphore(1);
+			resultsQs[i] = new ConcurrentLinkedQueue<>();
+		}
 
 
-		Runnable download = () -> {
-			for (int i = 0; i < nComputers; i++) {
-				if (resultsQs[i].size() < rms2d[i].length) {
-					try {
-						semaphore.acquire();
+		Runnable download = () -> IntStream.range(0, nComputers).parallel().forEach(i -> {
+			if (resultsQs[i].size() < rms2d[i].length) {
+				try {
+					semaphores[i].acquire();
 
-						RemoteExecutor re = executors.get(i);
-						List<IMoleculeResult> downloaded = List.of(inflateFromJson(
-								re.executorService.submit(new DownloadTask()).get(),
-								IMoleculeResult[].class));
+					RemoteExecutor re = executors.get(i);
+					List<IMoleculeResult> downloaded = List.of(inflateFromJson(
+							re.executorService.submit(new DownloadTask()).get(),
+							IMoleculeResult[].class));
 
-						logger.info("Downloaded {} molecules from {}", downloaded.size(), re.ip);
+					logger.info("Downloaded {} molecules from {}", downloaded.size(), re.ip);
 
-						resultsQs[i].addAll(downloaded);
+					resultsQs[i].addAll(downloaded);
 
-						semaphore.release();
-					} catch (InterruptedException | ExecutionException e) {
-						e.printStackTrace();
-					}
+					semaphores[i].release();
+				} catch (InterruptedException | ExecutionException e) {
+					e.printStackTrace();
 				}
 			}
-		};
+		});
 
 		ScheduledExecutorService ses = Executors.newScheduledThreadPool(1);
-		ses.scheduleAtFixedRate(download, 1, 1, TimeUnit.SECONDS);
+		ses.scheduleAtFixedRate(download, 10, 5, TimeUnit.SECONDS);
 
 
 		IMoleculeResult[][] results2d = new IMoleculeResult[nComputers][];
@@ -203,9 +206,9 @@ public class HazelTesting {
 				resultsQs[i].addAll(List.of(inflateFromJson(resultsBytes, IMoleculeResult[].class)));
 
 
-				semaphore.acquire();
+				semaphores[i].acquire();
 				results2d[i] = resultsQs[i].toArray(new IMoleculeResult[0]);
-				semaphore.release();
+				semaphores[i].release();
 				Arrays.sort(results2d[i], Comparator.comparingInt(r -> r.getUpdatedRm().index));
 
 				if (results2d[i].length != rms2d[i].length) {
@@ -500,7 +503,7 @@ public class HazelTesting {
 
 
 			cachedRms = new RunnableMolecule[rms.length];
-			IntStream.range(0, rms.length).forEach(i -> {
+			IntStream.range(0, rms.length).parallel().forEach(i -> {
 				RunnableMolecule rm = rms[i];
 
 				NDDOAtom[] atoms = getConverter().convert(rm.atoms, info.npMap);
