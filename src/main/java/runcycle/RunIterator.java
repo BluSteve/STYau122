@@ -190,7 +190,7 @@ public final class RunIterator implements Iterator<RunOutput> {
 				results.add(task.join());
 			}
 
-			results.sort(Comparator.comparingInt(x -> x.getUpdatedRm().getIndex()));
+			results.sort(Comparator.comparingInt(x -> x.getUpdatedRm().index));
 
 
 			// combined length of all differentiated params
@@ -204,14 +204,14 @@ public final class RunIterator implements Iterator<RunOutput> {
 			double[][] ttHessian = new double[paramLength][paramLength];
 
 			for (IMoleculeResult result : results) {
-				int[] moleculeATs = result.getUpdatedRm().getMats();
-				int[][] moleculeNPs = result.getUpdatedRm().getMnps();
+				int[] moleculeATs = result.getUpdatedRm().mats;
+				int[][] moleculeNPs = result.getUpdatedRm().mnps;
 				boolean isDepad = true;
 
 				ttError += result.getTotalError();
 
 				// add things to ParamOptimizer
-				double[] datum = result.getUpdatedRm().getDatum();
+				double[] datum = result.getUpdatedRm().datum;
 
 				opt.addData(new ReferenceData(datum[0], result.getHf(),
 						ParamGradient.combine(result.getHfDerivs(), info.atomTypes, info.neededParams,
@@ -249,7 +249,7 @@ public final class RunIterator implements Iterator<RunOutput> {
 				}
 
 
-				double[][] h = ParamHessian.padHessian(result.getHessian(), result.getUpdatedRm().getMats(),
+				double[][] h = ParamHessian.padHessian(result.getHessian(), result.getUpdatedRm().mats,
 						info.atomTypes, info.neededParams);
 
 				boolean hasNan = false;

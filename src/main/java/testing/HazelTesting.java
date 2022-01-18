@@ -8,7 +8,6 @@ import com.sun.management.OperatingSystemMXBean;
 import frontend.FrontendConfig;
 import frontend.JsonIO;
 import frontend.TxtIO;
-import nddo.Constants;
 import nddo.NDDOAtom;
 import nddo.NDDOParams;
 import nddo.param.ParamGradient;
@@ -42,11 +41,11 @@ import java.util.stream.Stream;
 import static runcycle.State.getConverter;
 
 public class HazelTesting {
-	private static byte[] deflate(Object obj) {
+	private static byte[] deflateToJson(Object obj) {
 		return Compressor.deflate(Serializer.gson.toJson(obj));
 	}
 
-	private static <T> T inflate(byte[] bytearr, Class<T> clazz) {
+	private static <T> T inflateFromJson(byte[] bytearr, Class<T> clazz) {
 		return Serializer.gson.fromJson(Compressor.inflate(bytearr), clazz);
 	}
 
@@ -62,9 +61,7 @@ public class HazelTesting {
 
 		// set up Hazelcast
 		List<RemoteExecutor> executors = new ArrayList<>();
-		String[] ips = {"34.136.23.70", "localhost", "192.168.31.184",
-				"35.204.53.185", "34.67.122.134", "34.75.130.54", "34.68.27.35", "35.199.155.191",
-				"34.70.29.31"};
+		String[] ips = {"localhost", "34.123.83.237"};
 
 		for (String ip : ips) {
 			ClientConfig clientconf = new ClientConfig();
@@ -80,11 +77,11 @@ public class HazelTesting {
 		// build initial RunInput object
 		String pnFile = null;
 		String pFile = Files.readString(Path.of("params.csv"));
-		String mFile = Files.readString(Path.of("inputs/fullch.txt"));
+		String mFile = Files.readString(Path.of("molecules.txt"));
 
 		RemoteExecutor mainExecutor = executors.get(0);
 		Future<byte[]> future = mainExecutor.executorService.submit(new BuildMoleculesTask(pnFile, pFile, mFile));
-		RunInput runInput = inflate(future.get(), RunInput.class);
+		RunInput runInput = inflateFromJson(future.get(), RunInput.class);
 		JsonIO.write(runInput, "remote-input");
 		logger.info("Finished initializing molecules.");
 
@@ -149,6 +146,38 @@ public class HazelTesting {
 
 
 		// doing the actual computation
+		Semaphore semaphore = new Semaphore(1);
+		Queue<IMoleculeResult>[] resultsQs = new Queue[nComputers];
+		for (int i = 0; i < nComputers; i++) resultsQs[i] = new ConcurrentLinkedQueue<>();
+
+
+		Runnable download = () -> {
+			for (int i = 0; i < nComputers; i++) {
+				if (resultsQs[i].size() < rms2d[i].length) {
+					try {
+						semaphore.acquire();
+
+						RemoteExecutor re = executors.get(i);
+						List<IMoleculeResult> downloaded = List.of(inflateFromJson(
+								re.executorService.submit(new DownloadTask()).get(),
+								IMoleculeResult[].class));
+
+						logger.info("Downloaded {} molecules from {}", downloaded.size(), re.ip);
+
+						resultsQs[i].addAll(downloaded);
+
+						semaphore.release();
+					} catch (InterruptedException | ExecutionException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		};
+
+		ScheduledExecutorService ses = Executors.newScheduledThreadPool(1);
+		ses.scheduleAtFixedRate(download, 1, 1, TimeUnit.SECONDS);
+
+
 		IMoleculeResult[][] results2d = new IMoleculeResult[nComputers][];
 		AtomicInteger doneCount = new AtomicInteger(0);
 		AtomicInteger doneMachineCount = new AtomicInteger(0);
@@ -171,7 +200,17 @@ public class HazelTesting {
 				}
 
 				byte[] resultsBytes = es.submit(task).get();
-				results2d[i] = inflate(resultsBytes, IMoleculeResult[].class);
+				resultsQs[i].addAll(List.of(inflateFromJson(resultsBytes, IMoleculeResult[].class)));
+
+
+				semaphore.acquire();
+				results2d[i] = resultsQs[i].toArray(new IMoleculeResult[0]);
+				semaphore.release();
+				Arrays.sort(results2d[i], Comparator.comparingInt(r -> r.getUpdatedRm().index));
+
+				if (results2d[i].length != rms2d[i].length) {
+					throw new RuntimeException(executor.ip + ": " + rms2d[i].length + " " + results2d[i].length);
+				}
 
 				if (logger.isInfoEnabled()) logger.info("{}:\n{}", executor, Compressor.inflate(
 						es.submit(new LogsTask()).get()));
@@ -187,8 +226,9 @@ public class HazelTesting {
 		});
 
 		IMoleculeResult[] results = Stream.of(results2d).flatMap(Arrays::stream).sorted(
-				Comparator.comparingInt(r -> r.getUpdatedRm().getIndex())).toArray(IMoleculeResult[]::new);
+				Comparator.comparingInt(r -> r.getUpdatedRm().index)).toArray(IMoleculeResult[]::new);
 
+		ses.shutdownNow();
 
 		// processing results
 		int paramLength = 0; // combined length of all differentiated params
@@ -202,13 +242,13 @@ public class HazelTesting {
 		double[][] ttHessian = new double[paramLength][paramLength];
 
 		for (IMoleculeResult result : results) {
-			int[] moleculeATs = result.getUpdatedRm().getMats();
-			int[][] moleculeNPs = result.getUpdatedRm().getMnps();
+			int[] moleculeATs = result.getUpdatedRm().mats;
+			int[][] moleculeNPs = result.getUpdatedRm().mnps;
 			boolean isDepad = true;
 
 			ttError += result.getTotalError();
 
-			double[] datum = result.getUpdatedRm().getDatum();
+			double[] datum = result.getUpdatedRm().datum;
 
 			opt.addData(new ReferenceData(datum[0], result.getHf(),
 					ParamGradient.combine(result.getHfDerivs(), info.atomTypes, info.neededParams,
@@ -243,7 +283,7 @@ public class HazelTesting {
 				ttGradient[i] += g[i];
 			}
 
-			double[][] h = ParamHessian.padHessian(result.getHessian(), result.getUpdatedRm().getMats(),
+			double[][] h = ParamHessian.padHessian(result.getHessian(), result.getUpdatedRm().mats,
 					info.atomTypes, info.neededParams);
 
 			boolean hasNan = false;
@@ -290,7 +330,7 @@ public class HazelTesting {
 		RunnableMolecule[] nextRunRms = new RunnableMolecule[results.length];
 
 		for (int i = 0; i < nextRunRms.length; i++) {
-			nextRunRms[i] = (RunnableMolecule) results[i].getUpdatedRm();
+			nextRunRms[i] = results[i].getUpdatedRm();
 		}
 
 		RunInput nextInput = new RunInput(nextRunInfo, nextRunRms);
@@ -341,7 +381,7 @@ public class HazelTesting {
 
 		@Override
 		public byte[] call() {
-			return deflate(TxtIO.readInput(pnFile, pFile, mFile));
+			return deflateToJson(TxtIO.readInput(pnFile, pFile, mFile));
 		}
 	}
 
@@ -355,23 +395,34 @@ public class HazelTesting {
 	public static class RunMoleculesTask implements Callable<byte[]>, Serializable {
 		private static final OperatingSystemMXBean bean =
 				(OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
+		public static Queue<IMoleculeResult> toDownload = new ConcurrentLinkedQueue<>();
 		public static RunnableMolecule[] cachedRms;
 
 		private final byte[] rmsBytes, infoBytes;
 		private final String hash, ip;
 
 		public RunMoleculesTask(RunnableMolecule[] rms, InputInfo info, String hash, String ip) {
-			this.rmsBytes = deflate(rms); // must originally be in sorted order, not necessarily consecutive
-			this.infoBytes = deflate(info);
+			this.rmsBytes = deflateToJson(rms); // must originally be in sorted order, not necessarily consecutive
+			this.infoBytes = deflateToJson(info);
 			this.hash = hash;
 			this.ip = ip;
 		}
 
 		public RunMoleculesTask(InputInfo info, String hash, String ip) {
 			this.rmsBytes = null;
-			this.infoBytes = deflate(info);
+			this.infoBytes = deflateToJson(info);
 			this.hash = hash;
 			this.ip = ip;
+		}
+
+		public synchronized static IMoleculeResult[] emptyDownloadQueue() {
+			List<IMoleculeResult> imrList = new LinkedList<>();
+
+			while (!toDownload.isEmpty()) {
+				imrList.add(toDownload.remove());
+			}
+
+			return imrList.toArray(new IMoleculeResult[0]);
 		}
 
 		@Override
@@ -386,14 +437,14 @@ public class HazelTesting {
 
 
 			// inflate compressed data and find whether to use cached values
-			final RunnableMolecule[] rms;
+			final RunnableMolecule[] rms; // not sorted/shuffled in this whole class
 			if (rmsBytes == null) {
 				logger.info("Using cached runnable molecules.");
 				rms = cachedRms;
 			}
-			else rms = inflate(rmsBytes, RunnableMolecule[].class);
+			else rms = inflateFromJson(rmsBytes, RunnableMolecule[].class);
 
-			final InputInfo info = inflate(infoBytes, InputInfo.class);
+			final InputInfo info = inflateFromJson(infoBytes, InputInfo.class);
 
 
 			// start molecule runs
@@ -448,10 +499,10 @@ public class HazelTesting {
 			}
 
 
-			List<RunnableMolecule> rmsList = Arrays.asList(rms);
-			Collections.shuffle(rmsList, new Random(Constants.RANDOM_SEED));
+			cachedRms = new RunnableMolecule[rms.length];
+			IntStream.range(0, rms.length).forEach(i -> {
+				RunnableMolecule rm = rms[i];
 
-			IMoleculeResult[] mResults = rmsList.parallelStream().map(rm -> {
 				NDDOAtom[] atoms = getConverter().convert(rm.atoms, info.npMap);
 				NDDOAtom[] expGeom = rm.expGeom == null ? null : getConverter().convert(rm.expGeom, info.npMap);
 
@@ -459,20 +510,30 @@ public class HazelTesting {
 
 				isDones[rm.index] = true;
 
-				return mr;
-			}).sorted(Comparator.comparingInt(r -> r.getUpdatedRm().index)).toArray(IMoleculeResult[]::new);
+				cachedRms[i] = mr.getUpdatedRm();
+
+				toDownload.add(mr);
+			});
+
 
 			progressBar.shutdownNow();
 
 
-			cachedRms = new RunnableMolecule[mResults.length];
-			for (int i = 0; i < mResults.length; i++) {
-				cachedRms[i] = (RunnableMolecule) mResults[i].getUpdatedRm();
-			}
-
-
 			logger.info("Input hash: {}, nMolecules: {} - Finished in {}", hash, rms.length, sw.getTime());
-			return deflate(mResults);
+
+			IMoleculeResult[] remaining = emptyDownloadQueue();
+			logger.info("Uploading {} remaining molecules...", remaining.length);
+
+			return deflateToJson(remaining);
+		}
+	}
+
+	public static class DownloadTask implements Callable<byte[]>, Serializable {
+		@Override
+		public byte[] call() {
+			IMoleculeResult[] finished = RunMoleculesTask.emptyDownloadQueue();
+			LogManager.getLogger().info("Uploading {} molecules...", finished.length);
+			return deflateToJson(finished);
 		}
 	}
 
@@ -489,7 +550,7 @@ public class HazelTesting {
 		private final byte[] compressedRi;
 
 		public RunTask(RunInput ri) {
-			this.compressedRi = deflate(ri);
+			this.compressedRi = deflateToJson(ri);
 		}
 
 		@Override
@@ -500,7 +561,7 @@ public class HazelTesting {
 
 			RunOutput ro = runIterator.next();
 
-			return new byte[][]{deflate(ro), deflate(ro.nextInput)};
+			return new byte[][]{deflateToJson(ro), deflateToJson(ro.nextInput)};
 		}
 	}
 }
