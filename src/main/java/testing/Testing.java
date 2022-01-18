@@ -7,26 +7,20 @@ import nddo.solution.Solution;
 import nddo.solution.SolutionR;
 import nddo.solution.SolutionU;
 import org.ejml.simple.SimpleMatrix;
+import runcycle.RunIterator;
 import runcycle.structs.RunInput;
+import runcycle.structs.RunOutput;
+import runcycle.structs.Serializer;
 
 
 public class Testing {
 	public static void main(String[] args) throws Exception {
 		FrontendConfig.init();
 		RunInput input = TxtIO.readInput("molecules.txt");
-//		RunnableMolecule rm = input.molecules[0];
-//		RunnableMolecule rm2 = input.molecules[1];
-//
-//		SolutionR s = (SolutionR) Solution.of(rm, runcycle.State.getConverter().convert(rm.atoms, input.info.npMap));
-//		SolutionR se = (SolutionR) Solution.of(rm, runcycle.State.getConverter().convert(rm.expGeom,
-//				input.info.npMap));
-//		SolutionU s2 = (SolutionU) Solution.of(rm2, runcycle.State.getConverter().convert(rm2.atoms,
-//				input.info.npMap));
-//		SolutionU se2 =
-//				(SolutionU) Solution.of(rm2, runcycle.State.getConverter().convert(rm2.expGeom, input.info.npMap));
-//
-//		verifyEquations(s, 6,6);
-//		verifyEquations(s2, 6,6);
+		RunIterator iterator = new RunIterator(input, 1);
+		RunOutput ro = iterator.next();
+		System.out.println("Serializer.gson.toJson(ro) = " + Serializer.gson.toJson(ro));
+
 	}
 
 	private static void verifyEquations(Solution s, int Z1, int Z2) {

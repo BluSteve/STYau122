@@ -1,12 +1,14 @@
 package runcycle;
 
 import com.sun.management.OperatingSystemMXBean;
+import frontend.FrontendConfig;
 import nddo.Constants;
 import nddo.NDDOAtom;
 import nddo.NDDOParams;
 import nddo.geometry.GeometryOptimization;
 import nddo.param.*;
 import nddo.solution.Solution;
+import nddo.structs.MoleculeInfo;
 import org.apache.commons.lang3.time.StopWatch;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -21,10 +23,11 @@ import java.lang.management.ManagementFactory;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 import static runcycle.State.getConverter;
 
-public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutput> {
+public final class RunIterator implements Iterator<RunOutput> {
 	private static final OperatingSystemMXBean bean =
 			(OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 
@@ -34,24 +37,10 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 	private final Level defaultLevel;
 	private int runNumber = 0;
 	private RunInput currentRunInput;
-	private IMoleculeResult[] ranMolecules;
-
-	public RunIterator(RunInput runInput) {
-		this(runInput, 0, null);
-	}
 
 	public RunIterator(RunInput runInput, int limit) {
-		this(runInput, limit, null);
-	}
-
-	public RunIterator(RunInput runInput, IMoleculeResult[] ranMolecules) {
-		this(runInput, 0, ranMolecules);
-	}
-
-	public RunIterator(RunInput runInput, int limit, IMoleculeResult[] ranMolecules) {
 		this.initialRunInput = runInput;
 		this.currentRunInput = runInput;
-		this.ranMolecules = ranMolecules;
 		this.limit = limit;
 
 		logger = LogManager.getLogger(initialRunInput.hash);
@@ -72,8 +61,7 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 
 	@Override
 	public boolean hasNext() {
-		if (limit != 0) return runNumber < limit;
-		return true;
+		return runNumber < limit;
 	}
 
 	@Override
@@ -81,11 +69,6 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 		logger.info("Run number: {}, input hash: {}", runNumber, currentRunInput.hash);
 
 		PRun pRun = new PRun(currentRunInput, runNumber, logger);
-
-		if (ranMolecules != null) {
-			pRun.ranMolecules = ranMolecules;
-			ranMolecules = null;
-		}
 
 		Configurator.setRootLevel(defaultLevel);
 
@@ -105,11 +88,6 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 		}
 	}
 
-	@Override
-	public Iterator<RunOutput> iterator() {
-		return this;
-	}
-
 	public int getRunNumber() {
 		return runNumber;
 	}
@@ -118,8 +96,6 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 		private final Logger logger;
 		private final RunInput ri;
 		private final int runNumber;
-		private final ScheduledExecutorService progressBar = Executors.newScheduledThreadPool(1);
-		private IMoleculeResult[] ranMolecules;
 
 		PRun(RunInput runInput, int runNumber, Logger logger) {
 			this.ri = runInput;
@@ -138,52 +114,50 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 		}
 
 		public RunOutput run() {
-			final InputInfo info = ri.info;
-			final RunnableMolecule[] rms = ri.molecules;
+			RunnableMolecule[] rms = ri.molecules;
+			InputInfo info = ri.info;
+
+			StopWatch sw = StopWatch.createStarted();
 
 			boolean[] isDones = new boolean[getMaxMoleculeIndex(rms) + 1];
-
-			StopWatch lsw = new StopWatch();
-			lsw.start();
+			ScheduledExecutorService progressBar = Executors.newScheduledThreadPool(1);
 
 			if (logger.isInfoEnabled()) {
-				AtomicInteger lastLeftCount = new AtomicInteger(ri.molecules.length);
 				AtomicInteger count = new AtomicInteger(0);
 				Runnable mLeft = () -> {
-					List<String> left = new ArrayList<>();
-					int doneCount = 0;
+					List<RunnableMolecule> left = new ArrayList<>();
 
+					int doneCount = 0;
 					for (RunnableMolecule rm : rms) {
-						if (!isDones[rm.index]) left.add(rm.debugName());
+						if (!isDones[rm.index]) left.add(rm);
 						else doneCount++;
 					}
-
 					int leftCount = left.size();
-
-					if (count.get() % 6 == 1) {
-						if (lastLeftCount.get() - leftCount == 0) {
-							logger.warn("Stubborn molecule(s) detected, increasing log level...");
-							Configurator.setRootLevel(Level.TRACE);
-						}
-						lastLeftCount.set(leftCount);
-					}
 
 					count.incrementAndGet();
 
-					Collections.sort(left);
+					left.sort(Comparator.comparingInt(rm -> rm.index));
 
 					int totalCount = doneCount + leftCount;
-					String percent = String.format("%.2f", 100.0 * doneCount / totalCount);
-
-					long time = lsw.getTime(TimeUnit.SECONDS);
+					double progress = 1.0 * doneCount / totalCount;
+					long time = sw.getTime(TimeUnit.SECONDS);
 					double systemCpuLoad = bean.getSystemCpuLoad();
-					double eta = time * (1.0 * totalCount / doneCount);
-					logger.info("Run {}, time: {} s, CPU load: {}, ETA: {} s, {}/{} left ({}% done): {}",
-							runNumber, time, String.format("%.2f", systemCpuLoad), String.format("%.2f", eta),
-							leftCount, totalCount, percent, left);
+					double eta = time / progress;
+					double percent = 100.0 * progress;
+
+					logger.info("Run {}, Time: {} s, CPU load: {}, ETA: {} s, {}/{} left ({}% done): {}",
+							runNumber,
+							time,
+							String.format("%.2f", systemCpuLoad),
+							String.format("%.2f", eta),
+							leftCount,
+							totalCount,
+							String.format("%.2f", percent),
+							left.stream().map(MoleculeInfo::debugName).collect(Collectors.toList())
+					);
 				};
 
-				int wait = 30;
+				int wait = FrontendConfig.config.progress_bar_interval;
 				progressBar.scheduleAtFixedRate(mLeft, wait, wait, TimeUnit.SECONDS);
 			}
 
@@ -192,39 +166,23 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 			// excludes ran molecules from previous dynamic output
 			List<RecursiveTask<MoleculeRun>> moleculeTasks = new ArrayList<>();
 			for (RunnableMolecule rm : rms) {
-				boolean isDoneAlready = false;
+				moleculeTasks.add(new RecursiveTask<>() {
+					@Override
+					protected MoleculeRun compute() {
+						NDDOAtom[] atoms = getConverter().convert(rm.atoms, info.npMap);
+						NDDOAtom[] expGeom = rm.expGeom == null ?
+								null : getConverter().convert(rm.expGeom, info.npMap);
 
-				if (ranMolecules != null) {
-					for (IMoleculeResult mo : ranMolecules) {
-						if (mo.getUpdatedRm().getIndex() == rm.index) {
-							isDoneAlready = true;
-							isDones[rm.index] = true;
-							break;
-						}
+						MoleculeRun mr = new MoleculeRun(rm, atoms, expGeom, rm.datum, true);
+
+						isDones[rm.index] = true;
+						return mr;
 					}
-				}
-
-				if (!isDoneAlready) {
-					moleculeTasks.add(new RecursiveTask<>() {
-						@Override
-						protected MoleculeRun compute() {
-							NDDOAtom[] atoms = getConverter().convert(rm.atoms, info.npMap);
-							NDDOAtom[] expGeom = rm.expGeom == null ?
-									null : getConverter().convert(rm.expGeom, info.npMap);
-
-							MoleculeRun mr = new MoleculeRun(rm, atoms, expGeom, rm.datum, true);
-
-							isDones[rm.index] = true;
-							return mr;
-						}
-					});
-				}
+				});
 			}
 
 			// adds previously ran molecules into the final results list
 			List<IMoleculeResult> results = new ArrayList<>(rms.length);
-
-			if (ranMolecules != null) results.addAll(List.of(ranMolecules));
 
 			// shuffles run requests and runs them, then deshuffles them
 			Collections.shuffle(moleculeTasks, new Random(Constants.RANDOM_SEED));
@@ -342,12 +300,12 @@ public final class RunIterator implements Iterator<RunOutput>, Iterable<RunOutpu
 			RunInput nextInput = new RunInput(nextRunInfo, nextRunRms);
 
 
-			lsw.stop();
+			sw.stop();
 			progressBar.shutdownNow();
 
 			logger.info("Total error: {}", ttError);
 
-			return new RunOutput(resultsArray, lsw.getTime(), ttError, ttGradient, ttHessian, ri, nextInput);
+			return new RunOutput(resultsArray, sw.getTime(), ttError, ttGradient, ttHessian, ri, nextInput);
 		}
 	}
 
