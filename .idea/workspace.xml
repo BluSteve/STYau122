@@ -6,15 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="better runiterator">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/IMoleculeResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/IMoleculeResult.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/RunIterator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/structs/EssentialMolecule.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/structs/IEssentialMolecule.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunnableMolecule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/RunnableMolecule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/structs/Serializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/structs/Serializer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/optimize/ParamOptimizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/optimize/ParamOptimizer.java" afterDir="false" />
     </list>
     <list id="98af51e3-1104-4af3-8d28-3fbf702fccf8" name="Changes by flyingfalcon" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -357,11 +349,11 @@
     <list>
       <item itemvalue="Application.Analysis" />
       <item itemvalue="Application.Testing" />
+      <item itemvalue="Application.HazelTesting" />
       <item itemvalue="Gradle.MNDOParam [jmh]" />
       <item itemvalue="Gradle.MNDOParam [jar2]" />
       <item itemvalue="Java Scratch.Scratch" />
       <item itemvalue="Shell Script.Copy" />
-      <item itemvalue="Application.HazelTesting" />
     </list>
     <recent_temporary>
       <list>
@@ -548,6 +540,7 @@
       <workItem from="1642228411449" duration="64274000" />
       <workItem from="1642340551830" duration="5766000" />
       <workItem from="1642426694406" duration="5231000" />
+      <workItem from="1642485696777" duration="788000" />
     </task>
     <task id="LOCAL-00306" summary="put back damping">
       <created>1641782381473</created>
