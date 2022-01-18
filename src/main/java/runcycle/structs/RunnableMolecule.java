@@ -11,8 +11,7 @@ import tools.Utils;
 
 import java.util.*;
 
-public final class RunnableMolecule extends MoleculeInfo
-		implements IEssentialMolecule { // mid-level runnable molecule representation
+public final class RunnableMolecule extends MoleculeInfo { // mid-level runnable molecule representation
 	public final Atom[] atoms, expGeom;
 	public final double[] datum;
 
@@ -28,56 +27,6 @@ public final class RunnableMolecule extends MoleculeInfo
 		this.atoms = atoms;
 		this.expGeom = expGeom;
 		this.datum = datum;
-	}
-
-	@Override
-	public int getCharge() {
-		return charge;
-	}
-
-	@Override
-	public int getMult() {
-		return mult;
-	}
-
-	@Override
-	public boolean isRestricted() {
-		return restricted;
-	}
-
-	@Override
-	public String getName() {
-		return name;
-	}
-
-	@Override
-	public Atom[] getAtoms() {
-		return atoms;
-	}
-
-	@Override
-	public Atom[] getExpGeom() {
-		return expGeom;
-	}
-
-	@Override
-	public double[] getDatum() {
-		return datum;
-	}
-
-	@Override
-	public int[] getMats() {
-		return mats;
-	}
-
-	@Override
-	public int[][] getMnps() {
-		return mnps;
-	}
-
-	@Override
-	public int getIndex() {
-		return index;
 	}
 
 	@Override

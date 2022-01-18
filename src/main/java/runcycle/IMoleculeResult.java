@@ -1,9 +1,9 @@
 package runcycle;
 
-import runcycle.structs.IEssentialMolecule;
+import runcycle.structs.RunnableMolecule;
 
 public interface IMoleculeResult {
-	IEssentialMolecule getUpdatedRm();
+	RunnableMolecule getUpdatedRm();
 
 	long getTime();
 

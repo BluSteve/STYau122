@@ -82,21 +82,54 @@ public class ParamOptimizer {
 			searchdir = gradient;
 		}
 
-		double sum = 0;
+		double[] changes = getChanges(searchdir);
+
+		if (Math.abs(lambda) < 1E-4) {
+			logger.warn("Switching to pure NR due to RFO saddle point issues...");
+			searchdir = B.pseudoInverse().mult(gradient);
+			changes = getChanges(searchdir);
+		}
+
+		logger.info("Final lambda: {}", lambda);
+
+		return changes;
+	}
+
+	private double[] getChanges(SimpleMatrix searchdir) {
+		double sum;
+		double k;
+		double[] changes;
+		double oldVal;
+
+		sum = 0;
 
 		for (int i = 0; i < searchdir.numRows(); i++) {
 			sum += searchdir.get(i) * searchdir.get(i);
 		}
 
 		sum = Math.sqrt(sum);
-
-		lambda = Math.max(sum, 0.5);
 		searchdir = searchdir.scale(1 / sum);
 
-		double[] changes = searchdir.scale(lambda).getDDRM().data;
+		k = -0.001;
+		lambda = 0;
+		oldVal = 0;
+		changes = new double[searchdir.numRows()];
 
-		logger.info("Final lambda: {}", lambda);
+		while (Math.abs(oldVal - value) > 1E-8) {
+			lambda += k;
+			oldVal = value;
+			changes = searchdir.scale(lambda).getDDRM().data;
+			value = 0;
 
+			for (ReferenceData d : datum) {
+				d.update(changes);
+				value += d.getValue();
+			}
+
+			if (value > oldVal) {
+				k *= -0.5;
+			}
+		}
 		return changes;
 	}
 }
