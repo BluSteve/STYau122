@@ -1,16 +1,20 @@
 package frontend;
 
-import runcycle.structs.Serializer;
 import runcycle.structs.RunInput;
 import runcycle.structs.RunOutput;
+import runcycle.structs.Serializer;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class JsonIO {
+	private static final ExecutorService es = Executors.newSingleThreadExecutor();
+
 	public static <T> T read(String filename, Class<T> clazz) throws FileNotFoundException {
 		return Serializer.gson.fromJson(new FileReader(filename+ ".json"), clazz);
 	}
@@ -34,5 +38,15 @@ public class JsonIO {
 			Serializer.gson.toJson(o, fw);
 			fw.close();
 		}
+	}
+
+	public static void writeAsync(Object o, String... filenames) {
+		es.submit(() -> {
+			try {
+				write(o, filenames);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		});
 	}
 }

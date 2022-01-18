@@ -62,8 +62,8 @@ public class HazelTesting {
 
 		// set up Hazelcast
 		List<RemoteExecutor> executors = new ArrayList<>();
-		String[] ips = {"34.134.161.196", "localhost",
-				"34.123.83.237", "34.122.33.119", "34.75.130.54",
+		String[] ips = {"104.198.254.246", "localhost",
+				"34.70.115.0", "34.71.209.4", "34.75.130.54",
 				"35.199.155.191", "35.204.53.185", "35.232.103.247"};
 
 		for (String ip : ips) {
@@ -76,11 +76,13 @@ public class HazelTesting {
 			executors.add(re);
 		}
 
+		executors.sort(Comparator.comparingDouble(e -> -e.power));
+
 		timeTaken = new double[executors.size()];
 
 
 		// build initial RunInput object
-//		String pnFile = null;
+//		String pnFile = Files.readString(Path.of("param-numbers.csv"));
 //		String pFile = Files.readString(Path.of("params.csv"));
 //		String mFile = Files.readString(Path.of("molecules.txt"));
 //
@@ -104,7 +106,8 @@ public class HazelTesting {
 		try {
 			RunInput currentRunInput = runInput;
 			for (; i < config.starting_run_num + config.num_runs; i++) {
-				JsonIO.write(currentRunInput, String.format("pastinputs/%04d-%s", i, currentRunInput.hash));
+				JsonIO.writeAsync(currentRunInput, String.format("pastinputs/%04d-%s", i, currentRunInput.hash));
+
 				logger.info("Run number: {}, input hash: {}", i, currentRunInput.hash);
 
 				RunOutput ro = run(executors, endingIndices, currentRunInput);
@@ -114,7 +117,7 @@ public class HazelTesting {
 
 				currentRunInput = ro.nextInput;
 
-				JsonIO.write(ro, String.format("outputs/%04d-%s-%s", i, ro.inputHash, ro.hash));
+				JsonIO.writeAsync(ro, String.format("outputs/%04d-%s-%s", i, ro.inputHash, ro.hash));
 
 
 				double max = 0;
@@ -122,7 +125,6 @@ public class HazelTesting {
 				for (int j = 0; j < timeTaken.length; j++) timeTaken[j] /= max;
 
 				double spread = Utils.sd(timeTaken);
-				System.out.println(spread);
 				if (spread > config.reconf_power_threshold) {
 					logger.info("Spread = {}, recalibrating power of machines... (curr={})", spread, endingIndices);
 

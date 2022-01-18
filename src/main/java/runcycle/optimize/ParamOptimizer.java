@@ -13,35 +13,6 @@ public class ParamOptimizer {
 	private double value;
 	public double lambda;
 
-	private static double lambda(SimpleMatrix h, SimpleMatrix g, int count) {
-		if (count == h.numRows()) {
-			return 0;
-		}
-
-		double initialGuess = h.get(count) - 3;
-		double newGuess = initialGuess + 2;
-		while (Math.abs(initialGuess - newGuess) > 1E-7) {
-			initialGuess = newGuess;
-			double f = -initialGuess;
-			double fprime = -1;
-
-			for (int i = 0; i < h.numRows(); i++) {
-				double v = g.get(i);
-				double v1 = h.get(i);
-				f += v * v / (initialGuess - v1);
-				fprime -= v * v / ((initialGuess - v1) * (initialGuess - v1));
-			}
-
-			newGuess = initialGuess - f / fprime;
-		}
-
-		if (newGuess != newGuess) {
-			throw new IllegalStateException("RFO lambda == null! \n" + h);
-		}
-
-		return newGuess;
-	}
-
 	public ParamOptimizer() {
 		this.datum = new ArrayList<>();
 	}
@@ -54,20 +25,7 @@ public class ParamOptimizer {
 	public double[] optimize(SimpleMatrix B, SimpleMatrix gradient) {
 		SimpleMatrix searchdir;
 		try {
-			SimpleMatrix[] ms = Utils.symEigen(B);
-
-			SimpleMatrix h = ms[1].diag();
-			SimpleMatrix U = ms[0];
-
-			int counter = 0;
-			for (int i = 0; i < h.numRows(); i++) {
-				if (Math.abs(h.get(i)) > 1E-5) {
-					counter++;
-				}
-			}
-
-			double l = lambda(h, U.transpose().mult(gradient), h.numRows() - counter);
-			searchdir = B.plus(-l, SimpleMatrix.identity(B.numRows())).pseudoInversei().mult(gradient);
+			searchdir = B.pseudoInverse().mult(gradient);
 			SimpleMatrix eigenvalues = Utils.symEigen(B)[1];
 			if (logger.isInfoEnabled()) {
 				SimpleMatrix eig = eigenvalues.diag().transposei();
@@ -82,26 +40,7 @@ public class ParamOptimizer {
 			searchdir = gradient;
 		}
 
-		double[] changes = getChanges(searchdir);
-
-		if (Math.abs(lambda) < 1E-4) {
-			logger.warn("Switching to pure NR due to RFO saddle point issues...");
-			searchdir = B.pseudoInverse().mult(gradient);
-			changes = getChanges(searchdir);
-		}
-
-		logger.info("Final lambda: {}", lambda);
-
-		return changes;
-	}
-
-	private double[] getChanges(SimpleMatrix searchdir) {
-		double sum;
-		double k;
-		double[] changes;
-		double oldVal;
-
-		sum = 0;
+		double sum = 0;
 
 		for (int i = 0; i < searchdir.numRows(); i++) {
 			sum += searchdir.get(i) * searchdir.get(i);
@@ -110,14 +49,15 @@ public class ParamOptimizer {
 		sum = Math.sqrt(sum);
 		searchdir = searchdir.scale(1 / sum);
 
-		k = -0.001;
-		lambda = 0;
-		oldVal = 0;
-		changes = new double[searchdir.numRows()];
 
-		while (Math.abs(oldVal - value) > 1E-8) {
+		double k = -0.001;
+		lambda = 0;
+		double val = 0;
+		double[] changes = new double[searchdir.numRows()];
+
+		while (Math.abs(val - value) > 1E-8) {
 			lambda += k;
-			oldVal = value;
+			val = value;
 			changes = searchdir.scale(lambda).getDDRM().data;
 			value = 0;
 
@@ -126,10 +66,13 @@ public class ParamOptimizer {
 				value += d.getValue();
 			}
 
-			if (value > oldVal) {
+			if (value > val) {
 				k *= -0.5;
 			}
 		}
+
+		logger.info("Final lambda: {}", lambda);
+
 		return changes;
 	}
 }
