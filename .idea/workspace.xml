@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="multithread download">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="auto-update power">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/FrontendConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/FrontendConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tools/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Utils.java" afterDir="false" />
     </list>
@@ -554,14 +551,7 @@
       <workItem from="1642340551830" duration="5766000" />
       <workItem from="1642426694406" duration="5231000" />
       <workItem from="1642485696777" duration="788000" />
-      <workItem from="1642503824420" duration="653000" />
-    </task>
-    <task id="LOCAL-00307" summary="store useEdiis">
-      <created>1641787004759</created>
-      <option name="number" value="00307" />
-      <option name="presentableId" value="LOCAL-00307" />
-      <option name="project" value="LOCAL" />
-      <updated>1641787004759</updated>
+      <workItem from="1642503824420" duration="2291000" />
     </task>
     <task id="LOCAL-00308" summary="multithread building molecules">
       <created>1641795027138</created>
@@ -899,7 +889,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642494253396</updated>
     </task>
-    <option name="localTasksCounter" value="356" />
+    <task id="LOCAL-00356" summary="auto-update power">
+      <created>1642504542484</created>
+      <option name="number" value="00356" />
+      <option name="presentableId" value="LOCAL-00356" />
+      <option name="project" value="LOCAL" />
+      <updated>1642504542485</updated>
+    </task>
+    <option name="localTasksCounter" value="357" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -946,7 +943,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="compression" />
     <MESSAGE value="compression improved" />
     <MESSAGE value="compression improved with streams" />
     <MESSAGE value="working run based solutiontask" />
@@ -971,7 +967,8 @@
     <MESSAGE value="iessentialmolecule + python analysis" />
     <MESSAGE value="better runiterator" />
     <MESSAGE value="multithread download" />
-    <option name="LAST_COMMIT_MESSAGE" value="multithread download" />
+    <MESSAGE value="auto-update power" />
+    <option name="LAST_COMMIT_MESSAGE" value="auto-update power" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

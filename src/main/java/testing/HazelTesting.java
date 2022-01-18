@@ -104,25 +104,6 @@ public class HazelTesting {
 		try {
 			RunInput currentRunInput = runInput;
 			for (; i < config.starting_run_num + config.num_runs; i++) {
-				double iqr = Utils.iqr(timeTaken);
-				System.out.println(iqr);
-				if (iqr > config.reconf_power_threshold) {
-					logger.info("IQR = {}, recalibrating power of machines... (curr={})", iqr, endingIndices);
-
-					for (int j = 0; j < executors.size(); j++) {
-						executors.get(j).power =
-								1 / timeTaken[j] * (endingIndices.get(j + 1) - endingIndices.get(j)) * 1e3;
-					}
-					endingIndices = getEndingIndices(executors, length);
-
-					logger.info("Finished recalibrating power of machines (new={})", endingIndices);
-
-					IntStream.range(0, executors.size()).parallel().forEach(
-							j -> executors.get(j).executorService.submit(new UpdatePowerTask(executors.get(j).power)));
-
-					logger.info("Uploaded new powers: {}", executors);
-				}
-
 				JsonIO.write(currentRunInput, String.format("pastinputs/%04d-%s", i, currentRunInput.hash));
 				logger.info("Run number: {}, input hash: {}", i, currentRunInput.hash);
 
@@ -134,6 +115,30 @@ public class HazelTesting {
 				currentRunInput = ro.nextInput;
 
 				JsonIO.write(ro, String.format("outputs/%04d-%s-%s", i, ro.inputHash, ro.hash));
+
+
+				double max = 0;
+				for (double v : timeTaken) if (v > max) max = v;
+				for (int j = 0; j < timeTaken.length; j++) timeTaken[j] /= max;
+
+				double spread = Utils.sd(timeTaken);
+				System.out.println(spread);
+				if (spread > config.reconf_power_threshold) {
+					logger.info("Spread = {}, recalibrating power of machines... (curr={})", spread, endingIndices);
+
+					for (int j = 0; j < executors.size(); j++) {
+						executors.get(j).power =
+								1 / timeTaken[j] * (endingIndices.get(j + 1) - endingIndices.get(j));
+					}
+					endingIndices = getEndingIndices(executors, length);
+
+					logger.info("Finished recalibrating power of machines (new={})", endingIndices);
+
+					IntStream.range(0, executors.size()).parallel().forEach(
+							j -> executors.get(j).executorService.submit(new UpdatePowerTask(executors.get(j).power)));
+
+					logger.info("Uploaded new powers: {}", executors);
+				}
 			}
 		} catch (Exception e) {
 			logger.error("{} errored!", i, e);

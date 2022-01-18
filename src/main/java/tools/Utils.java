@@ -16,7 +16,13 @@ import static java.lang.Math.sqrt;
 
 public class Utils {
 	public static void main(String[] args) {
-		System.out.println(iqr(32000, 26000, 39000, 45000, 27000, 45000, 41000, 90000));
+		double[] doubles = {37, 37, 39, 35, 40, 37, 38, 36};
+
+		double max = 0;
+		for (double v : doubles) if (v > max) max = v;
+		for (int j = 0; j < doubles.length; j++) doubles[j] /= max;
+		System.out.println(iqr(doubles));
+		System.out.println(sd(doubles));
 	}
 
 	public static double iqr(double... values) {
@@ -24,6 +30,21 @@ public class Utils {
 		Arrays.sort(valuesc);
 
 		return valuesc[(int) (valuesc.length * 0.75)] - valuesc[(int) (valuesc.length * 0.25)];
+	}
+
+	public static double sd(double... values) {
+		double mean = 0;
+		for (double value : values) mean += value;
+		mean /= values.length;
+
+		double sd = 0;
+		for (double value : values) {
+			sd += Pow.pow(value - mean, 2);
+		}
+		sd /= values.length;
+		sd = Math.sqrt(sd);
+
+		return sd;
 	}
 
 	public static double[] toDoubles(String[] strs) {

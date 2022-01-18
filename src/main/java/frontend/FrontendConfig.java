@@ -34,7 +34,7 @@ public class FrontendConfig extends Config {
 
 	public int num_runs = 1, starting_run_num = 0;
 	public String logging_level = "info";
-	public int reconf_power_threshold = 2500;
+	public double reconf_power_threshold = 0.05;
 
 	public static void main(String[] args) throws IOException {
 		Gson gson = new Gson();
