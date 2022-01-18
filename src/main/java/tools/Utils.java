@@ -15,6 +15,17 @@ import java.util.*;
 import static java.lang.Math.sqrt;
 
 public class Utils {
+	public static void main(String[] args) {
+		System.out.println(iqr(32000, 26000, 39000, 45000, 27000, 45000, 41000, 90000));
+	}
+
+	public static double iqr(double... values) {
+		double[] valuesc = values.clone();
+		Arrays.sort(valuesc);
+
+		return valuesc[(int) (valuesc.length * 0.75)] - valuesc[(int) (valuesc.length * 0.25)];
+	}
+
 	public static double[] toDoubles(String[] strs) {
 		double[] doubles = new double[strs.length];
 		for (int i = 0; i < strs.length; i++) {

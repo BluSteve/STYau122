@@ -4,10 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="better runiterator">
+    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="multithread download">
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/FrontendConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/FrontendConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tools/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tools/Utils.java" afterDir="false" />
     </list>
     <list id="98af51e3-1104-4af3-8d28-3fbf702fccf8" name="Changes by flyingfalcon" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -283,6 +287,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Utils" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="tools.Utils" />
+      <module name="MNDOParam.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="tools.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="MNDOParam [jar2]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -325,13 +342,6 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="Scratch" type="Java Scratch" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Scratch" />
-      <option name="SCRATCH_FILE_URL" value="file://$APPLICATION_CONFIG_DIR$/scratches/scratch_13.java" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="Copy" type="ShConfigurationType">
       <option name="SCRIPT_TEXT" value="" />
       <option name="INDEPENDENT_SCRIPT_PATH" value="false" />
@@ -353,18 +363,18 @@
       <item itemvalue="Application.Analysis" />
       <item itemvalue="Application.Testing" />
       <item itemvalue="Application.HazelTesting" />
+      <item itemvalue="Application.Utils" />
       <item itemvalue="Gradle.MNDOParam [jmh]" />
       <item itemvalue="Gradle.MNDOParam [jar2]" />
-      <item itemvalue="Java Scratch.Scratch" />
       <item itemvalue="Shell Script.Copy" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.MNDOParam [jar2]" />
+        <item itemvalue="Application.Utils" />
         <item itemvalue="Application.HazelTesting" />
         <item itemvalue="Application.Testing" />
         <item itemvalue="Application.Analysis" />
-        <item itemvalue="Java Scratch.Scratch" />
       </list>
     </recent_temporary>
   </component>
@@ -544,13 +554,7 @@
       <workItem from="1642340551830" duration="5766000" />
       <workItem from="1642426694406" duration="5231000" />
       <workItem from="1642485696777" duration="788000" />
-    </task>
-    <task id="LOCAL-00306" summary="put back damping">
-      <created>1641782381473</created>
-      <option name="number" value="00306" />
-      <option name="presentableId" value="LOCAL-00306" />
-      <option name="project" value="LOCAL" />
-      <updated>1641782381474</updated>
+      <workItem from="1642503824420" duration="653000" />
     </task>
     <task id="LOCAL-00307" summary="store useEdiis">
       <created>1641787004759</created>
@@ -888,7 +892,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642474824869</updated>
     </task>
-    <option name="localTasksCounter" value="355" />
+    <task id="LOCAL-00355" summary="multithread download">
+      <created>1642494253396</created>
+      <option name="number" value="00355" />
+      <option name="presentableId" value="LOCAL-00355" />
+      <option name="project" value="LOCAL" />
+      <updated>1642494253396</updated>
+    </task>
+    <option name="localTasksCounter" value="356" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -916,7 +927,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="noserializablemol" />
+                        <option value="nodynamicdl" />
                       </list>
                     </value>
                   </entry>
@@ -935,7 +946,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="working buildmolecules" />
     <MESSAGE value="compression" />
     <MESSAGE value="compression improved" />
     <MESSAGE value="compression improved with streams" />
@@ -960,7 +970,8 @@
     <MESSAGE value="minor changes" />
     <MESSAGE value="iessentialmolecule + python analysis" />
     <MESSAGE value="better runiterator" />
-    <option name="LAST_COMMIT_MESSAGE" value="better runiterator" />
+    <MESSAGE value="multithread download" />
+    <option name="LAST_COMMIT_MESSAGE" value="multithread download" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

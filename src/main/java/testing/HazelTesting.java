@@ -14,6 +14,7 @@ import nddo.param.ParamGradient;
 import nddo.param.ParamHessian;
 import nddo.structs.MoleculeInfo;
 import org.apache.commons.lang3.time.StopWatch;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ejml.simple.SimpleMatrix;
@@ -24,10 +25,7 @@ import runcycle.optimize.ReferenceData;
 import runcycle.structs.*;
 import tools.Utils;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Serializable;
+import java.io.*;
 import java.lang.management.ManagementFactory;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -38,9 +36,12 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import static frontend.FrontendConfig.config;
 import static runcycle.State.getConverter;
 
 public class HazelTesting {
+	private static double[] timeTaken;
+
 	private static byte[] deflateToJson(Object obj) {
 		return Compressor.deflate(Serializer.gson.toJson(obj));
 	}
@@ -75,6 +76,8 @@ public class HazelTesting {
 			executors.add(re);
 		}
 
+		timeTaken = new double[executors.size()];
+
 
 		// build initial RunInput object
 //		String pnFile = null;
@@ -91,26 +94,35 @@ public class HazelTesting {
 
 		// creating endingIndices to group molecules by
 		int length = runInput.molecules.length;
-		double totalpower = 0;
-		for (RemoteExecutor executor : executors) totalpower += executor.power;
+		List<Integer> endingIndices = getEndingIndices(executors, length);
 
-		List<Integer> endingIndices = new ArrayList<>();
-		endingIndices.add(0);
-		for (RemoteExecutor executor : executors) {
-			int inte = endingIndices.get(endingIndices.size() - 1);
-			int end = (int) Math.round(length * (executor.power / totalpower) + inte);
-			endingIndices.add(end);
-		}
-		endingIndices.set(endingIndices.size() - 1, length); // just in case rounding issue
-		logger.info("Length: {}, ending indices: {}, executors: {}, total power: {}",
-				length, endingIndices, executors, totalpower);
+		logger.info("Length: {}, ending indices: {}, executors: {}", length, endingIndices, executors);
 
 
 		// do runs
-		int i = FrontendConfig.config.starting_run_num;
+		int i = config.starting_run_num;
 		try {
 			RunInput currentRunInput = runInput;
-			for (; i < FrontendConfig.config.starting_run_num + FrontendConfig.config.num_runs; i++) {
+			for (; i < config.starting_run_num + config.num_runs; i++) {
+				double iqr = Utils.iqr(timeTaken);
+				System.out.println(iqr);
+				if (iqr > config.reconf_power_threshold) {
+					logger.info("IQR = {}, recalibrating power of machines... (curr={})", iqr, endingIndices);
+
+					for (int j = 0; j < executors.size(); j++) {
+						executors.get(j).power =
+								1 / timeTaken[j] * (endingIndices.get(j + 1) - endingIndices.get(j)) * 1e3;
+					}
+					endingIndices = getEndingIndices(executors, length);
+
+					logger.info("Finished recalibrating power of machines (new={})", endingIndices);
+
+					IntStream.range(0, executors.size()).parallel().forEach(
+							j -> executors.get(j).executorService.submit(new UpdatePowerTask(executors.get(j).power)));
+
+					logger.info("Uploaded new powers: {}", executors);
+				}
+
 				JsonIO.write(currentRunInput, String.format("pastinputs/%04d-%s", i, currentRunInput.hash));
 				logger.info("Run number: {}, input hash: {}", i, currentRunInput.hash);
 
@@ -127,6 +139,22 @@ public class HazelTesting {
 			logger.error("{} errored!", i, e);
 			throw e;
 		}
+	}
+
+	public static List<Integer> getEndingIndices(Iterable<RemoteExecutor> executors, int length) {
+		double totalpower = 0;
+		for (RemoteExecutor executor : executors) totalpower += executor.power;
+
+		List<Integer> endingIndices = new ArrayList<>();
+		endingIndices.add(0);
+		for (RemoteExecutor executor : executors) {
+			int inte = endingIndices.get(endingIndices.size() - 1);
+			int end = (int) Math.round(length * (executor.power / totalpower) + inte);
+			endingIndices.add(end);
+		}
+		endingIndices.set(endingIndices.size() - 1, length); // just in case rounding issue
+
+		return endingIndices;
 	}
 
 	public static RunOutput run(List<RemoteExecutor> executors, List<Integer> endingIndices, RunInput runInput) {
@@ -202,8 +230,10 @@ public class HazelTesting {
 					task = new RunMoleculesTask(rms2d[i], runInput.info, runInput.hash, executor.ip);
 				}
 
-				byte[] resultsBytes = es.submit(task).get();
-				resultsQs[i].addAll(List.of(inflateFromJson(resultsBytes, IMoleculeResult[].class)));
+
+				Pair<Long, byte[]> pair = es.submit(task).get();
+				timeTaken[i] = pair.getLeft();
+				resultsQs[i].addAll(List.of(inflateFromJson(pair.getRight(), IMoleculeResult[].class)));
 
 
 				semaphores[i].acquire();
@@ -349,7 +379,7 @@ public class HazelTesting {
 	public static class RemoteExecutor {
 		public final String ip;
 		public final IExecutorService executorService;
-		public final double power;
+		public double power;
 
 		public RemoteExecutor(String ip, IExecutorService executorService, double power) {
 			this.ip = ip;
@@ -370,6 +400,25 @@ public class HazelTesting {
 		@Override
 		public Double call() {
 			return HazelServer.power;
+		}
+	}
+
+	public static class UpdatePowerTask implements Runnable, Serializable {
+		private double newPower;
+
+		public UpdatePowerTask(double newPower) {
+			this.newPower = newPower;
+		}
+
+		@Override
+		public void run() {
+			try {
+				FileWriter pw = new FileWriter("power.txt");
+				pw.write(Double.toString(newPower));
+				pw.close();
+			} catch (IOException e2) {
+				e2.printStackTrace();
+			}
 		}
 	}
 
@@ -395,7 +444,7 @@ public class HazelTesting {
 		}
 	}
 
-	public static class RunMoleculesTask implements Callable<byte[]>, Serializable {
+	public static class RunMoleculesTask implements Callable<Pair<Long, byte[]>>, Serializable {
 		private static final OperatingSystemMXBean bean =
 				(OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 		public static Queue<IMoleculeResult> toDownload = new ConcurrentLinkedQueue<>();
@@ -429,7 +478,7 @@ public class HazelTesting {
 		}
 
 		@Override
-		public byte[] call() {
+		public Pair<Long, byte[]> call() {
 			// remove past logging
 			try {
 				new PrintWriter("logs/temp.log").close();
@@ -497,7 +546,7 @@ public class HazelTesting {
 					);
 				};
 
-				int wait = FrontendConfig.config.progress_bar_interval;
+				int wait = config.progress_bar_interval;
 				progressBar.scheduleAtFixedRate(mLeft, wait, wait, TimeUnit.SECONDS);
 			}
 
@@ -527,7 +576,7 @@ public class HazelTesting {
 			IMoleculeResult[] remaining = emptyDownloadQueue();
 			logger.info("Uploading {} remaining molecules...", remaining.length);
 
-			return deflateToJson(remaining);
+			return Pair.of(sw.getTime(), deflateToJson(remaining));
 		}
 	}
 
@@ -560,7 +609,7 @@ public class HazelTesting {
 		public byte[][] call() {
 			RunInput runInput = Serializer.gson.fromJson(Compressor.inflate(compressedRi), RunInput.class);
 
-			RunIterator runIterator = new RunIterator(runInput, FrontendConfig.config.num_runs);
+			RunIterator runIterator = new RunIterator(runInput, config.num_runs);
 
 			RunOutput ro = runIterator.next();
 
