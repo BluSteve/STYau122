@@ -127,8 +127,8 @@ public class HazelTesting {
 					logger.info("Spread = {}, recalibrating power of machines... (curr={})", spread, endingIndices);
 
 					for (int j = 0; j < executors.size(); j++) {
-						executors.get(j).power =
-								1 / timeTaken[j] * (endingIndices.get(j + 1) - endingIndices.get(j));
+						executors.get(j).power = 0.5 * executors.get(j).power +
+								0.5 * 1 / timeTaken[j] * (endingIndices.get(j + 1) - endingIndices.get(j));
 					}
 					endingIndices = getEndingIndices(executors, length);
 
