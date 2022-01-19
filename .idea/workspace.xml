@@ -4,17 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="data analysis">
-      <change afterPath="$PROJECT_DIR$/gradienterrors.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python/error-dist.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python/rforunnum.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/qaerrors.csv" afterDir="false" />
+    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="more data analysis">
+      <change afterPath="$PROJECT_DIR$/python/after-opt.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python/before-opt.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python/before-vs-after.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python/dipoleError.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python/geomError.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python/hfError.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python/ieError.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/python/Analysis.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/python/Analysis.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python/error-dist.png" beforeDir="false" afterPath="$PROJECT_DIR$/python/error-dist.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/python/error-hist.png" beforeDir="false" afterPath="$PROJECT_DIR$/python/error-hist.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python/scatter.png" beforeDir="false" afterPath="$PROJECT_DIR$/python/scatter.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/python/total-error-dist.png" beforeDir="false" afterPath="$PROJECT_DIR$/python/total-error-dist.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/analysis/Analysis.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/analysis/Analysis.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/Main.java" afterDir="false" />
     </list>
     <list id="98af51e3-1104-4af3-8d28-3fbf702fccf8" name="Changes by flyingfalcon" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -210,9 +214,9 @@
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\inputs" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\billi\IdeaProjects\MNDOParam\python" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\outputsgradient" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam" />
-      <recent name="C:\Users\billi\IdeaProjects\MNDOParam\python" />
       <recent name="C:\Users\billi\IdeaProjects\MNDOParam\" />
       <recent name="C:\Users\billi\IdeaProjects\remote-input.json" />
     </key>
@@ -239,7 +243,7 @@
       <command value="gradlew clean" />
     </option>
   </component>
-  <component name="RunManager" selected="Application.Analysis">
+  <component name="RunManager" selected="Application.Main">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -251,12 +255,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Analysis" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="analysis.Analysis" />
+    <configuration name="HazelTesting" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="testing.HazelTesting" />
       <module name="MNDOParam.main" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="analysis.*" />
+          <option name="PATTERN" value="testing.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -264,12 +268,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="HazelTesting" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="testing.HazelTesting" />
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="frontend.Main" />
       <module name="MNDOParam.main" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="testing.*" />
+          <option name="PATTERN" value="frontend.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -363,21 +367,21 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.Analysis" />
       <item itemvalue="Application.Testing" />
       <item itemvalue="Application.HazelTesting" />
       <item itemvalue="Application.Utils" />
       <item itemvalue="Gradle.MNDOParam [jmh]" />
       <item itemvalue="Gradle.MNDOParam [jar2]" />
       <item itemvalue="Shell Script.Copy" />
+      <item itemvalue="Application.Main" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main" />
         <item itemvalue="Gradle.MNDOParam [jar2]" />
         <item itemvalue="Application.Utils" />
         <item itemvalue="Application.HazelTesting" />
         <item itemvalue="Application.Testing" />
-        <item itemvalue="Application.Analysis" />
       </list>
     </recent_temporary>
   </component>
@@ -560,14 +564,7 @@
       <workItem from="1642503824420" duration="18802000" />
       <workItem from="1642567841027" duration="3375000" />
       <workItem from="1642572285255" duration="3423000" />
-      <workItem from="1642593654236" duration="13616000" />
-    </task>
-    <task id="LOCAL-00314" summary="multithread ederiv2 even more">
-      <created>1641917959176</created>
-      <option name="number" value="00314" />
-      <option name="presentableId" value="LOCAL-00314" />
-      <option name="project" value="LOCAL" />
-      <updated>1641917959177</updated>
+      <workItem from="1642593654236" duration="16831000" />
     </task>
     <task id="LOCAL-00315" summary="remove -1 and reformatt psgd2">
       <created>1641918355812</created>
@@ -905,7 +902,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642603978366</updated>
     </task>
-    <option name="localTasksCounter" value="363" />
+    <task id="LOCAL-00363" summary="more data analysis">
+      <created>1642607777366</created>
+      <option name="number" value="00363" />
+      <option name="presentableId" value="LOCAL-00363" />
+      <option name="project" value="LOCAL" />
+      <updated>1642607777366</updated>
+    </task>
+    <option name="localTasksCounter" value="364" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -952,7 +956,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="stubborn molecule detector" />
     <MESSAGE value="working distribution" />
     <MESSAGE value="working distributed runs" />
     <MESSAGE value="reordering" />
@@ -977,7 +980,8 @@
     <MESSAGE value="back to pure quadratic" />
     <MESSAGE value="only do power recomp every n iterations" />
     <MESSAGE value="data analysis" />
-    <option name="LAST_COMMIT_MESSAGE" value="data analysis" />
+    <MESSAGE value="more data analysis" />
+    <option name="LAST_COMMIT_MESSAGE" value="more data analysis" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

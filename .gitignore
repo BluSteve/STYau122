@@ -1,7 +1,7 @@
 .gradle
 build
 inputs
-outputs
+outputsrfo
 pastinputs
 errored-molecules.txt
 dynamic-output.json

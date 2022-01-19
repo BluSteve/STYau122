@@ -11,10 +11,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class Main {
 	public static void main(String[] args) throws IOException {
@@ -25,67 +21,29 @@ public class Main {
 		Files.createDirectories(Path.of("pastinputs"));
 		Files.createDirectories(Path.of("outputs"));
 
-		List<RunInput> inputs = new ArrayList<>();
-		List<String> filenames = new ArrayList<>();
+		RunInput input;
 
 		try {
-			inputs.add(JsonIO.readInput("input-override"));
-			filenames.add("overriden-molecules.txt");
+			input = JsonIO.readInput("input-override");
 			logger.info("Input overriden.");
 		} catch (FileNotFoundException e) {
-			filenames = Files.walk(Path.of("inputs"))
-					.map(Path::toString)
-					.filter(s -> s.endsWith(".txt"))
-					.collect(Collectors.toList());
-
-			logger.info("{} inputs found: {}", filenames.size(), filenames);
-
-			filenames.forEach(filename -> {
-				try {
-					inputs.add(TxtIO.readInput(filename));
-				} catch (IOException ex) {
-					throw new RuntimeException(ex);
-				}
-			});
+			input = TxtIO.readInput("molecules.txt");
 		}
+		JsonIO.write(input, "original-input");
 
-		int inputCount = inputs.size();
-		RunIterator[] iterators = new RunIterator[inputCount];
+		RunIterator iterator = new RunIterator(input, FrontendConfig.config.num_runs);
 
-		for (int i = 0; i < inputCount; i++) {
-			iterators[i] = new RunIterator(inputs.get(i), FrontendConfig.config.num_runs);
+		logger.info("Number of runs = {}", FrontendConfig.config.num_runs);
+
+		int i = FrontendConfig.config.starting_run_num;
+		while (iterator.hasNext()) {
+			RunOutput ro = iterator.next();
+			JsonIO.write(ro, String.format("outputs/%04d-%s-%s", i, ro.input.hash, ro.hash));
+
+			TxtIO.updateInput(ro.nextInput, "molecules.txt");
+			JsonIO.write(ro.nextInput, String.format("pastinputs/%04d-%s", i, ro.nextInput.hash));
+			i++;
 		}
-
-		String[] filenamesArr = filenames.toArray(new String[0]);
-
-		IntStream.range(0, inputCount).parallel().forEach(index -> {
-			try {
-				RunIterator iterator = iterators[index];
-				String filename = filenamesArr[index];
-
-				int i = FrontendConfig.config.starting_run_num;
-				while (iterator.hasNext()) {
-					try {
-						RunInput current = iterator.getCurrentRunInput();
-						JsonIO.write(current, String.format("pastinputs/%04d-%s", i, current.hash));
-
-						RunOutput ro = iterator.next();
-
-						JsonIO.write(ro, String.format("outputs/%04d-%s-%s", i, ro.input.hash, ro.hash));
-						TxtIO.updateMolecules(ro.nextInput.molecules, filename);
-
-						logger.info("{} finished run {}", filename, i);
-
-						i++;
-					} catch (IOException e) {
-						throw new RuntimeException(e);
-					}
-				}
-			}
-			catch (Exception e) {
-				logger.error("{} failed!", filenamesArr[index], e);
-			}
-		});
 
 		System.exit(0);
 	}
