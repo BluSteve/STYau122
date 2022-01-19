@@ -1,24 +1,31 @@
 package analysis;
 
-import frontend.JsonIO;
-import runcycle.IMoleculeResult;
 import runcycle.structs.RunOutput;
+import runcycle.structs.Serializer;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Comparator;
+import java.nio.file.Files;
+import java.util.stream.IntStream;
 
 public class Analysis {
 	public static void main(String[] args) throws IOException {
-		RunOutput ro = JsonIO.readOutput("foranal2");
+		File dir = new File("outputsgradient/outputs");
+		File[] files = dir.listFiles();
+		double[] errors = new double[300];
+		IntStream.range(0, 300).parallel().forEach( i-> {
+			System.out.println(i);
+			RunOutput ro = null;
+			try {
+				ro = Serializer.gson.fromJson(Files.readString(files[i].toPath()), RunOutput.class);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			errors[i] = ro.ttError;
+		});
 
-		JsonIO.write(ro, "slimmeddown2");
-
-		IMoleculeResult[] results = ro.results.clone();
-		Arrays.sort(results, Comparator.comparingDouble(IMoleculeResult::getTotalError));
-
-		for (IMoleculeResult result : results) {
-			System.out.println(result.getUpdatedRm().debugName() + ": " + result.getTotalError());
+		for (double error : errors) {
+			System.out.println(error + ",");
 		}
 	}
 }
