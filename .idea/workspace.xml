@@ -4,17 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="minor constant changes">
+    <list default="true" id="21c797ad-2075-41a9-9f71-fc156cfebb3a" name="Default Changelist" comment="back to pure quadratic">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/molecules.txt" beforeDir="false" afterPath="$PROJECT_DIR$/molecules.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python/Analysis.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/python/Analysis.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frontend/JsonIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/frontend/JsonIO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/testing/HazelTesting.java" afterDir="false" />
     </list>
-    <list id="98af51e3-1104-4af3-8d28-3fbf702fccf8" name="Changes by flyingfalcon" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/runcycle/optimize/ParamOptimizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/runcycle/optimize/ParamOptimizer.java" afterDir="false" />
-    </list>
+    <list id="98af51e3-1104-4af3-8d28-3fbf702fccf8" name="Changes by flyingfalcon" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -555,21 +550,8 @@
       <workItem from="1642340551830" duration="5766000" />
       <workItem from="1642426694406" duration="5231000" />
       <workItem from="1642485696777" duration="788000" />
-      <workItem from="1642503824420" duration="12472000" />
-    </task>
-    <task id="LOCAL-00310" summary="fix forjinherng isDone bug">
-      <created>1641796616415</created>
-      <option name="number" value="00310" />
-      <option name="presentableId" value="LOCAL-00310" />
-      <option name="project" value="LOCAL" />
-      <updated>1641796616415</updated>
-    </task>
-    <task id="LOCAL-00311" summary="better logging">
-      <created>1641796959492</created>
-      <option name="number" value="00311" />
-      <option name="presentableId" value="LOCAL-00311" />
-      <option name="project" value="LOCAL" />
-      <updated>1641796959492</updated>
+      <workItem from="1642503824420" duration="18802000" />
+      <workItem from="1642567841027" duration="453000" />
     </task>
     <task id="LOCAL-00312" summary="add compile date to forjinherng">
       <created>1641797014896</created>
@@ -900,7 +882,21 @@
       <option name="project" value="LOCAL" />
       <updated>1642510153844</updated>
     </task>
-    <option name="localTasksCounter" value="359" />
+    <task id="LOCAL-00359" summary="back to pure quadratic">
+      <created>1642517018773</created>
+      <option name="number" value="00359" />
+      <option name="presentableId" value="LOCAL-00359" />
+      <option name="project" value="LOCAL" />
+      <updated>1642517018773</updated>
+    </task>
+    <task id="LOCAL-00360" summary="back to pure quadratic">
+      <created>1642517027966</created>
+      <option name="number" value="00360" />
+      <option name="presentableId" value="LOCAL-00360" />
+      <option name="project" value="LOCAL" />
+      <updated>1642517027966</updated>
+    </task>
+    <option name="localTasksCounter" value="361" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -947,7 +943,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
-    <MESSAGE value="working run based solutiontask" />
     <MESSAGE value="working! chnof" />
     <MESSAGE value="working molecule level distributed computing" />
     <MESSAGE value="stubborn molecule detector" />
@@ -972,7 +967,8 @@
     <MESSAGE value="auto-update power" />
     <MESSAGE value="normalized timeTaken" />
     <MESSAGE value="minor constant changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="minor constant changes" />
+    <MESSAGE value="back to pure quadratic" />
+    <option name="LAST_COMMIT_MESSAGE" value="back to pure quadratic" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

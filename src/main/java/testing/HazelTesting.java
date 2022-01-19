@@ -63,7 +63,7 @@ public class HazelTesting {
 		// set up Hazelcast
 		List<RemoteExecutor> executors = new ArrayList<>();
 		String[] ips = {"104.198.254.246", "localhost",
-				"34.70.115.0", "34.71.209.4", "34.75.130.54",
+				"34.122.81.22", "34.71.209.4", "34.75.130.54",
 				"35.199.155.191", "35.204.53.185", "35.232.103.247"};
 
 		for (String ip : ips) {
@@ -103,6 +103,7 @@ public class HazelTesting {
 
 		// do runs
 		int i = config.starting_run_num;
+		int numIt = 1;
 		try {
 			RunInput currentRunInput = runInput;
 			for (; i < config.starting_run_num + config.num_runs; i++) {
@@ -120,27 +121,35 @@ public class HazelTesting {
 				JsonIO.writeAsync(ro, String.format("outputs/%04d-%s-%s", i, ro.inputHash, ro.hash));
 
 
-				double max = 0;
-				for (double v : timeTaken) if (v > max) max = v;
-				for (int j = 0; j < timeTaken.length; j++) timeTaken[j] /= max;
+				System.out.println(Arrays.toString(timeTaken));
+				if (numIt % 10 == 0) {
+					double max = 0;
+					for (double v : timeTaken) if (v > max) max = v;
+					for (int j = 0; j < timeTaken.length; j++) timeTaken[j] /= max;
 
-				double spread = Utils.sd(timeTaken);
-				if (spread > config.reconf_power_threshold) {
-					logger.info("Spread = {}, recalibrating power of machines... (curr={})", spread, endingIndices);
+					double spread = Utils.sd(timeTaken);
+					if (spread > config.reconf_power_threshold) {
+						logger.info("Spread = {}, recalibrating power of machines... (curr={})", spread, endingIndices);
 
-					for (int j = 0; j < executors.size(); j++) {
-						executors.get(j).power = 0.5 * executors.get(j).power +
-								0.5 * 1 / timeTaken[j] * (endingIndices.get(j + 1) - endingIndices.get(j));
+						for (int j = 0; j < executors.size(); j++) {
+							executors.get(j).power = 0.5 * executors.get(j).power +
+									0.5 * 1 / timeTaken[j] * (endingIndices.get(j + 1) - endingIndices.get(j));
+						}
+						endingIndices = getEndingIndices(executors, length);
+
+						logger.info("Finished recalibrating power of machines (new={})", endingIndices);
+
+						IntStream.range(0, executors.size()).parallel().forEach(
+								j -> executors.get(j).executorService.submit(
+										new UpdatePowerTask(executors.get(j).power)));
+
+						logger.info("Uploaded new powers: {}", executors);
 					}
-					endingIndices = getEndingIndices(executors, length);
 
-					logger.info("Finished recalibrating power of machines (new={})", endingIndices);
-
-					IntStream.range(0, executors.size()).parallel().forEach(
-							j -> executors.get(j).executorService.submit(new UpdatePowerTask(executors.get(j).power)));
-
-					logger.info("Uploaded new powers: {}", executors);
+					timeTaken = new double[executors.size()];
 				}
+
+				numIt++;
 			}
 		} catch (Exception e) {
 			logger.error("{} errored!", i, e);
@@ -239,7 +248,7 @@ public class HazelTesting {
 
 
 				Pair<Long, byte[]> pair = es.submit(task).get();
-				timeTaken[i] = pair.getLeft();
+				timeTaken[i] += pair.getLeft();
 				resultsQs[i].addAll(List.of(inflateFromJson(pair.getRight(), IMoleculeResult[].class)));
 
 
