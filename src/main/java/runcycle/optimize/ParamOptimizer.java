@@ -25,7 +25,7 @@ public class ParamOptimizer {
 	public double[] optimize(SimpleMatrix B, SimpleMatrix gradient) {
 		SimpleMatrix searchdir;
 		try {
-			searchdir = B.pseudoInverse().mult(gradient);
+			searchdir = gradient;
 			SimpleMatrix eigenvalues = Utils.symEigen(B)[1];
 			if (logger.isInfoEnabled()) {
 				SimpleMatrix eig = eigenvalues.diag().transposei();

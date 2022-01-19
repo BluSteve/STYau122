@@ -82,7 +82,7 @@ public class HazelTesting {
 
 
 		// build initial RunInput object
-//		String pnFile = Files.readString(Path.of("param-numbers.csv"));
+//		String pnFile = null;
 //		String pFile = Files.readString(Path.of("params.csv"));
 //		String mFile = Files.readString(Path.of("molecules.txt"));
 //
@@ -106,12 +106,33 @@ public class HazelTesting {
 		int numIt = 1;
 		try {
 			RunInput currentRunInput = runInput;
-			for (; i < config.starting_run_num + config.num_runs; i++) {
+			while (i < config.starting_run_num + config.num_runs) {
 				JsonIO.writeAsync(currentRunInput, String.format("pastinputs/%04d-%s", i, currentRunInput.hash));
 
+				logger.info("Machines: {}", executors);
 				logger.info("Run number: {}, input hash: {}", i, currentRunInput.hash);
 
-				RunOutput ro = run(executors, endingIndices, currentRunInput);
+				RunOutput ro;
+				try {
+					ro = run(executors, endingIndices, currentRunInput);
+				} catch (IllegalStateException e) {
+					for (RemoteExecutor executor : executors) {
+						if (executor.ip.equals(e.getMessage())) {
+							executors.remove(executor);
+							logger.error("{} disconnected and has been removed! Restarting run {}...", executor, i);
+							break;
+						}
+					}
+
+					if (executors.size() == 0) {
+						throw new RuntimeException("No more machines left to use! Quitting...");
+					}
+					else {
+						endingIndices = getEndingIndices(executors, length);
+					}
+
+					continue;
+				}
 
 				logger.info("Run {} time taken: {}, output hash: {}, next input hash: {}\n\n", i, ro.timeTaken,
 						ro.hash, ro.nextInputHash);
@@ -129,7 +150,8 @@ public class HazelTesting {
 
 					double spread = Utils.sd(timeTaken);
 					if (spread > config.reconf_power_threshold) {
-						logger.info("Spread = {}, recalibrating power of machines... (curr={})", spread, endingIndices);
+						logger.info("Spread = {}, recalibrating power of machines... (curr={})", spread,
+								endingIndices);
 
 						for (int j = 0; j < executors.size(); j++) {
 							executors.get(j).power = 0.5 * executors.get(j).power +
@@ -143,12 +165,13 @@ public class HazelTesting {
 								j -> executors.get(j).executorService.submit(
 										new UpdatePowerTask(executors.get(j).power)));
 
-						logger.info("Uploaded new powers: {}", executors);
+						logger.info("Uploaded new powers: {}\n\n", executors);
 					}
 
 					timeTaken = new double[executors.size()];
 				}
 
+				i++;
 				numIt++;
 			}
 		} catch (Exception e) {
@@ -216,7 +239,7 @@ public class HazelTesting {
 
 					semaphores[i].release();
 				} catch (InterruptedException | ExecutionException e) {
-					e.printStackTrace();
+					throw new IllegalStateException(executors.get(i).ip);
 				}
 			}
 		});
@@ -229,10 +252,10 @@ public class HazelTesting {
 		AtomicInteger doneCount = new AtomicInteger(0);
 		AtomicInteger doneMachineCount = new AtomicInteger(0);
 		IntStream.range(0, rms2d.length).parallel().forEach(i -> { // multithreaded uploading
-			try {
-				RemoteExecutor executor = executors.get(i);
-				IExecutorService es = executor.executorService;
+			RemoteExecutor executor = executors.get(i);
+			IExecutorService es = executor.executorService;
 
+			try {
 				String cachedRmsHash = es.submit(new HashTask()).get();
 				String currentRmsHash = Serializer.getHash(rms2d[i]);
 
@@ -266,11 +289,9 @@ public class HazelTesting {
 
 				logger.info("{} molecules finished from {}/{} machines", doneCount.addAndGet(results2d[i].length),
 						doneMachineCount.incrementAndGet(), nComputers);
-			} catch (InterruptedException | ExecutionException e) {
-				e.printStackTrace();
 			} catch (Exception e) {
 				logger.error("", e);
-				throw e;
+				throw new IllegalStateException(executor.ip);
 			}
 		});
 
