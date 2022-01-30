@@ -25,9 +25,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Queue;
-import java.util.concurrent.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -51,7 +52,7 @@ public class Remote {
 		while (server.machinesSet.size() == 0) {
 		}
 
-		TimeUnit.SECONDS.sleep(5);
+		TimeUnit.SECONDS.sleep(10);
 		AdvancedMachine[] machines = server.getMachines();
 		Arrays.sort(machines);
 		timeTaken = new double[machines.length];
@@ -85,9 +86,12 @@ public class Remote {
 			while (i < config.starting_run_num + config.num_runs) {
 				JsonIO.writeAsync(currentRunInput, String.format("pastinputs/%04d-%s", i, currentRunInput.hash));
 
-				machines = server.getMachines();
-				Arrays.sort(machines);
-				endingIndices = getEndingIndices(machines, length);
+				if (machines.length != server.machinesSet.size()) {
+					machines = server.getMachines();
+					Arrays.sort(machines);
+					endingIndices = getEndingIndices(machines, length);
+					timeTaken = new double[machines.length];
+				}
 
 				logger.info("Machines: {}", Arrays.toString(machines));
 				logger.info("Run number: {}, input hash: {}", i, currentRunInput.hash);
@@ -96,6 +100,8 @@ public class Remote {
 				try {
 					ro = run(machines, endingIndices, currentRunInput);
 				} catch (NodeDisconnectedException e) {
+					logger.warn("{} disconnected; restarting run...", e.getMachine().name);
+
 					server.remove(e.getMachine().name);
 
 					if (server.machinesSet.size() == 0) {
@@ -185,40 +191,10 @@ public class Remote {
 
 
 		// doing the actual computation
-		Semaphore[] semaphores = new Semaphore[nMachines];
-		Queue<IMoleculeResult>[] resultsQs = new Queue[nMachines];
-		for (int i = 0; i < nMachines; i++) {
-			semaphores[i] = new Semaphore(1);
-			resultsQs[i] = new ConcurrentLinkedQueue<>();
-		}
-
-
-		Runnable download = () -> IntStream.range(0, nMachines).parallel().forEach(i -> {
-			if (resultsQs[i].size() < rms2d[i].length) {
-				AdvancedMachine machine = machines[i];
-				try {
-					semaphores[i].acquire();
-
-					List<IMoleculeResult> downloaded = List.of(machine.downloadMolecules());
-
-					logger.info("Downloaded {} molecules from {}", downloaded.size(), machine.ip);
-
-					resultsQs[i].addAll(downloaded);
-
-					semaphores[i].release();
-				} catch (InterruptedException e) {
-					throw new NodeDisconnectedException(machine);
-				}
-			}
-		});
-
-		ScheduledExecutorService ses = Executors.newScheduledThreadPool(1);
-//		ses.scheduleAtFixedRate(download, 10, 5, TimeUnit.SECONDS);
-
-
 		IMoleculeResult[][] results2d = new IMoleculeResult[nMachines][];
 		AtomicInteger doneCount = new AtomicInteger(0);
 		AtomicInteger doneMachineCount = new AtomicInteger(0);
+		Queue<AdvancedMachine> errored = new ConcurrentLinkedQueue<>();
 		IntStream.range(0, rms2d.length).parallel().forEach(i -> { // multithreaded uploading
 			AdvancedMachine machine = machines[i];
 			Logger machineLogger = machine.logger;
@@ -227,11 +203,8 @@ public class Remote {
 				AdvancedMachine.SubsetResult result = machine.runMolecules(rms2d[i], info, runInput.hash);
 
 				timeTaken[i] += result.timeTaken;
-				for (IMoleculeResult imr : result.results) resultsQs[i].add(imr);
 
-				semaphores[i].acquire();
-				results2d[i] = resultsQs[i].toArray(new IMoleculeResult[0]);
-				semaphores[i].release();
+				results2d[i] = result.results;
 				Arrays.sort(results2d[i], Comparator.comparingInt(r -> r.getUpdatedRm().index));
 
 				if (results2d[i].length != rms2d[i].length) {
@@ -243,15 +216,17 @@ public class Remote {
 				logger.info("{} molecules finished from {}/{} machines", doneCount.addAndGet(results2d[i].length),
 						doneMachineCount.incrementAndGet(), nMachines);
 			} catch (Exception e) {
-				machineLogger.error("", e);
-				throw new NodeDisconnectedException(machine);
+				machineLogger.error(e);
+				errored.add(machine);
 			}
 		});
 
+		if (errored.size() > 0) {
+			throw new NodeDisconnectedException(errored.peek());
+		}
+
 		IMoleculeResult[] results = Stream.of(results2d).flatMap(Arrays::stream).sorted(
 				Comparator.comparingInt(r -> r.getUpdatedRm().index)).toArray(IMoleculeResult[]::new);
-
-		ses.shutdownNow();
 
 		// processing results
 		int paramLength = 0; // combined length of all differentiated params

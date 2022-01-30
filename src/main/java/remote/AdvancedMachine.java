@@ -1,5 +1,6 @@
 package remote;
 
+import com.google.gson.JsonSyntaxException;
 import host.Machine;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,6 +13,8 @@ import tools.Byter;
 
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.util.LinkedList;
+import java.util.List;
 
 import static remote.Utils.fromJsonBytes;
 import static runcycle.structs.Serializer.gson;
@@ -58,12 +61,6 @@ public class AdvancedMachine extends Machine implements Comparable<AdvancedMachi
 		return new String(read());
 	}
 
-	public IMoleculeResult[] downloadMolecules() {
-		write("downloadMolecules");
-
-		return fromJsonBytes(read(), IMoleculeResult[].class);
-	}
-
 	public SubsetResult runMolecules(RunnableMolecule[] rms, InputInfo info, String inputHash) {
 		String hash = Serializer.getHash(rms);
 		String cacheHash = getMoleculesHash();
@@ -77,7 +74,25 @@ public class AdvancedMachine extends Machine implements Comparable<AdvancedMachi
 			write("runMolecules", new MoleculesSubset(rms, info, inputHash));
 		}
 
-		return fromJsonBytes(read(), SubsetResult.class);
+		List<IMoleculeResult> hithertoResults = new LinkedList<>();
+
+		SubsetResult sr;
+		while (true) {
+			byte[] bytes = read();
+			try {
+				sr = fromJsonBytes(bytes, SubsetResult.class);
+				break;
+			} catch (JsonSyntaxException e) {
+				IMoleculeResult[] results = fromJsonBytes(bytes, IMoleculeResult[].class);
+				logger.info("Downloaded {} molecules.", results.length);
+				hithertoResults.addAll(List.of(results));
+			}
+		}
+
+		hithertoResults.addAll(List.of(sr.results));
+		sr.results = hithertoResults.toArray(new IMoleculeResult[0]);
+
+		return sr;
 	}
 
 	@Override

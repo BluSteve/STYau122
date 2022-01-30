@@ -3,6 +3,7 @@ import frontend.FrontendConfig;
 import frontend.TxtIO;
 import nddo.NDDOAtom;
 import nddo.structs.MoleculeInfo;
+import node.Node;
 import org.apache.commons.lang3.time.StopWatch;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,6 +14,9 @@ import runcycle.RunIterator;
 import runcycle.structs.InputInfo;
 import runcycle.structs.RunnableMolecule;
 import runcycle.structs.Serializer;
+import shared.Constants;
+import shared.Message;
+import shared.MethodContainer;
 import tools.Byter;
 
 import java.io.FileNotFoundException;
@@ -24,11 +28,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -38,18 +40,33 @@ import static remote.Utils.toJsonBytes;
 import static runcycle.State.getConverter;
 
 @SuppressWarnings("unused")
-public class AdditionalMethods {
+public class AdditionalMethods extends MethodContainer {
 	private static final OperatingSystemMXBean bean =
 			(OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
-	private static final Queue<IMoleculeResult> toDownload = new ConcurrentLinkedQueue<>();
 	private static final Logger logger = LogManager.getLogger();
-	private static RunnableMolecule[] cachedRms;
+	private static final int DOWNLOAD_THRESHOLD = 20;
+	private final Queue<IMoleculeResult> toDownload = new ConcurrentLinkedQueue<>();
+	private RunnableMolecule[] cachedRms;
 
-	public static byte[] ping() {
+	public AdditionalMethods(Node node) {
+		super(node);
+	}
+
+	private static void powBench() {
+		IntStream.range(0, 1_000_000).parallel().forEach(i -> {
+			Random r = new Random();
+			double product = 1;
+			for (int j = 0; j < 1000; j++) {
+				product *= Math.pow(r.nextGaussian(), r.nextGaussian());
+			}
+		});
+	}
+
+	public byte[] ping() {
 		return "pong!".getBytes(StandardCharsets.UTF_8);
 	}
 
-	public static byte[] benchmark() {
+	public byte[] benchmark() {
 		final String powertxt = "power.txt";
 		double power;
 
@@ -78,7 +95,7 @@ public class AdditionalMethods {
 		return Byter.toBytes(power);
 	}
 
-	public static void updatePower(byte[] bytes) {
+	public void updatePower(byte[] bytes) {
 		double newPower = Byter.toDouble(bytes);
 
 		try {
@@ -90,30 +107,30 @@ public class AdditionalMethods {
 		}
 	}
 
-	public static byte[] buildMolecules(byte[] bytes) {
+	public byte[] buildMolecules(byte[] bytes) {
 		AdvancedMachine.MoleculeInputFiles inputFiles = fromJsonBytes(bytes, AdvancedMachine.MoleculeInputFiles.class);
 
 		return Utils.toJsonBytes(TxtIO.readInput(inputFiles.pnFile, inputFiles.pFile, inputFiles.mFile));
 	}
 
-	public static byte[] downloadMolecules() {
+	public byte[] uploadMolecules() {
 		IMoleculeResult[] finished = emptyDownloadQueue();
 		logger.info("Uploading {} molecules...", finished.length);
 		return Utils.toJsonBytes(finished);
 	}
 
-	public static byte[] getLogs() throws IOException {
+	public byte[] getLogs() throws IOException {
 		String input = Files.readString(Path.of("logs/temp.log")); // todo super bandaid
 		return input.replaceAll(String.valueOf(input.charAt(0)), "").getBytes(StandardCharsets.UTF_8);
 	}
 
-	public static byte[] getMoleculesHash() {
+	public byte[] getMoleculesHash() {
 		String hash = cachedRms == null ? "null" : Serializer.getHash(cachedRms);
 
 		return hash.getBytes(StandardCharsets.UTF_8);
 	}
 
-	public static byte[] runMolecules(byte[] bytes) {
+	public byte[] runMolecules(byte[] bytes) {
 		FrontendConfig.init();
 		AdvancedMachine.MoleculesSubset subset = fromJsonBytes(bytes, AdvancedMachine.MoleculesSubset.class);
 
@@ -137,11 +154,11 @@ public class AdditionalMethods {
 		final InputInfo info = subset.info;
 
 
-		// start molecule runs
+		StopWatch sw = StopWatch.createStarted();
 		logger.info("Input hash: {}, nMolecules: {} - Started", subset.inputHash, rms.length);
 
-		StopWatch sw = StopWatch.createStarted();
 
+		// progress bar
 		int maxIndex = 0;
 		for (RunnableMolecule rm : rms) {
 			if (rm.index > maxIndex) maxIndex = rm.index;
@@ -189,24 +206,47 @@ public class AdditionalMethods {
 		}
 
 
+		// dynamic download
+		AtomicReference<Exception> error = new AtomicReference<>();
+		ExecutorService downloadService = Executors.newFixedThreadPool(1);
+		downloadService.submit(() -> {
+			while (!Thread.currentThread().isInterrupted()) {
+				if (toDownload.size() >= DOWNLOAD_THRESHOLD) {
+					try {
+						new Message(Constants.response, uploadMolecules()).writeTo(node.out);
+					} catch (IOException e) {
+						error.set(e);
+						break;
+					}
+				}
+			}
+		});
+
+
+		// start molecule runs
 		cachedRms = new RunnableMolecule[rms.length];
 		IntStream.range(0, rms.length).parallel().forEach(i -> {
-			RunnableMolecule rm = rms[i];
+			Exception e = error.get();
+			if (e == null) {
+				RunnableMolecule rm = rms[i];
 
-			NDDOAtom[] atoms = getConverter().convert(rm.atoms, info.npMap);
-			NDDOAtom[] expGeom = rm.expGeom == null ? null : getConverter().convert(rm.expGeom, info.npMap);
+				NDDOAtom[] atoms = getConverter().convert(rm.atoms, info.npMap);
+				NDDOAtom[] expGeom = rm.expGeom == null ? null : getConverter().convert(rm.expGeom, info.npMap);
 
-			RunIterator.MoleculeRun mr = new RunIterator.MoleculeRun(rm, atoms, expGeom, rm.datum, true);
+				RunIterator.MoleculeRun mr = new RunIterator.MoleculeRun(rm, atoms, expGeom, rm.datum, true);
 
-			isDones[rm.index] = true;
+				isDones[rm.index] = true;
 
-			cachedRms[i] = mr.getUpdatedRm();
+				cachedRms[i] = mr.getUpdatedRm();
 
-			toDownload.add(mr);
+				toDownload.add(mr);
+			}
+			else throw new RuntimeException(e);
 		});
 
 
 		progressBar.shutdownNow();
+		downloadService.shutdownNow();
 
 
 		logger.info("Input hash: {}, nMolecules: {} - Finished in {}", subset.inputHash, rms.length, sw.getTime());
@@ -217,7 +257,7 @@ public class AdditionalMethods {
 		return toJsonBytes(new AdvancedMachine.SubsetResult(sw.getTime(), remaining));
 	}
 
-	private synchronized static IMoleculeResult[] emptyDownloadQueue() {
+	private synchronized IMoleculeResult[] emptyDownloadQueue() {
 		List<IMoleculeResult> imrList = new LinkedList<>();
 
 		while (!toDownload.isEmpty()) {
@@ -225,15 +265,5 @@ public class AdditionalMethods {
 		}
 
 		return imrList.toArray(new IMoleculeResult[0]);
-	}
-
-	private static void powBench() {
-		IntStream.range(0, 1_000_000).parallel().forEach(i -> {
-			Random r = new Random();
-			double product = 1;
-			for (int j = 0; j < 1000; j++) {
-				product *= Math.pow(r.nextGaussian(), r.nextGaussian());
-			}
-		});
 	}
 }
