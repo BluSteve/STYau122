@@ -6,71 +6,55 @@ import org.ejml.simple.SimpleMatrix;
 import runcycle.structs.LastRunInfo;
 import tools.Utils;
 
-import java.util.ArrayList;
-
 public class ParamOptimizer {
 	private static final Logger logger = LogManager.getLogger();
-	private final ArrayList<ReferenceData> datum;
-	private final LastRunInfo lastRunInfo;
-	private double lambda;
-	private double value;
+	private final LastRunInfo newLri;
 
-	public ParamOptimizer(LastRunInfo lastRunInfo) {
-		this.lastRunInfo = lastRunInfo;
-		this.datum = new ArrayList<>();
-	}
+	public ParamOptimizer(LastRunInfo lri, double error) {
+		newLri = new LastRunInfo();
 
-	private static double lambda(SimpleMatrix h, SimpleMatrix g, int count) {
-		if (count == h.numRows()) {
-			return 0;
+		if (lri == null) {
+			newLri.trustRadius = 0.1;
 		}
-
-		double initialGuess = h.get(count) - 3;
-		double newGuess = initialGuess + 2;
-		while (Math.abs(initialGuess - newGuess) > 1E-7) {
-			initialGuess = newGuess;
-			double f = -initialGuess;
-			double fprime = -1;
-
-			for (int i = 0; i < h.numRows(); i++) {
-				double v = g.get(i);
-				double v1 = h.get(i);
-				f += v * v / (initialGuess - v1);
-				fprime -= v * v / ((initialGuess - v1) * (initialGuess - v1));
+		else {
+			logger.info("Last run info: {}", lri);
+			double changeRatio = (error - lri.error) / lri.expectedChange;
+			logger.info("QA validity ratio: {}", changeRatio);
+			if (lri.stepSize * 5.0 / 4 > lri.trustRadius && changeRatio >= 0.75) {
+				newLri.trustRadius = 2 * lri.trustRadius;
 			}
-
-			newGuess = initialGuess - f / fprime;
+			else if (changeRatio <= 0.25) {
+				newLri.trustRadius = lri.stepSize / 4;
+			}
+			else {
+				newLri.trustRadius = lri.trustRadius;
+			}
 		}
-
-		if (newGuess != newGuess) {
-			throw new IllegalStateException("RFO lambda == null! \n" + h);
-		}
-
-		return newGuess;
 	}
 
-	public void addData(ReferenceData data) {
-		this.datum.add(data);
-		this.value += data.getValue();
+	private static double lambda(SimpleMatrix B, SimpleMatrix g) {
+		SimpleMatrix RFOMat = new SimpleMatrix(B.numRows() + 1, B.numRows() + 1);
+
+		for (int i = 0; i < B.numRows(); i++) {
+			for (int j = i; j < B.numRows(); j++) {
+				RFOMat.set(i, j, B.get(i, j));
+				RFOMat.set(j, i, B.get(j, i));
+			}
+		}
+
+		for (int i = 0; i < g.numRows(); i++) {
+			RFOMat.set(i, B.numRows(), g.get(i));
+			RFOMat.set(B.numRows(), i, g.get(i));
+		}
+
+		return Utils.symEigen(RFOMat)[1].get(0);
 	}
 
 	public double[] optimize(SimpleMatrix B, SimpleMatrix gradient) {
 		SimpleMatrix searchdir;
 		try {
-			SimpleMatrix[] ms = Utils.symEigen(B);
-
-			SimpleMatrix h = ms[1].diag();
-			SimpleMatrix U = ms[0];
-
-			int counter = 0;
-			for (int i = 0; i < h.numRows(); i++) {
-				if (Math.abs(h.get(i)) > 1E-5) {
-					counter++;
-				}
-			}
-
-			double l = lambda(h, U.transpose().mult(gradient), h.numRows() - counter);
-			searchdir = B.plus(-l, SimpleMatrix.identity(B.numRows())).pseudoInversei().mult(gradient);
+			double l = lambda(B, gradient);
+			searchdir = B.plus(-l, SimpleMatrix.identity(B.numRows())).pseudoInversei().mult(gradient).negativei();
 			SimpleMatrix eigenvalues = Utils.symEigen(B)[1];
 			if (logger.isInfoEnabled()) {
 				SimpleMatrix eig = eigenvalues.diag().transposei();
@@ -81,8 +65,7 @@ public class ParamOptimizer {
 				logger.info("Hessian eigenvalues ({} negative): {}", negCount, eig.toString().strip());
 			}
 		} catch (IllegalArgumentException e) {
-			logger.warn("Hessian pinv failed; using gradient instead.");
-			searchdir = gradient;
+			searchdir = gradient.negative();
 		}
 
 		double sum = 0;
@@ -94,34 +77,20 @@ public class ParamOptimizer {
 		sum = Math.sqrt(sum);
 		searchdir.scalei(1 / sum);
 
+		newLri.stepSize = Math.min(sum, newLri.trustRadius);
 
-		double k = -0.001;
-		lambda = 0;
-		double val = 0;
-		double[] changes = new double[searchdir.numRows()];
+		searchdir.scalei(newLri.stepSize);
 
-		while (Math.abs(val - value) > 1E-8) {
-			lambda += k;
-			val = value;
-			changes = searchdir.scale(lambda).getDDRM().data;
-			value = 0;
+		double[] changes = searchdir.getDDRM().data;
 
-			for (ReferenceData d : datum) {
-				d.update(changes);
-				value += d.getValue();
-			}
+		logger.info("Final step size: {}", newLri.stepSize);
 
-			if (value > val) {
-				k *= -0.5;
-			}
-		}
-
-		logger.info("Final lambda: {}", lambda);
+		newLri.expectedChange = searchdir.dot(gradient) + 0.5 * searchdir.transpose().mult(B).mult(searchdir).get(0);
 
 		return changes;
 	}
 
-	public double getLambda() {
-		return lambda;
+	public LastRunInfo getNewLri() {
+		return newLri;
 	}
 }

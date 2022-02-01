@@ -16,7 +16,6 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.ejml.simple.SimpleMatrix;
 import runcycle.optimize.ParamOptimizer;
-import runcycle.optimize.ReferenceData;
 import runcycle.structs.*;
 
 import java.lang.management.ManagementFactory;
@@ -198,7 +197,6 @@ public final class RunIterator implements Iterator<RunOutput> {
 			for (int[] param : info.neededParams) paramLength += param.length;
 
 			// processing results
-			ParamOptimizer opt = new ParamOptimizer(ri.lastRunInfo);
 			double ttError = 0;
 			double[] ttGradient = new double[paramLength];
 			double[][] ttHessian = new double[paramLength][paramLength];
@@ -209,35 +207,6 @@ public final class RunIterator implements Iterator<RunOutput> {
 				boolean isDepad = true;
 
 				ttError += result.getTotalError();
-
-				// add things to ParamOptimizer
-				double[] datum = result.getUpdatedRm().datum;
-
-				opt.addData(new ReferenceData(datum[0], result.getHf(),
-						ParamGradient.combine(result.getHfDerivs(), info.atomTypes, info.neededParams,
-								moleculeATs, moleculeNPs, isDepad),
-						ReferenceData.HF_WEIGHT));
-
-				if (datum[1] != 0) {
-					opt.addData(new ReferenceData(datum[1], result.getDipole(),
-							ParamGradient.combine(result.getDipoleDerivs(), info.atomTypes, info.neededParams,
-									moleculeATs, moleculeNPs, isDepad),
-							ReferenceData.DIPOLE_WEIGHT));
-				}
-
-				if (datum[2] != 0) {
-					opt.addData(new ReferenceData(datum[2], result.getIE(),
-							ParamGradient.combine(result.getIEDerivs(), info.atomTypes, info.neededParams,
-									moleculeATs, moleculeNPs, isDepad),
-							ReferenceData.IE_WEIGHT));
-				}
-
-				if (result.isExpAvail()) {
-					opt.addData(new ReferenceData(0, result.getGeomGradMag(),
-							ParamGradient.combine(result.getGeomDerivs(), info.atomTypes, info.neededParams,
-									moleculeATs, moleculeNPs, isDepad),
-							ReferenceData.GEOM_WEIGHT));
-				}
 
 
 				// ttGradient is sum of totalGradients across molecules
@@ -272,9 +241,11 @@ public final class RunIterator implements Iterator<RunOutput> {
 			SimpleMatrix newGradient = new SimpleMatrix(ttGradient);
 			SimpleMatrix newHessian = new SimpleMatrix(ttHessian);
 
+			ParamOptimizer opt = new ParamOptimizer(ri.lastRunInfo, ttError);
 			double[] dir = opt.optimize(newHessian, newGradient);
 
-			// generating nextRunInfo
+
+			// generating nextInputInfo
 			NDDOParams[] newNpMap = new NDDOParams[info.npMap.length];
 			for (int i = 0; i < newNpMap.length; i++) {
 				if (info.npMap[i] != null) newNpMap[i] = info.npMap[i].copy();
@@ -290,14 +261,14 @@ public final class RunIterator implements Iterator<RunOutput> {
 
 
 			IMoleculeResult[] resultsArray = results.toArray(new IMoleculeResult[0]);
-			InputInfo nextRunInfo = new InputInfo(info.atomTypes, info.neededParams, newNpMap);
+			InputInfo nextInputInfo = new InputInfo(info.atomTypes, info.neededParams, newNpMap);
 			RunnableMolecule[] nextRunRms = new RunnableMolecule[resultsArray.length];
 
 			for (int i = 0; i < nextRunRms.length; i++) {
-				nextRunRms[i] = (RunnableMolecule) resultsArray[i].getUpdatedRm();
+				nextRunRms[i] = resultsArray[i].getUpdatedRm();
 			}
 
-			RunInput nextInput = new RunInput(nextRunInfo, nextRunRms);
+			RunInput nextInput = new RunInput(nextInputInfo, nextRunRms, opt.getNewLri());
 
 
 			sw.stop();
@@ -305,7 +276,11 @@ public final class RunIterator implements Iterator<RunOutput> {
 
 			logger.info("Total error: {}", ttError);
 
-			return new RunOutput(resultsArray, sw.getTime(), ttError, ttGradient, ttHessian, ri, nextInput);
+			RunOutput runOutput =
+					new RunOutput(resultsArray, sw.getTime(), ttError, ttGradient, ttHessian, ri, nextInput);
+			runOutput.finalLambda = opt.getNewLri().stepSize;
+
+			return runOutput;
 		}
 	}
 

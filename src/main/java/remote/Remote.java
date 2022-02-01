@@ -13,7 +13,6 @@ import org.apache.logging.log4j.Logger;
 import org.ejml.simple.SimpleMatrix;
 import runcycle.IMoleculeResult;
 import runcycle.optimize.ParamOptimizer;
-import runcycle.optimize.ReferenceData;
 import runcycle.structs.InputInfo;
 import runcycle.structs.RunInput;
 import runcycle.structs.RunOutput;
@@ -26,9 +25,9 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Queue;
+import java.util.Scanner;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -53,7 +52,10 @@ public class Remote {
 		while (server.getMachineCount() == 0) {
 		}
 
-		TimeUnit.SECONDS.sleep(10);
+		Scanner s = new Scanner(System.in);
+		while (!s.nextLine().equals("ok")) {
+		}
+
 		AdvancedMachine[] machines = server.getMachines();
 		Arrays.sort(machines);
 		timeTaken = new double[machines.length];
@@ -61,16 +63,16 @@ public class Remote {
 
 
 		// build initial RunInput object
-//		String pnFile = null;
-//		String pFile = Files.readString(Path.of("params.csv"));
-//		String mFile = Files.readString(Path.of("molecules.txt"));
-//
-//		AdvancedMachine bestMachine = machines[0];
-//		RunInput runInput = bestMachine.buildMolecules(pnFile, pFile, mFile);
-//		JsonIO.write(runInput, "remote-input");
-//		logger.info("Finished initializing molecules.");
+		String pnFile = null;
+		String pFile = Files.readString(Path.of("params.csv"));
+		String mFile = Files.readString(Path.of("molecules.txt"));
 
-		RunInput runInput = JsonIO.readInput("remote-input");
+		AdvancedMachine bestMachine = machines[0];
+		RunInput runInput = bestMachine.buildMolecules(pnFile, pFile, mFile);
+		JsonIO.write(runInput, "remote-input");
+		logger.info("Finished initializing molecules.");
+
+//		RunInput runInput = JsonIO.readInput("remote-input");
 
 		// creating endingIndices to group molecules by
 		int length = runInput.molecules.length;
@@ -235,7 +237,6 @@ public class Remote {
 
 
 		// optimizes params based on this run
-		ParamOptimizer opt = new ParamOptimizer(runInput.lastRunInfo);
 		double ttError = 0;
 		double[] ttGradient = new double[paramLength];
 		double[][] ttHessian = new double[paramLength][paramLength];
@@ -246,34 +247,6 @@ public class Remote {
 			boolean isDepad = true;
 
 			ttError += result.getTotalError();
-
-			double[] datum = result.getUpdatedRm().datum;
-
-			opt.addData(new ReferenceData(datum[0], result.getHf(),
-					ParamGradient.combine(result.getHfDerivs(), info.atomTypes, info.neededParams,
-							moleculeATs, moleculeNPs, isDepad),
-					ReferenceData.HF_WEIGHT));
-
-			if (datum[1] != 0) {
-				opt.addData(new ReferenceData(datum[1], result.getDipole(),
-						ParamGradient.combine(result.getDipoleDerivs(), info.atomTypes, info.neededParams,
-								moleculeATs, moleculeNPs, isDepad),
-						ReferenceData.DIPOLE_WEIGHT));
-			}
-
-			if (datum[2] != 0) {
-				opt.addData(new ReferenceData(datum[2], result.getIE(),
-						ParamGradient.combine(result.getIEDerivs(), info.atomTypes, info.neededParams,
-								moleculeATs, moleculeNPs, isDepad),
-						ReferenceData.IE_WEIGHT));
-			}
-
-			if (result.isExpAvail()) {
-				opt.addData(new ReferenceData(0, result.getGeomGradMag(),
-						ParamGradient.combine(result.getGeomDerivs(), info.atomTypes, info.neededParams,
-								moleculeATs, moleculeNPs, isDepad),
-						ReferenceData.GEOM_WEIGHT));
-			}
 
 			// ttGradient is sum of totalGradients across molecules
 			double[] g = ParamGradient.combine(result.getTotalGradients(), info.atomTypes, info.neededParams,
@@ -308,6 +281,7 @@ public class Remote {
 		SimpleMatrix newGradient = new SimpleMatrix(ttGradient);
 		SimpleMatrix newHessian = new SimpleMatrix(ttHessian);
 
+		ParamOptimizer opt = new ParamOptimizer(runInput.lastRunInfo, ttError);
 		double[] dir = opt.optimize(newHessian, newGradient);
 
 
@@ -325,19 +299,19 @@ public class Remote {
 			}
 		}
 
-		InputInfo nextRunInfo = new InputInfo(info.atomTypes, info.neededParams, newNpMap);
+		InputInfo nextInputInfo = new InputInfo(info.atomTypes, info.neededParams, newNpMap);
 		RunnableMolecule[] nextRunRms = new RunnableMolecule[results.length];
 
 		for (int i = 0; i < nextRunRms.length; i++) {
 			nextRunRms[i] = results[i].getUpdatedRm();
 		}
 
-		RunInput nextInput = new RunInput(nextRunInfo, nextRunRms);
+		RunInput nextInput = new RunInput(nextInputInfo, nextRunRms, opt.getNewLri());
 
 
 		RunOutput runOutput = new RunOutput(results, sw.getTime(), ttError, ttGradient, ttHessian, runInput,
 				nextInput);
-		runOutput.finalLambda = opt.getLambda();
+		runOutput.finalLambda = opt.getNewLri().stepSize;
 
 		return runOutput;
 	}
