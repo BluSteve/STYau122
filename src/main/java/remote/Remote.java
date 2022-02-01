@@ -234,7 +234,7 @@ public class Remote {
 
 
 		// optimizes params based on this run
-		ParamOptimizer opt = new ParamOptimizer();
+		ParamOptimizer opt = new ParamOptimizer(runInput.lastRunInfo);
 		double ttError = 0;
 		double[] ttGradient = new double[paramLength];
 		double[][] ttHessian = new double[paramLength][paramLength];
@@ -336,7 +336,7 @@ public class Remote {
 
 		RunOutput runOutput = new RunOutput(results, sw.getTime(), ttError, ttGradient, ttHessian, runInput,
 				nextInput);
-		runOutput.finalLambda = opt.lambda;
+		runOutput.finalLambda = opt.getLambda();
 
 		return runOutput;
 	}

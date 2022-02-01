@@ -3,6 +3,7 @@ package runcycle.optimize;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ejml.simple.SimpleMatrix;
+import runcycle.structs.LastRunInfo;
 import tools.Utils;
 
 import java.util.ArrayList;
@@ -10,10 +11,12 @@ import java.util.ArrayList;
 public class ParamOptimizer {
 	private static final Logger logger = LogManager.getLogger();
 	private final ArrayList<ReferenceData> datum;
+	private final LastRunInfo lastRunInfo;
+	private double lambda;
 	private double value;
-	public double lambda;
 
-	public ParamOptimizer() {
+	public ParamOptimizer(LastRunInfo lastRunInfo) {
+		this.lastRunInfo = lastRunInfo;
 		this.datum = new ArrayList<>();
 	}
 
@@ -74,5 +77,9 @@ public class ParamOptimizer {
 		logger.info("Final lambda: {}", lambda);
 
 		return changes;
+	}
+
+	public double getLambda() {
+		return lambda;
 	}
 }

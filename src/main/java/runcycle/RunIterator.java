@@ -198,7 +198,7 @@ public final class RunIterator implements Iterator<RunOutput> {
 			for (int[] param : info.neededParams) paramLength += param.length;
 
 			// processing results
-			ParamOptimizer opt = new ParamOptimizer();
+			ParamOptimizer opt = new ParamOptimizer(ri.lastRunInfo);
 			double ttError = 0;
 			double[] ttGradient = new double[paramLength];
 			double[][] ttHessian = new double[paramLength][paramLength];
