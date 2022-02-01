@@ -26,17 +26,20 @@ public class AdvancedMachine extends Machine implements Comparable<AdvancedMachi
 	public AdvancedMachine(Socket socket) {
 		super(socket);
 		logger = LogManager.getLogger(name);
+	}
+
+	public void init() {
 		sendJar("build/libs/MNDOParam.jar", "remote.AdditionalMethods");
 		power = getPower();
+	}
+
+	private void write(String methodName, Object object) {
+		super.write(methodName, gson.toJson(object).getBytes(StandardCharsets.UTF_8));
 	}
 
 	private double getPower() {
 		write("benchmark");
 		return Byter.toDouble(read());
-	}
-
-	private void write(String methodName, Object object) {
-		super.write(methodName, gson.toJson(object).getBytes(StandardCharsets.UTF_8));
 	}
 
 	public void updatePower() {

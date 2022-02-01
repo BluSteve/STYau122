@@ -48,7 +48,8 @@ public class Remote {
 		Files.createDirectories(Path.of("outputs"));
 
 
-		Server<AdvancedMachine> server = new Server<>(56701, AdvancedMachine.class, 60);
+		Server<AdvancedMachine> server = new Server<>(56701, AdvancedMachine.class);
+		server.setOnConnectListener(AdvancedMachine::init);
 		while (server.machinesSet.size() == 0) {
 		}
 

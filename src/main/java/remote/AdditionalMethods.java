@@ -91,7 +91,6 @@ public class AdditionalMethods extends MethodContainer {
 			throw new RuntimeException(e);
 		}
 
-
 		return Byter.toBytes(power);
 	}
 
