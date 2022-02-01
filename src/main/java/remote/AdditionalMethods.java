@@ -1,3 +1,5 @@
+package remote;
+
 import com.sun.management.OperatingSystemMXBean;
 import frontend.FrontendConfig;
 import frontend.TxtIO;
@@ -7,8 +9,6 @@ import node.Node;
 import org.apache.commons.lang3.time.StopWatch;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import remote.AdvancedMachine;
-import remote.Utils;
 import runcycle.IMoleculeResult;
 import runcycle.RunIterator;
 import runcycle.structs.InputInfo;

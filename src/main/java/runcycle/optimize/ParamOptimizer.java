@@ -47,7 +47,7 @@ public class ParamOptimizer {
 		}
 
 		sum = Math.sqrt(sum);
-		searchdir = searchdir.scale(1 / sum);
+		searchdir.scalei(1 / sum);
 
 
 		double k = -0.001;
@@ -58,7 +58,7 @@ public class ParamOptimizer {
 		while (Math.abs(val - value) > 1E-8) {
 			lambda += k;
 			val = value;
-			changes = searchdir.scale(lambda).getDDRM().data;
+			changes = searchdir.scalei(lambda).getDDRM().data;
 			value = 0;
 
 			for (ReferenceData d : datum) {

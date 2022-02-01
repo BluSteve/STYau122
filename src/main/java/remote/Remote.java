@@ -48,7 +48,7 @@ public class Remote {
 		Files.createDirectories(Path.of("outputs"));
 
 
-		Server<AdvancedMachine> server = new Server<>(56701, AdvancedMachine.class, 30);
+		Server<AdvancedMachine> server = new Server<>(56701, AdvancedMachine.class, 60);
 		while (server.machinesSet.size() == 0) {
 		}
 
@@ -155,7 +155,7 @@ public class Remote {
 		System.exit(0);
 	}
 
-	public static int[] getEndingIndices(AdvancedMachine[] machines, int length) {
+	private static int[] getEndingIndices(AdvancedMachine[] machines, int length) {
 		double totalpower = 0;
 		for (AdvancedMachine executor : machines) totalpower += executor.power;
 

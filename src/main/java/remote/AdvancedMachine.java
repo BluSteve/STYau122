@@ -26,7 +26,7 @@ public class AdvancedMachine extends Machine implements Comparable<AdvancedMachi
 	public AdvancedMachine(Socket socket) {
 		super(socket);
 		logger = LogManager.getLogger(name);
-		sendJar("build/libs/MNDOParam.jar");
+		sendJar("build/libs/MNDOParam.jar", "remote.AdditionalMethods");
 		power = getPower();
 	}
 
@@ -121,7 +121,7 @@ public class AdvancedMachine extends Machine implements Comparable<AdvancedMachi
 		}
 	}
 
-	public static class MoleculeInputFiles {
+	static class MoleculeInputFiles {
 		public String pnFile, pFile, mFile;
 
 		public MoleculeInputFiles() {
@@ -134,7 +134,7 @@ public class AdvancedMachine extends Machine implements Comparable<AdvancedMachi
 		}
 	}
 
-	public class MoleculesSubset {
+	class MoleculesSubset {
 		public RunnableMolecule[] rms;
 		public InputInfo info;
 		public String inputHash, ip;
