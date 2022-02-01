@@ -63,16 +63,16 @@ public class Remote {
 
 
 		// build initial RunInput object
-		String pnFile = null;
-		String pFile = Files.readString(Path.of("params.csv"));
-		String mFile = Files.readString(Path.of("molecules.txt"));
+//		String pnFile = null;
+//		String pFile = Files.readString(Path.of("params.csv"));
+//		String mFile = Files.readString(Path.of("molecules.txt"));
+//
+//		AdvancedMachine bestMachine = machines[0];
+//		RunInput runInput = bestMachine.buildMolecules(pnFile, pFile, mFile);
+//		JsonIO.write(runInput, "remote-input");
+//		logger.info("Finished initializing molecules.");
 
-		AdvancedMachine bestMachine = machines[0];
-		RunInput runInput = bestMachine.buildMolecules(pnFile, pFile, mFile);
-		JsonIO.write(runInput, "remote-input");
-		logger.info("Finished initializing molecules.");
-
-//		RunInput runInput = JsonIO.readInput("remote-input");
+		RunInput runInput = JsonIO.readInput("remote-input");
 
 		// creating endingIndices to group molecules by
 		int length = runInput.molecules.length;
@@ -83,10 +83,9 @@ public class Remote {
 
 		// do runs
 		int i = config.starting_run_num;
-		int numIt = 1;
 		try {
 			RunInput currentRunInput = runInput;
-			while (i < config.starting_run_num + config.num_runs) {
+			while (i < config.num_runs) {
 				JsonIO.writeAsync(currentRunInput, String.format("pastinputs/%04d-%s", i, currentRunInput.hash));
 
 				if (machines.length != server.getMachineCount()) {
@@ -121,7 +120,7 @@ public class Remote {
 
 				JsonIO.writeAsync(ro, String.format("outputs/%04d-%s-%s", i, ro.inputHash, ro.hash));
 
-				if (numIt % 10 == 0) {
+				if ((i + 1) % 5 == 0) {
 					double max = 0;
 					for (double v : timeTaken) if (v > max) max = v;
 					for (int j = 0; j < timeTaken.length; j++) timeTaken[j] /= max;
@@ -132,14 +131,15 @@ public class Remote {
 								endingIndices);
 
 						for (int j = 0; j < machines.length; j++) {
-							machines[j].power = 0.5 * machines[j].power +
-									0.5 * 1 / timeTaken[j] * (endingIndices[j + 1] - endingIndices[j]);
+							machines[j].power = 1 / timeTaken[j] * (endingIndices[j + 1] - endingIndices[j]);
 						}
 						endingIndices = getEndingIndices(machines, length);
 
 						logger.info("Finished recalibrating power of machines (new={})", endingIndices);
 
 						Arrays.stream(machines).parallel().forEach(AdvancedMachine::updatePower);
+
+						Arrays.sort(machines);
 
 						logger.info("Uploaded new powers: {}\n\n", Arrays.toString(machines));
 					}
@@ -148,7 +148,6 @@ public class Remote {
 				}
 
 				i++;
-				numIt++;
 			}
 		} catch (Exception e) {
 			logger.error("Run {} errored!", i, e);
@@ -219,7 +218,7 @@ public class Remote {
 				logger.info("{} molecules finished from {}/{} machines", doneCount.addAndGet(results2d[i].length),
 						doneMachineCount.incrementAndGet(), nMachines);
 			} catch (Exception e) {
-				machineLogger.error(e);
+				machineLogger.error("", e);
 				errored.add(machine);
 			}
 		});

@@ -12,6 +12,7 @@ public class ParamOptimizer {
 
 	public ParamOptimizer(LastRunInfo lri, double error) {
 		newLri = new LastRunInfo();
+		newLri.error = error;
 
 		if (lri == null) {
 			newLri.trustRadius = 0.1;
@@ -54,6 +55,7 @@ public class ParamOptimizer {
 		SimpleMatrix searchdir;
 		try {
 			double l = lambda(B, gradient);
+			logger.info("RFO shift parameter: {}", l);
 			searchdir = B.plus(-l, SimpleMatrix.identity(B.numRows())).pseudoInversei().mult(gradient).negativei();
 			SimpleMatrix eigenvalues = Utils.symEigen(B)[1];
 			if (logger.isInfoEnabled()) {

@@ -205,17 +205,24 @@ public class AdditionalMethods extends MethodContainer {
 		}
 
 
-		// dynamic download
+		// dynamic upload
 		AtomicReference<Exception> error = new AtomicReference<>();
-		ExecutorService downloadService = Executors.newFixedThreadPool(1);
-		downloadService.submit(() -> {
+		ExecutorService uploadService = Executors.newFixedThreadPool(1);
+		Semaphore semaphore = new Semaphore(1);
+		uploadService.submit(() -> {
 			while (!Thread.currentThread().isInterrupted()) {
 				if (toDownload.size() >= DOWNLOAD_THRESHOLD) {
 					try {
+						semaphore.acquire();
 						new Message(Constants.response, uploadMolecules()).writeTo(node.out);
 					} catch (IOException e) {
 						error.set(e);
 						break;
+					} catch (InterruptedException e) {
+						throw new RuntimeException(e);
+					}
+					finally {
+						semaphore.release();
 					}
 				}
 			}
@@ -244,14 +251,21 @@ public class AdditionalMethods extends MethodContainer {
 		});
 
 
+		try {
+			semaphore.acquire();
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
 		progressBar.shutdownNow();
-		downloadService.shutdownNow();
+		uploadService.shutdownNow();
 
 
 		logger.info("Input hash: {}, nMolecules: {} - Finished in {}", subset.inputHash, rms.length, sw.getTime());
 
 		IMoleculeResult[] remaining = emptyDownloadQueue();
 		logger.info("Uploading {} remaining molecules...", remaining.length);
+
+		semaphore.release();
 
 		return toJsonBytes(new AdvancedMachine.SubsetResult(sw.getTime(), remaining));
 	}
