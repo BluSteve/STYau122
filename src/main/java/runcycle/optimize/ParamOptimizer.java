@@ -20,6 +20,35 @@ public class ParamOptimizer {
 		this.datum = new ArrayList<>();
 	}
 
+	private static double lambda(SimpleMatrix h, SimpleMatrix g, int count) {
+		if (count == h.numRows()) {
+			return 0;
+		}
+
+		double initialGuess = h.get(count) - 3;
+		double newGuess = initialGuess + 2;
+		while (Math.abs(initialGuess - newGuess) > 1E-7) {
+			initialGuess = newGuess;
+			double f = -initialGuess;
+			double fprime = -1;
+
+			for (int i = 0; i < h.numRows(); i++) {
+				double v = g.get(i);
+				double v1 = h.get(i);
+				f += v * v / (initialGuess - v1);
+				fprime -= v * v / ((initialGuess - v1) * (initialGuess - v1));
+			}
+
+			newGuess = initialGuess - f / fprime;
+		}
+
+		if (newGuess != newGuess) {
+			throw new IllegalStateException("RFO lambda == null! \n" + h);
+		}
+
+		return newGuess;
+	}
+
 	public void addData(ReferenceData data) {
 		this.datum.add(data);
 		this.value += data.getValue();
@@ -28,7 +57,20 @@ public class ParamOptimizer {
 	public double[] optimize(SimpleMatrix B, SimpleMatrix gradient) {
 		SimpleMatrix searchdir;
 		try {
-			searchdir = gradient;
+			SimpleMatrix[] ms = Utils.symEigen(B);
+
+			SimpleMatrix h = ms[1].diag();
+			SimpleMatrix U = ms[0];
+
+			int counter = 0;
+			for (int i = 0; i < h.numRows(); i++) {
+				if (Math.abs(h.get(i)) > 1E-5) {
+					counter++;
+				}
+			}
+
+			double l = lambda(h, U.transpose().mult(gradient), h.numRows() - counter);
+			searchdir = B.plus(-l, SimpleMatrix.identity(B.numRows())).pseudoInversei().mult(gradient);
 			SimpleMatrix eigenvalues = Utils.symEigen(B)[1];
 			if (logger.isInfoEnabled()) {
 				SimpleMatrix eig = eigenvalues.diag().transposei();
@@ -61,7 +103,7 @@ public class ParamOptimizer {
 		while (Math.abs(val - value) > 1E-8) {
 			lambda += k;
 			val = value;
-			changes = searchdir.scalei(lambda).getDDRM().data;
+			changes = searchdir.scale(lambda).getDDRM().data;
 			value = 0;
 
 			for (ReferenceData d : datum) {

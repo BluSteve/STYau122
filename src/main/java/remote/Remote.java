@@ -50,7 +50,7 @@ public class Remote {
 
 		Server<AdvancedMachine> server = new Server<>(56701, AdvancedMachine.class);
 		server.setOnConnectListener(AdvancedMachine::init);
-		while (server.machinesSet.size() == 0) {
+		while (server.getMachineCount() == 0) {
 		}
 
 		TimeUnit.SECONDS.sleep(10);
@@ -87,7 +87,7 @@ public class Remote {
 			while (i < config.starting_run_num + config.num_runs) {
 				JsonIO.writeAsync(currentRunInput, String.format("pastinputs/%04d-%s", i, currentRunInput.hash));
 
-				if (machines.length != server.machinesSet.size()) {
+				if (machines.length != server.getMachineCount()) {
 					machines = server.getMachines();
 					Arrays.sort(machines);
 					endingIndices = getEndingIndices(machines, length);
@@ -105,7 +105,7 @@ public class Remote {
 
 					server.remove(e.getMachine().name);
 
-					if (server.machinesSet.size() == 0) {
+					if (server.getMachineCount() == 0) {
 						throw new RuntimeException("No more machines left to use! Quitting...");
 					}
 
