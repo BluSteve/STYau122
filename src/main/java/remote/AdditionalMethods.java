@@ -44,7 +44,7 @@ public class AdditionalMethods extends MethodContainer {
 	private static final OperatingSystemMXBean bean =
 			(OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 	private static final Logger logger = LogManager.getLogger();
-	private static final int DOWNLOAD_THRESHOLD = 20;
+	private static final int DOWNLOAD_THRESHOLD = 5;
 	private final Queue<IMoleculeResult> toDownload = new ConcurrentLinkedQueue<>();
 	private RunnableMolecule[] cachedRms;
 
