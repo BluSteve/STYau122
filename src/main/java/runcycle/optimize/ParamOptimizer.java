@@ -7,6 +7,7 @@ import runcycle.structs.LastRunInfo;
 import tools.Utils;
 
 public class ParamOptimizer {
+	private static boolean useRFO = false;
 	private static final Logger logger = LogManager.getLogger();
 	private final LastRunInfo newLri;
 
@@ -15,7 +16,7 @@ public class ParamOptimizer {
 		newLri.error = error;
 
 		if (lri == null) {
-			newLri.trustRadius = 0.1;
+			newLri.trustRadius = 0.01;
 		}
 		else {
 			logger.info("Last run info: {}", lri);
@@ -56,7 +57,17 @@ public class ParamOptimizer {
 		try {
 			double l = lambda(B, gradient);
 			logger.info("RFO shift parameter: {}", l);
-			searchdir = B.plus(-l, SimpleMatrix.identity(B.numRows())).pseudoInversei().mult(gradient).negativei();
+
+			if (newLri.trustRadius < 1E-5 && !useRFO) {
+				useRFO = true;
+			}
+			if (useRFO) {
+				searchdir = B.plus(-l, SimpleMatrix.identity(B.numRows())).pseudoInversei().mult(gradient).negativei();
+			}
+			else {
+				searchdir = B.pseudoInverse().mult(gradient).negativei();
+			}
+
 			SimpleMatrix eigenvalues = Utils.symEigen(B)[1];
 			if (logger.isInfoEnabled()) {
 				SimpleMatrix eig = eigenvalues.diag().transposei();
@@ -87,7 +98,8 @@ public class ParamOptimizer {
 
 		logger.info("Final step size: {}", newLri.stepSize);
 
-		newLri.expectedChange = searchdir.dot(gradient) + 0.5 * searchdir.transpose().mult(B).mult(searchdir).get(0);
+		newLri.expectedChange =
+				(searchdir.dot(gradient) + 0.5 * searchdir.transpose().mult(B).mult(searchdir).get(0));
 
 		return changes;
 	}

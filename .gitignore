@@ -10,3 +10,4 @@ overriden-molecules.txt
 *.war
 *.jar
 .idea
+/tr-experiments.zip
