@@ -74,7 +74,7 @@ public final class RunIterator implements Iterator<RunOutput> {
 		try {
 			RunOutput output = pRun.run();
 
-			logger.info("Run {} time taken: {}, output hash: {}", runNumber, output.timeTaken, output.hash);
+			logger.info("Run {} time taken: {}, output hash: {}\n\n", runNumber, output.timeTaken, output.hash);
 
 			currentRunInput = output.nextInput;
 

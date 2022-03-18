@@ -16,6 +16,7 @@ import runcycle.structs.RunInput;
 import runcycle.structs.RunOutput;
 import tools.Utils;
 
+import java.awt.*;
 import java.io.IOException;
 
 public class Graph extends ApplicationFrame {
@@ -37,6 +38,7 @@ public class Graph extends ApplicationFrame {
 
 	public static void main(String[] args) throws InterruptedException {
 		Graph graph = new Graph("Total Error against Run Number");
+		graph.setPreferredSize(new Dimension(1200, 800));
 		graph.pack();
 		RefineryUtilities.centerFrameOnScreen(graph);
 		graph.setVisible(true);
@@ -60,7 +62,6 @@ public class Graph extends ApplicationFrame {
 		while (iterator.hasNext()) {
 			RunOutput ro = iterator.next();
 			graph.errorSeries.add(i, ro.ttError);
-			System.err.println(graph.errorSeries.getItems());
 			i++;
 		}
 	}
