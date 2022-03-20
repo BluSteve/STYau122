@@ -280,7 +280,7 @@ public class Remote {
 		SimpleMatrix newGradient = new SimpleMatrix(ttGradient);
 		SimpleMatrix newHessian = new SimpleMatrix(ttHessian);
 
-		ParamOptimizer opt = new ParamOptimizer(runInput.lastRunInfo, ttError);
+		ParamOptimizer opt = new ParamOptimizer();
 		double[] dir = opt.optimize(newHessian, newGradient);
 
 
@@ -305,12 +305,11 @@ public class Remote {
 			nextRunRms[i] = results[i].getUpdatedRm();
 		}
 
-		RunInput nextInput = new RunInput(nextInputInfo, nextRunRms, opt.getNewLri());
+		RunInput nextInput = new RunInput(nextInputInfo, nextRunRms, null);
 
 
 		RunOutput runOutput = new RunOutput(results, sw.getTime(), ttError, ttGradient, ttHessian, runInput,
 				nextInput);
-		runOutput.finalLambda = opt.getNewLri().stepSize;
 
 		return runOutput;
 	}

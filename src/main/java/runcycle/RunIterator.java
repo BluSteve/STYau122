@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.ejml.simple.SimpleMatrix;
 import runcycle.optimize.ParamOptimizer;
+import runcycle.optimize.ReferenceData;
 import runcycle.structs.*;
 
 import java.lang.management.ManagementFactory;
@@ -191,6 +192,7 @@ public final class RunIterator implements Iterator<RunOutput> {
 
 			results.sort(Comparator.comparingInt(x -> x.getUpdatedRm().index));
 
+			ParamOptimizer opt = new ParamOptimizer();
 
 			// combined length of all differentiated params
 			int paramLength = 0;
@@ -208,6 +210,34 @@ public final class RunIterator implements Iterator<RunOutput> {
 
 				ttError += result.getTotalError();
 
+// add things to ParamOptimizer
+				double[] datum = result.getUpdatedRm().datum;
+
+				opt.addData(new ReferenceData(datum[0], result.getHf(),
+						ParamGradient.combine(result.getHfDerivs(), info.atomTypes, info.neededParams,
+								moleculeATs, moleculeNPs, isDepad),
+						ReferenceData.HF_WEIGHT));
+
+				if (datum[1] != 0) {
+					opt.addData(new ReferenceData(datum[1], result.getDipole(),
+							ParamGradient.combine(result.getDipoleDerivs(), info.atomTypes, info.neededParams,
+									moleculeATs, moleculeNPs, isDepad),
+							ReferenceData.DIPOLE_WEIGHT));
+				}
+
+				if (datum[2] != 0) {
+					opt.addData(new ReferenceData(datum[2], result.getIE(),
+							ParamGradient.combine(result.getIEDerivs(), info.atomTypes, info.neededParams,
+									moleculeATs, moleculeNPs, isDepad),
+							ReferenceData.IE_WEIGHT));
+				}
+
+				if (result.isExpAvail()) {
+					opt.addData(new ReferenceData(0, result.getGeomGradMag(),
+							ParamGradient.combine(result.getGeomDerivs(), info.atomTypes, info.neededParams,
+									moleculeATs, moleculeNPs, isDepad),
+							ReferenceData.GEOM_WEIGHT));
+				}
 
 				// ttGradient is sum of totalGradients across molecules
 				double[] g = ParamGradient.combine(result.getTotalGradients(), info.atomTypes, info.neededParams,
@@ -241,7 +271,6 @@ public final class RunIterator implements Iterator<RunOutput> {
 			SimpleMatrix newGradient = new SimpleMatrix(ttGradient);
 			SimpleMatrix newHessian = new SimpleMatrix(ttHessian);
 
-			ParamOptimizer opt = new ParamOptimizer(ri.lastRunInfo, ttError);
 			double[] dir = opt.optimize(newHessian, newGradient);
 
 
@@ -268,7 +297,7 @@ public final class RunIterator implements Iterator<RunOutput> {
 				nextRunRms[i] = resultsArray[i].getUpdatedRm();
 			}
 
-			RunInput nextInput = new RunInput(nextInputInfo, nextRunRms, opt.getNewLri());
+			RunInput nextInput = new RunInput(nextInputInfo, nextRunRms, null);
 
 
 			sw.stop();
@@ -278,7 +307,6 @@ public final class RunIterator implements Iterator<RunOutput> {
 
 			RunOutput runOutput =
 					new RunOutput(resultsArray, sw.getTime(), ttError, ttGradient, ttHessian, ri, nextInput);
-			runOutput.finalLambda = opt.getNewLri().stepSize;
 
 			return runOutput;
 		}
