@@ -62,7 +62,7 @@ public class Remote {
 		logger.info("Machines: {}", Arrays.toString(machines));
 
 
-		// build initial RunInput object
+//		 build initial RunInput object
 //		String pnFile = null;
 //		String pFile = Files.readString(Path.of("params.csv"));
 //		String mFile = Files.readString(Path.of("molecules.txt"));
@@ -280,7 +280,7 @@ public class Remote {
 		SimpleMatrix newGradient = new SimpleMatrix(ttGradient);
 		SimpleMatrix newHessian = new SimpleMatrix(ttHessian);
 
-		ParamOptimizer opt = new ParamOptimizer();
+		ParamOptimizer opt = new ParamOptimizer(runInput.lastRunInfo, ttError);
 		double[] dir = opt.optimize(newHessian, newGradient);
 
 
@@ -305,11 +305,12 @@ public class Remote {
 			nextRunRms[i] = results[i].getUpdatedRm();
 		}
 
-		RunInput nextInput = new RunInput(nextInputInfo, nextRunRms, null);
+		RunInput nextInput = new RunInput(nextInputInfo, nextRunRms, opt.getNewLri());
 
 
 		RunOutput runOutput = new RunOutput(results, sw.getTime(), ttError, ttGradient, ttHessian, runInput,
 				nextInput);
+		runOutput.finalLambda = opt.getNewLri().stepSize;
 
 		return runOutput;
 	}

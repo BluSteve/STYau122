@@ -70,7 +70,7 @@ public class Graph extends ApplicationFrame {
 			graph.errorSeries.add(i, ro.ttError);
 			i++;
 
-			if ((i - 1)% 10 == 0) {
+			if ((i - 1)% 50 == 0) {
 				OutputStream out = new FileOutputStream("chart.png");
 				ChartUtilities.writeChartAsPNG(out, graph.lineChart, graph.cp.getWidth(), graph.cp.getHeight());
 			}
