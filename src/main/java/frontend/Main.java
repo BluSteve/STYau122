@@ -27,7 +27,7 @@ public class Main {
 			input = JsonIO.readInput("input-override");
 			logger.info("Input overriden.");
 		} catch (FileNotFoundException e) {
-			input = TxtIO.readInput("molecules.txt");
+			input = TxtIO.readInput("c40.txt");
 		}
 		JsonIO.write(input, "original-input");
 
@@ -40,7 +40,7 @@ public class Main {
 			RunOutput ro = iterator.next();
 			JsonIO.write(ro, String.format("outputs/%04d-%s-%s", i, ro.input.hash, ro.hash));
 
-			TxtIO.updateInput(ro.nextInput, "molecules.txt");
+//			TxtIO.updateInput(ro.nextInput, "molecules.txt");
 			JsonIO.write(ro.nextInput, String.format("pastinputs/%04d-%s", i, ro.nextInput.hash));
 			i++;
 		}

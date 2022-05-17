@@ -2,7 +2,6 @@ package runcycle.optimize;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.ejml.dense.row.CommonOps_DDRM;
 import org.ejml.simple.SimpleMatrix;
 import runcycle.structs.LastRunInfo;
 import tools.Pow;
@@ -23,11 +22,11 @@ public class ParamOptimizer {
 			logger.info("Last run info: {}", lri);
 			double changeRatio = (error - lri.error) / lri.expectedChange;
 			logger.info("QA validity ratio: {}", changeRatio);
-			if (lri.stepSize * 5.0 / 4 > lri.trustRadius && changeRatio >= 0.9 && lri.expectedChange < 5) {
-				newLri.trustRadius = 1.05 * lri.trustRadius;
+			if (lri.stepSize * 5.0 / 4 > lri.trustRadius && changeRatio >= 0.5 && lri.expectedChange < 5) {
+				newLri.trustRadius = 1.1 * lri.trustRadius;
 			}
 			else if (changeRatio <= 0.25 || lri.expectedChange > 5) {
-				newLri.trustRadius = lri.stepSize / 1.1;
+				newLri.trustRadius = lri.stepSize / 1.2;
 			}
 			else {
 				newLri.trustRadius = lri.trustRadius;
@@ -177,12 +176,19 @@ public class ParamOptimizer {
 			logger.info("Hessian eigenvalues ({} negative): {}", negCount, eig.toString().strip());
 
 			SimpleMatrix[] mats = Utils.symEigen(B);
-			CommonOps_DDRM.abs(mats[1].getDDRM());
 
+			SimpleMatrix grad = mats[0].transpose().mult(gradient);
 
-//
-			B = mats[0].mult(mats[1]).mult(mats[0].pseudoInverse());
-			searchdir = B.pseudoInverse().mult(gradient).negative();
+			searchdir = new SimpleMatrix (mats[0].numRows(), 1);
+
+			for (int i = 0; i < negCount; i++) {
+				searchdir.set(i, 0, - 2 * grad.get(i, 0) / Math.abs(mats[1].get (i, i)));
+			}
+			for (int i = negCount; i < mats[1].numCols(); i++) {
+				searchdir.set(i, 0, - grad.get(i, 0) / mats[1].get (i, i));
+			}
+
+			searchdir = mats[0].mult(searchdir);
 //			double[] ls = RSRFOAlphaLambda(B, gradient, newLri.trustRadius);
 //			double l = ls[0] * ls[1]; //RS-RFO step
 //			double l = TRMLambda(B, gradient, newLri.trustRadius); //TRM
@@ -206,7 +212,7 @@ public class ParamOptimizer {
 		//logger.info("Unscaled step size: {}", sum);
 
 
-		newLri.stepSize = Math.min(sum, newLri.trustRadius);
+		newLri.stepSize = newLri.trustRadius;
 
 
 		searchdir.scalei(newLri.stepSize);
