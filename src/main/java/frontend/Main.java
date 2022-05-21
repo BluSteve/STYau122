@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import runcycle.RunIterator;
 import runcycle.structs.RunInput;
 import runcycle.structs.RunOutput;
+import runcycle.structs.RunnableMolecule;
 import tools.Utils;
 
 import java.io.FileNotFoundException;
@@ -29,7 +30,16 @@ public class Main {
 		} catch (FileNotFoundException e) {
 			input = TxtIO.readInput("c40.txt");
 		}
-		JsonIO.write(input, "original-input");
+
+		RunnableMolecule[] subset = new RunnableMolecule[1];
+		for (RunnableMolecule molecule : input.molecules) {
+			if (molecule.index == 276) {
+				subset[0] = molecule;
+			}
+		}
+		input.molecules = subset;
+
+		JsonIO.write(input, "remote-input");
 
 		RunIterator iterator = new RunIterator(input, FrontendConfig.config.num_runs);
 

@@ -37,6 +37,7 @@ import static frontend.FrontendConfig.config;
 public class Remote {
 	private static double[] timeTaken;
 
+	// todo make websocket faster by using java serialization vs gson
 	public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
 		FrontendConfig.init();
 		Logger logger = LogManager.getLogger();
@@ -73,6 +74,14 @@ public class Remote {
 //		logger.info("Finished initializing molecules.");
 
 		RunInput runInput = JsonIO.readInput("remote-input");
+//
+//		RunnableMolecule[] subset = new RunnableMolecule[1];
+//		for (RunnableMolecule molecule : runInput.molecules) {
+//			if (molecule.index == 276) {
+//				subset[0] = molecule;
+//			}
+//		}
+//		runInput.molecules = subset;
 
 		// creating endingIndices to group molecules by
 		int length = runInput.molecules.length;
@@ -202,9 +211,11 @@ public class Remote {
 			Logger machineLogger = machine.logger;
 
 			try {
+				StopWatch sw2 = StopWatch.createStarted();
 				AdvancedMachine.SubsetResult result = machine.runMolecules(rms2d[i], info, runInput.hash);
+				sw2.stop();
 
-				timeTaken[i] += result.timeTaken;
+				timeTaken[i] += sw2.getTime(); // inclusive of latency
 
 				results2d[i] = result.results;
 				Arrays.sort(results2d[i], Comparator.comparingInt(r -> r.getUpdatedRm().index));

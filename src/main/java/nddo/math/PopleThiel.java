@@ -1017,7 +1017,7 @@ public class PopleThiel { // stop trying to make this faster!!!!!
 		return new SimpleMatrix[]{Kaderiv.plusi(Jderiv), Kbderiv.plusi(Jderiv)};
 	}
 
-	private static double sigmoid(double x) {
+	private static double sigmoid(int x) {
 		return 1e-5 / (1 + Pow.exp(-3.4 * (0.2 * x - 3.4)));
 	}
 

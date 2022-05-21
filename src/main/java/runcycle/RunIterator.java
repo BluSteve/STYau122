@@ -304,7 +304,7 @@ public final class RunIterator implements Iterator<RunOutput> {
 				logIncreaser.schedule(() -> {
 					if (sw.getTime() >= nddo.State.config.log_increase_time) {
 						rm.getLogger().warn("Stubborn molecule detected- increasing log level...");
-						Configurator.setLevel(rm.getLogger().getName(), Level.TRACE);
+						Configurator.setLevel(rm.getLogger().getName(), Level.DEBUG);
 					}
 				}, nddo.State.config.log_increase_time, TimeUnit.SECONDS);
 
