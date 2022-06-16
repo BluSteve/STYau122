@@ -27,6 +27,17 @@ public class Serializer {
 		}
 	}
 
+	public static long getLongHash(String str) {
+		try {
+			MessageDigest digest = MessageDigest.getInstance("SHA-1");
+			byte[] b = digest.digest(str.getBytes(StandardCharsets.UTF_8));
+
+			return ByteBuffer.wrap(b).getLong();
+		} catch (NoSuchAlgorithmException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	public static String getHash(RunOutput ro) {
 		MoleculeOutput[] mos = new MoleculeOutput[ro.results.length];
 		for (int i = 0; i < mos.length; i++) {
@@ -44,6 +55,10 @@ public class Serializer {
 
 	public static String getHash(Object o) {
 		return getHash(gson.toJson(o));
+	}
+
+	public static long getLongHash(Object o) {
+		return getLongHash(gson.toJson(o));
 	}
 
 	private static Gson getGson() {
@@ -107,7 +122,7 @@ public class Serializer {
 			builder.atoms = gson.fromJson(object.get("atoms"), Atom[].class);
 			builder.expGeom = gson.fromJson(object.get("expGeom"), Atom[].class);
 			builder.densityMatrices = gson.fromJson(object.get("densityMatrices"), double[][].class);
-			builder.densityMatricesExp =  gson.fromJson(object.get("densityMatricesExp"), double[][].class);
+			builder.densityMatricesExp = gson.fromJson(object.get("densityMatricesExp"), double[][].class);
 
 			for (int i = 0; i < builder.atoms.length; i++) {
 				builder.atoms[i] = new Atom(builder.atoms[i].Z, Utils.bohr(builder.atoms[i].coords));

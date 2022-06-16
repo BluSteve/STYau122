@@ -14,6 +14,7 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.stream.IntStream;
 
 public class TxtIO {
 	public static void txtToText() throws IOException {
@@ -262,10 +263,12 @@ public class TxtIO {
 
 		InputInfo info = new InputInfo(actualAtomTypes, actualNeededParams, paramsAtomTypes, params);
 
-		RunnableMolecule[] molecules = new RunnableMolecule[builders.size()];
+		RunnableMolecule.RMBuilder[] buildersArr = builders.toArray(new RunnableMolecule.RMBuilder[0]);
+		RunnableMolecule[] molecules = new RunnableMolecule[buildersArr.length];
 		LogManager.getLogger().info("Building molecules...");
-		builders.parallelStream().forEach(rmBuilder -> {
-			molecules[rmBuilder.index] = rmBuilder.build(info.atomTypes, info.neededParams, info.npMap);
+		IntStream.range(0, buildersArr.length).parallel().forEach(j -> {
+			if (j != buildersArr[j].index) throw new RuntimeException("" + j);
+			molecules[j] = buildersArr[j].build(info.atomTypes, info.neededParams, info.npMap);
 		});
 
 		RunInput runInput = new RunInput(info, molecules);

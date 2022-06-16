@@ -47,7 +47,6 @@ public class Remote {
 		Files.createDirectories(Path.of("pastinputs"));
 		Files.createDirectories(Path.of("outputs"));
 
-
 		Server<AdvancedMachine> server = new Server<>(56701, AdvancedMachine.class);
 		server.setOnConnectListener(AdvancedMachine::init);
 		while (server.getMachineCount() == 0) {
@@ -75,11 +74,15 @@ public class Remote {
 
 		RunInput runInput = JsonIO.readInput("remote-input");
 
+		for (int i = 0; i < runInput.molecules.length; i++) {
+			if (runInput.molecules[i].index != i) logger.warn("index mismatch: " + i);
+		}
+
 		// creating endingIndices to group molecules by
 		int length = runInput.molecules.length;
 		int[] endingIndices = getEndingIndices(machines, length);
 
-		logger.info("Length: {}, ending indices: {}, executors: {}", length, endingIndices, machines);
+		logger.info("Length: {}, ending indices: {}, machines: {}", length, endingIndices, machines);
 
 
 		// do runs
@@ -121,30 +124,28 @@ public class Remote {
 
 				JsonIO.writeAsync(ro, String.format("outputs/%04d-%s-%s", i, ro.inputHash, ro.hash));
 
-				if ((i + 1) % 5 == 0) {
-					double max = 0;
-					for (double v : timeTaken) if (v > max) max = v;
-					for (int j = 0; j < timeTaken.length; j++) timeTaken[j] /= max;
+				double max = 0;
+				for (double v : timeTaken) if (v > max) max = v;
+				for (int j = 0; j < timeTaken.length; j++) timeTaken[j] /= max;
 
-					double spread = Utils.sd(timeTaken);
-					if (spread > config.reconf_power_threshold) {
-						logger.info("Spread = {}, recalibrating power of machines... (curr={})", spread,
-								endingIndices);
+				double spread = Utils.sd(timeTaken);
+				if (spread > config.reconf_power_threshold) {
+					logger.info("Spread = {}, recalibrating power of machines... (curr={})", spread,
+							endingIndices);
 
-						for (int j = 0; j < machines.length; j++) {
-							machines[j].power = (endingIndices[j + 1] - endingIndices[j]) / timeTaken[j];
-						}
-						endingIndices = getEndingIndices(machines, length);
-
-						logger.info("Finished recalibrating power of machines (new={})", endingIndices);
-
-						Arrays.stream(machines).parallel().forEach(AdvancedMachine::updatePower);
-
-						logger.info("Uploaded new powers: {}\n\n", Arrays.toString(machines));
+					for (int j = 0; j < machines.length; j++) {
+						machines[j].power = (endingIndices[j + 1] - endingIndices[j]) / timeTaken[j];
 					}
+					endingIndices = getEndingIndices(machines, length);
 
-					timeTaken = new double[machines.length];
+					logger.info("Finished recalibrating power of machines (new={})", endingIndices);
+
+					Arrays.stream(machines).parallel().forEach(AdvancedMachine::updatePower);
+
+					logger.info("Uploaded new powers: {}\n\n", Arrays.toString(machines));
 				}
+
+				timeTaken = new double[machines.length];
 
 				i++;
 			}
@@ -181,7 +182,7 @@ public class Remote {
 		StopWatch sw = StopWatch.createStarted();
 
 		// grouping molecules based on coreCount
-		Utils.shuffleArray(rms); // shuffles whole rms, should be the same across runs
+		Utils.shuffleArray(rms); // shuffles whole rms, should be the same across runs due to same seed
 		RunnableMolecule[][] rms2d = new RunnableMolecule[nMachines][];
 		for (int i = 1; i < endingIndices.length; i++) {
 			RunnableMolecule[] rmsubset = Arrays.copyOfRange(rms, endingIndices[i - 1], endingIndices[i]);
@@ -230,6 +231,14 @@ public class Remote {
 
 		IMoleculeResult[] results = Stream.of(results2d).flatMap(Arrays::stream).sorted(
 				Comparator.comparingInt(r -> r.getUpdatedRm().index)).toArray(IMoleculeResult[]::new);
+
+		for (int i = 0; i < results.length; i++) {
+			for (int j = i + 1; j < results.length; j++) {
+				if (results[i].getUpdatedRm().index == results[j].getUpdatedRm().index) {
+					throw new RuntimeException("Duplicate found! " + results[i].getUpdatedRm().index);
+				}
+			}
+		}
 
 		// processing results
 		int paramLength = 0; // combined length of all differentiated params

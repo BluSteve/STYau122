@@ -13,6 +13,7 @@ import tools.Byter;
 
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -58,24 +59,39 @@ public class AdvancedMachine extends Machine implements Comparable<AdvancedMachi
 		return new String(read());
 	}
 
-	private String getMoleculesHash() {
+	private long[] getMoleculesHash() {
 		write("getMoleculesHash");
 
-		return new String(read());
+		return fromJsonBytes(read(), long[].class);
 	}
 
 	public SubsetResult runMolecules(RunnableMolecule[] rms, InputInfo info, String inputHash) {
-		String hash = Serializer.getHash(rms);
-		String cacheHash = getMoleculesHash();
+		long[] cacheHashes = getMoleculesHash();
 
-		if (hash.equals(cacheHash)) {
-			logger.info("Using cached runnable molecules.");
-			write("runMolecules", new MoleculesSubset(info, inputHash));
+		List<RunnableMolecule> toSend = new ArrayList<>();
+		List<Long> toUseCached = new ArrayList<>();
+		for (RunnableMolecule rm : rms) {
+			long hash = Serializer.getLongHash(rm);
+			boolean present = false;
+			for (long cacheHash : cacheHashes) {
+				if (hash == cacheHash) {
+					present = true;
+					break;
+				}
+			}
+			if (present) toUseCached.add(hash);
+			else toSend.add(rm); // add rms which are not in cache
+
 		}
-		else {
-			logger.info("Uploading molecules...");
-			write("runMolecules", new MoleculesSubset(rms, info, inputHash));
-		}
+		RunnableMolecule[] toSendArr = toSend.toArray(new RunnableMolecule[0]);
+		long[] toUseCachedArr = toUseCached.stream().mapToLong(i -> i).toArray();
+
+		System.out.println("toSendArr.length = " + toSendArr.length);
+		System.out.println("toUseCachedArr.length = " + toUseCachedArr.length);
+
+		logger.info("Uploading {} out of {} molecules.", toSendArr.length, rms.length);
+		write("runMolecules", new MoleculesSubset(toSendArr, toUseCachedArr, info, inputHash));
+
 
 		List<IMoleculeResult> hithertoResults = new LinkedList<>();
 
@@ -139,21 +155,19 @@ public class AdvancedMachine extends Machine implements Comparable<AdvancedMachi
 
 	class MoleculesSubset {
 		public RunnableMolecule[] rms;
+		public long[] cachedHashes;
 		public InputInfo info;
 		public String inputHash, ip;
 
 		public MoleculesSubset() {
 		}
 
-		public MoleculesSubset(RunnableMolecule[] rms, InputInfo info, String inputHash) {
+		public MoleculesSubset(RunnableMolecule[] rms, long[] cachedHashes, InputInfo info, String inputHash) {
 			this.rms = rms;
+			this.cachedHashes = cachedHashes;
 			this.info = info;
 			this.inputHash = inputHash;
 			this.ip = AdvancedMachine.this.ip;
-		}
-
-		public MoleculesSubset(InputInfo info, String inputHash) {
-			this(null, info, inputHash);
 		}
 	}
 }

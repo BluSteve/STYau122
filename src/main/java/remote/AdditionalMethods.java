@@ -18,6 +18,7 @@ import shared.Constants;
 import shared.Message;
 import shared.MethodContainer;
 import tools.Byter;
+import tools.Pair;
 
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -46,7 +47,7 @@ public class AdditionalMethods extends MethodContainer {
 	private static final Logger logger = LogManager.getLogger();
 	private static final int DOWNLOAD_THRESHOLD = 5;
 	private final Queue<IMoleculeResult> toDownload = new ConcurrentLinkedQueue<>();
-	private RunnableMolecule[] cachedRms;
+	private Queue<Pair<Long, RunnableMolecule>> cachedRms = new ConcurrentLinkedQueue<>();
 
 	public AdditionalMethods(Node node) {
 		super(node);
@@ -124,9 +125,10 @@ public class AdditionalMethods extends MethodContainer {
 	}
 
 	public byte[] getMoleculesHash() {
-		String hash = cachedRms == null ? "null" : Serializer.getHash(cachedRms);
+//		String hash = cachedRms == null ? "null" : Serializer.getHash(cachedRms);
+		long[] hashes = cachedRms.stream().mapToLong(pair -> pair.first).toArray();
 
-		return hash.getBytes(StandardCharsets.UTF_8);
+		return toJsonBytes(hashes);
 	}
 
 	public byte[] runMolecules(byte[] bytes) {
@@ -143,15 +145,20 @@ public class AdditionalMethods extends MethodContainer {
 
 
 		// inflate compressed data and find whether to use cached values
-		final RunnableMolecule[] rms; // not sorted/shuffled in this whole class
-		if (subset.rms == null) {
-			logger.info("Using cached runnable molecules.");
-			rms = cachedRms;
+		List<RunnableMolecule> rmsList = new ArrayList<>(Arrays.asList(subset.rms));
+		for (long cachedHash : subset.cachedHashes) { // picks only cachedRms that are present in subset.cachedHashes
+			for (Pair<Long, RunnableMolecule> cachedRm : cachedRms) {
+				if (cachedRm.first == cachedHash) {
+					rmsList.add(cachedRm.second);
+				}
+			}
 		}
-		else rms = subset.rms;
+
+		// not sorted/shuffled in this whole class
+		final RunnableMolecule[] rms = rmsList.toArray(new RunnableMolecule[0]);
+
 
 		final InputInfo info = subset.info;
-
 
 		StopWatch sw = StopWatch.createStarted();
 		logger.info("Input hash: {}, nMolecules: {} - Started", subset.inputHash, rms.length);
@@ -220,8 +227,7 @@ public class AdditionalMethods extends MethodContainer {
 						break;
 					} catch (InterruptedException e) {
 						throw new RuntimeException(e);
-					}
-					finally {
+					} finally {
 						semaphore.release();
 					}
 				}
@@ -230,7 +236,7 @@ public class AdditionalMethods extends MethodContainer {
 
 
 		// start molecule runs
-		cachedRms = new RunnableMolecule[rms.length];
+		cachedRms.clear();
 		IntStream.range(0, rms.length).parallel().forEach(i -> {
 			Exception e = error.get();
 			if (e == null) {
@@ -243,7 +249,7 @@ public class AdditionalMethods extends MethodContainer {
 
 				isDones[rm.index] = true;
 
-				cachedRms[i] = mr.getUpdatedRm();
+				cachedRms.add(new Pair<>(Serializer.getLongHash(mr.getUpdatedRm()), mr.getUpdatedRm()));
 
 				toDownload.add(mr);
 			}
