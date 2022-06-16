@@ -35,13 +35,17 @@ public class Pow {
 		return res;
 	}
 
-	public static double exp(double x) {
+	public static double exp2(double x) {
 		int xi = (int) Math.round(x * interp);
 		double xf = x - xi * interpinv;
 		double exi = arr[xi + total];
 		return exi * (362880 + xf * (362880 + xf * (181440 +
 				xf * (60480 + xf * (15120 + xf * (3024 + xf * (504 + xf * (72 + xf * (9 + xf))))))))) *
 				2.755731922398589065256E-6;
+	}
+
+	public static double exp(double x) {
+		return Math.exp(x);
 	}
 
 	/**

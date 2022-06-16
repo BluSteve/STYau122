@@ -74,14 +74,6 @@ public class Remote {
 //		logger.info("Finished initializing molecules.");
 
 		RunInput runInput = JsonIO.readInput("remote-input");
-//
-//		RunnableMolecule[] subset = new RunnableMolecule[1];
-//		for (RunnableMolecule molecule : runInput.molecules) {
-//			if (molecule.index == 276) {
-//				subset[0] = molecule;
-//			}
-//		}
-//		runInput.molecules = subset;
 
 		// creating endingIndices to group molecules by
 		int length = runInput.molecules.length;
@@ -140,15 +132,13 @@ public class Remote {
 								endingIndices);
 
 						for (int j = 0; j < machines.length; j++) {
-							machines[j].power = 1 / timeTaken[j] * (endingIndices[j + 1] - endingIndices[j]);
+							machines[j].power = (endingIndices[j + 1] - endingIndices[j]) / timeTaken[j];
 						}
 						endingIndices = getEndingIndices(machines, length);
 
 						logger.info("Finished recalibrating power of machines (new={})", endingIndices);
 
 						Arrays.stream(machines).parallel().forEach(AdvancedMachine::updatePower);
-
-						Arrays.sort(machines);
 
 						logger.info("Uploaded new powers: {}\n\n", Arrays.toString(machines));
 					}

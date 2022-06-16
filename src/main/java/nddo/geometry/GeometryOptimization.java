@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Logger;
 import org.ejml.data.SingularMatrixException;
 import org.ejml.simple.SimpleMatrix;
 import tools.Batcher;
-import tools.Pow;
 import tools.Utils;
 
 public abstract class GeometryOptimization {
@@ -72,14 +71,6 @@ public abstract class GeometryOptimization {
 		return B.plus(m1).minusi(m2);
 	}
 
-	private static double sigmoid(int x) {
-		return 0.01 / (1 + Pow.exp(-(0.2 * x - 2.2)));
-	}
-
-	public static void main(String[] args) {
-		System.out.println("sigmoid(100) = " + sigmoid(100));
-	}
-
 	public GeometryOptimization compute() {
 		logger.debug("initial hf: {}", s.hf);
 
@@ -98,23 +89,10 @@ public abstract class GeometryOptimization {
 			}
 		}
 
-		int check = 0;
-
-		for (int i = 0; i < h.numRows(); i++) {
-			if (Math.abs(h.get(i)) > 1E-5 && Math.abs(h.get(i)) < 1E-2) {
-				check++;
-			}
-		}
-
 		int numIt = 0;
-		int loopCounter = 0;
-		double trustRad = 0.01;
-		double olde = s.energy;
-		double expectedChange;
 		while (true) {
-			loopCounter++;
 			double mag = Utils.mag(gradient);
-			if (mag < sigmoid(loopCounter)) break;
+			if (mag < 0.005) break;
 			// computes new search direction
 			double lambda = lambda(h, U.transpose().mult(gradient), h.numRows() - counter);
 
@@ -123,13 +101,9 @@ public abstract class GeometryOptimization {
 					.mult(gradient)
 					.negativei();
 
-			if (check > 0) {
-				searchDir = B.pseudoInverse().mult(gradient).negativei();
-			}
-
 			double mag1 = Utils.mag(searchDir);
-			if (mag1 > trustRad) {
-				searchDir.scalei(trustRad / mag1);
+			if (mag1 > 0.3) {
+				searchDir.scalei(0.3 / mag1);
 			}
 
 			// updates coordinates of atoms using search direction
@@ -142,26 +116,9 @@ public abstract class GeometryOptimization {
 				}
 			}
 
-			expectedChange = searchDir.dot(gradient) + 0.5 * searchDir.transpose().mult(B).mult(searchDir).get(0);
-
 			// creates new solution based on updated atom positions
 			updateSolution();
 			logger.debug("hf: {}, gradient: {}", s.hf, mag);
-			double actualChange = s.energy - olde;
-			logger.debug("expected energy change: {}", expectedChange);
-			logger.debug("actual energy change: {}", actualChange);
-			logger.debug("Validity Ratio: {}", actualChange / expectedChange);
-
-			olde = s.energy;
-
-			if (actualChange / expectedChange > 0.75 && Utils.mag(searchDir) * 1.25 >= trustRad) {
-				trustRad *= 1.5;
-			}
-			else if (actualChange / expectedChange <= 0.25 ) {
-				trustRad *= 0.5;
-			}
-
-			logger.debug("Trust Radius has been Changed: {}", trustRad);
 
 			// re-compute Hessian if still has not converged after n
 			// iterations
