@@ -266,7 +266,7 @@ public final class RunIterator implements Iterator<RunOutput> {
 				nextRunRms[i] = resultsArray[i].getUpdatedRm();
 			}
 
-			RunInput nextInput = new RunInput(nextInputInfo, nextRunRms, null);
+			RunInput nextInput = new RunInput(nextInputInfo, nextRunRms, opt.getNewLri());
 
 
 			sw.stop();
@@ -276,6 +276,7 @@ public final class RunIterator implements Iterator<RunOutput> {
 
 			RunOutput runOutput =
 					new RunOutput(resultsArray, sw.getTime(), ttError, ttGradient, ttHessian, ri, nextInput);
+			runOutput.finalLambda = opt.getNewLri().stepSize;
 
 			return runOutput;
 		}

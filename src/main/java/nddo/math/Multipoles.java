@@ -6,11 +6,15 @@ import tools.Pow;
 public class Multipoles {
 	public static double qq(double p01, double p11, double p21, double D11, double D21, double p02, double p12,
 							double p22, double D12, double D22, double R) {
-		return Pow.pow(R * R + (p01 + p02) * (p01 + p02), -0.5);
+		double v = p01 + p02;
+		return Pow.pow(R * R + v * v, -0.5);
 	}
 
 	public static double f0(int a2, int b2, double Dn2, double p01, double pn2, double R) {
-		return Pow.pow((R + a2 * Dn2) * (R + a2 * Dn2) + b2 * b2 * Dn2 * Dn2 + (p01 + pn2) * (p01 + pn2), -0.5);
+		double v = R + a2 * Dn2;
+		double v1 = b2 * Dn2;
+		double v2 = p01 + pn2;
+		return Pow.pow(v * v + v1 * v1 + v2 * v2, -0.5);
 	}
 
 	public static double quz(double p01, double p11, double p21, double D11, double D21, double p02, double p12,
@@ -30,12 +34,17 @@ public class Multipoles {
 
 	public static double f1(int a1, int a2, int b1, int b2, double Dn1, double Dm2, double pn1, double pm2, double R) {
 		double v = R + a1 * Dn1 + a2 * Dm2;
-		return Pow.pow(v * v + (b1 * Dn1 + b2 * Dm2) * (b1 * Dn1 + b2 * Dm2) + (pn1 + pm2) * (pn1 + pm2), -0.5);
+		double v1 = b1 * Dn1 + b2 * Dm2;
+		double v2 = pn1 + pm2;
+		return Pow.pow(v * v + v1 * v1 + v2 * v2, -0.5);
 	}
 
 	public static double f2(int a1, int a2, int b1, int b2, double D21, double D22, double p21, double p22, double R) {
 		double v = R + a1 * D21 + a2 * D22;
-		return Pow.pow(v * v + b1 * D21 * (b1 * D21) + b2 * D22 * (b2 * D22) + (p21 + p22) * (p21 + p22), -0.5);
+		double v1 = b1 * D21;
+		double v2 = b2 * D22;
+		double v3 = p21 + p22;
+		return Pow.pow(v * v + v1 * v1 + v2 * v2 + v3 * v3, -0.5);
 	}
 
 	public static double upiupi(double p01, double p11, double p21, double D11, double D21, double p02, double p12,

@@ -59,7 +59,7 @@ public class Remote {
 		AdvancedMachine[] machines = server.getMachines();
 		Arrays.sort(machines);
 		timeTaken = new double[machines.length];
-		logger.info("Machines: {}", Arrays.toString(machines));
+		logger.info("Machines ({}): {}", machines.length, Arrays.toString(machines));
 
 
 //		 build initial RunInput object
@@ -94,12 +94,11 @@ public class Remote {
 
 				if (machines.length != server.getMachineCount()) {
 					machines = server.getMachines();
-					Arrays.sort(machines);
 					endingIndices = getEndingIndices(machines, length);
 					timeTaken = new double[machines.length];
 				}
 
-				logger.info("Machines: {}", Arrays.toString(machines));
+				logger.info("Machines ({}): {}", machines.length, Arrays.toString(machines));
 				logger.info("Run number: {}, input hash: {}", i, currentRunInput.hash);
 
 				RunOutput ro;
@@ -134,7 +133,8 @@ public class Remote {
 							endingIndices);
 
 					for (int j = 0; j < machines.length; j++) {
-						machines[j].power = (endingIndices[j + 1] - endingIndices[j]) / timeTaken[j];
+						machines[j].power =
+								(machines[j].power + (endingIndices[j + 1] - endingIndices[j]) / timeTaken[j]) / 2;
 					}
 					endingIndices = getEndingIndices(machines, length);
 
@@ -143,6 +143,9 @@ public class Remote {
 					Arrays.stream(machines).parallel().forEach(AdvancedMachine::updatePower);
 
 					logger.info("Uploaded new powers: {}\n\n", Arrays.toString(machines));
+				}
+				else {
+					logger.info("Spread = {}", spread);
 				}
 
 				timeTaken = new double[machines.length];

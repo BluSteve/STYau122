@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 import runcycle.RunIterator;
 import runcycle.structs.RunInput;
 import runcycle.structs.RunOutput;
-import runcycle.structs.RunnableMolecule;
 import tools.Utils;
 
 import java.io.FileNotFoundException;
@@ -31,16 +30,6 @@ public class Main {
 			input = TxtIO.readInput("c40.txt");
 		}
 
-		RunnableMolecule[] subset = new RunnableMolecule[1];
-		for (RunnableMolecule molecule : input.molecules) {
-			if (molecule.index == 276) {
-				subset[0] = molecule;
-			}
-		}
-		input.molecules = subset;
-
-		JsonIO.write(input, "remote-input");
-
 		RunIterator iterator = new RunIterator(input, FrontendConfig.config.num_runs);
 
 		logger.info("Number of runs = {}", FrontendConfig.config.num_runs);
@@ -48,10 +37,10 @@ public class Main {
 		int i = FrontendConfig.config.starting_run_num;
 		while (iterator.hasNext()) {
 			RunOutput ro = iterator.next();
-			JsonIO.write(ro, String.format("outputs/%04d-%s-%s", i, ro.input.hash, ro.hash));
+//			JsonIO.write(ro, String.format("outputs/%04d-%s-%s", i, ro.input.hash, ro.hash));
 
 //			TxtIO.updateInput(ro.nextInput, "molecules.txt");
-			JsonIO.write(ro.nextInput, String.format("pastinputs/%04d-%s", i, ro.nextInput.hash));
+//			JsonIO.write(ro.nextInput, String.format("pastinputs/%04d-%s", i, ro.nextInput.hash));
 			i++;
 		}
 

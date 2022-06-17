@@ -86,9 +86,6 @@ public class AdvancedMachine extends Machine implements Comparable<AdvancedMachi
 		RunnableMolecule[] toSendArr = toSend.toArray(new RunnableMolecule[0]);
 		long[] toUseCachedArr = toUseCached.stream().mapToLong(i -> i).toArray();
 
-		System.out.println("toSendArr.length = " + toSendArr.length);
-		System.out.println("toUseCachedArr.length = " + toUseCachedArr.length);
-
 		logger.info("Uploading {} out of {} molecules.", toSendArr.length, rms.length);
 		write("runMolecules", new MoleculesSubset(toSendArr, toUseCachedArr, info, inputHash));
 
