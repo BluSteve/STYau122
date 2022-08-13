@@ -52,7 +52,7 @@ public class ParamOptimizer {
 		return Utils.symEigen(RFOMat)[1].get(0);
 	}
 
-	private static double lambdamat (SimpleMatrix B, SimpleMatrix g, double alpha) {
+	private static double lambdamat(SimpleMatrix B, SimpleMatrix g, double alpha) {
 		SimpleMatrix RFOMat = new SimpleMatrix(B.numRows() + 1, B.numRows() + 1);
 
 		for (int i = 0; i < B.numRows(); i++) {
@@ -90,7 +90,7 @@ public class ParamOptimizer {
 			oldalpha = alpha;
 			SimpleMatrix[] matrices = Utils.symEigen(B);
 			SimpleMatrix eigenvectors = matrices[0];
-			lambda = lambdamat (B, g, alpha);
+			lambda = lambdamat(B, g, alpha);
 			d = B.plus(-lambda * alpha, SimpleMatrix.identity(B.numRows())).pseudoInversei().mult(g).negativei();
 			ddot = d.dot(d);
 			double derivative = 0;
@@ -100,21 +100,22 @@ public class ParamOptimizer {
 				derivative += dots.get(0, i) * dots.get(0, i) * Math.pow(matrices[1].get(i, i) - alpha * lambda, -3);
 			}
 			derivative *= 2 * lambda / (1 + alpha * d.dot(d));
-			//logger.info("Microiterations in Progress; RFO shift parameter(s) and validation check(s): {}, {}, {}", lambda, alpha, d.dot(d));
+			//logger.info("Microiterations in Progress; RFO shift parameter(s) and validation check(s): {}, {}, {}",
+			// lambda, alpha, d.dot(d));
 
 			alpha += 2 * (trustradius * Math.sqrt(d.dot(d)) - d.dot(d)) / derivative;
 		}
 
 		if (Math.abs(ddot) < 1E-20) {
 			logger.warn("Microiterations did not converge; using standard RFO step (poor)");
-			return new double[] {1, RFOLambda(B, g)};
+			return new double[]{1, RFOLambda(B, g)};
 		}
 
 
-		return new double[] {oldalpha, lambda};
+		return new double[]{oldalpha, lambda};
 	}
 
-	private static double lambdaTRMderiv (SimpleMatrix dots, SimpleMatrix eigs, double lambda) {
+	private static double lambdaTRMderiv(SimpleMatrix dots, SimpleMatrix eigs, double lambda) {
 		double deriv = 0;
 		int num = 0;
 
@@ -141,14 +142,15 @@ public class ParamOptimizer {
 
 		SimpleMatrix eigs = mats[1];
 
-		double alpha = - eigs.get(0, 0) + 2;
+		double alpha = -eigs.get(0, 0) + 2;
 
 		while (Math.abs(alpha - oldalpha) > 1E-9 && Math.abs(ddot - trustradius * trustradius) > 1E-15) {
 			oldalpha = alpha;
 			d = B.plus(alpha, SimpleMatrix.identity(B.numRows())).pseudoInversei().mult(g).negativei();
 			ddot = d.dot(d);
 			double derivative = lambdaTRMderiv(dots, eigs, alpha);
-			//logger.info("Microiterations in Progress; TRM shift parameter and validation check(s): {}, {}",  alpha, d.dot(d));
+			//logger.info("Microiterations in Progress; TRM shift parameter and validation check(s): {}, {}",  alpha,
+			// d.dot(d));
 
 			alpha += 2 * (trustradius * Math.sqrt(d.dot(d)) - d.dot(d)) / derivative;
 		}
@@ -159,7 +161,7 @@ public class ParamOptimizer {
 		}
 
 
-		return - alpha;
+		return -alpha;
 	}
 
 	public double[] optimize(SimpleMatrix B, SimpleMatrix gradient) {
@@ -179,13 +181,13 @@ public class ParamOptimizer {
 
 			SimpleMatrix grad = mats[0].transpose().mult(gradient);
 
-			searchdir = new SimpleMatrix (mats[0].numRows(), 1);
+			searchdir = new SimpleMatrix(mats[0].numRows(), 1);
 
 			for (int i = 0; i < negCount; i++) {
-				searchdir.set(i, 0, - 3 * grad.get(i, 0) / Math.abs(mats[1].get (i, i)));
+				searchdir.set(i, 0, -3 * grad.get(i, 0) / Math.abs(mats[1].get(i, i)));
 			}
 			for (int i = negCount; i < mats[1].numCols(); i++) {
-				searchdir.set(i, 0, - grad.get(i, 0) / mats[1].get (i, i));
+				searchdir.set(i, 0, -grad.get(i, 0) / mats[1].get(i, i));
 			}
 
 			searchdir = mats[0].mult(searchdir);
@@ -224,7 +226,8 @@ public class ParamOptimizer {
 		//logger.info ("Gradient values: {}", gradient.toString());
 
 
-		newLri.expectedChange = (searchdir.dot(gradient) + 0.5 * searchdir.transpose().mult(oldB).mult(searchdir).get(0));
+		newLri.expectedChange =
+				(searchdir.dot(gradient) + 0.5 * searchdir.transpose().mult(oldB).mult(searchdir).get(0));
 
 		return changes;
 	}

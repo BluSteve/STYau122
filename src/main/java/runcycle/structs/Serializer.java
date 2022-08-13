@@ -157,7 +157,13 @@ public class Serializer {
 		return builder.create();
 	}
 
-	private static class MoleculeOutput implements IMoleculeResult {
+	public static class MoleculeOutputLite extends MoleculeOutput {
+		public transient RunnableMolecule updatedRm;
+		public int index = updatedRm.index;
+
+	}
+
+	public static class MoleculeOutput implements IMoleculeResult { // light container class
 		public RunnableMolecule updatedRm;
 		public long time;
 		public double hf, dipole, ie, geomGradMag, totalError;
