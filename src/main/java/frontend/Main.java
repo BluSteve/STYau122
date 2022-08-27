@@ -27,7 +27,7 @@ public class Main {
 			input = JsonIO.readInput("input-override");
 			logger.info("Input overriden.");
 		} catch (FileNotFoundException e) {
-			input = TxtIO.readInput("c40.txt");
+			input = TxtIO.readInput("molecules.txt");
 		}
 
 		RunIterator iterator = new RunIterator(input, FrontendConfig.config.num_runs);

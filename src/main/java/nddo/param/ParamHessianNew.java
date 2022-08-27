@@ -417,7 +417,7 @@ public class ParamHessianNew implements IParamHessian {
 		if (i1 != i2) hessian[i2][i1] += x;
 	}
 
-	private void addHfToHessian(int ZI1, int p1, int ZI2, int p2, double x) {
+	private void addHfToHessian(int ZI1, int p1, int ZI2, int p2, double x) { // x is 2nd derivative
 		addToHessian(ZI1, p1, ZI2, p2, 2 * (pg.HfDerivs[ZI1][p1] * pg.HfDerivs[ZI2][p2] +
 				(s.hf - datum[0]) * x));
 	}
