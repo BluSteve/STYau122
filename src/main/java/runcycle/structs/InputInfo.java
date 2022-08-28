@@ -46,7 +46,7 @@ public class InputInfo {
 		return result;
 	}
 
-	public double[][] getParams() {
+	public double[][] getParams() { // dense params array
 		List<double[]> res = new ArrayList<>();
 
 		for (int i = 0; i < Constants.MAX_ATOM_NUM; i++) {
@@ -56,7 +56,7 @@ public class InputInfo {
 		return res.toArray(new double[0][]);
 	}
 
-	public double[][] getParamsMap() {
+	public double[][] getParamsMap() { // sparse params array indexed by atom number
 		double[][] res = new double[Constants.MAX_ATOM_NUM][];
 
 		for (int i = 0; i < Constants.MAX_ATOM_NUM; i++) {

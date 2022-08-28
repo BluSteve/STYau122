@@ -46,6 +46,7 @@ public class Remote {
 
 		Files.createDirectories(Path.of("pastinputs"));
 		Files.createDirectories(Path.of("outputs"));
+		Files.createDirectories(Path.of("summaries"));
 
 		Server<AdvancedMachine> server = new Server<>(56701, AdvancedMachine.class);
 		server.setOnConnectListener(AdvancedMachine::init);
@@ -63,16 +64,16 @@ public class Remote {
 
 
 //		 build initial RunInput object
-//		String pnFile = null;
-//		String pFile = Files.readString(Path.of("params.csv"));
-//		String mFile = Files.readString(Path.of("molecules.txt"));
-//
-//		AdvancedMachine bestMachine = machines[0];
-//		RunInput runInput = bestMachine.buildMolecules(pnFile, pFile, mFile);
-//		JsonIO.write(runInput, "remote-input");
-//		logger.info("Finished initializing molecules.");
+		String pnFile = null;
+		String pFile = Files.readString(Path.of("params.csv"));
+		String mFile = Files.readString(Path.of("molecules.txt"));
 
-		RunInput runInput = JsonIO.readInput("remote-input");
+		AdvancedMachine bestMachine = machines[0];
+		RunInput runInput = bestMachine.buildMolecules(pnFile, pFile, mFile);
+		JsonIO.write(runInput, "remote-input");
+		logger.info("Finished initializing molecules.");
+
+//		RunInput runInput = JsonIO.readInput("remote-input");
 
 		for (int i = 0; i < runInput.molecules.length; i++) {
 			if (runInput.molecules[i].index != i) logger.warn("index mismatch: " + i);
@@ -116,12 +117,15 @@ public class Remote {
 					continue;
 				}
 
+				JsonIO.writeAsync(ro, String.format("outputs/%04d-%s-%s", i, ro.inputHash, ro.hash));
+
+				ROSummary summary = getSummary(ro);
+				JsonIO.write(summary, String.format("summaries/%04d-%s-%s", i, ro.inputHash, ro.hash));
+
 				logger.info("Run {} time taken: {}, output hash: {}, next input hash: {}\n\n", i, ro.timeTaken,
 						ro.hash, ro.nextInputHash);
 
 				currentRunInput = ro.nextInput;
-
-				JsonIO.writeAsync(ro, String.format("outputs/%04d-%s-%s", i, ro.inputHash, ro.hash));
 
 				double max = 0;
 				for (double v : timeTaken) if (v > max) max = v;
@@ -158,6 +162,24 @@ public class Remote {
 		}
 
 		System.exit(0);
+	}
+
+	private static ROSummary getSummary(RunOutput ro) {
+		ROSummary summary = new ROSummary();
+
+		summary.error = ro.ttError;
+		summary.hessian = ro.ttHessian;
+		summary.evs = Utils.symEigen(new SimpleMatrix(summary.hessian))[1].diag().getDDRM().data;
+		summary.params = ro.nextInput.info.getParams();
+
+		return summary;
+	}
+
+	private static class ROSummary {
+		double error;
+		double[] evs;
+		double[][] params;
+		double[][] hessian;
 	}
 
 	private static int[] getEndingIndices(AdvancedMachine[] machines, int length) {

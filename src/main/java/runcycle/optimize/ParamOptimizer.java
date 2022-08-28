@@ -169,7 +169,6 @@ public class ParamOptimizer {
 		SimpleMatrix oldB = B.copy();
 
 		try {
-
 			SimpleMatrix eigenvalues = Utils.symEigen(B)[1];
 			SimpleMatrix eig = eigenvalues.diag().transposei();
 
@@ -191,11 +190,11 @@ public class ParamOptimizer {
 			}
 
 			searchdir = mats[0].mult(searchdir);
-			double[] ls = RSRFOAlphaLambda(oldB, gradient, newLri.trustRadius);
+//			double[] ls = RSRFOAlphaLambda(oldB, gradient, newLri.trustRadius);
 //			double l = ls[0] * ls[1]; //RS-RFO step
-			double l = TRMLambda(oldB, gradient, newLri.trustRadius); //TRM
+//			double l = TRMLambda(oldB, gradient, newLri.trustRadius); //TRM
 
-			searchdir = B.plus(-l, SimpleMatrix.identity(B.numRows())).pseudoInversei().mult(gradient).negativei();
+//			searchdir = B.plus(-l, SimpleMatrix.identity(B.numRows())).pseudoInversei().mult(gradient).negativei();
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 			searchdir = gradient.negative();
