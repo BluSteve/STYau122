@@ -64,16 +64,16 @@ public class Remote {
 
 
 //		 build initial RunInput object
-		String pnFile = null;
-		String pFile = Files.readString(Path.of("params.csv"));
-		String mFile = Files.readString(Path.of("molecules.txt"));
+//		String pnFile = null;
+//		String pFile = Files.readString(Path.of("params.csv"));
+//		String mFile = Files.readString(Path.of("molecules.txt"));
+//
+//		AdvancedMachine bestMachine = machines[0];
+//		RunInput runInput = bestMachine.buildMolecules(pnFile, pFile, mFile);
+//		JsonIO.write(runInput, "remote-input");
+//		logger.info("Finished initializing molecules.");
 
-		AdvancedMachine bestMachine = machines[0];
-		RunInput runInput = bestMachine.buildMolecules(pnFile, pFile, mFile);
-		JsonIO.write(runInput, "remote-input");
-		logger.info("Finished initializing molecules.");
-
-//		RunInput runInput = JsonIO.readInput("remote-input");
+		RunInput runInput = JsonIO.readInput("remote-input");
 
 		for (int i = 0; i < runInput.molecules.length; i++) {
 			if (runInput.molecules[i].index != i) logger.warn("index mismatch: " + i);
