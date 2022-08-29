@@ -319,7 +319,7 @@ public final class RunIterator implements Iterator<RunOutput> {
 				g = new ParamGradientNew(s, datum, sExp);
 				rm.getLogger().debug("Finished param gradient");
 
-				h = withHessian ? new ParamHessianStewart((ParamGradientNew) g) : null;
+				h = withHessian ? new ParamHessianNew((ParamGradientNew) g) : null;
 				rm.getLogger().debug("Finished param hessian");
 
 				rm.densityMatrices = rm.restricted ?

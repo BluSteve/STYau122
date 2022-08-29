@@ -190,7 +190,7 @@ public class TROptimizer implements IParamOptimizer {
 				searchdir.set(i, 0, -grad.get(i, 0) / mats[1].get(i, i));
 			}
 
-//			searchdir = mats[0].mult(searchdir);
+			searchdir = mats[0].mult(searchdir);
 //			double[] ls = RSRFOAlphaLambda(oldB, gradient, newLri.trustRadius);
 //			double l = ls[0] * ls[1]; //RS-RFO step
 			double l = TRMLambda(oldB, gradient, newLri.trustRadius); //TRM

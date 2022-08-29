@@ -26,16 +26,27 @@ public class LLAOptimizer implements IParamOptimizer {
 	public double[] optimize(SimpleMatrix B, SimpleMatrix gradient, ISDFinder sdFinder) {
 		SimpleMatrix searchdir;
 		try {
-			searchdir = B.pseudoInverse().mult(gradient);
-			SimpleMatrix eigenvalues = Utils.symEigen(B)[1];
-			if (logger.isInfoEnabled()) {
-				SimpleMatrix eig = eigenvalues.diag().transposei();
+			SimpleMatrix[] mats = Utils.symEigen(B);
 
-				int negCount = 0;
-				for (double v : eig.getDDRM().data) if (v < 0) negCount++;
+			SimpleMatrix eigenvalues = mats[1];
+			SimpleMatrix eig = eigenvalues.diag().transposei();
+			int negCount = 0;
+			for (double v : eig.getDDRM().data) if (v < 0) negCount++;
+			logger.info("Hessian eigenvalues ({} negative): {}", negCount, eig.toString().strip());
 
-				logger.info("Hessian eigenvalues ({} negative): {}", negCount, eig.toString().strip());
+			SimpleMatrix grad = mats[0].transpose().mult(gradient);
+
+			searchdir = new SimpleMatrix(mats[0].numRows(), 1);
+
+			for (int i = 0; i < negCount; i++) {
+				searchdir.set(i, 0, -grad.get(i, 0) / Math.abs(mats[1].get(i, i)));
 			}
+			for (int i = negCount; i < mats[1].numCols(); i++) {
+				searchdir.set(i, 0, -grad.get(i, 0) / mats[1].get(i, i));
+			}
+
+			searchdir = mats[0].mult(searchdir);
+
 		} catch (IllegalArgumentException e) {
 			logger.warn("Hessian pinv failed; using gradient instead.");
 			searchdir = gradient;
@@ -56,7 +67,7 @@ public class LLAOptimizer implements IParamOptimizer {
 		double newValueSum = 0;
 		double[] changes = new double[searchdir.numRows()];
 
-		while (Math.abs(newValueSum - valueSum) > 1E-8 && Math.abs(lambda) <= 0.5) {
+		while (Math.abs(newValueSum - valueSum) > 1E-8) {
 			lambda += k;
 			newValueSum = valueSum;
 			changes = searchdir.scale(lambda).getDDRM().data;
