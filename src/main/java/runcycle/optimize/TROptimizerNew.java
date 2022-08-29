@@ -1,26 +1,25 @@
 package runcycle.optimize;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.ejml.simple.SimpleMatrix;
+import runcycle.IMoleculeResult;
 import runcycle.optimize.searchdir.ISDFinder;
+import runcycle.structs.InputInfo;
 import runcycle.structs.LastRunInfo;
 import tools.Utils;
 
-public class TROptimizerNew implements IParamOptimizer {
-	private static final Logger logger = LogManager.getLogger();
-	private final LastRunInfo newLri;
+public class TROptimizerNew extends ParamOptimizer {
+	public TROptimizerNew(IMoleculeResult[] results, InputInfo info, LastRunInfo lri) {
+		super(results, info, lri);
 
-	public TROptimizerNew(LastRunInfo lri, double error) {
 		newLri = new LastRunInfo();
-		newLri.error = error;
+		newLri.error = ttError;
 
 		if (lri == null) {
 			newLri.trustRadius = 0.01;
 		}
 		else {
 			logger.info("Last run info: {}", lri);
-			double changeRatio = (error - lri.error) / lri.expectedChange;
+			double changeRatio = (newLri.error - lri.error) / lri.expectedChange;
 			logger.info("QA validity ratio: {}", changeRatio);
 			if (lri.stepSize * 5.0 / 4 > lri.trustRadius && changeRatio >= 0.5 && lri.expectedChange < 5) {
 				newLri.trustRadius = 1.1 * lri.trustRadius;
@@ -34,7 +33,7 @@ public class TROptimizerNew implements IParamOptimizer {
 		}
 	}
 
-	public double[] optimize(SimpleMatrix B, SimpleMatrix g, ISDFinder sdFinder) {
+	public double[] optimize(ISDFinder sdFinder) {
 		SimpleMatrix searchdir;
 
 		try {
@@ -64,11 +63,6 @@ public class TROptimizerNew implements IParamOptimizer {
 	}
 
 	@Override
-	public double getLambda() {
-		return newLri.stepSize;
-	}
-
-	public LastRunInfo getNewLri() {
-		return newLri;
+	protected void processResult(IMoleculeResult result) {
 	}
 }
