@@ -2,7 +2,7 @@ package runcycle.optimize;
 
 public class ReferenceData {
 	private final double[] derivatives;
-	private final double weight,reference,actual;
+	private final double weight, reference, actual;
 	private double value;
 	private double updated;
 	public static final double HF_WEIGHT = 1;

@@ -7,11 +7,11 @@ import runcycle.structs.LastRunInfo;
 import tools.Pow;
 import tools.Utils;
 
-public class ParamOptimizer {
+public class TROptimizer implements IParamOptimizer {
 	private static final Logger logger = LogManager.getLogger();
 	private final LastRunInfo newLri;
 
-	public ParamOptimizer(LastRunInfo lri, double error) {
+	public TROptimizer(LastRunInfo lri, double error) {
 		newLri = new LastRunInfo();
 		newLri.error = error;
 
@@ -225,9 +225,14 @@ public class ParamOptimizer {
 
 
 		newLri.expectedChange =
-				(searchdir.dot(gradient) + 0.5 * searchdir.transpose().mult(oldB).mult(searchdir).get(0));
+				searchdir.dot(gradient) + 0.5 * searchdir.transpose().mult(oldB).mult(searchdir).get(0);
 
 		return changes;
+	}
+
+	@Override
+	public double getLambda() {
+		return newLri.stepSize;
 	}
 
 	public LastRunInfo getNewLri() {

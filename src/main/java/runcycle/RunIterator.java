@@ -15,7 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.ejml.simple.SimpleMatrix;
-import runcycle.optimize.ParamOptimizer;
+import runcycle.optimize.TROptimizer;
 import runcycle.structs.*;
 
 import java.lang.management.ManagementFactory;
@@ -239,7 +239,7 @@ public final class RunIterator implements Iterator<RunOutput> {
 			SimpleMatrix newGradient = new SimpleMatrix(ttGradient);
 			SimpleMatrix newHessian = new SimpleMatrix(ttHessian);
 
-			ParamOptimizer opt = new ParamOptimizer(ri.lastRunInfo, ttError);
+			TROptimizer opt = new TROptimizer(ri.lastRunInfo, ttError);
 			double[] dir = opt.optimize(newHessian, newGradient);
 
 
@@ -319,7 +319,7 @@ public final class RunIterator implements Iterator<RunOutput> {
 				g = new ParamGradientNew(s, datum, sExp);
 				rm.getLogger().debug("Finished param gradient");
 
-				h = withHessian ? new ParamHessianNew((ParamGradientNew) g) : null;
+				h = withHessian ? new ParamHessianStewart((ParamGradientNew) g) : null;
 				rm.getLogger().debug("Finished param hessian");
 
 				rm.densityMatrices = rm.restricted ?

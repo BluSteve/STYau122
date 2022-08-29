@@ -12,11 +12,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ejml.simple.SimpleMatrix;
 import runcycle.IMoleculeResult;
-import runcycle.optimize.ParamOptimizer;
-import runcycle.structs.InputInfo;
-import runcycle.structs.RunInput;
-import runcycle.structs.RunOutput;
-import runcycle.structs.RunnableMolecule;
+import runcycle.optimize.IParamOptimizer;
+import runcycle.optimize.LLAOptimizer;
+import runcycle.optimize.ReferenceData;
+import runcycle.structs.*;
 import tools.Utils;
 
 import java.io.IOException;
@@ -270,6 +269,11 @@ public class Remote {
 		for (int[] param : info.neededParams) paramLength += param.length;
 
 
+		LastRunInfo lri;
+
+		LLAOptimizer lla = new LLAOptimizer();
+		lri = null;
+
 		// optimizes params based on this run
 		double ttError = 0;
 		double[] ttGradient = new double[paramLength];
@@ -281,6 +285,35 @@ public class Remote {
 			boolean isDepad = true;
 
 			ttError += result.getTotalError();
+
+
+			double[] datum = result.getUpdatedRm().datum;
+
+			lla.addData(new ReferenceData(datum[0], result.getHf(),
+					ParamGradient.combine(result.getHfDerivs(), info.atomTypes, info.neededParams,
+							moleculeATs, moleculeNPs, isDepad),
+					ReferenceData.HF_WEIGHT));
+
+			if (datum[1] != 0) {
+				lla.addData(new ReferenceData(datum[1], result.getDipole(),
+						ParamGradient.combine(result.getDipoleDerivs(), info.atomTypes, info.neededParams,
+								moleculeATs, moleculeNPs, isDepad),
+						ReferenceData.DIPOLE_WEIGHT));
+			}
+
+			if (datum[2] != 0) {
+				lla.addData(new ReferenceData(datum[2], result.getIE(),
+						ParamGradient.combine(result.getIEDerivs(), info.atomTypes, info.neededParams,
+								moleculeATs, moleculeNPs, isDepad),
+						ReferenceData.IE_WEIGHT));
+			}
+
+			if (result.isExpAvail()) {
+				lla.addData(new ReferenceData(0, result.getGeomGradMag(),
+						ParamGradient.combine(result.getGeomDerivs(), info.atomTypes, info.neededParams,
+								moleculeATs, moleculeNPs, isDepad),
+						ReferenceData.GEOM_WEIGHT));
+			}
 
 			// ttGradient is sum of totalGradients across molecules
 			double[] g = ParamGradient.combine(result.getTotalGradients(), info.atomTypes, info.neededParams,
@@ -315,7 +348,10 @@ public class Remote {
 		SimpleMatrix newGradient = new SimpleMatrix(ttGradient);
 		SimpleMatrix newHessian = new SimpleMatrix(ttHessian);
 
-		ParamOptimizer opt = new ParamOptimizer(runInput.lastRunInfo, ttError);
+//		TROptimizer trOptimizer = new TROptimizer(runInput.lastRunInfo, ttError);
+//		lri = trOptimizer.getNewLri();
+
+		IParamOptimizer opt = lla;
 		double[] dir = opt.optimize(newHessian, newGradient);
 
 
@@ -340,12 +376,12 @@ public class Remote {
 			nextRunRms[i] = results[i].getUpdatedRm();
 		}
 
-		RunInput nextInput = new RunInput(nextInputInfo, nextRunRms, opt.getNewLri());
+		RunInput nextInput = new RunInput(nextInputInfo, nextRunRms, lri);
 
 
 		RunOutput runOutput = new RunOutput(results, sw.getTime(), ttError, ttGradient, ttHessian, runInput,
 				nextInput);
-		runOutput.finalLambda = opt.getNewLri().stepSize;
+		runOutput.finalLambda = opt.getLambda();
 
 		return runOutput;
 	}
