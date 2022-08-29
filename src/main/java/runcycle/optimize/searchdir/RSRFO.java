@@ -91,6 +91,5 @@ public class RSRFO implements ISDFinder {
 		double[] ls = RSRFOAlphaLambda(B, g, lri.trustRadius);
 		double l = ls[0] * ls[1]; // RS-RFO step
 		return B.plus(-l, SimpleMatrix.identity(B.numRows())).pseudoInversei().mult(g).negativei();
-
 	}
 }

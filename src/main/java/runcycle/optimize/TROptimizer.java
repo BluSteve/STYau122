@@ -3,6 +3,7 @@ package runcycle.optimize;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ejml.simple.SimpleMatrix;
+import runcycle.optimize.searchdir.ISDFinder;
 import runcycle.structs.LastRunInfo;
 import tools.Pow;
 import tools.Utils;
@@ -164,7 +165,7 @@ public class TROptimizer implements IParamOptimizer {
 		return -alpha;
 	}
 
-	public double[] optimize(SimpleMatrix B, SimpleMatrix gradient) {
+	public double[] optimize(SimpleMatrix B, SimpleMatrix gradient, ISDFinder sdFinder) {
 		SimpleMatrix searchdir;
 		SimpleMatrix oldB = B.copy();
 

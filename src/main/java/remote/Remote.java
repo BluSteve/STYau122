@@ -270,7 +270,7 @@ public class Remote {
 
 
 		LastRunInfo lri;
-
+		// todo make abstraction barrier higher for paramopt. put tt hessian and gradient in PO
 		LLAOptimizer lla = new LLAOptimizer();
 		lri = null;
 
@@ -352,7 +352,7 @@ public class Remote {
 //		lri = trOptimizer.getNewLri();
 
 		IParamOptimizer opt = lla;
-		double[] dir = opt.optimize(newHessian, newGradient);
+		double[] dir = opt.optimize(newHessian, newGradient, null);
 
 
 		// generating nextInput

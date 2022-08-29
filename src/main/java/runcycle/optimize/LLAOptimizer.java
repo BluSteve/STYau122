@@ -3,6 +3,7 @@ package runcycle.optimize;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.ejml.simple.SimpleMatrix;
+import runcycle.optimize.searchdir.ISDFinder;
 import tools.Utils;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class LLAOptimizer implements IParamOptimizer {
 		this.valueSum += data.getValue();
 	}
 
-	public double[] optimize(SimpleMatrix B, SimpleMatrix gradient) {
+	public double[] optimize(SimpleMatrix B, SimpleMatrix gradient, ISDFinder sdFinder) {
 		SimpleMatrix searchdir;
 		try {
 			searchdir = B.pseudoInverse().mult(gradient);

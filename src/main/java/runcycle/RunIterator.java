@@ -240,7 +240,7 @@ public final class RunIterator implements Iterator<RunOutput> {
 			SimpleMatrix newHessian = new SimpleMatrix(ttHessian);
 
 			TROptimizer opt = new TROptimizer(ri.lastRunInfo, ttError);
-			double[] dir = opt.optimize(newHessian, newGradient);
+			double[] dir = opt.optimize(newHessian, newGradient, null);
 
 
 			// generating nextInputInfo
