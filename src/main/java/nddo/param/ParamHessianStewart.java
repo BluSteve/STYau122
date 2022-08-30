@@ -51,13 +51,15 @@ public class ParamHessianStewart implements IParamHessian {
 			for (int p1 : mnps[ZI1]) {
 				for (int ZI2 = ZI1; ZI2 < nAtomTypes; ZI2++) {
 					for (int p2 : mnps[ZI2]) {
-						flatAll[iAll][0] = ZI1;
-						flatAll[iAll][1] = ZI2;
-						flatAll[iAll][2] = p1;
-						flatAll[iAll][3] = p2;
-						flatAll[iAll][4] = i;
-						flatAll[iAll][5] = iAll;
-						iAll++;
+						if (ZI1 != ZI2 || ZI1 == ZI2 && p2 >= p1) {
+							flatAll[iAll][0] = ZI1;
+							flatAll[iAll][1] = ZI2;
+							flatAll[iAll][2] = p1;
+							flatAll[iAll][3] = p2;
+							flatAll[iAll][4] = i;
+							flatAll[iAll][5] = iAll;
+							iAll++;
+						}
 					}
 				}
 			}
