@@ -92,7 +92,7 @@ public abstract class GeometryOptimization {
 		int numIt = 0;
 		while (true) {
 			double mag = Utils.mag(gradient);
-			if (mag < 0.02) break;
+			if (mag < 0.01) break;
 			// computes new search direction
 			double lambda = lambda(h, U.transpose().mult(gradient), h.numRows() - counter);
 
