@@ -15,6 +15,7 @@ import runcycle.IMoleculeResult;
 import runcycle.optimize.IParamOptimizer;
 import runcycle.optimize.LLAOptimizer;
 import runcycle.optimize.ReferenceData;
+import runcycle.optimize.TROptimizer;
 import runcycle.structs.*;
 import tools.Utils;
 
@@ -348,10 +349,10 @@ public class Remote {
 		SimpleMatrix newGradient = new SimpleMatrix(ttGradient);
 		SimpleMatrix newHessian = new SimpleMatrix(ttHessian);
 
-//		TROptimizer trOptimizer = new TROptimizer(runInput.lastRunInfo, ttError);
-//		lri = trOptimizer.getNewLri();
+		TROptimizer trOptimizer = new TROptimizer(runInput.lastRunInfo, ttError);
+		lri = trOptimizer.getNewLri();
 
-		IParamOptimizer opt = lla;
+		IParamOptimizer opt = trOptimizer;
 		double[] dir = opt.optimize(newHessian, newGradient, null);
 
 

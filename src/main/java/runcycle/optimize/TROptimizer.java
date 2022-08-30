@@ -184,7 +184,7 @@ public class TROptimizer implements IParamOptimizer {
 			searchdir = new SimpleMatrix(mats[0].numRows(), 1);
 
 			for (int i = 0; i < negCount; i++) {
-				searchdir.set(i, 0, -grad.get(i, 0) / mats[1].get(i, i));
+				searchdir.set(i, 0, -grad.get(i, 0) / Math.abs(mats[1].get(i, i)));
 			}
 			for (int i = negCount; i < mats[1].numCols(); i++) {
 				searchdir.set(i, 0, -grad.get(i, 0) / mats[1].get(i, i));
@@ -195,7 +195,7 @@ public class TROptimizer implements IParamOptimizer {
 //			double l = ls[0] * ls[1]; //RS-RFO step
 			double l = TRMLambda(oldB, gradient, newLri.trustRadius); //TRM
 
-			searchdir = B.plus(-l, SimpleMatrix.identity(B.numRows())).pseudoInversei().mult(gradient).negativei();
+//			searchdir = B.plus(-l, SimpleMatrix.identity(B.numRows())).pseudoInversei().mult(gradient).negativei();
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 			searchdir = gradient.negative();
