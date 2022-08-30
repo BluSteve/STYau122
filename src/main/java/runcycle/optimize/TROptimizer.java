@@ -17,7 +17,7 @@ public class TROptimizer implements IParamOptimizer {
 		newLri.error = error;
 
 		if (lri == null) {
-			newLri.trustRadius = 0.01;
+			newLri.trustRadius = 0.1;
 		}
 		else {
 			logger.info("Last run info: {}", lri);
