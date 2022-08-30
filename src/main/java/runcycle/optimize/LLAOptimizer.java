@@ -18,24 +18,6 @@ public class LLAOptimizer implements IParamOptimizer {
 		this.datum = new ArrayList<>();
 	}
 
-	private static double lambda(SimpleMatrix B, SimpleMatrix g) {
-		SimpleMatrix RFOMat = new SimpleMatrix(B.numRows() + 1, B.numRows() + 1);
-
-		for (int i = 0; i < B.numRows(); i++) {
-			for (int j = i; j < B.numRows(); j++) {
-				RFOMat.set(i, j, B.get(i, j));
-				RFOMat.set(j, i, B.get(j, i));
-			}
-		}
-
-		for (int i = 0; i < g.numRows(); i++) {
-			RFOMat.set(i, B.numRows(), g.get(i));
-			RFOMat.set(B.numRows(), i, g.get(i));
-		}
-
-		return Utils.symEigen(RFOMat)[1].get(0);
-	}
-
 	public void addData(ReferenceData data) {
 		this.datum.add(data);
 		this.valueSum += data.getValue();
@@ -44,17 +26,16 @@ public class LLAOptimizer implements IParamOptimizer {
 	public double[] optimize(SimpleMatrix B, SimpleMatrix gradient, ISDFinder sdFinder) {
 		SimpleMatrix searchdir;
 		try {
-			double l = lambda(B, gradient);
-			logger.info("RFO shift parameter: {}", l);
+			searchdir = B.pseudoInverse().mult(gradient);
+			SimpleMatrix eigenvalues = Utils.symEigen(B)[1];
+			if (logger.isInfoEnabled()) {
+				SimpleMatrix eig = eigenvalues.diag().transposei();
 
-			searchdir = B.plus(-l, SimpleMatrix.identity(B.numRows())).pseudoInversei().mult(gradient).negativei();
-			SimpleMatrix[] mats = Utils.symEigen(B);
+				int negCount = 0;
+				for (double v : eig.getDDRM().data) if (v < 0) negCount++;
 
-			SimpleMatrix eigenvalues = mats[1];
-			SimpleMatrix eig = eigenvalues.diag().transposei();
-			int negCount = 0;
-			for (double v : eig.getDDRM().data) if (v < 0) negCount++;
-			logger.info("Hessian eigenvalues ({} negative): {}", negCount, eig.toString().strip());
+				logger.info("Hessian eigenvalues ({} negative): {}", negCount, eig.toString().strip());
+			}
 		} catch (IllegalArgumentException e) {
 			logger.warn("Hessian pinv failed; using gradient instead.");
 			searchdir = gradient;
