@@ -239,6 +239,8 @@ public final class RunIterator implements Iterator<RunOutput> {
 			SimpleMatrix newGradient = new SimpleMatrix(ttGradient);
 			SimpleMatrix newHessian = new SimpleMatrix(ttHessian);
 
+			System.out.println("newHessian = " + newHessian);
+
 			TROptimizer opt = new TROptimizer(ri.lastRunInfo, ttError);
 			double[] dir = opt.optimize(newHessian, newGradient, null);
 
@@ -319,7 +321,7 @@ public final class RunIterator implements Iterator<RunOutput> {
 				g = new ParamGradientNew(s, datum, sExp);
 				rm.getLogger().debug("Finished param gradient");
 
-				h = withHessian ? new ParamHessianStewart((ParamGradientNew) g) : null;
+				h = withHessian ? new ParamHessianNew((ParamGradientNew) g) : null;
 				rm.getLogger().debug("Finished param hessian");
 
 				rm.densityMatrices = rm.restricted ?

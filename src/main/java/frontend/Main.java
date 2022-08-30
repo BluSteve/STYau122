@@ -30,7 +30,7 @@ public class Main {
 			input = TxtIO.readInput("molecules.txt");
 		}
 
-		RunIterator iterator = new RunIterator(input, FrontendConfig.config.num_runs);
+		RunIterator iterator = new RunIterator(input, 1);
 
 		logger.info("Number of runs = {}", FrontendConfig.config.num_runs);
 

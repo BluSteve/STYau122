@@ -76,24 +76,22 @@ public class ParamHessianNew implements IParamHessian {
 			for (int p1 : mnps[ZI1]) {
 				for (int ZI2 = ZI1; ZI2 < nAtomTypes; ZI2++) {
 					for (int p2 : mnps[ZI2]) {
-						if (p2 >= p1) {
-							flatAll[iAll][0] = ZI1;
-							flatAll[iAll][1] = ZI2;
-							flatAll[iAll][2] = p1;
-							flatAll[iAll][3] = p2;
-							flatAll[iAll][4] = i;
-							flatAll[iAll][5] = iAll;
-							iAll++;
+						flatAll[iAll][0] = ZI1;
+						flatAll[iAll][1] = ZI2;
+						flatAll[iAll][2] = p1;
+						flatAll[iAll][3] = p2;
+						flatAll[iAll][4] = i;
+						flatAll[iAll][5] = iAll;
+						iAll++;
 
-							if (p1 != 0 && p2 != 0 && p1 != 7 && p2 != 7) {
-								flat[i][0] = ZI1;
-								flat[i][1] = ZI2;
-								flat[i][2] = p1;
-								flat[i][3] = p2;
-								flat[i][4] = i;
-								flat[i][5] = iAll;
-								i++;
-							}
+						if (p1 != 0 && p2 != 0 && p1 != 7 && p2 != 7) {
+							flat[i][0] = ZI1;
+							flat[i][1] = ZI2;
+							flat[i][2] = p1;
+							flat[i][3] = p2;
+							flat[i][4] = i;
+							flat[i][5] = iAll;
+							i++;
 						}
 					}
 				}
@@ -128,6 +126,9 @@ public class ParamHessianNew implements IParamHessian {
 				int p1 = ints[2];
 				int p2 = ints[3];
 				int j = ints[4];
+
+				System.out.println("Z1 = " + Z1 + "," + Z2 +
+						"," + p1 + "," + p2);
 
 				if (Z1 == Z2 && p1 == 0 && p2 == 0) {
 					double HfDeriv2 = alphaHfderiv2(s, Z1);
