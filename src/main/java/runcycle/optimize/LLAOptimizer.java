@@ -56,7 +56,7 @@ public class LLAOptimizer implements IParamOptimizer {
 		double newValueSum = 0;
 		double[] changes = new double[searchdir.numRows()];
 
-		while (Math.abs(newValueSum - valueSum) > 1E-8) {
+		while (Math.abs(newValueSum - valueSum) > 1E-8 && Math.abs(lambda) <= 5) {
 			lambda += k;
 			newValueSum = valueSum;
 			changes = searchdir.scale(lambda).getDDRM().data;
