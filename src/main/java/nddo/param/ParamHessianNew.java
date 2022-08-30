@@ -129,9 +129,6 @@ public class ParamHessianNew implements IParamHessian {
 				int p2 = ints[3];
 				int j = ints[4];
 
-				System.out.println("Z1 = " + Z1 + "," + Z2 +
-						"," + p1 + "," + p2);
-
 				if (Z1 == Z2 && p1 == 0 && p2 == 0) {
 					double HfDeriv2 = alphaHfderiv2(s, Z1);
 
