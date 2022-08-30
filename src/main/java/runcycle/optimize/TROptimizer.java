@@ -24,7 +24,7 @@ public class TROptimizer implements IParamOptimizer {
 			double changeRatio = (error - lri.error) / lri.expectedChange;
 			logger.info("QA validity ratio: {}", changeRatio);
 			if (lri.stepSize * 5.0 / 4 > lri.trustRadius && changeRatio >= 0.5 && lri.expectedChange < 5) {
-				newLri.trustRadius = 1.1 * lri.trustRadius;
+				newLri.trustRadius = Math.min(1.1 * lri.trustRadius, 5);
 			}
 			else if (changeRatio <= 0.25 || lri.expectedChange > 5) {
 				newLri.trustRadius = lri.stepSize / 1.2;
