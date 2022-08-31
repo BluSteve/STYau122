@@ -167,6 +167,7 @@ public class Remote {
 		ROSummary summary = new ROSummary();
 
 		summary.error = ro.ttError;
+		summary.lambda = ro.finalLambda;
 		summary.hessian = ro.ttHessian;
 		summary.evs = Utils.symEigen(new SimpleMatrix(summary.hessian))[1].diag().getDDRM().data;
 		summary.params = ro.nextInput.info.getParams();
@@ -175,7 +176,7 @@ public class Remote {
 	}
 
 	private static class ROSummary {
-		double error;
+		double error, lambda;
 		double[] evs;
 		double[][] params;
 		double[][] hessian;
@@ -243,7 +244,7 @@ public class Remote {
 
 				logger.info("{} molecules finished from {}/{} machines", doneCount.addAndGet(results2d[i].length),
 						doneMachineCount.incrementAndGet(), nMachines);
-			} catch (Exception e) {
+			} catch (Error e) {
 				machineLogger.error("", e);
 				errored.add(machine);
 			}
