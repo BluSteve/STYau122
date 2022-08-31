@@ -39,7 +39,7 @@ public class LLAOptimizer implements IParamOptimizer {
 			searchdir = new SimpleMatrix(mats[0].numRows(), 1);
 
 			for (int i = 0; i < negCount; i++) {
-				searchdir.set(i, 0, -grad.get(i, 0) / Math.abs(mats[1].get(i, i)));
+				searchdir.set(i, 0, -grad.get(i, 0) / mats[1].get(i, i));
 			}
 			for (int i = negCount; i < mats[1].numCols(); i++) {
 				searchdir.set(i, 0, -grad.get(i, 0) / mats[1].get(i, i));
