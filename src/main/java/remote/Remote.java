@@ -159,8 +159,6 @@ public class Remote {
 			logger.error("Run {} errored!", i, e);
 			throw e;
 		}
-
-		System.exit(0);
 	}
 
 	private static ROSummary getSummary(RunOutput ro) {
